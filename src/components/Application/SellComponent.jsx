@@ -1,0 +1,67 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import styled from 'styled-components';
+import { Controller } from 'react-hook-form';
+import Dadata from 'components/Main/Dadata';
+import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
+const variants = {
+  initial: {
+    x: '-100%',
+  },
+  open: {
+    x: 0,
+  },
+  close: {
+    x: '100%',
+  }
+}
+const SellComponentStyle = styled(motion.div)`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`
+const SellComponent = ({ firstMout, control, errors }) => {
+  return (
+    <SellComponentStyle
+      variants={variants}
+      initial={firstMout ? { x: 0 } : 'initial'}
+      animate='open'
+      exit='close'
+      transition={'linear'}
+    >
+      <Controller
+        control={control}
+        name='typePlace'
+        rules={{ required: 'Выберете тип' }}
+        render={({ field }) => (
+          <SelectUI
+            select={field.value || ''}
+            onChange={field.onChange}
+            inputRef={field.ref}
+            label='Тип'
+            error={errors?.typePlace}
+          >
+            <SelectItemUI value='Квартира'>Квартира</SelectItemUI>
+            <SelectItemUI value='Дом'>Дом</SelectItemUI>
+            <SelectItemUI value='Гараж'>Гараж</SelectItemUI>
+          </SelectUI>
+        )}
+      />
+      <Controller
+        control={control}
+        name='address'
+        rules={{ required: 'Укажите адрес' }}
+        render={({ field }) => (
+          <Dadata
+            value={field.value}
+            onChange={field.onChange}
+            inputRef={field.ref}
+            label='Адрес'
+            error={errors?.address}
+          />
+        )}
+      />
+    </SellComponentStyle>
+  )
+}
+export default SellComponent;

@@ -1,0 +1,46 @@
+{
+  "name": "metrage-crm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack serve --mode development",
+    "build": "webpack --mode production"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.9.5",
+    "array-move": "^4.0.0",
+    "axios": "^1.4.0",
+    "babel-plugin-styled-components": "^2.1.1",
+    "dotenv": "^16.1.4",
+    "framer-motion": "^10.12.8",
+    "moment": "^2.29.4",
+    "react": "^18.2.0",
+    "react-dadata": "^2.23.1",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.43.9",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.10.0",
+    "react-yandex-maps": "^4.6.0",
+    "styled-components": "^5.3.9",
+    "url-loader": "^4.1.1"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.21.4",
+    "@babel/preset-react": "^7.18.6",
+    "@svgr/webpack": "^7.0.0",
+    "babel-loader": "^9.1.2",
+    "css-loader": "^6.7.3",
+    "html-webpack-plugin": "^5.5.1",
+    "mini-css-extract-plugin": "^2.7.5",
+    "sass": "^1.62.0",
+    "sass-loader": "^13.2.2",
+    "webpack": "^5.80.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.13.3"
+  }
+}

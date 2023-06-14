@@ -1,0 +1,145 @@
+import React, { useRef, useEffect } from 'react';
+import styled from 'styled-components';
+import { AnimatePresence, motion } from 'framer-motion';
+import { InputUI } from 'ui/InputUI';
+import { TitleFormStyle } from 'styles/styles';
+import { useForm, Controller } from 'react-hook-form';
+import { ButtonUI } from 'ui/ButtonUI';
+import { useDispatch, useSelector } from 'react-redux';
+import { setNewTask } from 'store/taskSlice';
+import Loader from "components/Main/Loader";
+import BuyComponent from './BuyComponent';
+import SellComponent from './SellComponent';
+import { ButtonToggleGroup, ButtonToggleItem } from 'ui/ButtonToggle/ButtonToggle';
+
+const NewTaskStyle = styled.form`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  box-sizing: border-box;
+  overflow: auto;
+`
+const NewTaskBlockStyle = styled.div`
+  padding: 0.5rem;
+  background-color: #fff;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  box-sizing: border-box;
+`
+const getComponent = (key) => {
+  switch (key) {
+    case 'buy':
+      return BuyComponent;
+    default:
+      return SellComponent;
+  }
+}
+const NewTask = () => {
+  const dispatch = useDispatch();
+  const loadingNewTask = useSelector((state) => state.task.loadingNewTask);
+  const { register, handleSubmit, getValues, watch, control, formState: { errors } } = useForm({
+    defaultValues: {
+      costStart: '',
+      costEnd: '',
+      type: 'sell'
+    }
+  });
+  const firstMout = useRef(true);
+  useEffect(() => {
+    if (firstMout.current) {
+      firstMout.current = false;
+    }
+  }, [])
+  const onSubmit = (data) => {
+    dispatch(setNewTask(data));
+  }
+  if (loadingNewTask) {
+    return (
+      <div style={{ display: 'flex', height: '100%' }}>
+        <Loader fill='#fff' />
+      </div>
+    )
+  }
+  const ActiveComponent = getComponent(getValues('type'));
+  watch('type');
+  return (
+    <NewTaskStyle onSubmit={handleSubmit(onSubmit)}>
+      <NewTaskBlockStyle>
+        <TitleFormStyle>ФИО</TitleFormStyle>
+        <InputUI label='Фамилия'
+          register={register('lastName', {
+            required: 'Поле обязательное'
+          })}
+          error={errors?.lastName}
+        />
+        <InputUI label='Имя'
+          register={register('firstName', {
+            required: 'Поле обязательное'
+          })}
+          error={errors?.firstName}
+        />
+        <InputUI label='Отчество'
+          register={register('secondName', {
+            required: 'Поле обязательное'
+          })}
+          error={errors?.secondName}
+        />
+      </NewTaskBlockStyle>
+      <NewTaskBlockStyle>
+        <TitleFormStyle>Контакты</TitleFormStyle>
+        <InputUI
+          label='Телефон'
+          type='phone'
+          register={register('phone', {
+            required: 'Поле обязательное',
+            pattern: {
+              value: /^89\d{9}/,
+              message: 'Не соответствует формату 8XXXXXXXXXX'
+            }
+          })}
+          error={errors?.phone}
+        />
+        <InputUI
+          label='Почта'
+          type='email'
+        />
+      </NewTaskBlockStyle>
+      <NewTaskBlockStyle>
+        <TitleFormStyle>Купить-продать</TitleFormStyle>
+        <div>
+          <Controller
+            control={control}
+            name='type'
+            rules={{ required: 'Выберет тип' }}
+            render={({ field }) => (
+              <ButtonToggleGroup>
+                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='sell' active={field.value}>Продать</ButtonToggleItem>
+                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='buy' active={field.value}>Купить</ButtonToggleItem>
+              </ButtonToggleGroup>
+            )}
+          />
+          {
+            errors?.type && <TextSpanStyle color='red' size={12}>{errors?.type?.message}</TextSpanStyle>
+          }
+        </div>
+        <AnimatePresence mode='wait'>
+          <ActiveComponent
+            control={control}
+            errors={errors}
+            firstMout={firstMout.current}
+          />
+        </AnimatePresence>
+      </NewTaskBlockStyle>
+      <NewTaskBlockStyle>
+        <ButtonUI type='submit' variant='outline'>Передать</ButtonUI>
+      </NewTaskBlockStyle>
+    </NewTaskStyle>
+  );
+};
+
+
+export default NewTask;

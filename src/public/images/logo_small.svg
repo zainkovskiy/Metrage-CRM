@@ -1,0 +1,2 @@
+<!-- sample rectangle -->
+<svg class="max-h-4 w-fit hidden md:flex 1.5xl:hidden" width="40" height="28" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18.253 11.0862L23.9027 16.7359L39.8378 0.800781V27.6008H34.1881V14.4181L23.9027 24.7035L13.6173 14.4181V27.6008H7.96757V8.76835L0 0.945646H7.96757L18.253 11.0862Z" fill="#85009E"></path></svg>

@@ -1,0 +1,38 @@
+import React from 'react';
+import { AddressSuggestions } from 'react-dadata';
+import 'react-dadata/dist/react-dadata.css';
+import { InputStyle, LabelStyle } from 'ui/InputUI/InputUIStyled.js';
+import { TextSpanStyle } from 'styles/styles';
+import styled from 'styled-components';
+
+const InputDadata = styled(InputStyle)`
+  border: 1px solid;
+  border-color: ${({theme, error}) => error ? 'red' : theme.color.primary} !important;
+  box-shadow: none;
+`
+
+const Dadata = ({ onChange, value, label, inputRef, error, disabled }) => {
+  return (
+    <LabelStyle>
+      {label}
+      <div>
+        <AddressSuggestions
+          token="408e6651c0b9bfc8e2f487383d45353973f3285c"
+          ref={inputRef}
+          onChange={onChange}
+          filterToBound={'house'}
+          value={value}
+          customInput={InputDadata}
+          renderOption={(suggestion) => { return <TextSpanStyle>{suggestion.value}</TextSpanStyle> }}
+          inputProps={{
+            error: error && 'error',
+            disabled: disabled
+          }}
+        />
+        <TextSpanStyle color='red' size={12}>{error?.message && error.message}</TextSpanStyle>
+      </div>
+    </LabelStyle>
+  );
+};
+
+export default Dadata;
