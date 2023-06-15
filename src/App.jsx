@@ -1,20 +1,27 @@
-import React, { useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { Suspense, useEffect } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { MainContainer } from 'styles/styles';
 import Nav from 'components/Nav/Nav';
-import Chat from 'components/Chat/Chat';
+// import Chat from 'components/Chat/Chat';
+const Chat = React.lazy(() => import('components/Chat/Chat'));
 import PanelControl from 'components/PanelControl/PanelControl';
 import PanelControlDrag from 'components/PanelControl/PanelControlDrag';
 import PanelControlDrag2 from 'components/PanelControl/PanelControlDrag2';
 import DragExample from 'components/PanelControl/PanelControlDrag3';
 import ReorderTest from 'components/PanelControl/ReorderTest';
-import { useGetCookie } from './hooks/hooks';
+import { useSelector } from 'react-redux';
+import { AnimatePresence } from 'framer-motion';
 
 const App = () => {
   const isExternal = globalUser && JSON.parse(globalUser).isExternal || 1;
+  const isGuest = globalUser && JSON.parse(globalUser).isGuest;
+  const showChat = useSelector((state) => state.chat.show);
+  const navigate = useNavigate();
   useEffect(() => {
-    // document.cookie = "metrage_id=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL21ldHJhZ2Vncm91cC5jb20iLCJhdWQiOiJodHRwczovL21ldHJhZ2Vncm91cC5jb20iLCJpYXQiOiIxMzU2OTk5NTI0IiwibmJmIjoiMTM1NzAwMDAwMCIsImRhdGEiOnsiVUlEIjozLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImFudG9uLnphaW5rb3Zza2lpQGdtYWlsLmNvbSJ9fQ.c1FRkxL3pBDDN0enEmMpdYyB-t9-Yk4AFhfdsfp6ZN8"
-    // console.log(useGetCookie('metrage_id'));
+    if (isGuest === 1) {
+      console.log(isGuest);
+      navigate('/application');
+    }
   }, [])
 
   return (
@@ -29,9 +36,18 @@ const App = () => {
         {/* <PanelControlDrag2 /> */}
         {/* <DragExample /> */}
         {/* <ReorderTest /> */}
-        <Outlet />
+        <Suspense fallback={<p>Loading...</p>}>
+          <Outlet />
+        </Suspense>
       </MainContainer>
-      <Chat />
+      <AnimatePresence>
+        {
+          showChat &&
+          <Suspense fallback={<p>Loading...</p>}>
+            <Chat />
+          </Suspense>
+        }
+      </AnimatePresence>
     </>
   );
 };

@@ -2,8 +2,7 @@ import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import App from './App';
 const ApplicationContent = React.lazy(() => import('components/Application/ApplicationContent'));
-import Application from 'components/Application/Application';
-import Loader from "components/Main/Loader";
+// import Loader from "components/Main/Loader";
 // import { Error403 } from "components/ErrorsComponents/Error403";
 // import { Error404 } from "components/ErrorsComponents/Error404";
 export const routers = createBrowserRouter([
@@ -21,7 +20,7 @@ export const routers = createBrowserRouter([
       },
       {
         path: 'application',
-        element: <Application/>
+        element: <ApplicationContent/>
       },
       {
         path: '*',

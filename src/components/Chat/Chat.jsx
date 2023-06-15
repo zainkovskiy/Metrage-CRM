@@ -1,11 +1,11 @@
-import { AnimatePresence, motion } from 'framer-motion';
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { motion } from 'framer-motion';
+import React, { useEffect, lazy, Suspense } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { CloseCircleButtonUI } from 'ui/CloseCircleButtonUI';
-import ChatUsers from 'components/Chat/ChatUsers';
-import ChatField from 'components/Chat/ChatField';
+const ChatContent = lazy(() => import('components/Chat/ChatContent'));
 import { toggleShowChat } from '../../store/chatSlice';
+import Loader from 'components/Main/Loader';
 
 const ChatStyle = styled(motion.div)`
   position: absolute;
@@ -22,6 +22,13 @@ const ChatStyle = styled(motion.div)`
 const ChatContainerStyle = styled(motion.div)`
   display: flex;
   flex-grow: 1;
+`
+const ChatWrapper = styled.div`
+  width: 100%;
+  background-color: ${({theme}) => theme.color.primary};
+  display: flex;
+  padding: 0.5rem;
+  gap: 0.5rem;
 `
 const variants = {
   open: {
@@ -53,34 +60,31 @@ const variantsContainer = {
 }
 
 const Chat = () => {
-  const showChat = useSelector((state) => state.chat.show);
   const dispatch = useDispatch();
   const toggleChat = () => {
     dispatch(toggleShowChat());
   }
   return (
-    <AnimatePresence>
-      {
-        showChat &&
-        <ChatStyle
-          variants={variants}
-          initial='close'
-          animate='open'
-          exit='close'
-        >
-          <ChatContainerStyle
-            variants={variantsContainer}
-            initial='close'
-            animate='open'
-            exit='close'
-          >
-            <CloseCircleButtonUI onClose={toggleChat} />
-            <ChatUsers />
-            <ChatField />
-          </ChatContainerStyle>
-        </ChatStyle>
-      }
-    </AnimatePresence>
+    <ChatStyle
+      variants={variants}
+      initial='close'
+      animate='open'
+      exit='close'
+    >
+      <ChatContainerStyle
+        variants={variantsContainer}
+        initial='close'
+        animate='open'
+        exit='close'
+      >
+        <CloseCircleButtonUI onClose={toggleChat} />
+        <ChatWrapper>
+          <Suspense fallback={<Loader fill='#fff'/>}>
+            <ChatContent />
+          </Suspense>
+        </ChatWrapper>
+      </ChatContainerStyle>
+    </ChatStyle>
   );
 };
 
