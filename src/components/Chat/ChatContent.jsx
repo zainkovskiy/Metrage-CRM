@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getNotification, getChatList } from 'store/chatSlice';
-import ChatUsers from './ChatUsers';
+import ChatList from './ChatList';
 import ChatField from './ChatField';
 import ChatButtons from './ChatButtons';
 
@@ -14,7 +14,7 @@ const ChatContent = () => {
   return (
     <>
       <ChatButtons />
-      <ChatUsers />
+      <ChatList />
       <ChatField />
     </>
   );

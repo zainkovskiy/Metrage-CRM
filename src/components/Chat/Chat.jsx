@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { CloseCircleButtonUI } from 'ui/CloseCircleButtonUI';
 const ChatContent = lazy(() => import('components/Chat/ChatContent'));
-import { toggleShowChat } from '../../store/chatSlice';
+import { toggleShowChat } from 'store/chatSlice';
 import Loader from 'components/Main/Loader';
 
 const ChatStyle = styled(motion.div)`
@@ -25,7 +25,7 @@ const ChatContainerStyle = styled(motion.div)`
 `
 const ChatWrapper = styled.div`
   width: 100%;
-  background-color: ${({theme}) => theme.color.primary};
+  background-color: ${({ theme }) => theme.color.primary};
   display: flex;
   padding: 0.5rem;
   gap: 0.5rem;
@@ -79,7 +79,7 @@ const Chat = () => {
       >
         <CloseCircleButtonUI onClose={toggleChat} />
         <ChatWrapper>
-          <Suspense fallback={<Loader fill='#fff'/>}>
+          <Suspense fallback={<Loader fill='#fff' />}>
             <ChatContent />
           </Suspense>
         </ChatWrapper>

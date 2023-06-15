@@ -19,7 +19,6 @@ export const getNotification = createAsyncThunk(
     }
   }
 )
-
 export const getChatList = createAsyncThunk(
   'chat/getChatList',
   async (_, { getState }) => {
@@ -35,6 +34,23 @@ export const getChatList = createAsyncThunk(
     }
   }
 )
+export const getCurrentChat = createAsyncThunk(
+  'chat/getCurrentChat',
+  async (chat, { getState, dispatch }) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.messages.get',
+      fields: {
+        userId: getState().user.UID,
+        chatId: chat.chatId,
+      }
+    })
+    if (res?.statusText === 'OK') {
+      dispatch(setTargetAuthor(chat.chatWith));
+      return res.data.result;
+    }
+  }
+)
 
 const initialState = {
   ...chatState,
@@ -42,6 +58,8 @@ const initialState = {
   selectButton: 'notification',
   notification: [],
   chatList: [],
+  currentChat: null,
+  targetAuthor: null,
 };
 
 const userSlice = createSlice({
@@ -53,7 +71,10 @@ const userSlice = createSlice({
     },
     setSelectButton(state, action) {
       state.selectButton = action.payload;
-    }
+    },
+    setTargetAuthor(state, action) {
+      state.targetAuthor = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -61,10 +82,13 @@ const userSlice = createSlice({
       state.notification = action.payload;
     })
     .addCase(getChatList.fulfilled, (state, action) => {
-      state.chatList = action.payload;
+      state.chatList = action.payload?.chats || [];
+    })
+    .addCase(getCurrentChat.fulfilled, (state, action) => {
+      state.currentChat = action.payload || [];
     })
   }
 })
 
-export const { toggleShowChat, setSelectButton } = userSlice.actions;
+export const { toggleShowChat, setSelectButton, setTargetAuthor } = userSlice.actions;
 export default userSlice.reducer;

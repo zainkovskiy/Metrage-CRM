@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import bellUrl, { ReactComponent as Bell } from 'images/bell.svg';
 import messageUrl, { ReactComponent as Message } from 'images/chat-message.svg';
 import advertisingUrl, { ReactComponent as Advertising } from 'images/advertising.svg';
-import { setSelectButton } from 'store/chatSlice';
+import { setSelectButton, getCurrentChat } from 'store/chatSlice';
 import ChatIconButton from './ChatIconButton';
 
 const ChatButtonsStyle = styled.div`
@@ -18,8 +18,14 @@ const ChatButtonsStyle = styled.div`
 
 const ChatButtons = () => {
   const dispatch = useDispatch();
+  const chats = useSelector((state) => state.chat.chatList);
+
   const handleClick = (e) => {
-    dispatch(setSelectButton(e.target.id));
+    const currentButton = e.target.id;
+    dispatch(setSelectButton(currentButton));
+    if (currentButton === 'chat' && chats.length > 0) {
+      dispatch(getCurrentChat(chats[0]));
+    }
   }
   return (
     <ChatButtonsStyle>
