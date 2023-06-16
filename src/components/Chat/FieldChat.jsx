@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
-import backUrl, { ReactComponent as Back } from 'images/back.svg';
+import back from 'images/back.png';
+import FieldMessage from './FieldMessge';
+import FieldSend from './FieldSend';
+import { AnimatePresence } from 'framer-motion';
+
 const FieldChatHeaderStyle = styled.div`
   padding: 0.5rem;
   border-bottom: 1px solid ${({ theme }) => theme.color.primary};  
@@ -17,17 +21,23 @@ const ChatAvatar = styled.img`
   border-radius: 40px;
 `
 const Field = styled.div`
-  background-image: url(${backUrl});
+  background-image: url(${back});
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  overflow: auto;
 `
 
 const FieldChat = () => {
+  const fieldRef = useRef(null);
+  const firstUpdate = useRef(true);
   const currentChat = useSelector((state) => state.chat.currentChat);
   const targetAuthor = useSelector((state) => state.chat.targetAuthor);
-  console.log(currentChat);
   const getAvatar = () => {
     if (!targetAuthor) {
       return `https://ui-avatars.com/api/?name=Metrage&background=85009e&color=fff`
@@ -36,6 +46,12 @@ const FieldChat = () => {
       return targetAuthor.avatar
     }
     return `https://ui-avatars.com/api/?name=${targetAuthor.lastName}+${targetAuthor.firstName}&background=85009e&color=fff`
+  }
+  const scrollField = () => {
+    if (fieldRef.current) {
+      fieldRef.current.scrollTop = fieldRef.current.scrollHeight;
+      firstUpdate.current = false;
+    }
   }
   return (
     <>
@@ -46,7 +62,23 @@ const FieldChat = () => {
             <ChatAvatar src={getAvatar()} alt='avatar' />
             <TextSpanStyle size={16}>{targetAuthor.lastName} {targetAuthor.firstName}</TextSpanStyle>
           </FieldChatHeaderStyle>
-          <Field></Field>
+          <Field ref={fieldRef}>
+            <AnimatePresence>
+              {
+                currentChat?.messages.map((message, idx) =>
+                  <FieldMessage
+                    key={idx}
+                    message={message}
+                    target={message?.author?.UID === targetAuthor?.UID}
+                    last={idx === currentChat?.messages?.length - 1}
+                    scrollField={scrollField}
+                    firstUpdate={firstUpdate.current}
+                  />
+                )
+              }
+            </AnimatePresence>
+          </Field>
+          <FieldSend />
         </>
       }
     </>

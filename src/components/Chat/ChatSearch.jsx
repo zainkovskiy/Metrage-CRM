@@ -1,5 +1,7 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { setSelectButton } from 'store/chatSlice';
 
 const ChatSearchStyle = styled.div`
   padding: 0.5rem;
@@ -25,7 +27,7 @@ const ChatSearchAdd = styled.button`
   width: 30px;
   height: 30px;
   border-radius: 40px;
-  border: 1px solid #84019e;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -44,10 +46,14 @@ const ChatSearchAdd = styled.button`
   }
 `
 const ChatSearch = ({ value, onChange }) => {
+  const dispatch = useDispatch();
+  const newChat = () => {
+    dispatch(setSelectButton('new'));
+  }
   return (
     <ChatSearchStyle>
       <ChatSearchInput type="search" value={value} onChange={onChange} placeholder='Поиск'/>
-      <ChatSearchAdd>+</ChatSearchAdd>
+      <ChatSearchAdd onClick={newChat}>+</ChatSearchAdd>
     </ChatSearchStyle>
   );
 };

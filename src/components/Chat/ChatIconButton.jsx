@@ -18,8 +18,14 @@ const ChatIconButtonStyle = styled.div`
 `
 const ChatIconButton = ({ onClick, id, children }) => {
   const selectButton = useSelector((state) => state.chat.selectButton);
+  const isSelect = () => {
+    if(selectButton === 'new' && id === 'chat'){
+      return true;
+    }
+    return selectButton === id;
+  }
   return (
-    <ChatIconButtonStyle onClick={onClick} id={id} $select={selectButton === id}>
+    <ChatIconButtonStyle onClick={onClick} id={id} $select={isSelect()}>
       {children}
     </ChatIconButtonStyle>
   );

@@ -51,6 +51,23 @@ export const getCurrentChat = createAsyncThunk(
     }
   }
 )
+export const sendChatMessage = createAsyncThunk(
+  'chat/sendChatMessage',
+  async (message, { getState }) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.messages.send',
+      fields: {
+        userId: getState().user.UID,
+        chatId: getState().chat.currentChat.chatId,
+        message: message,
+      }
+    })
+    if (res?.statusText === 'OK') {
+      return res.data.result;
+    }
+  }
+)
 
 const initialState = {
   ...chatState,
@@ -68,6 +85,9 @@ const userSlice = createSlice({
   reducers: {
     toggleShowChat(state) {
       state.show = !state.show;
+      state.currentChat = null;
+      state.targetAuthor = null
+      state.selectButton = 'notification'
     },
     setSelectButton(state, action) {
       state.selectButton = action.payload;
@@ -85,7 +105,12 @@ const userSlice = createSlice({
       state.chatList = action.payload?.chats || [];
     })
     .addCase(getCurrentChat.fulfilled, (state, action) => {
-      state.currentChat = action.payload || [];
+      state.currentChat = action.payload || null;
+    })
+    .addCase(sendChatMessage.fulfilled, (state, action) => {
+      const message = action.payload;
+      console.log(message);
+      state.currentChat.messages = [...state.currentChat.messages, message];
     })
   }
 })

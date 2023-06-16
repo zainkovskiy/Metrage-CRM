@@ -45,13 +45,25 @@ module.exports = {
       {
         test: /\.svg$/,
         use: ['@svgr/webpack', 'url-loader'],
-        
+
       },
       {
         test: /\.(woff|woff2|ttf)$/,
         use: {
           loader: 'url-loader',
         },
+      },
+      {
+        test: /\.(png|jpe?g)$/,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              name: "[name].[ext]",
+              outputPath: 'assets/images',
+            }
+          }
+        ]
       },
     ]
   },
@@ -66,5 +78,5 @@ module.exports = {
   ],
   devServer: {
     historyApiFallback: true,
-  } 
+  }
 }

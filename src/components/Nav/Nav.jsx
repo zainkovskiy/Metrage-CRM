@@ -80,16 +80,13 @@ const Nav = () => {
           </AnimatePresence>
         </div>
         <AnimatePresence>
-          {
-            open &&
-            <DialogWindow onClose={toggleDialog} >
-              {
-                isTelegram ?
-                  <TelegramDiscription onClose={toggleDialog} /> :
-                  <TelegramConect onClose={toggleDialog} />
-              }
-            </DialogWindow>
-          }
+          <DialogWindow onClose={toggleDialog} open={open}>
+            {
+              isTelegram ?
+                <TelegramDiscription onClose={toggleDialog} /> :
+                <TelegramConect onClose={toggleDialog} />
+            }
+          </DialogWindow>
         </AnimatePresence>
       </NavStyle>
     </>

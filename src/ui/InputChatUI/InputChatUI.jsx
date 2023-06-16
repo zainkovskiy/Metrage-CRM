@@ -18,8 +18,8 @@ const AreaStyle = styled.textarea`
   outline-color: transparent;
   width: 100%;
   box-sizing: border-box;
-  height: ${({ height }) => height && height + 'px'};
-  overflow: hidden;
+  height: ${({ $height }) => $height && $height + 'px'};
+  overflow: ${({ $height }) => $height >= 86 ? 'auto' : 'hidden'};
   &:focus{
     outline-color: ${({ theme, error }) => error ? 'red' : theme.color.primary};
   }
@@ -65,6 +65,9 @@ export const InputChatUI = ({ onClick }) => {
 
   const onChange = (e) => {
     setValue(e.target.value);
+    if (initialHeight >= 86){
+      return
+    }
     if (initialHeight < areaRef.current.scrollHeight) {
       setInititalHeight(areaRef.current.scrollHeight);
     }
@@ -84,7 +87,7 @@ export const InputChatUI = ({ onClick }) => {
   return (
     <InputChatUIStyle>
       <AreaStyle
-        height={initialHeight}
+        $height={initialHeight}
         onChange={onChange}
         rows={1}
         ref={areaRef}
