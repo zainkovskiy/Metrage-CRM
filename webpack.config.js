@@ -5,9 +5,9 @@ const miniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   entry: path.resolve(__dirname, 'src', 'index.js'),
   output: {
-    filename: 'js/[name].bundle-betta-v1.0.6.js',
-    path: path.resolve(__dirname, 'dist', 'dist-betta-v1.0.6'),
-    chunkFilename: 'js/[name].bundle-betta-v1.0.6.js',
+    filename: 'js/[name].bundle-betta-v1.0.8.js',
+    path: path.resolve(__dirname, 'dist', 'dist-betta-v1.0.8'),
+    chunkFilename: 'js/[name].bundle-betta-v1.0.8.js',
     // filename: 'bundle-betta-v1.js'
   },
   resolve: {

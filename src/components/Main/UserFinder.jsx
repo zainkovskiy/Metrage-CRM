@@ -54,7 +54,11 @@ const UserFinder = ({ onClose, onChange, title }) => {
   const [value, setValue] = useState('');
   const [userList, setUserList] = useState([]);
   const [selectUser, setSelectUser] = useState(null);
+  const inputRef = useRef(null);
   const sendRequest = useRef(false);
+  useEffect(() => {
+    if(inputRef.current){inputRef.current.focus()};
+  }, [])
   useEffect(() => {
     if (!selectUser) { return }
     if (userList.find(user => user.UID === selectUser.UID)) { return }
@@ -99,7 +103,7 @@ const UserFinder = ({ onClose, onChange, title }) => {
         <TextSpanStyle>{title}</TextSpanStyle>
         <CloseButtonStyle src={closeUrl} alt="close" />
       </UserFindeHeaderStyle>
-      <InputUI value={value} onChange={handleChange} width='300px' />
+      <InputUI value={value} onChange={handleChange} width='300px' ref={inputRef}/>
       <UserFinderListStyle>
         {
           userList.length > 0 ?

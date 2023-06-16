@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import FieldNotification from './FieldNotification';
 import FieldChat from './FieldChat';
 import FieldLine from './FieldLine';
-import FieldNew from './FieldNew';
 
 const ChatFieldStyle = styled.div`
   background-color: #fff;
@@ -28,8 +27,6 @@ const getFieldComponent = (select) => {
       return FieldChat;
     case 'line':
       return FieldLine;
-    case 'new':
-      return FieldNew;
     default:
       return FieldNotification;
   }

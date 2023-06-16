@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { setSelectButton } from 'store/chatSlice';
+import UserFinder from 'components/Main/UserFinder';
+import DialogWindow from 'components/Main/DialogWindow';
+import { createNewChat } from 'store/chatSlice';
 
 const ChatSearchStyle = styled.div`
   padding: 0.5rem;
@@ -10,7 +12,7 @@ const ChatSearchStyle = styled.div`
   gap: 0.5rem;
 `
 const ChatSearchInput = styled.input`
-  font-family: ${({theme}) => theme.font.family};
+  font-family: ${({ theme }) => theme.font.family};
   font-size: 14px;
   padding: 0.5rem;
   border: none;
@@ -18,7 +20,7 @@ const ChatSearchInput = styled.input`
   width: 100%;
   outline: none;
   &:placeholder{
-    font-family: ${({theme}) => theme.font.family};
+    font-family: ${({ theme }) => theme.font.family};
     font-size: 14px;
   }
 `
@@ -47,14 +49,26 @@ const ChatSearchAdd = styled.button`
 `
 const ChatSearch = ({ value, onChange }) => {
   const dispatch = useDispatch();
-  const newChat = () => {
-    dispatch(setSelectButton('new'));
+  const [open, setOpen] = useState(false);
+  const openUserFinder = () => {
+    setOpen(!open);
+  }
+  const selectUser = (user) => {
+    dispatch(createNewChat(user));
+    openUserFinder();
   }
   return (
-    <ChatSearchStyle>
-      <ChatSearchInput type="search" value={value} onChange={onChange} placeholder='Поиск'/>
-      <ChatSearchAdd onClick={newChat}>+</ChatSearchAdd>
-    </ChatSearchStyle>
+    <>
+      <ChatSearchStyle>
+        <ChatSearchInput type="search" value={value} onChange={onChange} placeholder='Поиск' />
+        <ChatSearchAdd onClick={openUserFinder}>+</ChatSearchAdd>
+      </ChatSearchStyle>
+      <DialogWindow onClose={openUserFinder} open={open}>
+        <div onClick={(e) => e.stopPropagation()}>
+          <UserFinder title='Новый чат' onClose={openUserFinder} onChange={selectUser}/>
+        </div>
+      </DialogWindow>
+    </>
   );
 };
 

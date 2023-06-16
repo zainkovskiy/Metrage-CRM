@@ -51,6 +51,37 @@ export const getCurrentChat = createAsyncThunk(
     }
   }
 )
+export const createNewChat = createAsyncThunk(
+  'chat/createNewChat',
+  async (user, { getState, dispatch }) => {
+    try {
+      const findChat = getState().chat.chatList.find((chat) => chat?.chatWith?.UID.toString() === user.UID.toString());
+      if (findChat) {
+        dispatch(getCurrentChat(findChat));
+        return
+      }
+      const res = await axios.post(API, {
+        metrage_id: metrage_id || null,
+        method: 'crm.messages.add',
+        fields: {
+          userId: getState().user.UID,
+          members: [user.UID],
+        }
+      })
+      if (res?.statusText === 'OK') {
+        console.log('res');
+        console.log(res);
+        // dispatch(setTargetAuthor(user));
+        // return res.data.chatId;
+      }
+    } catch (error) {
+      console.log(console.log(error));
+      dispatch(toggleShowChat());
+    } finally {
+      dispatch(setSelectButton('chat'));
+    }
+  }
+)
 export const sendChatMessage = createAsyncThunk(
   'chat/sendChatMessage',
   async (message, { getState }) => {
@@ -98,20 +129,27 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-    .addCase(getNotification.fulfilled, (state, action) => {
-      state.notification = action.payload;
-    })
-    .addCase(getChatList.fulfilled, (state, action) => {
-      state.chatList = action.payload?.chats || [];
-    })
-    .addCase(getCurrentChat.fulfilled, (state, action) => {
-      state.currentChat = action.payload || null;
-    })
-    .addCase(sendChatMessage.fulfilled, (state, action) => {
-      const message = action.payload;
-      console.log(message);
-      state.currentChat.messages = [...state.currentChat.messages, message];
-    })
+      .addCase(getNotification.fulfilled, (state, action) => {
+        state.notification = action.payload;
+      })
+      .addCase(getChatList.fulfilled, (state, action) => {
+        state.chatList = action.payload?.chats || [];
+      })
+      .addCase(getCurrentChat.fulfilled, (state, action) => {
+        state.currentChat = action.payload || null;
+      })
+      .addCase(sendChatMessage.fulfilled, (state, action) => {
+        const message = action.payload;
+        console.log(message);
+        state.currentChat.messages = [...state.currentChat.messages, message];
+      })
+    // .addCase(createNewChat.fulfilled, (state, action) => {
+    //   const chatId = action.payload.chatId;
+    //   state.currentChat = {
+    //     chatId: chatId,
+    //     messages: []
+    //   }
+    // })
   }
 })
 
