@@ -69,13 +69,10 @@ export const createNewChat = createAsyncThunk(
         }
       })
       if (res?.statusText === 'OK') {
-        console.log('res');
-        console.log(res);
-        // dispatch(setTargetAuthor(user));
-        // return res.data.chatId;
+        dispatch(setTargetAuthor(user));
+        return res.data;
       }
     } catch (error) {
-      console.log(console.log(error));
       dispatch(toggleShowChat());
     } finally {
       dispatch(setSelectButton('chat'));
@@ -84,7 +81,7 @@ export const createNewChat = createAsyncThunk(
 )
 export const sendChatMessage = createAsyncThunk(
   'chat/sendChatMessage',
-  async (message, { getState }) => {
+  async (message, { getState, dispatch }) => {
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
       method: 'crm.messages.send',
@@ -95,6 +92,7 @@ export const sendChatMessage = createAsyncThunk(
       }
     })
     if (res?.statusText === 'OK') {
+      dispatch(setLastMesssage(res.data.result));
       return res.data.result;
     }
   }
@@ -126,6 +124,13 @@ const userSlice = createSlice({
     setTargetAuthor(state, action) {
       state.targetAuthor = action.payload;
     },
+    setLastMesssage(state, action) {
+      // не работает
+      const message = action.payload;
+      const findChat = state.chatList.find((chat) => chat?.chatWith?.UID.toString() === state.targetAuthor.UID.toString());
+      findChat.lastMessage = message;
+      state.chatList.splice(state.chatList.indexOf(findChat), 1, findChat);
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -140,18 +145,17 @@ const userSlice = createSlice({
       })
       .addCase(sendChatMessage.fulfilled, (state, action) => {
         const message = action.payload;
-        console.log(message);
         state.currentChat.messages = [...state.currentChat.messages, message];
       })
-    // .addCase(createNewChat.fulfilled, (state, action) => {
-    //   const chatId = action.payload.chatId;
-    //   state.currentChat = {
-    //     chatId: chatId,
-    //     messages: []
-    //   }
-    // })
+      .addCase(createNewChat.fulfilled, (state, action) => {
+        const chatId = action.payload?.result?.chatId;
+        state.currentChat = {
+          chatId: chatId,
+          messages: []
+        }
+      })
   }
 })
 
-export const { toggleShowChat, setSelectButton, setTargetAuthor } = userSlice.actions;
+export const { toggleShowChat, setSelectButton, setTargetAuthor, setLastMesssage } = userSlice.actions;
 export default userSlice.reducer;
