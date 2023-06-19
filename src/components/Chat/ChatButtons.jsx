@@ -18,13 +18,14 @@ const ChatButtonsStyle = styled.div`
 
 const ChatButtons = () => {
   const dispatch = useDispatch();
-  const chats = useSelector((state) => state.chat.chatList);
+  const chats = useSelector((state) => state.chat.chatList.chats);
 
   const handleClick = (e) => {
     const currentButton = e.target.id;
     dispatch(setSelectButton(currentButton));
-    if (currentButton === 'chat' && chats.length > 0) {
-      dispatch(getCurrentChat(chats[0]));
+    if (currentButton !== 'notification' && chats.length > 0) {
+      const findChat = chats.find((item) => currentButton === 'chat' ? !item?.chatWith?.isOpenLines : item?.chatWith?.isOpenLines);
+      dispatch(getCurrentChat(findChat));
     }
   }
   return (

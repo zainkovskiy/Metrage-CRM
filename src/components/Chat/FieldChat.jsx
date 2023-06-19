@@ -1,9 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
 import back from 'images/back.png';
-import FieldMessage from './FieldMessge';
+import { Box } from 'ui/Box';
+import ChatMenu from './ChatMenu';
+import MessageItem from './MessageItem';
 import FieldSend from './FieldSend';
 import { AnimatePresence } from 'framer-motion';
 
@@ -13,6 +15,7 @@ const FieldChatHeaderStyle = styled.div`
   display: flex;
   gap: 1rem;
   align-items: center;
+  justify-content: space-between;
 `
 const ChatAvatar = styled.img`
   width: 48px;
@@ -59,14 +62,17 @@ const FieldChat = () => {
         (currentChat && targetAuthor) &&
         <>
           <FieldChatHeaderStyle>
-            <ChatAvatar src={getAvatar()} alt='avatar' />
-            <TextSpanStyle size={16}>{targetAuthor.lastName} {targetAuthor.firstName}</TextSpanStyle>
+            <Box>
+              <ChatAvatar src={getAvatar()} alt='avatar' />
+              <TextSpanStyle size={16}>{targetAuthor.lastName} {targetAuthor.firstName}</TextSpanStyle>
+            </Box>
+            <ChatMenu />
           </FieldChatHeaderStyle>
           <Field ref={fieldRef}>
             <AnimatePresence>
               {
                 currentChat?.messages.map((message, idx) =>
-                  <FieldMessage
+                  <MessageItem
                     key={idx}
                     message={message}
                     target={message?.author?.UID === targetAuthor?.UID}

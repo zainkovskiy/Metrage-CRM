@@ -125,11 +125,10 @@ const userSlice = createSlice({
       state.targetAuthor = action.payload;
     },
     setLastMesssage(state, action) {
-      // не работает
       const message = action.payload;
       const findChat = state.chatList.find((chat) => chat?.chatWith?.UID.toString() === state.targetAuthor.UID.toString());
       findChat.lastMessage = message;
-      state.chatList.splice(state.chatList.indexOf(findChat), 1, findChat);
+      state.chatList.chats.splice(state.chatList.chats.indexOf(findChat), 1, findChat);
     },
   },
   extraReducers: (builder) => {
@@ -138,7 +137,7 @@ const userSlice = createSlice({
         state.notification = action.payload;
       })
       .addCase(getChatList.fulfilled, (state, action) => {
-        state.chatList = action.payload?.chats || [];
+        state.chatList = action.payload || null;
       })
       .addCase(getCurrentChat.fulfilled, (state, action) => {
         state.currentChat = action.payload || null;

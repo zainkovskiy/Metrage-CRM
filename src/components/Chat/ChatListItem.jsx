@@ -54,8 +54,11 @@ const ChatListItem = ({ chat }) => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    dispatch(setSelectButton('chat'));
     dispatch(getCurrentChat(chat))
+    if(chat?.chatWith?.isOpenLines){
+      return
+    }
+    dispatch(setSelectButton('chat'));
   }
   const getAvatar = () => {
     const user = chat?.chatWith || null;

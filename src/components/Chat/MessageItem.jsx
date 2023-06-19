@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
-const FieldMessageStyle = styled(motion.div)`
+const MessageItemStyle = styled(motion.div)`
   border: 1px solid ${({ theme }) => theme.color.primary};
   align-self: ${({ $target }) => $target ? 'flex-start' : 'flex-end'};
   padding: 0.5rem;
@@ -13,10 +13,10 @@ const FieldMessageStyle = styled(motion.div)`
   max-width: 80%;
 `
 
-const FieldMessage = ({ message, target, last, firstUpdate, scrollField }) => {
+const MessageItem = ({ message, target, last, firstUpdate, scrollField }) => {
   const messageRef = useRef(null);
   useEffect(() => {
-    if (firstUpdate) {
+    if (firstUpdate && last) {
       scrollField();
       return
     }
@@ -25,10 +25,10 @@ const FieldMessage = ({ message, target, last, firstUpdate, scrollField }) => {
     }
   }, [])
   return (
-    <FieldMessageStyle $target={target} ref={messageRef} initial={{ scale: 0 }} animate={{ scale: 1 }}>
+    <MessageItemStyle $target={target} ref={messageRef} initial={{ scale: 0 }} animate={{ scale: 1 }}>
       {message.text}
-    </FieldMessageStyle>
+    </MessageItemStyle>
   );
 };
 
-export default FieldMessage;
+export default MessageItem;
