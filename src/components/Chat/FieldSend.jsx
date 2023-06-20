@@ -14,6 +14,9 @@ const FieldSendStyle = styled.div`
 const FieldSend = () => {
   const dispatch = useDispatch();
   const sendMessage = (message) => {
+    if(message.trimStart().length === 0){
+      return
+    }
     dispatch(sendChatMessage(message));
   }
   return (

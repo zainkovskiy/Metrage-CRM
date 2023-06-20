@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
@@ -33,7 +33,8 @@ const Field = styled.div`
   flex-direction: column;
   gap: 0.5rem;
   padding: 0.5rem;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 `
 
 const FieldChat = () => {
@@ -50,6 +51,7 @@ const FieldChat = () => {
     }
     return `https://ui-avatars.com/api/?name=${targetAuthor.lastName}+${targetAuthor.firstName}&background=85009e&color=fff`
   }
+
   const scrollField = () => {
     if (fieldRef.current) {
       fieldRef.current.scrollTop = fieldRef.current.scrollHeight;
@@ -71,6 +73,7 @@ const FieldChat = () => {
           <Field ref={fieldRef}>
             <AnimatePresence>
               {
+                currentChat &&
                 currentChat?.messages.map((message, idx) =>
                   <MessageItem
                     key={idx}

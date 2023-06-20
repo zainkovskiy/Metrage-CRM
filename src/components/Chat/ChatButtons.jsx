@@ -24,7 +24,7 @@ const ChatButtons = () => {
     const currentButton = e.target.id;
     dispatch(setSelectButton(currentButton));
     if (currentButton !== 'notification' && chats.length > 0) {
-      const findChat = chats.find((item) => currentButton === 'chat' ? !item?.chatWith?.isOpenLines : item?.chatWith?.isOpenLines);
+      const findChat = chats.find((item) => currentButton === 'chat' ? !item?.isOpenLines : item?.isOpenLines);
       dispatch(getCurrentChat(findChat));
     }
   }

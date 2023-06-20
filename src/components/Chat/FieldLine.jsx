@@ -34,7 +34,8 @@ const Field = styled.div`
   flex-direction: column;
   gap: 0.5rem;
   padding: 0.5rem;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 `
 const FieldLine = () => {
   const fieldRef = useRef(null);

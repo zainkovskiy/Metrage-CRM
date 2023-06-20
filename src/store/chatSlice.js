@@ -105,6 +105,7 @@ const initialState = {
   notification: [],
   chatList: [],
   currentChat: null,
+  chatLoading: false,
   targetAuthor: null,
 };
 
@@ -126,7 +127,7 @@ const userSlice = createSlice({
     },
     setLastMesssage(state, action) {
       const message = action.payload;
-      const findChat = state.chatList.find((chat) => chat?.chatWith?.UID.toString() === state.targetAuthor.UID.toString());
+      const findChat = state.chatList.chats.find((chat) => chat?.chatWith?.UID.toString() === state.targetAuthor.UID.toString());
       findChat.lastMessage = message;
       state.chatList.chats.splice(state.chatList.chats.indexOf(findChat), 1, findChat);
     },
@@ -139,8 +140,12 @@ const userSlice = createSlice({
       .addCase(getChatList.fulfilled, (state, action) => {
         state.chatList = action.payload || null;
       })
+      .addCase(getCurrentChat.pending, (state, action) => {
+        state.chatLoading = true;
+      })
       .addCase(getCurrentChat.fulfilled, (state, action) => {
         state.currentChat = action.payload || null;
+        state.chatLoading = false;
       })
       .addCase(sendChatMessage.fulfilled, (state, action) => {
         const message = action.payload;

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import FieldNotification from './FieldNotification';
 import FieldChat from './FieldChat';
 import FieldLine from './FieldLine';
-
+import Loader from 'components/Main/Loader';
 const ChatFieldStyle = styled.div`
   background-color: #fff;
   flex-grow: 1;
@@ -14,10 +14,13 @@ const ChatFieldStyle = styled.div`
 `
 const ChatField = () => {
   const selectButton = useSelector((state) => state.chat.selectButton);
+  const chatLoading = useSelector((state) => state.chat.chatLoading);
   const FieldComponent = getFieldComponent(selectButton);
   return (
     <ChatFieldStyle>
-      <FieldComponent />
+      {
+        chatLoading ? <Loader/> : <FieldComponent />
+      }
     </ChatFieldStyle>
   );
 };

@@ -27,12 +27,12 @@ export const ChatList = () => {
   }
   const filterList = (chat) => {
     if (selectButton === 'line') {
-      if (chat?.chatWith?.isOpenLines) {
+      if (chat?.isOpenLines) {
         return filterSearch(chat)
       }
       return
     }
-    if (!chat?.chatWith?.isOpenLines){
+    if (!chat?.isOpenLines){
       return filterSearch(chat);
     }
   }

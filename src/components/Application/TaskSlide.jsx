@@ -13,6 +13,7 @@ import TaskChangeUser from './TaskChangeUser';
 import BuySellEditForm from './BuySellEditForm';
 import TaskSlideMeta from './TaskSlideMeta';
 import TaskHandOver from './TaskHandOver';
+import ApplicationCalls from './ApplicationCalls';
 
 
 const TaskSlideStyle = styled.div`
@@ -76,6 +77,7 @@ const TaskSlide = () => {
                     <TaskObjectInfo /> :
                     <BuySellEditForm />
                 }
+                <ApplicationCalls calls={task?.calls}/>
               </TaskSlideContentStyle>
               <TaskSlideStory />
             </>

@@ -55,7 +55,7 @@ const ChatListItem = ({ chat }) => {
 
   const handleClick = () => {
     dispatch(getCurrentChat(chat))
-    if(chat?.chatWith?.isOpenLines){
+    if(chat?.isOpenLines){
       return
     }
     dispatch(setSelectButton('chat'));
