@@ -17,24 +17,33 @@ const ApplicationCallsItemStyle = styled.div`
 const ApplicationCallsItemFooterStyle = styled.div`
   display: flex;
   align-items: center;
-  justify-content: ${({$busy}) => $busy ? 'space-between' : 'flex-end'};
-`
+  justify-content: space-between;
+`  
+const getColor = (status) => {
+  switch (status) {
+    case 'Пропущенный':
+      return 'rgb(211 82 45)';
+    case 'Вх. отменён':
+      return 'rgb(211 82 45)';
+    case 'Успешный':
+      return 'rgb(93 199 56)';
+    default:
+      return 'rgb(174, 168, 168)';
+  }
+}
 const BusyText = styled(TextSpanStyle)`
   padding: 0.2rem 0.5rem;
-  background-color: #ffb2b2;
+  background-color: ${({$status}) => getColor($status)};
   border-radius: 5px;
 `
 
 const ApplicationCallsItem = ({ call }) => {
   return (
     <ApplicationCallsItemStyle>
-      <TextSpanStyle>Входящий звонок на номер: {call?.phone}</TextSpanStyle>
-      <AudioPlayer src='https://crm.metragegroup.com/uploads/audio/Billy_Talent-Red_Flag.mp3'/>
-      <ApplicationCallsItemFooterStyle $busy={call?.status === 'busy'}>
-        {
-          call?.status === 'busy' &&
-          <BusyText size={10} color='#fff'>Пропущен</BusyText>
-        }
+      <TextSpanStyle>Входящий звонок на номер: {call?.userPhone}</TextSpanStyle>
+      <AudioPlayer src='https://crm.metragegroup.com/uploads/audio/Billy_Talent-Red_Flag.mp3' />
+      <ApplicationCallsItemFooterStyle>
+        <BusyText size={10} color='#fff' $status={call?.status}>{call?.status || 'Статус не определен'}</BusyText>
         <TextSpanStyle size={10} color='#aea8a8'>Длительность: {call?.duration} мин.</TextSpanStyle>
       </ApplicationCallsItemFooterStyle>
     </ApplicationCallsItemStyle>

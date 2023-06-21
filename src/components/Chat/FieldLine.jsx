@@ -57,6 +57,9 @@ const FieldLine = () => {
       firstUpdate.current = false;
     }
   }
+  if (!currentChat){
+    return
+  }
   return (
     <>
       <FieldLineHeaderStyle>
@@ -65,7 +68,7 @@ const FieldLine = () => {
           <Box column gap='0' ai='flex-start'>
             <TextSpanStyle size={16}>{targetAuthor?.lastName} {targetAuthor?.firstName}</TextSpanStyle>
             <TextSpanStyle size={12}>
-              По объекту: <LinkUI size={12} href={currentChat?.itemUrl} target='_blank'>{currentChat?.itemSource}</LinkUI>
+              По объекту: <LinkUI size={12} href={currentChat?.itemUrl} target='_blank'>{currentChat?.itemAddress}</LinkUI>
             </TextSpanStyle>
           </Box>
         </Box>

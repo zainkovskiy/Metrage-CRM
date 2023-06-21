@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import dotsVerticalUrl, { ReactComponent as DotsVertical } from 'images/dots-vertical.svg';
 import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setReadAllNotice } from 'store/chatSlice';
 
 const ChatMenuDtyle = styled.div`
   position: relative;
@@ -39,10 +40,17 @@ const ChatMenuItem = styled(TextSpanStyle)`
   }
 `
 const ChatMenu = () => {
+  const dispatch = useDispatch();
   const currentButton = useSelector((state) => state.chat.selectButton);
   const [isShow, setIsShow] = useState(false);
   const toggleIsShow = () => {
     setIsShow(!isShow);
+  }
+  const handleClick = (action) => {
+    if(action){
+      dispatch(action);
+    }
+    toggleIsShow();
   }
   return (
     <ChatMenuDtyle>
@@ -52,7 +60,7 @@ const ChatMenu = () => {
         <ChatMenuList>
           {
             menuItem[currentButton].map((item, idx) => {
-              return <ChatMenuItem onClick={toggleIsShow} nowrap key={idx}>{item}</ChatMenuItem>
+              return <ChatMenuItem onClick={() => handleClick(item.action)} nowrap key={idx}>{item.text}</ChatMenuItem>
             })
           }
         </ChatMenuList>
@@ -60,9 +68,33 @@ const ChatMenu = () => {
     </ChatMenuDtyle>
   );
 };
-const menuItem = {
-  chat: ['Отчистить историю'],
-  notification: ['Отчистить историю'],
+const menuItem2 = {
+  chat: ['Очистить историю'],
+  notification: ['Прочитать все'],
   line: ['Перенести в заявку', 'Закрыть диалог'],
+}
+const menuItem = {
+  chat: [
+    {
+      text: 'Очистить историю',
+      action: '',
+    }
+  ],
+  notification: [
+    {
+      text: 'Прочитать все',
+      action: setReadAllNotice(),
+    }
+  ],
+  line: [
+    {
+      text: 'Перенести в заявку',
+      action: '',
+    },
+    {
+      text: 'Закрыть диалог',
+      action: '',
+    },
+  ],
 }
 export default ChatMenu;

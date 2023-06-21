@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import bellUrl, { ReactComponent as Bell } from 'images/bell.svg';
 import messageUrl, { ReactComponent as Message } from 'images/chat-message.svg';
 import advertisingUrl, { ReactComponent as Advertising } from 'images/advertising.svg';
-import { setSelectButton, getCurrentChat } from 'store/chatSlice';
+import { setSelectButton, getCurrentChat, clearCurrentChat } from 'store/chatSlice';
 import ChatIconButton from './ChatIconButton';
 
 const ChatButtonsStyle = styled.div`
@@ -25,6 +25,10 @@ const ChatButtons = () => {
     dispatch(setSelectButton(currentButton));
     if (currentButton !== 'notification' && chats.length > 0) {
       const findChat = chats.find((item) => currentButton === 'chat' ? !item?.isOpenLines : item?.isOpenLines);
+      if(!findChat){
+        dispatch(clearCurrentChat());
+        return
+      }
       dispatch(getCurrentChat(findChat));
     }
   }

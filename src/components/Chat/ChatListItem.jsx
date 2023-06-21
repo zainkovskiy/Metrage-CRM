@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
 import { useChatDate } from 'hooks/DateFormat';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setSelectButton, getCurrentChat } from 'store/chatSlice';
 
 const ChatListContainer = styled.div`
@@ -16,13 +16,13 @@ const ChatListContainer = styled.div`
 const ChatListItemStyle = styled.div`
   padding: 0 0.5rem;
   height: 65px;
-  background-color: #fff;
+  background-color: ${({$match}) => $match ? '#fbe8ff' : '#fff'};
   transition: background-color .3s;
   cursor: pointer;
   box-sizing: border-box;
   display: flex;
   &:hover{
-    background-color: #f3f3f3;
+    background-color: ${({$match}) => $match ? '#f1c7fa' : '#f3f3f3'};
   }
   &:last-child ${ChatListContainer}{
     border-bottom: none;
@@ -52,6 +52,7 @@ const ChatLastMessage = styled(TextSpanStyle)`
 `
 const ChatListItem = ({ chat }) => {
   const dispatch = useDispatch();
+  const currentChat = useSelector((state) => state.chat.currentChat);
 
   const handleClick = () => {
     dispatch(getCurrentChat(chat))
@@ -71,7 +72,7 @@ const ChatListItem = ({ chat }) => {
     return `https://ui-avatars.com/api/?name=${user.lastName}+${user.firstName}&background=85009e&color=fff`
   }
   return (
-    <ChatListItemStyle onClick={handleClick}>
+    <ChatListItemStyle onClick={handleClick} $match={currentChat?.chatId === chat?.chatId}>
       <ChatListContainer>
         <ChatItemAvatar src={getAvatar()} alt='avatar' />
         <ChatItemContent>

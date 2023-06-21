@@ -79,6 +79,36 @@ export const createNewChat = createAsyncThunk(
     }
   }
 )
+export const setReadAllNotice = createAsyncThunk(
+  'chat/setReadAllNotice',
+  async (_, { getState }) => {
+    await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.notifications.readedAll',
+      fields: {
+        userId: getState().user.UID,
+      }
+    })
+  }
+)
+export const setReadNotice = createAsyncThunk(
+  'chat/setReadNotice',
+  async (notice) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.notifications.readed',
+      fields: {
+        UID: notice.UID
+      }
+    })
+    if (res?.statusText === 'OK') {
+      const { data } = res;
+      if (data?.result?.result === 'OK') {
+        return notice;
+      }
+    }
+  }
+)
 export const sendChatMessage = createAsyncThunk(
   'chat/sendChatMessage',
   async (message, { getState, dispatch }) => {
@@ -122,6 +152,10 @@ const userSlice = createSlice({
     setSelectButton(state, action) {
       state.selectButton = action.payload;
     },
+    clearCurrentChat(state, action) {
+      state.targetAuthor = null;
+      state.currentChat = null;
+    },
     setTargetAuthor(state, action) {
       state.targetAuthor = action.payload;
     },
@@ -147,6 +181,9 @@ const userSlice = createSlice({
         state.currentChat = action.payload || null;
         state.chatLoading = false;
       })
+      .addCase(getCurrentChat.rejected, (state, action) => {
+        state.chatLoading = false;
+      })
       .addCase(sendChatMessage.fulfilled, (state, action) => {
         const message = action.payload;
         state.currentChat.messages = [...state.currentChat.messages, message];
@@ -158,8 +195,21 @@ const userSlice = createSlice({
           messages: []
         }
       })
+      .addCase(setReadNotice.fulfilled, (state, action) => {
+        const notice = action.payload;
+        const arrNotice = state.notification.notifications;
+        const findNotice = arrNotice.find((item) => item.UID === notice.UID);
+        findNotice.readed = true;
+        state.notification.notifications.splice(arrNotice.indexOf(findNotice), 1, findNotice);
+      })
+      .addCase(setReadAllNotice.fulfilled, (state) => {
+        state.notification.notifications = state.notification.notifications.map((notice) => {
+          if (notice.readed) { return notice }
+          return { ...notice, readed: true };
+        });
+      })
   }
 })
 
-export const { toggleShowChat, setSelectButton, setTargetAuthor, setLastMesssage } = userSlice.actions;
+export const { toggleShowChat, setSelectButton, setTargetAuthor, setLastMesssage, clearCurrentChat } = userSlice.actions;
 export default userSlice.reducer;
