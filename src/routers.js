@@ -12,16 +12,16 @@ export const routers = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <p>home page</p>
+        element: <ApplicationContent/>
       },
       {
         path: 'home',
         element: <p>object</p>
       },
-      {
-        path: 'application',
-        element: <ApplicationContent/>
-      },
+      // {
+      //   path: 'application',
+      //   element: <ApplicationContent/>
+      // },
       {
         path: '*',
         element: <p>page not found</p>

@@ -7,7 +7,7 @@ const BadgeUIStyleContainer = styled.div`
 `
 const BadgeUIStyle = styled(motion.div)`
   font-size: 9px;
-  background-color: #84019e;
+  background-color: ${({ $back }) => $back ? $back : '#84019e'};
   display: flex;
   justify-content: center;
   border-radius: 40px;
@@ -19,7 +19,7 @@ const BadgeUIStyle = styled(motion.div)`
   top: 0;
   right: 0;
 `
-export const BadgeUI = ({ children, badgeContent }) => {
+export const BadgeUI = ({ children, badgeContent, back }) => {
   const badgeValue = Number.isInteger(badgeContent) ? badgeContent : null;
   return (
     <BadgeUIStyleContainer>
@@ -28,9 +28,10 @@ export const BadgeUI = ({ children, badgeContent }) => {
         {
           badgeValue > 0 &&
           <BadgeUIStyle
-            initial={{scale: 0, x: '50%', y: '-50%'}}
-            animate={{scale: 1, x: '50%', y: '-50%'}}
-            exit={{scale: 0, x: '50%', y: '-50%'}}
+            $back={back}
+            initial={{ scale: 0, x: '50%', y: '-50%' }}
+            animate={{ scale: 1, x: '50%', y: '-50%' }}
+            exit={{ scale: 0, x: '50%', y: '-50%' }}
           >{badgeValue}</BadgeUIStyle>
         }
       </AnimatePresence>

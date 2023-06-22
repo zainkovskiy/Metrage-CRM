@@ -66,7 +66,7 @@ const Nav = () => {
             <IconButtonSimple icon='heart' />
           </TooltipUI>
           <TooltipUI title='чат'>
-            <BadgeUI badgeContent={unreadCountChat}>
+            <BadgeUI badgeContent={globalCounter}>
               <IconButtonSimple icon='chat' onClick={handlerShowChat} />
             </BadgeUI>
           </TooltipUI>

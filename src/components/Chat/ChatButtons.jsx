@@ -6,6 +6,8 @@ import messageUrl, { ReactComponent as Message } from 'images/chat-message.svg';
 import advertisingUrl, { ReactComponent as Advertising } from 'images/advertising.svg';
 import { setSelectButton, getCurrentChat, clearCurrentChat } from 'store/chatSlice';
 import ChatIconButton from './ChatIconButton';
+import { BadgeUI } from 'ui/BadgeUI/BadgeUI';
+
 
 const ChatButtonsStyle = styled.div`
   display: flex;
@@ -18,14 +20,15 @@ const ChatButtonsStyle = styled.div`
 
 const ChatButtons = () => {
   const dispatch = useDispatch();
-  const chats = useSelector((state) => state.chat.chatList.chats);
+  const chatList = useSelector((state) => state.chat.chatList);
+  const notification = useSelector((state) => state.chat.notification);
 
   const handleClick = (e) => {
     const currentButton = e.target.id;
     dispatch(setSelectButton(currentButton));
-    if (currentButton !== 'notification' && chats.length > 0) {
-      const findChat = chats.find((item) => currentButton === 'chat' ? !item?.isOpenLines : item?.isOpenLines);
-      if(!findChat){
+    if (currentButton !== 'notification' && chatList.chats.length > 0) {
+      const findChat = chatList.chats.find((item) => currentButton === 'chat' ? !item?.isOpenLines : item?.isOpenLines);
+      if (!findChat) {
         dispatch(clearCurrentChat());
         return
       }
@@ -34,9 +37,15 @@ const ChatButtons = () => {
   }
   return (
     <ChatButtonsStyle>
-      <ChatIconButton onClick={handleClick} id='chat'><Message /></ChatIconButton>
-      <ChatIconButton onClick={handleClick} id='notification'><Bell /></ChatIconButton>
-      <ChatIconButton onClick={handleClick} id='line'><Advertising /></ChatIconButton>
+      <BadgeUI back='#0095a0' badgeContent={chatList?.unreadCount || 0}>
+        <ChatIconButton onClick={handleClick} id='chat'><Message /></ChatIconButton>
+      </BadgeUI>
+      <BadgeUI back='#0095a0' badgeContent={notification?.notifyUnread || 0}>
+        <ChatIconButton onClick={handleClick} id='notification'><Bell /></ChatIconButton>
+      </BadgeUI>
+      <BadgeUI back='#0095a0' badgeContent={0}>
+        <ChatIconButton onClick={handleClick} id='line'><Advertising /></ChatIconButton>
+      </BadgeUI>
     </ChatButtonsStyle>
   );
 };

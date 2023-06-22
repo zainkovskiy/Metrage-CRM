@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import UserFinder from 'components/Main/UserFinder';
 import DialogWindow from 'components/Main/DialogWindow';
@@ -49,13 +49,17 @@ const ChatSearchAdd = styled.button`
 `
 const ChatSearch = ({ value, onChange }) => {
   const dispatch = useDispatch();
+  const currentUserID = useSelector((state) => state.user.UID);
   const [open, setOpen] = useState(false);
   const openUserFinder = () => {
     setOpen(!open);
   }
   const selectUser = (user) => {
-    dispatch(createNewChat(user));
     openUserFinder();
+    if (currentUserID.toString() === user.UID.toString()) {
+      return
+    }
+    dispatch(createNewChat(user));
   }
   return (
     <>
@@ -65,7 +69,7 @@ const ChatSearch = ({ value, onChange }) => {
       </ChatSearchStyle>
       <DialogWindow onClose={openUserFinder} open={open}>
         <div onClick={(e) => e.stopPropagation()}>
-          <UserFinder title='Новый чат' onClose={openUserFinder} onChange={selectUser}/>
+          <UserFinder title='Новый чат' onClose={openUserFinder} onChange={selectUser} />
         </div>
       </DialogWindow>
     </>

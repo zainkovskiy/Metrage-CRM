@@ -95,7 +95,7 @@ const RageStyle = styled.input`
     background: transparent;
   }
 `
-const AudioPlayer = () => {
+const AudioPlayer = ({src}) => {
   const audioRef = useRef(null)
   const rageRef = useRef(null);
   const timeRef = useRef(null);
@@ -153,7 +153,7 @@ const AudioPlayer = () => {
   return (
     <AudioPlayerStyle>
       <audio ref={audioRef} controls style={{ display: 'none' }} preload="metadata">
-        <source src='https://crm.metragegroup.com/uploads/audio/Billy_Talent-Red_Flag.mp3' type='audio/mp3' />
+        <source src={src} type='audio/mp3' />
         Your browser does not support the audio element.
       </audio>
       <PlayButton onClick={handlePlay}>

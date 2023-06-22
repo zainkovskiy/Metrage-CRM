@@ -55,7 +55,7 @@ export const createNewChat = createAsyncThunk(
   'chat/createNewChat',
   async (user, { getState, dispatch }) => {
     try {
-      const findChat = getState().chat.chatList.find((chat) => chat?.chatWith?.UID.toString() === user.UID.toString());
+      const findChat = getState().chat.chatList.chats.find((chat) => chat?.chatWith?.UID.toString() === user.UID.toString());
       if (findChat) {
         dispatch(getCurrentChat(findChat));
         return
@@ -70,6 +70,7 @@ export const createNewChat = createAsyncThunk(
       })
       if (res?.statusText === 'OK') {
         dispatch(setTargetAuthor(user));
+        dispatch(getChatList());
         return res.data;
       }
     } catch (error) {
@@ -178,8 +179,15 @@ const userSlice = createSlice({
         state.chatLoading = true;
       })
       .addCase(getCurrentChat.fulfilled, (state, action) => {
-        state.currentChat = action.payload || null;
+        const currentChat = action.payload;
+        state.currentChat = currentChat || null;
         state.chatLoading = false;
+        const findChat = state.chatList.chats.find((item) => item.chatId === currentChat.chatId);
+        if(findChat){
+          const countUnread = findChat.unread;
+          findChat.unread = 0;
+          state.chatList.unreadCount = state.chatList.unreadCount - countUnread;
+        }
       })
       .addCase(getCurrentChat.rejected, (state, action) => {
         state.chatLoading = false;
@@ -197,16 +205,18 @@ const userSlice = createSlice({
       })
       .addCase(setReadNotice.fulfilled, (state, action) => {
         const notice = action.payload;
-        const arrNotice = state.notification.notifications;
-        const findNotice = arrNotice.find((item) => item.UID === notice.UID);
+        const noticeList = state.notification.notifications;
+        const findNotice = noticeList.find((item) => item.UID === notice.UID);
         findNotice.readed = true;
-        state.notification.notifications.splice(arrNotice.indexOf(findNotice), 1, findNotice);
+        // state.notification.notifications.splice(noticeList.indexOf(findNotice), 1, findNotice);
+        state.notification.notifyUnread = state.notification.notifyUnread - 1;
       })
       .addCase(setReadAllNotice.fulfilled, (state) => {
         state.notification.notifications = state.notification.notifications.map((notice) => {
           if (notice.readed) { return notice }
           return { ...notice, readed: true };
         });
+        state.notification.notifyUnread = 0;
       })
   }
 })
