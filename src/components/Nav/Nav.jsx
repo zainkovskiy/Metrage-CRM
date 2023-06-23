@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { AnimatePresence } from 'framer-motion';
@@ -29,11 +29,11 @@ const NavStyle = styled.nav`
 `
 
 const Nav = () => {
+  const dispatch = useDispatch();
   const [openBox, setOpenBox] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-  const unreadCountChat = useSelector((state) => state?.chat?.unreadCount);
   const isTelegram = useSelector((state) => state.user.telegramChatId);
-  const dispatch = useDispatch();
+  const messageCounter = useSelector((state) => state.chat.messageCounter);
   const handlerHiddenBox = () => {
     setOpenBox(!openBox);
   }
@@ -66,7 +66,7 @@ const Nav = () => {
             <IconButtonSimple icon='heart' />
           </TooltipUI>
           <TooltipUI title='чат'>
-            <BadgeUI badgeContent={globalCounter}>
+            <BadgeUI badgeContent={Number(messageCounter)}>
               <IconButtonSimple icon='chat' onClick={handlerShowChat} />
             </BadgeUI>
           </TooltipUI>

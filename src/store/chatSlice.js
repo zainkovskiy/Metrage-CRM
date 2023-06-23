@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const chatState = globalMessages ? JSON.parse(globalMessages) : null;
+const counter = globalCounter ? JSON.parse(globalCounter) : 0;
 const API = 'https://crm.metragegroup.com/API/REST.php';
 
 export const getNotification = createAsyncThunk(
@@ -131,6 +132,7 @@ export const sendChatMessage = createAsyncThunk(
 
 const initialState = {
   ...chatState,
+  messageCounter: counter,
   show: false,
   selectButton: 'notification',
   notification: [],
@@ -152,6 +154,9 @@ const userSlice = createSlice({
     },
     setSelectButton(state, action) {
       state.selectButton = action.payload;
+    },
+    incrementCounter(state) {
+      state.messageCounter++;
     },
     clearCurrentChat(state, action) {
       state.targetAuthor = null;
@@ -183,7 +188,7 @@ const userSlice = createSlice({
         state.currentChat = currentChat || null;
         state.chatLoading = false;
         const findChat = state.chatList.chats.find((item) => item.chatId === currentChat.chatId);
-        if(findChat){
+        if (findChat) {
           const countUnread = findChat.unread;
           findChat.unread = 0;
           state.chatList.unreadCount = state.chatList.unreadCount - countUnread;
@@ -221,5 +226,5 @@ const userSlice = createSlice({
   }
 })
 
-export const { toggleShowChat, setSelectButton, setTargetAuthor, setLastMesssage, clearCurrentChat } = userSlice.actions;
+export const { toggleShowChat, setSelectButton, setTargetAuthor, setLastMesssage, clearCurrentChat, incrementCounter } = userSlice.actions;
 export default userSlice.reducer;

@@ -9,7 +9,7 @@ import PanelControlDrag from 'components/PanelControl/PanelControlDrag';
 import PanelControlDrag2 from 'components/PanelControl/PanelControlDrag2';
 import DragExample from 'components/PanelControl/PanelControlDrag3';
 import ReorderTest from 'components/PanelControl/ReorderTest';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AnimatePresence } from 'framer-motion';
 
 const App = () => {
@@ -17,10 +17,15 @@ const App = () => {
   const isGuest = globalUser && JSON.parse(globalUser).isGuest;
   const showChat = useSelector((state) => state.chat.show);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   useEffect(() => {
     if (isGuest === 1) {
       console.log(isGuest);
       navigate('/application');
+    }
+    dispatch({type: 'socket/connect'});
+    return () => {
+      dispatch({type: 'socket/disconnect'});
     }
   }, [])
 

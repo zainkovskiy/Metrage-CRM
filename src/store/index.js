@@ -3,6 +3,7 @@ import userSlice from "./userSlice";
 import chatSlice from "./chatSlice";
 import telegramSlice from "./telegramSlice";
 import taskSlice from "./taskSlice";
+import { socketMiddleware } from "./socket";
 
 const reducers = combineReducers({
   user: userSlice,
@@ -13,5 +14,5 @@ const reducers = combineReducers({
 
 export const store = configureStore({
   reducer: reducers,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false}).concat(socketMiddleware())
 })
