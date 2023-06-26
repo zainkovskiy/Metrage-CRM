@@ -7,9 +7,10 @@ const BoxStyle = styled.div`
   justify-content: ${({ $jc }) => $jc ? $jc : 'center'};
   gap: ${({ $gap }) => $gap ? $gap : '0.5rem'};
   ${({ $column }) => $column && 'flex-direction: column'};
+  ${({ $fullWidth }) => $fullWidth && 'width: 100%'};
   ${({ $sp }) => $sp && { ...$sp }};
 `
-export const Box = ({ children, sp, ai, jc, column, gap }) => {
+export const Box = ({ children, sp, ai, jc, column, gap, fullWidth }) => {
   return (
     <BoxStyle
       $sp={sp}
@@ -17,6 +18,7 @@ export const Box = ({ children, sp, ai, jc, column, gap }) => {
       $jc={jc}
       $gap={gap}
       $column={column}
+      $fullWidth={fullWidth}
     >
       {children}
     </BoxStyle>

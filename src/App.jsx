@@ -2,7 +2,6 @@ import React, { Suspense, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { MainContainer } from 'styles/styles';
 import Nav from 'components/Nav/Nav';
-// import Chat from 'components/Chat/Chat';
 const Chat = React.lazy(() => import('components/Chat/Chat'));
 import PanelControl from 'components/PanelControl/PanelControl';
 import PanelControlDrag from 'components/PanelControl/PanelControlDrag';
@@ -19,10 +18,10 @@ const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
-    if (isGuest === 1) {
-      console.log(isGuest);
-      navigate('/application');
-    }
+    // if (isGuest === 1) {
+    //   console.log(isGuest);
+    //   navigate('/application');
+    // }
     dispatch({type: 'socket/connect'});
     return () => {
       dispatch({type: 'socket/disconnect'});

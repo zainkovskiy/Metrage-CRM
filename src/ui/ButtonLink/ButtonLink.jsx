@@ -11,7 +11,7 @@ const ButtonLinkStyle = styled.span`
     text-decoration: underline;
   }
 `
-export const ButtonLink = ({ children, size, onClick }) => {
+export const ButtonLink = ({ children, size, onClick, color }) => {
   return (
     <ButtonLinkStyle $size={size} onClick={onClick}>
       {children}

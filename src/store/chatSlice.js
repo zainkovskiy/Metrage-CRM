@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { useFindCurrentChat } from "hooks/ChatHooks";
 
 const chatState = globalMessages ? JSON.parse(globalMessages) : null;
 const counter = globalCounter ? JSON.parse(globalCounter) : 0;
@@ -22,7 +23,8 @@ export const getNotification = createAsyncThunk(
 )
 export const getChatList = createAsyncThunk(
   'chat/getChatList',
-  async (_, { getState }) => {
+  async (_, { getState, dispatch }) => {
+    dispatch(clearCurrentChat());
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
       method: 'crm.messages.list',
@@ -31,6 +33,13 @@ export const getChatList = createAsyncThunk(
       }
     })
     if (res?.statusText === 'OK') {
+      const selectButton = getState().chat.selectButton;
+      if (selectButton !== 'notification') {
+        const findChat = useFindCurrentChat(res.data.result, selectButton);
+        if (findChat) {
+          dispatch(getCurrentChat(findChat));
+        }
+      }
       return res?.data?.result;
     }
   }
@@ -129,6 +138,37 @@ export const sendChatMessage = createAsyncThunk(
     }
   }
 )
+export const forwardOpenLineChat = createAsyncThunk(
+  'chat/forwardChat',
+  async (userId, { getState, dispatch }) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.messages.setOwner',
+      fields: {
+        userId: userId,
+        chatId: getState().chat.currentChat.chatId,
+      }
+    })
+    if (res?.statusText === 'OK') {
+      dispatch(getChatList());
+    }
+  }
+)
+export const closeOpenLineChat = createAsyncThunk(
+  'chat/closeOpenLineChat',
+  async (_, { getState, dispatch }) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.messages.closeChat',
+      fields: {
+        chatId: getState().chat.currentChat.chatId,
+      }
+    })
+    if (res?.statusText === 'OK') {
+      dispatch(getChatList());
+    }
+  }
+)
 
 const initialState = {
   ...chatState,
@@ -213,7 +253,6 @@ const userSlice = createSlice({
         const noticeList = state.notification.notifications;
         const findNotice = noticeList.find((item) => item.UID === notice.UID);
         findNotice.readed = true;
-        // state.notification.notifications.splice(noticeList.indexOf(findNotice), 1, findNotice);
         state.notification.notifyUnread = state.notification.notifyUnread - 1;
       })
       .addCase(setReadAllNotice.fulfilled, (state) => {
@@ -222,6 +261,24 @@ const userSlice = createSlice({
           return { ...notice, readed: true };
         });
         state.notification.notifyUnread = 0;
+      })
+      .addCase(closeOpenLineChat.pending, (state) => {
+        state.chatLoading = true;
+      })
+      .addCase(closeOpenLineChat.fulfilled, (state) => {
+        state.chatLoading = false;
+      })
+      .addCase(closeOpenLineChat.rejected, (state) => {
+        state.chatLoading = false;
+      })
+      .addCase(forwardOpenLineChat.pending, (state) => {
+        state.chatLoading = true;
+      })
+      .addCase(forwardOpenLineChat.fulfilled, (state) => {
+        state.chatLoading = false;
+      })
+      .addCase(forwardOpenLineChat.rejected, (state) => {
+        state.chatLoading = false;
       })
   }
 })

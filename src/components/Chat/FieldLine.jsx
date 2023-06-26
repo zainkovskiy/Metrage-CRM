@@ -1,14 +1,23 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+
 import { Box } from 'ui/Box';
-import ChatMenu from './ChatMenu';
+import { LinkUI } from 'ui/LinkUI/LinkUI';
+import { ButtonLink } from 'ui/ButtonLink/ButtonLink';
 import { TextSpanStyle } from 'styles/styles';
-import { useSelector } from 'react-redux';
-import back from 'images/back.png';
+
+import ChatMenu from './ChatMenu';
+import ChatMenuItem from './ChatMenuItem';
 import MessageItem from './MessageItem';
 import FieldSend from './FieldSend';
-import { AnimatePresence } from 'framer-motion';
-import { LinkUI } from 'ui/LinkUI/LinkUI';
+import UserFinder from 'components/Main/UserFinder';
+import DialogWindow from 'components/Main/DialogWindow';
+
+import back from 'images/back.png';
+import { forwardOpenLineChat, closeOpenLineChat, toggleShowChat } from 'store/chatSlice';
 
 const FieldLineHeaderStyle = styled.div`
   padding: 1rem;
@@ -37,11 +46,19 @@ const Field = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
 `
+const SourceImg = styled.img`
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+`
 const FieldLine = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const fieldRef = useRef(null);
   const firstUpdate = useRef(true);
   const currentChat = useSelector((state) => state.chat.currentChat);
   const targetAuthor = useSelector((state) => state.chat.targetAuthor);
+  const [open, setOpen] = useState(false);
   const getAvatar = () => {
     if (!targetAuthor) {
       return `https://ui-avatars.com/api/?name=Metrage&background=85009e&color=fff`
@@ -57,22 +74,60 @@ const FieldLine = () => {
       firstUpdate.current = false;
     }
   }
-  if (!currentChat){
+  const getSource = () => {
+    switch (currentChat?.itemSource || null) {
+      case 'avito':
+        return 'https://crm.metragegroup.com/uploads/contents/demands/avito-min.png';
+      case 'cian':
+        return 'https://crm.metragegroup.com/uploads/contents/demands/cian-min.png'
+      default:
+        break;
+    }
+  }
+  const forwardingApplication = (user) => {
+    dispatch(forwardOpenLineChat(user.UID));
+    openUserFinder();
+  }
+  const openUserFinder = () => {
+    setOpen(!open);
+  }
+  const closecChat = () => {
+    dispatch(closeOpenLineChat())
+  }
+  const transferApplication = () =>{
+    navigate('/', {state: { id: 1 }});
+    dispatch(toggleShowChat());
+  }
+  if (!currentChat) {
     return
   }
   return (
     <>
       <FieldLineHeaderStyle>
-        <Box>
+        <Box fullWidth jc='flex-start'>
           <ChatAvatar src={getAvatar()} alt='avatar' />
-          <Box column gap='0' ai='flex-start'>
-            <TextSpanStyle size={16}>{targetAuthor?.lastName} {targetAuthor?.firstName}</TextSpanStyle>
+          <Box fullWidth column ai='flex-start'>
+            <Box jc='space-between' fullWidth>
+              <Box>
+                <TextSpanStyle size={16}>{targetAuthor?.lastName} {targetAuthor?.firstName}</TextSpanStyle>
+                {
+                  currentChat?.itemSource &&
+                  <SourceImg src={getSource()} />
+                }
+              </Box>
+              <ButtonLink size={12} onClick={openUserFinder}>
+                Переадресовать
+              </ButtonLink>
+            </Box>
             <TextSpanStyle size={12}>
               По объекту: <LinkUI size={12} href={currentChat?.itemUrl} target='_blank'>{currentChat?.itemAddress}</LinkUI>
             </TextSpanStyle>
           </Box>
         </Box>
-        <ChatMenu />
+        <ChatMenu>
+          <ChatMenuItem onClick={transferApplication}>Перенести в заявку</ChatMenuItem>
+          <ChatMenuItem onClick={closecChat}>Закрыть диалог</ChatMenuItem>
+        </ChatMenu>
       </FieldLineHeaderStyle>
       <Field ref={fieldRef}>
         <AnimatePresence>
@@ -91,8 +146,12 @@ const FieldLine = () => {
         </AnimatePresence>
       </Field>
       <FieldSend />
+      <DialogWindow onClose={openUserFinder} open={open}>
+        <div onClick={(e) => e.stopPropagation()}>
+          <UserFinder title='Переадресовать чат' onClose={openUserFinder} onChange={forwardingApplication} />
+        </div>
+      </DialogWindow>
     </>
   );
 };
-
 export default FieldLine;

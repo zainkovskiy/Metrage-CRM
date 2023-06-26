@@ -5,6 +5,7 @@ import { TextSpanStyle } from 'styles/styles';
 import back from 'images/back.png';
 import { Box } from 'ui/Box';
 import ChatMenu from './ChatMenu';
+import ChatMenuItem from './ChatMenuItem';
 import MessageItem from './MessageItem';
 import FieldSend from './FieldSend';
 import { AnimatePresence } from 'framer-motion';
@@ -68,7 +69,9 @@ const FieldChat = () => {
               <ChatAvatar src={getAvatar()} alt='avatar' />
               <TextSpanStyle size={16}>{targetAuthor.lastName} {targetAuthor.firstName}</TextSpanStyle>
             </Box>
-            <ChatMenu />
+            <ChatMenu>
+              <ChatMenuItem onClick={() => {}}>Очистить историю</ChatMenuItem>
+            </ChatMenu>
           </FieldChatHeaderStyle>
           <Field ref={fieldRef}>
             <AnimatePresence>

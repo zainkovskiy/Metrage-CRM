@@ -7,6 +7,7 @@ import SlideWindow from 'components/Main/SlideWindow';
 import Tasks from './Tasks';
 import NewTask from './NewTask';
 import TaskFilter from './TaskFilter';
+import { useLocation, useParams } from 'react-router-dom';
 
 const ApplicationContentStyle = styled.div`
   flex-grow: 1;
@@ -18,12 +19,20 @@ const ApplicationContent = () => {
   const loading = useSelector((state) => state.task.loading);
   const isShowNewTask = useSelector((state) => state.task.isShowNewTask);
   const firstUpdate = useRef(true);
+  const location = useLocation();
   useEffect(() => {
     if (firstUpdate.current) {
       dispatch(getTaskList(firstUpdate.current));
       firstUpdate.current = false;
     }
   }, [])
+  useEffect(() => {
+    console.log(location.state);
+    if(location?.state){
+      location.state = null;
+    }
+    console.log(location.state);
+  }, [location])
   const handleOpenNewTask = () => {
     dispatch(toggleNewTask())
   }
