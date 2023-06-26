@@ -56,7 +56,7 @@ const variantsContent = {
 
 const SlideWindow = ({ children, width, onClose, open }) => {
   return (
-    <AnimatePresence>
+    <AnimatePresence mode='wait'>
       {
         open &&
         <SlideWindowStyle

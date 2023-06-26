@@ -1,6 +1,7 @@
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import App from './App';
+import NewTask, { newTaskLoader } from 'components/Application/NewTask';
 const ApplicationContent = React.lazy(() => import('components/Application/ApplicationContent'));
 // import Loader from "components/Main/Loader";
 // import { Error403 } from "components/ErrorsComponents/Error403";
@@ -11,17 +12,25 @@ export const routers = createBrowserRouter([
     element: <App />,
     children: [
       {
-        index: true,
+        path: '/',
         element: <ApplicationContent />,
+        children: [
+          {
+            path: '/new-app',
+            element: <NewTask />,
+            loader: newTaskLoader
+          },
+          {
+            path: '/new-app/:chatId',
+            element: <NewTask />,
+            loader: newTaskLoader
+          },
+        ]
       },
       {
         path: 'home',
-        element: <p>object</p>,
+        element: <p>home</p>,
       },
-      // {
-      //   path: 'application',
-      //   element: <ApplicationContent/>
-      // },
       {
         path: '*',
         element: <p>page not found</p>

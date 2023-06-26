@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { MainContainer } from 'styles/styles';
 import Nav from 'components/Nav/Nav';
 const Chat = React.lazy(() => import('components/Chat/Chat'));
@@ -22,9 +22,9 @@ const App = () => {
     //   console.log(isGuest);
     //   navigate('/application');
     // }
-    dispatch({type: 'socket/connect'});
+    dispatch({ type: 'socket/connect' });
     return () => {
-      dispatch({type: 'socket/disconnect'});
+      dispatch({ type: 'socket/disconnect' });
     }
   }, [])
 

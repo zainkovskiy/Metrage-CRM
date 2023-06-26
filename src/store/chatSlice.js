@@ -195,8 +195,8 @@ const userSlice = createSlice({
     setSelectButton(state, action) {
       state.selectButton = action.payload;
     },
-    incrementCounter(state) {
-      state.messageCounter++;
+    setCounterMessage(state, action) {
+      state.messageCounter = action.payload;
     },
     clearCurrentChat(state, action) {
       state.targetAuthor = null;
@@ -283,5 +283,5 @@ const userSlice = createSlice({
   }
 })
 
-export const { toggleShowChat, setSelectButton, setTargetAuthor, setLastMesssage, clearCurrentChat, incrementCounter } = userSlice.actions;
+export const { toggleShowChat, setSelectButton, setTargetAuthor, setLastMesssage, clearCurrentChat, setCounterMessage } = userSlice.actions;
 export default userSlice.reducer;

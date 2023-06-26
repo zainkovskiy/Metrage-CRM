@@ -14,7 +14,7 @@ const VisibilityOffIconStyle = styled(VisibilityOffIcon)`
 `
 
 export const InputUI = forwardRef((props, ref) => {
-  const { type, label, helperText, error, fullWidth, disabled, register, width, icon, value, onChange, readOnly } = props;
+  const { type, label, helperText, error, fullWidth, disabled, register, width, icon, value, onChange, readOnly, defaultValue } = props;
   const InputComponent = getInputComponent(type);
   return (
     <LabelStyle fullWidth={fullWidth} width={width}>
@@ -30,6 +30,7 @@ export const InputUI = forwardRef((props, ref) => {
           value={value}
           onChange={onChange}
           readOnly={readOnly ? true : false}
+          defaultValue={defaultValue}
         />
         {
           helperText &&
@@ -72,7 +73,7 @@ const InputPassword = forwardRef((props, ref) => {
 })
 
 const InputCustom = forwardRef((props, ref) => {
-  const { type, disabled, register, error, icon, value, onChange, readOnly } = props;
+  const { type, disabled, register, error, icon, value, onChange, readOnly, defaultValue } = props;
   return (
     <div style={{ position: 'relative' }}>
       <InputStyle
@@ -85,6 +86,7 @@ const InputCustom = forwardRef((props, ref) => {
         value={value}
         onChange={onChange}
         readOnly={readOnly}
+        defaultValue={defaultValue}
       />
       {icon && iconVariant[icon]}
     </div>

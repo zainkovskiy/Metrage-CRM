@@ -163,6 +163,9 @@ const taskSlice = createSlice({
     toggleNewTask(state) {
       state.isShowNewTask = !state.isShowNewTask;
     },
+    toggleLoadingNewTask(state) {
+      state.loadingNewTask = !state.loadingNewTask;
+    },
     setTasksView(state, action) {
       const newView = action.payload;
       state.view = newView;
@@ -242,5 +245,5 @@ const taskSlice = createSlice({
       })
   }
 })
-export const { clearTask, toggleNewTask, setTasksView, setFilterTypeTaskList, setCurrentNewContact } = taskSlice.actions;
+export const { clearTask, toggleNewTask, setTasksView, setFilterTypeTaskList, setCurrentNewContact, toggleLoadingNewTask } = taskSlice.actions;
 export default taskSlice.reducer;

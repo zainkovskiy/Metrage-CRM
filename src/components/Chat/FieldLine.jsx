@@ -95,7 +95,7 @@ const FieldLine = () => {
     dispatch(closeOpenLineChat())
   }
   const transferApplication = () =>{
-    navigate('/', {state: { id: 1 }});
+    navigate(`new-app/${currentChat.chatId}`, {state: { author: targetAuthor }});
     dispatch(toggleShowChat());
   }
   if (!currentChat) {

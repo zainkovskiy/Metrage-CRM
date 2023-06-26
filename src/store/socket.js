@@ -18,7 +18,10 @@ export const socketMiddleware = () => (params) => (next) => (action) => {
 
       }
       if (message?.Action === "Increment") {
-        dispatch({ type: 'chat/incrementCounter' });
+        if (message?.Fields?.curState){
+          const curState = message?.Fields?.curState;
+          dispatch({ type: 'chat/setCounterMessage', payload: curState});
+        }
       }
     }
     return
