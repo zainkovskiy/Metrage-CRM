@@ -46,7 +46,7 @@ const TaskSlideStoryItem = ({ story, last, scrollField, firstUpdate }) => {
       <StoryItemAvatarStyle src={author?.avatar || userUrl} alt="avatar" />
       <StoryItemStyleContainer>
         <TextSpanStyle color='#84019e' weight={700} size={14}>{author?.lastName} {author?.firstName}</TextSpanStyle>
-        <TextSpanStyle size={9}>{useDateFormat(story?.created)}</TextSpanStyle>
+        <TextSpanStyle size={9}>{useDateFormat(story?.created, 'DD.MM.YYYY HH:mm')}</TextSpanStyle>
         {getMessage()}
       </StoryItemStyleContainer>
     </StoryItemStyle>

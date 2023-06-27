@@ -9,6 +9,7 @@ const TaskChangeUserStyle = styled.div`
 `
 
 const TaskChangeUser = ({ onClose, UID }) => {
+  console.log(UID);
   const dispatch = useDispatch();
   const changeUser = (user) => {
     dispatch(changeAgent({

@@ -1,10 +1,7 @@
 import React from 'react';
 import TaskCard from './TaskCard';
 import styled from 'styled-components';
-import SlideWindow from '../Main/SlideWindow';
-import TaskSlide from './TaskSlide';
-import { useDispatch, useSelector } from 'react-redux';
-import { getTask, clearTask, getTaskStory, getTaskList } from 'store/taskSlice';
+import { useSelector } from 'react-redux';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const TasksStyle = styled(motion.div)`
@@ -19,19 +16,8 @@ const TasksStyle = styled(motion.div)`
 `
 
 const Tasks = () => {
-  const dispatch = useDispatch();
   const tasks = useSelector((state) => state.task.taskList);
-  const task = useSelector((state) => state.task.openTask);
   const filterTypeList = useSelector((state) => state.task.filterTypeList);
-  const openTask = (uid) => {
-    if (Boolean(task)) {
-      dispatch(getTaskList());
-      dispatch(clearTask());
-      return
-    }
-    dispatch(getTask(uid));
-    dispatch(getTaskStory(uid));
-  }
   const getRenderList = (task) => {
     if (filterTypeList === 'all') {
       return task;
@@ -48,7 +34,6 @@ const Tasks = () => {
                 <TaskCard
                   key={task?.UID}
                   task={task}
-                  openTask={openTask}
                 />
               )
             })
@@ -56,12 +41,6 @@ const Tasks = () => {
 
         </AnimatePresence>
       </TasksStyle>
-      <SlideWindow width='70%' onClose={openTask} open={Boolean(task)}>
-        {
-          task &&
-          <TaskSlide />
-        }
-      </SlideWindow>
     </>
   );
 };

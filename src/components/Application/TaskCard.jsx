@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { TextSpanStyle } from 'styles/styles';
 import { useDateFormat } from 'hooks/DateFormat';
 import { motion } from 'framer-motion';
@@ -70,6 +71,10 @@ const TaskFooter = styled.div`
   padding: 0.6rem;
   border-radius: 0 0 40px 0;
 `
+const LinkStyle = styled(Link)`
+  text-decoration: none;
+  color: black;
+`
 const variants = {
   visible: {
     opacity: 1,
@@ -78,43 +83,41 @@ const variants = {
     opacity: 0
   }
 }
-const Task = ({ task, openTask }) => {
-  const handleClick = () => {
-    openTask(task.UID)
-  }
+const Task = ({ task }) => {
   return (
-    <TaskStyle
-      onClick={handleClick}
-      variants={variants}
-      initial='hidden'
-      animate='visible'
-    >
-      <TaskHeader $color={task?.color}>
-        {
-          task?.demand?.events !== 0 ? <TaskEvents size={12}>{task?.demand?.events}</TaskEvents> : <span></span>
-        }
-        <Box column gap='0' ai='flex-end'>
-          <TextSpanStyle color='#fff' size={10}>Клиент</TextSpanStyle>
-          <TextSpanStyle color='#fff' size={12}>{task?.client?.title}</TextSpanStyle>
-        </Box>
-      </TaskHeader>
-      <TaskContent>
-        <Box jc='space-between' ai='flex-start'>
-          <TaskSourceStyle src={task?.source?.picture || logoUrl} alt="logo" />
-          <TextSpanStyle size={10}>Создано: {useDateFormat(task?.created)}</TextSpanStyle>
-        </Box>
-        <TextListStyle>Источник: <span>{task?.source?.name}</span></TextListStyle>
-        <TextListStyle>Статус: <span>{task?.status?.title}</span></TextListStyle>
-        <TextListStyle>Потребность: <span>{task?.demand?.title}</span></TextListStyle>
-        <TextListStyle>Тип: <span>{task?.demand?.typePlace}</span></TextListStyle>
-        <TextListStyle>Примечание:</TextListStyle>
-        <TaskComment size={10}>{task?.demand?.comment}</TaskComment>
-      </TaskContent>
-      <TaskFooter>
-        <TextSpanStyle size={10}>Агент:</TextSpanStyle>
-        <TextSpanStyle size={12}>{task?.responsible?.title}</TextSpanStyle>
-      </TaskFooter>
-    </TaskStyle>
+    <LinkStyle to={`application/${task.UID}`}>
+      <TaskStyle
+        variants={variants}
+        initial='hidden'
+        animate='visible'
+      >
+        <TaskHeader $color={task?.color}>
+          {
+            task?.demand?.events !== 0 ? <TaskEvents size={12}>{task?.demand?.events}</TaskEvents> : <span></span>
+          }
+          <Box column gap='0' ai='flex-end'>
+            <TextSpanStyle color='#fff' size={10}>Клиент</TextSpanStyle>
+            <TextSpanStyle color='#fff' size={12}>{task?.client?.title}</TextSpanStyle>
+          </Box>
+        </TaskHeader>
+        <TaskContent>
+          <Box jc='space-between' ai='flex-start'>
+            <TaskSourceStyle src={task?.source?.picture || logoUrl} alt="logo" />
+            <TextSpanStyle size={10}>Создано: {useDateFormat(task?.created)}</TextSpanStyle>
+          </Box>
+          <TextListStyle>Источник: <span>{task?.source?.name}</span></TextListStyle>
+          <TextListStyle>Статус: <span>{task?.status?.title}</span></TextListStyle>
+          <TextListStyle>Потребность: <span>{task?.demand?.title}</span></TextListStyle>
+          <TextListStyle>Тип: <span>{task?.demand?.typePlace}</span></TextListStyle>
+          <TextListStyle>Примечание:</TextListStyle>
+          <TaskComment size={10}>{task?.demand?.comment}</TaskComment>
+        </TaskContent>
+        <TaskFooter>
+          <TextSpanStyle size={10}>Агент:</TextSpanStyle>
+          <TextSpanStyle size={12}>{task?.responsible?.title}</TextSpanStyle>
+        </TaskFooter>
+      </TaskStyle>
+    </LinkStyle>
   );
 };
 

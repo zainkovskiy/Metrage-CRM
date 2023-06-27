@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Circle, YMaps, Map } from 'react-yandex-maps';
 import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
@@ -14,7 +13,8 @@ const TaskObjectInfoStyle = styled.div`
   gap: 0.5rem;
 `
 const TaskObjectInfo = () => {
-  const demand = useSelector((state) => state?.task?.openTask?.demand);
+  const application = useAsyncValue();
+  const demand = application?.demand;
   return (
     <TaskObjectInfoStyle>
       <TaskSlideTitleStyle>Потребность</TaskSlideTitleStyle>

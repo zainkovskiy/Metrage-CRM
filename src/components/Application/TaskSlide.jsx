@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import styled from 'styled-components';
 import TaskSlideStory from './TaskSlideStory';
 import TaskSlideClientInfo from './TaskSlideClientInfo';
@@ -14,6 +14,7 @@ import BuySellEditForm from './BuySellEditForm';
 import TaskSlideMeta from './TaskSlideMeta';
 import TaskHandOver from './TaskHandOver';
 import ApplicationCalls from './ApplicationCalls';
+import { useAsyncValue } from 'react-router-dom';
 
 
 const TaskSlideStyle = styled.div`
@@ -31,9 +32,8 @@ const TaskSlideContentStyle = styled.div`
 `
 
 const TaskSlide = () => {
+  const application = useAsyncValue();
   const isExternal = useSelector((state) => state.user.isExternal);
-  const loadingTask = useSelector((state) => state.task.loadingTask);
-  const task = useSelector((state) => state.task.openTask);
   const [openChange, setOpenChange] = useState(false);
   const [openHandOver, setOpenHandOver] = useState(false);
   const toggleOpenChange = () => {
@@ -45,54 +45,48 @@ const TaskSlide = () => {
   return (
     <>
       <TaskSlideStyle>
-        {
-          loadingTask ?
-            <Loader fill='#fff' /> :
-            <>
-              <TaskSlideContentStyle>
-                <TaskSlideMeta
-                  UID={task?.UID}
-                  lostDate={task?.demand?.lostDate}
-                  created={task?.created}
-                  updated={task?.updated}
-                />
-                <TaskStatus
-                  status={task?.status?.UID}
-                  UID={task?.UID}
-                />
-                <TaskSlideClientInfo client={task?.client} demand={task?.demand}>
-                  {
-                    isExternal !== '1' &&
-                    <ButtonUI size='small' onClick={toggleOpenHandOver}>Передать клиента</ButtonUI>
-                  }
-                </TaskSlideClientInfo>
-                <TaskSlideAgentInfo responsible={task?.responsible} recommender={task?.recommender}>
-                  {
-                    isExternal !== '1' &&
-                    <ButtonUI size='small' onClick={toggleOpenChange}>Сменить агента</ButtonUI>
-                  }
-                </TaskSlideAgentInfo>
-                {
-                  isExternal === '1' ?
-                    <TaskObjectInfo /> :
-                    <BuySellEditForm />
-                }
-                <ApplicationCalls calls={task?.calls}/>
-              </TaskSlideContentStyle>
-              <TaskSlideStory />
-            </>
-        }
+        <TaskSlideContentStyle>
+          <TaskSlideMeta
+            UID={application?.UID}
+            lostDate={application?.demand?.lostDate}
+            created={application?.created}
+            updated={application?.updated}
+          />
+          <TaskStatus
+            status={application?.status?.UID}
+            UID={application?.UID}
+          />
+          <TaskSlideClientInfo client={application?.client} demand={application?.demand}>
+            {
+              isExternal !== '1' &&
+              <ButtonUI size='small' onClick={toggleOpenHandOver}>Передать клиента</ButtonUI>
+            }
+          </TaskSlideClientInfo>
+          <TaskSlideAgentInfo responsible={application?.responsible} recommender={application?.recommender}>
+            {
+              isExternal !== '1' &&
+              <ButtonUI size='small' onClick={toggleOpenChange}>Сменить агента</ButtonUI>
+            }
+          </TaskSlideAgentInfo>
+          {
+            isExternal === '1' ?
+              <TaskObjectInfo /> :
+              <BuySellEditForm />
+          }
+          <ApplicationCalls calls={application?.calls} />
+        </TaskSlideContentStyle>
+        <TaskSlideStory UID={application?.UID}/>
       </TaskSlideStyle >
       <DialogWindow open={openChange} onClose={toggleOpenChange}>
         <TaskChangeUser
           onClose={toggleOpenChange}
-          UID={task?.UID}
+          UID={application?.UID}
         />
       </DialogWindow>
       <DialogWindow open={openHandOver} onClose={toggleOpenHandOver}>
         <TaskHandOver
           onClose={toggleOpenHandOver}
-          UID={task?.UID}
+          UID={application?.UID}
         />
       </DialogWindow>
     </>

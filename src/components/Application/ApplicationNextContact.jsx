@@ -9,6 +9,7 @@ import { useController, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { setNewContact } from 'store/taskSlice';
 import moment from 'moment';
+import { useAsyncValue } from 'react-router-dom';
 
 const ApplicationNextContactStyle = styled.form`
   display: flex;
@@ -51,6 +52,7 @@ const TexAreaStyle = styled.textarea`
   }
 `
 const ApplicationNextContact = ({ onClose }) => {
+  const application = useAsyncValue();
   const dispatch = useDispatch();
   const { register, handleSubmit, setValue, control, formState: { errors } } = useForm();
   const { field } = useController({name: 'comment', control, rules: {required: 'Заполните комментарий'}});
@@ -58,7 +60,11 @@ const ApplicationNextContact = ({ onClose }) => {
 
   const onSubmit = (data) => {
     setDisabled(true);
-    dispatch(setNewContact(data)).unwrap().then(() => {
+    dispatch(setNewContact({form: data, UID: application.UID})).unwrap().then(() => {
+      if(application){
+        application.demand.nextContact = data.nextDate;
+        application.demand.comment = data.comment;
+      }
       onClose();
     }).finally(() => {
       setDisabled(false);

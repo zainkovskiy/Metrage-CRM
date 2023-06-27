@@ -5,10 +5,9 @@ const miniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   entry: path.resolve(__dirname, 'src', 'index.js'),
   output: {
-    filename: 'js/[name].bundle-betta-v1.0.16.js',
-    path: path.resolve(__dirname, 'dist', 'dist-betta-v1.0.16'),
-    chunkFilename: 'js/[name].bundle-betta-v1.0.16.js',
-    // filename: 'bundle-betta-v1.js'
+    filename: 'js/[name].[contenthash].js',
+    path: path.resolve(__dirname, 'dist', 'dist-betta-v1.0.21'),
+    chunkFilename: 'js/[name].[contenthash].js',
   },
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -21,6 +20,18 @@ module.exports = {
       hooks: path.resolve(__dirname, 'src', 'hooks'),
       api: path.resolve(__dirname, 'src', 'api'),
     }
+  },
+  optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
   },
   devtool: 'eval-cheap-source-map',
   module: {

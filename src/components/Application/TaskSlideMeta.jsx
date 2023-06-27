@@ -7,7 +7,7 @@ import { IconButton } from 'ui/IconButton';
 import copyUrl, { ReactComponent as Copy } from 'images/copy.svg';
 const TaskSlideMeta = ({ UID, lostDate, created, updated }) => {
   const copyID = () => {
-    navigator.clipboard.writeText(UID);
+    navigator.clipboard.writeText(`http://crm.metragegroup.com?bid=${UID}`);
   }
   return (
     <TaskBlockStyle

@@ -27,40 +27,6 @@ export const setNewTask = createAsyncThunk(
     return res
   }
 )
-export const getTask = createAsyncThunk(
-  'task/getTask',
-  async (uid) => {
-    const res = await axios.post(API, {
-      metrage_id: metrage_id || null,
-      method: "crm.demand.get",
-      fields: {
-        UID: uid
-      }
-    })
-    return res
-  }
-)
-export const getTaskStory = createAsyncThunk(
-  'task/getTaskStory',
-  (uid) => {
-    return getHistoryList('demands', uid);
-    // const res = await axios.post(API, {
-    //   metrage_id: metrage_id || null,
-    //   method: 'crm.history.list',
-    //   fields: {
-    //     UID: uid,
-    //     type: "demands"
-    //   }
-    // })
-    // return res
-  }
-)
-export const sendTaskMessage = createAsyncThunk(
-  'task/sendTaskMessage',
-  (raw) => {
-    return sendHistoryMessage('demands', raw.uid, raw.message);
-  }
-)
 export const changeAgent = createAsyncThunk(
   'task/changeAgent',
   async (raw, { dispatch, rejectWithValue }) => {
@@ -76,7 +42,6 @@ export const changeAgent = createAsyncThunk(
       })
       if (data?.result?.status === 'OK') {
         dispatch(getTaskList());
-        dispatch(clearTask());
         return data.result.status;
       }
       // return res;
@@ -101,21 +66,18 @@ export const changeStage = createAsyncThunk(
 )
 export const setNewContact = createAsyncThunk(
   'task/setNewContact',
-  async (form, { rejectWithValue, getState, dispatch }) => {
+  async (data, { rejectWithValue, getState, dispatch }) => {
     try {
       const res = await axios.post(API, {
         metrage_id: metrage_id || null,
         method: 'crm.demand.show',
         fields: {
-          UID: getState().task.openTask.UID,
-          ...form
+          UID: data.UID,
+          ...data.form
         }
       })
       if (res?.statusText !== 'OK') {
         throw new Error ('Server error');
-      }
-      if (getState().task?.openTask) {
-        dispatch(setCurrentNewContact(form));
       }
     } catch (error) {
       return rejectWithValue(error)
@@ -145,8 +107,6 @@ const initialState = {
   loadingTask: false,
   loadingNewTask: false,
   taskList: [],
-  openTask: null,
-  taskStory: [],
   isShowNewTask: false,
   view: 'tile',
   filterTypeList: 'all',
@@ -157,9 +117,6 @@ const taskSlice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
-    clearTask(state) {
-      state.openTask = null;
-    },
     toggleNewTask(state) {
       state.isShowNewTask = !state.isShowNewTask;
     },
@@ -173,10 +130,6 @@ const taskSlice = createSlice({
     setFilterTypeTaskList(state, action) {
       const newFilterTypeList = action.payload;
       state.filterTypeList = newFilterTypeList;
-    },
-    setCurrentNewContact(state, action) {
-      state.openTask.demand.nextContact = action.payload.nextDate;
-      state.openTask.demand.comment = action.payload.comment;
     },
   },
   extraReducers: (builder) => {
@@ -199,37 +152,6 @@ const taskSlice = createSlice({
       .addCase(getTaskList.rejected, (state) => {
         state.loading = false;
       })
-      .addCase(getTask.pending, (state) => {
-        state.loadingTask = true;
-      })
-      .addCase(getTask.fulfilled, (state, action) => {
-        const { data } = action.payload;
-        if (data && data?.result) {
-          const serverTask = data?.result?.transwerData?.length > 0 ? data?.result?.transwerData[0] : null;
-          if (state.openTask !== serverTask) {
-            state.openTask = serverTask;
-          }
-        }
-        state.loadingTask = false;
-      })
-      .addCase(getTask.rejected, (state) => {
-        state.loadingTask = false;
-      })
-      .addCase(getTaskStory.fulfilled, (state, action) => {
-        const payload = action.payload;
-        if (payload.status === 200 && payload.statusText === 'OK') {
-          state.taskStory = payload?.data?.result || [];
-        }
-      })
-      .addCase(sendTaskMessage.fulfilled, (state, action) => {
-        const payload = action.payload;
-        if (payload.status === 200 && payload.statusText === 'OK') {
-          const newMessage = payload?.data?.result || null;
-          if (newMessage) {
-            state.taskStory = [...state.taskStory, newMessage];
-          }
-        }
-      })
       .addCase(setNewTask.pending, (state, action) => {
         state.loadingNewTask = true;
       })
@@ -245,5 +167,5 @@ const taskSlice = createSlice({
       })
   }
 })
-export const { clearTask, toggleNewTask, setTasksView, setFilterTypeTaskList, setCurrentNewContact, toggleLoadingNewTask } = taskSlice.actions;
+export const { toggleNewTask, setTasksView, setFilterTypeTaskList, toggleLoadingNewTask } = taskSlice.actions;
 export default taskSlice.reducer;

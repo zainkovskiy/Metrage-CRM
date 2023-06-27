@@ -2,13 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import BuyComponent from './BuyComponent';
 import SellComponent from './SellComponent';
 import { ButtonToggleGroup, ButtonToggleItem } from 'ui/ButtonToggle/ButtonToggle';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, set } from 'react-hook-form';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { ButtonUI } from 'ui/ButtonUI';
 import { AnimatePresence, motion } from 'framer-motion';
 import { changeType, getTask } from 'store/taskSlice';
 import { TaskSlideTitleStyle } from './TaskStyle';
+import { useAsyncValue } from 'react-router-dom';
 
 const BuySellEditFormStyle = styled.form`
   padding: 0.5rem;
@@ -41,9 +42,9 @@ const getComponent = (key) => {
   }
 }
 const BuySellEditForm = () => {
+  const application = useAsyncValue();
   const dispatch = useDispatch();
-  const openTask = useSelector((state) => state?.task?.openTask) || null;
-  const demand = openTask?.demand;
+  const demand = application?.demand;
   const firstMout = useRef(true);
   useEffect(() => {
     if (firstMout.current) {
@@ -63,14 +64,14 @@ const BuySellEditForm = () => {
 
   const onSubmit = (data) => {
     dispatch(changeType({
-      uid: openTask.UID,
+      uid: application.UID,
       form: data
     })).then((res) => {
       reset(data);
     });
   }
   const clearAnyChange = () => {
-    dispatch(getTask(openTask.UID));
+    reset()
   }
   const ActiveComponent = getComponent(getValues('type'));
   watch('type');
@@ -117,6 +118,7 @@ const BuySellEditForm = () => {
         }
       </AnimatePresence>
     </BuySellEditFormStyle>
+
   );
 };
 

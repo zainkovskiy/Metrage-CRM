@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
 import { MainContainer } from 'styles/styles';
 import Nav from 'components/Nav/Nav';
 const Chat = React.lazy(() => import('components/Chat/Chat'));
@@ -13,15 +13,17 @@ import { AnimatePresence } from 'framer-motion';
 
 const App = () => {
   const isExternal = globalUser && JSON.parse(globalUser).isExternal || 1;
-  const isGuest = globalUser && JSON.parse(globalUser).isGuest;
   const showChat = useSelector((state) => state.chat.show);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  // const [searchParams, setSearchParams ] = useSearchParams();
+  // console.log(searchParams.get('bid'));
+
   useEffect(() => {
-    // if (isGuest === 1) {
-    //   console.log(isGuest);
-    //   navigate('/application');
-    // }
+    if(globalReferer && globalRefererId){
+      navigate(`application/${globalRefererId}`);
+    }
     dispatch({ type: 'socket/connect' });
     return () => {
       dispatch({ type: 'socket/disconnect' });

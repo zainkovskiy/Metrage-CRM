@@ -37,12 +37,10 @@ const PanelControl = () => {
     >
       <div>
         <PanelButton icon='list' path='/' title='Заявки' />
-        <PanelButton icon='todo' path='/todo' title='Задачи' />
-        {/* <PanelButton icon='todo' path='/' title='Задачи' /> */}
+        {/* <PanelButton icon='todo' path='/todo' title='Задачи' />
         <PanelButton icon='calendar' path='calendar' title='Календарь' />
         <PanelButton icon='users' path='users' title='Пользователи' />
         <PanelButton icon='home' path='home' title='Объекты' />
-        {/* <PanelButton icon='list' path='application' title='Заявки' /> */}
         <PanelButton icon='deal' path='deal' title='Сделка' />
         <PanelButton icon='mortgage' path='mortgage' title='Ипотека' />
         <PanelButton icon='grade' path='grade' title='Оценка' />
@@ -50,13 +48,13 @@ const PanelControl = () => {
         <PanelButton icon='insurance' path='insurance' title='Страховка' />
         <PanelButton icon='chart' path='chart' title='Аналитики' />
         <PanelButton icon='hr' path='hr' title='Соискатели' />
-        <PanelButton icon='study' path='study' title='Обучение' />
+        <PanelButton icon='study' path='study' title='Обучение' /> */}
       </div>
-      <LineStyle />
-      <div>
+      {/* <LineStyle /> */}
+      {/* <div>
         <PanelButton icon='phone' path='phone' title='Телефония' />
         <PanelButton icon='headphone' path='headphone' title='Поддержка' />
-      </div>
+      </div> */}
     </PanelControlStyle>
   );
 };

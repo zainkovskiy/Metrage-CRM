@@ -1,11 +1,12 @@
 import moment from "moment";
 
-export const useDateFormat = (date) => {
+export const useDateFormat = (date, format) => {
   if (date) {
-    return moment(date).locale('ru').format('DD MMMM YYYY');
+    return moment(date).locale('ru').format(format ? format : 'DD MMMM YYYY');
   }
   return null
 }
+
 export const useChatDate = (date) => {
   if (date) {
     if (moment().isSame(moment(date), 'day')) {

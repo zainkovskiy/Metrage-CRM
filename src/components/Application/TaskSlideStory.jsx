@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { TitleFormStyle } from 'styles/styles';
 import TaskSlideStoryField from './TaskSlideStoryField';
 import { InputChatUI } from 'ui/InputChatUI/InputChatUI';
-import { useDispatch, useSelector } from 'react-redux';
-import { sendTaskMessage } from 'store/taskSlice';
+import { sendHistoryMessage } from 'api/storyAPI';
+import { getApplicationHistory } from 'api/application';
 
 const TaskSlideStoryStyle = styled.div`
   background-color: #fff;
@@ -16,20 +16,31 @@ const TaskSlideStoryStyle = styled.div`
   gap: 0.5rem;
   min-width: 200px;
 `
-const TaskSlideStory = () => {
-  const dispatch = useDispatch();
-  const openTask = useSelector((state) => state.task.openTask);
+const TaskSlideStory = ({ UID }) => {
+  const [history, setHistory] = useState([]);
+
+  useEffect(() => {
+    getHistoryList();
+  }, [])
+
+  const getHistoryList = () => {
+    getApplicationHistory(UID).then((data) => {
+      setHistory(data || [])
+    })
+  }
 
   const sendMessage = (message) => {
     const newMessage = message.trim();
     if (newMessage) {
-      dispatch(sendTaskMessage({ uid: openTask.UID, message: newMessage }));
+      sendHistoryMessage('demands', UID, newMessage).then((data) => {
+        setHistory([...history, data]);
+      })
     };
   }
   return (
     <TaskSlideStoryStyle>
       <TitleFormStyle ta='center'>История</TitleFormStyle>
-      <TaskSlideStoryField />
+      <TaskSlideStoryField history={history} />
       <InputChatUI onClick={sendMessage} />
     </TaskSlideStoryStyle>
   );

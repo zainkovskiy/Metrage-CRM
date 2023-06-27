@@ -1,10 +1,11 @@
 import React, { useRef, useEffect, useState, Suspense } from 'react';
 import styled from 'styled-components';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation, useLoaderData, defer, Await, useAsyncValue } from 'react-router-dom';
-import { setNewTask, toggleLoadingNewTask } from 'store/taskSlice';
+import { setNewTask } from 'store/taskSlice';
+import { getDetailForNewApp } from 'api/application';
 
 import { TitleFormStyle } from 'styles/styles';
 import { ButtonToggleGroup, ButtonToggleItem } from 'ui/ButtonToggle/ButtonToggle';
@@ -15,7 +16,6 @@ import SlideWindow from "components/Main/SlideWindow";
 import BuyComponent from './BuyComponent';
 import SellComponent from './SellComponent';
 
-import axios from 'axios';
 
 const NewTaskStyle = styled.form`
   width: 100%;
@@ -188,25 +188,12 @@ const NewTask = () => {
   );
 };
 
-const getDetailsData = async (chatId) => {
-  const res = await axios.post('https://crm.metragegroup.com/API/REST.php', {
-    metrage_id: metrage_id,
-    method: 'crm.messages.getDetails',
-    fields: {
-      chatId: chatId
-    }
-  })
-  if (res?.statusText === 'OK') {
-    return res?.data?.result
-  }
-}
-
 export const newTaskLoader = async ({ request, params }) => {
   const { chatId } = params;
   if (!chatId) {
     return { detailData: null }
   }
-  return defer({ detailData: getDetailsData(chatId), })
+  return defer({ detailData: getDetailForNewApp(chatId), })
 }
 
 export default NewTask;
