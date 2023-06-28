@@ -1,11 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { Suspense, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
-import { getTaskList, toggleNewTask } from 'store/taskSlice';
 import Loader from "components/Main/Loader";
 import Tasks from './Tasks';
 import TaskFilter from './TaskFilter';
-import { Outlet } from 'react-router-dom';
+import { Await, Outlet, useLoaderData, useLocation, useMatch, useSubmit } from 'react-router-dom';
+import { getApplicationsList } from 'api/application';
 
 const ApplicationContentStyle = styled.div`
   flex-grow: 1;
@@ -13,32 +12,43 @@ const ApplicationContentStyle = styled.div`
   flex-direction: column;
 `
 const ApplicationContent = () => {
-  const dispatch = useDispatch();
-  const loading = useSelector((state) => state.task.loading);
-  // const isShowNewTask = useSelector((state) => state.task.isShowNewTask);
-  const firstUpdate = useRef(true);
+  const pathRef = useRef(null);
+  const firstMount = useRef(true);
+
+  const { applications } = useLoaderData();
+
+  const match = useMatch('/')
+  const location = useLocation();
+  const submit = useSubmit();
+
   useEffect(() => {
-    if (firstUpdate.current) {
-      dispatch(getTaskList(firstUpdate.current));
-      firstUpdate.current = false;
+    if (firstMount.current) {
+      firstMount.current = false;
+      pathRef.current = match;
+      return
     }
-  }, [])
-  // const handleOpenNewTask = () => {
-  //   dispatch(toggleNewTask())
-  // }
+    if (!pathRef.current) {
+      submit();
+    }
+    pathRef.current = match;
+  }, [location])
+
   return (
     <ApplicationContentStyle>
-      {
-        loading ?
-          <Loader /> :
+      <TaskFilter />
+      <Suspense fallback={<Loader />}>
+        <Await resolve={applications}>
           <>
-            <TaskFilter />
             <Tasks />
-            <Outlet/>
           </>
-      }
+        </Await>
+      </Suspense>
+      <Outlet />
     </ApplicationContentStyle>
   );
 };
+export const loaderApplications = async ({request, params}) => {
+  return { applications: await getApplicationsList() }
+}
 
 export default ApplicationContent;

@@ -1,6 +1,17 @@
 import axios from "axios";
 const API = 'https://crm.metragegroup.com/API/REST.php';
 
+export const getApplicationsList = async () => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: "crm.demand.list"
+  })
+  if (res?.statusText === 'OK') {
+    return res?.data?.result?.transwerData || []
+  }
+  return []
+}
+
 export const getDetailForNewApp = async (chatId) => {
   const res = await axios.post('https://crm.metragegroup.com/API/REST.php', {
     metrage_id: metrage_id,
@@ -26,6 +37,7 @@ export const getApplicationData = async (appId) => {
     return res?.data?.result?.transwerData?.length > 0 ? res?.data?.result?.transwerData[0] : null;
   }
 }
+
 export const getApplicationHistory = async (appId) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,

@@ -1,17 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { getHistoryList, sendHistoryMessage } from "api/storyAPI";
+
 const API = 'https://crm.metragegroup.com/API/REST.php';
-export const getTaskList = createAsyncThunk(
-  'task/getTaskList',
-  async (firstUpdate) => {
-    const res = await axios.post(API, {
-      metrage_id: metrage_id || null,
-      method: "crm.demand.list"
-    })
-    return res
-  }
-)
+
 export const setNewTask = createAsyncThunk(
   'task/setNewTask',
   async (form, { dispatch }) => {
@@ -77,7 +68,7 @@ export const setNewContact = createAsyncThunk(
         }
       })
       if (res?.statusText !== 'OK') {
-        throw new Error ('Server error');
+        throw new Error('Server error');
       }
     } catch (error) {
       return rejectWithValue(error)
@@ -103,11 +94,7 @@ export const changeType = createAsyncThunk(
   }
 )
 const initialState = {
-  loading: false,
-  loadingTask: false,
   loadingNewTask: false,
-  taskList: [],
-  isShowNewTask: false,
   view: 'tile',
   filterTypeList: 'all',
 };
@@ -117,9 +104,6 @@ const taskSlice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
-    toggleNewTask(state) {
-      state.isShowNewTask = !state.isShowNewTask;
-    },
     toggleLoadingNewTask(state) {
       state.loadingNewTask = !state.loadingNewTask;
     },
@@ -134,24 +118,6 @@ const taskSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getTaskList.pending, (state, action) => {
-        if (action.meta.arg) {
-          state.loading = true;
-        }
-      })
-      .addCase(getTaskList.fulfilled, (state, action) => {
-        const { data } = action.payload;
-        if (data && data?.result) {
-          const serverTaskList = data?.result?.transwerData || [];
-          if (state.taskList !== serverTaskList) {
-            state.taskList = serverTaskList;
-          }
-        }
-        state.loading = false;
-      })
-      .addCase(getTaskList.rejected, (state) => {
-        state.loading = false;
-      })
       .addCase(setNewTask.pending, (state, action) => {
         state.loadingNewTask = true;
       })
@@ -167,5 +133,5 @@ const taskSlice = createSlice({
       })
   }
 })
-export const { toggleNewTask, setTasksView, setFilterTypeTaskList, toggleLoadingNewTask } = taskSlice.actions;
+export const { setTasksView, setFilterTypeTaskList, toggleLoadingNewTask } = taskSlice.actions;
 export default taskSlice.reducer;

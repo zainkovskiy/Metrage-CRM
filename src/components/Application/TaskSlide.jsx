@@ -6,7 +6,6 @@ import TaskSlideAgentInfo from './TaskSlideAgentInfo';
 import TaskStatus from './TaskStatus';
 import { useSelector } from 'react-redux';
 import TaskObjectInfo from './TaskObjectInfo';
-import Loader from "components/Main/Loader";
 import { ButtonUI } from 'ui/ButtonUI';
 import DialogWindow from 'components/Main/DialogWindow';
 import TaskChangeUser from './TaskChangeUser';

@@ -3,6 +3,7 @@ import TaskCard from './TaskCard';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useAsyncValue } from 'react-router-dom';
 
 const TasksStyle = styled(motion.div)`
   display: grid;
@@ -16,7 +17,7 @@ const TasksStyle = styled(motion.div)`
 `
 
 const Tasks = () => {
-  const tasks = useSelector((state) => state.task.taskList);
+  const applications = useAsyncValue();
   const filterTypeList = useSelector((state) => state.task.filterTypeList);
   const getRenderList = (task) => {
     if (filterTypeList === 'all') {
@@ -29,7 +30,7 @@ const Tasks = () => {
       <TasksStyle>
         <AnimatePresence>
           {
-            tasks.filter(getRenderList).map((task) => {
+            applications.filter(getRenderList).map((task) => {
               return (
                 <TaskCard
                   key={task?.UID}

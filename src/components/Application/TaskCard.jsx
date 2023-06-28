@@ -13,6 +13,7 @@ const TaskStyle = styled(motion.div)`
   flex-direction: column;
   cursor: pointer;
   transition: box-shadow .2s, transform .2s;
+  height: 100%;
   &:hover{
     transform: scale(1.03);
     box-shadow: 7px 8px 14px -6px rgba(0,0,0,0.75);

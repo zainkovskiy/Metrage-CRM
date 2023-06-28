@@ -76,7 +76,7 @@ const NewTask = () => {
   }
   const handleClose = () => {
     setTimeout(() => {
-      navigate('/');
+      navigate('/', {replace: true});
     }, 300)
     setOpen(false);
   }

@@ -1,7 +1,8 @@
 import React from "react";
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, useRouteError } from "react-router-dom";
 import App from './App';
 const ApplicationContent = React.lazy(() => import('components/Application/ApplicationContent'));
+import { loaderApplications, actionApplications } from "components/Application/ApplicationContent";
 const ApplicationOpenSlide = React.lazy(() => import('components/Application/ApplicationOpenSlide'));
 import { loaderOpenSlide } from "components/Application/ApplicationOpenSlide";
 const NewTask = React.lazy(() => import('components/Application/NewTask'));
@@ -17,6 +18,7 @@ export const routers = createBrowserRouter([
       {
         path: '/',
         element: <ApplicationContent />,
+        loader: loaderApplications,
         children: [
           {
             path: '/new-app',
