@@ -1,0 +1,53 @@
+import axios from "axios";
+const API = 'https://crm.metragegroup.com/API/REST.php';
+
+export const getUserList = async (value) => {
+  try {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.users.find',
+      fields: {
+        request: value,
+      }
+    })
+    if (res.statusText !== 'OK') {
+      throw new Error('Error')
+    }
+    return res?.data?.result || [];
+  } catch (error) {
+    return []
+  }
+}
+
+export const getСontactList = async (value) => {
+  try {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.contact.find',
+      fields: {
+        request: value,
+      }
+    })
+    if (res.statusText !== 'OK') {
+      throw new Error('Error')
+    }
+    return res?.data?.result || [];
+  } catch (error) {
+    return []
+  }
+}
+
+export const getOfficeList = async (value) => {
+  try {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.demand.getInterGroups',
+    })
+    if (res.statusText !== 'OK') {
+      throw new Error('Error')
+    }
+    return res?.data?.result || [];
+  } catch (error) {
+    return []
+  }
+}

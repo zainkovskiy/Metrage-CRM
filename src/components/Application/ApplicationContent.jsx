@@ -47,7 +47,7 @@ const ApplicationContent = () => {
     </ApplicationContentStyle>
   );
 };
-export const loaderApplications = async ({request, params}) => {
+export const loaderApplications = async ({ request, params }) => {
   return { applications: await getApplicationsList() }
 }
 

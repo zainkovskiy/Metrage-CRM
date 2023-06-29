@@ -1,15 +1,16 @@
 import React from "react";
-import { createBrowserRouter, useRouteError } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import App from './App';
-const ApplicationContent = React.lazy(() => import('components/Application/ApplicationContent'));
-import { loaderApplications, actionApplications } from "components/Application/ApplicationContent";
+
+import SuspenseApplication from "./components/Application/SuspenseApplication";
+import { loaderApplications } from "components/Application/ApplicationContent";
 const ApplicationOpenSlide = React.lazy(() => import('components/Application/ApplicationOpenSlide'));
 import { loaderOpenSlide } from "components/Application/ApplicationOpenSlide";
-const NewTask = React.lazy(() => import('components/Application/NewTask'));
+import SuspenseNewApplication from "./components/Application/SuspenseNewApplication";
 import { newTaskLoader } from 'components/Application/NewTask';
-// import Loader from "components/Main/Loader";
-// import { Error403 } from "components/ErrorsComponents/Error403";
-// import { Error404 } from "components/ErrorsComponents/Error404";
+
+import TaskContent from "./components/Task/TaskContent";
+
 export const routers = createBrowserRouter([
   {
     path: '/',
@@ -17,17 +18,17 @@ export const routers = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <ApplicationContent />,
+        element: <SuspenseApplication />,
         loader: loaderApplications,
         children: [
           {
             path: '/new-app',
-            element: <NewTask />,
+            element: <SuspenseNewApplication />,
             loader: newTaskLoader
           },
           {
             path: '/new-app/:chatId',
-            element: <NewTask />,
+            element: <SuspenseNewApplication />,
             loader: newTaskLoader
           },
           {
@@ -36,6 +37,10 @@ export const routers = createBrowserRouter([
             loader: loaderOpenSlide
           },
         ]
+      },
+      {
+        path: 'task',
+        element: <TaskContent />,
       },
       {
         path: 'home',

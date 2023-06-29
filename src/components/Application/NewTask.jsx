@@ -1,9 +1,9 @@
-import React, { useRef, useEffect, useState, Suspense } from 'react';
+import React, { useRef, useEffect, Suspense } from 'react';
 import styled from 'styled-components';
 import { AnimatePresence } from 'framer-motion';
 import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useLocation, useLoaderData, defer, Await, useAsyncValue } from 'react-router-dom';
+import { useLocation, useLoaderData, defer, Await } from 'react-router-dom';
 import { setNewTask } from 'store/taskSlice';
 import { getDetailForNewApp } from 'api/application';
 
@@ -12,7 +12,6 @@ import { ButtonToggleGroup, ButtonToggleItem } from 'ui/ButtonToggle/ButtonToggl
 import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
 import Loader from "components/Main/Loader";
-import SlideWindow from "components/Main/SlideWindow";
 import BuyComponent from './BuyComponent';
 import SellComponent from './SellComponent';
 
@@ -48,10 +47,7 @@ const getComponent = (key) => {
   }
 }
 const NewTask = () => {
-  const [open, setOpen] = useState(true);
-
   const { detailData } = useLoaderData();
-  const navigate = useNavigate();
   const location = useLocation();
 
   const dispatch = useDispatch();
@@ -74,12 +70,6 @@ const NewTask = () => {
   const onSubmit = (data) => {
     dispatch(setNewTask(data));
   }
-  const handleClose = () => {
-    setTimeout(() => {
-      navigate('/', {replace: true});
-    }, 300)
-    setOpen(false);
-  }
   const getResolveValue = (key, data) => {
     if (!data) {
       return ''
@@ -97,7 +87,7 @@ const NewTask = () => {
   const ActiveComponent = getComponent(getValues('type'));
   watch('type');
   return (
-    <SlideWindow open={open} onClose={handleClose} width='30%'>
+    <>
       {
         loadingNewTask ?
           <LoaderContainer><Loader fill='#fff' /></LoaderContainer> :
@@ -184,8 +174,8 @@ const NewTask = () => {
             </Await>
           </Suspense>
       }
-    </SlideWindow>
-  );
+    </>
+  )
 };
 
 export const newTaskLoader = async ({ request, params }) => {

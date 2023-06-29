@@ -43,15 +43,12 @@ const App = () => {
         {/* <PanelControlDrag2 /> */}
         {/* <DragExample /> */}
         {/* <ReorderTest /> */}
-        <Suspense fallback={<Loader />}>
-          <Outlet />
-        </Suspense>
+        <Outlet />
       </MainContainer>
       <AnimatePresence>
         {
           showChat &&
           <Suspense fallback={<Loader />}>
-            <Loader />
             <Chat />
           </Suspense>
         }

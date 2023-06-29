@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { AnimatePresence } from 'framer-motion';
 
 import { toggleShowChat } from 'store/chatSlice';
 
-import { InputUI } from 'ui/InputUI';
 import { IconButtonSimple } from 'ui/IconButtonSimple';
 import { TooltipUI } from 'ui/TooltipUI';
 import { BadgeUI } from 'ui/BadgeUI';
@@ -15,6 +14,7 @@ import MenuProfile from 'components/Nav/MenuProfile';
 import TelegramConect from 'components/Nav/TelegramConect';
 import TelegramDiscription from 'components/Nav/TelegramDiscription';
 import DialogWindow from 'components/Main/DialogWindow';
+import Search from './Search';
 
 const NavStyle = styled.nav`
   grid-area: nav;
@@ -50,11 +50,7 @@ const Nav = () => {
     <>
       <NavStyle>
         <LogoCompomemt />
-        <InputUI
-          width='60%'
-          type='search'
-          name='search'
-        />
+        <Search/>
         <div style={{ display: 'flex', gap: '1rem', position: 'relative' }}>
           <TooltipUI title='пользователи'>
             <IconButtonSimple id='user' icon='user' onClick={handlerHiddenBox} />

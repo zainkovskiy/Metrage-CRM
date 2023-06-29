@@ -15,7 +15,7 @@ const ChatStyle = styled(motion.div)`
   left: 0;
   background-color: #00000066;
   display: flex;
-  z-index: 999;
+  z-index: 9999;
   padding-left: 30px;
   overflow: hidden;
 `

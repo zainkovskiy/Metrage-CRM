@@ -4,7 +4,7 @@ import closeUrl, { ReactComponent as Close } from 'images/close.svg';
 import { TextSpanStyle } from 'styles/styles';
 import { ButtonUI } from 'ui/ButtonUI';
 import { Box } from 'ui/Box';
-import { getOfficeList } from 'api/findUser';
+import { getOfficeList } from 'api/search';
 import { useDispatch } from 'react-redux';
 import { changeAgent } from 'store/taskSlice';
 
@@ -62,12 +62,7 @@ const TaskHandOver = ({ title, onClose, UID }) => {
   }, [])
   const getList = async () => {
     getOfficeList().then((res) => {
-      const { data } = res;
-      if (data?.result && Array.isArray(data.result)) {
-        setList(data.result);
-      }
-    }).catch(() => {
-      setList([]);
+      setList(res);
     })
   }
   const selectOffice = (office) => {

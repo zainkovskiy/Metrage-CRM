@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
 import { TextSpanStyle } from 'styles/styles';
-import { getFindList } from 'api/findUser';
+import { getUserList } from 'api/search';
 import closeUrl, { ReactComponent as Close } from 'images/close.svg';
 import styled from 'styled-components';
 
@@ -72,14 +72,8 @@ const UserFinder = ({ onClose, onChange, title }) => {
         return;
       }
       sendRequest.current = true;
-      getFindList(value).then((res) => {
-        const { data } = res;
-        if (data?.result) {
-          setUserList(data.result);
-          return
-        }
-      }).catch((err) => {
-        setUserList([]);
+      getUserList(value).then((res) => {
+        setUserList(res);
       }).finally(() => {
         sendRequest.current = false;
       });
