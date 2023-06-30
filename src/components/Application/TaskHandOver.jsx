@@ -53,7 +53,7 @@ const CloseButtonStyle = styled.img`
     transform: scale(0.9);
   }
 `
-const TaskHandOver = ({ title, onClose, UID }) => {
+const TaskHandOver = ({ title, onClose, UID, closeSlide }) => {
   const dispatch = useDispatch();
   const [list, setList] = useState([]);
   const [select, setSelect] = useState(null);
@@ -78,6 +78,9 @@ const TaskHandOver = ({ title, onClose, UID }) => {
       interaction: true,
     })).then((res) => {
       if (res?.payload === 'OK') {
+        setTimeout(() => {
+          closeSlide();
+        }, 300)
         onClose();
       }
     })

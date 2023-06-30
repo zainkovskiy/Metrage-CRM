@@ -98,7 +98,7 @@ const ApplicationNextContact = ({ onClose }) => {
         }
       </LabelStyle>
       <div style={{ display: 'flex', gap: '0.5rem' }}>
-        <ButtonUI disabled={disabled} type='submit'>Выбрать</ButtonUI>
+        <ButtonUI disabled={disabled} type='submit'>Сохранить</ButtonUI>
         <ButtonUI disabled={disabled} onClick={onClose} variant='outline'>Закрыть</ButtonUI>
       </div>
     </ApplicationNextContactStyle>

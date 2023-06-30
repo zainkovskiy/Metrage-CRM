@@ -2,12 +2,12 @@ import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import App from './App';
 
-import SuspenseApplication from "./components/Application/SuspenseApplication";
+import SuspenseApplication from "components/Application/SuspenseApplication";
 import { loaderApplications } from "components/Application/ApplicationContent";
-const ApplicationOpenSlide = React.lazy(() => import('components/Application/ApplicationOpenSlide'));
-import { loaderOpenSlide } from "components/Application/ApplicationOpenSlide";
-import SuspenseNewApplication from "./components/Application/SuspenseNewApplication";
-import { newTaskLoader } from 'components/Application/NewTask';
+import SuspenseSlideApplication from "components/Application/SuspenseSlideApplication";
+import { loaderOpenSlide } from "components/Application/SuspenseSlideApplication";
+import SuspenseNewApplication from "components/Application/SuspenseNewApplication";
+import { newTaskLoader } from 'components/Application/SuspenseNewApplication';
 
 import TaskContent from "./components/Task/TaskContent";
 
@@ -33,8 +33,8 @@ export const routers = createBrowserRouter([
           },
           {
             path: '/application/:appId',
-            element: <ApplicationOpenSlide />,
-            loader: loaderOpenSlide
+            element: <SuspenseSlideApplication />,
+            loader: loaderOpenSlide,
           },
         ]
       },

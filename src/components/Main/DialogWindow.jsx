@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -16,14 +16,12 @@ const DialogWindowStyle = styled(motion.div)`
 `
 const variants = {
   close: {
-    scale: 0,
     opacity: 0,
     transition: {
       duration: .3,
     }
   },
   open: {
-    scale: 1,
     opacity: 1,
     transition: {
       duration: .3,
@@ -33,7 +31,7 @@ const variants = {
 
 const DialogWindow = ({ onClose, children, open }) => {
   return (
-    <>
+    <AnimatePresence>
       {
         open &&
         <DialogWindowStyle onClick={onClose}
@@ -42,10 +40,17 @@ const DialogWindow = ({ onClose, children, open }) => {
           exit={'close'}
           variants={variants}
         >
-          {children}
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0 }}
+            transition={{ duration: .3 }}
+          >
+            {children}
+          </motion.div>
         </DialogWindowStyle>
       }
-    </>
+    </AnimatePresence>
   );
 };
 

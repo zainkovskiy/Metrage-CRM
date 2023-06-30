@@ -28,6 +28,11 @@ const AreaStyle = styled.textarea`
     opacity: 0.8;
     border: 1px solid #ccc;
   }
+  &::placeholder{
+    font-size: 12px;
+    white-space: nowrap;
+    line-height: 17.5px;
+  }
 `
 const ButtonStyle = styled.div`
   cursor: pointer;
@@ -58,7 +63,7 @@ const IconSend = styled(Send)`
     pointer-events: none;
 `
 
-export const InputChatUI = ({ onClick }) => {
+export const InputChatUI = ({ onClick, placeholder }) => {
   const [value, setValue] = useState('');
   const areaRef = useRef(null);
   const [initialHeight, setInititalHeight] = useState(35.5);
@@ -93,6 +98,7 @@ export const InputChatUI = ({ onClick }) => {
         ref={areaRef}
         value={value}
         onKeyDown={handleKey}
+        placeholder={placeholder}
       ></AreaStyle>
       <ButtonStyle onClick={sendMessage}>
         <IconSend />

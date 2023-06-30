@@ -12,7 +12,7 @@ const ApplicationContentStyle = styled.div`
   flex-direction: column;
 `
 const ApplicationContent = () => {
-  const pathRef = useRef(null);
+  const locationRef = useRef(null);
   const firstMount = useRef(true);
 
   const { applications } = useLoaderData();
@@ -24,13 +24,16 @@ const ApplicationContent = () => {
   useEffect(() => {
     if (firstMount.current) {
       firstMount.current = false;
-      pathRef.current = match;
+      locationRef.current = location;
       return
     }
-    if (!pathRef.current) {
+    if(locationRef.current.pathname === location.pathname){
+      return
+    }
+    locationRef.current = location;
+    if(match){
       submit();
     }
-    pathRef.current = match;
   }, [location])
 
   return (

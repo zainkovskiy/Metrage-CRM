@@ -32,7 +32,6 @@ export const changeAgent = createAsyncThunk(
         }
       })
       if (data?.result?.status === 'OK') {
-        dispatch(getTaskList());
         return data.result.status;
       }
       // return res;

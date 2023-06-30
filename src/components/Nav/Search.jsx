@@ -56,6 +56,7 @@ const Search = () => {
         name='search'
         onChange={handleSearch}
         onFocus={handleSearch}
+        placeholder='Поиск'
       />
       <AnimatePresence>
         {

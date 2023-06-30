@@ -3,6 +3,7 @@ import { Circle, YMaps, Map } from 'react-yandex-maps';
 import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
 import { TaskSlideTitleStyle } from './TaskStyle';
+import { useAsyncValue } from 'react-router-dom';
 
 const TaskObjectInfoStyle = styled.div`
   background-color: #fff;

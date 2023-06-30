@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import TaskSlideStory from './TaskSlideStory';
 import TaskSlideClientInfo from './TaskSlideClientInfo';
@@ -30,11 +30,12 @@ const TaskSlideContentStyle = styled.div`
   min-width: 450px;
 `
 
-const TaskSlide = () => {
+const TaskSlide = ({closeSlide}) => {
   const application = useAsyncValue();
   const isExternal = useSelector((state) => state.user.isExternal);
   const [openChange, setOpenChange] = useState(false);
   const [openHandOver, setOpenHandOver] = useState(false);
+
   const toggleOpenChange = () => {
     setOpenChange(!openChange);
   }
@@ -85,6 +86,7 @@ const TaskSlide = () => {
       <DialogWindow open={openHandOver} onClose={toggleOpenHandOver}>
         <TaskHandOver
           onClose={toggleOpenHandOver}
+          closeSlide={closeSlide}
           UID={application?.UID}
         />
       </DialogWindow>

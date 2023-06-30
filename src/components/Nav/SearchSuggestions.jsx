@@ -81,7 +81,7 @@ const SearchSuggestions = ({ suggestions, clearSuggestions }) => {
                 <>
                   {
                     suggestion.list.map((item) => (
-                      <SearchSuggestionsItem key={item.UID}>{item?.lastName} {item?.firstName} {item?.secondName}</SearchSuggestionsItem>
+                      <SearchSuggestionsItem key={item.UID}>{item?.lastName} {item?.firstName} {item?.secondName} {item?.phone}</SearchSuggestionsItem>
                     ))
                   }
                 </>
