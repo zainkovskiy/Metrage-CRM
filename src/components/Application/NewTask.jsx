@@ -14,6 +14,10 @@ import Loader from "components/Main/Loader";
 import BuyComponent from './BuyComponent';
 import SellComponent from './SellComponent';
 
+const LoaderContainer = styled.div`
+  display: flex;
+  height: 100%;
+`
 
 const NewTaskStyle = styled.form`
   width: 100%;
