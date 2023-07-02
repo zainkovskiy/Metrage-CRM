@@ -27,7 +27,7 @@ const SuspenseNewApplication = () => {
     <SlideWindow open={open} onClose={handleClose} width='30%'>
       <Suspense fallback={<LoaderContainer><Loader fill='#fff' /></LoaderContainer>}>
         <Await resolve={detailData}>
-          <NewTask />
+          <NewTask slideClose={handleClose}/>
         </Await>
       </Suspense>
     </SlideWindow>

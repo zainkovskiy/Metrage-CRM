@@ -11,11 +11,9 @@ export const setNewTask = createAsyncThunk(
       method: "crm.demand.add",
       fields: form
     })
-    if (res?.data?.result?.status === 'OK') {
-      dispatch(getTaskList());
-      dispatch(toggleNewTask());
+    if (res?.statusText === 'OK') {
+      return res
     }
-    return res
   }
 )
 export const changeAgent = createAsyncThunk(

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, Suspense } from 'react';
+import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { AnimatePresence } from 'framer-motion';
 import { useForm, Controller } from 'react-hook-form';
@@ -41,7 +41,7 @@ const getComponent = (key) => {
       return SellComponent;
   }
 }
-const NewTask = () => {
+const NewTask = ({slideClose}) => {
   const detailData = useAsyncValue();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -62,7 +62,9 @@ const NewTask = () => {
     }
   }, [])
   const onSubmit = (data) => {
-    dispatch(setNewTask(data));
+    dispatch(setNewTask(data)).unwrap().then(() => {
+      slideClose();
+    })
   }
   const getResolveValue = (key, data) => {
     if (!data) {
