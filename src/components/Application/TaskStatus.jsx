@@ -6,6 +6,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeStage } from 'store/taskSlice';
 import { ButtonLink } from 'ui/ButtonLink';
 import TaskReasonFailure from './TaskReasonFailure';
+import styled from 'styled-components';
+import { device } from 'styles/device';
+
+const TaskStatusStyle = styled(TaskBlockStyle)`
+  @media ${device.tablet}{
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+  }
+`
 
 const TaskStatus = ({ status, UID }) => {
   const dispatch = useDispatch();
@@ -32,7 +42,7 @@ const TaskStatus = ({ status, UID }) => {
     setReason(!reason);
   }
   return (
-    <TaskBlockStyle
+    <TaskStatusStyle
       jc='space-between'
       gap='1rem'
     >
@@ -51,7 +61,7 @@ const TaskStatus = ({ status, UID }) => {
           />
         }
       </div>
-    </TaskBlockStyle>
+    </TaskStatusStyle>
   );
 };
 

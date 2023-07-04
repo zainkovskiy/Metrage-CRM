@@ -5,11 +5,18 @@ import Tasks from './Tasks';
 import TaskFilter from './TaskFilter';
 import { Await, Outlet, useLoaderData, useLocation, useMatch, useSubmit } from 'react-router-dom';
 import { getApplicationsList } from 'api/application';
+import { device } from 'styles/device';
 
 const ApplicationContentStyle = styled.div`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  padding: 0.5rem;
+  gap: 0.5rem;
+  @media ${device.tablet}{
+    padding: 0;
+    gap: 0;
+  }
 `
 const ApplicationContent = () => {
   const locationRef = useRef(null);
@@ -27,11 +34,11 @@ const ApplicationContent = () => {
       locationRef.current = location;
       return
     }
-    if(locationRef.current.pathname === location.pathname){
+    if (locationRef.current.pathname === location.pathname) {
       return
     }
     locationRef.current = location;
-    if(match){
+    if (match) {
       submit();
     }
   }, [location])

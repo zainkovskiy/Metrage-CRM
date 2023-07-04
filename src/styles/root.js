@@ -11,6 +11,9 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
   }
+  html{
+    overflow: hidden;
+  }
   @font-face {
     font-family: 'CeraCY';
     src: local('CeraCY'), local('CeraCY'),

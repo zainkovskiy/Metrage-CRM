@@ -6,13 +6,14 @@ module.exports = {
   entry: path.resolve(__dirname, 'src', 'index.js'),
   output: {
     filename: 'js/[name].[contenthash].js',
-    path: path.resolve(__dirname, 'dist', 'dist-betta-v1.0.25'),
+    path: path.resolve(__dirname, 'dist', 'dist-betta-v1.0.26'),
     chunkFilename: 'js/[name].[contenthash].js',
   },
   resolve: {
     extensions: ['.js', '.jsx'],
     alias: {
       components: path.resolve(__dirname, 'src', 'components'),
+      mobile: path.resolve(__dirname, 'src', 'compomnentsMobile'),
       images: path.resolve(__dirname, 'src', 'public', 'images'),
       ui: path.resolve(__dirname, 'src', 'ui'),
       styles: path.resolve(__dirname, 'src', 'styles'),

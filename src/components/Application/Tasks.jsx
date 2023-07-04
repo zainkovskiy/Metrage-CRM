@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useAsyncValue } from 'react-router-dom';
+import { device } from 'styles/device';
 
 const TasksStyle = styled(motion.div)`
   display: grid;
@@ -11,9 +12,12 @@ const TasksStyle = styled(motion.div)`
   grid-auto-rows: min-content;
   width: 100%;
   gap: 1rem;
-  padding: 1rem;
   box-sizing: border-box;
   overflow: auto;
+  padding: 0.5rem;
+  @media ${device.tablet}{
+    gap: 0.5rem;
+  }
 `
 
 const Tasks = () => {

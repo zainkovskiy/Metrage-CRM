@@ -6,17 +6,19 @@ const BoxStyle = styled.div`
   align-items: ${({ $ai }) => $ai ? $ai : 'center'};
   justify-content: ${({ $jc }) => $jc ? $jc : 'center'};
   gap: ${({ $gap }) => $gap ? $gap : '0.5rem'};
+  ${({ $wrap }) => $wrap && 'flex-wrap: wrap'};
   ${({ $column }) => $column && 'flex-direction: column'};
   ${({ $fullWidth }) => $fullWidth && 'width: 100%'};
   ${({ $sp }) => $sp && { ...$sp }};
 `
-export const Box = ({ children, sp, ai, jc, column, gap, fullWidth }) => {
+export const Box = ({ children, sp, ai, jc, column, gap, fullWidth, wrap }) => {
   return (
     <BoxStyle
       $sp={sp}
       $ai={ai}
       $jc={jc}
       $gap={gap}
+      $wrap={wrap}
       $column={column}
       $fullWidth={fullWidth}
     >

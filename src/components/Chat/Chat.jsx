@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
-import React, { useEffect, lazy, Suspense } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { CloseCircleButtonUI } from 'ui/CloseCircleButtonUI';
+import CloseCircleButtonUI from 'ui/CloseCircleButtonUI/CloseCircleButtonUI';
 const ChatContent = lazy(() => import('components/Chat/ChatContent'));
 import { toggleShowChat } from 'store/chatSlice';
 import Loader from 'components/Main/Loader';

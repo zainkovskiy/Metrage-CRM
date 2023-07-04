@@ -1,7 +1,9 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import React from 'react';
+import React, { Suspense } from 'react';
 import styled from 'styled-components';
-import { CloseCircleButtonUI } from 'ui/CloseCircleButtonUI';
+const CloseCircleButtonUI = React.lazy(() => import('ui/CloseCircleButtonUI/CloseCircleButtonUI'));
+const ButtonBack = React.lazy(() => import('ui/ButtonBack/ButtonBack'));
+import { useWindowSize } from 'hooks/windowSize';
 
 const SlideWindowStyle = styled(motion.div)`
   position: absolute;
@@ -16,6 +18,7 @@ const SlideWindowStyle = styled(motion.div)`
   overflow: hidden;
 `
 const SlideWindowContainer = styled(motion.div)`
+  ${({ $mobile }) => $mobile && 'flex-direction: column;'};
   display: flex;
   width: ${({ width }) => width || '100%'}
 `
@@ -24,6 +27,8 @@ const SlideWindowContent = styled.div`
   background-color: ${({ theme }) => theme.color.primary};
   padding: 0.5rem;
   overflow: auto;
+  box-sizing: border-box;
+  flex-grow: 1;
 `
 const variantsBack = {
   open: {
@@ -55,6 +60,7 @@ const variantsContent = {
 }
 
 const SlideWindow = ({ children, width, onClose, open }) => {
+  const windowSize = useWindowSize();
   return (
     <AnimatePresence mode='wait'>
       {
@@ -73,8 +79,17 @@ const SlideWindow = ({ children, width, onClose, open }) => {
             exit='close'
             width={width}
             onClick={(e) => e.stopPropagation()}
+            $mobile={windowSize <= 425}
           >
-            <CloseCircleButtonUI onClose={onClose} />
+            {
+              windowSize > 425 ?
+                <Suspense>
+                  <CloseCircleButtonUI onClose={onClose} />
+                </Suspense> :
+                <Suspense>
+                  <ButtonBack onClic={onClose} />
+                </Suspense>
+            }
             <SlideWindowContent>
               {children}
             </SlideWindowContent>

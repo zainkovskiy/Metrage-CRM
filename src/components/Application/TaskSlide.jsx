@@ -27,7 +27,9 @@ const TaskSlideContentStyle = styled.div`
   flex-direction: column;
   gap: 0.5rem;
   overflow: auto;
-  min-width: 450px;
+  @media (min-width > 768){
+    min-width: 450px;
+  }
 `
 
 const TaskSlide = ({closeSlide}) => {
@@ -75,7 +77,7 @@ const TaskSlide = ({closeSlide}) => {
           }
           <ApplicationCalls calls={application?.calls} />
         </TaskSlideContentStyle>
-        <TaskSlideStory UID={application?.UID}/>
+        {/* <TaskSlideStory UID={application?.UID}/> */}
       </TaskSlideStyle >
       <DialogWindow open={openChange} onClose={toggleOpenChange}>
         <TaskChangeUser

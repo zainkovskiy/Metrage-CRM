@@ -1,6 +1,8 @@
 import React, { Suspense, useState } from 'react';
 import { Await, useLoaderData, useNavigate, useSubmit } from 'react-router-dom';
 import styled from 'styled-components';
+import { useWindowSize } from 'hooks/windowSize';
+
 
 import Loader from "components/Main/Loader";
 import SlideWindow from "components/Main/SlideWindow";
@@ -17,14 +19,21 @@ const SuspenseSlideApplication = () => {
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
   const { application } = useLoaderData();
+  const windowSize = useWindowSize();
   const handleClose = () => {
     setTimeout(() => {
       navigate('/', {replace: true});
     }, 300)
     setOpen(false);
   }
+  const getWidth = () => {
+    if (windowSize < 768) {
+      return '100%';
+    }
+    return '70%';
+  }
   return (
-    <SlideWindow width='70%' onClose={handleClose} open={open}>
+    <SlideWindow width={getWidth()} onClose={handleClose} open={open}>
       <Suspense fallback={<LoaderContainer><Loader fill='#fff' /></LoaderContainer>}>
         <Await resolve={application}>
           <TaskSlide closeSlide={handleClose}/>

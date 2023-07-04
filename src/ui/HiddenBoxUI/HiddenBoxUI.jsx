@@ -65,6 +65,6 @@ const HiddenBoxUIStyle = styled(motion.div)`
   bottom: 0;
   left: 0;
   box-shadow: rgba(0, 0, 0, 0.71) 0px 0px 12px -2px;
-  z-index: 99;
+  z-index: 9999;
   border-radius: 5px;
 `

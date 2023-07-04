@@ -3,18 +3,21 @@ import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AnimatePresence } from 'framer-motion';
 import { MainContainer } from 'styles/styles';
-import Nav from 'components/Nav/Nav';
 import Loader from "components/Main/Loader";
-const Chat = React.lazy(() => import('components/Chat/Chat'));
-import PanelControl from 'components/PanelControl/PanelControl';
+import Chat from 'components/Chat/Chat';
+const Nav = React.lazy(() => import('components/Nav/Nav'));
+const NavMobile = React.lazy(() => import('mobile/Nav/NavMobile'));
+const PanelControl = React.lazy(() => import('components/PanelControl/PanelControl'));
 import PanelControlDrag from 'components/PanelControl/PanelControlDrag';
 import PanelControlDrag2 from 'components/PanelControl/PanelControlDrag2';
 import DragExample from 'components/PanelControl/PanelControlDrag3';
 import ReorderTest from 'components/PanelControl/ReorderTest';
+import { useWindowSize } from './hooks/windowSize';
 
 const App = () => {
   const isExternal = globalUser && JSON.parse(globalUser).isExternal || 1;
   const showChat = useSelector((state) => state.chat.show);
+  const windowSize = useWindowSize();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -33,11 +36,21 @@ const App = () => {
 
   return (
     <>
-      <Nav />
+      {
+        windowSize > 768 ?
+          <Suspense>
+            <Nav/>
+          </Suspense> :
+          <Suspense>
+            <NavMobile/>
+          </Suspense>
+      }
       <MainContainer $isExternal={isExternal === '1'}>
         {
-          isExternal !== '1' &&
-          < PanelControl />
+          (windowSize > 768 && isExternal !== '1') &&
+          <Suspense>
+            < PanelControl />
+          </Suspense>
         }
         {/* <PanelControlDrag /> */}
         {/* <PanelControlDrag2 /> */}
@@ -48,9 +61,7 @@ const App = () => {
       <AnimatePresence>
         {
           showChat &&
-          <Suspense fallback={<Loader />}>
-            <Chat />
-          </Suspense>
+          <Chat />
         }
       </AnimatePresence>
     </>

@@ -89,11 +89,14 @@ const TaskSlideClientInfo = ({ client, demand, children }) => {
           <TaskSlideSide>
             <TextSpanStyle nowrap size={12}>Дата сделки: {useDateFormat(demand?.winDate)}</TextSpanStyle>
             <TextSpanStyle nowrap size={12} color='#ccc'>Последний контакт: {useDateFormat(demand?.lastContact)}</TextSpanStyle>
-            <Box jc='flex-start'>
-              <TextSpanStyle nowrap size={12}>Следующий контакт: {useDateFormat(demand?.nextContact)}</TextSpanStyle>
-              <IconButton onClick={toggleShowNextContact}>
-                <Celendar />
-              </IconButton>
+            <Box jc='flex-start' wrap gap='0'>
+              <TextSpanStyle nowrap size={12}>Следующий контакт: &nbsp;</TextSpanStyle>
+              <Box>
+                <TextSpanStyle nowrap size={12}>{useDateFormat(demand?.nextContact)}</TextSpanStyle>
+                <IconButton onClick={toggleShowNextContact}>
+                  <Celendar />
+                </IconButton>
+              </Box>
             </Box>
             <TaskSlideTitleStyle size={12} color='#ccc'>Комментарий:</TaskSlideTitleStyle>
             <TextSpanStyle size={11}>{demand?.comment}</TextSpanStyle>
@@ -101,7 +104,7 @@ const TaskSlideClientInfo = ({ client, demand, children }) => {
         </TaskSlideClientInfoStyle>
       </TaskBlockStyle>
       <DialogWindow open={isShowNextContact} onClose={toggleShowNextContact}>
-        <ApplicationNextContact onClose={toggleShowNextContact}/>
+        <ApplicationNextContact onClose={toggleShowNextContact} />
       </DialogWindow>
     </>
   );

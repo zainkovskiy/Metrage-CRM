@@ -14,7 +14,7 @@ export const PanelControlStyle = styled(motion.aside)`
   top: 0;
   left: 0;
   bottom: 0;
-  width: 52px;
+  width: 56px;
   overflow: hidden;
   z-index: 99;
 `
@@ -37,10 +37,10 @@ const PanelControl = () => {
     >
       <div>
         <PanelButton icon='list' path='/' title='Заявки' />
-        {/* <PanelButton icon='todo' path='/task' title='Задачи' />
+        <PanelButton icon='todo' path='/task' title='Задачи' />
         <PanelButton icon='calendar' path='calendar' title='Календарь' />
-        <PanelButton icon='users' path='users' title='Пользователи' /> */}
-        {/* <PanelButton icon='home' path='home' title='Объекты' />
+        <PanelButton icon='users' path='users' title='Пользователи' />
+        <PanelButton icon='home' path='home' title='Объекты' />
         <PanelButton icon='deal' path='deal' title='Сделка' />
         <PanelButton icon='mortgage' path='mortgage' title='Ипотека' />
         <PanelButton icon='grade' path='grade' title='Оценка' />
@@ -48,7 +48,7 @@ const PanelControl = () => {
         <PanelButton icon='insurance' path='insurance' title='Страховка' />
         <PanelButton icon='chart' path='chart' title='Аналитики' />
         <PanelButton icon='hr' path='hr' title='Соискатели' />
-        <PanelButton icon='study' path='study' title='Обучение' /> */}
+        <PanelButton icon='study' path='study' title='Обучение' />
       </div>
       {/* <LineStyle /> */}
       {/* <div>
