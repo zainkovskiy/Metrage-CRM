@@ -11,14 +11,15 @@ import { BadgeUI } from 'ui/BadgeUI/BadgeUI';
 
 const ChatButtonsStyle = styled.div`
   display: flex;
-  flex-direction: column;
+  ${({$column}) => $column && 'flex-direction: column;'}
+  ${({$jc}) => $jc && `justify-content: ${$jc};`}
   gap: 0.5rem;
   padding: 0.5rem;
   background-color: #fff;
   border-radius: 5px;
 `
 
-const ChatButtons = () => {
+const ChatButtons = ({ column, jc }) => {
   const dispatch = useDispatch();
   const chatList = useSelector((state) => state.chat.chatList);
   const notification = useSelector((state) => state.chat.notification);
@@ -29,7 +30,7 @@ const ChatButtons = () => {
     dispatch(getChatList());
   }
   return (
-    <ChatButtonsStyle>
+    <ChatButtonsStyle $column={column} $jc={jc}> 
       <BadgeUI back='#0095a0' badgeContent={chatList?.unreadCount || 0}>
         <ChatIconButton onClick={handleClick} id='chat'><Message /></ChatIconButton>
       </BadgeUI>

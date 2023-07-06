@@ -72,6 +72,39 @@ export const setNewContact = createAsyncThunk(
     }
   }
 )
+export const checkApplication = createAsyncThunk(
+  'task/updateContact',
+  async (raw, { rejectWithValue }) => {
+    try {
+      const res = await axios.post(API, {
+        metrage_id: metrage_id || null,
+        method: 'crm.demand.checked',
+        fields: raw,
+      })
+      return res
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+export const updateContact = createAsyncThunk(
+  'task/updateContact',
+  async (raw, { rejectWithValue }) => {
+    try {
+      const res = await axios.post(API, {
+        metrage_id: metrage_id || null,
+        method: 'crm.contact.update',
+        fields: {
+          UID: raw.UID,
+          fields: raw.form
+        }
+      })
+      return res
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
 export const changeType = createAsyncThunk(
   'task/changeType',
   async (raw, { rejectWithValue }) => {

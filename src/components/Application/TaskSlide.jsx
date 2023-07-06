@@ -14,6 +14,7 @@ import TaskSlideMeta from './TaskSlideMeta';
 import TaskHandOver from './TaskHandOver';
 import ApplicationCalls from './ApplicationCalls';
 import { useAsyncValue } from 'react-router-dom';
+import { useWindowSize } from 'hooks/windowSize';
 
 
 const TaskSlideStyle = styled.div`
@@ -32,11 +33,12 @@ const TaskSlideContentStyle = styled.div`
   }
 `
 
-const TaskSlide = ({closeSlide}) => {
+const TaskSlide = ({ closeSlide }) => {
   const application = useAsyncValue();
   const isExternal = useSelector((state) => state.user.isExternal);
   const [openChange, setOpenChange] = useState(false);
   const [openHandOver, setOpenHandOver] = useState(false);
+  const windowSize = useWindowSize();
 
   const toggleOpenChange = () => {
     setOpenChange(!openChange);
@@ -58,7 +60,7 @@ const TaskSlide = ({closeSlide}) => {
             status={application?.status?.UID}
             UID={application?.UID}
           />
-          <TaskSlideClientInfo client={application?.client} demand={application?.demand}>
+          <TaskSlideClientInfo client={application?.client} demand={application?.demand} UID={application?.UID}>
             {
               isExternal !== '1' &&
               <ButtonUI size='small' onClick={toggleOpenHandOver}>Передать клиента</ButtonUI>
@@ -77,7 +79,10 @@ const TaskSlide = ({closeSlide}) => {
           }
           <ApplicationCalls calls={application?.calls} />
         </TaskSlideContentStyle>
-        {/* <TaskSlideStory UID={application?.UID}/> */}
+        {
+          windowSize > 768 &&
+          <TaskSlideStory UID={application?.UID} />
+        }
       </TaskSlideStyle >
       <DialogWindow open={openChange} onClose={toggleOpenChange}>
         <TaskChangeUser

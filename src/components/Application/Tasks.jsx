@@ -34,6 +34,7 @@ const Tasks = () => {
       <TasksStyle>
         <AnimatePresence>
           {
+            applications?.length > 0 && 
             applications.filter(getRenderList).map((task) => {
               return (
                 <TaskCard

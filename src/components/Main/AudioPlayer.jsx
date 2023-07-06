@@ -95,7 +95,7 @@ const RageStyle = styled.input`
     background: transparent;
   }
 `
-const AudioPlayer = ({src}) => {
+const AudioPlayer = ({ src }) => {
   const audioRef = useRef(null)
   const rageRef = useRef(null);
   const timeRef = useRef(null);
@@ -103,7 +103,7 @@ const AudioPlayer = ({src}) => {
   const [back, setBack] = useState(0);
 
   useEffect(() => {
-    if (audioRef.current) {
+    if (audioRef?.current) {
       audioRef.current.addEventListener('timeupdate', setRageValue);
       audioRef.current.onloadedmetadata = () => {
         innerTime(audioRef.current?.currentTime, audioRef.current?.duration);
@@ -121,6 +121,9 @@ const AudioPlayer = ({src}) => {
     setPlay(true);
   }
   const getTime = (time) => {
+    if(!time){
+      return 0
+    };
     if (time < 10) {
       return '0' + time;
     }
@@ -137,7 +140,7 @@ const AudioPlayer = ({src}) => {
   }
   const setRageValue = () => {
     const { duration, currentTime } = audioRef.current;
-    if(duration === currentTime){
+    if (duration === currentTime) {
       setPlay(false);
       return;
     }

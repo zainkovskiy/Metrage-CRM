@@ -5,6 +5,7 @@ import { AnimatePresence } from 'framer-motion';
 import { MainContainer } from 'styles/styles';
 import Loader from "components/Main/Loader";
 import Chat from 'components/Chat/Chat';
+import ChatMobile from 'mobile/Chat/ChatMobile';
 const Nav = React.lazy(() => import('components/Nav/Nav'));
 const NavMobile = React.lazy(() => import('mobile/Nav/NavMobile'));
 const PanelControl = React.lazy(() => import('components/PanelControl/PanelControl'));
@@ -39,10 +40,10 @@ const App = () => {
       {
         windowSize > 768 ?
           <Suspense>
-            <Nav/>
+            <Nav />
           </Suspense> :
           <Suspense>
-            <NavMobile/>
+            <NavMobile />
           </Suspense>
       }
       <MainContainer $isExternal={isExternal === '1'}>
@@ -61,7 +62,17 @@ const App = () => {
       <AnimatePresence>
         {
           showChat &&
-          <Chat />
+          <>
+            {
+              windowSize > 768 ?
+                <Suspense>
+                  <Chat />
+                </Suspense> :
+                <Suspense>
+                  <ChatMobile />
+                </Suspense>
+            }
+          </>
         }
       </AnimatePresence>
     </>

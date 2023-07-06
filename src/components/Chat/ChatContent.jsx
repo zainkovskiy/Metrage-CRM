@@ -13,7 +13,7 @@ const ChatContent = () => {
   }, [])
   return (
     <>
-      <ChatButtons />
+      <ChatButtons column/>
       <ChatList />
       <ChatField />
     </>

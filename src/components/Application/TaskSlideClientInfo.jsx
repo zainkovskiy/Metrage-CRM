@@ -6,11 +6,16 @@ import phoneUrl, { ReactComponent as Phone } from 'images/phone2.svg';
 import whatsappUrl, { ReactComponent as WhatsApp } from 'images/whatsapp.svg';
 import telegramUrl, { ReactComponent as Telegram } from 'images/telegram.svg';
 import celendarUrl, { ReactComponent as Celendar } from 'images/calendar2.svg';
+import editUrl, { ReactComponent as Edit } from 'images/edit.svg';
 import { TaskBlockStyle, TaskSlideTitleStyle, TaskSlideSide } from './TaskStyle';
 import { Box } from 'ui/Box';
 import { IconButton } from 'ui/IconButton';
 import DialogWindow from 'components/Main/DialogWindow';
 import ApplicationNextContact from './ApplicationNextContact';
+import ApplicationEditName from './ApplicationEditName ';
+import { CheckboxUI } from 'ui/CheckboxUI';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkApplication } from '../../store/taskSlice';
 
 
 const TaskSlideClientInfoStyle = styled.div`
@@ -26,9 +31,12 @@ const TextSpanStyleLink = styled(TextSpanStyle)`
     text-decoration: underline;
   }
 `
-const TaskSlideClientInfo = ({ client, demand, children }) => {
+const TaskSlideClientInfo = ({ client, demand, children, UID }) => {
+  const dispatch = useDispatch();
+  const isAdmin = useSelector((state) => state.user?.isAdmin || ''); 
   const [isShowPhone, setIsShowPhone] = useState(false);
   const [isShowNextContact, setIsShowNextContact] = useState(false);
+  const [isShowEditName, setIsShowEditName] = useState(false);
   const phone = client?.phones[0]?.value ? client?.phones[0]?.value.toString() : null;
   const getPhone = () => {
     if (phone) {
@@ -42,14 +50,37 @@ const TaskSlideClientInfo = ({ client, demand, children }) => {
   const toggleShowNextContact = () => {
     setIsShowNextContact(!isShowNextContact);
   }
+  const toggleEditName = () => {
+    setIsShowEditName(!isShowEditName);
+  }
+  const isCheckedApplication = (e) => {
+    dispatch(checkApplication({
+      position: e.target.checked,
+      UID: UID,
+    }))
+  }
   return (
     <>
       <TaskBlockStyle $column>
-        <TaskSlideTitleStyle>Клиент:</TaskSlideTitleStyle>
+        <TaskSlideTitleStyle>Клиент:
+          <CheckboxUI
+            size='small'
+            position='left'
+            label='Проверено'
+            defaultChecked={demand?.isChecked === '1'}
+            onChange={isCheckedApplication}
+            disabled={isAdmin !== '1'}
+          />
+        </TaskSlideTitleStyle>
         <TaskSlideClientInfoStyle>
           <TaskSlideSide gap='1rem'>
             <TaskSlideSide>
-              <TextSpanStyle size={16}>{client?.title}</TextSpanStyle>
+              <Box jc='flex-start'>
+                <TextSpanStyle size={16}>{client?.lastName} {client?.firstName}</TextSpanStyle>
+                <IconButton onClick={toggleEditName}>
+                  <Edit />
+                </IconButton>
+              </Box>
               {
                 getPhone()
               }
@@ -105,6 +136,9 @@ const TaskSlideClientInfo = ({ client, demand, children }) => {
       </TaskBlockStyle>
       <DialogWindow open={isShowNextContact} onClose={toggleShowNextContact}>
         <ApplicationNextContact onClose={toggleShowNextContact} />
+      </DialogWindow>
+      <DialogWindow open={isShowEditName} onClose={toggleEditName}>
+        <ApplicationEditName onClose={toggleEditName} client={client} />
       </DialogWindow>
     </>
   );

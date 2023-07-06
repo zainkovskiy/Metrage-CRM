@@ -11,11 +11,14 @@ export const TaskBlockStyle = styled.div`
   ${({ $column }) => $column && 'flex-direction: column'};
 `
 export const TaskSlideTitleStyle = styled.div`
+  display: flex;
   border-bottom: 1px solid #e2e2e2;
   font-family: ${({ theme }) => theme.font.family};
   font-size: ${({ size }) => size ? size + 'px' : '14px'};
   width: 100%;
   color: ${({ color }) => color && color};
+  justify-content: space-between;
+  align-items: center;
 `
 export const TaskSlideSide = styled.div`
   display: flex;

@@ -15,7 +15,7 @@ const TaskFilterStyle = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 0.5rem 0 0.5rem;
+  padding: 0.5rem 0.5rem;
 `
 const TaskFilter = () => {
   const dispatch = useDispatch();

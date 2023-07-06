@@ -11,7 +11,7 @@ const IconButtonSimpleStyle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.2rem;
+  padding: 2px;
   border-radius: 5px;
   transition: transform .3s;
     &:hover{

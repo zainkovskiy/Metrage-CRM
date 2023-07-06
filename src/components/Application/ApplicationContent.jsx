@@ -58,6 +58,7 @@ const ApplicationContent = () => {
   );
 };
 export const loaderApplications = async ({ request, params }) => {
+  // return []
   return { applications: await getApplicationsList() }
 }
 

@@ -11,6 +11,7 @@ const SlideWindowStyle = styled(motion.div)`
   right: 0;
   bottom: 0;
   left: 0;
+  width: 100%;
   background-color: #00000066;
   display: flex;
   justify-content: flex-end;
@@ -84,10 +85,11 @@ const SlideWindow = ({ children, width, onClose, open }) => {
             {
               windowSize > 425 ?
                 <Suspense>
-                  <CloseCircleButtonUI onClose={onClose} />
+                  <CloseCircleButtonUI onClose={onClose} /> 
                 </Suspense> :
                 <Suspense>
                   <ButtonBack onClic={onClose} />
+                  {/* {document.documentElement.clientHeight} */}
                 </Suspense>
             }
             <SlideWindowContent>

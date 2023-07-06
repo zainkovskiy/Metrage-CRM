@@ -18,6 +18,7 @@ export const InputStyle = styled.input`
   width: 100%;
   box-sizing: border-box;
   letter-spacing: ${(props) => props.type === 'password' ? '1.25px' : ''};
+  position: relative;
   &:focus{
     outline: 1px solid ${({ theme, error }) => error ? 'red' : theme.color.primary};
   }

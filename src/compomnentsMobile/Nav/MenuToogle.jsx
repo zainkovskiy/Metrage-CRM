@@ -19,10 +19,9 @@ const ButtonToggle = styled(motion.button)`
   background-color: transparent;
   display: flex;
   z-index: 9999;
-  top: 0;
-  left: 0;
+  top: calc(0.5rem + 1px);
+  left: 0.5rem;;
   ${({$open}) => $open && 'position: absolute;'};
-  ${({$open}) => $open && 'padding: 0.5rem;'};
   & > svg {
     width: 24px;
     height: 24px;
