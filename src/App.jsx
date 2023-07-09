@@ -14,6 +14,7 @@ import PanelControlDrag2 from 'components/PanelControl/PanelControlDrag2';
 import DragExample from 'components/PanelControl/PanelControlDrag3';
 import ReorderTest from 'components/PanelControl/ReorderTest';
 import { useWindowSize } from './hooks/windowSize';
+import { setWindowDevice } from './store/userSlice';
 
 const App = () => {
   const isExternal = globalUser && JSON.parse(globalUser).isExternal || 1;
@@ -34,7 +35,9 @@ const App = () => {
       dispatch({ type: 'socket/disconnect' });
     }
   }, [])
-
+  useEffect(() => {
+    dispatch(setWindowDevice(windowSize));
+  }, [windowSize])
   return (
     <>
       {

@@ -7,6 +7,7 @@ import advertisingUrl, { ReactComponent as Advertising } from 'images/advertisin
 import { setSelectButton, getChatList } from 'store/chatSlice';
 import ChatIconButton from './ChatIconButton';
 import { BadgeUI } from 'ui/BadgeUI/BadgeUI';
+import { getNotification } from '../../store/chatSlice';
 
 
 const ChatButtonsStyle = styled.div`
@@ -27,6 +28,10 @@ const ChatButtons = ({ column, jc }) => {
   const handleClick = (e) => {
     const currentButton = e.target.id;
     dispatch(setSelectButton(currentButton));
+    if(currentButton === 'notification'){
+      dispatch(getNotification());
+      return;
+    }
     dispatch(getChatList());
   }
   return (

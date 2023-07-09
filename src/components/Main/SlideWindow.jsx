@@ -31,6 +31,10 @@ const SlideWindowContent = styled.div`
   box-sizing: border-box;
   flex-grow: 1;
 `
+const ButtonContainer = styled.div`
+  background-color: ${({ theme }) => theme.color.primary};
+  padding: 0.5rem 0.5rem 0px;
+`
 const variantsBack = {
   open: {
     opacity: 1,
@@ -85,11 +89,12 @@ const SlideWindow = ({ children, width, onClose, open }) => {
             {
               windowSize > 425 ?
                 <Suspense>
-                  <CloseCircleButtonUI onClose={onClose} /> 
+                  <CloseCircleButtonUI onClose={onClose} />
                 </Suspense> :
                 <Suspense>
-                  <ButtonBack onClic={onClose} />
-                  {/* {document.documentElement.clientHeight} */}
+                  <ButtonContainer>
+                    <ButtonBack color='#fff' onClick={onClose} />
+                  </ButtonContainer>
                 </Suspense>
             }
             <SlideWindowContent>

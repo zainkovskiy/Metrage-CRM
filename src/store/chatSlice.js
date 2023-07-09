@@ -32,6 +32,9 @@ export const getChatList = createAsyncThunk(
         userId: getState().user.UID,
       }
     })
+    if(getState().user.windowDevice <= 425){
+      return res?.data?.result
+    }
     if (res?.statusText === 'OK') {
       const selectButton = getState().chat.selectButton;
       if (selectButton !== 'notification') {

@@ -15,9 +15,12 @@ export const logOutAPI = createAsyncThunk(
 
 const userSlice = createSlice({
   name: 'user',
+  windowDevice: null,
   initialState,
   reducers: {
-
+    setWindowDevice(state, action) {
+      state.windowDevice = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -30,5 +33,5 @@ const userSlice = createSlice({
   }
 })
 
-export const { } = userSlice.actions;
+export const { setWindowDevice } = userSlice.actions;
 export default userSlice.reducer;

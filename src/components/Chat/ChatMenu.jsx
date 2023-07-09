@@ -7,7 +7,6 @@ const ChatMenuDtyle = styled.div`
 `
 const ChatMenuIcon = styled.div`
   cursor: pointer;
-  padding: 0.2rem;
   display: flex;
   align-items: center;
   justify-content: center;

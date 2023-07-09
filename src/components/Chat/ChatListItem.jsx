@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
 import { useChatDate } from 'hooks/DateFormat';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setSelectButton, getCurrentChat } from 'store/chatSlice';
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -78,7 +78,6 @@ const ChatCountUnread = styled(motion.span)`
 `
 const ChatListItem = ({ chat }) => {
   const dispatch = useDispatch();
-  const currentChat = useSelector((state) => state.chat.currentChat);
 
   const handleClick = () => {
     dispatch(getCurrentChat(chat))

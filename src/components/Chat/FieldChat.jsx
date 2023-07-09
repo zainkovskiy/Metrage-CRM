@@ -1,29 +1,12 @@
 import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { TextSpanStyle } from 'styles/styles';
 import back from 'images/back.png';
-import { Box } from 'ui/Box';
-import ChatMenu from './ChatMenu';
-import ChatMenuItem from './ChatMenuItem';
 import MessageItem from './MessageItem';
 import FieldSend from './FieldSend';
 import { AnimatePresence } from 'framer-motion';
+import FieldChatHeader from './FieldChatHeader';
 
-const FieldChatHeaderStyle = styled.div`
-  padding: 0.5rem;
-  border-bottom: 1px solid ${({ theme }) => theme.color.primary};  
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  justify-content: space-between;
-`
-const ChatAvatar = styled.img`
-  width: 48px;
-  height: 48px;
-  object-fit: cover;
-  border-radius: 40px;
-`
 const Field = styled.div`
   background-image: url(${back});
   background-position: center;
@@ -43,15 +26,6 @@ const FieldChat = () => {
   const firstUpdate = useRef(true);
   const currentChat = useSelector((state) => state.chat.currentChat);
   const targetAuthor = useSelector((state) => state.chat.targetAuthor);
-  const getAvatar = () => {
-    if (!targetAuthor) {
-      return `https://ui-avatars.com/api/?name=Metrage&background=85009e&color=fff`
-    }
-    if (targetAuthor?.avatar) {
-      return targetAuthor.avatar
-    }
-    return `https://ui-avatars.com/api/?name=${targetAuthor.lastName}+${targetAuthor.firstName}&background=85009e&color=fff`
-  }
 
   const scrollField = () => {
     if (fieldRef.current) {
@@ -64,15 +38,7 @@ const FieldChat = () => {
       {
         (currentChat && targetAuthor) &&
         <>
-          <FieldChatHeaderStyle>
-            <Box>
-              <ChatAvatar src={getAvatar()} alt='avatar' />
-              <TextSpanStyle size={16}>{targetAuthor.lastName} {targetAuthor.firstName}</TextSpanStyle>
-            </Box>
-            <ChatMenu>
-              <ChatMenuItem onClick={() => {}}>Очистить историю</ChatMenuItem>
-            </ChatMenu>
-          </FieldChatHeaderStyle>
+          <FieldChatHeader />
           <Field ref={fieldRef}>
             <AnimatePresence>
               {

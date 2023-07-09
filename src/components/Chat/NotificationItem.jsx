@@ -12,6 +12,9 @@ const NotificationItemStyle = styled.div`
   &:last-child{
     border-bottom: none;
   }
+  @media(max-width: 425px){
+    padding: 0.5rem;
+  }
 `
 const NotificationItemHeaderStyle = styled.div`
   display: flex;

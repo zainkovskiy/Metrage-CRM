@@ -7,12 +7,12 @@ import ChatSearch from './ChatSearch';
 
 const ChatListStyle = styled.div`
   background-color: #fff;
-  width: 300px;
   min-width: 300px;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
   padding-bottom: 5px;
+  flex-grow: 1;
 `
 const ChatListContainer = styled.div`
   overflow: auto;

@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import { device } from 'styles/device';
 
 const MessageItemStyle = styled(motion.div)`
   border: 1px solid ${({ theme }) => theme.color.primary};
@@ -11,6 +12,9 @@ const MessageItemStyle = styled(motion.div)`
   font-size: 14px;
   font-family: ${({ theme }) => theme.font.family};
   max-width: 80%;
+  @media ${device.tablet}{
+    padding: 0.2rem;
+  }
 `
 
 const MessageItem = ({ message, target, last, firstUpdate, scrollField }) => {
