@@ -2,14 +2,14 @@ import { combineReducers, configureStore, getDefaultMiddleware } from "@reduxjs/
 import userSlice from "./userSlice";
 import chatSlice from "./chatSlice";
 import telegramSlice from "./telegramSlice";
-import taskSlice from "./taskSlice";
+import applicationSlice from "./applicationSlice";
 import { socketMiddleware } from "./socket";
 
 const reducers = combineReducers({
   user: userSlice,
   chat: chatSlice,
   telegram: telegramSlice, 
-  task: taskSlice,
+  application: applicationSlice,
 })
 
 export const store = configureStore({

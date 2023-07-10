@@ -20,7 +20,6 @@ const LogoStyle = styled(Logo)`
   fill: ${({theme, fill}) => fill ? fill : theme.color.primary};
 `
 const LogoSmallStyle = styled(LogoSmall)`
-  min-width: fit-content;
   pointer-events: none;
 `
 const LinkStyle = styled(Link)`

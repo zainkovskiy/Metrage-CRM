@@ -2,6 +2,8 @@ import { motion } from 'framer-motion';
 import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { device } from 'styles/device';
+import { TextSpanStyle } from 'styles/styles';
+import { useDateFormat } from 'hooks/DateFormat';
 
 const MessageItemStyle = styled(motion.div)`
   border: 1px solid ${({ theme }) => theme.color.primary};
@@ -31,6 +33,7 @@ const MessageItem = ({ message, target, last, firstUpdate, scrollField }) => {
   return (
     <MessageItemStyle $target={target} ref={messageRef} initial={{ scale: 0 }} animate={{ scale: 1 }}>
       {message.text}
+      <TextSpanStyle color='#aaa' size={8} align={target ? 'start' : 'end'}>{useDateFormat(message.created, 'DD.MM.YYYY HH:mm')}</TextSpanStyle>
     </MessageItemStyle>
   );
 };

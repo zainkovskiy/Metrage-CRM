@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import VisibilityIcon from 'images/visibility.svg';
 import VisibilityOffIcon from 'images/visibility_off.svg';
 import { TextSpanStyle } from 'styles/styles';
-import { LabelStyle, InputStyle, ContainerIcon, ContainerInput, iconStyle } from './InputUIStyled';
+import { LabelStyle, InputStyle, ContainerIcon, ContainerInput, iconStyle, BorderFocus } from './InputUIStyled';
 import sendUrl, { ReactComponent as Send } from 'images/send.svg';
 
 const VisibilityIconStyle = styled(VisibilityIcon)`
@@ -67,6 +67,7 @@ const InputPassword = forwardRef((props, ref) => {
         value={value}
         onChange={onChange}
       />
+      <BorderFocus />
       {
         currentType === 'password' ? <VisibilityOffIconStyle onClick={showPassword} /> : <VisibilityIconStyle onClick={showPassword} />
       }
@@ -77,7 +78,7 @@ const InputPassword = forwardRef((props, ref) => {
 const InputCustom = forwardRef((props, ref) => {
   const { type, disabled, register, error, icon, value, onChange, onBlur, onFocus, readOnly, defaultValue, placeholder } = props;
   return (
-    <div style={{ position: 'relative' }}>
+    <ContainerIcon>
       <InputStyle
         error={error}
         ref={ref}
@@ -92,8 +93,9 @@ const InputCustom = forwardRef((props, ref) => {
         defaultValue={defaultValue}
         placeholder={placeholder}
       />
+      <BorderFocus />
       {icon && iconVariant[icon]}
-    </div>
+    </ContainerIcon>
   )
 })
 const SendStyle = styled(Send)`

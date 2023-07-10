@@ -19,6 +19,8 @@ const ChatSearchInput = styled.input`
   border-bottom: 1px solid #84019e;
   width: 100%;
   outline: none;
+  background-color: transparent;
+  border-radius: 0;
   &:placeholder{
     font-family: ${({ theme }) => theme.font.family};
     font-size: 14px;

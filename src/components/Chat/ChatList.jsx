@@ -3,16 +3,20 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import ChatListItem from './ChatListItem';
 import ChatSearch from './ChatSearch';
+import { device } from 'styles/device';
 
 
 const ChatListStyle = styled.div`
   background-color: #fff;
-  min-width: 300px;
+  width: 300px;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
   padding-bottom: 5px;
-  flex-grow: 1;
+  @media ${device.tablet}{
+    width: 100%;
+    flex-grow: 1;
+  }
 `
 const ChatListContainer = styled.div`
   overflow: auto;

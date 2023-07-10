@@ -15,6 +15,7 @@ const TasksStyle = styled(motion.div)`
   box-sizing: border-box;
   overflow: auto;
   padding: 0.5rem;
+  flex-grow: 1;
   @media ${device.tablet}{
     gap: 0.5rem;
   }
@@ -22,7 +23,7 @@ const TasksStyle = styled(motion.div)`
 
 const Tasks = () => {
   const applications = useAsyncValue();
-  const filterTypeList = useSelector((state) => state.task.filterTypeList);
+  const filterTypeList = useSelector((state) => state.application.filterTypeList);
   const getRenderList = (task) => {
     if (filterTypeList === 'all') {
       return task;

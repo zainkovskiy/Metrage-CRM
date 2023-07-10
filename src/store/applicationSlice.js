@@ -3,8 +3,8 @@ import axios from "axios";
 
 const API = 'https://crm.metragegroup.com/API/REST.php';
 
-export const setNewTask = createAsyncThunk(
-  'task/setNewTask',
+export const setNewApplication = createAsyncThunk(
+  'task/setNewApplication',
   async (form, { dispatch }) => {
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
@@ -124,44 +124,41 @@ export const changeType = createAsyncThunk(
   }
 )
 const initialState = {
-  loadingNewTask: false,
+  loadingNewApplication: false,
   view: 'tile',
   filterTypeList: 'all',
 };
 
 
-const taskSlice = createSlice({
+const applicationSlice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
-    toggleLoadingNewTask(state) {
-      state.loadingNewTask = !state.loadingNewTask;
-    },
-    setTasksView(state, action) {
+    setApplicationView(state, action) {
       const newView = action.payload;
       state.view = newView;
     },
-    setFilterTypeTaskList(state, action) {
+    setFilterTypeApplicationList(state, action) {
       const newFilterTypeList = action.payload;
       state.filterTypeList = newFilterTypeList;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(setNewTask.pending, (state, action) => {
-        state.loadingNewTask = true;
+      .addCase(setNewApplication.pending, (state, action) => {
+        state.loadingNewApplication = true;
       })
-      .addCase(setNewTask.fulfilled, (state, action) => {
+      .addCase(setNewApplication.fulfilled, (state, action) => {
         const { data } = action.payload;
         if (data?.result?.status === 'OK') {
           console.log('new task reading to server');
         }
-        state.loadingNewTask = false;
+        state.loadingNewApplication = false;
       })
-      .addCase(setNewTask.rejected, (state) => {
-        state.loadingNewTask = false;
+      .addCase(setNewApplication.rejected, (state) => {
+        state.loadingNewApplication = false;
       })
   }
 })
-export const { setTasksView, setFilterTypeTaskList, toggleLoadingNewTask } = taskSlice.actions;
-export default taskSlice.reducer;
+export const { setApplicationView, setFilterTypeApplicationList } = applicationSlice.actions;
+export default applicationSlice.reducer;

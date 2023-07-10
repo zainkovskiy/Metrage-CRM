@@ -4,7 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useAsyncValue } from 'react-router-dom';
-import { setNewTask } from 'store/taskSlice';
+import { setNewApplication } from 'store/applicationSlice';
 
 import { TitleFormStyle } from 'styles/styles';
 import { ButtonToggleGroup, ButtonToggleItem } from 'ui/ButtonToggle/ButtonToggle';
@@ -49,7 +49,7 @@ const NewTask = ({slideClose}) => {
   const detailData = useAsyncValue();
   const location = useLocation();
   const dispatch = useDispatch();
-  const loadingNewTask = useSelector((state) => state.task.loadingNewTask);
+  const loadingNewApplication = useSelector((state) => state.application.loadingNewApplication);
   const { register, handleSubmit, getValues, watch, control, formState: { errors } } = useForm({
     defaultValues: {
       costStart: '',
@@ -66,7 +66,7 @@ const NewTask = ({slideClose}) => {
     }
   }, [])
   const onSubmit = (data) => {
-    dispatch(setNewTask(data)).unwrap().then(() => {
+    dispatch(setNewApplication(data)).unwrap().then(() => {
       slideClose();
     })
   }
@@ -89,7 +89,7 @@ const NewTask = ({slideClose}) => {
   return (
     <>
       {
-        loadingNewTask ?
+        loadingNewApplication ?
           <LoaderContainer><Loader fill='#fff' /></LoaderContainer> :
               <NewTaskStyle onSubmit={handleSubmit(onSubmit)}>
                 <NewTaskBlockStyle>

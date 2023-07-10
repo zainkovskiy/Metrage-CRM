@@ -1,8 +1,9 @@
 export const socketMiddleware = () => (params) => (next) => (action) => {
   let socket = null;
   const { dispatch, getState } = params
-  const { type } = action
+  const { type } = action;
   if (type === 'socket/connect') {
+    if (!socket) { return }
     socket = new WebSocket("wss://crm.metragegroup.com:8000");
     socket.onopen = (e) => {
       console.log("[open] Соединение установлено");
@@ -18,15 +19,16 @@ export const socketMiddleware = () => (params) => (next) => (action) => {
 
       }
       if (message?.Action === "Increment") {
-        if (message?.Fields?.curState){
+        if (message?.Fields?.curState) {
           const curState = message?.Fields?.curState;
-          dispatch({ type: 'chat/setCounterMessage', payload: curState});
+          dispatch({ type: 'chat/setCounterMessage', payload: curState });
         }
       }
     }
     return
   }
   if (type === 'socket/disconnect') {
+    if (!socket) { return }
     socket.onclose((event) => {
       if (event.wasClean) {
         socket = null;

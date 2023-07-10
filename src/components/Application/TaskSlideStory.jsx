@@ -20,6 +20,7 @@ const TaskSlideStoryStyle = styled.div`
 const TaskSlideStory = ({ UID }) => {
   const locationRef = useRef(null);
   const [history, setHistory] = useState([]);
+  const [loader, setLoader] = useState(false);
   const location = useLocation();
   useEffect(() => {
     if(!locationRef.current){
@@ -37,8 +38,11 @@ const TaskSlideStory = ({ UID }) => {
   }, [])
 
   const getHistoryList = () => {
+    setLoader(true);
     getApplicationHistory(UID).then((data) => {
       setHistory(data || [])
+    }).finally(() => {
+      setLoader(false);
     })
   }
 
@@ -53,7 +57,7 @@ const TaskSlideStory = ({ UID }) => {
   return (
     <TaskSlideStoryStyle>
       <TitleFormStyle ta='center'>История</TitleFormStyle>
-      <TaskSlideStoryField history={history} />
+      <TaskSlideStoryField history={history} loader={loader}/>
       <InputChatUI onClick={sendMessage} placeholder='Напишите комментарий' />
     </TaskSlideStoryStyle>
   );

@@ -15,7 +15,7 @@ import ApplicationNextContact from './ApplicationNextContact';
 import ApplicationEditName from './ApplicationEditName ';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkApplication } from '../../store/taskSlice';
+import { checkApplication } from '../../store/applicationSlice';
 
 
 const TaskSlideClientInfoStyle = styled.div`

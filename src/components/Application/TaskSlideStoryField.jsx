@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import styled from 'styled-components';
 import TaskSlideStoryItem from './TaskSlideStoryItem';
 import { AnimatePresence } from 'framer-motion';
+import TaskSlideStoryItemSkeleton from './TaskSlideStoryItemSkeleton';
 
 const TaskSlideStoryFieldStyle = styled.div`
   background-color: ${({ theme }) => theme.color.secondary};
@@ -13,7 +14,7 @@ const TaskSlideStoryFieldStyle = styled.div`
   gap: 0.5rem;
   overflow: auto;
 `
-const TaskSlideStoryField = ({ history }) => {
+const TaskSlideStoryField = ({ history, loader }) => {
   const fieldRef = useRef(null);
   const firstUpdate = useRef(true);
   const scrollField = () => {
@@ -26,15 +27,21 @@ const TaskSlideStoryField = ({ history }) => {
     <TaskSlideStoryFieldStyle ref={fieldRef}>
       <AnimatePresence>
         {
-          history.map((story, idx) => {
-            return <TaskSlideStoryItem
-              key={story.UID}
-              story={story}
-              last={idx === history?.length - 1}
-              scrollField={scrollField}
-              firstUpdate={firstUpdate.current}
-            />
-          })
+          loader ?
+            <TaskSlideStoryItemSkeleton /> :
+            <>
+              {
+                history.map((story, idx) => {
+                  return <TaskSlideStoryItem
+                    key={story.UID}
+                    story={story}
+                    last={idx === history?.length - 1}
+                    scrollField={scrollField}
+                    firstUpdate={firstUpdate.current}
+                  />
+                })
+              }
+            </>
         }
       </AnimatePresence>
     </TaskSlideStoryFieldStyle>

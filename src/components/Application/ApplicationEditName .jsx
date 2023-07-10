@@ -6,7 +6,7 @@ import closeUrl, { ReactComponent as Close } from 'images/close.svg';
 import styled from 'styled-components';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { updateContact } from 'store/taskSlice';
+import { updateContact } from 'store/applicationSlice';
 import { useAsyncValue } from 'react-router-dom';
 
 const ApplicationEditNameStyle = styled.form`

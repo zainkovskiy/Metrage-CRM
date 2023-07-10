@@ -3,7 +3,7 @@ import { TaskBlockStyle } from './TaskStyle';
 import TaskSlideBar from './TaskSlideBar';
 import TaskSlideBarItem from './TaskSlideBarItem';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeStage } from 'store/taskSlice';
+import { changeStage } from 'store/applicationSlice';
 import { ButtonLink } from 'ui/ButtonLink';
 import TaskReasonFailure from './TaskReasonFailure';
 import styled from 'styled-components';

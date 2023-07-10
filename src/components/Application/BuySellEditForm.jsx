@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { ButtonUI } from 'ui/ButtonUI';
 import { AnimatePresence, motion } from 'framer-motion';
-import { changeType, getTask } from 'store/taskSlice';
+import { changeType, getTask } from 'store/applicationSlice';
 import { TaskSlideTitleStyle } from './TaskStyle';
 import { useAsyncValue } from 'react-router-dom';
 

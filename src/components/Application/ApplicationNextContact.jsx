@@ -7,7 +7,7 @@ import closeUrl, { ReactComponent as Close } from 'images/close.svg';
 import styled from 'styled-components';
 import { useController, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { setNewContact } from 'store/taskSlice';
+import { setNewContact } from 'store/applicationSlice';
 import moment from 'moment';
 import { useAsyncValue } from 'react-router-dom';
 

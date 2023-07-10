@@ -59,3 +59,15 @@ export const rootTheme = {
     familyBold: 'CeraCYBold, sans-serif',
   }
 }
+export const darkTheme = {
+  color: {
+    primary: '#fff',
+    // secondary: '#ebebeb',
+    secondary: 'rgb(73 73 73)',
+    white: '#ffffff',
+  },
+  font: {
+    family: 'CeraCY, sans-serif',
+    familyBold: 'CeraCYBold, sans-serif',
+  }
+}

@@ -6,7 +6,7 @@ import { ButtonToggleItem } from 'ui/ButtonToggle';
 import { ButtonUI } from 'ui/ButtonUI';
 import { Box } from 'ui/Box';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI';
-import { setTasksView, setFilterTypeTaskList } from 'store/taskSlice';
+import { setApplicationView, setFilterTypeApplicationList } from 'store/applicationSlice';
 import { Link } from 'react-router-dom';
 import { useWindowSize } from 'hooks/windowSize';
 
@@ -19,14 +19,14 @@ const TaskFilterStyle = styled.div`
 `
 const TaskFilter = () => {
   const dispatch = useDispatch();
-  const view = useSelector((state) => state.task.view);
-  const filterTypeList = useSelector((state) => state.task.filterTypeList);
+  const view = useSelector((state) => state.application.view);
+  const filterTypeList = useSelector((state) => state.application.filterTypeList);
   const windowSize = useWindowSize();
   const installView = (e) => {
-    dispatch(setTasksView(e.target.id));
+    dispatch(setApplicationView(e.target.id));
   }
   const setTypeList = (type) => {
-    dispatch(setFilterTypeTaskList(type));
+    dispatch(setFilterTypeApplicationList(type));
   }
   return (
     <TaskFilterStyle>

@@ -54,13 +54,21 @@ const FillButton = styled.button`
   background-color: ${({ color }) => colors[color]};
   border: 1px solid ${({ color }) => colors[color]};
   color: #ffffff;
-  &:hover{
-    background-color: ${({ color }) => colors[color] + 80};
-    color: #ffffff;
+  @media(hover: none){
+    &:active{
+      background-color: ${({ color }) => colors[color] + 80};
+      color: #ffffff;
+    }
   }
-  &:active{
-    background-color: ${({ color }) => colors[color]};
-    color: #ffffff;
+  @media(hover: hover){
+    &:hover{
+      background-color: ${({ color }) => colors[color] + 80};
+      color: #ffffff;
+    }
+    &:active{
+      background-color: ${({ color }) => colors[color]};
+      color: #ffffff;
+    }
   }
 `
 const OutlineButton = styled.button`
@@ -68,12 +76,20 @@ const OutlineButton = styled.button`
   background-color: #ffffff;
   border: 1px solid ${({ color }) => colors[color]};
   color: ${({ color }) => colors[color]};
-  &:hover{
-    background-color: ${({ color }) => colors[color] + 80};
-    color: #ffffff;
+  @media(hover: none){
+    &:active{
+      background-color: ${({ color }) => colors[color] + 80};
+      color: #ffffff;
+    }
   }
-  &:active{
-    background-color: #ffffff;
-    color: ${({ color }) => colors[color]};
+  @media(hover: hover){
+    &:hover{
+      background-color: ${({ color }) => colors[color] + 80};
+      color: #ffffff;
+    }
+    &:active{
+      background-color: #ffffff;
+      color: ${({ color }) => colors[color]};
+    }
   }
 `

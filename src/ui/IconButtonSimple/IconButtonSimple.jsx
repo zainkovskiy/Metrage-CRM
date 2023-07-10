@@ -7,19 +7,26 @@ import styled, { css } from 'styled-components';
 
 const IconButtonSimpleStyle = styled.div`
   cursor: pointer;
-  border: 1px solid ${({theme}) => theme.color.primary};
+  border: 1px solid ${({ theme }) => theme.color.primary};
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2px;
   border-radius: 5px;
   transition: transform .3s;
+  @media(hover: none){
+    &:active{
+      transform: scale(1.3);
+    }
+  }
+  @media(hover: hover){
     &:hover{
       transform: scale(1.3);
     }
     &:active{
       transform: scale(1);
     }
+  }
 `
 const iconStyle = css`
   width: 20px;

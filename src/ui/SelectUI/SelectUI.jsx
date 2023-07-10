@@ -8,6 +8,8 @@ import { TextSpanStyle } from 'styles/styles';
 const SelectContainer = styled.div`
   position: relative;
 `
+const BorderFocus = styled.span`
+`
 const SelectInputStyle = styled.input`
   font-size: 14px;
   font-family: CeraCY, sans-serif;
@@ -19,9 +21,23 @@ const SelectInputStyle = styled.input`
   box-sizing: border-box;
   letter-spacing: ${(props) => props.type === 'password' ? '1.25px' : ''};
   cursor: pointer;
-  &:focus{
-    outline: 1px solid ${({ theme, error }) => error ? 'red' : theme.color.primary};
+  &:focus + ${BorderFocus}::after{
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border: 2px solid ${({ theme, error }) => error ? 'red' : theme.color.primary};
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    
   }
+  // &:focus{
+  //   outline: 1px solid ${({ theme, error }) => error ? 'red' : theme.color.primary};
+  // }
 `
 const ArrowStyle = styled(ArrowDown)`
   width: 12px;
@@ -81,6 +97,7 @@ export const SelectUI = ({ select, onChange, children, label, fullWidth, inputRe
             disabled={disabled}
             $small={small}
           />
+          <BorderFocus />
           {
             !disabled &&
             <ArrowStyle open={open} />
@@ -126,7 +143,7 @@ const SelectItemStyle = styled(motion.div)`
   }
 `
 export const SelectItemUI = ({ children, value, select, onChange }) => {
-  const handleChange = (e) => {
+  const handleChange = () => {
     onChange(value);
   }
   return (

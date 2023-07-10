@@ -41,7 +41,7 @@ const TaskContent = styled.div`
   background-color: #F5F5F5;
 `
 const TaskEvents = styled(TextSpanStyle)`
-  border-radius: 40px;
+  border-radius: 40px 0;
   background-color: antiquewhite;
   display: flex;
   align-items: center;

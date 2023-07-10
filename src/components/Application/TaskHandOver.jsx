@@ -6,7 +6,7 @@ import { ButtonUI } from 'ui/ButtonUI';
 import { Box } from 'ui/Box';
 import { getOfficeList } from 'api/search';
 import { useDispatch } from 'react-redux';
-import { changeAgent } from 'store/taskSlice';
+import { changeAgent } from 'store/applicationSlice';
 
 const TaskHandOverStyle = styled.div`
   display: flex;
