@@ -3,8 +3,8 @@ export const socketMiddleware = () => (params) => (next) => (action) => {
   const { dispatch, getState } = params
   const { type } = action;
   if (type === 'socket/connect') {
-    if (!socket) { return }
     socket = new WebSocket("wss://crm.metragegroup.com:8000");
+    if (!socket) { return }
     socket.onopen = (e) => {
       console.log("[open] Соединение установлено");
       socket.send(JSON.stringify({
@@ -23,6 +23,10 @@ export const socketMiddleware = () => (params) => (next) => (action) => {
           const curState = message?.Fields?.curState;
           dispatch({ type: 'chat/setCounterMessage', payload: curState });
         }
+      }
+      if(message?.Action === 'chatMessage'){
+        const chatMessage = message?.Fields;
+        dispatch({ type: 'chat/addMessage', payload: chatMessage });
       }
     }
     return

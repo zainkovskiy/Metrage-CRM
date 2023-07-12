@@ -14,6 +14,7 @@ const TelegramConectStyle = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  margin: 1rem;
 `
 
 const TelegramConect = ({ onClose }) => {

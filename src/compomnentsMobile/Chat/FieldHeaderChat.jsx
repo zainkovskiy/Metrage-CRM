@@ -37,7 +37,7 @@ const FieldHeaderChat = () => {
     if (targetAuthor?.avatar) {
       return targetAuthor.avatar
     }
-    return `https://ui-avatars.com/api/?name=${targetAuthor.lastName}+${targetAuthor.firstName}&background=85009e&color=fff`
+    return `https://ui-avatars.com/api/?name=${targetAuthor?.lastName}+${targetAuthor?.firstName}&background=85009e&color=fff`
   }
   return (
     <FieldHeaderChatStyle>
@@ -46,7 +46,7 @@ const FieldHeaderChat = () => {
       </Box>
       <Box fullWidth>
         <ChatAvatar src={getAvatar()} alt='avatar' />
-        <TextSpanStyle nowrap size={16}>{targetAuthor.lastName} {targetAuthor.firstName}</TextSpanStyle>
+        <TextSpanStyle nowrap size={16}>{targetAuthor?.lastName} {targetAuthor?.firstName}</TextSpanStyle>
       </Box>
       <Box fullWidth jc='flex-end'>
         <ChatMenu>

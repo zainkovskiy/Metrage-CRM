@@ -1,11 +1,11 @@
-import React, { Suspense, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import Loader from "components/Main/Loader";
 import Tasks from './Tasks';
 import TaskFilter from './TaskFilter';
-import { Await, Outlet, useLoaderData, useLocation, useMatch, useSubmit } from 'react-router-dom';
-import { getApplicationsList } from 'api/application';
+import { Outlet, useLocation, useMatch } from 'react-router-dom';
 import { device } from 'styles/device';
+import { getApplicationList, clearApplication } from 'store/applicationSlice';
+import { useDispatch } from 'react-redux';
 
 const ApplicationContentStyle = styled.div`
   flex-grow: 1;
@@ -21,12 +21,9 @@ const ApplicationContentStyle = styled.div`
 const ApplicationContent = () => {
   const locationRef = useRef(null);
   const firstMount = useRef(true);
-
-  const { applications } = useLoaderData();
-
+  const dispatch = useDispatch();
   const match = useMatch('/')
   const location = useLocation();
-  const submit = useSubmit();
 
   useEffect(() => {
     if (firstMount.current) {
@@ -39,27 +36,26 @@ const ApplicationContent = () => {
     }
     locationRef.current = location;
     if (match) {
-      submit();
+      getList();
     }
   }, [location])
 
+  useEffect(() => {
+    getList();
+    return () => {
+      dispatch(clearApplication());
+    }
+  }, [])
+  const getList = () => {
+    dispatch(getApplicationList());
+  }
   return (
     <ApplicationContentStyle>
       <TaskFilter />
-      <Suspense fallback={<Loader />}>
-        <Await resolve={applications}>
-          <>
-            <Tasks />
-          </>
-        </Await>
-      </Suspense>
+      <Tasks firstMount={firstMount.current} />
       <Outlet />
     </ApplicationContentStyle>
   );
 };
-export const loaderApplications = async ({ request, params }) => {
-  // return []
-  return { applications: await getApplicationsList() }
-}
 
 export default ApplicationContent;

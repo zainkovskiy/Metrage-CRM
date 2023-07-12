@@ -3,7 +3,6 @@ import { createBrowserRouter } from "react-router-dom";
 import App from './App';
 
 import SuspenseApplication from "components/Application/SuspenseApplication";
-import { loaderApplications } from "components/Application/ApplicationContent";
 import SuspenseSlideApplication from "components/Application/SuspenseSlideApplication";
 import { loaderOpenSlide } from "components/Application/SuspenseSlideApplication";
 import SuspenseNewApplication from "components/Application/SuspenseNewApplication";
@@ -19,7 +18,6 @@ export const routers = createBrowserRouter([
       {
         path: '/',
         element: <SuspenseApplication />,
-        loader: loaderApplications,
         children: [
           {
             path: '/new-app',

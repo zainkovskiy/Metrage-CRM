@@ -6,6 +6,7 @@ import { useDateFormat } from 'hooks/DateFormat';
 import { motion } from 'framer-motion';
 import { Box } from 'ui/Box';
 import logoUrl, { ReactComponent as Logo } from 'images/logo_small.svg';
+import doneUrl, { ReactComponent as Done } from 'images/done2.svg';
 
 const TaskStyle = styled(motion.div)`
   border-radius: 40px 0 40px 0;
@@ -26,10 +27,12 @@ const TaskHeader = styled.div`
   align-items: center;
   justify-content: space-between;
   background-color: ${({ theme, $color }) => $color || theme.color.secondary};
+  width: 100%;
+  box-sizing: border-box;
 `
 const TaskSourceStyle = styled.img`
-  width: 25px;
-  height: 25px;
+  width: 24px;
+  height: 24px;
   object-fit: contain;
 `
 const TaskContent = styled.div`
@@ -46,7 +49,7 @@ const TaskEvents = styled(TextSpanStyle)`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 25px;
+  min-width: 25px;
   height: 25px;
   color: red;
 `
@@ -76,6 +79,21 @@ const LinkStyle = styled(Link)`
   text-decoration: none;
   color: black;
 `
+const DoneIcon = styled(Done)`
+  width: 24px;
+  height: 24px;
+  fill: green;  
+`
+const TextSpanEllipsis = styled(TextSpanStyle)`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+`
+const TextHeaderContainer = styled.div`
+  width: 50%;
+  flex-grow: 1;
+`
 const variants = {
   visible: {
     opacity: 1,
@@ -96,15 +114,19 @@ const Task = ({ task }) => {
           {
             task?.demand?.events !== 0 ? <TaskEvents size={12}>{task?.demand?.events}</TaskEvents> : <span></span>
           }
-          <Box column gap='0' ai='flex-end'>
-            <TextSpanStyle color='#fff' size={10}>Клиент</TextSpanStyle>
-            <TextSpanStyle color='#fff' size={12}>{task?.client?.title}</TextSpanStyle>
-          </Box>
+          <TextHeaderContainer>
+            <TextSpanStyle align='end' color='#fff' size={10}>Клиент</TextSpanStyle>
+            <TextSpanEllipsis align='end' color='#fff' size={12}>{task?.client?.title}</TextSpanEllipsis>
+          </TextHeaderContainer>
         </TaskHeader>
         <TaskContent>
+          <TextSpanStyle align='end' size={10}>Создано: {useDateFormat(task?.created)}</TextSpanStyle>
           <Box jc='space-between' ai='flex-start'>
             <TaskSourceStyle src={task?.source?.picture || logoUrl} alt="logo" />
-            <TextSpanStyle size={10}>Создано: {useDateFormat(task?.created)}</TextSpanStyle>
+            {
+              task?.demand?.isChecked === '1' &&
+              <DoneIcon />
+            }
           </Box>
           <TextListStyle>Источник: <span>{task?.source?.name}</span></TextListStyle>
           <TextListStyle>Статус: <span>{task?.status?.title}</span></TextListStyle>

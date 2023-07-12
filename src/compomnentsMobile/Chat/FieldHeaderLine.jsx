@@ -75,7 +75,7 @@ const FieldHeaderLine = () => {
         </Box>
         <Box fullWidth>
           <ChatAvatar src={getSource()} alt='avatar' />
-          <TextSpanStyle nowrap size={16}>{targetAuthor.lastName} {targetAuthor.firstName}</TextSpanStyle>
+          <TextSpanStyle nowrap size={16}>{targetAuthor?.lastName} {targetAuthor?.firstName}</TextSpanStyle>
         </Box>
         <Box fullWidth jc='flex-end'>
           <ChatMenu>

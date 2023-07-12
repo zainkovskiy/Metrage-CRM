@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const CloseCircleButtonUI = React.lazy(() => import('ui/CloseCircleButtonUI/CloseCircleButtonUI'));
 const ButtonBack = React.lazy(() => import('ui/ButtonBack/ButtonBack'));
 import { useWindowSize } from 'hooks/windowSize';
+import { device } from 'styles/device';
 
 const SlideWindowStyle = styled(motion.div)`
   position: absolute;
@@ -17,11 +18,14 @@ const SlideWindowStyle = styled(motion.div)`
   justify-content: flex-end;
   z-index: 999;
   overflow: hidden;
+  @media ${device.tablet}{
+    height: ${document.documentElement.clientHeight - 42}px;
+  }
 `
 const SlideWindowContainer = styled(motion.div)`
   ${({ $mobile }) => $mobile && 'flex-direction: column;'};
   display: flex;
-  width: ${({ width }) => width || '100%'}
+  width: ${({ width }) => width || '100%'};
 `
 const SlideWindowContent = styled.div`
   width: 100%;

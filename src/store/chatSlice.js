@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { useFindCurrentChat } from "hooks/ChatHooks";
 
-const chatState = globalMessages ? JSON.parse(globalMessages) : null;
 const counter = globalCounter ? JSON.parse(globalCounter) : 0;
 const API = 'https://crm.metragegroup.com/API/REST.php';
 
@@ -174,7 +173,6 @@ export const closeOpenLineChat = createAsyncThunk(
 )
 
 const initialState = {
-  ...chatState,
   messageCounter: counter,
   show: false,
   selectButton: 'notification',
@@ -213,6 +211,15 @@ const userSlice = createSlice({
       const findChat = state.chatList.chats.find((chat) => chat?.chatWith?.UID.toString() === state.targetAuthor.UID.toString());
       findChat.lastMessage = message;
       state.chatList.chats.splice(state.chatList.chats.indexOf(findChat), 1, findChat);
+    },
+    addMessage(state, action) {
+      const newMessage = action.payload;
+      if (state.currentChat && state.currentChat.chatId === newMessage.chatId){
+        state.currentChat.messages = [...state.currentChat.messages, newMessage.messages];
+        return
+      }
+      const findChat = state.chatList.chats.find((chat) => chat.chatId === newMessage.chatId);
+      findChat.unread++;
     },
   },
   extraReducers: (builder) => {

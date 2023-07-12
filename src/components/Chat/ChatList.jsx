@@ -13,6 +13,7 @@ const ChatListStyle = styled.div`
   display: flex;
   flex-direction: column;
   padding-bottom: 5px;
+  overflow: auto;
   @media ${device.tablet}{
     width: 100%;
     flex-grow: 1;

@@ -29,13 +29,13 @@ const FieldChatHeader = () => {
     if (targetAuthor?.avatar) {
       return targetAuthor.avatar
     }
-    return `https://ui-avatars.com/api/?name=${targetAuthor.lastName}+${targetAuthor.firstName}&background=85009e&color=fff`
+    return `https://ui-avatars.com/api/?name=${targetAuthor?.lastName}+${targetAuthor?.firstName}&background=85009e&color=fff`
   }
   return (
     <FieldChatHeaderStyle>
       <Box>
         <ChatAvatar src={getAvatar()} alt='avatar' />
-        <TextSpanStyle size={16}>{targetAuthor.lastName} {targetAuthor.firstName}</TextSpanStyle>
+        <TextSpanStyle size={16}>{targetAuthor?.lastName} {targetAuthor.firstName}</TextSpanStyle>
       </Box>
       <ChatMenu>
         <ChatMenuItem onClick={() => { }}>Очистить историю</ChatMenuItem>

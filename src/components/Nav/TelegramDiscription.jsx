@@ -13,6 +13,7 @@ const TelegramDiscriptionStyle = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  margin: 1rem;
 `
 const TelegramDiscription = ({ onClose }) => {
   const subscrition = useSelector((state) => state.telegram.subscription);
