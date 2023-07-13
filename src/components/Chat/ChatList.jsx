@@ -8,13 +8,15 @@ import { device } from 'styles/device';
 
 const ChatListStyle = styled.div`
   background-color: #fff;
-  width: 300px;
+  min-width: 300px;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
   padding-bottom: 5px;
   overflow: auto;
+  width: 300px;
   @media ${device.tablet}{
+    min-width: 100%;
     width: 100%;
     flex-grow: 1;
   }

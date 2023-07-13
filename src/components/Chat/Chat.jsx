@@ -6,6 +6,7 @@ import CloseCircleButtonUI from 'ui/CloseCircleButtonUI/CloseCircleButtonUI';
 const ChatContent = lazy(() => import('components/Chat/ChatContent'));
 import { toggleShowChat } from 'store/chatSlice';
 import Loader from 'components/Main/Loader';
+import {device} from 'styles/device';
 
 const ChatStyle = styled(motion.div)`
   position: absolute;

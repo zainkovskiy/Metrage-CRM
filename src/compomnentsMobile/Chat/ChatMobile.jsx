@@ -22,6 +22,7 @@ const ChatContainer = styled(motion.div)`
   left: 0;
   z-index: 9999;
   overflow: hidden;
+  height: ${document.documentElement.clientHeight}px;
 `
 const variantsChat = {
   open: {

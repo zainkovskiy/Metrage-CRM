@@ -1,7 +1,8 @@
 import React, { Suspense, useState } from 'react';
-import { Await, useLoaderData, useNavigate, useSubmit } from 'react-router-dom';
+import { Await, useLoaderData, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useWindowSize } from 'hooks/windowSize';
+import { setUpdateApplication } from 'store/applicationSlice';
 
 
 import Loader from "components/Main/Loader";
@@ -9,7 +10,6 @@ import SlideWindow from "components/Main/SlideWindow";
 const TaskSlide = React.lazy(() => import('./TaskSlide'));
 import { getApplicationData } from 'api/application';
 import { useDispatch } from 'react-redux';
-import { editApplication } from 'store/applicationSlice';
 
 const LoaderContainer = styled.div`
   display: flex;
@@ -26,7 +26,7 @@ const SuspenseSlideApplication = () => {
   const handleClose = () => {
     setTimeout(() => {
       application.then((app) => {
-        dispatch(editApplication(app));
+        dispatch(setUpdateApplication(app.UID));
       })
       navigate('/', {replace: true});
     }, 300)

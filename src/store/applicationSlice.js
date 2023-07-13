@@ -4,7 +4,7 @@ import axios from "axios";
 const API = 'https://crm.metragegroup.com/API/REST.php';
 
 export const getApplicationList = createAsyncThunk(
-  'task/getApplicationList',
+  'application/getApplicationList',
   async (_, { dispatch, getState }) => {
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
@@ -17,13 +17,13 @@ export const getApplicationList = createAsyncThunk(
   }
 )
 export const getMoreApplication = createAsyncThunk(
-  'task/getMoreApplication',
+  'application/getMoreApplication',
   async (_, { dispatch, getState }) => {
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
       method: "crm.demand.list",
       fields: {
-        offset: getState().application.offset + 1, 
+        offset: getState().application.offset + 1,
       }
     })
     if (res?.statusText === 'OK') {
@@ -33,7 +33,7 @@ export const getMoreApplication = createAsyncThunk(
   }
 )
 export const setNewApplication = createAsyncThunk(
-  'task/setNewApplication',
+  'application/setNewApplication',
   async (form, { dispatch }) => {
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
@@ -41,12 +41,13 @@ export const setNewApplication = createAsyncThunk(
       fields: form
     })
     if (res?.statusText === 'OK') {
+      dispatch(setUpdateApplication(res?.data?.result?.UID));
       return res
     }
   }
 )
 export const changeAgent = createAsyncThunk(
-  'task/changeAgent',
+  'application/changeAgent',
   async (raw, { dispatch, rejectWithValue }) => {
     try {
       const { data } = await axios.post(API, {
@@ -68,7 +69,7 @@ export const changeAgent = createAsyncThunk(
   }
 )
 export const changeStage = createAsyncThunk(
-  'task/changeStage',
+  'application/changeStage',
   async (raw) => {
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
@@ -82,7 +83,7 @@ export const changeStage = createAsyncThunk(
   }
 )
 export const setNewContact = createAsyncThunk(
-  'task/setNewContact',
+  'application/setNewContact',
   async (data, { rejectWithValue, getState, dispatch }) => {
     try {
       const res = await axios.post(API, {
@@ -102,7 +103,7 @@ export const setNewContact = createAsyncThunk(
   }
 )
 export const checkApplication = createAsyncThunk(
-  'task/updateContact',
+  'application/updateContact',
   async (raw, { rejectWithValue }) => {
     try {
       const res = await axios.post(API, {
@@ -117,7 +118,7 @@ export const checkApplication = createAsyncThunk(
   }
 )
 export const updateContact = createAsyncThunk(
-  'task/updateContact',
+  'application/updateContact',
   async (raw, { rejectWithValue }) => {
     try {
       const res = await axios.post(API, {
@@ -135,7 +136,7 @@ export const updateContact = createAsyncThunk(
   }
 )
 export const changeType = createAsyncThunk(
-  'task/changeType',
+  'application/changeType',
   async (raw, { rejectWithValue }) => {
     try {
       const res = await axios.post(API, {
@@ -149,6 +150,21 @@ export const changeType = createAsyncThunk(
       return res
     } catch (error) {
       return rejectWithValue(error)
+    }
+  }
+)
+export const setUpdateApplication = createAsyncThunk(
+  'application/setUpdateApplication',
+  async (UID) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.demand.listOne',
+      fields: {
+        UID: UID,
+      }
+    })
+    if (res?.statusText === 'OK') {
+      return res?.data?.result?.transwerData?.length > 0 ? res?.data?.result?.transwerData[0] : null;
     }
   }
 )
@@ -175,18 +191,10 @@ const applicationSlice = createSlice({
       const newFilterTypeList = action.payload;
       state.filterTypeList = newFilterTypeList;
     },
-    clearApplication(state, action){
-     state.applications = [];
-     state.offset = 0;
-    }, 
-    editApplication(state, action){
-      // const app = action.payload;
-      // const find = state.applications.find((item) => item.UID === app.UID);
-      // const parsFind = JSON.parse(JSON.stringify(find));
-      // console.log(JSON.stringify(parsFind) === JSON.stringify(app));
-      // console.log(app);
-      // console.log(parsFind);
-    }, 
+    clearApplication(state, action) {
+      state.applications = [];
+      state.offset = 0;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -224,7 +232,18 @@ const applicationSlice = createSlice({
       .addCase(setNewApplication.rejected, (state) => {
         state.loadingNewApplication = false;
       })
+      .addCase(setUpdateApplication.fulfilled, (state, action) => {
+        const app = action.payload;
+        if (!app) { return }
+        const find = state.applications.find((item) => item.UID === app.UID);
+        if (!find) {
+          state.applications = [app, ...state.applications];
+          return
+        }
+        if (JSON.stringify(app) === JSON.stringify(find)) { return }
+        state.applications.splice(state.applications.indexOf(find), 1, app);
+      })
   }
 })
-export const { setApplicationView, setFilterTypeApplicationList, clearApplication, editApplication } = applicationSlice.actions;
+export const { setApplicationView, setFilterTypeApplicationList, clearApplication } = applicationSlice.actions;
 export default applicationSlice.reducer;

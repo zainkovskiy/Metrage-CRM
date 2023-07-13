@@ -1,3 +1,5 @@
+import { getChatList, getNotification } from "./chatSlice";
+
 export const socketMiddleware = () => (params) => (next) => (action) => {
   let socket = null;
   const { dispatch, getState } = params
@@ -22,11 +24,13 @@ export const socketMiddleware = () => (params) => (next) => (action) => {
         if (message?.Fields?.curState) {
           const curState = message?.Fields?.curState;
           dispatch({ type: 'chat/setCounterMessage', payload: curState });
+          dispatch(getNotification());
         }
       }
-      if(message?.Action === 'chatMessage'){
+      if (message?.Action === 'chatMessage') {
         const chatMessage = message?.Fields;
         dispatch({ type: 'chat/addMessage', payload: chatMessage });
+        dispatch(getChatList(true));
       }
     }
     return

@@ -22,8 +22,10 @@ export const getNotification = createAsyncThunk(
 )
 export const getChatList = createAsyncThunk(
   'chat/getChatList',
-  async (_, { getState, dispatch }) => {
-    dispatch(clearCurrentChat());
+  async (socket, { getState, dispatch }) => {
+    if (!socket) {
+      dispatch(clearCurrentChat());
+    }
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
       method: 'crm.messages.list',
@@ -31,7 +33,7 @@ export const getChatList = createAsyncThunk(
         userId: getState().user.UID,
       }
     })
-    if(getState().user.windowDevice <= 425){
+    if (getState().user.windowDevice <= 425 || socket) {
       return res?.data?.result
     }
     if (res?.statusText === 'OK') {
@@ -214,12 +216,15 @@ const userSlice = createSlice({
     },
     addMessage(state, action) {
       const newMessage = action.payload;
-      if (state.currentChat && state.currentChat.chatId === newMessage.chatId){
+      if (state.currentChat && state.currentChat.chatId === newMessage.chatId) {
         state.currentChat.messages = [...state.currentChat.messages, newMessage.messages];
         return
       }
       const findChat = state.chatList.chats.find((chat) => chat.chatId === newMessage.chatId);
-      findChat.unread++;
+      if (findChat) {
+        findChat.unread++;
+        state.messageCounter++;
+      }
     },
   },
   extraReducers: (builder) => {
@@ -242,6 +247,7 @@ const userSlice = createSlice({
           const countUnread = findChat.unread;
           findChat.unread = 0;
           state.chatList.unreadCount = state.chatList.unreadCount - countUnread;
+          state.messageCounter = state.messageCounter - countUnread;
         }
       })
       .addCase(getCurrentChat.rejected, (state, action) => {
@@ -264,12 +270,14 @@ const userSlice = createSlice({
         const findNotice = noticeList.find((item) => item.UID === notice.UID);
         findNotice.readed = true;
         state.notification.notifyUnread = state.notification.notifyUnread - 1;
+        state.messageCounter--;
       })
       .addCase(setReadAllNotice.fulfilled, (state) => {
         state.notification.notifications = state.notification.notifications.map((notice) => {
           if (notice.readed) { return notice }
           return { ...notice, readed: true };
         });
+        state.messageCounter = state.messageCounter - state.notification.notifyUnread;
         state.notification.notifyUnread = 0;
       })
       .addCase(closeOpenLineChat.pending, (state) => {
