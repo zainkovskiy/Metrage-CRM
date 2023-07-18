@@ -13,7 +13,7 @@ const InputDadata = styled(InputStyle)`
 
 const Dadata = ({ onChange, value, label, inputRef, error, disabled }) => {
   return (
-    <LabelStyle>
+    <LabelStyle fullWidth>
       {label}
       <div>
         <AddressSuggestions

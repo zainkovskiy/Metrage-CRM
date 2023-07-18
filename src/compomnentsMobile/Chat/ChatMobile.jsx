@@ -5,6 +5,18 @@ import ChatMobileHeader from './ChatMobileHeader';
 import ChatMobileContent from './ChatMobileContent';
 import ChatButtons from 'components/Chat/ChatButtons';
 
+const ChatContainer = styled(motion.div)`
+  position: fixed;
+  top: -70;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+  overflow: hidden;
+  padding-bottom: 70px;
+	transform: translateY(70px);
+  // height: ${document.documentElement.clientHeight}px;
+`
 const ChatMobileStyle = styled(motion.div)`
   background-color: ${({ theme }) => theme.color.primary};
   display: flex;
@@ -13,16 +25,6 @@ const ChatMobileStyle = styled(motion.div)`
   gap: 0.5rem;
   padding: 0.5rem;
   box-sizing: border-box;
-`
-const ChatContainer = styled(motion.div)`
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 9999;
-  overflow: hidden;
-  height: ${document.documentElement.clientHeight}px;
 `
 const variantsChat = {
   open: {

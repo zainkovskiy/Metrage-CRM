@@ -10,6 +10,11 @@ export const LabelStyle = styled.label`
 `
 export const ContainerIcon = styled.div`
   position: relative;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  &:has(input:focus){
+    border: 1px solid ${({ theme, error }) => error ? 'red' : theme.color.primary};
+  }
 `
 export const InputStyle = styled.input`
   font-size: 14px;
@@ -17,14 +22,14 @@ export const InputStyle = styled.input`
   padding: ${(props) => (props.type === 'password' || props.icon) ? '0.5rem 28px 0.5rem 0.5rem' : '0.5rem'};
   border-radius: 5px;
   border: 1px solid ${({ theme, error }) => error ? 'red' : theme.color.primary};
-  outline: 1px solid transparent;
+  outline: none;
   width: 100%;
   box-sizing: border-box;
   letter-spacing: ${(props) => props.type === 'password' ? '1.25px' : ''};
   position: relative;
-  &:focus{
-    outline: 1px solid ${({ theme, error }) => error ? 'red' : theme.color.primary};
-  }
+  // &:focus{
+  //   // outline: 1px solid ${({ theme, error }) => error ? 'red' : theme.color.primary};
+  // }
   &:disabled{
     background-color: #eee;
     opacity: 0.8;

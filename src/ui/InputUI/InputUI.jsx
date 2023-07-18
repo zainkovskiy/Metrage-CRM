@@ -77,7 +77,7 @@ const InputPassword = forwardRef((props, ref) => {
 const InputCustom = forwardRef((props, ref) => {
   const { type, disabled, register, error, icon, value, onChange, onBlur, onFocus, readOnly, defaultValue, placeholder } = props;
   return (
-    <ContainerIcon>
+    <ContainerIcon error={error}>
       <InputStyle
         error={error}
         ref={ref}

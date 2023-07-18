@@ -7,6 +7,8 @@ import SuspenseSlideApplication from "components/Application/SuspenseSlideApplic
 import { loaderOpenSlide } from "components/Application/SuspenseSlideApplication";
 import SuspenseNewApplication from "components/Application/SuspenseNewApplication";
 import { newTaskLoader } from 'components/Application/SuspenseNewApplication';
+import SuspenseObjects from "components/Objects/SuspenseObjects";
+import SuspenseNewObjects from "components/Objects/New/SuspenseNewObjects";
 
 import TaskContent from "./components/Task/TaskContent";
 
@@ -39,6 +41,20 @@ export const routers = createBrowserRouter([
       {
         path: 'task',
         element: <TaskContent />,
+      },
+      {
+        path: 'objects',
+        element: <SuspenseObjects />,
+        children: [
+          {
+            path: 'new-object',
+            element: <SuspenseNewObjects/>
+          }
+        ]
+      },
+      {
+        path: 'new-object',
+        element: <SuspenseNewObjects/>
       },
       {
         path: 'home',

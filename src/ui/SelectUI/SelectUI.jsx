@@ -80,6 +80,7 @@ export const SelectUI = ({ select, onChange, children, label, fullWidth, inputRe
     setOpen(!open);
   }
   const getSelectTitle = () => {
+    if(!children){return};
     const findElem = children.find((item) => item.props.value === select);
     return findElem ? findElem.props.children : '';
   }
