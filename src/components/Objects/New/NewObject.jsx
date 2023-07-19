@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import TypeRealEstate from './TypeRealEstate';
 import TypeDeal from './TypeDeal';
 import TypeObject from './TypeObject';
-import FormCords from './FormCords';
+import FormCords from './FormTemplate/FormCords';
 
 const NewObjectStyle = styled(motion.form)`
   display: flex;
@@ -47,15 +47,23 @@ const NewObject = () => {
         getValues('Category') &&
         <>
           <FormCords control={control} setCords={setCords} errors={errors} clearErrors={clearErrors} />
-          <FieldsCategory control={control} />
+          <FieldsCategory control={control} errors={errors}/>
         </>
       }
     </NewObjectStyle>
   );
 };
 
-const FormFlat = React.lazy(() => import('./FormFlat'));
-const FormRoom = React.lazy(() => import('./FormRoom'));
+import FormFlat from './FormTemplate/FormFlat';
+import FormRoom from './FormTemplate/FormRoom';
+import FormNewBuilding from './FormTemplate/FormNewBuilding';
+import FormFlatShare from './FormTemplate/FormFlatShare';
+import FormGarage from './FormTemplate/FormGarage';
+import FormHouse from './FormTemplate/FormHouse';
+import FormHouseShare from './FormTemplate/FormHouseShare';
+import FormoCottage from './FormTemplate/FormoCottage';
+import FormTownhouse from './FormTemplate/FormTownhouse';
+import FormLand from './FormTemplate/FormLand';
 
 const DefaultComponent = styled.div`
 `
@@ -63,8 +71,24 @@ const getFieldComponent = (category) => {
   switch (category) {
     case 'flatSale':
       return FormFlat;
+    case 'newBuildingFlatSale':
+      return FormNewBuilding;
+    case 'flatShareSale':
+      return FormFlatShare;
     case 'roomSale':
       return FormRoom;
+    case 'garageSale':
+      return FormGarage;
+    case 'houseSale':
+      return FormHouse;
+    case 'houseShareSale':
+      return FormHouseShare;
+    case 'cottageSale':
+      return FormoCottage;
+    case 'townhouseSale':
+      return FormTownhouse;
+    case 'landSale':
+      return FormLand;
     default:
       return DefaultComponent;
   }

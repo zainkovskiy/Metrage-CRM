@@ -1,6 +1,6 @@
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { ObjectSliderBox } from '../ObjectsStyle';
+import { ObjectSliderBox } from '../../ObjectsStyle';
 import Dadata from 'components/Main/Dadata';
 import MapPlacemark from 'components/Main/MapPlacemark';
 import { TextSpanStyle } from 'styles/styles';

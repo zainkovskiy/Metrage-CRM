@@ -1,7 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Controller } from 'react-hook-form';
-import { ObjectSliderBox } from '../ObjectsStyle';
+import { ObjectSliderBox, FormWrapper } from '../../ObjectsStyle';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { Box } from 'ui/Box/Box';
 import { ButtonToggleGroup, ButtonToggleItem } from 'ui/ButtonToggle';
@@ -9,12 +8,8 @@ import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import { TextSpanStyle } from 'styles/styles';
-const FormWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
-`
-const FormFlat = ({ control }) => {
+
+const FormNewBuilding = ({ control, errors }) => {
   return (
     <>
       <ObjectSliderBox
@@ -25,14 +20,6 @@ const FormFlat = ({ control }) => {
         transition={{ duration: 0.3 }}
       >
         <FormWrapper>
-          <Controller
-            name='Apartment'
-            control={control}
-            render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Номер квартиры' fullWidth type='number' />
-            )}
-          />
           <Controller
             name='Price'
             control={control}
@@ -46,7 +33,7 @@ const FormFlat = ({ control }) => {
             control={control}
             render={({ field }) => (
               <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Цена' fullWidth />
+                value={field.value || ''} label='Кадастровый номер' fullWidth />
             )}
           />
         </FormWrapper>
@@ -109,6 +96,18 @@ const FormFlat = ({ control }) => {
                 value={field.value || ''} label='Площадь кухни' fullWidth type='number' />
             )}
           />
+          <Controller
+            name='AllRoomsArea'
+            control={control}
+            render={({ field }) => (
+              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
+                value={field.value || ''} label='Площадь комнат' fullWidth placeholder="Пример: 18+14-10" />
+            )}
+          />
+          <Box column gap='0' ai='flex-start' jc='flex-end'>
+            <TextSpanStyle color='grey' size={10}>+ для смежных</TextSpanStyle>
+            <TextSpanStyle color='grey' size={10}>- для раздельных</TextSpanStyle>
+          </Box>
         </FormWrapper>
         <FormWrapper>
           <Controller
@@ -132,17 +131,23 @@ const FormFlat = ({ control }) => {
           <Controller
             name='BalconiesCount'
             control={control}
+            rules={{ min: { value: 0, message: 'Не допустимое значение' } }}
             render={({ field }) => (
               <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Балкон' fullWidth type='number' />
+                value={field.value || ''} label='Балкон' fullWidth type='number'
+                error={errors.BalconiesCount}
+              />
             )}
           />
           <Controller
             name='LoggiasCount'
             control={control}
+            rules={{ min: { value: 0, message: 'Не допустимое значение' } }}
             render={({ field }) => (
               <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Лоджия' fullWidth type='number' />
+                value={field.value || ''} label='Лоджия' fullWidth type='number'
+                error={errors.LoggiasCount}
+              />
             )}
           />
         </FormWrapper>
@@ -171,6 +176,20 @@ const FormFlat = ({ control }) => {
                 <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='design' active={field.value}>Дизайнерский</ButtonToggleItem>
                 <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='euro' active={field.value}>Евроремонт</ButtonToggleItem>
                 <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='no' active={field.value}>Без ремонта</ButtonToggleItem>
+              </ButtonToggleGroup>
+            )}
+          />
+        </Box>
+        <Box column ai='flex-start'>
+          <TextSpanStyle>Отделка</TextSpanStyle>
+          <Controller
+            control={control}
+            name='RepairType'
+            render={({ field }) => (
+              <ButtonToggleGroup type='apart'>
+                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='fine' active={field.value}>Чистовая</ButtonToggleItem>
+                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='rough' active={field.value}>Черновая</ButtonToggleItem>
+                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='without' active={field.value}>Без отделки</ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -217,6 +236,32 @@ const FormFlat = ({ control }) => {
         </Box>
         <FormWrapper>
           <Controller
+            name='CplModerationPersonType'
+            control={control}
+            render={({ field }) => (
+              <SelectUI onChange={field.onChange} select={field.value} label='Данные дольщика'>
+                <SelectItemUI value='legal'>Юридическое лицо</SelectItemUI>
+                <SelectItemUI value='natural'>Физическое лицо</SelectItemUI>
+              </SelectUI>
+            )}
+          />
+          <Controller
+            name='SaleType'
+            control={control}
+            render={({ field }) => (
+              <SelectUI onChange={field.onChange} select={field.value} label='Тип продажи'>
+                <SelectItemUI value='dupt'>Договор уступки права требования</SelectItemUI>
+                <SelectItemUI value='dzhsk'>Договор ЖСК</SelectItemUI>
+                <SelectItemUI value='free'>Свободная продажа</SelectItemUI>
+                <SelectItemUI value='fz214'>214-ФЗ</SelectItemUI>
+                <SelectItemUI value='investment'>Договор инвестирования</SelectItemUI>
+                <SelectItemUI value='pdkp'>Предварительный договор купли-продажи</SelectItemUI>
+              </SelectUI>
+            )}
+          />
+        </FormWrapper>
+        <FormWrapper>
+          <Controller
             name='AgentBonusValue'
             control={control}
             render={({ field }) => (
@@ -249,4 +294,4 @@ const FormFlat = ({ control }) => {
   );
 };
 
-export default FormFlat;
+export default FormNewBuilding;

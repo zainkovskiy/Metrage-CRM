@@ -9,3 +9,8 @@ export const ObjectSliderBox = styled(motion.div)`
   gap: 0.5rem;
   ${({ $column }) => $column && 'flex-direction: column;'}
 `
+export const FormWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+`

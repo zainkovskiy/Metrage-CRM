@@ -65,6 +65,7 @@ const SelectItemsContainer = styled(motion.div)`
   max-height: 250px;
   overflow: auto;
   padding: 0.5rem 0;
+  box-sizing: border-box;
 `
 const variants = {
   vissible: {
