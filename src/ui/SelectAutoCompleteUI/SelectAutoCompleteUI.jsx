@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { ReactComponent as ArrowDown } from 'images/arrow-down.svg';
-import React, { Children, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { LabelStyle } from 'ui/InputUI/InputUIStyled';
 import { TextSpanStyle } from 'styles/styles';
@@ -8,13 +8,7 @@ import { TextSpanStyle } from 'styles/styles';
 const SelectContainer = styled.div`
   position: relative;
 `
-const SelectInputContainer = styled.div`
-  border: 1px solid transparent;
-  position: relative;
-  border-radius: 6px;
-  &:has(input:focus){
-    border: 1px solid ${({ theme, error }) => error ? 'red' : theme.color.primary};
-  }
+const BorderFocus = styled.span`
 `
 const SelectInputStyle = styled.input`
   font-size: 14px;
@@ -27,6 +21,23 @@ const SelectInputStyle = styled.input`
   box-sizing: border-box;
   letter-spacing: ${(props) => props.type === 'password' ? '1.25px' : ''};
   cursor: pointer;
+  &:focus + ${BorderFocus}::after{
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border: 2px solid ${({ theme, error }) => error ? 'red' : theme.color.primary};
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    
+  }
+  // &:focus{
+  //   outline: 1px solid ${({ theme, error }) => error ? 'red' : theme.color.primary};
+  // }
 `
 const ArrowStyle = styled(ArrowDown)`
   width: 12px;
@@ -64,35 +75,50 @@ const variants = {
     height: 0,
   }
 }
-export const SelectUI = ({ select, onChange, children, label, fullWidth, inputRef, error, disabled, small }) => {
+export const SelectAutoCompleteUI = ({ select, onChange, list = [], listName, listValue, label, fullWidth, inputRef, error, disabled, small }) => {
   const [open, setOpen] = useState(false);
+  const [filter, setFilter] = useState('');
   const onClose = () => {
     setOpen(!open);
   }
-  const getSelectTitle = () => {
-    if(!children){return};
-    const findElem = children.find((item) => item.props.value === select);
-    return findElem ? findElem.props.children : '';
+  const setFilterValue = (e) => {
+    const value = e.target.value;
+    setFilter(value);
+  }
+  const filterList = (item) => {
+    if (filter.length === 0) {
+      return item
+    }
+    const regExp = new RegExp(filter, 'i');
+    if (regExp.test(item[listName])) {
+      return item
+    }
+  }
+  const selectValue = (item) => {
+    setFilter(item[listName]);
+    onChange(item[listValue]);
   }
   return (
     <LabelStyle fullWidth={fullWidth}>
       {label}
-      <SelectContainer error={error}>
-        <SelectInputContainer>
-          <SelectInputStyle readOnly
-            value={getSelectTitle()}
+      <SelectContainer>
+        <SelectContainer>
+          <SelectInputStyle
+            value={filter}
             onClick={onClose}
             placeholder='Выбрать'
             ref={inputRef}
             error={error}
             disabled={disabled}
             $small={small}
+            onChange={setFilterValue}
           />
+          <BorderFocus />
           {
             !disabled &&
             <ArrowStyle open={open} />
           }
-        </SelectInputContainer>
+        </SelectContainer>
         <AnimatePresence>
           {
             open &&
@@ -104,13 +130,15 @@ export const SelectUI = ({ select, onChange, children, label, fullWidth, inputRe
               $error={error}
             >
               {
-                Children.map(children, (child) => {
-                  return React.cloneElement(child, {
-                    ...child.props,
-                    select: select,
-                    onChange: onChange,
-                  })
-                })
+                list.filter(filterList).map((item, idx) => (
+                  <SelectItemStyle
+                    key={idx}
+                    $select={select === item[listValue]}
+                    onClick={() => selectValue(item)}
+                    value={item[listValue]}>
+                    {item[listName]}
+                  </SelectItemStyle>
+                ))
               }
             </SelectItemsContainer>
           }
@@ -132,7 +160,7 @@ const SelectItemStyle = styled(motion.div)`
     background-color: ${({ $select }) => $select ? 'rgb(132 1 158 / 43%)' : 'rgb(249 245 245)'};
   }
 `
-export const SelectItemUI = ({ children, value, select, onChange }) => {
+const SelectItemUI = ({ children, value, select, onChange }) => {
   const handleChange = () => {
     onChange(value);
   }

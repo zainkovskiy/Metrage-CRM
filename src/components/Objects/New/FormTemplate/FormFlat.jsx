@@ -1,5 +1,5 @@
 import React from 'react';
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext, useFormState } from 'react-hook-form';
 import { ObjectSliderBox, FormWrapper } from '../../ObjectsStyle';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { Box } from 'ui/Box/Box';
@@ -8,8 +8,11 @@ import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import { TextSpanStyle } from 'styles/styles';
+import { useNumberTriad } from 'hooks/StringHook';
 
-const FormFlat = ({ control, errors }) => {
+const FormFlat = () => {
+  const { control } = useFormContext();
+  const { errors } = useFormState();
   return (
     <>
       <ObjectSliderBox
@@ -32,15 +35,17 @@ const FormFlat = ({ control, errors }) => {
             name='Price'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Цена' fullWidth type='number' />
+              <InputUI onChange={(e) => { field.onChange(parseInt(e.target.value.split(' ').join(''))) }}
+                value={field.value ? useNumberTriad(field.value) : ''}
+                label='Цена' fullWidth
+              />
             )}
           />
           <Controller
             name='BuildingCadastralNumber'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
+              <InputUI onChange={(e) => field.onChange(e.target.value)}
                 value={field.value || ''} label='Кадастровый номер' fullWidth />
             )}
           />
@@ -108,7 +113,7 @@ const FormFlat = ({ control, errors }) => {
             name='AllRoomsArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
+              <InputUI onChange={(e) => field.onChange(e.target.value)}
                 value={field.value || ''} label='Площадь комнат' fullWidth placeholder="Пример: 18+14-10" />
             )}
           />

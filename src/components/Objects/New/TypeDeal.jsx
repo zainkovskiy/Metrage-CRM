@@ -2,16 +2,17 @@ import React from 'react';
 import { ObjectSliderBox } from '../ObjectsStyle';
 import { TextSpanStyle } from 'styles/styles';
 import { ButtonToggleGroup, ButtonToggleItem } from 'ui/ButtonToggle';
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 
-const TypeDeal = ({ control }) => {
+const TypeDeal = () => {
+  const { control } = useFormContext();
   return (
     <ObjectSliderBox
       $column
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
       exit={{ scale: 0 }}
-      transition={{duration: 0.3}}
+      transition={{ duration: 0.3 }}
     >
       <TextSpanStyle>Тип сделки</TextSpanStyle>
       <Controller
