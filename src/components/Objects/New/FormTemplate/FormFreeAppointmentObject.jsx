@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Controller, useFormContext, useFormState } from 'react-hook-form';
 import { ObjectSliderBox, FormWrapper } from '../../ObjectsStyle';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
+import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
 import { Box } from 'ui/Box/Box';
 import { ButtonToggleGroup, ButtonToggleItem } from 'ui/ButtonToggle';
 import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
 import { TextSpanStyle } from 'styles/styles';
-import { getBusinessBuildingTypes, getSpecialityTypes } from 'api/objectAPI';
+import { getBusinessBuildingTypes, getSpecialityTypes, getBusinessСenters } from 'api/objectAPI';
 import { useNumberTriad } from 'hooks/StringHook';
 
 const FormFreeAppointmentObject = () => {
@@ -15,6 +16,8 @@ const FormFreeAppointmentObject = () => {
   const { errors } = useFormState();
   const [buildingTypes, setBuildingTypes] = useState([]);
   const [specialityTypes, setSpecialityTypes] = useState([]);
+  const [businessСenters, setBusinessСenters] = useState([]);
+  const [businessLoading, setBusinessLoading] = useState(false);
   useEffect(() => {
     requestBusinessBuildingTypes();
     requestSpecialityTypes();
@@ -27,6 +30,18 @@ const FormFreeAppointmentObject = () => {
   const requestSpecialityTypes = async () => {
     const data = await getSpecialityTypes(getValues('Category'));
     setSpecialityTypes(data);
+  }
+  const handleChangeBusinessCenters = async (value) => {
+    if (businessLoading) { return }
+    setBusinessLoading(true);
+    try {
+      const res = await getBusinessСenters(value);
+      setBusinessСenters(res);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setBusinessLoading(false);
+    }
   }
   return (
     <>
@@ -112,26 +127,39 @@ const FormFreeAppointmentObject = () => {
             name='BuildingType'
             control={control}
             render={({ field }) => (
-              <SelectUI onChange={field.onChange} select={field.value} label='Тип здания'>
-                {
-                  buildingTypes.map((selectItem, idx) => (
-                    <SelectItemUI value={selectItem.name} key={idx}>{selectItem.type}</SelectItemUI>
-                  ))
-                }
-              </SelectUI>
+              <SelectAutoсompleteUI
+                label='Тип здания'
+                options={buildingTypes}
+                getOptionsLabel={(options) => options.type}
+                onChange={(option) => field.onChange(option.name)}
+              />
             )}
           />
           <Controller
             name='SpecialtyTypes'
             control={control}
             render={({ field }) => (
-              <SelectUI onChange={field.onChange} select={field.value} label='Возможное назначение'>
-                {
-                  specialityTypes.map((selectItem, idx) => (
-                    <SelectItemUI value={selectItem.name} key={idx}>{selectItem.type}</SelectItemUI>
-                  ))
-                }
-              </SelectUI>
+              <SelectAutoсompleteUI
+                label='Возможное назначение'
+                options={specialityTypes}
+                getOptionsLabel={(options) => options.type}
+                onChange={(option) => field.onChange(option.name)}
+              />
+            )}
+          />
+          <Controller
+            name='BusinessShoppingCenterId'
+            control={control}
+            render={({ field }) => (
+              <SelectAutoсompleteUI
+                label='ТЦ/БЦ'
+                options={businessСenters}
+                loading={businessLoading}
+                getOptionsLabel={(options) => options.bcName}
+                getOptionsSubtitle={(options) => options.bcAddress}
+                inputChange={handleChangeBusinessCenters}
+                onChange={(option) => field.onChange(option.UID)}
+              />
             )}
           />
           <Controller

@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import ObjectsFilter from './ObjectsFilter';
+import Objects from './Objects';
 import styled from 'styled-components';
 import { device } from 'styles/device';
 import { Outlet } from 'react-router-dom';
+import { getObjectList, clearObjects } from 'store/objectSlice';
 
 const ObjectsContentStyle = styled.div`
   flex-grow: 1;
@@ -17,12 +20,23 @@ const ObjectsContentStyle = styled.div`
 `
 
 const ObjectsContent = () => {
+  const firstMount = useRef(true);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    getList();
+    return () => {
+      dispatch(clearObjects());
+    }
+  }, [])
+  const getList = () => {
+    dispatch(getObjectList());
+  }
   return (
     <ObjectsContentStyle>
-      <ObjectsFilter/>
-      <Outlet/>
+      <ObjectsFilter />
+      <Objects firstMount={firstMount.current}/>
+      <Outlet />
     </ObjectsContentStyle>
   );
 };
-
 export default ObjectsContent;

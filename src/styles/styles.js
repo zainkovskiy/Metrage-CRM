@@ -4,7 +4,7 @@ import { device } from "./device";
 export const MainContainer = styled.div`
   position: relative;
   flex-grow: 1;
-  padding-left: ${({ $isExternal }) =>  $isExternal ? '0' : '56px'};
+  padding-left: ${({ $isExternal }) => $isExternal ? '0' : '56px'};
   display: flex;
   max-height: calc(100vh - 61.09px);
   @media ${device.tablet}{
@@ -32,11 +32,11 @@ export const TitleFormStyle = styled.h2`
 const defaultSize = 14;
 export const TextSpanStyle = styled.span`
   display: block;
-  font-family: CeraCY, sans-serif;
+  font-family: ${({ bold }) => bold ? 'CeraCYBold' : 'CeraCY'}, sans-serif;
   color: ${({ color }) => color || '#000000'};
   font-size: ${({ size }) => (size || defaultSize) + 'px'};
   height: ${({ height }) => height + 'px'};
-  font-weight: ${({ weight }) => weight || 400};
+  font-weight: ${({ bold }) => bold ? 700 : 400};
   white-space: ${({ nowrap }) => nowrap && 'nowrap'};
   text-align: ${({ align }) => align && align};
   // @media(max-width: 748px){

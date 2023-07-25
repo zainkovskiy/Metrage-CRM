@@ -22,8 +22,8 @@ const NewObject = () => {
   const methods = useForm({ defaultValues });
 
   const onSubmit = (data) => {
-    createNewObject(data);
     console.log(data);
+    createNewObject(data);
   }
 
   methods.watch('typeEstate');

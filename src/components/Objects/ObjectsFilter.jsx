@@ -13,7 +13,7 @@ const ObjectsFilterStyle = styled.div`
 const ObjectsFilter = () => {
   return (
     <ObjectsFilterStyle>
-      <Link to='/new-object'>
+      <Link to='new-object'>
         <ButtonUI size='small' variant='outline'>Создать</ButtonUI>
       </Link>
     </ObjectsFilterStyle>

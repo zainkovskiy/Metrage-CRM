@@ -3,6 +3,7 @@ import userSlice from "./userSlice";
 import chatSlice from "./chatSlice";
 import telegramSlice from "./telegramSlice";
 import applicationSlice from "./applicationSlice";
+import objectSlice from "./objectSlice";
 import { socketMiddleware } from "./socket";
 
 const reducers = combineReducers({
@@ -10,6 +11,7 @@ const reducers = combineReducers({
   chat: chatSlice,
   telegram: telegramSlice, 
   application: applicationSlice,
+  objects: objectSlice,
 })
 
 export const store = configureStore({

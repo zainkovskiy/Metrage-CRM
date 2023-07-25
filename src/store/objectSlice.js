@@ -3,31 +3,31 @@ import axios from "axios";
 
 const API = 'https://crm.metragegroup.com/API/REST.php';
 
-export const getApplicationList = createAsyncThunk(
-  'application/getApplicationList',
-  async (_, { dispatch, getState }) => {
+export const getObjectList = createAsyncThunk(
+  'objects/getObjectList',
+  async () => {
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
-      method: "crm.demand.list",
+      method: "crm.objects.filter",
     })
     if (res?.statusText === 'OK') {
-      return res?.data?.result?.transwerData || []
+      return res?.data?.result?.objects || []
     }
     return []
   }
 )
-export const getMoreApplication = createAsyncThunk(
-  'application/getMoreApplication',
-  async (_, { dispatch, getState }) => {
+export const getMoreObjects = createAsyncThunk(
+  'objects/getMoreObjects',
+  async (_, { getState }) => {
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
-      method: "crm.demand.list",
+      method: "crm.objects.filter",
       fields: {
-        offset: getState().application.offset + 1,
+        offset: getState().objects.offset + 1,
       }
     })
     if (res?.statusText === 'OK') {
-      return res?.data?.result?.transwerData || []
+      return res?.data?.result?.objects || []
     }
     return []
   }
@@ -171,16 +171,13 @@ export const setUpdateApplication = createAsyncThunk(
 const initialState = {
   loadingList: false,
   loadingMore: false,
-  applications: [],
+  objects: [],
   offset: 0,
-  loadingNewApplication: false,
-  view: 'tile',
-  filterTypeList: 'all',
 };
 
 
-const applicationSlice = createSlice({
-  name: 'application',
+const objectSlice = createSlice({
+  name: 'objects',
   initialState,
   reducers: {
     setApplicationView(state, action) {
@@ -191,59 +188,59 @@ const applicationSlice = createSlice({
       const newFilterTypeList = action.payload;
       state.filterTypeList = newFilterTypeList;
     },
-    clearApplication(state, action) {
-      state.applications = [];
+    clearObjects(state, action) {
+      state.objects = [];
       state.offset = 0;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getApplicationList.pending, (state) => {
+      .addCase(getObjectList.pending, (state) => {
         state.loadingList = true;
       })
-      .addCase(getApplicationList.fulfilled, (state, action) => {
+      .addCase(getObjectList.fulfilled, (state, action) => {
         state.loadingList = false;
-        state.applications = action.payload;
+        state.objects = action.payload;
       })
-      .addCase(getApplicationList.rejected, (state) => {
+      .addCase(getObjectList.rejected, (state) => {
         state.loadingList = false;
       })
-      .addCase(getMoreApplication.pending, (state, action) => {
+      .addCase(getMoreObjects.pending, (state, action) => {
         state.loadingMore = true;
       })
-      .addCase(getMoreApplication.fulfilled, (state, action) => {
+      .addCase(getMoreObjects.fulfilled, (state, action) => {
         state.offset++;
-        state.applications = [...state.applications, ...action.payload];
+        state.objects = [...state.objects, ...action.payload];
         state.loadingMore = false;
       })
-      .addCase(getMoreApplication.rejected, (state, action) => {
+      .addCase(getMoreObjects.rejected, (state, action) => {
         state.loadingMore = false;
       })
-      .addCase(setNewApplication.pending, (state, action) => {
-        state.loadingNewApplication = true;
-      })
-      .addCase(setNewApplication.fulfilled, (state, action) => {
-        const { data } = action.payload;
-        if (data?.result?.status === 'OK') {
-          console.log('new task reading to server');
-        }
-        state.loadingNewApplication = false;
-      })
-      .addCase(setNewApplication.rejected, (state) => {
-        state.loadingNewApplication = false;
-      })
-      .addCase(setUpdateApplication.fulfilled, (state, action) => {
-        const app = action.payload;
-        if (!app) { return }
-        const find = state.applications.find((item) => item.UID === app.UID);
-        if (!find) {
-          state.applications = [app, ...state.applications];
-          return
-        }
-        if (JSON.stringify(app) === JSON.stringify(find)) { return }
-        state.applications.splice(state.applications.indexOf(find), 1, app);
-      })
+      // .addCase(setNewApplication.pending, (state, action) => {
+      //   state.loadingNewApplication = true;
+      // })
+      // .addCase(setNewApplication.fulfilled, (state, action) => {
+      //   const { data } = action.payload;
+      //   if (data?.result?.status === 'OK') {
+      //     console.log('new task reading to server');
+      //   }
+      //   state.loadingNewApplication = false;
+      // })
+      // .addCase(setNewApplication.rejected, (state) => {
+      //   state.loadingNewApplication = false;
+      // })
+      // .addCase(setUpdateApplication.fulfilled, (state, action) => {
+      //   const app = action.payload;
+      //   if (!app) { return }
+      //   const find = state.applications.find((item) => item.UID === app.UID);
+      //   if (!find) {
+      //     state.applications = [app, ...state.applications];
+      //     return
+      //   }
+      //   if (JSON.stringify(app) === JSON.stringify(find)) { return }
+      //   state.applications.splice(state.applications.indexOf(find), 1, app);
+      // })
   }
 })
-export const { setApplicationView, setFilterTypeApplicationList, clearApplication } = applicationSlice.actions;
-export default applicationSlice.reducer;
+export const { clearObjects } = objectSlice.actions;
+export default objectSlice.reducer;
