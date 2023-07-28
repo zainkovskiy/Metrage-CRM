@@ -23,7 +23,7 @@ const NewObject = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    createNewObject(data);
+    // createNewObject(data);
   }
 
   methods.watch('typeEstate');

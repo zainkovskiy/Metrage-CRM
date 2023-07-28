@@ -5,6 +5,7 @@ import { useChatDate } from 'hooks/DateFormat';
 import { useDispatch } from 'react-redux';
 import { setSelectButton, getCurrentChat } from 'store/chatSlice';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useGetAvatar } from 'hooks/MakeAvatar';
 
 const ChatListContainer = styled.div`
   display: flex;
@@ -86,20 +87,10 @@ const ChatListItem = ({ chat }) => {
     }
     dispatch(setSelectButton('chat'));
   }
-  const getAvatar = () => {
-    const user = chat?.chatWith || null;
-    if (!user) {
-      return `https://ui-avatars.com/api/?name=Metrage&background=85009e&color=fff`
-    }
-    if (user?.avatar) {
-      return chat?.chatWith?.avatar
-    }
-    return `https://ui-avatars.com/api/?name=${user.lastName}+${user.firstName}&background=85009e&color=fff`
-  }
   return (
     <ChatListItemStyle onClick={handleClick} $unreded={chat?.unread > 0}>
       <ChatListContainer>
-        <ChatItemAvatar src={getAvatar()} alt='avatar' />
+        <ChatItemAvatar src={useGetAvatar(chat?.chatWith || null)} alt='avatar' />
         <ChatItemContent>
           <ChatItemContentHeader>
             <TextSpanStyle>{chat?.chatWith?.lastName} {chat?.chatWith?.firstName}</TextSpanStyle>
@@ -112,9 +103,9 @@ const ChatListItem = ({ chat }) => {
                 {
                   chat?.unread > 0 &&
                   <ChatCountUnread
-                    initial={{ scale: 0}}
-                    animate={{ scale: 1}}
-                    exit={{ scale: 0}}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
                     $width={chat?.unread > 99}
                   >{chat?.unread}</ChatCountUnread>
                 }

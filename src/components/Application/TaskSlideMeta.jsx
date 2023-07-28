@@ -13,11 +13,11 @@ const TaskSlideMeta = ({ UID, lostDate, created, updated }) => {
     <TaskBlockStyle
       jc='space-between'
     >
-      <Box>
-        <TextSpanStyle size={12}>ID: {UID}</TextSpanStyle>
+      <Box gap='0'>
         <IconButton onClick={copyID}>
-          <Copy/>
+          <Copy />
         </IconButton>
+        <TextSpanStyle size={12}>ID: {UID}</TextSpanStyle>
       </Box>
       <TextSpanStyle size={12}>Дата срыва: {useDateFormat(lostDate, 'DD.MM.YY')}</TextSpanStyle>
       <Box>

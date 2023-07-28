@@ -126,7 +126,8 @@ const FormWarehouse = () => {
                 label='Тип здания'
                 options={buildingTypes}
                 getOptionsLabel={(options) => options.type}
-                onChange={(option) => field.onChange(option.name)}
+                onChange={(option) => field.onChange(option)}
+                value={field.value}
               />
             )}
           />
@@ -141,7 +142,8 @@ const FormWarehouse = () => {
                 getOptionsLabel={(options) => options.bcName}
                 getOptionsSubtitle={(options) => options.bcAddress}
                 inputChange={handleChangeBusinessCenters}
-                onChange={(option) => field.onChange(option.UID)}
+                onChange={(option) => field.onChange(option)}
+                value={field.value}
               />
             )}
           />
@@ -299,8 +301,6 @@ const FormWarehouse = () => {
               )}
             />
           </Box>
-        </Box>
-        <Box fullWidth column ai='flex-start'>
         </Box>
         <FormWrapper>
           <Controller

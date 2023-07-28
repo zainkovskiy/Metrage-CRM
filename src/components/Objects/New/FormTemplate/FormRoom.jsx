@@ -87,9 +87,7 @@ const FormRoom = () => {
                 <SelectItemUI value={3}>3-комнатная</SelectItemUI>
                 <SelectItemUI value={4}>4-комнатная</SelectItemUI>
                 <SelectItemUI value={5}>5-комнатная</SelectItemUI>
-                <SelectItemUI value={6}>6+</SelectItemUI>
-                <SelectItemUI value={7}>Свободная планировка</SelectItemUI>
-                <SelectItemUI value={9}>Студия</SelectItemUI>
+                <SelectItemUI value={6}>6 и более</SelectItemUI>
               </SelectUI>
             )}
           />

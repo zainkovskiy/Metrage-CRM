@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { TextSpanStyle } from 'styles/styles';
 import { Box } from 'ui/Box';
 import imgErrorUrl from 'images/img-error.svg';
-import { useNumberTriad } from 'hooks/StringHook';
+import { useGetMeterPrice } from './objectHook';
 
 const ObjectCardStyle = styled(motion.div)`
   border-radius: 40px 0 40px 0;
@@ -60,19 +60,8 @@ const variants = {
   }
 }
 const ObjectCard = ({ object }) => {
-  const getMeterPrice = () => {
-    if (object?.Price && object?.Area) {
-      const price = parseFloat(object?.Price.replace(/\s/g, ''));
-      const area = parseFloat(object?.Area);
-      if (typeof price === 'number' && typeof area === 'number') {
-        return useNumberTriad(Math.floor(price / area))
-      }
-      return 0
-    }
-    return 0;
-  }
   return (
-    <LinkStyle to={`object/${object.UID}`}>
+    <LinkStyle to={`${object.UID}`}>
       <ObjectCardStyle
         variants={variants}
         initial='hidden'
@@ -88,10 +77,10 @@ const ObjectCard = ({ object }) => {
             <Box jc='space-between' fullWidth>
               <Box column gap='0' ai='flex-start'>
                 <TextSpanStyle bold size={12}>{object?.Price || '0'} руб.</TextSpanStyle>
-                <TextSpanStyle size={10}>{getMeterPrice()} руб/м2</TextSpanStyle>
+                <TextSpanStyle size={10}>{useGetMeterPrice(object?.Price, object?.Area)} руб/м2</TextSpanStyle>
               </Box>
               <Box column gap='0' ai='flex-end'>
-                <TextSpanStyle size={10}>{object?.SubCategory || ''} {object?.type || '3-к. кв.'}</TextSpanStyle>
+                <TextSpanStyle size={10}>{object?.SubCategory || ''}</TextSpanStyle>
                 <Box>
                   <TextSpanStyle bold size={12}>{object?.Area || '0'} м2</TextSpanStyle>
                   <TextSpanStyle size={10}>{object?.Floors || '1'}</TextSpanStyle>

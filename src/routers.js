@@ -10,6 +10,7 @@ import { newTaskLoader } from 'components/Application/SuspenseNewApplication';
 import SuspenseObjects from "components/Objects/SuspenseObjects";
 import SuspenseNewObjects from "components/Objects/New/SuspenseNewObjects";
 import SuspenseSlideObjects from "components/Objects/Slide/SuspenseSlideObjects";
+import { loaderObjectSlide } from 'components/Objects/Slide/SuspenseSlideObjects';
 
 import TaskContent from "./components/Task/TaskContent";
 
@@ -52,8 +53,9 @@ export const routers = createBrowserRouter([
             element: <SuspenseNewObjects />
           },
           {
-            path: 'object/:chatId',
-            element: <SuspenseSlideObjects />
+            path: ':objectId',
+            element: <SuspenseSlideObjects />,
+            loader: loaderObjectSlide,
           },
         ]
       },

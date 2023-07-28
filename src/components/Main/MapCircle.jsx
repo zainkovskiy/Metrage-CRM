@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import { YMaps, Map, Button, Circle, FullscreenControl } from 'react-yandex-maps';
+import { YMaps, Map, Button, Circle, FullscreenControl, ZoomControl } from 'react-yandex-maps';
 import { TextSpanStyle } from 'styles/styles';
 import { Box } from 'ui/Box';
 
@@ -19,6 +19,13 @@ const MapCircle = forwardRef(({ circle, onChange, error }, ref) => {
       stopDraw();
     }
   }, [drawCircle])
+  const scrollOff = () => {
+    mapRef.current.behaviors.disable('scrollZoom');
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+      //... отключаем перетаскивание карты
+      mapRef.current.behaviors.disable('drag');
+    }
+  }
 
   const isDraw = () => {
     setDrawCircle(!drawCircle);
@@ -54,6 +61,7 @@ const MapCircle = forwardRef(({ circle, onChange, error }, ref) => {
         instanceRef={yaMap => {
           if (yaMap) {
             mapRef.current = yaMap;
+            scrollOff();
           }
         }}
       >
@@ -83,6 +91,7 @@ const MapCircle = forwardRef(({ circle, onChange, error }, ref) => {
           onClick={isDraw}
         />
         <FullscreenControl onClick={toggleFullScreen} />
+        <ZoomControl/>
       </Map>
       {
         error?.message &&

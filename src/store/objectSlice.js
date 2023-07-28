@@ -9,6 +9,10 @@ export const getObjectList = createAsyncThunk(
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
       method: "crm.objects.filter",
+      fields: {
+        typeRealty: 'live',
+        typeObject: ['flatSale']
+      }
     })
     if (res?.statusText === 'OK') {
       return res?.data?.result?.objects || []
@@ -32,142 +36,142 @@ export const getMoreObjects = createAsyncThunk(
     return []
   }
 )
-export const setNewApplication = createAsyncThunk(
-  'application/setNewApplication',
-  async (form, { dispatch }) => {
-    const res = await axios.post(API, {
-      metrage_id: metrage_id || null,
-      method: "crm.demand.add",
-      fields: form
-    })
-    if (res?.statusText === 'OK') {
-      dispatch(setUpdateApplication(res?.data?.result?.UID));
-      return res
-    }
-  }
-)
-export const changeAgent = createAsyncThunk(
-  'application/changeAgent',
-  async (raw, { dispatch, rejectWithValue }) => {
-    try {
-      const { data } = await axios.post(API, {
-        metrage_id: metrage_id || null,
-        method: 'crm.demand.setOwner',
-        fields: {
-          UID: raw.UID,
-          responsibleId: raw.responsibleId,
-          interaction: raw?.interaction
-        }
-      })
-      if (data?.result?.status === 'OK') {
-        return data.result.status;
-      }
-      // return res;
-    } catch (err) {
-      // return rejectWithValue(err);
-    }
-  }
-)
-export const changeStage = createAsyncThunk(
-  'application/changeStage',
-  async (raw) => {
-    const res = await axios.post(API, {
-      metrage_id: metrage_id || null,
-      method: 'crm.demand.setStage',
-      fields: {
-        stageId: raw.stage,
-        UID: raw.UID,
-        comment: raw.comment
-      }
-    })
-  }
-)
-export const setNewContact = createAsyncThunk(
-  'application/setNewContact',
-  async (data, { rejectWithValue, getState, dispatch }) => {
-    try {
-      const res = await axios.post(API, {
-        metrage_id: metrage_id || null,
-        method: 'crm.demand.show',
-        fields: {
-          UID: data.UID,
-          ...data.form
-        }
-      })
-      if (res?.statusText !== 'OK') {
-        throw new Error('Server error');
-      }
-    } catch (error) {
-      return rejectWithValue(error)
-    }
-  }
-)
-export const checkApplication = createAsyncThunk(
-  'application/updateContact',
-  async (raw, { rejectWithValue }) => {
-    try {
-      const res = await axios.post(API, {
-        metrage_id: metrage_id || null,
-        method: 'crm.demand.checked',
-        fields: raw,
-      })
-      return res
-    } catch (error) {
-      return rejectWithValue(error)
-    }
-  }
-)
-export const updateContact = createAsyncThunk(
-  'application/updateContact',
-  async (raw, { rejectWithValue }) => {
-    try {
-      const res = await axios.post(API, {
-        metrage_id: metrage_id || null,
-        method: 'crm.contact.update',
-        fields: {
-          UID: raw.UID,
-          fields: raw.form
-        }
-      })
-      return res
-    } catch (error) {
-      return rejectWithValue(error)
-    }
-  }
-)
-export const changeType = createAsyncThunk(
-  'application/changeType',
-  async (raw, { rejectWithValue }) => {
-    try {
-      const res = await axios.post(API, {
-        metrage_id: metrage_id || null,
-        method: 'crm.demand.setType',
-        fields: {
-          UID: raw.uid,
-          ...raw.form
-        }
-      })
-      return res
-    } catch (error) {
-      return rejectWithValue(error)
-    }
-  }
-)
-export const setUpdateApplication = createAsyncThunk(
-  'application/setUpdateApplication',
-  async (UID) => {
-    const res = await axios.post(API, {
-      metrage_id: metrage_id || null,
-      method: 'crm.demand.listOne',
-      fields: {
-        UID: UID,
-      }
-    })
-    if (res?.statusText === 'OK') {
-      return res?.data?.result?.transwerData?.length > 0 ? res?.data?.result?.transwerData[0] : null;
-    }
-  }
-)
+// export const setNewApplication = createAsyncThunk(
+//   'application/setNewApplication',
+//   async (form, { dispatch }) => {
+//     const res = await axios.post(API, {
+//       metrage_id: metrage_id || null,
+//       method: "crm.demand.add",
+//       fields: form
+//     })
+//     if (res?.statusText === 'OK') {
+//       dispatch(setUpdateApplication(res?.data?.result?.UID));
+//       return res
+//     }
+//   }
+// )
+// export const changeAgent = createAsyncThunk(
+//   'application/changeAgent',
+//   async (raw, { dispatch, rejectWithValue }) => {
+//     try {
+//       const { data } = await axios.post(API, {
+//         metrage_id: metrage_id || null,
+//         method: 'crm.demand.setOwner',
+//         fields: {
+//           UID: raw.UID,
+//           responsibleId: raw.responsibleId,
+//           interaction: raw?.interaction
+//         }
+//       })
+//       if (data?.result?.status === 'OK') {
+//         return data.result.status;
+//       }
+//       // return res;
+//     } catch (err) {
+//       // return rejectWithValue(err);
+//     }
+//   }
+// )
+// export const changeStage = createAsyncThunk(
+//   'application/changeStage',
+//   async (raw) => {
+//     const res = await axios.post(API, {
+//       metrage_id: metrage_id || null,
+//       method: 'crm.demand.setStage',
+//       fields: {
+//         stageId: raw.stage,
+//         UID: raw.UID,
+//         comment: raw.comment
+//       }
+//     })
+//   }
+// )
+// export const setNewContact = createAsyncThunk(
+//   'application/setNewContact',
+//   async (data, { rejectWithValue, getState, dispatch }) => {
+//     try {
+//       const res = await axios.post(API, {
+//         metrage_id: metrage_id || null,
+//         method: 'crm.demand.show',
+//         fields: {
+//           UID: data.UID,
+//           ...data.form
+//         }
+//       })
+//       if (res?.statusText !== 'OK') {
+//         throw new Error('Server error');
+//       }
+//     } catch (error) {
+//       return rejectWithValue(error)
+//     }
+//   }
+// )
+// export const checkApplication = createAsyncThunk(
+//   'application/updateContact',
+//   async (raw, { rejectWithValue }) => {
+//     try {
+//       const res = await axios.post(API, {
+//         metrage_id: metrage_id || null,
+//         method: 'crm.demand.checked',
+//         fields: raw,
+//       })
+//       return res
+//     } catch (error) {
+//       return rejectWithValue(error)
+//     }
+//   }
+// )
+// export const updateContact = createAsyncThunk(
+//   'application/updateContact',
+//   async (raw, { rejectWithValue }) => {
+//     try {
+//       const res = await axios.post(API, {
+//         metrage_id: metrage_id || null,
+//         method: 'crm.contact.update',
+//         fields: {
+//           UID: raw.UID,
+//           fields: raw.form
+//         }
+//       })
+//       return res
+//     } catch (error) {
+//       return rejectWithValue(error)
+//     }
+//   }
+// )
+// export const changeType = createAsyncThunk(
+//   'application/changeType',
+//   async (raw, { rejectWithValue }) => {
+//     try {
+//       const res = await axios.post(API, {
+//         metrage_id: metrage_id || null,
+//         method: 'crm.demand.setType',
+//         fields: {
+//           UID: raw.uid,
+//           ...raw.form
+//         }
+//       })
+//       return res
+//     } catch (error) {
+//       return rejectWithValue(error)
+//     }
+//   }
+// )
+// export const setUpdateApplication = createAsyncThunk(
+//   'application/setUpdateApplication',
+//   async (UID) => {
+//     const res = await axios.post(API, {
+//       metrage_id: metrage_id || null,
+//       method: 'crm.demand.listOne',
+//       fields: {
+//         UID: UID,
+//       }
+//     })
+//     if (res?.statusText === 'OK') {
+//       return res?.data?.result?.transwerData?.length > 0 ? res?.data?.result?.transwerData[0] : null;
+//     }
+//   }
+// )
 const initialState = {
   loadingList: false,
   loadingMore: false,

@@ -111,7 +111,8 @@ const FormOffice = () => {
                 label='Тип здания'
                 options={buildingTypes}
                 getOptionsLabel={(options) => options.type}
-                onChange={(option) => field.onChange(option.name)}
+                onChange={(option) => field.onChange(option)}
+                value={field.value}
               />
             )}
           />
@@ -126,7 +127,8 @@ const FormOffice = () => {
                 getOptionsLabel={(options) => options.bcName}
                 getOptionsSubtitle={(options) => options.bcAddress}
                 inputChange={handleChangeBusinessCenters}
-                onChange={(option) => field.onChange(option.UID)}
+                onChange={(option) => field.onChange(option)}
+                value={field.value}
               />
             )}
           />

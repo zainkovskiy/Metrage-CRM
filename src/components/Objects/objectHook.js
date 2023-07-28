@@ -17,7 +17,7 @@ import FormIndustry from './New/FormTemplate/FormIndustry';
 import FormWarehouse from './New/FormTemplate/FormWarehouse';
 import FormBusiness from './New/FormTemplate/FormBusiness';
 import FormCommercialLand from './New/FormTemplate/FormCommercialLand';
-
+import {useNumberTriad} from 'hooks/StringHook';
 const DefaultComponent = styled.div`
 `
 
@@ -75,4 +75,14 @@ export const useSelectCategoryField = (category, type) => {
     return DefaultComponent;
   }
   return DefaultComponent;
+}
+
+export const useGetMeterPrice = (price, area) => {
+  if (!price || !area) return 0
+  const priceNumber = parseFloat(price.replace(/\s/g, ''));
+  const areaNumber = parseFloat(area);
+  if (typeof priceNumber === 'number' && typeof areaNumber === 'number') {
+    return useNumberTriad(Math.floor(priceNumber / areaNumber))
+  }
+  return 0
 }

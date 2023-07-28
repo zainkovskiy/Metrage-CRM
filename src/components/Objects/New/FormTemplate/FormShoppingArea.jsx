@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Controller, useFormContext, useFormState } from 'react-hook-form';
 import { ObjectSliderBox, FormWrapper } from '../../ObjectsStyle';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
+import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
 import { Box } from 'ui/Box/Box';
 import { ButtonToggleGroup, ButtonToggleItem } from 'ui/ButtonToggle';
 import { InputUI } from 'ui/InputUI';
@@ -113,26 +114,26 @@ const FormShoppingArea = () => {
             name='BuildingType'
             control={control}
             render={({ field }) => (
-              <SelectUI onChange={field.onChange} select={field.value} label='Тип здания'>
-                {
-                  buildingTypes.map((selectItem, idx) => (
-                    <SelectItemUI value={selectItem.name} key={idx}>{selectItem.type}</SelectItemUI>
-                  ))
-                }
-              </SelectUI>
+              <SelectAutoсompleteUI
+                label='Тип здания'
+                options={buildingTypes}
+                getOptionsLabel={(options) => options.type}
+                onChange={(option) => field.onChange(option)}
+                value={field.value}
+              />
             )}
           />
           <Controller
             name='SpecialtyTypes'
             control={control}
             render={({ field }) => (
-              <SelectUI onChange={field.onChange} select={field.value} label='Возможное назначение'>
-                {
-                  specialityTypes.map((selectItem, idx) => (
-                    <SelectItemUI value={selectItem.name} key={idx}>{selectItem.type}</SelectItemUI>
-                  ))
-                }
-              </SelectUI>
+              <SelectAutoсompleteUI
+                label='Возможное назначение'
+                options={specialityTypes}
+                getOptionsLabel={(options) => options.specialtyType}
+                onChange={(option) => field.onChange(option)}
+                value={field.value}
+              />
             )}
           />
           <Controller

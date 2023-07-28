@@ -189,7 +189,7 @@ const FormNewBuilding = () => {
           <TextSpanStyle>Отделка</TextSpanStyle>
           <Controller
             control={control}
-            name='RepairType'
+            name='Decoration'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
                 <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='fine' active={field.value}>Чистовая</ButtonToggleItem>

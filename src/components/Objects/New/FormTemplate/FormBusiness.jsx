@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Controller, useFormContext, useFormState } from 'react-hook-form';
 import { ObjectSliderBox, FormWrapper } from '../../ObjectsStyle';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
+import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
 import { Box } from 'ui/Box/Box';
 import { ButtonToggleGroup, ButtonToggleItem } from 'ui/ButtonToggle';
 import { InputUI } from 'ui/InputUI';
@@ -77,13 +78,13 @@ const FormBusiness = () => {
             name='SpecialtyTypes'
             control={control}
             render={({ field }) => (
-              <SelectUI onChange={field.onChange} select={field.value} label='Возможное назначение'>
-                {
-                  specialityTypes.map((selectItem, idx) => (
-                    <SelectItemUI value={selectItem.name} key={idx}>{selectItem.type}</SelectItemUI>
-                  ))
-                }
-              </SelectUI>
+              <SelectAutoсompleteUI
+                label='Возможное назначение'
+                options={specialityTypes}
+                getOptionsLabel={(options) => options.specialtyType}
+                onChange={(option) => field.onChange(option)}
+                value={field.value}
+              />
             )}
           />
           <Controller
@@ -103,7 +104,7 @@ const FormBusiness = () => {
             )}
           />
           <Controller
-            name='EstateType'
+            name='MonthlyIncome'
             control={control}
             render={({ field }) => (
               <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
@@ -115,7 +116,7 @@ const FormBusiness = () => {
           <TextSpanStyle>Недвижимость в собственности или в аренде</TextSpanStyle>
           <Controller
             control={control}
-            name='Layout'
+            name='EstateType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
                 <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='owned' active={field.value}>В собственности</ButtonToggleItem>

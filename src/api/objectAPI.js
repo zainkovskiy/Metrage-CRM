@@ -39,7 +39,6 @@ export const getBusinessСenters = async (value) => {
   }
   return []
 }
-
 export const createNewObject = async (object) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
@@ -49,4 +48,17 @@ export const createNewObject = async (object) => {
   if (res?.statusText === 'OK') {
     console.log(res);
   }
+}
+export const getOneObject = async (id) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: "crm.objects.get",
+    fields: {
+      UID: id
+    }
+  })
+  if (res?.statusText === 'OK') {
+    return res?.data?.result || {}
+  }
+  return {}
 }
