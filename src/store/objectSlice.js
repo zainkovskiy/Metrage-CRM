@@ -5,13 +5,13 @@ const API = 'https://crm.metragegroup.com/API/REST.php';
 
 export const getObjectList = createAsyncThunk(
   'objects/getObjectList',
-  async () => {
+  async (_, { getState }) => {
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
       method: "crm.objects.filter",
       fields: {
-        typeRealty: 'live',
-        typeObject: ['flatSale']
+        ...getState().objects.filter,
+        offset: getState().objects.offset,
       }
     })
     if (res?.statusText === 'OK') {
@@ -27,6 +27,7 @@ export const getMoreObjects = createAsyncThunk(
       metrage_id: metrage_id || null,
       method: "crm.objects.filter",
       fields: {
+        ...getState().objects.filter,
         offset: getState().objects.offset + 1,
       }
     })
@@ -176,6 +177,12 @@ const initialState = {
   loadingList: false,
   loadingMore: false,
   objects: [],
+  filter: {
+    typeRealty: 'live',
+    typeObject: ['flatSale'],
+    users: [],
+    office: []
+  },
   offset: 0,
 };
 
@@ -191,6 +198,13 @@ const objectSlice = createSlice({
     setFilterTypeApplicationList(state, action) {
       const newFilterTypeList = action.payload;
       state.filterTypeList = newFilterTypeList;
+    },
+    setFilter(state, action) {
+      state.filter[action.payload.name] = action.payload.value;
+      state.offset = 0;
+      if (action.payload.name === 'typeRealty') {
+        state.filter.typeObject = [];
+      }
     },
     clearObjects(state, action) {
       state.objects = [];
@@ -220,31 +234,31 @@ const objectSlice = createSlice({
       .addCase(getMoreObjects.rejected, (state, action) => {
         state.loadingMore = false;
       })
-      // .addCase(setNewApplication.pending, (state, action) => {
-      //   state.loadingNewApplication = true;
-      // })
-      // .addCase(setNewApplication.fulfilled, (state, action) => {
-      //   const { data } = action.payload;
-      //   if (data?.result?.status === 'OK') {
-      //     console.log('new task reading to server');
-      //   }
-      //   state.loadingNewApplication = false;
-      // })
-      // .addCase(setNewApplication.rejected, (state) => {
-      //   state.loadingNewApplication = false;
-      // })
-      // .addCase(setUpdateApplication.fulfilled, (state, action) => {
-      //   const app = action.payload;
-      //   if (!app) { return }
-      //   const find = state.applications.find((item) => item.UID === app.UID);
-      //   if (!find) {
-      //     state.applications = [app, ...state.applications];
-      //     return
-      //   }
-      //   if (JSON.stringify(app) === JSON.stringify(find)) { return }
-      //   state.applications.splice(state.applications.indexOf(find), 1, app);
-      // })
+    // .addCase(setNewApplication.pending, (state, action) => {
+    //   state.loadingNewApplication = true;
+    // })
+    // .addCase(setNewApplication.fulfilled, (state, action) => {
+    //   const { data } = action.payload;
+    //   if (data?.result?.status === 'OK') {
+    //     console.log('new task reading to server');
+    //   }
+    //   state.loadingNewApplication = false;
+    // })
+    // .addCase(setNewApplication.rejected, (state) => {
+    //   state.loadingNewApplication = false;
+    // })
+    // .addCase(setUpdateApplication.fulfilled, (state, action) => {
+    //   const app = action.payload;
+    //   if (!app) { return }
+    //   const find = state.applications.find((item) => item.UID === app.UID);
+    //   if (!find) {
+    //     state.applications = [app, ...state.applications];
+    //     return
+    //   }
+    //   if (JSON.stringify(app) === JSON.stringify(find)) { return }
+    //   state.applications.splice(state.applications.indexOf(find), 1, app);
+    // })
   }
 })
-export const { clearObjects } = objectSlice.actions;
+export const { clearObjects, setFilter } = objectSlice.actions;
 export default objectSlice.reducer;

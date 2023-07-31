@@ -13,7 +13,7 @@ const ResponsibleAvatar = styled.img`
 `
 const SlideObjectResponsible = ({ responsible }) => {
   return (
-    <Box column ai='flex-start' gap='0'>
+    <Box column ai='flex-start' gap='0.2rem'>
       <TextSpanStyle size={10}>Ответственный:</TextSpanStyle>
       <Box>
         <ResponsibleAvatar src={useGetAvatar(responsible || null)} />

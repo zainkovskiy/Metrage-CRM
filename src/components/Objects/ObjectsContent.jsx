@@ -33,7 +33,7 @@ const ObjectsContent = () => {
   }
   return (
     <ObjectsContentStyle>
-      <ObjectsFilter />
+      <ObjectsFilter getList={getList}/>
       <Objects firstMount={firstMount.current}/>
       <Outlet />
     </ObjectsContentStyle>

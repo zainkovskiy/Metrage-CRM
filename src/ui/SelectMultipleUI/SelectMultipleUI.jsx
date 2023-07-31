@@ -5,6 +5,9 @@ import styled from 'styled-components';
 import { LabelStyle } from 'ui/InputUI/InputUIStyled';
 import { TextSpanStyle } from 'styles/styles';
 
+const LabelStyleSElect = styled(LabelStyle)`
+  width: ${({ fullWidth }) => fullWidth ? '100%' : '178px'};
+`
 const SelectContainer = styled.div`
   position: relative;
 `
@@ -16,7 +19,7 @@ const SelectInputContainer = styled.div`
     border: 1px solid ${({ theme, error }) => error ? 'red' : theme.color.primary};
   }
 `
-const SelectInputStyle = styled.input`
+const SelectInputStyle = styled.div`
   font-size: 14px;
   font-family: CeraCY, sans-serif;
   padding: ${({ $small }) => $small ? '0.2rem 22px 0.2rem 0.5rem' : '0.5rem 22px 0.5rem 0.5rem'};
@@ -27,6 +30,9 @@ const SelectInputStyle = styled.input`
   box-sizing: border-box;
   letter-spacing: ${(props) => props.type === 'password' ? '1.25px' : ''};
   cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `
 const ArrowStyle = styled(ArrowDown)`
   width: 12px;
@@ -66,42 +72,63 @@ const variants = {
     opacity: 0,
   }
 }
-export const SelectUI = ({ select, onChange, children, label, fullWidth, inputRef, error, disabled, small, name }) => {
+export const SelectMultipleUI = ({ value, onChange, children, label, fullWidth, inputRef, error, disabled, small, name }) => {
   const [open, setOpen] = useState(false);
   const isShow = () => {
     setOpen(!open);
   }
   const getSelectTitle = () => {
-    let childrenList = children; 
-    if(!childrenList){return};
-    if(!Array.isArray(childrenList) && childrenList?.type !== React.Fragment){
-      return
+    let childrenList = children;
+    if (!childrenList) { return 'Выбрать' };
+    if (!Array.isArray(childrenList) && childrenList?.type !== React.Fragment) {
+      return 'Выбрать'
     };
-    if(childrenList?.type == React.Fragment){
+    if (childrenList?.type == React.Fragment) {
       childrenList = childrenList?.props?.children || [];
     }
-    const findElem = childrenList.find((item) => item.props.value === select);
-    return findElem ? findElem.props.children : '';
+    if(value.length === 0){
+      return 'Выбрать'
+    }
+    let inputText = ''
+    value.forEach(element => {
+      const find = childrenList.find((elem) => elem.props.value === element);
+      if (find) {
+        inputText += `${find.props.children}, `;
+      }
+    });
+    return inputText.replace(/, \s*$/, "");
+  }
+  const handleChange = (currentValue) => {
+    if (!currentValue) { return }
+    let newValue = value.map(item => item);
+    if (newValue.includes(currentValue)) {
+      newValue.splice(newValue.indexOf(currentValue), 1)
+    } else {
+      newValue.push(currentValue);
+    }
+    onChange && onChange(newValue);
   }
   return (
-    <LabelStyle fullWidth={fullWidth}>
+    <LabelStyleSElect fullWidth={fullWidth}>
       {label}
       <SelectContainer error={error}>
         <SelectInputContainer>
           <SelectInputStyle readOnly
-            value={getSelectTitle()}
             onClick={isShow}
-            placeholder='Выбрать'
-            ref={inputRef}
             error={error}
             disabled={disabled}
             $small={small}
-          />
+          >
+            {
+              getSelectTitle()
+            }
+          </SelectInputStyle>
           {
             !disabled &&
             <ArrowStyle open={open} />
           }
         </SelectInputContainer>
+        <input type="text" hidden ref={inputRef} />
         <AnimatePresence>
           {
             open &&
@@ -116,8 +143,8 @@ export const SelectUI = ({ select, onChange, children, label, fullWidth, inputRe
                 Children.map(children?.type === React.Fragment ? children.props.children : children, (child) => {
                   return React.cloneElement(child, {
                     ...child.props,
-                    select: select,
-                    onChange: onChange,
+                    select: value.includes(child.props.value),
+                    onChange: handleChange,
                   })
                 })
               }
@@ -126,7 +153,7 @@ export const SelectUI = ({ select, onChange, children, label, fullWidth, inputRe
         </AnimatePresence>
         <TextSpanStyle color='red' size={12}>{error?.message && error.message}</TextSpanStyle>
       </SelectContainer>
-    </LabelStyle>
+    </LabelStyleSElect>
   );
 };
 
@@ -141,12 +168,12 @@ const SelectItemStyle = styled(motion.div)`
     background-color: ${({ $select }) => $select ? 'rgb(132 1 158 / 43%)' : 'rgb(249 245 245)'};
   }
 `
-export const SelectItemUI = ({ children, value, select, onChange }) => {
+export const SelectMultipleItemUI = ({ children, value, select, onChange }) => {
   const handleChange = () => {
     onChange(value);
   }
   return (
-    <SelectItemStyle value={value} $select={select === value} onClick={handleChange} >
+    <SelectItemStyle value={value} $select={select} onClick={handleChange} >
       {children}
     </SelectItemStyle>
   )

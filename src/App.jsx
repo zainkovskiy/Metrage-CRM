@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect } from 'react';
-import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AnimatePresence } from 'framer-motion';
 import { MainContainer } from 'styles/styles';
@@ -23,12 +23,13 @@ const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // const [searchParams, setSearchParams ] = useSearchParams();
-  // console.log(searchParams.get('bid'));
-
   useEffect(() => {
     if (globalReferer && globalRefererId) {
-      navigate(`application/${globalRefererId}`);
+      if(globalReferer === 'bid'){
+        navigate(`application/${globalRefererId}`);
+      } else {
+        navigate(`${globalReferer}/${globalRefererId}`);
+      }
     }
     dispatch({ type: 'socket/connect' });
     return () => {

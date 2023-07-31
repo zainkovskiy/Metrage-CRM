@@ -9,7 +9,7 @@ export const MainContainer = styled.div`
   max-height: calc(100vh - 61.09px);
   @media ${device.tablet}{
     padding: 0;
-    max-height: calc(100vh - 40px);
+    height: ${document.documentElement.clientHeight - 42}px;
   }
 `
 export const SimpleFormStyle = styled.form`

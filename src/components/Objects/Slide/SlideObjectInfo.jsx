@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAsyncValue } from 'react-router-dom';
 import styled from 'styled-components';
+import imgErrorUrl from 'images/img-error.svg';
 
 import { ButtonLink } from 'ui/ButtonLink';
 import { Box } from 'ui/Box';
@@ -76,7 +77,7 @@ const SlideObjectInfo = () => {
           {getPrice()}
         </Box>
         <Box column ai='flex-start'>
-          <Box jc='space-between'>
+          <Box jc='space-between' fullWidth>
             <Box>
               <AreaStyle />
               <Box column gap='0' jc='space-between' ai='flex-start'>
@@ -118,7 +119,7 @@ const SlideObjectInfo = () => {
       </SlideInfoBlock>
       <SlideInfoBlock>
         {/* <img src={object?.photos[0].URL} style={{width: '100%', height: '100%', objectFit: 'cover'}}/> */}
-        <ImageGalary images={object?.photos || []} />
+        <ImageGalary images={object?.photos || [{URL: imgErrorUrl}]} />
       </SlideInfoBlock>
     </SlideBlockStyle>
   );
