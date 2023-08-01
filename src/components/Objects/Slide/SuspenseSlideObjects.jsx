@@ -42,9 +42,9 @@ const SuspenseNewObjects = () => {
 };
 
 export const loaderObjectSlide = async ({ request, params }) => {
-  const { objectId } = params;
+  const { objectId, category } = params;
   // 1469
-  return { object: getOneObject(objectId) }
+  return { object: getOneObject(objectId, category) }
 }
 
 export default SuspenseNewObjects;

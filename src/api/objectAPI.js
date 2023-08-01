@@ -49,10 +49,10 @@ export const createNewObject = async (object) => {
     console.log(res);
   }
 }
-export const getOneObject = async (id) => {
+export const getOneObject = async (id, category) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
-    method: "crm.objects.get",
+    method: category === 'business' ? 'crm.objects.getBusiness' : 'crm.objects.get',
     fields: {
       UID: id
     }
@@ -61,4 +61,33 @@ export const getOneObject = async (id) => {
     return res?.data?.result || {}
   }
   return {}
+}
+export const getPublication = async (id, estate) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.objects.getPublication',
+    fields: {
+      UID: id,
+      type: estate,
+    }
+  })
+  if (res?.statusText === 'OK') {
+    return res?.data?.result || {}
+  }
+  return {}
+}
+export const setPublication = async (id, estate, date) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.objects.setPublication',
+    fields: {
+      UID: id,
+      type: estate,
+      date: date,
+    }
+  })
+  if (res?.statusText === 'OK') {
+    return 'OK'
+  }
+  return "NO OK"
 }

@@ -14,7 +14,7 @@ const VisibilityOffIconStyle = styled(VisibilityOffIcon)`
 `
 
 export const InputUI = forwardRef((props, ref) => {
-  const { type, label, helperText, error, fullWidth, disabled, register, width, icon, value, onChange, onFocus, readOnly, defaultValue, placeholder } = props;
+  const { type, label, id, name, helperText, error, fullWidth, disabled, register, width, icon, value, onChange, onFocus, readOnly, defaultValue, placeholder, small } = props;
   const InputComponent = getInputComponent(type);
   return (
     <LabelStyle fullWidth={fullWidth} width={width}>
@@ -33,6 +33,9 @@ export const InputUI = forwardRef((props, ref) => {
           readOnly={readOnly ? true : false}
           defaultValue={defaultValue}
           placeholder={placeholder}
+          small={small}
+          id={id}
+          name={name}
         />
         {
           helperText &&
@@ -52,7 +55,7 @@ const getInputComponent = (type) => {
   }
 }
 const InputPassword = forwardRef((props, ref) => {
-  const { type, disabled, register, error, value, onChange, } = props;
+  const { type, disabled, register, error, value, onChange, small, id, name } = props;
   const [currentType, setCurrentType] = useState(type);
   const showPassword = () => {
     setCurrentType(currentType === 'password' ? 'text' : 'password');
@@ -66,6 +69,9 @@ const InputPassword = forwardRef((props, ref) => {
         {...register} error={error}
         value={value}
         onChange={onChange}
+        $small={small}
+        id={id}
+        name={name}
       />
       {
         currentType === 'password' ? <VisibilityOffIconStyle onClick={showPassword} /> : <VisibilityIconStyle onClick={showPassword} />
@@ -75,7 +81,7 @@ const InputPassword = forwardRef((props, ref) => {
 })
 
 const InputCustom = forwardRef((props, ref) => {
-  const { type, disabled, register, error, icon, value, onChange, onBlur, onFocus, readOnly, defaultValue, placeholder } = props;
+  const { type, id, name, disabled, register, error, icon, value, onChange, onBlur, onFocus, readOnly, defaultValue, placeholder, small } = props;
   return (
     <ContainerIcon error={error}>
       <InputStyle
@@ -91,6 +97,9 @@ const InputCustom = forwardRef((props, ref) => {
         readOnly={readOnly}
         defaultValue={defaultValue}
         placeholder={placeholder}
+        $small={small}
+        id={id}
+        name={name}
       />
       {icon && iconVariant[icon]}
     </ContainerIcon>

@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SlideBlockStyle } from '../ObjectsStyle';
 import { Box } from 'ui/Box';
 import styled from 'styled-components';
+import DialogWindow from 'components/Main/DialogWindow';
+import SlideDialogAd from './SlideDialogAd';
+import { useAsyncValue } from 'react-router-dom';
 
 const ObjectSlideButton = styled.div`
-  font-family: ${({theme}) => theme.font.family};
+  font-family: ${({ theme }) => theme.font.family};
   font-size: 12px;
   cursor: pointer;
   user-select: none;
@@ -25,6 +28,12 @@ const ObjectNavDivide = styled.span`
 `
 
 const SlideObjectNav = () => {
+  const object = useAsyncValue();
+  console.log(object);
+  const [ad, setAd] = useState(false);
+  const isShowAd = () => {
+    setAd(!ad);
+  }
   return (
     <SlideBlockStyle>
       <Box jc='space-between' fullWidth>
@@ -32,8 +41,8 @@ const SlideObjectNav = () => {
           <ObjectSlideButton>
             Фото
           </ObjectSlideButton>
-          <ObjectNavDivide/>
-          <ObjectSlideButton>
+          <ObjectNavDivide />
+          <ObjectSlideButton onClick={isShowAd}>
             Реклама
           </ObjectSlideButton>
         </Box>
@@ -41,6 +50,9 @@ const SlideObjectNav = () => {
           Редактировать
         </ObjectSlideButton>
       </Box>
+      <DialogWindow open={ad} onClose={isShowAd}>
+        <SlideDialogAd onClose={isShowAd} UID={object.UID} estate={object.typeEstate}/>
+      </DialogWindow>
     </SlideBlockStyle>
   );
 };

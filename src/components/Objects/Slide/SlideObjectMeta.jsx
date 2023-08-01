@@ -10,7 +10,7 @@ import { useAsyncValue } from 'react-router-dom';
 const SlideObjectMeta = () => {
   const object = useAsyncValue();
   const copyID = () => {
-    navigator.clipboard.writeText(`http://crm.metragegroup.com?objects=${object.UID}`);
+    navigator.clipboard.writeText(`http://crm.metragegroup.com?objects=${object.typeEstate}/${object.UID}`);
   }
   return (
     <SlideBlockStyle

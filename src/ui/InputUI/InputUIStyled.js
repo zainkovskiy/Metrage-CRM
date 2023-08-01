@@ -16,10 +16,18 @@ export const ContainerIcon = styled.div`
     border: 1px solid ${({ theme, error }) => error ? 'red' : theme.color.primary};
   }
 `
+const getInputPadding = (props) => {
+  const {type, icon, $small} = props;
+  if(type === 'password' || icon){
+    return '0.5rem 28px 0.5rem 0.5rem'
+  }
+  return $small ? '0.2rem 0.5rem' : '0.5rem'
+  // (props) => (props.type === 'password' || props.icon) ? '0.5rem 28px 0.5rem 0.5rem' : '0.5rem'
+}
 export const InputStyle = styled.input`
   font-size: 14px;
   font-family: CeraCY, sans-serif;
-  padding: ${(props) => (props.type === 'password' || props.icon) ? '0.5rem 28px 0.5rem 0.5rem' : '0.5rem'};
+  padding: ${(props) => getInputPadding(props)};
   border-radius: 5px;
   border: 1px solid ${({ theme, error }) => error ? 'red' : theme.color.primary};
   outline: none;

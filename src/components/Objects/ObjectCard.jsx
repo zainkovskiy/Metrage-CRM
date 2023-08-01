@@ -61,7 +61,7 @@ const variants = {
 }
 const ObjectCard = ({ object }) => {
   return (
-    <LinkStyle to={`${object.UID}`}>
+    <LinkStyle to={`${object.CategoryOriginal}/${object?.UID}`}>
       <ObjectCardStyle
         variants={variants}
         initial='hidden'

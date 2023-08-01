@@ -53,7 +53,7 @@ export const routers = createBrowserRouter([
             element: <SuspenseNewObjects />
           },
           {
-            path: ':objectId',
+            path: ':category/:objectId',
             element: <SuspenseSlideObjects />,
             loader: loaderObjectSlide,
           },

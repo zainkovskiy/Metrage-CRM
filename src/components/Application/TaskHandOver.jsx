@@ -93,8 +93,8 @@ const TaskHandOver = ({ title, onClose, UID, closeSlide }) => {
       </TaskHandOverHeaderStyle>
       <OfficeListStyle>
         {
-          list.map((item) => (
-            <OfficeItemStyle key={item.UID} $select={select === item} onClick={() => selectOffice(item)}>
+          list.map((item, idx) => (
+            <OfficeItemStyle key={idx} $select={select === item} onClick={() => selectOffice(item)}>
               <TextSpanStyle>{item?.officeName}</TextSpanStyle>
               <TextSpanStyle size={10} color='#7e7777'>{item?.officeAddress}</TextSpanStyle>
             </OfficeItemStyle>
