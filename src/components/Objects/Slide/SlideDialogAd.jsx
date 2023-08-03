@@ -54,7 +54,6 @@ const SlideDialogAd = ({ onClose, UID, estate }) => {
     try {
       const res = await getPublication(UID, estate);
       setAd(res);
-      console.log(res);
     } catch (err) {
 
     } finally {
@@ -104,9 +103,6 @@ const SlideDialogAd = ({ onClose, UID, estate }) => {
               <CheckboxUI id='onOther' label='Остальные' defaultChecked={ad?.onOther} onChange={handleChange} />
               <InputUI id='otherDate' type='date' disabled={true} small value={ad?.otherDate || ''} />
             </Box>
-            {
-              loading && 'loading....'
-            }
           </OfficeListStyle>
       }
       <Box jc='flex-start'>

@@ -7,7 +7,8 @@ import TypeDeal from './TypeDeal';
 import TypeObject from './TypeObject';
 import FormCords from './FormTemplate/FormCords';
 import { useSelectCategoryField } from '../objectHook';
-import { createNewObject } from '../../../api/objectAPI';
+import { createNewObject } from 'api/objectAPI';
+import { useAsyncValue } from 'react-router-dom';
 
 const NewObjectStyle = styled(motion.form)`
   display: flex;
@@ -17,13 +18,19 @@ const NewObjectStyle = styled(motion.form)`
   overflow: auto;
 `
 const NewObject = () => {
-  const defaultValues = {
-  }
-  const methods = useForm({ defaultValues });
+  const object = useAsyncValue();
+  const methods = useForm({
+    defaultValues: {
+      ...object
+    }
+  });
 
   const onSubmit = (data) => {
-    console.log(data);
-    // createNewObject(data);
+    if(object){
+      console.log(data);
+      return
+    }
+    createNewObject(data);
   }
 
   methods.watch('typeEstate');

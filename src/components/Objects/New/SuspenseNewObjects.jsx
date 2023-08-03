@@ -1,11 +1,13 @@
 import React, { Suspense, useState } from 'react';
 import Loader from 'components/Main/Loader';
 import SlideWindow from "components/Main/SlideWindow";
-import { useNavigate } from 'react-router-dom';
+import { Await, useLoaderData, useNavigate } from 'react-router-dom';
 import { useWindowSize } from 'hooks/windowSize';
+import { getOneObject } from 'api/objectAPI';
 const NewObject = React.lazy(() => import('components/Objects/New/NewObject'));
 
 const SuspenseNewObjects = () => {
+  const { object } = useLoaderData() || {};
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
   const windowSize = useWindowSize();
@@ -24,10 +26,15 @@ const SuspenseNewObjects = () => {
   return (
     <SlideWindow open={open} onClose={handleClose} width={getWidth()}>
       <Suspense fallback={<Loader />}>
-        <NewObject />
+        <Await resolve={object}>
+          <NewObject />
+        </Await>
       </Suspense>
     </SlideWindow>
   );
 };
-
+export const loaderEditSlide = async ({ request, params }) => {
+  const { objectId, category } = params;
+  return { object: getOneObject(objectId, category, true) }
+}
 export default SuspenseNewObjects;

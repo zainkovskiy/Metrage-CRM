@@ -70,10 +70,7 @@ const SlideObjectInfo = () => {
             <TextSpanStyle size={10}>{object?.typeDeal} {typeEstateTranslate[object?.typeEstate]}</TextSpanStyle>
             <TextSpanStyle size={12}>{getLineTypeObject()}</TextSpanStyle>
           </Box>
-          <Box column gap='0' ai='flex-start'>
-            <TextSpanStyle bold> {object?.addressId?.addrString || 'Нет адреса'}</TextSpanStyle>
-            <ButtonLink size={10} color='#2E3FD6'>на карте</ButtonLink>
-          </Box>
+          <TextSpanStyle bold> {object?.addressId?.addrString || 'Нет адреса'}</TextSpanStyle>
           {getPrice()}
         </Box>
         <Box column ai='flex-start'>
@@ -119,7 +116,7 @@ const SlideObjectInfo = () => {
       </SlideInfoBlock>
       <SlideInfoBlock>
         {/* <img src={object?.photos[0].URL} style={{width: '100%', height: '100%', objectFit: 'cover'}}/> */}
-        <ImageGalary images={object?.photos || [{URL: imgErrorUrl}]} />
+        <ImageGalary images={object?.photos || [{ URL: imgErrorUrl }]} />
       </SlideInfoBlock>
     </SlideBlockStyle>
   );

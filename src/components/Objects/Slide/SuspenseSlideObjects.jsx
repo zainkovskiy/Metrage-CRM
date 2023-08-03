@@ -4,7 +4,7 @@ import Loader from 'components/Main/Loader';
 import SlideWindow from "components/Main/SlideWindow";
 import { Await, useLoaderData, useNavigate } from 'react-router-dom';
 import { useWindowSize } from 'hooks/windowSize';
-import { getOneObject } from '../../../api/objectAPI';
+import { getOneObject } from 'api/objectAPI';
 const SlideObject = React.lazy(() => import('components/Objects/Slide/SlideObject'));
 
 const LoaderContainer = styled.div`
@@ -34,7 +34,7 @@ const SuspenseNewObjects = () => {
     <SlideWindow open={open} onClose={handleClose} width={getWidth()}>
       <Suspense fallback={<LoaderContainer><Loader fill='#fff' /></LoaderContainer>}>
         <Await resolve={object}>
-          <SlideObject />
+          <SlideObject onCloseSlide={() => setOpen(false)} />
         </Await>
       </Suspense>
     </SlideWindow>
@@ -43,7 +43,7 @@ const SuspenseNewObjects = () => {
 
 export const loaderObjectSlide = async ({ request, params }) => {
   const { objectId, category } = params;
-  // 1469
+  // 435
   return { object: getOneObject(objectId, category) }
 }
 

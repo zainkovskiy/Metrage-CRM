@@ -24,6 +24,7 @@ export const InputUI = forwardRef((props, ref) => {
           ref={ref}
           type={type || 'text'}
           disabled={disabled}
+          name={name}
           register={register}
           error={error}
           icon={icon}
@@ -35,7 +36,6 @@ export const InputUI = forwardRef((props, ref) => {
           placeholder={placeholder}
           small={small}
           id={id}
-          name={name}
         />
         {
           helperText &&
@@ -55,7 +55,7 @@ const getInputComponent = (type) => {
   }
 }
 const InputPassword = forwardRef((props, ref) => {
-  const { type, disabled, register, error, value, onChange, small, id, name } = props;
+  const { type, disabled, name, register, error, value, onChange, small, id } = props;
   const [currentType, setCurrentType] = useState(type);
   const showPassword = () => {
     setCurrentType(currentType === 'password' ? 'text' : 'password');
@@ -66,12 +66,12 @@ const InputPassword = forwardRef((props, ref) => {
         ref={ref}
         type={currentType}
         disabled={disabled}
+        name={name}
         {...register} error={error}
         value={value}
         onChange={onChange}
         $small={small}
         id={id}
-        name={name}
       />
       {
         currentType === 'password' ? <VisibilityOffIconStyle onClick={showPassword} /> : <VisibilityIconStyle onClick={showPassword} />
@@ -89,6 +89,7 @@ const InputCustom = forwardRef((props, ref) => {
         ref={ref}
         type={type}
         disabled={disabled}
+        name={name}
         {...register}
         icon={Boolean(icon)}
         value={value}
@@ -99,7 +100,6 @@ const InputCustom = forwardRef((props, ref) => {
         placeholder={placeholder}
         $small={small}
         id={id}
-        name={name}
       />
       {icon && iconVariant[icon]}
     </ContainerIcon>

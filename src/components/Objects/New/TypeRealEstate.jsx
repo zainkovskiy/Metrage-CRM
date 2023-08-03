@@ -3,9 +3,12 @@ import { ObjectSliderBox } from '../ObjectsStyle';
 import { TextSpanStyle } from 'styles/styles';
 import { ButtonToggleGroup, ButtonToggleItem } from 'ui/ButtonToggle';
 import { Controller, useFormContext } from 'react-hook-form';
+import { useAsyncValue } from 'react-router-dom';
 
 const TypeRealEstate = () => {
   const { control, setValue, getValues } = useFormContext();
+  const object = useAsyncValue();
+
   const toggleType = (onChange, id) => {
     if (getValues('typeEstate') === id) { return };
     onChange(id);

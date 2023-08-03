@@ -11,7 +11,7 @@ const InputDadata = styled(InputStyle)`
   box-shadow: none;
 `
 
-const Dadata = ({ onChange, value, label, inputRef, error, disabled }) => {
+const Dadata = ({ onChange, value, label, inputRef, error, disabled, defaultQuery }) => {
   return (
     <LabelStyle fullWidth>
       {label}
@@ -23,6 +23,7 @@ const Dadata = ({ onChange, value, label, inputRef, error, disabled }) => {
           filterToBound={'house'}
           value={value}
           customInput={InputDadata}
+          defaultQuery={defaultQuery}
           renderOption={(suggestion) => { return <TextSpanStyle>{suggestion.value}</TextSpanStyle> }}
           inputProps={{
             error: error && 'error',

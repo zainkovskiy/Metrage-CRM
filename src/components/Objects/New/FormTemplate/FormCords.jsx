@@ -4,8 +4,10 @@ import { ObjectSliderBox } from '../../ObjectsStyle';
 import Dadata from 'components/Main/Dadata';
 import MapPlacemark from 'components/Main/MapPlacemark';
 import { TextSpanStyle } from 'styles/styles';
+import { useAsyncValue } from 'react-router-dom';
 
 const FormCords = () => {
+  const object = useAsyncValue();
   const { control, clearErrors, setValue, setError } = useFormContext();
   const { errors } = useFormState();
   
@@ -25,7 +27,13 @@ const FormCords = () => {
         control={control}
         rules={{ required: 'Поле обязательное' }}
         render={({ field }) => (
-          <Dadata label='Адрес' fullWidth onChange={(e) => { field.onChange(e), setCords(e) }} error={errors?.addressId || ''} inputRef={field.ref} />
+          <Dadata 
+          label='Адрес' 
+          fullWidth 
+          onChange={(e) => { field.onChange(e), setCords(e) }} 
+          error={errors?.addressId || ''} 
+          defaultQuery={object?.addressId?.value || ''}
+          inputRef={field.ref} />
         )}
       />
       <TextSpanStyle color='grey'>В соответствии с требованиями ЦИАН, необходимо указать координаты с точность до дома. Внимание! В случае ввода не верных координат объект не выгрузится в рекламу</TextSpanStyle>

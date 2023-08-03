@@ -22,7 +22,7 @@ const StoryItemAvatarStyle = styled.img`
   min-width: 30px;
   object-fit: cover;
 `
-const TaskSlideStoryItem = ({ story, last, scrollField, firstUpdate }) => {
+const SlideStoryItem = ({ story, last, scrollField, firstUpdate }) => {
   const messageRef = useRef(null);
   useEffect(() => {
     if (firstUpdate) {
@@ -53,4 +53,4 @@ const TaskSlideStoryItem = ({ story, last, scrollField, firstUpdate }) => {
   );
 };
 
-export default TaskSlideStoryItem;
+export default SlideStoryItem;

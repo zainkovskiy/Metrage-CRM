@@ -9,6 +9,7 @@ import SuspenseNewApplication from "components/Application/SuspenseNewApplicatio
 import { newTaskLoader } from 'components/Application/SuspenseNewApplication';
 import SuspenseObjects from "components/Objects/SuspenseObjects";
 import SuspenseNewObjects from "components/Objects/New/SuspenseNewObjects";
+import { loaderEditSlide } from 'components/Objects/New/SuspenseNewObjects';
 import SuspenseSlideObjects from "components/Objects/Slide/SuspenseSlideObjects";
 import { loaderObjectSlide } from 'components/Objects/Slide/SuspenseSlideObjects';
 
@@ -56,6 +57,11 @@ export const routers = createBrowserRouter([
             path: ':category/:objectId',
             element: <SuspenseSlideObjects />,
             loader: loaderObjectSlide,
+          },
+          {
+            path: 'edit/:category/:objectId',
+            element: <SuspenseNewObjects />,
+            loader: loaderEditSlide,
           },
         ]
       },

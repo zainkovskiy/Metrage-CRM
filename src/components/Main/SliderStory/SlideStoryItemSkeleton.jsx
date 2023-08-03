@@ -35,7 +35,7 @@ const SkeletonTitle = styled.div`
   background-size: 200% 100%;
   animation: 1.5s ${shine} linear infinite;
 `
-const TaskSlideStoryItemSkeleton = () => {
+const SlideStoryItemSkeleton = () => {
   return (
     <SkeletonStoryItemStyle initial={{ scale: 0 }} animate={{ scale: 1 }}>
       <SkeletonAvatar />
@@ -48,4 +48,4 @@ const TaskSlideStoryItemSkeleton = () => {
   );
 };
 
-export default TaskSlideStoryItemSkeleton;
+export default SlideStoryItemSkeleton;

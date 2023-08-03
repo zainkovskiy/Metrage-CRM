@@ -1,36 +1,30 @@
-import React from 'react';
-import styled from 'styled-components';
-import { TitleFormStyle } from 'styles/styles';
-import { InputChatUI } from 'ui/InputChatUI/InputChatUI';
+import React, { useEffect, useState } from 'react';
+import { getHistoryList, sendHistoryMessage } from 'api/storyAPI';
+import SliderStory from 'components/Main/SliderStory/SliderStory';
 
-const SlideObjectStoryStyle = styled.div`
-  background-color: #fff;
-  border-radius: 5px;
-  width: 25%;
-  padding: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  min-width: 200px;
-`
-const SlideObjectStoryFieldStyle = styled.div`
-  background-color: ${({ theme }) => theme.color.secondary};
-  flex-grow: 1;
-  border-radius: 5px;
-  padding: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  overflow: auto;
-`
-
-const SlideObjectStory = () => {
+const SlideObjectStory = ({ id, type }) => {
+  const [history, setHistory] = useState();
+  const [loader, setLoader] = useState(true);
+  useEffect(() => {
+    getHistory();
+  }, [])
+  const getHistory = () => {
+    getHistoryList(id, type === 'live' ? 'LivingObjects' : 'BusinessObjects').then((data) => {
+      setHistory(data || [])
+    }).finally(() => {
+      setLoader(false);
+    })
+  }
+  const sendMessage = (message) => {
+    const newMessage = message.trim();
+    if (newMessage) {
+      sendHistoryMessage(type === 'live' ? 'LivingObjects' : 'BusinessObjects', id, newMessage).then((data) => {
+        setHistory([...history, data]);
+      })
+    };
+  }
   return (
-    <SlideObjectStoryStyle>
-      <TitleFormStyle ta='center'>История</TitleFormStyle>
-      <SlideObjectStoryFieldStyle/>
-      <InputChatUI onClick={(value) => console.log(value)} placeholder='Напишите комментарий' />
-    </SlideObjectStoryStyle>
+    <SliderStory loader={loader} history={history} onChange={sendMessage}/>
   );
 };
 

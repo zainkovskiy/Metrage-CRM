@@ -25,17 +25,15 @@ const SlideObjectContentStyle = styled.div`
   }
 `
 
-const SlideObject = () => {
+const SlideObject = ({ onCloseSlide }) => {
   const object = useAsyncValue();
-  console.log(object);
-
   const getCords = () => {
     const address = object.addressId;
     if (!address) { return }
     if (address?.geo_lat && address?.geo_lon) {
       return [address?.geo_lat, address?.geo_lon]
     }
-    return 
+    return
   }
   return (
     <SlideObjectStyle>
@@ -43,17 +41,17 @@ const SlideObject = () => {
         <SlideObjectMeta />
         {
           object?.isEditor &&
-          <SlideObjectNav />
+          <SlideObjectNav onCloseSlide={onCloseSlide}/>
         }
         <SlideObjectInfo />
         <SlideObjectFeature />
         <SlideBlockStyle>
-          <MapPlacemark cords={getCords()} disable/>
+          <MapPlacemark cords={getCords()} disable />
         </SlideBlockStyle>
       </SlideObjectContentStyle>
       {
         object?.isEditor &&
-        <SlideObjectStory />
+        <SlideObjectStory type={object?.typeEstate} id={object?.UID} />
       }
     </SlideObjectStyle>
   );

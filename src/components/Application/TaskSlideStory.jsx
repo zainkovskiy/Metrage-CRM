@@ -1,22 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
-import { TitleFormStyle } from 'styles/styles';
-import TaskSlideStoryField from './TaskSlideStoryField';
-import { InputChatUI } from 'ui/InputChatUI/InputChatUI';
-import { sendHistoryMessage } from 'api/storyAPI';
-import { getApplicationHistory } from 'api/application';
+import { sendHistoryMessage, getHistoryList } from 'api/storyAPI';
 import { useLocation } from 'react-router-dom';
+import SliderStory from 'components/Main/SliderStory/SliderStory';
 
-const TaskSlideStoryStyle = styled.div`
-  background-color: #fff;
-  border-radius: 5px;
-  width: 25%;
-  padding: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  min-width: 200px;
-`
 const TaskSlideStory = ({ UID }) => {
   const locationRef = useRef(null);
   const [history, setHistory] = useState([]);
@@ -30,16 +16,16 @@ const TaskSlideStory = ({ UID }) => {
     if(locationRef?.current?.key === location?.current?.key){
       return
     }
-    getHistoryList();
+    getHistory();
   }, [location])
   
   useEffect(() => {
-    getHistoryList();
+    getHistory();
   }, [])
 
-  const getHistoryList = () => {
+  const getHistory = () => {
     setLoader(true);
-    getApplicationHistory(UID).then((data) => {
+    getHistoryList(UID, 'demands').then((data) => {
       setHistory(data || [])
     }).finally(() => {
       setLoader(false);
@@ -55,11 +41,7 @@ const TaskSlideStory = ({ UID }) => {
     };
   }
   return (
-    <TaskSlideStoryStyle>
-      <TitleFormStyle ta='center'>История</TitleFormStyle>
-      <TaskSlideStoryField history={history} loader={loader}/>
-      <InputChatUI onClick={sendMessage} placeholder='Напишите комментарий' />
-    </TaskSlideStoryStyle>
+    <SliderStory history={history} loader={loader} onClick={sendMessage}/>
   );
 };
 

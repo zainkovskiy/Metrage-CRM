@@ -4,7 +4,7 @@ import { Box } from 'ui/Box';
 import styled from 'styled-components';
 import DialogWindow from 'components/Main/DialogWindow';
 import SlideDialogAd from './SlideDialogAd';
-import { useAsyncValue } from 'react-router-dom';
+import { useAsyncValue, useNavigate } from 'react-router-dom';
 
 const ObjectSlideButton = styled.div`
   font-family: ${({ theme }) => theme.font.family};
@@ -27,12 +27,18 @@ const ObjectNavDivide = styled.span`
   background-color: #ccc;
 `
 
-const SlideObjectNav = () => {
+const SlideObjectNav = ({ onCloseSlide }) => {
+  const navigate = useNavigate();
   const object = useAsyncValue();
-  console.log(object);
   const [ad, setAd] = useState(false);
   const isShowAd = () => {
     setAd(!ad);
+  }
+  const clickEdit = () => {
+    setTimeout(() => {
+      navigate(`/objects/edit/${object?.typeEstate}/${object?.UID}`, { replace: true });
+    }, 300)
+    onCloseSlide();
   }
   return (
     <SlideBlockStyle>
@@ -46,12 +52,12 @@ const SlideObjectNav = () => {
             Реклама
           </ObjectSlideButton>
         </Box>
-        <ObjectSlideButton>
+        <ObjectSlideButton onClick={clickEdit}>
           Редактировать
         </ObjectSlideButton>
       </Box>
       <DialogWindow open={ad} onClose={isShowAd}>
-        <SlideDialogAd onClose={isShowAd} UID={object.UID} estate={object.typeEstate}/>
+        <SlideDialogAd onClose={isShowAd} UID={object.UID} estate={object.typeEstate} />
       </DialogWindow>
     </SlideBlockStyle>
   );
