@@ -14,6 +14,7 @@ import { ReactComponent as Height } from 'images/height.svg';
 import { useGetMeterPrice } from '../objectHook';
 import { useNumberTriad } from 'hooks/StringHook';
 import { ImageGalary } from 'components/Main/ImageGalary';
+import { useWindowSize } from 'hooks/windowSize';
 const AreaStyle = styled(Area)`
   width: 36px;
   height: 36px;
@@ -24,14 +25,17 @@ const HeightStyle = styled(Height)`
 `
 const SlideInfoBlock = styled.div`
   flex-grow: 1;
-  height: 250px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
   gap: 0.5rem;
+  @media (min-width: 768px){
+    height: 250px;
+  }
 `
 const SlideObjectInfo = () => {
+  const windowSize = useWindowSize();
   const object = useAsyncValue();
   const getLineTypeObject = () => {
     if (!object?.Category) { return '' }
@@ -63,7 +67,7 @@ const SlideObjectInfo = () => {
     }
   }
   return (
-    <SlideBlockStyle>
+    <SlideBlockStyle $wrap={windowSize < 768}>
       <SlideInfoBlock>
         <Box column ai='flex-start'>
           <Box column gap='0' ai='flex-start'>

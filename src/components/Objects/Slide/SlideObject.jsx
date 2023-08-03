@@ -8,6 +8,7 @@ import SlideObjectFeature from './SlideObjectFeature';
 import SlideObjectStory from './SlideObjectStory';
 import { SlideBlockStyle } from '../ObjectsStyle';
 import MapPlacemark from 'components/Main/MapPlacemark';
+import { useWindowSize } from 'hooks/windowSize';
 
 const SlideObjectStyle = styled.div`
   display: flex;
@@ -27,6 +28,7 @@ const SlideObjectContentStyle = styled.div`
 
 const SlideObject = ({ onCloseSlide }) => {
   const object = useAsyncValue();
+  const windowSize = useWindowSize();
   const getCords = () => {
     const address = object.addressId;
     if (!address) { return }
@@ -41,7 +43,7 @@ const SlideObject = ({ onCloseSlide }) => {
         <SlideObjectMeta />
         {
           object?.isEditor &&
-          <SlideObjectNav onCloseSlide={onCloseSlide}/>
+          <SlideObjectNav onCloseSlide={onCloseSlide} />
         }
         <SlideObjectInfo />
         <SlideObjectFeature />
@@ -50,7 +52,7 @@ const SlideObject = ({ onCloseSlide }) => {
         </SlideBlockStyle>
       </SlideObjectContentStyle>
       {
-        object?.isEditor &&
+        windowSize > 768 && object?.isEditor &&
         <SlideObjectStory type={object?.typeEstate} id={object?.UID} />
       }
     </SlideObjectStyle>

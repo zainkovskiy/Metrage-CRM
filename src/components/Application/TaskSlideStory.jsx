@@ -41,7 +41,7 @@ const TaskSlideStory = ({ UID }) => {
     };
   }
   return (
-    <SliderStory history={history} loader={loader} onClick={sendMessage}/>
+    <SliderStory history={history} loader={loader} onChange={sendMessage}/>
   );
 };
 

@@ -23,4 +23,5 @@ export const SlideBlockStyle = styled.div`
   justify-content: ${({ jc }) => jc || 'center'};
   align-items: ${({ ai }) => ai || 'center'}; 
   ${({ $column }) => $column && 'flex-direction: column'};
+  ${({ $wrap }) => $wrap && 'flex-wrap: wrap'};
 `

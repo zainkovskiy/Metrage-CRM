@@ -3,6 +3,7 @@ import { useAsyncValue } from 'react-router-dom';
 import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
 import { SlideBlockStyle } from '../ObjectsStyle';
+import { useWindowSize } from 'hooks/windowSize';
 import {
   RoomTypeTranslate,
   RepairTypeTranslate,
@@ -70,8 +71,9 @@ const FeatureValue = styled(TextSpanStyle)`
 
 const SlideObjectFeature = () => {
   const object = useAsyncValue();
+  const windowSize = useWindowSize();
   return (
-    <SlideBlockStyle ai='flex-start'>
+    <SlideBlockStyle ai='flex-start' $wrap={windowSize < 768}>
       <FeatureBlock>
         <FeatureTitle>Характеристики</FeatureTitle>
         <FeatureBlock>

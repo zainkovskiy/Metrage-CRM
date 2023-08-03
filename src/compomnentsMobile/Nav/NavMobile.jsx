@@ -48,8 +48,11 @@ const NavMobile = () => {
   return (
     <NavMobileStyle>
       <motion.div animate={isOpen ? 'open' : 'closed'} initial={false}>
-        <MenuToogle toggle={() => toggleOpen()} open={isOpen} />
-        <MenuList />
+        <MenuToogle toggle={toggleOpen} open={isOpen} />
+        {
+          isOpen &&
+          <MenuList onClose={toggleOpen}/>
+        }
       </motion.div>
       <LogoComponent />
       <div style={{ display: 'flex', gap: '0.5rem', position: 'relative' }}>
