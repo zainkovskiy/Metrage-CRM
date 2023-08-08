@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAsyncValue } from 'react-router-dom';
 import styled from 'styled-components';
 import SlideObjectMeta from './SlideObjectMeta';
@@ -29,6 +29,7 @@ const SlideObjectContentStyle = styled.div`
 const SlideObject = ({ onCloseSlide }) => {
   const object = useAsyncValue();
   const windowSize = useWindowSize();
+  const [change, setChange] = useState(false);
   const getCords = () => {
     const address = object.addressId;
     if (!address) { return }
@@ -37,13 +38,17 @@ const SlideObject = ({ onCloseSlide }) => {
     }
     return
   }
+  const changePhoto = (photos) => {
+    object.photos = photos;
+    setChange(!change);
+  }
   return (
     <SlideObjectStyle>
       <SlideObjectContentStyle>
         <SlideObjectMeta />
         {
           object?.isEditor &&
-          <SlideObjectNav onCloseSlide={onCloseSlide} />
+          <SlideObjectNav onCloseSlide={onCloseSlide} changePhoto={changePhoto}/>
         }
         <SlideObjectInfo />
         <SlideObjectFeature />

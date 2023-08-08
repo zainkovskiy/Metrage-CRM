@@ -92,3 +92,32 @@ export const setPublication = async (id, estate, date) => {
   }
   return "NO OK"
 }
+export const getPhotoListAPI = async (UID, estate) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.objects.getPhoto',
+    fields: {
+      UID: UID,
+      type: estate,
+    }
+  })
+  if (res?.statusText === 'OK') {
+    return res?.data?.result || []
+  }
+  return []
+}
+export const setChangePhotoListAPI = async (UID, estate, newArr) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.objects.finishPhoto',
+    fields: {
+      UID: UID,
+      type: estate,
+      photos: newArr
+    }
+  })
+  if (res?.statusText === 'OK') {
+    return 'OK'
+  }
+  return ''
+}

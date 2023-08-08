@@ -29,10 +29,10 @@ const InputStyle = styled.input`
 `
 
 export const CheckboxUI = (props) => {
-  const { label, size, position, defaultChecked, onChange, disabled, id } = props;
+  const { label, size, position, defaultChecked, onChange, disabled, id, checked } = props;
   return (
     <LabelStyle htmlFor={id} $size={size} $disabled={disabled}>
-      <InputStyle type='checkbox' id={id} defaultChecked={defaultChecked} onChange={onChange} />
+      <InputStyle type='checkbox' id={id} defaultChecked={defaultChecked} onChange={onChange} checked={checked && checked} />
       <InputTemplate $size={size} $position={position}>
         &#10003;
       </InputTemplate>

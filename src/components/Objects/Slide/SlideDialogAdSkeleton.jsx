@@ -46,38 +46,38 @@ const SlideDialogAdSkeleton = () => {
     <SkeletonContainer initial={{ scale: 0 }} animate={{ scale: 1 }}>
       <Box jc='space-between'>
         <Box>
-          <SkeletonCheckbox/>
-          <SkeletonLabel/>
+          <SkeletonCheckbox />
+          <SkeletonLabel />
         </Box>
-          <SkeletonInput/>
+        <SkeletonInput />
       </Box>
       <Box jc='space-between'>
         <Box>
-          <SkeletonCheckbox/>
-          <SkeletonLabel/>
+          <SkeletonCheckbox />
+          <SkeletonLabel />
         </Box>
-          <SkeletonInput/>
+        <SkeletonInput />
       </Box>
       <Box jc='space-between'>
         <Box>
-          <SkeletonCheckbox/>
-          <SkeletonLabel/>
+          <SkeletonCheckbox />
+          <SkeletonLabel />
         </Box>
-          <SkeletonInput/>
+        <SkeletonInput />
       </Box>
       <Box jc='space-between'>
         <Box>
-          <SkeletonCheckbox/>
-          <SkeletonLabel/>
+          <SkeletonCheckbox />
+          <SkeletonLabel />
         </Box>
-          <SkeletonInput/>
+        <SkeletonInput />
       </Box>
       <Box jc='space-between'>
         <Box>
-          <SkeletonCheckbox/>
-          <SkeletonLabel/>
+          <SkeletonCheckbox />
+          <SkeletonLabel />
         </Box>
-          <SkeletonInput/>
+        <SkeletonInput />
       </Box>
     </SkeletonContainer>
   )

@@ -249,7 +249,7 @@ const FormFlatShare = () => {
         exit={{ scale: 0 }}
         transition={{ duration: 0.3 }}
       >
-        <ButtonUI type='submit'>Создать</ButtonUI>
+        <ButtonUI type='submit'>Сохранить</ButtonUI>
       </ObjectSliderBox>
     </>
   );

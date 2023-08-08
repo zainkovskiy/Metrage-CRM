@@ -15,9 +15,17 @@ const TaskStyle = styled(motion.div)`
   cursor: pointer;
   transition: box-shadow .2s, transform .2s;
   height: 100%;
-  &:hover{
-    transform: scale(1.03);
-    box-shadow: 7px 8px 14px -6px rgba(0,0,0,0.75);
+  @media (hover: hover){
+    &:hover{
+      transform: scale(1.03);
+      box-shadow: 7px 8px 14px -6px rgba(0,0,0,0.75);
+    }
+  }
+  @media (hover: none){
+    &:active{
+      transform: scale(1.03);
+      box-shadow: 7px 8px 14px -6px rgba(0,0,0,0.75);
+    }
   }
 `
 const TaskHeader = styled.div`

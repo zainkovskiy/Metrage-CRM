@@ -4,6 +4,7 @@ import { Box } from 'ui/Box';
 import styled from 'styled-components';
 import DialogWindow from 'components/Main/DialogWindow';
 import SlideDialogAd from './SlideDialogAd';
+import SlideDialogPhoto from './SlideDialogPhoto';
 import { useAsyncValue, useNavigate } from 'react-router-dom';
 
 const ObjectSlideButton = styled.div`
@@ -27,12 +28,16 @@ const ObjectNavDivide = styled.span`
   background-color: #ccc;
 `
 
-const SlideObjectNav = ({ onCloseSlide }) => {
+const SlideObjectNav = ({ onCloseSlide, changePhoto }) => {
   const navigate = useNavigate();
   const object = useAsyncValue();
   const [ad, setAd] = useState(false);
+  const [photo, setPhoto] = useState(false);
   const isShowAd = () => {
     setAd(!ad);
+  }
+  const isShowPhoto = () => {
+    setPhoto(!photo);
   }
   const clickEdit = () => {
     setTimeout(() => {
@@ -44,7 +49,7 @@ const SlideObjectNav = ({ onCloseSlide }) => {
     <SlideBlockStyle>
       <Box jc='space-between' fullWidth>
         <Box ai='normal'>
-          <ObjectSlideButton>
+          <ObjectSlideButton onClick={isShowPhoto}>
             Фото
           </ObjectSlideButton>
           <ObjectNavDivide />
@@ -56,6 +61,13 @@ const SlideObjectNav = ({ onCloseSlide }) => {
           Редактировать
         </ObjectSlideButton>
       </Box>
+      <DialogWindow open={photo} onClose={isShowPhoto}>
+        <SlideDialogPhoto
+          onClose={isShowPhoto}
+          UID={object.UID} estate={object?.typeEstate} 
+          changePhoto={changePhoto}
+          />
+      </DialogWindow>
       <DialogWindow open={ad} onClose={isShowAd}>
         <SlideDialogAd onClose={isShowAd} UID={object.UID} estate={object.typeEstate} />
       </DialogWindow>
