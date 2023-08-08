@@ -3,10 +3,12 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { getPhotoListAPI, setChangePhotoListAPI } from 'api/objectAPI';
 import closeUrl, { ReactComponent as Close } from 'images/close.svg';
+import { ReactComponent as NoImage } from 'images/no-image.svg';
 import { TextSpanStyle } from 'styles/styles';
 import { ButtonUI } from 'ui/ButtonUI';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import SlideDialogPhotoSceleton from './SlideDialogPhotoSceleton';
+import UploderPhoto from './UploderPhoto';
 
 const SlideDialogPhotoStyle = styled.div`
   width: 80vw;
@@ -116,12 +118,16 @@ const SlideDialogPhoto = ({ UID, estate, onClose, changePhoto }) => {
     setPhotos(statePhotos);
     setChange(!change);
   }
+  const uploadedPhotos = (newPhotos) => {
+    setPhotos([...photos, ...newPhotos]);
+  }
   return (
     <SlideDialogPhotoStyle onClick={(e) => e.stopPropagation()}>
       <SlideDialogPhotoHeaderStyle>
-        <TextSpanStyle>Фото</TextSpanStyle>
+        <TextSpanStyle>Фото {photos.length}</TextSpanStyle>
         <CloseButtonStyle src={closeUrl} onClick={onClose} />
       </SlideDialogPhotoHeaderStyle>
+      <UploderPhoto UID={UID} uploadedPhotos={uploadedPhotos} />
       <SlideDialogPhotoContext>
         {
           loading ?
@@ -134,9 +140,9 @@ const SlideDialogPhoto = ({ UID, estate, onClose, changePhoto }) => {
             :
             <>
               {
-                photos.map((item) => (
+                photos.map((item, idx) => (
                   <SliderPhoto
-                    key={item.UID}
+                    key={item?.UID || idx}
                     photo={item}
                     removePhoto={removePhoto}
                     setDragPhotoStart={setDragPhotoStart}
@@ -212,6 +218,9 @@ const SliderPhoto = ({ photo, removePhoto, setDragPhotoStart, setDragPhotoEnd, s
     setDragPhotoEnd(photo);
     event.target.style.opacity = 1;
   }
+  if (photo?.allow === false) {
+    return <PhotoNotAllow />
+  }
   return (
     <SliderPhotoSContainer
       draggable={true}
@@ -225,11 +234,37 @@ const SliderPhoto = ({ photo, removePhoto, setDragPhotoStart, setDragPhotoEnd, s
       <RemoveIcon onClick={() => removePhoto(photo.UID)} />
       <SliderPhotoItemFooter>
         <CheckboxUI
-          label='isWeb'
+          label='Выгружать'
           id={photo.UID}
           checked={photo?.isWeb}
           onChange={() => { setWeb(photo) }}
         />
+      </SliderPhotoItemFooter>
+    </SliderPhotoSContainer>
+  )
+}
+const PhotoNotAllowContext = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 250px;
+  border-radius: 5px 5px 0 0;
+  background-color: #ccc;
+`
+const NoImageStyle = styled(NoImage)`
+  width: 60px;
+  height: 60px;
+  fill: ${({theme}) => theme.color.primary};
+`
+const PhotoNotAllow = () => {
+  return (
+    <SliderPhotoSContainer>
+      {/* <RemoveIcon onClick={() => removePhoto(photo.UID)} /> */}
+      <PhotoNotAllowContext>
+        <NoImageStyle/>
+      </PhotoNotAllowContext>
+      <SliderPhotoItemFooter>
+        <TextSpanStyle>Формат не поддерживается</TextSpanStyle>
       </SliderPhotoItemFooter>
     </SliderPhotoSContainer>
   )

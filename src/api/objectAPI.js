@@ -1,4 +1,5 @@
 import axios from "axios";
+import { compileStringAsync } from "sass";
 const API = 'https://crm.metragegroup.com/API/REST.php';
 
 export const getSpecialityTypes = async (category) => {
@@ -120,4 +121,26 @@ export const setChangePhotoListAPI = async (UID, estate, newArr) => {
     return 'OK'
   }
   return ''
+}
+export const uploadPhoto = async (files, UID) => {
+  const data = new FormData();
+  for (let file of files) {
+    data.append('images[]', file);
+  }
+  data.append('UID', UID);
+  const res = await axios.post('https://crm.metragegroup.com/API/PhotoUpload.php', data);
+  if (res?.statusText === 'OK') {
+    return res?.data || [];
+  }
+  return []
+  // const xhr = new XMLHttpRequest();
+  // xhr.open('POST', 'https://crm.metragegroup.com/API/PhotoUpload.php', true);
+  // xhr.responseType = 'json';
+  // xhr.send(data);
+  // xhr.onload = () => {
+  //   console.log(xhr.response);
+  //   // dispatch(newPhoto(xhr.response))
+  //   // dispatch(loader())
+  //   // id === 'uploader' && dispatch(edit())
+  // }
 }

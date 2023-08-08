@@ -48,6 +48,11 @@ const ChatItemContentHeader = styled.div`
 const ChatMesageContainer = styled.div`
   display: flex;
 `
+const ChatName = styled(TextSpanStyle)`
+  max-width: 180px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+`
 const ChatLastMessage = styled(TextSpanStyle)`
   width: 100%;
   overflow: hidden;
@@ -93,7 +98,7 @@ const ChatListItem = ({ chat }) => {
         <ChatItemAvatar src={useGetAvatar(chat?.chatWith || null)} alt='avatar' />
         <ChatItemContent>
           <ChatItemContentHeader>
-            <TextSpanStyle>{chat?.chatWith?.lastName} {chat?.chatWith?.firstName}</TextSpanStyle>
+            <ChatName nowrap>{chat?.chatWith?.lastName} {chat?.chatWith?.firstName}</ChatName>
             <TextSpanStyle size={10} color='#909090'>{useChatDate(chat?.updated)}</TextSpanStyle>
           </ChatItemContentHeader>
           <ChatMesageContainer>
