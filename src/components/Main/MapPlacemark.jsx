@@ -3,7 +3,7 @@ import { YMaps, Map, FullscreenControl, Placemark, ZoomControl } from 'react-yan
 import { TextSpanStyle } from 'styles/styles';
 import { Box } from 'ui/Box';
 
-const MapPlacemark = forwardRef(({ onChange, error, cords, clearErrors, disable }, ref) => {
+const MapPlacemark = forwardRef(({ onChange, error, cords, clearErrors, disable, height }, ref) => {
   const [center, setCenter] = React.useState(cords || [55.030204, 82.920430]);
   const mapRef = React.useRef(null);
   const [fullScreen, setFullscreen] = React.useState(false);
@@ -43,7 +43,7 @@ const MapPlacemark = forwardRef(({ onChange, error, cords, clearErrors, disable 
       <Map
         state={{ center: center, zoom: 14 }}
         width={'100%'}
-        height={250}
+        height={height || 250}
         onClick={event => handleClick(event)}
         instanceRef={yaMap => {
           if (yaMap) {

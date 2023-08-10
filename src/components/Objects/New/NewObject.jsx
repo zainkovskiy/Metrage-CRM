@@ -26,10 +26,6 @@ const NewObject = () => {
   });
 
   const onSubmit = (data) => {
-    if(object){
-      console.log(data);
-      return
-    }
     createNewObject(data);
   }
 

@@ -253,7 +253,7 @@ export const SelectAutoсompleteMultipleUI = ({
           // onClick={toggleShow}
           // onClick={(e) => {e.preventDefault(), console.log(e.target === document.activeElement)}}
           onChange={handlerChange}
-          placeholder={placeholder || 'Выберете'}
+          placeholder={placeholder || 'Введите'}
           ref={inputRef}
           error={error}
           disabled={disabled}
@@ -368,7 +368,7 @@ const SelectItemStyle = styled(motion.div)`
 const SelectItems = ({ options, onClick, id, isEqual, loading, getOptionsLabel, getOptionsSubtitle }) => {
   if (loading) { return <SelectItemStyle id={id}>Загрузка...</SelectItemStyle> }
   if (options.length === 0) {
-    return <SelectItemStyle id={id}><em id={id}>No match</em></SelectItemStyle>
+    return <SelectItemStyle id={id}><em id={id}>Нет совпадений</em></SelectItemStyle>
   }
   const getLabel = (option) => {
     if (getOptionsLabel) {

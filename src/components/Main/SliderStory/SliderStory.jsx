@@ -12,11 +12,13 @@ const SliderStoryStyle = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  min-width: 200px;
+  ${({$fullWidth}) => $fullWidth ? 'width: 100%;' : 'min-width: 200px;'};
+  ${({$height}) => $height && `height: ${$height}px;`};
+  box-sizing: border-box;
 `
-const SliderStory = ({ onChange, history, loader }) => {
+const SliderStory = ({ onChange, history, loader, fullWidth, height }) => {
   return (
-    <SliderStoryStyle>
+    <SliderStoryStyle $fullWidth={fullWidth} $height={height}>
       <TitleFormStyle ta='center'>История</TitleFormStyle>
       <SlideStoryField history={history} loader={loader}/>
       <InputChatUI onClick={onChange} placeholder='Напишите комментарий' />

@@ -24,7 +24,7 @@ const SlideObjectStory = ({ id, type }) => {
     };
   }
   return (
-    <SliderStory loader={loader} history={history} onChange={sendMessage}/>
+    <SliderStory loader={loader} history={history} onChange={sendMessage} fullWidth height={400}/>
   );
 };
 

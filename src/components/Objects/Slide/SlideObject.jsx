@@ -12,12 +12,6 @@ import { useWindowSize } from 'hooks/windowSize';
 
 const SlideObjectStyle = styled.div`
   display: flex;
-  height: 100%;
-  gap: 0.5rem;
-`
-const SlideObjectContentStyle = styled.div`
-  flex-grow: 1;
-  display: flex;
   flex-direction: column;
   gap: 0.5rem;
   overflow: auto;
@@ -44,18 +38,16 @@ const SlideObject = ({ onCloseSlide }) => {
   }
   return (
     <SlideObjectStyle>
-      <SlideObjectContentStyle>
-        <SlideObjectMeta />
-        {
-          object?.isEditor &&
-          <SlideObjectNav onCloseSlide={onCloseSlide} changePhoto={changePhoto}/>
-        }
-        <SlideObjectInfo />
-        <SlideObjectFeature />
-        <SlideBlockStyle>
-          <MapPlacemark cords={getCords()} disable />
-        </SlideBlockStyle>
-      </SlideObjectContentStyle>
+      <SlideObjectMeta />
+      {
+        object?.isEditor &&
+        <SlideObjectNav onCloseSlide={onCloseSlide} changePhoto={changePhoto} />
+      }
+      <SlideObjectInfo />
+      <SlideObjectFeature />
+      <SlideBlockStyle>
+        <MapPlacemark cords={getCords()} disable height={300}/>
+      </SlideBlockStyle>
       {
         windowSize > 768 && object?.isEditor &&
         <SlideObjectStory type={object?.typeEstate} id={object?.UID} />

@@ -14,11 +14,13 @@ const ObjectsFilterStyle = styled.div`
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 0.5rem;
+  flex-wrap: wrap;
 `
 const FilterForm = styled.form`
   display: flex;
   gap: 0.5rem;
   align-items: center;
+  flex-wrap: wrap;
 `
 const ObjectsFilter = ({ getList }) => {
   const [users, setUsers] = useState([]);

@@ -239,7 +239,7 @@ export const SelectAutoсompleteUI = ({
           value={inputValue}
           onClick={toggleShow}
           onChange={handlerChange}
-          placeholder={placeholder || 'Выберете'}
+          placeholder={placeholder || 'Введите'}
           ref={inputRef}
           error={error}
           disabled={disabled}
@@ -310,7 +310,7 @@ const SelectItemStyle = styled(motion.div)`
 const SelectItems = ({ options, onClick, id, isEqual, loading, setOptionsLabel, getOptionsSubtitle }) => {
   if (loading) { return <SelectItemStyle id={id}>Загрузка...</SelectItemStyle> }
   if (options.length === 0) {
-    return <SelectItemStyle id={id}><em>No match</em></SelectItemStyle>
+    return <SelectItemStyle id={id}><em>Нет совпадений</em></SelectItemStyle>
   }
   return (
     <>

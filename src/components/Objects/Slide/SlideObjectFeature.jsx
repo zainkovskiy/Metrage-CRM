@@ -8,6 +8,7 @@ import editUrl, { ReactComponent as Edit } from 'images/edit.svg';
 import DialogWindow from 'components/Main/DialogWindow';
 import SlideDialogComment from './SlideDialogComment';
 import { setDescriptionAPI } from 'api/objectAPI';
+import { device } from 'styles/device';
 import {
   RoomTypeTranslate,
   RepairTypeTranslate,
@@ -46,7 +47,10 @@ import {
 
 const FeatureContainer = styled(SlideBlockStyle)`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: 1fr 1fr;
+  @media ${device.tablet} {
+    grid-template-columns: 1fr;
+  }
 `
 const FeatureBlock = styled.div`
   display: flex;
