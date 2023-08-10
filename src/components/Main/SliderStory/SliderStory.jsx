@@ -12,7 +12,7 @@ const SliderStoryStyle = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  ${({$fullWidth}) => $fullWidth ? 'width: 100%;' : 'min-width: 200px;'};
+  ${({$fullWidth}) => $fullWidth ? 'width: 100%;' : 'min-width: 250px;'};
   ${({$height}) => $height && `height: ${$height}px;`};
   box-sizing: border-box;
 `

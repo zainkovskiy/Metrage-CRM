@@ -11,7 +11,13 @@ import MapPlacemark from 'components/Main/MapPlacemark';
 import { useWindowSize } from 'hooks/windowSize';
 
 const SlideObjectStyle = styled.div`
+  height: 100%;
   display: flex;
+  gap: 0.5rem;
+`
+const SlideObjectContext = styled.div`
+  display: flex;
+  flex-grow: 1;
   flex-direction: column;
   gap: 0.5rem;
   overflow: auto;
@@ -38,16 +44,23 @@ const SlideObject = ({ onCloseSlide }) => {
   }
   return (
     <SlideObjectStyle>
-      <SlideObjectMeta />
-      {
-        object?.isEditor &&
-        <SlideObjectNav onCloseSlide={onCloseSlide} changePhoto={changePhoto} />
-      }
-      <SlideObjectInfo />
-      <SlideObjectFeature />
-      <SlideBlockStyle>
-        <MapPlacemark cords={getCords()} disable height={300}/>
-      </SlideBlockStyle>
+      <SlideObjectContext>
+
+        <SlideObjectMeta />
+        {
+          object?.isEditor &&
+          <SlideObjectNav onCloseSlide={onCloseSlide} changePhoto={changePhoto} />
+        }
+        <SlideObjectInfo />
+        <SlideObjectFeature />
+        <SlideBlockStyle>
+          <MapPlacemark cords={getCords()} disable height={300} />
+        </SlideBlockStyle>
+        {
+          windowSize <= 768 && object?.isEditor &&
+          <SlideObjectStory type={object?.typeEstate} id={object?.UID} fullWidth height={500}/>
+        }
+      </SlideObjectContext>
       {
         windowSize > 768 && object?.isEditor &&
         <SlideObjectStory type={object?.typeEstate} id={object?.UID} />

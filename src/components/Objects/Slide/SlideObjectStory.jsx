@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getHistoryList, sendHistoryMessage } from 'api/storyAPI';
 import SliderStory from 'components/Main/SliderStory/SliderStory';
 
-const SlideObjectStory = ({ id, type }) => {
+const SlideObjectStory = ({ id, type, fullWidth, height }) => {
   const [history, setHistory] = useState();
   const [loader, setLoader] = useState(true);
   useEffect(() => {
@@ -24,7 +24,7 @@ const SlideObjectStory = ({ id, type }) => {
     };
   }
   return (
-    <SliderStory loader={loader} history={history} onChange={sendMessage} fullWidth height={400}/>
+    <SliderStory loader={loader} history={history} onChange={sendMessage} fullWidth={fullWidth} height={height}/>
   );
 };
 
