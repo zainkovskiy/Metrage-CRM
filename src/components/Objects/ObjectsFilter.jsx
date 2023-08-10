@@ -79,6 +79,7 @@ const ObjectsFilter = ({ getList }) => {
         <SelectAutoсompleteMultipleUI
           small
           options={users}
+          placeholder='Ответственный'
           inputChange={getUsers}
           loading={usersLoading}
           getOptionsLabel={(options) => `${options.lastName + ' ' + options.firstName + ' ' + options.secondName}`}
