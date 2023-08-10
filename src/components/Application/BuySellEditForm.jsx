@@ -35,7 +35,13 @@ const EditButtonGroupStyle = styled(motion.div)`
 `
 const getComponent = (key) => {
   switch (key) {
+    case 'sell':
+      return SellComponent;
     case 'buy':
+      return BuyComponent;
+    case 'rent':
+      return SellComponent;
+    case 'take':
       return BuyComponent;
     default:
       return SellComponent;
@@ -87,6 +93,8 @@ const BuySellEditForm = () => {
             <ButtonToggleGroup>
               <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='sell' active={field.value}>Продать</ButtonToggleItem>
               <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='buy' active={field.value}>Купить</ButtonToggleItem>
+              <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='rent' active={field.value}>Сдать</ButtonToggleItem>
+              <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='take' active={field.value}>Снять</ButtonToggleItem>
             </ButtonToggleGroup>
           )}
         />
