@@ -17,7 +17,7 @@ const NewObjectStyle = styled(motion.form)`
   height: 100%;
   overflow: auto;
 `
-const NewObject = () => {
+const NewObject = ({ onClose }) => {
   const object = useAsyncValue();
   const methods = useForm({
     defaultValues: {
@@ -26,7 +26,11 @@ const NewObject = () => {
   });
 
   const onSubmit = (data) => {
-    createNewObject(data);
+    createNewObject(data).then((res) => {
+      if (res === 'OK') {
+        onClose();
+      }
+    });
   }
 
   methods.watch('typeEstate');

@@ -27,7 +27,7 @@ const SuspenseNewObjects = () => {
     <SlideWindow open={open} onClose={handleClose} width={getWidth()}>
       <Suspense fallback={<Loader />}>
         <Await resolve={object}>
-          <NewObject />
+          <NewObject onClose={handleClose}/>
         </Await>
       </Suspense>
     </SlideWindow>

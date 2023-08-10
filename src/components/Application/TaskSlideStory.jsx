@@ -3,7 +3,7 @@ import { sendHistoryMessage, getHistoryList } from 'api/storyAPI';
 import { useLocation } from 'react-router-dom';
 import SliderStory from 'components/Main/SliderStory/SliderStory';
 
-const TaskSlideStory = ({ UID }) => {
+const TaskSlideStory = ({ UID, fullWidth, height }) => {
   const locationRef = useRef(null);
   const [history, setHistory] = useState([]);
   const [loader, setLoader] = useState(false);
@@ -41,7 +41,7 @@ const TaskSlideStory = ({ UID }) => {
     };
   }
   return (
-    <SliderStory history={history} loader={loader} onChange={sendMessage}/>
+    <SliderStory history={history} loader={loader} onChange={sendMessage} fullWidth={fullWidth} height={height}/>
   );
 };
 

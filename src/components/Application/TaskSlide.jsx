@@ -78,6 +78,10 @@ const TaskSlide = ({ closeSlide }) => {
               <BuySellEditForm />
           }
           <ApplicationCalls calls={application?.calls} />
+          {
+            windowSize <= 768 &&
+            <TaskSlideStory UID={application?.UID} fullWidth height={500}/>
+          }
         </TaskSlideContentStyle>
         {
           windowSize > 768 &&

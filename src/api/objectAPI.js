@@ -47,7 +47,7 @@ export const createNewObject = async (object) => {
     fields: object,
   })
   if (res?.statusText === 'OK') {
-    console.log(res);
+    return 'OK'
   }
 }
 export const getOneObject = async (id, category, forUpdate) => {

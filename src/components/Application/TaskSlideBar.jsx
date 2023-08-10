@@ -6,7 +6,8 @@ const TaskSlideBarStyle = styled.div`
   gap: 0.5rem;
   align-items: center;
   ${({ $disabled }) => $disabled && 'pointer-events: none'};
-  ${({ $fullWidth }) => $fullWidth && 'width: 100%'};
+  // ${({ $fullWidth }) => $fullWidth && 'width: 100%'};
+  flex-grow: 1;
 `
 const SlideBarLineStyle = styled.div`
   height: 1px;

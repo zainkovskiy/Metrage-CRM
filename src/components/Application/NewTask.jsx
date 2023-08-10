@@ -39,13 +39,19 @@ const NewTaskBlockStyle = styled.div`
 `
 const getComponent = (key) => {
   switch (key) {
+    case 'sell':
+      return SellComponent;
     case 'buy':
+      return BuyComponent;
+    case 'rent':
+      return SellComponent;
+    case 'take':
       return BuyComponent;
     default:
       return SellComponent;
   }
 }
-const NewTask = ({slideClose}) => {
+const NewTask = ({ slideClose }) => {
   const detailData = useAsyncValue();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -78,10 +84,10 @@ const NewTask = ({slideClose}) => {
   }
   const getLoacationValue = (name) => {
     const { state } = location;
-    if (!state) { return ''}
+    if (!state) { return '' }
 
     const { author } = state;
-    if (!author) { return ''}
+    if (!author) { return '' }
     return author[name]
   }
   const ActiveComponent = getComponent(getValues('type'));
@@ -91,77 +97,79 @@ const NewTask = ({slideClose}) => {
       {
         loadingNewApplication ?
           <LoaderContainer><Loader fill='#fff' /></LoaderContainer> :
-              <NewTaskStyle onSubmit={handleSubmit(onSubmit)}>
-                <NewTaskBlockStyle>
-                  <TitleFormStyle>ФИО</TitleFormStyle>
-                  <InputUI label='Фамилия'
-                    register={register('lastName')}
-                    error={errors?.lastName}
-                    defaultValue={getLoacationValue('lastName')}
-                  />
-                  <InputUI label='Имя'
-                    register={register('firstName', {
-                      required: 'Поле обязательное'
-                    })}
-                    error={errors?.firstName}
-                  />
-                  <InputUI label='Отчество'
-                    register={register('secondName')}
-                    error={errors?.secondName}
-                    defaultValue={getLoacationValue('secondName')}
-                  />
-                </NewTaskBlockStyle>
-                <NewTaskBlockStyle>
-                  <TitleFormStyle>Контакты</TitleFormStyle>
-                  <InputUI
-                    label='Телефон'
-                    type='phone'
-                    defaultValue={getResolveValue('phones', detailData)}
-                    register={register('phone', {
-                      required: 'Поле обязательное',
-                      pattern: {
-                        value: /^89\d{9}/,
-                        message: 'Не соответствует формату 8XXXXXXXXXX'
-                      }
-                    })}
-                    error={errors?.phone}
-                  />
-                  <InputUI
-                    label='Почта'
-                    type='email'
-                    defaultValue={getResolveValue('mails', detailData)}
-                  />
-                </NewTaskBlockStyle>
-                <NewTaskBlockStyle>
-                  <TitleFormStyle>Купить-продать</TitleFormStyle>
-                  <div>
-                    <Controller
-                      control={control}
-                      name='type'
-                      rules={{ required: 'Выберет тип' }}
-                      render={({ field }) => (
-                        <ButtonToggleGroup>
-                          <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='sell' active={field.value}>Продать</ButtonToggleItem>
-                          <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='buy' active={field.value}>Купить</ButtonToggleItem>
-                        </ButtonToggleGroup>
-                      )}
-                    />
-                    {
-                      errors?.type && <TextSpanStyle color='red' size={12}>{errors?.type?.message}</TextSpanStyle>
-                    }
-                  </div>
-                  <AnimatePresence mode='wait'>
-                    <ActiveComponent
-                      control={control}
-                      errors={errors}
-                      firstMout={firstMout.current}
-                    />
-                  </AnimatePresence>
-                </NewTaskBlockStyle>
-                <NewTaskBlockStyle>
-                  <ButtonUI type='submit' variant='outline'>Передать</ButtonUI>
-                </NewTaskBlockStyle>
-              </NewTaskStyle>
+          <NewTaskStyle onSubmit={handleSubmit(onSubmit)}>
+            <NewTaskBlockStyle>
+              <TitleFormStyle>ФИО</TitleFormStyle>
+              <InputUI label='Фамилия'
+                register={register('lastName')}
+                error={errors?.lastName}
+                defaultValue={getLoacationValue('lastName')}
+              />
+              <InputUI label='Имя'
+                register={register('firstName', {
+                  required: 'Поле обязательное'
+                })}
+                error={errors?.firstName}
+              />
+              <InputUI label='Отчество'
+                register={register('secondName')}
+                error={errors?.secondName}
+                defaultValue={getLoacationValue('secondName')}
+              />
+            </NewTaskBlockStyle>
+            <NewTaskBlockStyle>
+              <TitleFormStyle>Контакты</TitleFormStyle>
+              <InputUI
+                label='Телефон'
+                type='phone'
+                defaultValue={getResolveValue('phones', detailData)}
+                register={register('phone', {
+                  required: 'Поле обязательное',
+                  pattern: {
+                    value: /^89\d{9}/,
+                    message: 'Не соответствует формату 8XXXXXXXXXX'
+                  }
+                })}
+                error={errors?.phone}
+              />
+              <InputUI
+                label='Почта'
+                type='email'
+                defaultValue={getResolveValue('mails', detailData)}
+              />
+            </NewTaskBlockStyle>
+            <NewTaskBlockStyle>
+              <TitleFormStyle>Купить-продать</TitleFormStyle>
+              <div>
+                <Controller
+                  control={control}
+                  name='type'
+                  rules={{ required: 'Выберет тип' }}
+                  render={({ field }) => (
+                    <ButtonToggleGroup>
+                      <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='sell' active={field.value}>Продать</ButtonToggleItem>
+                      <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='buy' active={field.value}>Купить</ButtonToggleItem>
+                      <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='rent' active={field.value}>Сдать</ButtonToggleItem>
+                      <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='take' active={field.value}>Снять</ButtonToggleItem>
+                    </ButtonToggleGroup>
+                  )}
+                />
+                {
+                  errors?.type && <TextSpanStyle color='red' size={12}>{errors?.type?.message}</TextSpanStyle>
+                }
+              </div>
+              <AnimatePresence mode='wait'>
+                <ActiveComponent
+                  control={control}
+                  errors={errors}
+                  firstMout={firstMout.current}
+                />
+              </AnimatePresence>
+            </NewTaskBlockStyle>
+            <NewTaskBlockStyle>
+              <ButtonUI type='submit' variant='outline'>Передать</ButtonUI>
+            </NewTaskBlockStyle>
+          </NewTaskStyle>
       }
     </>
   )

@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import { device } from 'styles/device';
 
 const TaskStatusStyle = styled(TaskBlockStyle)`
+  flex-wrap: wrap;
   @media ${device.tablet}{
     flex-direction: column;
     align-items: flex-end;
@@ -46,7 +47,7 @@ const TaskStatus = ({ status, UID }) => {
       jc='space-between'
       gap='1rem'
     >
-      <TaskSlideBar activeStep={activeStepper} disabled={activeStepper < 0 || isExternal === '1'} fullWidth>
+      <TaskSlideBar activeStep={activeStepper} disabled={activeStepper < 0 || isExternal === '1'}>
         <TaskSlideBarItem title='Заявка создана' onClick={changeStepper} />
         <TaskSlideBarItem title='В работе' onClick={changeStepper} />
         <TaskSlideBarItem title='Успешно' onClick={changeStepper} />

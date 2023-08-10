@@ -41,6 +41,8 @@ const TaskFilter = () => {
         <SelectUI small select={filterTypeList} onChange={setTypeList}>
           <SelectItemUI value='buy'>Купить</SelectItemUI>
           <SelectItemUI value='sell'>Продать</SelectItemUI>
+          <SelectItemUI value='rent'>Сдать</SelectItemUI>
+          <SelectItemUI value='take'>Снять</SelectItemUI>
           <SelectItemUI value='all'>Всё</SelectItemUI>
         </SelectUI>
       </Box>

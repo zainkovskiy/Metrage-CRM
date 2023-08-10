@@ -44,7 +44,10 @@ const BuyComponent = ({ firstMout, control, errors }) => {
             error={errors?.typePlace}
           >
             <SelectItemUI value='Квартира'>Квартира</SelectItemUI>
+            <SelectItemUI value='Комната'>Комната</SelectItemUI>
+            <SelectItemUI value='Коммерческая недвижимость'>Коммерческая недвижимость</SelectItemUI>
             <SelectItemUI value='Дом'>Дом</SelectItemUI>
+            <SelectItemUI value='Земельный участок'>Земельный участок</SelectItemUI>
             <SelectItemUI value='Гараж'>Гараж</SelectItemUI>
           </SelectUI>
         )}
