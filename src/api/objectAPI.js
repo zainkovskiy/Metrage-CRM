@@ -144,3 +144,14 @@ export const uploadPhoto = async (files, UID) => {
   //   // id === 'uploader' && dispatch(edit())
   // }
 }
+export const setDescriptionAPI = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.objects.setDescription',
+    fields: raw,    
+  })
+  if (res?.statusText === 'OK') {
+    return 'OK'
+  }
+  return ''
+}

@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { ButtonUI } from 'ui/ButtonUI';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { SelectMultipleUI, SelectMultipleItemUI } from 'ui/SelectMultipleUI/SelectMultipleUI';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFilter } from '../../store/objectSlice';
-
+import { setFilter } from 'store/objectSlice';
+import { SelectAutoсompleteMultipleUI } from 'ui/SelectAutoсompleteMultipleUI';
+import { getUserList } from '../../api/search';
 const ObjectsFilterStyle = styled.div`
   display: flex;
   justify-content: space-between;
@@ -19,7 +20,9 @@ const FilterForm = styled.form`
   gap: 0.5rem;
   align-items: center;
 `
-const ObjectsFilter = ({getList}) => {
+const ObjectsFilter = ({ getList }) => {
+  const [users, setUsers] = useState([]);
+  const [usersLoading, setUsersLoading] = useState(false);
   const dispatch = useDispatch();
   const filter = useSelector((state) => state.objects.filter);
   const changeFilter = (name, newValue) => {
@@ -27,6 +30,15 @@ const ObjectsFilter = ({getList}) => {
       name: name,
       value: newValue,
     }));
+  }
+  const getUsers = (value) => {
+    if (value.length < 2) { setUsers([]); return }
+    setUsersLoading(true);
+    getUserList(value).then((data) => {
+      setUsers(data);
+    }).finally(() => {
+      setUsersLoading(false);
+    })
   }
   return (
     <ObjectsFilterStyle>
@@ -37,7 +49,7 @@ const ObjectsFilter = ({getList}) => {
         </SelectUI>
         <SelectMultipleUI name='typeObject' onChange={(newValue) => changeFilter('typeObject', newValue)} value={filter.typeObject} small multiple>
           {
-           filter.typeRealty === 'live' ?
+            filter.typeRealty === 'live' ?
               <>
                 <SelectMultipleItemUI value='flatSale'>Квартира</SelectMultipleItemUI>
                 <SelectMultipleItemUI value='newBuildingFlatSale'>Новостройка</SelectMultipleItemUI>
@@ -62,6 +74,16 @@ const ObjectsFilter = ({getList}) => {
               </>
           }
         </SelectMultipleUI>
+        <SelectAutoсompleteMultipleUI
+          small
+          options={users}
+          inputChange={getUsers}
+          loading={usersLoading}
+          getOptionsLabel={(options) => `${options.lastName + ' ' + options.firstName + ' ' + options.secondName}`}
+          onChange={(value) => changeFilter('users', value)}
+          isOpenOptions={(open) => !open && setUsers([])}
+          value={filter.users}
+        />
         <ButtonUI size='small' onClick={getList}>Показать</ButtonUI>
       </FilterForm>
       <Link to='new-object'>

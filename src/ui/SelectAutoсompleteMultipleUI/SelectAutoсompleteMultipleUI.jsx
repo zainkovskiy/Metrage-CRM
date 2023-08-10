@@ -64,22 +64,31 @@ const ButtonWrap = styled.div`
   justify-content: center;
 `
 const SelectItemsContainer = styled(motion.div)`
-  position: absolute;
-  height: 100px;
-  background-color: #fff;
-  position: absolute;
-  height: 100px;
-  background-color: rgb(255, 255, 255);
-  border-radius: 5px;
-  border: 1px solid ${({ theme }) => theme.color.primary};
-  z-index: 99;
-  top: ${({ $error }) => $error ? '100%' : 'calc(100% + 10px)'};
-  left: 0;
-  right: 0;
   max-height: 250px;
   overflow: auto;
-  padding: 0.5rem 0;
+  padding: 0.5rem 0 0 0;
   box-sizing: border-box;
+`
+const SelectButtons = styled.div`
+  display: flex;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  border-bottom: 1px solid #e2e2e2;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  max-height: 150px;
+  overflow: auto;
+`
+const Suggestions = styled(motion.div)`
+  position: absolute;
+  background-color: rgb(255, 255, 255);
+  border-radius: 5px;
+  border: 1px solid rgb(133, 0, 158);
+  z-index: 99;
+  top: calc(100% + 10px);
+  left: 0px;
+  right: 0px;
+  padding-bottom: 0.5rem;
 `
 const variants = {
   vissible: {
@@ -107,7 +116,7 @@ const variants = {
 // small, уменьшает paddings
 // if loading в листе рисует лоадер
 
-export const SelectAutoсompleteUI = ({
+export const SelectAutoсompleteMultipleUI = ({
   loading,
   options,
   inputChange,
@@ -123,22 +132,30 @@ export const SelectAutoсompleteUI = ({
   error,
   disabled,
   small,
-  placeholder
+  placeholder,
+  isOpenOptions
 }) => {
   const [open, setOpen] = useState(false); //если true показывает список options
   const firstOpen = useRef(true); //при первом открытии списка окрывает полный
   const idRef = useRef(uuidv4().split('-')[0]).current; // айди для всех блоков
-  const [select, setSelect] = useState(value ? value : ''); //выбранное значение из списка
+  const [select, setSelect] = useState(value ? value : []); //выбранное значение из списка
   // option: выбранный элеимнт
   // проверяет есть ли условие для выборки ключа
   // return отдадет label 
   const setOptionsLabel = (option) => {
-    if (getOptionsLabel) {
-      return getOptionsLabel(option);
+    if (option.length === 1) {
+      if (getOptionsLabel) {
+        return getOptionsLabel(option[0]);
+      } else {
+        return option;
+      }
     }
-    return option
+    if (option.length > 1) {
+      return `Выбрано ${option.length}`;
+    }
+    return ''
   }
-  const [inputValue, setInputValue] = useState(value ? setOptionsLabel(value) : '');//текст внутри инпута
+  const [inputValue, setInputValue] = useState(setOptionsLabel(value || []));//текст внутри инпута
   //useEffect запускает (handlerClick) проверку совпадет ли айди с внутренними компонентами если нет то закрывает список
   useEffect(() => {
     document.addEventListener('click', handlerClick);
@@ -148,6 +165,9 @@ export const SelectAutoсompleteUI = ({
   }, [])
   //useEffect [open] реагирует на открытие списка и коррестирует значение внутри инпута
   useEffect(() => {
+    if(isOpenOptions){
+      isOpenOptions(open)
+    }
     if (open) {
       firstOpen.current = false;
       return
@@ -176,32 +196,19 @@ export const SelectAutoсompleteUI = ({
   const toggleShow = () => {
     setOpen(!open);
   }
-  //фильтр для поиска по списку
-  const filterList = (option) => {
-    if (options.length === 0) { return }
-    if (firstOpen.current) { return option }
-    if (inputValue.length === 0) {
-      return option
-    }
-    const regExp = new RegExp(inputValue, 'i');
-    if (filterOptions) {
-      return regExp.test(filterOptions(option));
-    }
-    if (regExp.test(JSON.stringify(option))) {
-      return option
-    }
-  }
   //устанавливает значения для всего включая onChange
   const selectValue = (option) => {
-    setSelect(option);
-    setInputValue(setOptionsLabel(option));
+    const find = select.find((item) => JSON.stringify(item) === JSON.stringify(option));
+    if (find) { return }
+    setSelect([...select, option]);
     if (onChange) {
-      onChange(option);
+      onChange([...select, option]);
     }
   }
   //сравнивает выбранный элемент из списка при совпадении меняет background-color
   const setIsEqual = (option) => {
-    return JSON.stringify(select) === JSON.stringify(option);
+    const find = select.find((item) => JSON.stringify(item) === JSON.stringify(option));
+    return find ? true : false;
   }
   //изменения при налоре текста (поиск)
   const handlerChange = (e) => {
@@ -218,10 +225,10 @@ export const SelectAutoсompleteUI = ({
   }
   //чистит выбранный элемент и поля
   const clearValue = () => {
-    setSelect('');
+    setSelect([]);
     setInputValue('');
     if (onChange) {
-      onChange('');
+      onChange([]);
     }
   }
   //окрывае/закрывает список
@@ -230,6 +237,12 @@ export const SelectAutoсompleteUI = ({
     e.preventDefault();
     toggleShow();
   }
+  const removeButton = (button) => {
+    setSelect((prevState) => prevState.filter((item) => JSON.stringify(item) !== JSON.stringify(button)));
+    if(onChange){
+      onChange(select.filter((item) => JSON.stringify(item) !== JSON.stringify(button)));
+    }
+  }
   return (
     <LabelSelect fullWidth={fullWidth} error={error}>
       {label}
@@ -237,19 +250,22 @@ export const SelectAutoсompleteUI = ({
         <SelectInputStyle
           id={idRef}
           value={inputValue}
-          onClick={toggleShow}
+          // onClick={toggleShow}
+          // onClick={(e) => {e.preventDefault(), console.log(e.target === document.activeElement)}}
           onChange={handlerChange}
           placeholder={placeholder || 'Выберете'}
           ref={inputRef}
           error={error}
           disabled={disabled}
           $small={small}
+          onFocus={() => { setInputValue(''), setOpen(true) }}
+          onBlur={() => { }}
         />
         {
           !disabled &&
           <ButtonWrap>
             {
-              select &&
+              select.length > 0 &&
               <ButtonSelect
                 onClick={clearValue}>
                 <Close />
@@ -267,24 +283,44 @@ export const SelectAutoсompleteUI = ({
       <AnimatePresence>
         {
           open &&
-          <SelectItemsContainer
+          <Suggestions
             id={idRef}
             variants={variants}
             initial='hidden'
             exit='hidden'
             animate='vissible'
-            $error={error}
           >
-            <SelectItems
-              options={options.filter(filterList)}
-              onClick={selectValue}
+            {
+              select.length > 0 &&
+              <SelectButtons id={idRef}>
+                {
+                  select.map((button, idx) => (
+                    <SelectButtonsItem
+                      key={idx}
+                      button={button}
+                      getOptionsLabel={getOptionsLabel}
+                      id={idRef}
+                      removeButton={removeButton}
+                    />
+                  ))
+                }
+              </SelectButtons>
+            }
+            <SelectItemsContainer
               id={idRef}
-              isEqual={setIsEqual}
-              setOptionsLabel={setOptionsLabel}
-              loading={loading}
-              getOptionsSubtitle={getOptionsSubtitle}
-            />
-          </SelectItemsContainer>
+              $error={error}
+            >
+              <SelectItems
+                options={options}
+                onClick={selectValue}
+                id={idRef}
+                isEqual={setIsEqual}
+                getOptionsLabel={getOptionsLabel}
+                loading={loading}
+                getOptionsSubtitle={getOptionsSubtitle}
+              />
+            </SelectItemsContainer>
+          </Suggestions>
         }
       </AnimatePresence>
       {
@@ -294,6 +330,28 @@ export const SelectAutoсompleteUI = ({
     </LabelSelect>
   );
 };
+const SelectButtonsItemStyle = styled.div`
+  padding: 0.2rem 0.5rem;
+  background-color: #e2e2e2;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: ${({ theme }) => theme.font.family};
+`
+const SelectButtonsItem = ({ button, getOptionsLabel, id, removeButton }) => {
+  return (
+    <SelectButtonsItemStyle id={id}>
+      {getOptionsLabel(button)}
+      <ButtonSelect
+        onClick={() => removeButton(button)}
+        id={id}
+      >
+        <Close id={id} />
+      </ButtonSelect>
+    </SelectButtonsItemStyle>
+  )
+}
 
 const SelectItemStyle = styled(motion.div)`
   padding: 0.5rem;
@@ -307,10 +365,16 @@ const SelectItemStyle = styled(motion.div)`
     background-color: ${({ $isEqual }) => $isEqual ? 'rgb(132 1 158 / 43%)' : 'rgb(249 245 245)'};
   }
 `
-const SelectItems = ({ options, onClick, id, isEqual, loading, setOptionsLabel, getOptionsSubtitle }) => {
+const SelectItems = ({ options, onClick, id, isEqual, loading, getOptionsLabel, getOptionsSubtitle }) => {
   if (loading) { return <SelectItemStyle id={id}>Загрузка...</SelectItemStyle> }
   if (options.length === 0) {
-    return <SelectItemStyle id={id}><em>No match</em></SelectItemStyle>
+    return <SelectItemStyle id={id}><em id={id}>No match</em></SelectItemStyle>
+  }
+  const getLabel = (option) => {
+    if (getOptionsLabel) {
+      return getOptionsLabel(option)
+    }
+    return option
   }
   return (
     <>
@@ -322,7 +386,7 @@ const SelectItems = ({ options, onClick, id, isEqual, loading, setOptionsLabel, 
             $isEqual={isEqual(option)}
             onClick={() => onClick(option)}
           >
-            {setOptionsLabel(option)}
+            {getLabel(option)}
             {
               getOptionsSubtitle &&
               <TextSpanStyle size={10} nowrap>{getOptionsSubtitle(option)}</TextSpanStyle>
