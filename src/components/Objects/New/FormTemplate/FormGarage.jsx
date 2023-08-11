@@ -53,7 +53,7 @@ const FormGarage = () => {
             name='TotalArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
+              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
                 value={field.value || ''} label='Общая площадь' fullWidth type='number' />
             )}
           />

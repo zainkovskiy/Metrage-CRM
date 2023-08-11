@@ -45,7 +45,6 @@ const SlideObject = ({ onCloseSlide }) => {
   return (
     <SlideObjectStyle>
       <SlideObjectContext>
-
         <SlideObjectMeta />
         {
           object?.isEditor &&

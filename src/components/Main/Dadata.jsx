@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 const InputDadata = styled(InputStyle)`
   border: 1px solid;
-  border-color: ${({theme, error}) => error ? 'red' : theme.color.primary} !important;
+  border-color: ${({ theme, error }) => error ? 'red' : theme.color.primary} !important;
   box-shadow: none;
 `
 
@@ -20,7 +20,8 @@ const Dadata = ({ onChange, value, label, inputRef, error, disabled, defaultQuer
           token="408e6651c0b9bfc8e2f487383d45353973f3285c"
           ref={inputRef}
           onChange={onChange}
-          filterToBound={'house'}
+          filterFromBound='region'
+          filterToBound='house'
           value={value}
           customInput={InputDadata}
           defaultQuery={defaultQuery}

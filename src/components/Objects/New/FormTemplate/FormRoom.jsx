@@ -81,21 +81,15 @@ const FormRoom = () => {
             name='RoomsForSaleCount'
             control={control}
             render={({ field }) => (
-              <SelectUI onChange={field.onChange} select={field.value} label='Комнат в продажу'>
-                <SelectItemUI value={1}>1-комнатная</SelectItemUI>
-                <SelectItemUI value={2}>2-комнатная</SelectItemUI>
-                <SelectItemUI value={3}>3-комнатная</SelectItemUI>
-                <SelectItemUI value={4}>4-комнатная</SelectItemUI>
-                <SelectItemUI value={5}>5-комнатная</SelectItemUI>
-                <SelectItemUI value={6}>6 и более</SelectItemUI>
-              </SelectUI>
+              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                value={field.value || ''} label='Комнат в продажу' fullWidth type='number' />
             )}
           />
           <Controller
             name='TotalArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
+              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
                 value={field.value || ''} label='Общая площадь' fullWidth type='number' />
             )}
           />
@@ -103,7 +97,7 @@ const FormRoom = () => {
             name='KitchenArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
+              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
                 value={field.value || ''} label='Площадь кухни' fullWidth type='number' />
             )}
           />
@@ -112,7 +106,7 @@ const FormRoom = () => {
             control={control}
             render={({ field }) => (
               <InputUI onChange={(e) => field.onChange(e.target.value)}
-                value={field.value || ''} label='Площадь комнат' fullWidth placeholder="Пример: 18+14-10"/>
+                value={field.value || ''} label='Площадь комнат' fullWidth placeholder="Пример: 18+14-10" />
             )}
           />
           <Box column gap='0' ai='flex-start' jc='flex-end'>
@@ -124,17 +118,23 @@ const FormRoom = () => {
           <Controller
             name='CombinedWcsCount'
             control={control}
+            rules={{ min: { value: 0, message: 'Не допустимое значение' } }}
             render={({ field }) => (
               <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Раздельный санузел' fullWidth type='number' />
+                value={field.value || ''} label='Раздельный санузел' fullWidth type='number'
+                error={errors.CombinedWcsCount}
+              />
             )}
           />
           <Controller
             name='SeparateWcsCount'
             control={control}
+            rules={{ min: { value: 0, message: 'Не допустимое значение' } }}
             render={({ field }) => (
               <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Совмещенный санузел' fullWidth type='number' />
+                value={field.value || ''} label='Совмещенный санузел' fullWidth type='number'
+                error={errors.CombinedWcsCount}
+              />
             )}
           />
         </FormWrapper>

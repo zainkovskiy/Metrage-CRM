@@ -28,9 +28,9 @@ const FormFlatShare = () => {
             control={control}
             render={({ field }) => (
               <InputUI onChange={(e) => { field.onChange(parseInt(e.target.value.split(' ').join(''))) }}
-              value={field.value ? useNumberTriad(field.value) : ''}
-              label='Цена' fullWidth
-            />
+                value={field.value ? useNumberTriad(field.value) : ''}
+                label='Цена' fullWidth
+              />
             )}
           />
           <Controller
@@ -81,7 +81,7 @@ const FormFlatShare = () => {
             name='TotalArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
+              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
                 value={field.value || ''} label='Общая площадь' fullWidth type='number' />
             )}
           />
@@ -89,7 +89,7 @@ const FormFlatShare = () => {
             name='LivingArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
+              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
                 value={field.value || ''} label='Жилая площадь' fullWidth type='number' />
             )}
           />
@@ -97,7 +97,7 @@ const FormFlatShare = () => {
             name='KitchenArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
+              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
                 value={field.value || ''} label='Площадь кухни' fullWidth type='number' />
             )}
           />
@@ -115,7 +115,7 @@ const FormFlatShare = () => {
           </Box>
         </FormWrapper>
         <FormWrapper>
-        <Controller
+          <Controller
             name='ShareAmount'
             control={control}
             render={({ field }) => (
@@ -128,17 +128,23 @@ const FormFlatShare = () => {
           <Controller
             name='CombinedWcsCount'
             control={control}
+            rules={{ min: { value: 0, message: 'Не допустимое значение' } }}
             render={({ field }) => (
               <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Раздельный санузел' fullWidth type='number' />
+                value={field.value || ''} label='Раздельный санузел' fullWidth type='number'
+                error={errors.CombinedWcsCount}
+              />
             )}
           />
           <Controller
             name='SeparateWcsCount'
             control={control}
+            rules={{ min: { value: 0, message: 'Не допустимое значение' } }}
             render={({ field }) => (
               <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Совмещенный санузел' fullWidth type='number' />
+                value={field.value || ''} label='Совмещенный санузел' fullWidth type='number'
+                error={errors.SeparateWcsCount}
+              />
             )}
           />
         </FormWrapper>

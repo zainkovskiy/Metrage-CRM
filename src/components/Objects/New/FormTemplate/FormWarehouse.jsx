@@ -90,7 +90,7 @@ const FormWarehouse = () => {
             name='TotalArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
+              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
                 value={field.value || ''} label='Общая площадь' fullWidth type='number' />
             )}
           />
@@ -98,7 +98,7 @@ const FormWarehouse = () => {
             name='BuildingTotalArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
+              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
                 value={field.value || ''} label='Общая площадь здания' fullWidth type='number' />
             )}
           />
@@ -106,7 +106,7 @@ const FormWarehouse = () => {
             name='LandArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
+              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
                 value={field.value || ''} label='Площадь участка' fullWidth type='number' />
             )}
           />
@@ -248,6 +248,7 @@ const FormWarehouse = () => {
             )}
           />
         </Box>
+        <TextSpanStyle bold color='#575757'>Инфраструктура рядом</TextSpanStyle>
         <Box>
           <Box fullWidth column ai='flex-start'>
             <Controller

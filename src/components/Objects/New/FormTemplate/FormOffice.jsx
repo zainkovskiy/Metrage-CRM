@@ -91,7 +91,7 @@ const FormOffice = () => {
             name='TotalArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
+              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
                 value={field.value || ''} label='Общая площадь' fullWidth type='number' />
             )}
           />
@@ -99,7 +99,7 @@ const FormOffice = () => {
             name='LandArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
+              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
                 value={field.value || ''} label='Площадь участка' fullWidth type='number' />
             )}
           />
@@ -268,6 +268,7 @@ const FormOffice = () => {
             )}
           />
         </Box>
+        <TextSpanStyle bold color='#575757'>Инфраструктура рядом</TextSpanStyle>
         <Box ai='flex-start'>
           <Box fullWidth column ai='flex-start'>
             <Controller

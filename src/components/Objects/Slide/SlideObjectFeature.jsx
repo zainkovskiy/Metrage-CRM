@@ -15,7 +15,7 @@ import {
   WindowsViewTypeTranslate,
   AgentBonusPaymentTypeTranslate,
   FlatRoomsCountTranslate,
-  RoomsForSaleCountTranslate,
+  // RoomsForSaleCountTranslate,
   DecorationTranslate,
   CplModerationPersonTypeTranslate,
   SaleTypeTranslate,
@@ -133,7 +133,7 @@ const SlideObjectFeature = () => {
             }
             {
               object?.RoomsForSaleCount &&
-              <FeatureLine><FeatureValue size={10}>{RoomsForSaleCountTranslate[object?.RoomsForSaleCount]}</FeatureValue><FeatureProp size={10}>Комнат в продажу</FeatureProp></FeatureLine>
+              <FeatureLine><FeatureValue size={10}>{object?.RoomsForSaleCount}</FeatureValue><FeatureProp size={10}>Комнат в продажу</FeatureProp></FeatureLine>
             }
             {
               object?.KitchenArea &&
@@ -177,7 +177,7 @@ const SlideObjectFeature = () => {
             }
             {
               object?.ShareAmount &&
-              <FeatureLine><FeatureValue size={10}>{object?.ShareAmount}</FeatureValue><FeatureProp size={10}>Размер доли в квартире</FeatureProp></FeatureLine>
+              <FeatureLine><FeatureValue size={10}>{object?.ShareAmount}</FeatureValue><FeatureProp size={10}>Размер доли</FeatureProp></FeatureLine>
             }
             {
               object?.LandStatus &&

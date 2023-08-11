@@ -46,9 +46,13 @@ const IconProfileMenuUser = styled(IconProfileMenuStyle)`
 
 const MenuProfile = ({ id, toggleDialog }) => {
   const user = useSelector((state) => state.user);
+  console.log(user);
   const dispatch = useDispatch();
   const handlerLogOut = () => {
     dispatch(logOutAPI());
+  }
+  const clickReview = () => {
+    navigator.clipboard.writeText(`http://crm.metragegroup.com/reviews/?userId=${user.UID}`);
   }
   return (
     <>
@@ -75,9 +79,9 @@ const MenuProfile = ({ id, toggleDialog }) => {
             </TextSpanStyle>
           </div>
         </ProfileMenuButtonStyle>
-        <ProfileMenuButtonStyle>
+        <ProfileMenuButtonStyle onClick={clickReview}>
           <TextSpanStyle>
-            Сменить тему
+            Ссылка на отзывы
           </TextSpanStyle>
         </ProfileMenuButtonStyle>
         <div style={{ display: 'flex', gap: '1rem' }}>

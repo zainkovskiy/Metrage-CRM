@@ -9,28 +9,22 @@ import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import { TextSpanStyle } from 'styles/styles';
-import { getBusinessBuildingTypes, getSpecialityTypes, getBusinessСenters } from 'api/objectAPI';
+import { getBusinessBuildingTypes, getBusinessСenters } from 'api/objectAPI';
 import { useNumberTriad } from 'hooks/StringHook';
 
 const FormIndustry = () => {
   const { control, getValues } = useFormContext();
   const { errors } = useFormState();
   const [buildingTypes, setBuildingTypes] = useState([]);
-  const [specialityTypes, setSpecialityTypes] = useState([]);
   const [businessСenters, setBusinessСenters] = useState([]);
   const [businessLoading, setBusinessLoading] = useState(false);
   useEffect(() => {
     requestBusinessBuildingTypes();
-    requestSpecialityTypes();
   }, [])
 
   const requestBusinessBuildingTypes = async () => {
     const data = await getBusinessBuildingTypes();
     setBuildingTypes(data);
-  }
-  const requestSpecialityTypes = async () => {
-    const data = await getSpecialityTypes(getValues('Category'));
-    setSpecialityTypes(data);
   }
   const handleChangeBusinessCenters = async (value) => {
     if (businessLoading) { return }
@@ -80,7 +74,7 @@ const FormIndustry = () => {
             name='BuildingTotalArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
+              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
                 value={field.value || ''} label='Общая площадь здания' fullWidth type='number' />
             )}
           />
@@ -88,7 +82,7 @@ const FormIndustry = () => {
             name='LandArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
+              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
                 value={field.value || ''} label='Площадь участка' fullWidth type='number' />
             )}
           />
@@ -116,19 +110,6 @@ const FormIndustry = () => {
                 label='Тип здания'
                 options={buildingTypes}
                 getOptionsLabel={(options) => options.type}
-                onChange={(option) => field.onChange(option)}
-                value={field.value}
-              />
-            )}
-          />
-          <Controller
-            name='SpecialtyTypes'
-            control={control}
-            render={({ field }) => (
-              <SelectAutoсompleteUI
-                label='Возможное назначение'
-                options={specialityTypes}
-                getOptionsLabel={(options) => options.specialtyType}
                 onChange={(option) => field.onChange(option)}
                 value={field.value}
               />
@@ -273,6 +254,7 @@ const FormIndustry = () => {
             )}
           />
         </Box>
+        <TextSpanStyle bold color='#575757'>Инфраструктура рядом</TextSpanStyle>
         <Box>
           <Box fullWidth column ai='flex-start'>
             <Controller

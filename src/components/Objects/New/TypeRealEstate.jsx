@@ -28,7 +28,7 @@ const TypeRealEstate = () => {
         name='typeEstate'
         rules={{ required: true }}
         render={({ field }) => (
-          <ButtonToggleGroup fullWidth>
+          <ButtonToggleGroup fullWidth disabled={object && true}>
             <ButtonToggleItem onClick={(e) => toggleType(field.onChange, e.target.id)} id='residential' active={field.value}>Жилая</ButtonToggleItem>
             <ButtonToggleItem onClick={(e) => toggleType(field.onChange, e.target.id)} id='commercial' active={field.value}>Коммерческая</ButtonToggleItem>
           </ButtonToggleGroup>
