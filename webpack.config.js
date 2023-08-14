@@ -6,7 +6,7 @@ module.exports = {
   entry: path.resolve(__dirname, 'src', 'index.js'),
   output: {
     filename: 'js/[name].[contenthash].js',
-    path: path.resolve(__dirname, 'dist', 'dist-betta-v1.0.53'),
+    path: path.resolve(__dirname, 'dist', 'dist-betta-v1.0.54'),
     chunkFilename: 'js/[name].[contenthash].js',
   },
   resolve: {

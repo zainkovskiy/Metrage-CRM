@@ -55,6 +55,10 @@ const CloseButtonStyle = styled.img`
     transform: scale(0.9);
   }
 `
+const ButtonWrap = styled.div`
+  padding: 0 0.5rem;
+  margin-bottom: 0.5rem;
+`
 const SlideDialogPhoto = ({ UID, estate, onClose, changePhoto }) => {
   const [loading, setLoading] = useState(true);
   const [change, setChange] = useState(true);
@@ -84,6 +88,12 @@ const SlideDialogPhoto = ({ UID, estate, onClose, changePhoto }) => {
         item.isWeb = !item.isWeb;
         return item;
       }
+      return item;
+    }))
+  }
+  const setWebAll = () => {
+    setPhotos(photos.map((item) => {
+      item.isWeb = true;
       return item;
     }))
   }
@@ -128,6 +138,9 @@ const SlideDialogPhoto = ({ UID, estate, onClose, changePhoto }) => {
         <CloseButtonStyle src={closeUrl} onClick={onClose} />
       </SlideDialogPhotoHeaderStyle>
       <UploderPhoto UID={UID} uploadedPhotos={uploadedPhotos} />
+      <ButtonWrap>
+        <ButtonUI small onClick={setWebAll}>Выгрузить все</ButtonUI>
+      </ButtonWrap>
       <SlideDialogPhotoContext>
         {
           loading ?
@@ -254,14 +267,14 @@ const PhotoNotAllowContext = styled.div`
 const NoImageStyle = styled(NoImage)`
   width: 60px;
   height: 60px;
-  fill: ${({theme}) => theme.color.primary};
+  fill: ${({ theme }) => theme.color.primary};
 `
 const PhotoNotAllow = () => {
   return (
     <SliderPhotoSContainer>
       {/* <RemoveIcon onClick={() => removePhoto(photo.UID)} /> */}
       <PhotoNotAllowContext>
-        <NoImageStyle/>
+        <NoImageStyle />
       </PhotoNotAllowContext>
       <SliderPhotoItemFooter>
         <TextSpanStyle>Формат не поддерживается</TextSpanStyle>

@@ -33,6 +33,7 @@ const SelectInputStyle = styled.div`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  background-color: #fff;
 `
 const ArrowStyle = styled(ArrowDown)`
   width: 12px;
