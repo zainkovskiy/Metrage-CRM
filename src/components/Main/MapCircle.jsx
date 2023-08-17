@@ -48,7 +48,7 @@ const MapCircle = forwardRef(({ circle, onChange, error }, ref) => {
   return (
     <YMaps
       query={{
-        apikey: 'a890e783-cb17-4f01-88cd-0030e80a7572',
+        apikey: process.env.YANDEX_API_KEY,
         // load: 'package.full' 
       }}
       ref={ymapRef}
@@ -91,7 +91,7 @@ const MapCircle = forwardRef(({ circle, onChange, error }, ref) => {
           onClick={isDraw}
         />
         <FullscreenControl onClick={toggleFullScreen} />
-        <ZoomControl/>
+        <ZoomControl />
       </Map>
       {
         error?.message &&

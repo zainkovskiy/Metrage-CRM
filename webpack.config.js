@@ -1,6 +1,7 @@
 const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const miniCssExtractPlugin = require('mini-css-extract-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: path.resolve(__dirname, 'src', 'index.js'),
@@ -87,7 +88,8 @@ module.exports = {
     }),
     new miniCssExtractPlugin({
       filename: 'main.css'
-    })
+    }),
+    new Dotenv()
   ],
   devServer: {
     historyApiFallback: true,

@@ -24,7 +24,7 @@ const ObjectsFilterDesktop = ({ getList }) => {
         <ObjectsFilterForm/>
         <ButtonUI size='small' onClick={getList}>Показать</ButtonUI>
       </FilterForm>
-      <Link to='new-object'>
+      <Link to='new'>
         <ButtonUI size='small' variant='outline'>Создать</ButtonUI>
       </Link>
     </ObjectsFilterStyle >

@@ -140,9 +140,20 @@ export const SelectAutoсompleteUI = ({
   }
   const [inputValue, setInputValue] = useState(value ? setOptionsLabel(value) : '');//текст внутри инпута
   //useEffect запускает (handlerClick) проверку совпадет ли айди с внутренними компонентами если нет то закрывает список
+  const selectRef = useRef(null);
+  const listenerRef = useRef(null);
   useEffect(() => {
+    if (selectRef.current) {
+      if (selectRef.current.form) {
+        listenerRef.current = selectRef.current.form;
+        selectRef.current.form.addEventListener('click', handlerClick);
+      }
+    }
     document.addEventListener('click', handlerClick);
     return () => {
+      if(listenerRef.current){
+        listenerRef.current.removeEventListener('click', handlerClick);
+      }
       document.removeEventListener('click', handlerClick)
     }
   }, [])
@@ -195,6 +206,7 @@ export const SelectAutoсompleteUI = ({
   const selectValue = (option) => {
     setSelect(option);
     setInputValue(setOptionsLabel(option));
+    setOpen(false);
     if (onChange) {
       onChange(option);
     }
@@ -231,7 +243,7 @@ export const SelectAutoсompleteUI = ({
     toggleShow();
   }
   return (
-    <LabelSelect fullWidth={fullWidth} error={error}>
+    <LabelSelect fullWidth={fullWidth} error={error} ref={selectRef}>
       {label}
       <SelectContainer id={idRef} >
         <SelectInputStyle

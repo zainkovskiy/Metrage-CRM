@@ -16,8 +16,18 @@ const MenuListStyle = styled(motion.div)`
   z-index: 9998;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  box-sizing: border-box;
+`
+const MenuListTop = styled.div`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 0.5rem;
 `
 const LinkNav = styled(Link)`
@@ -25,11 +35,20 @@ const LinkNav = styled(Link)`
   color: #fff;
   font-family: ${({ theme }) => theme.font.family};
 `
+const LinkOriginNav = styled.a`
+  text-decoration: none;
+  color: #fff;
+  font-family: ${({ theme }) => theme.font.family};
+`
 const MenuList = ({ onClose }) => {
   return (
     <MenuListStyle variants={variants}>
-      <LinkNav to='/' onClick={onClose}>Заявки</LinkNav>
-      <LinkNav to='/objects' onClick={onClose}>Объекты</LinkNav>
+      <MenuListTop>
+        <LinkNav to='/' onClick={onClose}>Заявки</LinkNav>
+        <LinkNav to='/objects' onClick={onClose}>Объекты</LinkNav>
+        <LinkNav to='/deal' onClick={onClose}>Сделки</LinkNav>
+      </MenuListTop>
+      <LinkOriginNav target='_href' href='http://crm.metragegroup.com/mail' onClick={onClose}>Почта</LinkOriginNav>
     </MenuListStyle>
   );
 };

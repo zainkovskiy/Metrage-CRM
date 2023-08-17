@@ -16,11 +16,12 @@ import hrUrl, {ReactComponent as Hr} from 'images/hr.svg';
 import studyUrl, {ReactComponent as Study} from 'images/study.svg';
 import phoneUrl, {ReactComponent as Phone} from 'images/phone2.svg';
 import headphoneUrl, {ReactComponent as Headphone} from 'images/headphone.svg';
+import {ReactComponent as Mail} from 'images/mail.svg';
 
 const PanelButtonContainerImgStyle = styled.div`
   padding: 0.5rem;
   border-radius: 20px;
-  ${({ active }) => active && 'background: #b269c0'};
+  ${({ $active }) => $active && 'background: #b269c0'};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,6 +29,18 @@ const PanelButtonContainerImgStyle = styled.div`
   pointer-events: none;
 `
 const PanelButtonStyle = styled(Link)`
+  cursor: pointer;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.2rem 1rem 0.2rem 0.5rem;
+  text-decoration: none;
+  user-select: none;
+  &:hover {
+    background: #cd96d8;
+  }
+`
+const PanelButtonLink = styled.a`
   cursor: pointer;
   display: flex;
   gap: 0.5rem;
@@ -47,27 +60,35 @@ const PanelButtonTextStyle = styled.span`
   white-space: nowrap;
 `
 
-export const PanelButton = ({ icon, path, title }) => {
-  const match = useMatch(path);
+export const PanelButton = ({ icon, path, title, tagName, href, blank }) => {
+  const match = useMatch(path || '');
   const getPanelIcon = () => {
     return iconVariant[icon];
   }
+  const getPanelButton = () => {
+    if(tagName === 'a'){
+      return PanelButtonLink;
+    }
+    return PanelButtonStyle;
+  }
   const PanelIcon = getPanelIcon();
+  const PanelButtonTag = getPanelButton();
   return (
-    <PanelButtonStyle to={path}>
-      <PanelButtonContainerImgStyle active={match}>
-        <PanelIcon active={match} />
+    <PanelButtonTag to={path || ''} href={href || ''} target={blank && '_blank'}>
+      <PanelButtonContainerImgStyle $active={path ? match : false}>
+        <PanelIcon $active={path ? match : false} />
       </PanelButtonContainerImgStyle>
       <PanelButtonTextStyle>
         {title}
       </PanelButtonTextStyle>
-    </PanelButtonStyle>
+    </PanelButtonTag>
   );
 };
 const iconStyle = css`
   width: 24px;
   height: 24px;
-  fill: ${({ theme, active }) => active ? theme.color.white : theme.color.primary};
+  fill: ${({ theme, $active }) => $active ? theme.color.white : theme.color.primary};
+  stroke: ${({ theme, $active }) => $active ? theme.color.white : theme.color.primary};
   pointer-event: none;
   transition: fill .3s;
 `
@@ -116,6 +137,9 @@ const HeadphoneStyle = styled(Headphone)`
 const PhoneStyle = styled(Phone)`
   ${iconStyle};
 `
+const MailStyle = styled(Mail)`
+  ${iconStyle};
+`
 const iconVariant = {
   todo: TodoStyle,
   calendar: CalendarStyle,
@@ -132,4 +156,5 @@ const iconVariant = {
   study: StudyStyle,
   headphone: HeadphoneStyle,
   phone: PhoneStyle,
+  mail: MailStyle,
 }

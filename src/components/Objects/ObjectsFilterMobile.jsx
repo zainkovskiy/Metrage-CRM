@@ -38,7 +38,7 @@ const ObjectsFilterMobile = ({ getList }) => {
   return (
     <ObjectsFilterMobileStyle>
       <ButtonUI size='small' onClick={handleClose}>Фильтр</ButtonUI>
-      <Link to='new-object'>
+      <Link to='new'>
         <ButtonUI size='small' variant='outline'>Создать</ButtonUI>
       </Link>
       <SlideWindow open={open} onClose={handleClose} width='100%'>

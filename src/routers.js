@@ -12,8 +12,12 @@ import SuspenseNewObjects from "components/Objects/New/SuspenseNewObjects";
 import { loaderEditSlide } from 'components/Objects/New/SuspenseNewObjects';
 import SuspenseSlideObjects from "components/Objects/Slide/SuspenseSlideObjects";
 import { loaderObjectSlide } from 'components/Objects/Slide/SuspenseSlideObjects';
+import TaskContent from "components/Task/TaskContent";
+import SuspenceDeal from "components/Deal/SuspenceDeal";
+import SuspenseNewDeal from "components/Deal/New/SuspenseNewDeal";
+import SuspenseSlideDeal from "components/Deal/Slide/SuspenseSlideDeal";
+import { loaderDealSlide } from 'components/Deal/Slide/SuspenseSlideDeal';
 
-import TaskContent from "./components/Task/TaskContent";
 
 export const routers = createBrowserRouter([
   {
@@ -50,7 +54,7 @@ export const routers = createBrowserRouter([
         element: <SuspenseObjects />,
         children: [
           {
-            path: 'new-object',
+            path: 'new',
             element: <SuspenseNewObjects />
           },
           {
@@ -62,6 +66,21 @@ export const routers = createBrowserRouter([
             path: 'edit/:category/:objectId',
             element: <SuspenseNewObjects />,
             loader: loaderEditSlide,
+          },
+        ]
+      },
+      {
+        path: 'deal',
+        element: <SuspenceDeal />,
+        children: [
+          {
+            path: 'new',
+            element: <SuspenseNewDeal />
+          },
+          {
+            path: ':dealId',
+            element: <SuspenseSlideDeal />,
+            loader: loaderDealSlide,
           },
         ]
       },

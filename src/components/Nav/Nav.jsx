@@ -26,7 +26,6 @@ const NavStyle = styled.nav`
   align-items: center;
   justify-content: space-between;
 `
-
 const Nav = () => {
   const dispatch = useDispatch();
   const [openBox, setOpenBox] = React.useState(false);

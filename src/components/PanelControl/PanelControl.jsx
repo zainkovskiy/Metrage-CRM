@@ -17,6 +17,7 @@ export const PanelControlStyle = styled(motion.aside)`
   width: 56px;
   overflow: hidden;
   z-index: 99;
+  gap: 1rem;
 `
 const LineStyle = styled.span`
   margin: 0px 1rem;
@@ -35,14 +36,14 @@ const PanelControl = () => {
         'min-width': '200px',
       }}
     >
-      <div>
+      <div style={{flexGrow: 1}}>
         <PanelButton icon='list' path='/' title='Заявки' />
         <PanelButton icon='home' path='objects' title='Объекты' />
+        <PanelButton icon='deal' path='deal' title='Сделка' />
         {/* <PanelButton icon='todo' path='/task' title='Задачи' />
         <PanelButton icon='calendar' path='calendar' title='Календарь' />
         <PanelButton icon='users' path='users' title='Пользователи' />
         <PanelButton icon='home' path='home' title='Объекты' />
-        <PanelButton icon='deal' path='deal' title='Сделка' />
         <PanelButton icon='mortgage' path='mortgage' title='Ипотека' />
         <PanelButton icon='grade' path='grade' title='Оценка' />
         <PanelButton icon='lawyer' path='lawyer' title='Заказ юриста' />
@@ -51,7 +52,8 @@ const PanelControl = () => {
         <PanelButton icon='hr' path='hr' title='Соискатели' />
         <PanelButton icon='study' path='study' title='Обучение' /> */}
       </div>
-      {/* <LineStyle /> */}
+      <LineStyle />
+      <PanelButton icon='mail' title='Почта' blank href='http://crm.metragegroup.com/mail' tagName='a'/>
       {/* <div>
         <PanelButton icon='phone' path='phone' title='Телефония' />
         <PanelButton icon='headphone' path='headphone' title='Поддержка' />
@@ -61,3 +63,4 @@ const PanelControl = () => {
 };
 
 export default PanelControl;
+ 

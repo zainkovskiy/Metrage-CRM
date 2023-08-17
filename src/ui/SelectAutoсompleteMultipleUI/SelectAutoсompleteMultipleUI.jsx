@@ -157,9 +157,20 @@ export const SelectAutoсompleteMultipleUI = ({
   }
   const [inputValue, setInputValue] = useState(setOptionsLabel(value || []));//текст внутри инпута
   //useEffect запускает (handlerClick) проверку совпадет ли айди с внутренними компонентами если нет то закрывает список
+  const selectRef = useRef(null);
+  const listenerRef = useRef(null);
   useEffect(() => {
+    if (selectRef.current) {
+      if (selectRef.current.form) {
+        listenerRef.current = selectRef.current.form;
+        selectRef.current.form.addEventListener('click', handlerClick);
+      }
+    }
     document.addEventListener('click', handlerClick);
     return () => {
+      if(listenerRef.current){
+        listenerRef.current.removeEventListener('click', handlerClick);
+      }
       document.removeEventListener('click', handlerClick)
     }
   }, [])
@@ -178,6 +189,7 @@ export const SelectAutoсompleteMultipleUI = ({
 
   //handlerClick фунекция для useEffect 
   const handlerClick = (e) => {
+    e.preventDefault();
     const currentId = e.target.id;
     if (currentId === idRef) { return }
     setOpen(false);
@@ -244,7 +256,7 @@ export const SelectAutoсompleteMultipleUI = ({
     }
   }
   return (
-    <LabelSelect fullWidth={fullWidth} error={error}>
+    <LabelSelect fullWidth={fullWidth} error={error} ref={selectRef}>
       {label}
       <SelectContainer id={idRef} >
         <SelectInputStyle

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { compileStringAsync } from "sass";
 const API = 'https://crm.metragegroup.com/API/REST.php';
 
 export const getSpecialityTypes = async (category) => {

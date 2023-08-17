@@ -1,9 +1,10 @@
+import React, { Children, useState, useRef, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ReactComponent as ArrowDown } from 'images/arrow-down.svg';
-import React, { Children, useState } from 'react';
 import styled from 'styled-components';
 import { LabelStyle } from 'ui/InputUI/InputUIStyled';
 import { TextSpanStyle } from 'styles/styles';
+import { v4 as uuidv4 } from 'uuid';
 
 const LabelStyleSElect = styled(LabelStyle)`
   width: ${({ fullWidth }) => fullWidth ? '100%' : '178px'};
@@ -75,6 +76,30 @@ const variants = {
 }
 export const SelectMultipleUI = ({ value, onChange, children, label, fullWidth, inputRef, error, disabled, small, name }) => {
   const [open, setOpen] = useState(false);
+  const idRef = useRef(uuidv4().split('-')[0]).current;
+  const selectRef = useRef(null);
+  const listenerRef = useRef(null);
+  useEffect(() => {
+    if (selectRef.current) {
+      if (selectRef.current.form) {
+        listenerRef.current = selectRef.current.form;
+        selectRef.current.form.addEventListener('click', handlerClick);
+      }
+    }
+    document.addEventListener('click', handlerClick);
+    return () => {
+      if (listenerRef.current) {
+        listenerRef.current.removeEventListener('click', handlerClick);
+      }
+      document.removeEventListener('click', handlerClick)
+    }
+  }, [])
+  const handlerClick = (e) => {
+    e.preventDefault();
+    const currentId = e.target.id;
+    if (currentId === idRef) { return }
+    setOpen(false);
+  }
   const isShow = () => {
     setOpen(!open);
   }
@@ -87,7 +112,7 @@ export const SelectMultipleUI = ({ value, onChange, children, label, fullWidth, 
     if (childrenList?.type == React.Fragment) {
       childrenList = childrenList?.props?.children || [];
     }
-    if(value.length === 0){
+    if (value.length === 0) {
       return 'Выбрать'
     }
     let inputText = ''
@@ -110,15 +135,16 @@ export const SelectMultipleUI = ({ value, onChange, children, label, fullWidth, 
     onChange && onChange(newValue);
   }
   return (
-    <LabelStyleSElect fullWidth={fullWidth}>
+    <LabelStyleSElect fullWidth={fullWidth} id={idRef} ref={selectRef}>
       {label}
-      <SelectContainer error={error}>
-        <SelectInputContainer>
+      <SelectContainer error={error} id={idRef}>
+        <SelectInputContainer id={idRef}>
           <SelectInputStyle readOnly
             onClick={isShow}
             error={error}
             disabled={disabled}
             $small={small}
+            id={idRef}
           >
             {
               getSelectTitle()
@@ -126,7 +152,7 @@ export const SelectMultipleUI = ({ value, onChange, children, label, fullWidth, 
           </SelectInputStyle>
           {
             !disabled &&
-            <ArrowStyle open={open} />
+            <ArrowStyle open={open} id={idRef} />
           }
         </SelectInputContainer>
         <input type="text" hidden ref={inputRef} />
@@ -139,6 +165,7 @@ export const SelectMultipleUI = ({ value, onChange, children, label, fullWidth, 
               exit='hidden'
               animate='vissible'
               $error={error}
+              id={idRef}
             >
               {
                 Children.map(children?.type === React.Fragment ? children.props.children : children, (child) => {
@@ -146,13 +173,14 @@ export const SelectMultipleUI = ({ value, onChange, children, label, fullWidth, 
                     ...child.props,
                     select: value.includes(child.props.value),
                     onChange: handleChange,
+                    id: idRef,
                   })
                 })
               }
             </SelectItemsContainer>
           }
         </AnimatePresence>
-        <TextSpanStyle color='red' size={12}>{error?.message && error.message}</TextSpanStyle>
+        <TextSpanStyle color='red' size={12} id={idRef}>{error?.message && error.message}</TextSpanStyle>
       </SelectContainer>
     </LabelStyleSElect>
   );
@@ -169,12 +197,12 @@ const SelectItemStyle = styled(motion.div)`
     background-color: ${({ $select }) => $select ? 'rgb(132 1 158 / 43%)' : 'rgb(249 245 245)'};
   }
 `
-export const SelectMultipleItemUI = ({ children, value, select, onChange }) => {
+export const SelectMultipleItemUI = ({ children, value, select, onChange, id }) => {
   const handleChange = () => {
     onChange(value);
   }
   return (
-    <SelectItemStyle value={value} $select={select} onClick={handleChange} >
+    <SelectItemStyle value={value} $select={select} onClick={handleChange} id={id}>
       {children}
     </SelectItemStyle>
   )

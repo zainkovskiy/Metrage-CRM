@@ -35,6 +35,7 @@ export const InputStyle = styled.input`
   box-sizing: border-box;
   letter-spacing: ${(props) => props.type === 'password' ? '1.25px' : ''};
   position: relative;
+  // -webkit-appearance: none;
   &:disabled{
     background-color: #eee;
     opacity: 0.8;

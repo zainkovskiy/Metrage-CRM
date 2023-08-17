@@ -1,9 +1,10 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { ReactComponent as ArrowDown } from 'images/arrow-down.svg';
-import React, { Children, useState } from 'react';
+import React, { Children, useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { LabelStyle } from 'ui/InputUI/InputUIStyled';
 import { TextSpanStyle } from 'styles/styles';
+import { v4 as uuidv4 } from 'uuid';
 
 const SelectContainer = styled.div`
   position: relative;
@@ -68,6 +69,29 @@ const variants = {
 }
 export const SelectUI = ({ select, onChange, children, label, fullWidth, inputRef, error, disabled, small, name }) => {
   const [open, setOpen] = useState(false);
+  const idRef = useRef(uuidv4().split('-')[0]).current;
+  const selectRef = useRef(null);
+  const listenerRef = useRef(null);
+  useEffect(() => {
+    if (selectRef.current) {
+      if (selectRef.current.form) {
+        listenerRef.current = selectRef.current.form;
+        selectRef.current.form.addEventListener('click', handlerClick);
+      }
+    }
+    document.addEventListener('click', handlerClick);
+    return () => {
+      if(listenerRef.current){
+        listenerRef.current.removeEventListener('click', handlerClick);
+      }
+      document.removeEventListener('click', handlerClick)
+    }
+  }, [])
+  const handlerClick = (e) => {
+    const currentId = e.target.id;
+    if (currentId === idRef) { return }
+    setOpen(false);
+  }
   const isShow = () => {
     setOpen(!open);
   }
@@ -84,10 +108,10 @@ export const SelectUI = ({ select, onChange, children, label, fullWidth, inputRe
     return findElem ? findElem.props.children : '';
   }
   return (
-    <LabelStyle fullWidth={fullWidth}>
+    <LabelStyle fullWidth={fullWidth} ref={selectRef} id={idRef}>
       {label}
-      <SelectContainer error={error}>
-        <SelectInputContainer>
+      <SelectContainer error={error} id={idRef}>
+        <SelectInputContainer id={idRef}>
           <SelectInputStyle readOnly
             value={getSelectTitle()}
             onClick={isShow}
@@ -96,10 +120,11 @@ export const SelectUI = ({ select, onChange, children, label, fullWidth, inputRe
             error={error}
             disabled={disabled}
             $small={small}
+            id={idRef}
           />
           {
             !disabled &&
-            <ArrowStyle open={open} />
+            <ArrowStyle open={open} id={idRef}/>
           }
         </SelectInputContainer>
         <AnimatePresence>
@@ -111,6 +136,7 @@ export const SelectUI = ({ select, onChange, children, label, fullWidth, inputRe
               exit='hidden'
               animate='vissible'
               $error={error}
+              id={idRef}
             >
               {
                 Children.map(children?.type === React.Fragment ? children.props.children : children, (child) => {
@@ -118,13 +144,14 @@ export const SelectUI = ({ select, onChange, children, label, fullWidth, inputRe
                     ...child.props,
                     select: select,
                     onChange: onChange,
+                    id: idRef,
                   })
                 })
               }
             </SelectItemsContainer>
           }
         </AnimatePresence>
-        <TextSpanStyle color='red' size={12}>{error?.message && error.message}</TextSpanStyle>
+        <TextSpanStyle color='red' size={12} id={idRef}>{error?.message && error.message}</TextSpanStyle>
       </SelectContainer>
     </LabelStyle>
   );
@@ -141,12 +168,12 @@ const SelectItemStyle = styled(motion.div)`
     background-color: ${({ $select }) => $select ? 'rgb(132 1 158 / 43%)' : 'rgb(249 245 245)'};
   }
 `
-export const SelectItemUI = ({ children, value, select, onChange }) => {
+export const SelectItemUI = ({ children, value, select, onChange, id }) => {
   const handleChange = () => {
     onChange(value);
   }
   return (
-    <SelectItemStyle value={value} $select={select === value} onClick={handleChange} >
+    <SelectItemStyle value={value} $select={select === value} onClick={handleChange} id={id}>
       {children}
     </SelectItemStyle>
   )

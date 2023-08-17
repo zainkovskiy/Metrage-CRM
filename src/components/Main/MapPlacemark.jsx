@@ -37,7 +37,7 @@ const MapPlacemark = forwardRef(({ onChange, error, cords, clearErrors, disable,
   return (
     <YMaps
       query={{
-        apikey: 'a890e783-cb17-4f01-88cd-0030e80a7572',
+        apikey: process.env.YANDEX_API_KEY,
       }}
     >
       <Map
