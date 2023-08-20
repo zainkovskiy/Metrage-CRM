@@ -14,21 +14,21 @@ const IconButtonStyle = styled.div`
   transition: background-color .3s;
   ${({ $sp }) => $sp && {...$sp}}
   &:hover{
-    background-color: #84019e2b;
+    background-color: ${({ color }) => color === 'error' ? '#fb1b003b' : '#84019e2b'};
   }
   &:active{
     background-color: #fff;
   }
   & > svg {
-    fill: ${({ theme }) => theme.color.primary};
+    fill: ${({ theme, color }) => color === 'error' ? 'red' : theme.color.primary};
     width: 14px;
     height: 14px;
     pointer-events: none;
   }
 `
-export const IconButton = ({ children, sp, onClick }) => {
+export const IconButton = ({ children, sp, onClick, color }) => {
   return (
-    <IconButtonStyle $sp={sp} onClick={onClick}>
+    <IconButtonStyle $sp={sp} onClick={onClick} color={color}>
       {children}
     </IconButtonStyle>
   );

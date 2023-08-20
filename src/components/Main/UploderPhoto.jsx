@@ -10,11 +10,12 @@ const UploaderStyle = styled.label`
   justify-content: center;
   align-items: center;
   padding: 1rem;
-  margin: 0.5rem;
   border-radius: 5px;
   cursor: pointer;
   flex-direction: column;
+  box-sizing: border-box;
   ${({$disabled}) => $disabled && 'pointer-events: none;'};
+  ${({$fullWidth}) => $fullWidth && 'width: 100%;'};
 `
 const UploaderIcon = styled(Upload)`
   width: 24px;
@@ -40,7 +41,7 @@ const UploadingIcon = styled.span`
   animation: ${rotation} 1s linear infinite;
 `
 
-const UploderPhoto = ({ UID, uploadedPhotos }) => {
+const UploderPhoto = ({ UID, callback, fullWidth, label }) => {
   const [uploading, setUploading] = useState(false);
   const handleChange = (e) => {
     upload(e?.target?.files);
@@ -69,8 +70,10 @@ const UploderPhoto = ({ UID, uploadedPhotos }) => {
   }
   const upload = (files) => {
     setUploading(true);
-    uploadPhoto(files, UID).then((photos) => {
-      uploadedPhotos(photos);
+    uploadPhoto(files, UID).then((uploadPhoto) => {
+      if(callback){
+        callback(uploadPhoto)
+      }
     }).finally(() => {
       setUploading(false);
     });
@@ -84,6 +87,7 @@ const UploderPhoto = ({ UID, uploadedPhotos }) => {
       onDragOver={dragOverHandler}
       onDrop={dropHandler}
       $disabled={uploading}
+      $fullWidth={fullWidth}
     >
       {
         uploading ? <UploadingIcon /> : <UploaderIcon />
@@ -95,7 +99,7 @@ const UploderPhoto = ({ UID, uploadedPhotos }) => {
         hidden
         onChange={handleChange}
       />
-      <TextSpanStyle>{uploading ? 'Загрузка' : 'Загрузить фото'}</TextSpanStyle>
+      <TextSpanStyle>{uploading ? 'Загрузка' : `${label || 'Загрузка файлов'}`}</TextSpanStyle>
     </UploaderStyle>
   );
 };

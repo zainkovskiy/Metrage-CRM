@@ -10,7 +10,6 @@ const InputDadata = styled(InputStyle)`
   border-color: ${({ theme, error }) => error ? 'red' : theme.color.primary} !important;
   box-shadow: none;
 `
-console.log(process.env.DADATA_TOKEN);
 const Dadata = ({ onChange, value, label, inputRef, error, disabled, defaultQuery }) => {
   return (
     <LabelStyle fullWidth>

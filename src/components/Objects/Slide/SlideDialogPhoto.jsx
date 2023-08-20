@@ -8,7 +8,7 @@ import { TextSpanStyle } from 'styles/styles';
 import { ButtonUI } from 'ui/ButtonUI';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import SlideDialogPhotoSceleton from './SlideDialogPhotoSceleton';
-import UploderPhoto from './UploderPhoto';
+import SlideDialogPhotoUploader from './SlideDialogPhotoUploader';
 
 const SlideDialogPhotoStyle = styled.div`
   width: 80vw;
@@ -137,7 +137,7 @@ const SlideDialogPhoto = ({ UID, estate, onClose, changePhoto }) => {
         <TextSpanStyle>Фото {photos.length}</TextSpanStyle>
         <CloseButtonStyle src={closeUrl} onClick={onClose} />
       </SlideDialogPhotoHeaderStyle>
-      <UploderPhoto UID={UID} uploadedPhotos={uploadedPhotos} />
+      <SlideDialogPhotoUploader UID={UID} uploadedPhotos={uploadedPhotos}/>
       <ButtonWrap>
         <ButtonUI small onClick={setWebAll}>Выгрузить все</ButtonUI>
       </ButtonWrap>

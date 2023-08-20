@@ -44,7 +44,7 @@ export const getObjectList = async (value, realtyType) => {
 export const createDeal = async (form) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
-    method: "crm.deal.getObjects",
+    method: "crm.deal.create",
     fields: {
       ...form
     }

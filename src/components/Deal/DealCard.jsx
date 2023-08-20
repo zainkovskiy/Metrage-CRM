@@ -63,7 +63,6 @@ const variants = {
 }
 
 const DealCard = ({ deal }) => {
-  console.log(deal);
   return (
     <LinkStyle to={`${deal?.UID}`}>
       <DealCardStyle

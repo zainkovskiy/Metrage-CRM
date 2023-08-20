@@ -3,7 +3,7 @@ import { getHistoryList, sendHistoryMessage } from 'api/storyAPI';
 import SliderStory from 'components/Main/SliderStory/SliderStory';
 
 const SlideObjectStory = ({ id, type, fullWidth, height }) => {
-  const [history, setHistory] = useState();
+  const [history, setHistory] = useState([]);
   const [loader, setLoader] = useState(true);
   useEffect(() => {
     getHistory();
