@@ -18,3 +18,11 @@ export const CategoryTranslate = {
   businessSale: 'Бизнес',
   commercialLandSale: 'Коммерческая земля',
 }
+export const RealtyTypeTranslate = {
+  live: 'Жилая',
+  bussiness: 'Коммерческая'
+}
+export const DealTypeTranslate = {
+  simple: 'Обычная',
+  developer: 'От застройщика'
+}

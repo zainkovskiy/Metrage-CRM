@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { device } from 'styles/device';
 import { Outlet } from 'react-router-dom';
 import { getObjectList, clearObjects } from 'store/objectSlice';
+import ObjectsFilterDesktop from './ObjectsFilterDesktop';
 
 const ObjectsContentStyle = styled.div`
   flex-grow: 1;
@@ -13,11 +14,11 @@ const ObjectsContentStyle = styled.div`
   flex-direction: column;
   padding: 0.5rem;
   gap: 0.5rem;
-  @media ${device.tablet}{
+  @media ${device.tablet} {
     padding: 0;
     gap: 0;
   }
-`
+`;
 
 const ObjectsContent = () => {
   const firstMount = useRef(true);
@@ -26,15 +27,15 @@ const ObjectsContent = () => {
     getList();
     return () => {
       dispatch(clearObjects());
-    }
-  }, [])
+    };
+  }, []);
   const getList = () => {
     dispatch(getObjectList());
-  }
+  };
   return (
     <ObjectsContentStyle>
-      <ObjectsFilter getList={getList}/>
-      <Objects firstMount={firstMount.current}/>
+      <ObjectsFilterDesktop />
+      <Objects firstMount={firstMount.current} />
       <Outlet />
     </ObjectsContentStyle>
   );

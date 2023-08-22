@@ -15,20 +15,10 @@ const FeatureTitle = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-`
-const SlideParticipants = styled.div`
-  border: 1px solid #ccc;
-  width: 100%;
-  padding: 0.5rem;
-  box-sizing: border-box;
-  border-radius: 5px;
-  height: 150px;
-  overflow: auto;
-`
-const SlideParticipantsText = styled(TextSpanStyle)`
-  text-overflow: ellipsis;
-  overflow: hidden;
-`
+`;
+const FeatureSubTitle = styled(FeatureTitle)`
+  font-size: 12px;
+`;
 const SlideDealSide = () => {
   const deal = useAsyncValue();
   return (
@@ -37,20 +27,37 @@ const SlideDealSide = () => {
         <FeatureTitle>Объект</FeatureTitle>
         <Box fullWidth ai='flex-start' column>
           <div>
-            <TextSpanStyle size={12}>{deal?.objectParams?.street} {deal?.objectParams?.house}</TextSpanStyle>
+            <TextSpanStyle size={12}>
+              {deal?.objectParams?.street} {deal?.objectParams?.house}
+            </TextSpanStyle>
             <TextSpanStyle size={10}>{deal?.objectParams?.city}</TextSpanStyle>
           </div>
           <div>
-            <TextSpanStyle size={10}>Тип: {CategoryTranslate[deal?.objectParams?.Category]}</TextSpanStyle>
-            <TextSpanStyle size={12}>Цена: {useNumberTriad(deal?.objectParams?.Price)} руб.</TextSpanStyle>
+            <TextSpanStyle size={10}>
+              Тип: {CategoryTranslate[deal?.objectParams?.Category]}
+            </TextSpanStyle>
+            <TextSpanStyle size={12}>
+              Цена: {useNumberTriad(deal?.objectParams?.Price)} руб.
+            </TextSpanStyle>
+          </div>
+          <div style={{ width: '100%' }}>
+            <FeatureSubTitle>Клиенты</FeatureSubTitle>
           </div>
         </Box>
       </SlideBlockStyle>
       <SlideBlockStyle $column jc='flex-start'>
-        <FeatureTitle>Сделка</FeatureTitle>
-        <Box fullWidth jc='flex-start'>
-          <TextSpanStyle size={12}>{deal?.bidParams?.firstName}</TextSpanStyle>
+        <FeatureTitle>Заявка</FeatureTitle>
+        <Box fullWidth ai='flex-start' column gap='0'>
+          <TextSpanStyle size={12}>
+            Заявка: {deal?.bidParams?.firstName || ''}
+          </TextSpanStyle>
+          <TextSpanStyle size={12}>
+            Потребность: {deal?.bidParams?.type || ''}
+          </TextSpanStyle>
         </Box>
+        <div style={{ width: '100%' }}>
+          <FeatureSubTitle>Клиенты</FeatureSubTitle>
+        </div>
       </SlideBlockStyle>
     </SlideGridWrapper>
   );

@@ -4,6 +4,8 @@ import { TextSpanStyle } from 'styles/styles';
 import { useDateFormat } from 'hooks/DateFormat';
 import styled from 'styled-components';
 import { SlideBlockStyle } from '../DealStyle';
+import { RealtyTypeTranslate, DealTypeTranslate } from '../keyTranslate';
+import { InputUI } from 'ui/InputUI';
 
 const FeatureTitle = styled.div`
   border-bottom: 1px solid #786464;
@@ -12,14 +14,70 @@ const FeatureTitle = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-`
+`;
+const SlideDealInfoContent = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+const SlideDealInfoSide = styled.div`
+  display: flex;
+  gap: 0.5rem;
+`;
 
 const SlideDealInfo = () => {
   const deal = useAsyncValue();
   return (
     <SlideBlockStyle $column ai='flex-start'>
-      <FeatureTitle>Информация</FeatureTitle>
-      <TextSpanStyle size={12}>Дата сделки (План): {useDateFormat(deal?.plannedDate)}</TextSpanStyle>
+      <FeatureTitle>Общая информация</FeatureTitle>
+      <SlideDealInfoContent>
+        <SlideDealInfoSide>
+          <InputUI
+            fullWidth
+            label='Дата сделки (План)'
+            value={
+              deal?.plannedDate
+                ? useDateFormat(deal?.plannedDate, 'YYYY-MM-DD')
+                : ''
+            }
+            type='date'
+            small
+            labelSize={12}
+            onChange={(e) => {
+              console.log(e.target.value);
+            }}
+          />
+          <InputUI
+            fullWidth
+            label='Дата сделки (Факт)'
+            value={
+              deal?.actualDate
+                ? useDateFormat(deal?.actualDate, 'YYYY-MM-DD')
+                : ''
+            }
+            disabled
+            type='date'
+            small
+            labelSize={12}
+            onChange={(e) => {
+              console.log(e.target.value);
+            }}
+          />
+        </SlideDealInfoSide>
+        <div>
+          <TextSpanStyle size={12}>
+            Статус: {deal?.dealStatus || ''}
+          </TextSpanStyle>
+          <TextSpanStyle size={12}>
+            Тип сделки: {deal?.dealType ? DealTypeTranslate[deal.dealType] : ''}
+          </TextSpanStyle>
+          <TextSpanStyle size={12}>
+            Тип недвижимости:{' '}
+            {deal?.realtyType ? RealtyTypeTranslate[deal.realtyType] : ''}
+          </TextSpanStyle>
+        </div>
+      </SlideDealInfoContent>
     </SlideBlockStyle>
   );
 };

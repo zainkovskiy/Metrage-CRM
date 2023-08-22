@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { ButtonUI } from 'ui/ButtonUI';
 import ObjectsFilterForm from './ObjectsFilterForm';
+import SlideWindow from 'components/Main/SlideWindow';
+import { useWindowSize } from 'hooks/windowSize';
+
 const ObjectsFilterStyle = styled.div`
   display: flex;
   justify-content: space-between;
@@ -10,24 +13,41 @@ const ObjectsFilterStyle = styled.div`
   gap: 0.5rem;
   padding: 0.5rem;
   flex-wrap: wrap;
-`
-const FilterForm = styled.form`
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  flex-wrap: wrap;
-`
-const ObjectsFilterDesktop = ({ getList }) => {
+`;
+const ObjectsFilterDesktop = () => {
+  const [open, setOpen] = useState(false);
+  const windowSize = useWindowSize();
+  const getWidth = () => {
+    if (windowSize <= 768) {
+      return '100%';
+    }
+    return '30%';
+  };
   return (
     <ObjectsFilterStyle>
-      <FilterForm>
-        <ObjectsFilterForm/>
-        <ButtonUI size='small' onClick={getList}>Показать</ButtonUI>
-      </FilterForm>
+      <ButtonUI
+        size='small'
+        onClick={() => {
+          setOpen(!open);
+        }}
+      >
+        Фильтр
+      </ButtonUI>
       <Link to='new'>
-        <ButtonUI size='small' variant='outline'>Создать</ButtonUI>
+        <ButtonUI size='small' variant='outline'>
+          Создать
+        </ButtonUI>
       </Link>
-    </ObjectsFilterStyle >
+      <SlideWindow
+        open={open}
+        onClose={() => {
+          setOpen(!open);
+        }}
+        width={getWidth()}
+      >
+        <ObjectsFilterForm />
+      </SlideWindow>
+    </ObjectsFilterStyle>
   );
 };
 

@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
 export const LabelStyle = styled.label`
-  font-size: 14px;
+  font-size: ${({labelSize}) => labelSize ? labelSize + 'px' : '14px'};
   font-family: CeraCY, sans-serif;
   display: flex;
   flex-direction: column;

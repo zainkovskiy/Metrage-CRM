@@ -10,7 +10,12 @@ import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { device } from 'styles/device';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
-import { getNewBuilderList, getObjectList, getBidList, createDeal } from 'api/dealAPI';
+import {
+  getNewBuilderList,
+  getObjectList,
+  getBidList,
+  createDeal,
+} from 'api/dealAPI';
 import { useNumberTriad } from 'hooks/StringHook';
 
 const NewDealStyle = styled.form`
@@ -23,70 +28,94 @@ const NewDealStyle = styled.form`
   gap: 0.5rem;
   height: 100%;
   overflow: auto;
-`
+`;
 const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   flex-grow: 1;
-`
+`;
 const FormGridStyle = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.5rem;
-  @media ${device.tablet}{ 
+  @media ${device.tablet} {
     grid-template-columns: 1fr;
   }
-`
-const NewDeal = ({onClose}) => {
+`;
+const NewDeal = ({ onClose }) => {
   const [newBuilderList, setNewBuilderList] = useState([]);
   const [newBuilderLoading, setNewBuilderLoading] = useState(false);
   const [bidList, setBidList] = useState([]);
   const [bidLoading, setBidLoading] = useState(false);
   const [objectList, setObjectList] = useState([]);
   const [objectListLoading, setObjectListLoading] = useState(false);
-  const { handleSubmit, control, watch, getValues, formState: { errors } } = useForm({
+  const {
+    handleSubmit,
+    control,
+    watch,
+    getValues,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       dealType: 'simple',
       realtyType: 'live',
-    }
+    },
   });
   const onSubmit = (data) => {
     console.log(data);
     createDeal(data).then((answer) => {
-      answer === 'OK' && onClose()
+      answer === 'OK' && onClose();
     });
-  }
+  };
   const getNewBuilder = (value) => {
-    if (value.length < 2) { return }
-    if (newBuilderLoading) { return }
+    if (value.length < 2) {
+      return;
+    }
+    if (newBuilderLoading) {
+      return;
+    }
     setNewBuilderLoading(true);
-    getNewBuilderList(value).then((data) => {
-      setNewBuilderList(data);
-    }).finally(() => {
-      setNewBuilderLoading(false);
-    });
-  }
+    getNewBuilderList(value)
+      .then((data) => {
+        setNewBuilderList(data);
+      })
+      .finally(() => {
+        setNewBuilderLoading(false);
+      });
+  };
   const getBids = (value) => {
-    if (value.length < 2) { return }
-    if (bidLoading) { return }
+    if (value.length < 2) {
+      return;
+    }
+    if (bidLoading) {
+      return;
+    }
     setBidLoading(true);
-    getBidList(value).then((data) => {
-      setBidList(data);
-    }).finally(() => {
-      setBidLoading(false);
-    });
-  }
+    getBidList(value)
+      .then((data) => {
+        setBidList(data);
+      })
+      .finally(() => {
+        setBidLoading(false);
+      });
+  };
   const getObjects = (value) => {
-    if (value.length < 2) { return }
-    if (objectListLoading) { return }
+    if (value.length < 2) {
+      return;
+    }
+    if (objectListLoading) {
+      return;
+    }
     setObjectListLoading(true);
-    getObjectList(value, 'live').then((data) => {
-      setObjectList(data);
-    }).finally(() => {
-      setObjectListLoading(false);
-    });
-  }
+    getObjectList(value, 'live')
+      .then((data) => {
+        setObjectList(data);
+      })
+      .finally(() => {
+        setObjectListLoading(false);
+      });
+  };
   watch('dealType');
   watch('advertising');
   return (
@@ -100,13 +129,24 @@ const NewDeal = ({onClose}) => {
             rules={{ required: true }}
             render={({ field }) => (
               <ButtonToggleGroup fullWidth>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='simple' active={field.value}>Обычная</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='developer' active={field.value}>От застройщика</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='simple'
+                  active={field.value}
+                >
+                  Обычная
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='developer'
+                  active={field.value}
+                >
+                  От застройщика
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
-          {
-            getValues('dealType') === 'simple' &&
+          {getValues('dealType') === 'simple' && (
             <Box column fullWidth gap='0.2rem' ai='flex-start'>
               <TextSpanStyle>Тип недвижимости *</TextSpanStyle>
               <Controller
@@ -115,13 +155,25 @@ const NewDeal = ({onClose}) => {
                 rules={{ required: true }}
                 render={({ field }) => (
                   <ButtonToggleGroup fullWidth>
-                    <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='live' active={field.value}>Жилая</ButtonToggleItem>
-                    <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='bussiness' active={field.value}>Коммерческая</ButtonToggleItem>
+                    <ButtonToggleItem
+                      onClick={(e) => field.onChange(e.target.id)}
+                      id='live'
+                      active={field.value}
+                    >
+                      Жилая
+                    </ButtonToggleItem>
+                    <ButtonToggleItem
+                      onClick={(e) => field.onChange(e.target.id)}
+                      id='bussiness'
+                      active={field.value}
+                    >
+                      Коммерческая
+                    </ButtonToggleItem>
                   </ButtonToggleGroup>
                 )}
               />
             </Box>
-          }
+          )}
         </Box>
         <FormGridStyle>
           <Controller
@@ -129,7 +181,9 @@ const NewDeal = ({onClose}) => {
             name='plannedDate'
             rules={{ required: { value: true, message: 'Поле обязательно' } }}
             render={({ field }) => (
-              <InputUI type='date' small
+              <InputUI
+                type='date'
+                small
                 value={field.value || ''}
                 onChange={field.onChange}
                 label='Дата сделки (План) *'
@@ -140,14 +194,23 @@ const NewDeal = ({onClose}) => {
           <Controller
             name='objectId'
             control={control}
-            rules={{ required: { value: getValues('dealType') === 'simple', message: 'Поле обязательно' } }}
+            rules={{
+              required: {
+                value: getValues('dealType') === 'simple',
+                message: 'Поле обязательно',
+              },
+            }}
             render={({ field }) => (
               <SelectAutoсompleteUI
-                label={`Объект ${getValues('dealType') === 'simple' ? '*' : ''}`}
+                label={`Объект ${
+                  getValues('dealType') === 'simple' ? '*' : ''
+                }`}
                 inputChange={getObjects}
                 options={objectList}
                 loading={objectListLoading}
-                getOptionsLabel={(options) => `${options.street || ''} ${options.house || ''}`}
+                getOptionsLabel={(options) =>
+                  `${options.street || ''} ${options.house || ''}`
+                }
                 onChange={(option) => field.onChange(option)}
                 value={field.value}
                 small
@@ -158,14 +221,25 @@ const NewDeal = ({onClose}) => {
           <Controller
             name='bidId'
             control={control}
-            rules={{ required: { value: getValues('dealType') === 'simple', message: 'Поле обязательно' } }}
+            rules={{
+              required: {
+                value: getValues('dealType') === 'simple',
+                message: 'Поле обязательно',
+              },
+            }}
             render={({ field }) => (
               <SelectAutoсompleteUI
-                label={`Заявка покупателя ${getValues('dealType') === 'simple' ? '*' : ''}`}
+                label={`Заявка покупателя ${
+                  getValues('dealType') === 'simple' ? '*' : ''
+                }`}
                 inputChange={getBids}
                 options={bidList}
                 loading={bidLoading}
-                getOptionsLabel={(options) => `${options.lastName || ''} ${options.firstName || ''} ${options.secondName || ''}`}
+                getOptionsLabel={(options) =>
+                  `${options.lastName || ''} ${options.firstName || ''} ${
+                    options.secondName || ''
+                  }`
+                }
                 getOptionsSubtitle={(options) => options.stage || ''}
                 onChange={(option) => field.onChange(option)}
                 value={field.value}
@@ -174,8 +248,7 @@ const NewDeal = ({onClose}) => {
               />
             )}
           />
-          {
-            getValues('dealType') === 'simple' &&
+          {getValues('dealType') === 'simple' && (
             <>
               <Box column fullWidth gap='0.2rem' ai='flex-start'>
                 <TextSpanStyle>Оставить в рекламе</TextSpanStyle>
@@ -184,8 +257,20 @@ const NewDeal = ({onClose}) => {
                   name='advertising'
                   render={({ field }) => (
                     <ButtonToggleGroup fullWidth>
-                      <ButtonToggleItem onClick={(e) => field.onChange(true)} id='yes' active={field.value === true && 'yes'}>Да</ButtonToggleItem>
-                      <ButtonToggleItem onClick={(e) => field.onChange(false)} id='no' active={field.value === false && 'no'}>Нет</ButtonToggleItem>
+                      <ButtonToggleItem
+                        onClick={(e) => field.onChange(true)}
+                        id='yes'
+                        active={field.value === true && 'yes'}
+                      >
+                        Да
+                      </ButtonToggleItem>
+                      <ButtonToggleItem
+                        onClick={(e) => field.onChange(false)}
+                        id='no'
+                        active={field.value === false && 'no'}
+                      >
+                        Нет
+                      </ButtonToggleItem>
                     </ButtonToggleGroup>
                   )}
                 />
@@ -197,21 +282,24 @@ const NewDeal = ({onClose}) => {
                   <CheckboxUI
                     disabled={!getValues('advertising')}
                     label='Рекламировать на Домклик'
-                    onChange={(e) => { field.onChange(e.target.checked) }}
+                    onChange={(e) => {
+                      field.onChange(e.target.checked);
+                    }}
                     defaultChecked={field.value || false}
                     id='hasDomclick'
                   />
                 )}
               />
             </>
-          }
-          {
-            getValues('dealType') === 'developer' &&
+          )}
+          {getValues('dealType') === 'developer' && (
             <>
               <Controller
                 name='newbId'
                 control={control}
-                rules={{ required: { value: true, message: 'Поле обязательно' } }}
+                rules={{
+                  required: { value: true, message: 'Поле обязательно' },
+                }}
                 render={({ field }) => (
                   <SelectAutoсompleteUI
                     label='Новостройка *'
@@ -230,9 +318,14 @@ const NewDeal = ({onClose}) => {
               <Controller
                 control={control}
                 name='Appartment'
-                rules={{ required: { value: true, message: 'Поле обязательно' } }}
+                rules={{
+                  required: { value: true, message: 'Поле обязательно' },
+                }}
                 render={({ field }) => (
-                  <InputUI small value={field.value || ''} onChange={(e) => field.onChange(parseInt(e.target.value))}
+                  <InputUI
+                    small
+                    value={field.value || ''}
+                    onChange={(e) => field.onChange(parseInt(e.target.value))}
                     label='Номер квартиры *'
                     error={errors?.Appartment}
                     type='number'
@@ -242,7 +335,9 @@ const NewDeal = ({onClose}) => {
               <Controller
                 name='FlatRoomsCount'
                 control={control}
-                rules={{ required: { value: true, message: 'Поле обязательно' } }}
+                rules={{
+                  required: { value: true, message: 'Поле обязательно' },
+                }}
                 render={({ field }) => (
                   <SelectUI
                     onChange={field.onChange}
@@ -265,9 +360,13 @@ const NewDeal = ({onClose}) => {
               <Controller
                 control={control}
                 name='TotalArea'
-                rules={{ required: { value: true, message: 'Поле обязательно' } }}
+                rules={{
+                  required: { value: true, message: 'Поле обязательно' },
+                }}
                 render={({ field }) => (
-                  <InputUI small value={field.value || ''}
+                  <InputUI
+                    small
+                    value={field.value || ''}
                     onChange={(e) => field.onChange(parseFloat(e.target.value))}
                     label='Площадь *'
                     error={errors?.TotalArea}
@@ -278,11 +377,18 @@ const NewDeal = ({onClose}) => {
               <Controller
                 control={control}
                 name='Price'
-                rules={{ required: { value: true, message: 'Поле обязательно' } }}
+                rules={{
+                  required: { value: true, message: 'Поле обязательно' },
+                }}
                 render={({ field }) => (
-                  <InputUI small
+                  <InputUI
+                    small
                     value={field.value ? useNumberTriad(field.value) : ''}
-                    onChange={(e) => { field.onChange(parseInt(e.target.value.split(' ').join(''))) }}
+                    onChange={(e) => {
+                      field.onChange(
+                        parseInt(e.target.value.split(' ').join(''))
+                      );
+                    }}
                     label='Цена объекта *'
                     error={errors?.Price}
                   />
@@ -290,23 +396,18 @@ const NewDeal = ({onClose}) => {
               />
               <Controller
                 control={control}
-                name='clients'
-                rules={{ required: { value: true, message: 'Поле обязательно' } }}
+                name='newManager'
                 render={({ field }) => (
-                  <InputUI small value={field.value || ''} onChange={field.onChange} label='Клиенты *'
-                    error={errors?.clients}
+                  <InputUI
+                    small
+                    value={field.value || ''}
+                    onChange={field.onChange}
+                    label='Менедежер застройщика'
                   />
                 )}
               />
-              <Controller
-                control={control}
-                name='newManager'
-                render={({ field }) => (
-                  <InputUI small value={field.value || ''} onChange={field.onChange} label='Менедежер застройщика' />
-                )}
-              />
             </>
-          }
+          )}
         </FormGridStyle>
       </FormContainer>
       <ButtonUI type='submit'>Сохранить</ButtonUI>
