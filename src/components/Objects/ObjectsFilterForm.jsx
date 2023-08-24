@@ -9,10 +9,14 @@ import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { SelectAutoсompleteMultipleUI } from 'ui/SelectAutoсompleteMultipleUI';
 import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
+import { CheckboxUI } from 'ui/CheckboxUI';
+import { Box } from 'ui/Box';
+import { TextSpanStyle } from 'styles/styles';
 import Dadata from 'components/Main/Dadata';
 import { setFilter, getObjectList } from 'store/objectSlice';
 import { useNumberTriad } from 'hooks/StringHook';
 import { getUserList } from 'api/search';
+import { Controller, useForm } from 'react-hook-form';
 
 const ObjectsFilterFormStyle = styled.form`
   display: flex;
@@ -37,19 +41,21 @@ const FormTitle = styled.div`
   text-align: center;
 `;
 
-const ObjectsFilterForm = () => {
-  const [users, setUsers] = useState([]);
-  const [usersLoading, setUsersLoading] = useState(false);
+const ObjectsFilterForm = ({ onClose }) => {
   const dispatch = useDispatch();
+  const [usersLoading, setUsersLoading] = useState(false);
   const filter = useSelector((state) => state.objects.filter);
-  const changeFilter = (name, newValue) => {
-    dispatch(
-      setFilter({
-        name: name,
-        value: newValue,
-      })
-    );
-  };
+  const {
+    control,
+    handleSubmit,
+    getValues,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    defaultValues: { ...filter },
+  });
+  const [users, setUsers] = useState([]);
   const getUsers = (value) => {
     if (value.length < 2) {
       setUsers([]);
@@ -64,176 +70,358 @@ const ObjectsFilterForm = () => {
         setUsersLoading(false);
       });
   };
-  const getList = () => {
+  const handlerSubmit = () => {
+    dispatch(setFilter(getValues()));
     dispatch(getObjectList());
+    onClose();
   };
+  watch('typeRealty');
   return (
     <ObjectsFilterFormStyle>
       <FormTop>
         <FormTitle>Фильтр</FormTitle>
-        <SelectUI
+        <Controller
           name='typeRealty'
-          onChange={(newValue) => changeFilter('typeRealty', newValue)}
-          select={filter.typeRealty}
-          multiple
-          label='Тип недвижимости'
-        >
-          <SelectItemUI value='live'>Жилая</SelectItemUI>
-          <SelectItemUI value='business'>Коммерческая</SelectItemUI>
-        </SelectUI>
-        <SelectMultipleUI
-          name='typeObject'
-          onChange={(newValue) => changeFilter('typeObject', newValue)}
-          value={filter.typeObject}
-          multiple
-          fullWidth
-          label='Тип объекта'
-        >
-          {filter.typeRealty === 'live' ? (
-            <>
-              <SelectMultipleItemUI value='flatSale'>
-                Квартира
-              </SelectMultipleItemUI>
-              <SelectMultipleItemUI value='newBuildingFlatSale'>
-                Новостройка
-              </SelectMultipleItemUI>
-              <SelectMultipleItemUI value='flatShareSale'>
-                Доля в квартире
-              </SelectMultipleItemUI>
-              <SelectMultipleItemUI value='roomSale'>
-                Комната
-              </SelectMultipleItemUI>
-              <SelectMultipleItemUI value='garageSale'>
-                Гараж
-              </SelectMultipleItemUI>
-              <SelectMultipleItemUI value='houseSale'>Дом</SelectMultipleItemUI>
-              <SelectMultipleItemUI value='houseShareSale'>
-                Часть дома
-              </SelectMultipleItemUI>
-              <SelectMultipleItemUI value='cottageSale'>
-                Коттедж
-              </SelectMultipleItemUI>
-              <SelectMultipleItemUI value='townhouseSale'>
-                Таунхаус
-              </SelectMultipleItemUI>
-              <SelectMultipleItemUI value='landSale'>
-                Участок
-              </SelectMultipleItemUI>
-            </>
-          ) : (
-            <>
-              <SelectMultipleItemUI value='officeSale'>
-                Офис
-              </SelectMultipleItemUI>
-              <SelectMultipleItemUI value='buildingSale'>
-                Здание
-              </SelectMultipleItemUI>
-              <SelectMultipleItemUI value='shoppingAreaSale'>
-                Торговая площадь
-              </SelectMultipleItemUI>
-              <SelectMultipleItemUI value='freeAppointmentObjectSale'>
-                Помещение свободного назначения
-              </SelectMultipleItemUI>
-              <SelectMultipleItemUI value='industrySale'>
-                Производство
-              </SelectMultipleItemUI>
-              <SelectMultipleItemUI value='warehouseSale'>
-                Склад
-              </SelectMultipleItemUI>
-              <SelectMultipleItemUI value='businessSale'>
-                Бизнес
-              </SelectMultipleItemUI>
-              <SelectMultipleItemUI value='commercialLandSale'>
-                Коммерческая земля
-              </SelectMultipleItemUI>
-            </>
+          control={control}
+          render={({ field }) => (
+            <SelectUI
+              onChange={(newValue) => {
+                field.onChange(newValue);
+                setValue('typeObject', []);
+              }}
+              select={field.value}
+              multiple
+              label='Тип недвижимости'
+            >
+              <SelectItemUI value='live'>Жилая</SelectItemUI>
+              <SelectItemUI value='business'>Коммерческая</SelectItemUI>
+            </SelectUI>
           )}
-        </SelectMultipleUI>
-        <SelectAutoсompleteMultipleUI
-          options={users}
-          placeholder='Ответственный'
-          inputChange={getUsers}
-          loading={usersLoading}
-          getOptionsLabel={(options) =>
-            `${
-              options.lastName +
-              ' ' +
-              options.firstName +
-              ' ' +
-              options.secondName
-            }`
-          }
-          onChange={(value) => changeFilter('users', value)}
-          isOpenOptions={(open) => !open && setUsers([])}
-          value={filter.users}
-          label='Ответственный'
         />
-        <Dadata
-          label='Адрес'
-          value={filter?.Address || ''}
-          onChange={(value) => changeFilter('Address', value)}
+        <Controller
+          name='typeObject'
+          control={control}
+          render={({ field }) => (
+            <SelectMultipleUI
+              onChange={(newValue) => field.onChange(newValue)}
+              value={field.value || []}
+              multiple
+              fullWidth
+              label='Тип объекта'
+            >
+              {getValues('typeRealty') === 'live' ? (
+                <>
+                  <SelectMultipleItemUI value='flatSale'>
+                    Квартира
+                  </SelectMultipleItemUI>
+                  <SelectMultipleItemUI value='newBuildingFlatSale'>
+                    Новостройка
+                  </SelectMultipleItemUI>
+                  <SelectMultipleItemUI value='flatShareSale'>
+                    Доля в квартире
+                  </SelectMultipleItemUI>
+                  <SelectMultipleItemUI value='roomSale'>
+                    Комната
+                  </SelectMultipleItemUI>
+                  <SelectMultipleItemUI value='garageSale'>
+                    Гараж
+                  </SelectMultipleItemUI>
+                  <SelectMultipleItemUI value='houseSale'>
+                    Дом
+                  </SelectMultipleItemUI>
+                  <SelectMultipleItemUI value='houseShareSale'>
+                    Часть дома
+                  </SelectMultipleItemUI>
+                  <SelectMultipleItemUI value='cottageSale'>
+                    Коттедж
+                  </SelectMultipleItemUI>
+                  <SelectMultipleItemUI value='townhouseSale'>
+                    Таунхаус
+                  </SelectMultipleItemUI>
+                  <SelectMultipleItemUI value='landSale'>
+                    Участок
+                  </SelectMultipleItemUI>
+                </>
+              ) : (
+                <>
+                  <SelectMultipleItemUI value='officeSale'>
+                    Офис
+                  </SelectMultipleItemUI>
+                  <SelectMultipleItemUI value='buildingSale'>
+                    Здание
+                  </SelectMultipleItemUI>
+                  <SelectMultipleItemUI value='shoppingAreaSale'>
+                    Торговая площадь
+                  </SelectMultipleItemUI>
+                  <SelectMultipleItemUI value='freeAppointmentObjectSale'>
+                    Помещение свободного назначения
+                  </SelectMultipleItemUI>
+                  <SelectMultipleItemUI value='industrySale'>
+                    Производство
+                  </SelectMultipleItemUI>
+                  <SelectMultipleItemUI value='warehouseSale'>
+                    Склад
+                  </SelectMultipleItemUI>
+                  <SelectMultipleItemUI value='businessSale'>
+                    Бизнес
+                  </SelectMultipleItemUI>
+                  <SelectMultipleItemUI value='commercialLandSale'>
+                    Коммерческая земля
+                  </SelectMultipleItemUI>
+                </>
+              )}
+            </SelectMultipleUI>
+          )}
         />
-        <InputUI
-          label='Площадь общая'
-          value={filter?.TotalArea || ''}
-          onChange={(e) =>
-            changeFilter('TotalArea', parseFloat(e.target.value))
-          }
-          type='number'
+        <Controller
+          name='users'
+          control={control}
+          render={({ field }) => (
+            <SelectAutoсompleteMultipleUI
+              options={users}
+              placeholder='Ответственный'
+              inputChange={getUsers}
+              loading={usersLoading}
+              getOptionsLabel={(options) =>
+                `${
+                  options.lastName +
+                  ' ' +
+                  options.firstName +
+                  ' ' +
+                  options.secondName
+                }`
+              }
+              onChange={(user) => field.onChange(user)}
+              isOpenOptions={(open) => !open && setUsers([])}
+              value={field.value || []}
+              label='Ответственный'
+            />
+          )}
         />
-        <InputUI
-          label='Площадь жилая'
-          value={filter?.LivingArea || ''}
-          onChange={(e) =>
-            changeFilter('LivingArea', parseFloat(e.target.value))
-          }
-          type='number'
+        <Controller
+          name='Address'
+          control={control}
+          render={({ field }) => (
+            <Dadata
+              label='Адрес'
+              value={field.value || ''}
+              onChange={(value) => field.onChange(value)}
+            />
+          )}
         />
-        <InputUI
-          label='Площадь кухни'
-          value={filter?.KitchenArea || ''}
-          onChange={(e) =>
-            changeFilter('KitchenArea', parseFloat(e.target.value))
-          }
-          type='number'
-        />
-        <InputUI
-          label='Площадь участка'
-          value={filter?.LandArea || ''}
-          onChange={(e) => changeFilter('LandArea', parseFloat(e.target.value))}
-          type='number'
-        />
-        <SelectUI
+        <Box column ai='flex-start' gap='0.2rem'>
+          <TextSpanStyle>Площадь общая</TextSpanStyle>
+          <Box>
+            <Controller
+              placeholder='от'
+              name={`TotalArea.${[0]}`}
+              control={control}
+              render={({ field }) => (
+                <InputUI
+                  value={field.value || ''}
+                  onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                  type='number'
+                />
+              )}
+            />
+            <Controller
+              placeholder='до'
+              name={`TotalArea.${[1]}`}
+              control={control}
+              render={({ field }) => (
+                <InputUI
+                  value={field.value || ''}
+                  onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                  type='number'
+                />
+              )}
+            />
+          </Box>
+        </Box>
+        <Box column ai='flex-start' gap='0.2rem'>
+          <TextSpanStyle>Площадь жилая</TextSpanStyle>
+          <Box>
+            <Controller
+              placeholder='от'
+              name={`LivingArea.${[0]}`}
+              control={control}
+              render={({ field }) => (
+                <InputUI
+                  value={field.value || ''}
+                  onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                  type='number'
+                />
+              )}
+            />
+            <Controller
+              placeholder='до'
+              name={`LivingArea.${[1]}`}
+              control={control}
+              render={({ field }) => (
+                <InputUI
+                  value={field.value || ''}
+                  onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                  type='number'
+                />
+              )}
+            />
+          </Box>
+        </Box>
+        <Box column ai='flex-start' gap='0.2rem'>
+          <TextSpanStyle>Площадь кухни</TextSpanStyle>
+          <Box>
+            <Controller
+              placeholder='от'
+              name={`KitchenArea.${[0]}`}
+              control={control}
+              render={({ field }) => (
+                <InputUI
+                  value={field.value || ''}
+                  onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                  type='number'
+                />
+              )}
+            />
+            <Controller
+              placeholder='до'
+              name={`KitchenArea.${[1]}`}
+              control={control}
+              render={({ field }) => (
+                <InputUI
+                  value={field.value || ''}
+                  onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                  type='number'
+                />
+              )}
+            />
+          </Box>
+        </Box>
+        <Box column ai='flex-start' gap='0.2rem'>
+          <TextSpanStyle>Площадь участка</TextSpanStyle>
+          <Box>
+            <Controller
+              placeholder='от'
+              name={`LandArea.${[0]}`}
+              control={control}
+              render={({ field }) => (
+                <InputUI
+                  value={field.value || ''}
+                  onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                  type='number'
+                />
+              )}
+            />
+            <Controller
+              placeholder='до'
+              name={`LandArea.${[1]}`}
+              control={control}
+              render={({ field }) => (
+                <InputUI
+                  value={field.value || ''}
+                  onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                  type='number'
+                />
+              )}
+            />
+          </Box>
+        </Box>
+        <Controller
           name='FlatRoomsCount'
-          onChange={(newValue) => changeFilter('FlatRoomsCount', newValue)}
-          select={filter?.FlatRoomsCount}
-          multiple
-          label='Комнатность'
-        >
-          <SelectItemUI value={1}>1-комнатная</SelectItemUI>
-          <SelectItemUI value={2}>2-комнатная</SelectItemUI>
-          <SelectItemUI value={3}>3-комнатная</SelectItemUI>
-          <SelectItemUI value={4}>4-комнатная</SelectItemUI>
-          <SelectItemUI value={5}>5-комнатная</SelectItemUI>
-          <SelectItemUI value={6}>6+</SelectItemUI>
-          <SelectItemUI value={7}>Свободная планировка</SelectItemUI>
-          <SelectItemUI value={9}>Студия</SelectItemUI>
-        </SelectUI>
-        <InputUI
-          label='Цена'
-          value={filter.Price ? useNumberTriad(filter.Price) : ''}
-          onChange={(e) =>
-            changeFilter('Price', parseInt(e.target.value.split(' ').join('')))
-          }
+          control={control}
+          render={({ field }) => (
+            <SelectUI
+              onChange={(newValue) => field.onChange(newValue)}
+              select={field.value || ''}
+              multiple
+              label='Комнатность'
+            >
+              <SelectItemUI value={1}>1-комнатная</SelectItemUI>
+              <SelectItemUI value={2}>2-комнатная</SelectItemUI>
+              <SelectItemUI value={3}>3-комнатная</SelectItemUI>
+              <SelectItemUI value={4}>4-комнатная</SelectItemUI>
+              <SelectItemUI value={5}>5-комнатная</SelectItemUI>
+              <SelectItemUI value={6}>6+</SelectItemUI>
+              <SelectItemUI value={7}>Свободная планировка</SelectItemUI>
+              <SelectItemUI value={9}>Студия</SelectItemUI>
+            </SelectUI>
+          )}
         />
-        <InputUI
-          label='Этаж'
-          value={filter?.Floor || ''}
-          onChange={(e) => changeFilter('Floor', parseInt(e.target.value))}
-          type='number'
+        <Box column ai='flex-start' gap='0.2rem'>
+          <TextSpanStyle>Цена</TextSpanStyle>
+          <Box>
+            <Controller
+              placeholder='от'
+              name={`Price.${[0]}`}
+              control={control}
+              render={({ field }) => (
+                <InputUI
+                  value={field.value ? useNumberTriad(field.value) : ''}
+                  onChange={(e) =>
+                    field.onChange(parseInt(e.target.value.split(' ').join('')))
+                  }
+                />
+              )}
+            />
+            <Controller
+              placeholder='до'
+              name={`Price.${[1]}`}
+              control={control}
+              render={({ field }) => (
+                <InputUI
+                  value={field.value ? useNumberTriad(field.value) : ''}
+                  onChange={(e) =>
+                    field.onChange(parseInt(e.target.value.split(' ').join('')))
+                  }
+                />
+              )}
+            />
+          </Box>
+        </Box>
+        <Box column ai='flex-start' gap='0.2rem'>
+          <TextSpanStyle>Этаж</TextSpanStyle>
+          <Box>
+            <Controller
+              placeholder='от'
+              name={`Floor.${[0]}`}
+              control={control}
+              render={({ field }) => (
+                <InputUI
+                  value={field.value || ''}
+                  onChange={(e) => field.onChange(parseInt(e.target.value))}
+                  type='number'
+                />
+              )}
+            />
+            <Controller
+              placeholder='до'
+              name={`Floor.${[1]}`}
+              control={control}
+              render={({ field }) => (
+                <InputUI
+                  value={field.value || ''}
+                  onChange={(e) => field.onChange(parseInt(e.target.value))}
+                  type='number'
+                />
+              )}
+            />
+          </Box>
+        </Box>
+        <Controller
+          name='ExternalFind'
+          control={control}
+          render={({ field }) => (
+            <CheckboxUI
+              label='Внешние источники'
+              onChange={(e) => {
+                field.onChange(e.target.checked);
+              }}
+              defaultChecked={field.value || false}
+              id='ExternalFind'
+            />
+          )}
         />
       </FormTop>
-      <ButtonUI onClick={getList} fullWidth>
+      <ButtonUI onClick={handlerSubmit} fullWidth type='submit'>
         Применить
       </ButtonUI>
     </ObjectsFilterFormStyle>

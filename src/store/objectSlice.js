@@ -44,8 +44,6 @@ const initialState = {
   filter: {
     typeRealty: 'live',
     typeObject: ['flatSale'],
-    users: [],
-    office: []
   },
   offset: 0,
 };
@@ -56,11 +54,8 @@ const objectSlice = createSlice({
   initialState,
   reducers: {
     setFilter(state, action) {
-      state.filter[action.payload.name] = action.payload.value;
+      state.filter = action.payload;
       state.offset = 0;
-      if (action.payload.name === 'typeRealty') {
-        state.filter.typeObject = [];
-      }
     },
     clearObjects(state, action) {
       state.objects = [];

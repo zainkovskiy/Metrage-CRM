@@ -23,14 +23,12 @@ const ObjectsFilterDesktop = () => {
     }
     return '30%';
   };
+  const toggleFilter = () => {
+    setOpen(!open);
+  };
   return (
     <ObjectsFilterStyle>
-      <ButtonUI
-        size='small'
-        onClick={() => {
-          setOpen(!open);
-        }}
-      >
+      <ButtonUI size='small' onClick={toggleFilter}>
         Фильтр
       </ButtonUI>
       <Link to='new'>
@@ -38,14 +36,8 @@ const ObjectsFilterDesktop = () => {
           Создать
         </ButtonUI>
       </Link>
-      <SlideWindow
-        open={open}
-        onClose={() => {
-          setOpen(!open);
-        }}
-        width={getWidth()}
-      >
-        <ObjectsFilterForm />
+      <SlideWindow open={open} onClose={toggleFilter} width={getWidth()}>
+        <ObjectsFilterForm onClose={toggleFilter} />
       </SlideWindow>
     </ObjectsFilterStyle>
   );
