@@ -51,7 +51,7 @@ export const CheckboxUI = (props) => {
         type='checkbox'
         id={id}
         defaultChecked={defaultChecked}
-        onChange={onChange}
+        onChange={onChange && onChange}
         checked={checked && checked}
       />
       <InputTemplate $size={size} $position={position}>

@@ -7,6 +7,8 @@ import { Box } from 'ui/Box';
 import { useAsyncValue } from 'react-router-dom';
 import { useNumberTriad } from 'hooks/StringHook';
 import { CategoryTranslate } from '../keyTranslate';
+import { IconButton } from 'ui/IconButton';
+import { ReactComponent as Plus } from 'images/plus.svg';
 
 const FeatureTitle = styled.div`
   border-bottom: 1px solid #786464;
@@ -18,6 +20,15 @@ const FeatureTitle = styled.div`
 `;
 const FeatureSubTitle = styled(FeatureTitle)`
   font-size: 12px;
+`;
+const FeatureClientList = styled.div`
+  border: 1px solid #ccc;
+  width: 100%;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  border-radius: 5px;
+  height: 150px;
+  overflow: auto;
 `;
 const SlideDealSide = () => {
   const deal = useAsyncValue();
@@ -41,8 +52,14 @@ const SlideDealSide = () => {
             </TextSpanStyle>
           </div>
           <div style={{ width: '100%' }}>
-            <FeatureSubTitle>Клиенты</FeatureSubTitle>
+            <FeatureSubTitle>
+              Клиенты
+              <IconButton onClick={() => {}}>
+                <Plus />
+              </IconButton>
+            </FeatureSubTitle>
           </div>
+          <FeatureClientList />
         </Box>
       </SlideBlockStyle>
       <SlideBlockStyle $column jc='flex-start'>
@@ -56,8 +73,14 @@ const SlideDealSide = () => {
           </TextSpanStyle>
         </Box>
         <div style={{ width: '100%' }}>
-          <FeatureSubTitle>Клиенты</FeatureSubTitle>
+          <FeatureSubTitle>
+            Клиенты
+            <IconButton onClick={() => {}}>
+              <Plus />
+            </IconButton>
+          </FeatureSubTitle>
         </div>
+        <FeatureClientList />
       </SlideBlockStyle>
     </SlideGridWrapper>
   );

@@ -171,7 +171,6 @@ export const SelectMultipleUI = ({
           </SelectInputStyle>
           {!disabled && <ArrowStyle open={open} id={idRef} />}
         </SelectInputContainer>
-        <input type='text' hidden ref={inputRef} />
         <AnimatePresence>
           {open && (
             <SelectItemsContainer

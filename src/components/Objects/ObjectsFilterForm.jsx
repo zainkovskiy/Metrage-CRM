@@ -70,14 +70,14 @@ const ObjectsFilterForm = ({ onClose }) => {
         setUsersLoading(false);
       });
   };
-  const handlerSubmit = () => {
+  const onSubmit = (data) => {
     dispatch(setFilter(getValues()));
     dispatch(getObjectList());
     onClose();
   };
   watch('typeRealty');
   return (
-    <ObjectsFilterFormStyle>
+    <ObjectsFilterFormStyle onSubmit={handleSubmit(onSubmit)}>
       <FormTop>
         <FormTitle>Фильтр</FormTitle>
         <Controller
@@ -213,11 +213,11 @@ const ObjectsFilterForm = ({ onClose }) => {
           <TextSpanStyle>Площадь общая</TextSpanStyle>
           <Box>
             <Controller
-              placeholder='от'
               name={`TotalArea.${[0]}`}
               control={control}
               render={({ field }) => (
                 <InputUI
+                  placeholder='от'
                   value={field.value || ''}
                   onChange={(e) => field.onChange(parseFloat(e.target.value))}
                   type='number'
@@ -225,11 +225,11 @@ const ObjectsFilterForm = ({ onClose }) => {
               )}
             />
             <Controller
-              placeholder='до'
               name={`TotalArea.${[1]}`}
               control={control}
               render={({ field }) => (
                 <InputUI
+                  placeholder='до'
                   value={field.value || ''}
                   onChange={(e) => field.onChange(parseFloat(e.target.value))}
                   type='number'
@@ -242,11 +242,11 @@ const ObjectsFilterForm = ({ onClose }) => {
           <TextSpanStyle>Площадь жилая</TextSpanStyle>
           <Box>
             <Controller
-              placeholder='от'
               name={`LivingArea.${[0]}`}
               control={control}
               render={({ field }) => (
                 <InputUI
+                  placeholder='от'
                   value={field.value || ''}
                   onChange={(e) => field.onChange(parseFloat(e.target.value))}
                   type='number'
@@ -254,12 +254,12 @@ const ObjectsFilterForm = ({ onClose }) => {
               )}
             />
             <Controller
-              placeholder='до'
               name={`LivingArea.${[1]}`}
               control={control}
               render={({ field }) => (
                 <InputUI
                   value={field.value || ''}
+                  placeholder='до'
                   onChange={(e) => field.onChange(parseFloat(e.target.value))}
                   type='number'
                 />
@@ -271,11 +271,11 @@ const ObjectsFilterForm = ({ onClose }) => {
           <TextSpanStyle>Площадь кухни</TextSpanStyle>
           <Box>
             <Controller
-              placeholder='от'
               name={`KitchenArea.${[0]}`}
               control={control}
               render={({ field }) => (
                 <InputUI
+                  placeholder='от'
                   value={field.value || ''}
                   onChange={(e) => field.onChange(parseFloat(e.target.value))}
                   type='number'
@@ -283,11 +283,11 @@ const ObjectsFilterForm = ({ onClose }) => {
               )}
             />
             <Controller
-              placeholder='до'
               name={`KitchenArea.${[1]}`}
               control={control}
               render={({ field }) => (
                 <InputUI
+                  placeholder='до'
                   value={field.value || ''}
                   onChange={(e) => field.onChange(parseFloat(e.target.value))}
                   type='number'
@@ -300,11 +300,11 @@ const ObjectsFilterForm = ({ onClose }) => {
           <TextSpanStyle>Площадь участка</TextSpanStyle>
           <Box>
             <Controller
-              placeholder='от'
               name={`LandArea.${[0]}`}
               control={control}
               render={({ field }) => (
                 <InputUI
+                  placeholder='от'
                   value={field.value || ''}
                   onChange={(e) => field.onChange(parseFloat(e.target.value))}
                   type='number'
@@ -312,11 +312,11 @@ const ObjectsFilterForm = ({ onClose }) => {
               )}
             />
             <Controller
-              placeholder='до'
               name={`LandArea.${[1]}`}
               control={control}
               render={({ field }) => (
                 <InputUI
+                  placeholder='до'
                   value={field.value || ''}
                   onChange={(e) => field.onChange(parseFloat(e.target.value))}
                   type='number'
@@ -350,11 +350,11 @@ const ObjectsFilterForm = ({ onClose }) => {
           <TextSpanStyle>Цена</TextSpanStyle>
           <Box>
             <Controller
-              placeholder='от'
               name={`Price.${[0]}`}
               control={control}
               render={({ field }) => (
                 <InputUI
+                  placeholder='от'
                   value={field.value ? useNumberTriad(field.value) : ''}
                   onChange={(e) =>
                     field.onChange(parseInt(e.target.value.split(' ').join('')))
@@ -363,11 +363,11 @@ const ObjectsFilterForm = ({ onClose }) => {
               )}
             />
             <Controller
-              placeholder='до'
               name={`Price.${[1]}`}
               control={control}
               render={({ field }) => (
                 <InputUI
+                  placeholder='до'
                   value={field.value ? useNumberTriad(field.value) : ''}
                   onChange={(e) =>
                     field.onChange(parseInt(e.target.value.split(' ').join('')))
@@ -381,11 +381,11 @@ const ObjectsFilterForm = ({ onClose }) => {
           <TextSpanStyle>Этаж</TextSpanStyle>
           <Box>
             <Controller
-              placeholder='от'
               name={`Floor.${[0]}`}
               control={control}
               render={({ field }) => (
                 <InputUI
+                  placeholder='от'
                   value={field.value || ''}
                   onChange={(e) => field.onChange(parseInt(e.target.value))}
                   type='number'
@@ -393,11 +393,11 @@ const ObjectsFilterForm = ({ onClose }) => {
               )}
             />
             <Controller
-              placeholder='до'
               name={`Floor.${[1]}`}
               control={control}
               render={({ field }) => (
                 <InputUI
+                  placeholder='до'
                   value={field.value || ''}
                   onChange={(e) => field.onChange(parseInt(e.target.value))}
                   type='number'
@@ -412,16 +412,14 @@ const ObjectsFilterForm = ({ onClose }) => {
           render={({ field }) => (
             <CheckboxUI
               label='Внешние источники'
-              onChange={(e) => {
-                field.onChange(e.target.checked);
-              }}
-              defaultChecked={field.value || false}
               id='ExternalFind'
+              checked={field.value || false}
+              onChange={(e) => field.onChange(e.target.checked)}
             />
           )}
         />
       </FormTop>
-      <ButtonUI onClick={handlerSubmit} fullWidth type='submit'>
+      <ButtonUI fullWidth type='submit'>
         Применить
       </ButtonUI>
     </ObjectsFilterFormStyle>

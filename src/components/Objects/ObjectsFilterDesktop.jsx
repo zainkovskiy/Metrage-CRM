@@ -5,7 +5,6 @@ import { ButtonUI } from 'ui/ButtonUI';
 import ObjectsFilterForm from './ObjectsFilterForm';
 import SlideWindow from 'components/Main/SlideWindow';
 import { useWindowSize } from 'hooks/windowSize';
-
 const ObjectsFilterStyle = styled.div`
   display: flex;
   justify-content: space-between;
