@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAsyncValue } from 'react-router-dom';
-import styled from 'styled-components';
 import { useWindowSize } from 'hooks/windowSize';
 import SlideDealStory from './SlideDealStory';
 import SlideDealMeta from './SlideDealMeta';
@@ -10,30 +9,15 @@ import SlideDealSide from './SlideDealSide';
 import SlideDealInfo from './SlideDealInfo';
 import SlidePreliminaryAgreement from './SlidePreliminaryAgreement';
 import SliderFiles from './SliderFiles';
+import { SliderStyle, SliderContext } from '../../../styles/slider';
 
-const SlideDealStyle = styled.div`
-  height: 100%;
-  display: flex;
-  gap: 0.5rem;
-`;
-const SlideDealContext = styled.div`
-  display: flex;
-  flex-grow: 1;
-  flex-direction: column;
-  gap: 0.5rem;
-  overflow: auto;
-  @media (min-width > 768) {
-    min-width: 450px;
-  }
-`;
-
-const SlideDeal = ({ onCloseSlide }) => {
+const SlideDeal = () => {
   const deal = useAsyncValue();
   const windowSize = useWindowSize();
   console.log(deal);
   return (
-    <SlideDealStyle>
-      <SlideDealContext>
+    <SliderStyle>
+      <SliderContext>
         <SlideDealMeta />
         <SlideDealStatus />
         <SlideDealParticipants />
@@ -45,9 +29,9 @@ const SlideDeal = ({ onCloseSlide }) => {
           windowSize <= 768 && object?.isEditor &&
           <SlideObjectStory type={object?.typeEstate} id={object?.UID} fullWidth height={500}/>
         } */}
-      </SlideDealContext>
+      </SliderContext>
       {windowSize > 768 && <SlideDealStory />}
-    </SlideDealStyle>
+    </SliderStyle>
   );
 };
 

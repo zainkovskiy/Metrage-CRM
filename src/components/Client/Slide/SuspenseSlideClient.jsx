@@ -4,8 +4,9 @@ import Loader from 'components/Main/Loader';
 import SlideWindow from 'components/Main/SlideWindow';
 import { Await, useLoaderData, useNavigate } from 'react-router-dom';
 import { useWindowSize } from 'hooks/windowSize';
-import { getOneDeal } from 'api/dealAPI';
-const SlideDeal = React.lazy(() => import('components/Deal/Slide/SlideDeal'));
+const SlideClient = React.lazy(() =>
+  import('components/Client/Slide/SlideClient')
+);
 
 const LoaderContainer = styled.div`
   display: flex;
@@ -13,14 +14,14 @@ const LoaderContainer = styled.div`
   height: 100%;
 `;
 
-const SuspenseNewDeal = () => {
+const SuspenseSlideClient = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
   const windowSize = useWindowSize();
-  const { deal } = useLoaderData();
+  // const { client } = useLoaderData();
   const handleClose = () => {
     setTimeout(() => {
-      navigate('/deal', { replace: true });
+      navigate('/client', { replace: true });
     }, 300);
     setOpen(false);
   };
@@ -39,17 +40,17 @@ const SuspenseNewDeal = () => {
           </LoaderContainer>
         }
       >
-        <Await resolve={deal}>
-          <SlideDeal onCloseSlide={() => setOpen(false)} />
-        </Await>
+        {/* <Await resolve={deal}> */}
+        <SlideClient />
+        {/* </Await> */}
       </Suspense>
     </SlideWindow>
   );
 };
 
-export const loaderDealSlide = async ({ request, params }) => {
-  const { dealId } = params;
-  return { deal: getOneDeal(dealId) };
-};
+// export const loaderDealSlide = async ({ request, params }) => {
+//   const { dealId } = params;
+//   return { deal: getOneDeal(dealId) }
+// }
 
-export default SuspenseNewDeal;
+export default SuspenseSlideClient;

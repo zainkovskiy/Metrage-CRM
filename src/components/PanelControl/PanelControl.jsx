@@ -18,7 +18,7 @@ export const PanelControlStyle = styled(motion.aside)`
   overflow: hidden;
   z-index: 99;
   gap: 1rem;
-`
+`;
 const LineStyle = styled.span`
   margin: 0px 1rem;
   box-sizing: border-box;
@@ -27,7 +27,7 @@ const LineStyle = styled.span`
   background-color: ${({ theme }) => theme.color.primary};
   text-align: center;
   opacity: 0.5;
-`
+`;
 
 const PanelControl = () => {
   return (
@@ -36,10 +36,11 @@ const PanelControl = () => {
         'min-width': '200px',
       }}
     >
-      <div style={{flexGrow: 1}}>
+      <div style={{ flexGrow: 1 }}>
         <PanelButton icon='list' path='/' title='Заявки' />
         <PanelButton icon='home' path='objects' title='Объекты' />
         <PanelButton icon='deal' path='deal' title='Сделка' />
+        <PanelButton icon='client' path='client' title='Клиенты' />
         {/* <PanelButton icon='todo' path='/task' title='Задачи' />
         <PanelButton icon='calendar' path='calendar' title='Календарь' />
         <PanelButton icon='users' path='users' title='Пользователи' />
@@ -53,7 +54,13 @@ const PanelControl = () => {
         <PanelButton icon='study' path='study' title='Обучение' /> */}
       </div>
       <LineStyle />
-      <PanelButton icon='mail' title='Почта' blank href='http://crm.metragegroup.com/mail' tagName='a'/>
+      <PanelButton
+        icon='mail'
+        title='Почта'
+        blank
+        href='http://crm.metragegroup.com/mail'
+        tagName='a'
+      />
       {/* <div>
         <PanelButton icon='phone' path='phone' title='Телефония' />
         <PanelButton icon='headphone' path='headphone' title='Поддержка' />
@@ -63,4 +70,3 @@ const PanelControl = () => {
 };
 
 export default PanelControl;
- 

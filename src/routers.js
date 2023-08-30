@@ -7,16 +7,21 @@ import SuspenseSlideApplication from "components/Application/SuspenseSlideApplic
 import { loaderOpenSlide } from "components/Application/SuspenseSlideApplication";
 import SuspenseNewApplication from "components/Application/SuspenseNewApplication";
 import { newTaskLoader } from 'components/Application/SuspenseNewApplication';
+
 import SuspenseObjects from "components/Objects/SuspenseObjects";
 import SuspenseNewObjects from "components/Objects/New/SuspenseNewObjects";
 import { loaderEditSlide } from 'components/Objects/New/SuspenseNewObjects';
 import SuspenseSlideObjects from "components/Objects/Slide/SuspenseSlideObjects";
 import { loaderObjectSlide } from 'components/Objects/Slide/SuspenseSlideObjects';
+
 import TaskContent from "components/Task/TaskContent";
 import SuspenceDeal from "components/Deal/SuspenceDeal";
 import SuspenseNewDeal from "components/Deal/New/SuspenseNewDeal";
 import SuspenseSlideDeal from "components/Deal/Slide/SuspenseSlideDeal";
 import { loaderDealSlide } from 'components/Deal/Slide/SuspenseSlideDeal';
+
+import SuspenceClient from "components/Client/SuspenceClient";
+import SuspenseSlideClient from "components/Client/Slide/SuspenseSlideClient";
 
 
 export const routers = createBrowserRouter([
@@ -81,6 +86,21 @@ export const routers = createBrowserRouter([
             path: ':dealId',
             element: <SuspenseSlideDeal />,
             loader: loaderDealSlide,
+          },
+        ]
+      },
+      {
+        path: 'client',
+        element: <SuspenceClient />,
+        children: [
+          // {
+          //   path: 'new',
+          //   element: <SuspenseNewDeal />
+          // },
+          {
+            path: ':id',
+            element: <SuspenseSlideClient />,
+            // loader: loaderDealSlide,
           },
         ]
       },

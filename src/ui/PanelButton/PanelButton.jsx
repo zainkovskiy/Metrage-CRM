@@ -2,21 +2,26 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { Link, useMatch } from 'react-router-dom';
 import todoUrl, { ReactComponent as Todo } from 'images/todo.svg';
-import calendarUrl, {ReactComponent as Calendar} from 'images/calendar.svg';
-import usersUrl, {ReactComponent as Users} from 'images/users.svg';
-import homeUrl, {ReactComponent as Home} from 'images/home3.svg';
-import listUrl, {ReactComponent as List} from 'images/list2.svg';
-import dealUrl, {ReactComponent as Deal} from 'images/deal.svg';
-import mortgageUrl, {ReactComponent as Mortgage} from 'images/mortgage.svg';
-import lawyerUrl, {ReactComponent as Lawyer} from 'images/lawyer.svg';
-import gradeUrl, {ReactComponent as Grade} from 'images/grade.svg';
-import insuranceUrl, {ReactComponent as Insurance} from 'images/insurance3.svg';
-import chartUrl, {ReactComponent as Chart} from 'images/chart.svg';
-import hrUrl, {ReactComponent as Hr} from 'images/hr.svg';
-import studyUrl, {ReactComponent as Study} from 'images/study.svg';
-import phoneUrl, {ReactComponent as Phone} from 'images/phone2.svg';
-import headphoneUrl, {ReactComponent as Headphone} from 'images/headphone.svg';
-import {ReactComponent as Mail} from 'images/mail.svg';
+import calendarUrl, { ReactComponent as Calendar } from 'images/calendar.svg';
+import usersUrl, { ReactComponent as Users } from 'images/users.svg';
+import homeUrl, { ReactComponent as Home } from 'images/home3.svg';
+import listUrl, { ReactComponent as List } from 'images/list2.svg';
+import dealUrl, { ReactComponent as Deal } from 'images/deal.svg';
+import mortgageUrl, { ReactComponent as Mortgage } from 'images/mortgage.svg';
+import lawyerUrl, { ReactComponent as Lawyer } from 'images/lawyer.svg';
+import gradeUrl, { ReactComponent as Grade } from 'images/grade.svg';
+import insuranceUrl, {
+  ReactComponent as Insurance,
+} from 'images/insurance3.svg';
+import chartUrl, { ReactComponent as Chart } from 'images/chart.svg';
+import hrUrl, { ReactComponent as Hr } from 'images/hr.svg';
+import studyUrl, { ReactComponent as Study } from 'images/study.svg';
+import phoneUrl, { ReactComponent as Phone } from 'images/phone2.svg';
+import headphoneUrl, {
+  ReactComponent as Headphone,
+} from 'images/headphone.svg';
+import { ReactComponent as Mail } from 'images/mail.svg';
+import { ReactComponent as Client } from 'images/client.svg';
 
 const PanelButtonContainerImgStyle = styled.div`
   padding: 0.5rem;
@@ -25,9 +30,9 @@ const PanelButtonContainerImgStyle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background .3s;
+  transition: background 0.3s;
   pointer-events: none;
-`
+`;
 const PanelButtonStyle = styled(Link)`
   cursor: pointer;
   display: flex;
@@ -39,7 +44,7 @@ const PanelButtonStyle = styled(Link)`
   &:hover {
     background: #cd96d8;
   }
-`
+`;
 const PanelButtonLink = styled.a`
   cursor: pointer;
   display: flex;
@@ -51,95 +56,102 @@ const PanelButtonLink = styled.a`
   &:hover {
     background: #cd96d8;
   }
-`
+`;
 const PanelButtonTextStyle = styled.span`
   font-family: ${({ theme }) => theme.font.family};
   color: ${({ theme }) => theme.color.primary};
   font-size: 14px;
   pointer-events: none;
   white-space: nowrap;
-`
+`;
 
 export const PanelButton = ({ icon, path, title, tagName, href, blank }) => {
   const match = useMatch(path || '');
   const getPanelIcon = () => {
     return iconVariant[icon];
-  }
+  };
   const getPanelButton = () => {
-    if(tagName === 'a'){
+    if (tagName === 'a') {
       return PanelButtonLink;
     }
     return PanelButtonStyle;
-  }
+  };
   const PanelIcon = getPanelIcon();
   const PanelButtonTag = getPanelButton();
   return (
-    <PanelButtonTag to={path || ''} href={href || ''} target={blank && '_blank'}>
+    <PanelButtonTag
+      to={path || ''}
+      href={href || ''}
+      target={blank && '_blank'}
+    >
       <PanelButtonContainerImgStyle $active={path ? match : false}>
         <PanelIcon $active={path ? match : false} />
       </PanelButtonContainerImgStyle>
-      <PanelButtonTextStyle>
-        {title}
-      </PanelButtonTextStyle>
+      <PanelButtonTextStyle>{title}</PanelButtonTextStyle>
     </PanelButtonTag>
   );
 };
 const iconStyle = css`
   width: 24px;
   height: 24px;
-  fill: ${({ theme, $active }) => $active ? theme.color.white : theme.color.primary};
-  stroke: ${({ theme, $active }) => $active ? theme.color.white : theme.color.primary};
+  fill: ${({ theme, $active }) =>
+    $active ? theme.color.white : theme.color.primary};
+  stroke: ${({ theme, $active }) =>
+    $active ? theme.color.white : theme.color.primary};
   pointer-event: none;
-  transition: fill .3s;
-`
+  transition: fill 0.3s;
+`;
 const TodoStyle = styled(Todo)`
   ${iconStyle};
-`
+`;
 const CalendarStyle = styled(Calendar)`
   ${iconStyle};
-`
+`;
 const UsersStyle = styled(Users)`
   ${iconStyle};
-`
+`;
 const HomeStyle = styled(Home)`
   ${iconStyle};
-`
+`;
 const ListStyle = styled(List)`
   ${iconStyle};
-`
+`;
 const DealStyle = styled(Deal)`
   ${iconStyle};
-`
+`;
 const MortgageStyle = styled(Mortgage)`
   ${iconStyle};
-`
+`;
 const LawyerStyle = styled(Lawyer)`
   ${iconStyle};
-`
+`;
 const GradeStyle = styled(Grade)`
   ${iconStyle};
-`
+`;
 const InsuranceStyle = styled(Insurance)`
   ${iconStyle};
-`
+`;
 const ChartStyle = styled(Chart)`
   ${iconStyle};
-`
+`;
 const HrStyle = styled(Hr)`
   ${iconStyle};
-`
+`;
 const StudyStyle = styled(Study)`
   ${iconStyle};
-`
+`;
 const HeadphoneStyle = styled(Headphone)`
   ${iconStyle};
-`
+`;
 const PhoneStyle = styled(Phone)`
   ${iconStyle};
-`
+`;
 const MailStyle = styled(Mail)`
   ${iconStyle};
-`
+`;
+const ClientStyle = styled(Client)`
+  ${iconStyle};
+`;
 const iconVariant = {
   todo: TodoStyle,
   calendar: CalendarStyle,
@@ -157,4 +169,5 @@ const iconVariant = {
   headphone: HeadphoneStyle,
   phone: PhoneStyle,
   mail: MailStyle,
-}
+  client: ClientStyle,
+};
