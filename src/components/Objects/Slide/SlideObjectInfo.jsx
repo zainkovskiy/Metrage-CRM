@@ -99,8 +99,14 @@ const SlideObjectInfo = () => {
           {getPrice()}
           {object?.platform?.length > 0 && (
             <Box wrap jc='flex-start'>
+              <TextSpanStyle size={12}>Ссылки:</TextSpanStyle>
               {object?.platform.map((item) => (
-                <LinkUI href={item.URL} target='_blank' size={12}>
+                <LinkUI
+                  key={item.href}
+                  href={item.URL}
+                  target='_blank'
+                  size={12}
+                >
                   {item.platform}
                 </LinkUI>
               ))}

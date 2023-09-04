@@ -76,11 +76,7 @@ const variants = {
 const ObjectCard = ({ object }) => {
   const getArea = () => {
     if (object?.Area) {
-      const area = object?.Area.split('/').reduce(
-        (acc, value) => acc + parseFloat(value),
-        0
-      );
-      return area;
+      return object?.Area.split('/')[0];
     }
     return object?.Area || '0';
   };
