@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
 import AudioPlayer from 'components/Main/AudioPlayer';
 
-
-const ApplicationCallsItemStyle = styled.div`
+const PlayerStyle = styled.div`
   width: 100%;
   border-radius: 5px;
   border: 1px solid ${({ theme }) => theme.color.primary};
@@ -13,12 +12,12 @@ const ApplicationCallsItemStyle = styled.div`
   flex-direction: column;
   box-sizing: border-box;
   gap: 0.5rem;
-`
-const ApplicationCallsItemFooterStyle = styled.div`
+`;
+const PlayerFooterStyle = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-`
+`;
 const getColor = (status) => {
   switch (status) {
     case 'Пропущенный':
@@ -30,28 +29,34 @@ const getColor = (status) => {
     default:
       return 'rgb(174, 168, 168)';
   }
-}
+};
 const BusyText = styled(TextSpanStyle)`
   padding: 0.2rem 0.5rem;
   background-color: ${({ $status }) => getColor($status)};
   border-radius: 5px;
-`
+`;
 
-const ApplicationCallsItem = ({ call }) => {
+const AudioPlayerCard = ({ call }) => {
   return (
-    <ApplicationCallsItemStyle>
-      <TextSpanStyle>{call?.direction} звонок на номер: {call?.userPhone}</TextSpanStyle>
-      {
-        call?.record ?
-        <AudioPlayer src={call?.record} /> :
+    <PlayerStyle>
+      <TextSpanStyle>
+        {call?.direction} звонок на номер: {call?.userPhone}
+      </TextSpanStyle>
+      {call?.record ? (
+        <AudioPlayer src={call?.record} />
+      ) : (
         <TextSpanStyle size={12}>Нет записи</TextSpanStyle>
-      }
-      <ApplicationCallsItemFooterStyle>
-        <BusyText size={10} color='#fff' $status={call?.status}>{call?.status || 'Статус не определен'}</BusyText>
-        <TextSpanStyle size={10} color='#aea8a8'>Длительность: {call?.duration} мин.</TextSpanStyle>
-      </ApplicationCallsItemFooterStyle>
-    </ApplicationCallsItemStyle>
+      )}
+      <PlayerFooterStyle>
+        <BusyText size={10} color='#fff' $status={call?.status}>
+          {call?.status || 'Статус не определен'}
+        </BusyText>
+        <TextSpanStyle size={10} color='#aea8a8'>
+          Длительность: {call?.duration} мин.
+        </TextSpanStyle>
+      </PlayerFooterStyle>
+    </PlayerStyle>
   );
 };
 
-export default ApplicationCallsItem;
+export default AudioPlayerCard;

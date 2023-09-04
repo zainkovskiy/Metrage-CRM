@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { SlideBlockStyle, SlideGridWrapper } from '../DealStyle';
-import TaskSlideBar from '../../Application/TaskSlideBar';
-import TaskSlideBarItem from '../../Application/TaskSlideBarItem';
 import { ButtonLink } from 'ui/ButtonLink';
 import { Box } from 'ui/Box';
+import { StatusBar, StatusBarItem } from '../../../ui/StatusBar/StatusBar';
 const SlideDealStatus = () => {
   const [activeStepper, setActiveStepper] = useState(0);
   const changeStepper = (idx) => {
@@ -12,16 +11,16 @@ const SlideDealStatus = () => {
   return (
     <SlideBlockStyle>
       <SlideGridWrapper $fullWidth>
-        <TaskSlideBar activeStep={activeStepper} disabled={false} column>
-          <TaskSlideBarItem
+        <StatusBar activeStep={activeStepper} disabled={false} column>
+          <StatusBarItem
             title='Закрепление по сделки'
             onClick={changeStepper}
           />
-          <TaskSlideBarItem title='Допуск получен' onClick={changeStepper} />
-          <TaskSlideBarItem title='Сделка состоялась' onClick={changeStepper} />
-          <TaskSlideBarItem title='Акт подпписан' onClick={changeStepper} />
-          <TaskSlideBarItem title='К расчету допущен' onClick={changeStepper} />
-        </TaskSlideBar>
+          <StatusBarItem title='Допуск получен' onClick={changeStepper} />
+          <StatusBarItem title='Сделка состоялась' onClick={changeStepper} />
+          <StatusBarItem title='Акт подпписан' onClick={changeStepper} />
+          <StatusBarItem title='К расчету допущен' onClick={changeStepper} />
+        </StatusBar>
         <Box column>
           <ButtonLink onClick={() => {}} size={12} color='green'>
             Агент расчитан

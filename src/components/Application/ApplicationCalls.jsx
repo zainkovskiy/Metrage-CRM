@@ -1,19 +1,17 @@
 import React from 'react';
 import { TaskBlockStyle, TaskSlideTitleStyle } from './TaskStyle';
-import ApplicationCallsItem from './ApplicationCallsItem';
+import AudioPlayerCard from '../../ui/AudioPlayerCard/AudioPlayerCard';
 
 const ApplicationCalls = ({ calls }) => {
   if (!calls || calls.length === 0) {
-    return
+    return;
   }
   return (
     <TaskBlockStyle $column>
       <TaskSlideTitleStyle>Звонки</TaskSlideTitleStyle>
-      {
-        calls.map((call) =>
-        <ApplicationCallsItem key={call.UID} call={call}/>
-        )
-      }
+      {calls.map((call) => (
+        <AudioPlayerCard key={call.UID} call={call} />
+      ))}
     </TaskBlockStyle>
   );
 };

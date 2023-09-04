@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
 import { TaskBlockStyle } from './TaskStyle';
-import TaskSlideBar from './TaskSlideBar';
-import TaskSlideBarItem from './TaskSlideBarItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeStage } from 'store/applicationSlice';
 import { ButtonLink } from 'ui/ButtonLink';
 import TaskReasonFailure from './TaskReasonFailure';
 import styled from 'styled-components';
 import { device } from 'styles/device';
+import { StatusBar, StatusBarItem } from '../../ui/StatusBar/StatusBar';
 
 const TaskStatusStyle = styled(TaskBlockStyle)`
   flex-wrap: wrap;
-  @media ${device.tablet}{
+  @media ${device.tablet} {
     flex-direction: column;
     align-items: flex-end;
     gap: 0.5rem;
   }
-`
+`;
 
 const TaskStatus = ({ status, UID }) => {
   const dispatch = useDispatch();
@@ -24,43 +23,43 @@ const TaskStatus = ({ status, UID }) => {
   const [reason, setReason] = useState(false);
   const [activeStepper, setActiveStepper] = useState(status - 1 || '');
   const changeStepper = (idx, comment) => {
-    dispatch(changeStage({
-      stage: idx + 1,
-      UID: UID,
-      comment: comment,
-    }));
+    dispatch(
+      changeStage({
+        stage: idx + 1,
+        UID: UID,
+        comment: comment,
+      })
+    );
     setActiveStepper(idx);
-  }
+  };
   const setFailure = (comment) => {
     changeStepper(-1, comment);
     setReason(false);
-  }
+  };
   const changeFailure = () => {
     if (activeStepper < 0) {
       changeStepper(0);
-      return
+      return;
     }
     setReason(!reason);
-  }
+  };
   return (
-    <TaskStatusStyle
-      jc='space-between'
-      gap='1rem'
-    >
-      <TaskSlideBar activeStep={activeStepper} disabled={activeStepper < 0 || isExternal === '1'}>
-        <TaskSlideBarItem title='Заявка создана' onClick={changeStepper} />
-        <TaskSlideBarItem title='В работе' onClick={changeStepper} />
-        <TaskSlideBarItem title='Успешно' onClick={changeStepper} />
-      </TaskSlideBar>
+    <TaskStatusStyle jc='space-between' gap='1rem'>
+      <StatusBar
+        activeStep={activeStepper}
+        disabled={activeStepper < 0 || isExternal === '1'}
+      >
+        <StatusBarItem title='Заявка создана' onClick={changeStepper} />
+        <StatusBarItem title='В работе' onClick={changeStepper} />
+        <StatusBarItem title='Успешно' onClick={changeStepper} />
+      </StatusBar>
       <div style={{ position: 'relative', display: 'flex' }}>
-        <ButtonLink onClick={changeFailure} size={12}>{activeStepper < 0 ? 'Вернуть из срыва' : 'Отправить в Срыв'}</ButtonLink>
-        {
-          reason &&
-          <TaskReasonFailure
-            onClose={changeFailure}
-            setFailure={setFailure}
-          />
-        }
+        <ButtonLink onClick={changeFailure} size={12}>
+          {activeStepper < 0 ? 'Вернуть из срыва' : 'Отправить в Срыв'}
+        </ButtonLink>
+        {reason && (
+          <TaskReasonFailure onClose={changeFailure} setFailure={setFailure} />
+        )}
       </div>
     </TaskStatusStyle>
   );

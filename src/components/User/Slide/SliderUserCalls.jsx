@@ -12,13 +12,13 @@ const Calls = styled.div`
   max-height: 300px;
   gap: 0.5rem;
 `;
-const SliderClientCallsStyle = styled(SliderBlock)`
+const SliderUserCallsStyle = styled(SliderBlock)`
   flex-grow: 1;
 `;
 
-const SliderClientCalls = () => {
+const SliderUserCalls = () => {
   return (
-    <SliderClientCallsStyle>
+    <SliderUserCallsStyle>
       <Box column>
         <SliderTitle>Звонки</SliderTitle>
         <Calls>
@@ -29,8 +29,8 @@ const SliderClientCalls = () => {
           <AudioPlayerCard />
         </Calls>
       </Box>
-    </SliderClientCallsStyle>
+    </SliderUserCallsStyle>
   );
 };
 
-export default SliderClientCalls;
+export default SliderUserCalls;

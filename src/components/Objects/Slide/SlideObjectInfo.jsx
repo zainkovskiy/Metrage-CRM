@@ -3,7 +3,7 @@ import { useAsyncValue } from 'react-router-dom';
 import styled from 'styled-components';
 import imgErrorUrl from 'images/img-error.svg';
 
-import { ButtonLink } from 'ui/ButtonLink';
+import { LinkUI } from 'ui/LinkUI';
 import { Box } from 'ui/Box';
 import { TextSpanStyle } from 'styles/styles';
 import { SlideBlockStyle } from '../ObjectsStyle';
@@ -19,11 +19,11 @@ import { FlatRoomsCountTranslate } from '../KeyTranslate';
 const AreaStyle = styled(Area)`
   width: 36px;
   height: 36px;
-`
+`;
 const HeightStyle = styled(Height)`
   width: 10px;
   height: 36px;
-`
+`;
 const SlideInfoBlock = styled.div`
   flex-grow: 1;
   display: flex;
@@ -31,103 +31,137 @@ const SlideInfoBlock = styled.div`
   justify-content: space-between;
   width: 100%;
   gap: 0.5rem;
-  @media (min-width: 768px){
+  @media (min-width: 768px) {
     height: 250px;
   }
-`
+`;
 const SlideObjectInfo = () => {
   const windowSize = useWindowSize();
   const object = useAsyncValue();
   const getLineTypeObject = () => {
-    if (!object?.Category) { return '' }
-    if (object?.Category === 'flatSale' || object?.Category === 'newBuildingFlatSale' || object?.Category === 'flatShareSale') {
-      if (object?.FlatRoomsCount) {
-        return `${FlatRoomsCountTranslate[object?.FlatRoomsCount]} кв.`
-      }
-      return `${typeObjects[object?.typeEstate][object?.Category]}`
+    if (!object?.Category) {
+      return '';
     }
-    return `${typeObjects[object?.typeEstate][object?.Category]}`
-  }
+    if (
+      object?.Category === 'flatSale' ||
+      object?.Category === 'newBuildingFlatSale' ||
+      object?.Category === 'flatShareSale'
+    ) {
+      if (object?.FlatRoomsCount) {
+        return `${FlatRoomsCountTranslate[object?.FlatRoomsCount]} кв.`;
+      }
+      return `${typeObjects[object?.typeEstate][object?.Category]}`;
+    }
+    return `${typeObjects[object?.typeEstate][object?.Category]}`;
+  };
   const getPrice = () => {
     if (object.typeEstate === 'business') {
       <Box jc='space-between' fullWidth ai='flex-start'>
         <Box column ai='flex-start' gap='0'>
-          <TextSpanStyle bold>{useNumberTriad(object?.BargainTermsPrice)} руб.</TextSpanStyle>
+          <TextSpanStyle bold>
+            {useNumberTriad(object?.BargainTermsPrice)} руб.
+          </TextSpanStyle>
           <TextSpanStyle size={8}>{object?.BargainTermsVatType}</TextSpanStyle>
         </Box>
-        <TextSpanStyle size={12}>{useGetMeterPrice(object?.BargainTermsPrice, object?.TotalArea)} руб/м2</TextSpanStyle>
-      </Box>
+        <TextSpanStyle size={12}>
+          {useGetMeterPrice(object?.BargainTermsPrice, object?.TotalArea)}{' '}
+          руб/м2
+        </TextSpanStyle>
+      </Box>;
     }
     if (object.typeEstate === 'live') {
       return (
         <Box jc='space-between'>
-          <TextSpanStyle bold>{useNumberTriad(object?.Price)} руб.</TextSpanStyle>
-          <TextSpanStyle size={12}>{useGetMeterPrice(object?.Price, object?.TotalArea)} руб/м2</TextSpanStyle>
+          <TextSpanStyle bold>
+            {useNumberTriad(object?.Price)} руб.
+          </TextSpanStyle>
+          <TextSpanStyle size={12}>
+            {useGetMeterPrice(object?.Price, object?.TotalArea)} руб/м2
+          </TextSpanStyle>
         </Box>
-      )
+      );
     }
-  }
+  };
   return (
     <SlideBlockStyle $wrap={windowSize < 768}>
       <SlideInfoBlock>
         <Box column ai='flex-start'>
           <Box column gap='0' ai='flex-start'>
-            <TextSpanStyle size={10}>{object?.typeDeal} {typeEstateTranslate[object?.typeEstate]}</TextSpanStyle>
+            <TextSpanStyle size={10}>
+              {object?.typeDeal} {typeEstateTranslate[object?.typeEstate]}
+            </TextSpanStyle>
             <TextSpanStyle size={12}>{getLineTypeObject()}</TextSpanStyle>
           </Box>
-          <TextSpanStyle bold> {object?.addressId?.addrString || 'Нет адреса'}</TextSpanStyle>
+          <TextSpanStyle bold>
+            {' '}
+            {object?.addressId?.addrString || 'Нет адреса'}
+          </TextSpanStyle>
           {getPrice()}
+          {object?.platform?.length > 0 && (
+            <Box wrap jc='flex-start'>
+              {object?.platform.map((item) => (
+                <LinkUI href={item.URL} target='_blank' size={12}>
+                  {item.platform}
+                </LinkUI>
+              ))}
+            </Box>
+          )}
         </Box>
-        {
-          object?.Category !== 'landSale' &&
+        {object?.Category !== 'landSale' && (
           <Box column ai='flex-start'>
             <Box jc='space-between' fullWidth>
               <Box>
                 <AreaStyle />
                 <Box column gap='0' jc='space-between' ai='flex-start'>
                   <Box gap='0.2rem' ai='flex-end'>
-                    <TextSpanStyle bold>{object?.TotalArea || 0} м2</TextSpanStyle>
+                    <TextSpanStyle bold>
+                      {object?.TotalArea || 0} м2
+                    </TextSpanStyle>
                     <TextSpanStyle size={12}>Общая</TextSpanStyle>
                   </Box>
-                  {
-                    object?.LivingArea &&
+                  {object?.LivingArea && (
                     <Box gap='0.2rem' ai='flex-end'>
-                      <TextSpanStyle bold>{object?.LivingArea} м2</TextSpanStyle>
+                      <TextSpanStyle bold>
+                        {object?.LivingArea} м2
+                      </TextSpanStyle>
                       <TextSpanStyle size={12}>Жилая</TextSpanStyle>
                     </Box>
-                  }
-                  {
-                    object?.BuildingTotalArea &&
+                  )}
+                  {object?.BuildingTotalArea && (
                     <Box gap='0.2rem' ai='flex-end'>
-                      <TextSpanStyle bold>{object?.BuildingTotalArea} м2</TextSpanStyle>
+                      <TextSpanStyle bold>
+                        {object?.BuildingTotalArea} м2
+                      </TextSpanStyle>
                       <TextSpanStyle size={12}>Здание</TextSpanStyle>
                     </Box>
-                  }
+                  )}
                 </Box>
               </Box>
               <Box>
                 <HeightStyle />
                 <Box column gap='0' jc='space-between' ai='flex-start'>
-                  {
-                    object?.FloorNumber &&
+                  {object?.FloorNumber && (
                     <Box gap='0.2rem' ai='flex-end'>
-                      <TextSpanStyle bold>{object?.FloorNumber || 0}</TextSpanStyle>
+                      <TextSpanStyle bold>
+                        {object?.FloorNumber || 0}
+                      </TextSpanStyle>
                       <TextSpanStyle size={12}>Этаж</TextSpanStyle>
                     </Box>
-                  }
+                  )}
                   <Box gap='0.2rem' ai='flex-end'>
-                    <TextSpanStyle bold>{object?.FloorsCount || object?.BuildingFloorsCount || 0}</TextSpanStyle>
+                    <TextSpanStyle bold>
+                      {object?.FloorsCount || object?.BuildingFloorsCount || 0}
+                    </TextSpanStyle>
                     <TextSpanStyle size={12}>Этажей</TextSpanStyle>
                   </Box>
                 </Box>
               </Box>
             </Box>
-            {
-              object?.responsibleId &&
+            {object?.responsibleId && (
               <SlideObjectResponsible responsible={object?.responsibleId} />
-            }
+            )}
           </Box>
-        }
+        )}
       </SlideInfoBlock>
       <SlideInfoBlock>
         {/* <img src={object?.photos[0].URL} style={{width: '100%', height: '100%', objectFit: 'cover'}}/> */}
@@ -138,8 +172,8 @@ const SlideObjectInfo = () => {
 };
 const typeEstateTranslate = {
   live: '(Жилая)',
-  business: '(Коммерция)'
-}
+  business: '(Коммерция)',
+};
 const typeObjects = {
   live: {
     flatSale: 'Квартира',
@@ -162,6 +196,6 @@ const typeObjects = {
     warehouseSale: 'Склад',
     businessSale: 'Бизнес',
     commercialLandSale: 'Коммерческая земля',
-  }
-}
+  },
+};
 export default SlideObjectInfo;

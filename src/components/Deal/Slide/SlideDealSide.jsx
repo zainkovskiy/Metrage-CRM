@@ -34,9 +34,9 @@ const SlideDealSide = () => {
   const deal = useAsyncValue();
   return (
     <SlideGridWrapper>
-      <SlideBlockStyle $column jc='flex-start'>
-        <FeatureTitle>Объект</FeatureTitle>
-        <Box fullWidth ai='flex-start' column>
+      <SlideBlockStyle $column jc='space-between'>
+        <Box column fullWidth ai='flex-start'>
+          <FeatureTitle>Объект</FeatureTitle>
           <div>
             <TextSpanStyle size={12}>
               {deal?.objectParams?.street} {deal?.objectParams?.house}
@@ -51,36 +51,42 @@ const SlideDealSide = () => {
               Цена: {useNumberTriad(deal?.objectParams?.Price)} руб.
             </TextSpanStyle>
           </div>
-          <div style={{ width: '100%' }}>
+        </Box>
+        <Box column fullWidth>
+          <Box fullWidth>
             <FeatureSubTitle>
               Клиенты
               <IconButton onClick={() => {}}>
                 <Plus />
               </IconButton>
             </FeatureSubTitle>
-          </div>
+          </Box>
           <FeatureClientList />
         </Box>
       </SlideBlockStyle>
-      <SlideBlockStyle $column jc='flex-start'>
-        <FeatureTitle>Заявка</FeatureTitle>
-        <Box fullWidth ai='flex-start' column gap='0'>
-          <TextSpanStyle size={12}>
-            Заявка: {deal?.bidParams?.firstName || ''}
-          </TextSpanStyle>
-          <TextSpanStyle size={12}>
-            Потребность: {deal?.bidParams?.type || ''}
-          </TextSpanStyle>
+      <SlideBlockStyle $column jc='space-between'>
+        <Box column fullWidth>
+          <FeatureTitle>Заявка</FeatureTitle>
+          <Box fullWidth ai='flex-start' column gap='0'>
+            <TextSpanStyle size={12}>
+              Заявка: {deal?.bidParams?.firstName || ''}
+            </TextSpanStyle>
+            <TextSpanStyle size={12}>
+              Потребность: {deal?.bidParams?.type || ''}
+            </TextSpanStyle>
+          </Box>
         </Box>
-        <div style={{ width: '100%' }}>
-          <FeatureSubTitle>
-            Клиенты
-            <IconButton onClick={() => {}}>
-              <Plus />
-            </IconButton>
-          </FeatureSubTitle>
-        </div>
-        <FeatureClientList />
+        <Box column fullWidth>
+          <Box fullWidth>
+            <FeatureSubTitle>
+              Клиенты
+              <IconButton onClick={() => {}}>
+                <Plus />
+              </IconButton>
+            </FeatureSubTitle>
+          </Box>
+          <FeatureClientList />
+        </Box>
       </SlideBlockStyle>
     </SlideGridWrapper>
   );
