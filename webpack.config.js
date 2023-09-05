@@ -7,7 +7,7 @@ module.exports = {
   entry: path.resolve(__dirname, 'src', 'index.js'),
   output: {
     filename: 'js/[name].[contenthash].js',
-    path: path.resolve(__dirname, 'dist', 'dist-betta-v1.0.65'),
+    path: path.resolve(__dirname, 'dist', 'dist-betta-v1.0.66'),
     chunkFilename: 'js/[name].[contenthash].js',
   },
   resolve: {
@@ -21,7 +21,7 @@ module.exports = {
       store: path.resolve(__dirname, 'src', 'store'),
       hooks: path.resolve(__dirname, 'src', 'hooks'),
       api: path.resolve(__dirname, 'src', 'api'),
-    }
+    },
   },
   optimization: {
     runtimeChunk: 'single',
@@ -41,24 +41,23 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
       },
       {
         test: /\.s?css$/,
         use: [
           miniCssExtractPlugin.loader,
           {
-            loader: 'css-loader'
+            loader: 'css-loader',
           },
           {
-            loader: 'sass-loader'
-          }
-        ]
+            loader: 'sass-loader',
+          },
+        ],
       },
       {
         test: /\.svg$/,
         use: ['@svgr/webpack', 'url-loader'],
-
       },
       {
         test: /\.(woff|woff2|ttf)$/,
@@ -70,15 +69,15 @@ module.exports = {
         test: /\.(png|jpe?g)$/,
         use: [
           {
-            loader: "url-loader",
+            loader: 'url-loader',
             options: {
-              name: "[name].[ext]",
+              name: '[name].[ext]',
               outputPath: 'assets/images',
-            }
-          }
-        ]
+            },
+          },
+        ],
       },
-    ]
+    ],
   },
   plugins: [
     new htmlWebpackPlugin({
@@ -87,11 +86,11 @@ module.exports = {
       minify: false,
     }),
     new miniCssExtractPlugin({
-      filename: 'main.css'
+      filename: 'main.css',
     }),
-    new Dotenv()
+    new Dotenv(),
   ],
   devServer: {
     historyApiFallback: true,
-  }
-}
+  },
+};

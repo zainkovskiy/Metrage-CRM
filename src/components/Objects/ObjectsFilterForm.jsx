@@ -40,7 +40,24 @@ const FormTitle = styled.div`
   width: 100%;
   text-align: center;
 `;
-
+const deafaultFilter = {
+  typeRealty: 'live',
+  typeObject: ['flatSale'],
+};
+const resetFilter = {
+  typeRealty: 'live',
+  typeObject: ['flatSale'],
+  users: [],
+  Address: '',
+  TotalArea: [null, null],
+  LivingArea: [null, null],
+  KitchenArea: [null, null],
+  LandArea: [null, null],
+  FlatRoomsCount: '',
+  Price: [null, null],
+  Floor: [null, null],
+  ExternalFind: false,
+};
 const ObjectsFilterForm = ({ onClose }) => {
   const dispatch = useDispatch();
   const [usersLoading, setUsersLoading] = useState(false);
@@ -51,6 +68,7 @@ const ObjectsFilterForm = ({ onClose }) => {
     getValues,
     watch,
     setValue,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: { ...filter },
@@ -71,11 +89,191 @@ const ObjectsFilterForm = ({ onClose }) => {
       });
   };
   const onSubmit = (data) => {
-    dispatch(setFilter(getValues()));
+    dispatch(setFilter(data));
     dispatch(getObjectList());
     onClose();
   };
+  const resetForm = () => {
+    dispatch(setFilter(deafaultFilter));
+    reset(resetFilter);
+    setUsers([]);
+  };
   watch('typeRealty');
+  watch('typeObject');
+  const getTotalArea = () => {
+    if (getValues('typeObject').includes('flatSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('newBuildingFlatSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('flatShareSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('houseSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('houseShareSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('cottageSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('officeSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('buildingSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('shoppingAreaSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('freeAppointmentObjectSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('industrySale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('warehouseSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('businessSale')) {
+      return true;
+    }
+    return false;
+  };
+  const getLivingArea = () => {
+    if (getValues('typeObject').includes('flatSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('newBuildingFlatSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('roomSale')) {
+      return true;
+    }
+    return false;
+  };
+  const getKitchenArea = () => {
+    if (getValues('typeObject').includes('flatSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('newBuildingFlatSale')) {
+      return true;
+    }
+    return false;
+  };
+  const getLandArea = () => {
+    if (getValues('typeObject').includes('houseSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('houseShareSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('cottageSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('townhouseSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('landSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('buildingSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('industrySale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('warehouseSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('commercialLandSale')) {
+      return true;
+    }
+    return false;
+  };
+  const getFloors = () => {
+    if (getValues('typeObject').includes('flatSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('newBuildingFlatSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('flatShareSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('roomSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('officeSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('shoppingAreaSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('freeAppointmentObjectSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('industrySale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('warehouseSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('businessSale')) {
+      return true;
+    }
+    return false;
+  };
+  const getRoomsCount = () => {
+    if (getValues('typeObject').includes('flatSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('newBuildingFlatSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('flatShareSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('roomSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('houseSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('houseShareSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('cottageSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('townhouseSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('landSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('officeSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('buildingSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('shoppingAreaSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('freeAppointmentObjectSale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('industrySale')) {
+      return true;
+    }
+    if (getValues('typeObject').includes('warehouseSale')) {
+      return true;
+    }
+    return false;
+  };
   return (
     <ObjectsFilterFormStyle onSubmit={handleSubmit(onSubmit)}>
       <FormTop>
@@ -182,6 +380,7 @@ const ObjectsFilterForm = ({ onClose }) => {
               placeholder='Ответственный'
               inputChange={getUsers}
               loading={usersLoading}
+              defaultValue={[]}
               getOptionsLabel={(options) =>
                 `${
                   options.lastName +
@@ -209,143 +408,154 @@ const ObjectsFilterForm = ({ onClose }) => {
             />
           )}
         />
-        <Box column ai='flex-start' gap='0.2rem'>
-          <TextSpanStyle>Площадь общая</TextSpanStyle>
-          <Box>
-            <Controller
-              name={`TotalArea.${[0]}`}
-              control={control}
-              render={({ field }) => (
-                <InputUI
-                  placeholder='от'
-                  value={field.value || ''}
-                  onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                  type='number'
-                />
-              )}
-            />
-            <Controller
-              name={`TotalArea.${[1]}`}
-              control={control}
-              render={({ field }) => (
-                <InputUI
-                  placeholder='до'
-                  value={field.value || ''}
-                  onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                  type='number'
-                />
-              )}
-            />
+        {getTotalArea() && (
+          <Box column ai='flex-start' gap='0.2rem'>
+            <TextSpanStyle>Площадь общая</TextSpanStyle>
+            <Box>
+              <Controller
+                name={`TotalArea.${[0]}`}
+                control={control}
+                render={({ field }) => (
+                  <InputUI
+                    placeholder='от'
+                    value={field.value || ''}
+                    onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                    type='number'
+                  />
+                )}
+              />
+              <Controller
+                name={`TotalArea.${[1]}`}
+                control={control}
+                render={({ field }) => (
+                  <InputUI
+                    placeholder='до'
+                    value={field.value || ''}
+                    onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                    type='number'
+                  />
+                )}
+              />
+            </Box>
           </Box>
-        </Box>
-        <Box column ai='flex-start' gap='0.2rem'>
-          <TextSpanStyle>Площадь жилая</TextSpanStyle>
-          <Box>
-            <Controller
-              name={`LivingArea.${[0]}`}
-              control={control}
-              render={({ field }) => (
-                <InputUI
-                  placeholder='от'
-                  value={field.value || ''}
-                  onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                  type='number'
-                />
-              )}
-            />
-            <Controller
-              name={`LivingArea.${[1]}`}
-              control={control}
-              render={({ field }) => (
-                <InputUI
-                  value={field.value || ''}
-                  placeholder='до'
-                  onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                  type='number'
-                />
-              )}
-            />
+        )}
+        {getLivingArea() && (
+          <Box column ai='flex-start' gap='0.2rem'>
+            <TextSpanStyle>Площадь жилая</TextSpanStyle>
+            <Box>
+              <Controller
+                name={`LivingArea.${[0]}`}
+                control={control}
+                render={({ field }) => (
+                  <InputUI
+                    placeholder='от'
+                    value={field.value || ''}
+                    onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                    type='number'
+                  />
+                )}
+              />
+              <Controller
+                name={`LivingArea.${[1]}`}
+                control={control}
+                render={({ field }) => (
+                  <InputUI
+                    value={field.value || ''}
+                    placeholder='до'
+                    onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                    type='number'
+                  />
+                )}
+              />
+            </Box>
           </Box>
-        </Box>
-        <Box column ai='flex-start' gap='0.2rem'>
-          <TextSpanStyle>Площадь кухни</TextSpanStyle>
-          <Box>
-            <Controller
-              name={`KitchenArea.${[0]}`}
-              control={control}
-              render={({ field }) => (
-                <InputUI
-                  placeholder='от'
-                  value={field.value || ''}
-                  onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                  type='number'
-                />
-              )}
-            />
-            <Controller
-              name={`KitchenArea.${[1]}`}
-              control={control}
-              render={({ field }) => (
-                <InputUI
-                  placeholder='до'
-                  value={field.value || ''}
-                  onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                  type='number'
-                />
-              )}
-            />
+        )}
+        {getKitchenArea() && (
+          <Box column ai='flex-start' gap='0.2rem'>
+            <TextSpanStyle>Площадь кухни</TextSpanStyle>
+            <Box>
+              <Controller
+                name={`KitchenArea.${[0]}`}
+                control={control}
+                render={({ field }) => (
+                  <InputUI
+                    placeholder='от'
+                    value={field.value || ''}
+                    onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                    type='number'
+                  />
+                )}
+              />
+              <Controller
+                name={`KitchenArea.${[1]}`}
+                control={control}
+                render={({ field }) => (
+                  <InputUI
+                    placeholder='до'
+                    value={field.value || ''}
+                    onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                    type='number'
+                  />
+                )}
+              />
+            </Box>
           </Box>
-        </Box>
-        <Box column ai='flex-start' gap='0.2rem'>
-          <TextSpanStyle>Площадь участка</TextSpanStyle>
-          <Box>
-            <Controller
-              name={`LandArea.${[0]}`}
-              control={control}
-              render={({ field }) => (
-                <InputUI
-                  placeholder='от'
-                  value={field.value || ''}
-                  onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                  type='number'
-                />
-              )}
-            />
-            <Controller
-              name={`LandArea.${[1]}`}
-              control={control}
-              render={({ field }) => (
-                <InputUI
-                  placeholder='до'
-                  value={field.value || ''}
-                  onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                  type='number'
-                />
-              )}
-            />
+        )}
+        {getLandArea() && (
+          <Box column ai='flex-start' gap='0.2rem'>
+            <TextSpanStyle>Площадь участка</TextSpanStyle>
+            <Box>
+              <Controller
+                name={`LandArea.${[0]}`}
+                control={control}
+                render={({ field }) => (
+                  <InputUI
+                    placeholder='от'
+                    value={field.value || ''}
+                    onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                    type='number'
+                  />
+                )}
+              />
+              <Controller
+                name={`LandArea.${[1]}`}
+                control={control}
+                render={({ field }) => (
+                  <InputUI
+                    placeholder='до'
+                    value={field.value || ''}
+                    onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                    type='number'
+                  />
+                )}
+              />
+            </Box>
           </Box>
-        </Box>
-        <Controller
-          name='FlatRoomsCount'
-          control={control}
-          render={({ field }) => (
-            <SelectUI
-              onChange={(newValue) => field.onChange(newValue)}
-              select={field.value || ''}
-              multiple
-              label='Комнатность'
-            >
-              <SelectItemUI value={1}>1-комнатная</SelectItemUI>
-              <SelectItemUI value={2}>2-комнатная</SelectItemUI>
-              <SelectItemUI value={3}>3-комнатная</SelectItemUI>
-              <SelectItemUI value={4}>4-комнатная</SelectItemUI>
-              <SelectItemUI value={5}>5-комнатная</SelectItemUI>
-              <SelectItemUI value={6}>6+</SelectItemUI>
-              <SelectItemUI value={7}>Свободная планировка</SelectItemUI>
-              <SelectItemUI value={9}>Студия</SelectItemUI>
-            </SelectUI>
-          )}
-        />
+        )}
+        {getRoomsCount() && (
+          <Controller
+            name='FlatRoomsCount'
+            control={control}
+            render={({ field }) => (
+              <SelectUI
+                onChange={(newValue) => field.onChange(newValue)}
+                select={field.value || ''}
+                multiple
+                label='Комнатность'
+              >
+                <SelectItemUI value=''>Выбрать</SelectItemUI>
+                <SelectItemUI value={1}>1-комнатная</SelectItemUI>
+                <SelectItemUI value={2}>2-комнатная</SelectItemUI>
+                <SelectItemUI value={3}>3-комнатная</SelectItemUI>
+                <SelectItemUI value={4}>4-комнатная</SelectItemUI>
+                <SelectItemUI value={5}>5-комнатная</SelectItemUI>
+                <SelectItemUI value={6}>6+</SelectItemUI>
+                <SelectItemUI value={7}>Свободная планировка</SelectItemUI>
+                <SelectItemUI value={9}>Студия</SelectItemUI>
+              </SelectUI>
+            )}
+          />
+        )}
         <Box column ai='flex-start' gap='0.2rem'>
           <TextSpanStyle>Цена</TextSpanStyle>
           <Box>
@@ -377,35 +587,37 @@ const ObjectsFilterForm = ({ onClose }) => {
             />
           </Box>
         </Box>
-        <Box column ai='flex-start' gap='0.2rem'>
-          <TextSpanStyle>Этаж</TextSpanStyle>
-          <Box>
-            <Controller
-              name={`Floor.${[0]}`}
-              control={control}
-              render={({ field }) => (
-                <InputUI
-                  placeholder='от'
-                  value={field.value || ''}
-                  onChange={(e) => field.onChange(parseInt(e.target.value))}
-                  type='number'
-                />
-              )}
-            />
-            <Controller
-              name={`Floor.${[1]}`}
-              control={control}
-              render={({ field }) => (
-                <InputUI
-                  placeholder='до'
-                  value={field.value || ''}
-                  onChange={(e) => field.onChange(parseInt(e.target.value))}
-                  type='number'
-                />
-              )}
-            />
+        {getFloors() && (
+          <Box column ai='flex-start' gap='0.2rem'>
+            <TextSpanStyle>Этаж</TextSpanStyle>
+            <Box>
+              <Controller
+                name={`Floor.${[0]}`}
+                control={control}
+                render={({ field }) => (
+                  <InputUI
+                    placeholder='от'
+                    value={field.value || ''}
+                    onChange={(e) => field.onChange(parseInt(e.target.value))}
+                    type='number'
+                  />
+                )}
+              />
+              <Controller
+                name={`Floor.${[1]}`}
+                control={control}
+                render={({ field }) => (
+                  <InputUI
+                    placeholder='до'
+                    value={field.value || ''}
+                    onChange={(e) => field.onChange(parseInt(e.target.value))}
+                    type='number'
+                  />
+                )}
+              />
+            </Box>
           </Box>
-        </Box>
+        )}
         <Controller
           name='ExternalFind'
           control={control}
@@ -419,9 +631,14 @@ const ObjectsFilterForm = ({ onClose }) => {
           )}
         />
       </FormTop>
-      <ButtonUI fullWidth type='submit'>
-        Применить
-      </ButtonUI>
+      <Box jc='flex-start'>
+        <ButtonUI fullWidth type='submit'>
+          Применить
+        </ButtonUI>
+        <ButtonUI variant='outline' fullWidth onClick={resetForm}>
+          Очистить
+        </ButtonUI>
+      </Box>
     </ObjectsFilterFormStyle>
   );
 };

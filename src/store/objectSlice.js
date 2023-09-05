@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 const API = process.env.MAIN_API;
 
@@ -8,35 +8,35 @@ export const getObjectList = createAsyncThunk(
   async (_, { getState }) => {
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
-      method: "crm.objects.filter",
+      method: 'crm.objects.filter',
       fields: {
         ...getState().objects.filter,
         offset: getState().objects.offset,
-      }
-    })
+      },
+    });
     if (res?.statusText === 'OK') {
-      return res?.data?.result?.objects || []
+      return res?.data?.result?.objects || [];
     }
-    return []
+    return [];
   }
-)
+);
 export const getMoreObjects = createAsyncThunk(
   'objects/getMoreObjects',
   async (_, { getState }) => {
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
-      method: "crm.objects.filter",
+      method: 'crm.objects.filter',
       fields: {
         ...getState().objects.filter,
         offset: getState().objects.offset + 1,
-      }
-    })
+      },
+    });
     if (res?.statusText === 'OK') {
-      return res?.data?.result?.objects || []
+      return res?.data?.result?.objects || [];
     }
-    return []
+    return [];
   }
-)
+);
 const initialState = {
   loadingList: false,
   loadingMore: false,
@@ -47,7 +47,6 @@ const initialState = {
   },
   offset: 0,
 };
-
 
 const objectSlice = createSlice({
   name: 'objects',
@@ -84,8 +83,8 @@ const objectSlice = createSlice({
       })
       .addCase(getMoreObjects.rejected, (state, action) => {
         state.loadingMore = false;
-      })
-  }
-})
+      });
+  },
+});
 export const { clearObjects, setFilter } = objectSlice.actions;
 export default objectSlice.reducer;

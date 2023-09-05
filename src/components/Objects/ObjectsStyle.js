@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { motion } from "framer-motion";
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
 export const ObjectSliderBox = styled(motion.div)`
   background-color: #fff;
@@ -8,12 +8,13 @@ export const ObjectSliderBox = styled(motion.div)`
   display: flex;
   gap: 0.5rem;
   ${({ $column }) => $column && 'flex-direction: column;'}
-`
+`;
 export const FormWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.5rem;
-`
+  ${({ $fullWidth }) => $fullWidth && 'width: 100%;'};
+`;
 export const SlideBlockStyle = styled.div`
   padding: 0.5rem;
   background-color: #fff;
@@ -21,7 +22,7 @@ export const SlideBlockStyle = styled.div`
   display: flex;
   gap: ${({ gap }) => gap || '0.5rem;'};
   justify-content: ${({ jc }) => jc || 'center'};
-  align-items: ${({ ai }) => ai || 'center'}; 
+  align-items: ${({ ai }) => ai || 'center'};
   ${({ $column }) => $column && 'flex-direction: column'};
   ${({ $wrap }) => $wrap && 'flex-wrap: wrap'};
-`
+`;

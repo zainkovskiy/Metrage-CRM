@@ -147,7 +147,12 @@ export const SelectAutoсompleteMultipleUI = ({
   const [open, setOpen] = useState(false); //если true показывает список options
   const firstOpen = useRef(true); //при первом открытии списка окрывает полный
   const idRef = useRef(uuidv4().split('-')[0]).current; // айди для всех блоков
-  const [select, setSelect] = useState(value ? value : []); //выбранное значение из списка
+  const [select, setSelect] = useState(value || []); //выбранное значение из списка
+  useEffect(() => {
+    if (Array.isArray(value)) {
+      setSelect(value);
+    }
+  }, [value]);
   // option: выбранный элеимнт
   // проверяет есть ли условие для выборки ключа
   // return отдадет label
@@ -166,19 +171,21 @@ export const SelectAutoсompleteMultipleUI = ({
   };
   const [inputValue, setInputValue] = useState(setOptionsLabel(value || [])); //текст внутри инпута
   //useEffect запускает (handlerClick) проверку совпадет ли айди с внутренними компонентами если нет то закрывает список
-  const selectRef = useRef(null);
-  const listenerRef = useRef(null);
+  const formRef = useRef(null);
   useEffect(() => {
-    if (selectRef.current) {
-      if (selectRef.current.form) {
-        listenerRef.current = selectRef.current.form;
-        selectRef.current.form.addEventListener('click', handlerClick);
+    const form = document.getElementsByTagName('form');
+    Array.from(form).forEach((item) => {
+      if (item.querySelector(`INPUT[id="${idRef}"]`)) {
+        formRef.current = item;
       }
+    });
+    if (formRef.current) {
+      formRef.current.addEventListener('click', handlerClick);
     }
     document.addEventListener('click', handlerClick);
     return () => {
-      if (listenerRef.current) {
-        listenerRef.current.removeEventListener('click', handlerClick);
+      if (formRef.current) {
+        formRef.current.removeEventListener('click', handlerClick);
       }
       document.removeEventListener('click', handlerClick);
     };
@@ -281,7 +288,7 @@ export const SelectAutoсompleteMultipleUI = ({
     }
   };
   return (
-    <LabelSelect $fullWidth={fullWidth} error={error} ref={selectRef}>
+    <LabelSelect $fullWidth={fullWidth} error={error}>
       {label}
       <SelectContainer id={idRef}>
         <SelectInputStyle

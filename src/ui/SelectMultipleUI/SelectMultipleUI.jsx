@@ -6,7 +6,7 @@ import { LabelStyle } from 'ui/InputUI/InputUIStyled';
 import { TextSpanStyle } from 'styles/styles';
 import { v4 as uuidv4 } from 'uuid';
 
-const LabelStyleSElect = styled(LabelStyle)`
+const LabelStyleSelect = styled(LabelStyle)`
   width: ${({ fullWidth }) => (fullWidth ? '100%' : '178px')};
 `;
 const SelectContainer = styled.div`
@@ -91,19 +91,21 @@ export const SelectMultipleUI = ({
 }) => {
   const [open, setOpen] = useState(false);
   const idRef = useRef(uuidv4().split('-')[0]).current;
-  const selectRef = useRef(null);
-  const listenerRef = useRef(null);
+  const formRef = useRef(null);
   useEffect(() => {
-    if (selectRef.current) {
-      if (selectRef.current.form) {
-        listenerRef.current = selectRef.current.form;
-        selectRef.current.form.addEventListener('click', handlerClick);
+    const form = document.getElementsByTagName('form');
+    Array.from(form).forEach((item) => {
+      if (item.querySelector(`.input${idRef}`)) {
+        formRef.current = item;
       }
+    });
+    if (formRef.current) {
+      formRef.current.addEventListener('click', handlerClick);
     }
     document.addEventListener('click', handlerClick);
     return () => {
-      if (listenerRef.current) {
-        listenerRef.current.removeEventListener('click', handlerClick);
+      if (formRef.current) {
+        formRef.current.removeEventListener('click', handlerClick);
       }
       document.removeEventListener('click', handlerClick);
     };
@@ -155,7 +157,7 @@ export const SelectMultipleUI = ({
     onChange && onChange(newValue);
   };
   return (
-    <LabelStyleSElect fullWidth={fullWidth} id={idRef} ref={selectRef}>
+    <LabelStyleSelect fullWidth={fullWidth} id={idRef}>
       {label}
       <SelectContainer error={error} id={idRef}>
         <SelectInputContainer id={idRef}>
@@ -166,6 +168,7 @@ export const SelectMultipleUI = ({
             disabled={disabled}
             $small={small}
             id={idRef}
+            className={`input${idRef}`}
           >
             {getSelectTitle()}
           </SelectInputStyle>
@@ -201,7 +204,7 @@ export const SelectMultipleUI = ({
           {error?.message && error.message}
         </TextSpanStyle>
       </SelectContainer>
-    </LabelStyleSElect>
+    </LabelStyleSelect>
   );
 };
 
