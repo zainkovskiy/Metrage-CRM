@@ -89,6 +89,7 @@ const ObjectsFilterForm = ({ onClose }) => {
       });
   };
   const onSubmit = (data) => {
+    // console.log(data);
     dispatch(setFilter(data));
     dispatch(getObjectList());
     onClose();
@@ -275,7 +276,9 @@ const ObjectsFilterForm = ({ onClose }) => {
     return false;
   };
   return (
-    <ObjectsFilterFormStyle onSubmit={handleSubmit(onSubmit)}>
+    <ObjectsFilterFormStyle
+    // onSubmit={handleSubmit(onSubmit)}
+    >
       <FormTop>
         <FormTitle>Фильтр</FormTitle>
         <Controller
@@ -632,7 +635,7 @@ const ObjectsFilterForm = ({ onClose }) => {
         />
       </FormTop>
       <Box jc='flex-start'>
-        <ButtonUI fullWidth type='submit'>
+        <ButtonUI fullWidth type='submit' onClick={() => onSubmit(getValues())}>
           Применить
         </ButtonUI>
         <ButtonUI variant='outline' fullWidth onClick={resetForm}>

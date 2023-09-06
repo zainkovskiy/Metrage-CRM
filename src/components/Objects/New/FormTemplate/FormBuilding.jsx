@@ -18,12 +18,12 @@ const FormBuilding = () => {
   const [buildingTypes, setBuildingTypes] = useState([]);
   useEffect(() => {
     requestBusinessBuildingTypes();
-  }, [])
+  }, []);
 
   const requestBusinessBuildingTypes = async () => {
     const data = await getBusinessBuildingTypes();
     setBuildingTypes(data);
-  }
+  };
   return (
     <>
       <ObjectSliderBox
@@ -38,9 +38,13 @@ const FormBuilding = () => {
             name='BargainTermsPrice'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => { field.onChange(parseInt(e.target.value.split(' ').join(''))) }}
+              <InputUI
+                onChange={(e) => {
+                  field.onChange(parseInt(e.target.value.split(' ').join('')));
+                }}
                 value={field.value ? useNumberTriad(field.value) : ''}
-                label='Цена' fullWidth
+                label='Цена'
+                fullWidth
               />
             )}
           />
@@ -49,10 +53,18 @@ const FormBuilding = () => {
             control={control}
             defaultValue='included'
             render={({ field }) => (
-              <SelectUI onChange={field.onChange} select={field.value} label='Тип НДС'>
+              <SelectUI
+                onChange={field.onChange}
+                select={field.value}
+                label='Тип НДС'
+              >
                 <SelectItemUI value='included'>НДС включен</SelectItemUI>
-                <SelectItemUI value='notIncluded'>НДС не облагается</SelectItemUI>
-                <SelectItemUI value='usn'>УСН (упрощенная система налогообложения)</SelectItemUI>
+                <SelectItemUI value='notIncluded'>
+                  НДС не облагается
+                </SelectItemUI>
+                <SelectItemUI value='usn'>
+                  УСН (упрощенная система налогообложения)
+                </SelectItemUI>
               </SelectUI>
             )}
           />
@@ -60,24 +72,39 @@ const FormBuilding = () => {
             name='BuildingTotalArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                value={field.value || ''} label='Общая площадь здания' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                value={field.value || ''}
+                label='Общая площадь здания, м2'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
             name='LandArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                value={field.value || ''} label='Площадь участка' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                value={field.value || ''}
+                label='Площадь участка, в сотках'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
             name='BuildingFloorsCount'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Этажей в здании' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
+                value={field.value || ''}
+                label='Этажей в здании'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
@@ -97,8 +124,13 @@ const FormBuilding = () => {
             name='AvailableFrom'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(e.target.value)}
-                value={field.value || ''} label='Дата освобождения' fullWidth type='date' />
+              <InputUI
+                onChange={(e) => field.onChange(e.target.value)}
+                value={field.value || ''}
+                label='Дата освобождения'
+                fullWidth
+                type='date'
+              />
             )}
           />
         </FormWrapper>
@@ -109,10 +141,34 @@ const FormBuilding = () => {
             name='Layout'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='cabinet' active={field.value}>Кабинетная</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='corridorplan' active={field.value}>Коридорная</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='mixed' active={field.value}>Смешанная</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='openSpace' active={field.value}>Открытая</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='cabinet'
+                  active={field.value}
+                >
+                  Кабинетная
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='corridorplan'
+                  active={field.value}
+                >
+                  Коридорная
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='mixed'
+                  active={field.value}
+                >
+                  Смешанная
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='openSpace'
+                  active={field.value}
+                >
+                  Открытая
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -124,10 +180,34 @@ const FormBuilding = () => {
             name='ConditionType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='cosmeticRepairsRequired' active={field.value}>Требуется косметический ремонт</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='finishing' active={field.value}>Под чистовую отделку</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='majorRepairsRequired' active={field.value}>Требуется капитальный ремонт</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='office' active={field.value}>Офисная отделка</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='cosmeticRepairsRequired'
+                  active={field.value}
+                >
+                  Требуется косметический ремонт
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='finishing'
+                  active={field.value}
+                >
+                  Под чистовую отделку
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='majorRepairsRequired'
+                  active={field.value}
+                >
+                  Требуется капитальный ремонт
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='office'
+                  active={field.value}
+                >
+                  Офисная отделка
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -139,9 +219,27 @@ const FormBuilding = () => {
             name='BuildingStatusType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='operational' active={field.value}>Действующее</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='project' active={field.value}>Проект</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='underConstruction' active={field.value}>Строящееся</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='operational'
+                  active={field.value}
+                >
+                  Действующее
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='project'
+                  active={field.value}
+                >
+                  Проект
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='underConstruction'
+                  active={field.value}
+                >
+                  Строящееся
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -153,9 +251,27 @@ const FormBuilding = () => {
             name='BuildingVentilationType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='forced' active={field.value}>Приточная</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='natural' active={field.value}>Естественная</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='no' active={field.value}>Нет</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='forced'
+                  active={field.value}
+                >
+                  Приточная
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='natural'
+                  active={field.value}
+                >
+                  Естественная
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='no'
+                  active={field.value}
+                >
+                  Нет
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -167,9 +283,27 @@ const FormBuilding = () => {
             name='BuildingConditioningType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='central' active={field.value}>Центральное</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='local' active={field.value}>Местное</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='no' active={field.value}>Нет</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='central'
+                  active={field.value}
+                >
+                  Центральное
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='local'
+                  active={field.value}
+                >
+                  Местное
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='no'
+                  active={field.value}
+                >
+                  Нет
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -181,12 +315,48 @@ const FormBuilding = () => {
             name='BuildingExtinguishingSystemType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='alarm' active={field.value}>Сигнализация</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='gas' active={field.value}>Газовая</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='hydrant' active={field.value}>Гидрантная</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='no' active={field.value}>Нет</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='powder' active={field.value}>Порошковая</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='sprinkler' active={field.value}>Спринклерная</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='alarm'
+                  active={field.value}
+                >
+                  Сигнализация
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='gas'
+                  active={field.value}
+                >
+                  Газовая
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='hydrant'
+                  active={field.value}
+                >
+                  Гидрантная
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='no'
+                  active={field.value}
+                >
+                  Нет
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='powder'
+                  active={field.value}
+                >
+                  Порошковая
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='sprinkler'
+                  active={field.value}
+                >
+                  Спринклерная
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -198,10 +368,34 @@ const FormBuilding = () => {
             name='InputType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='commonFromStreet' active={field.value}>Общий с улицы</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='commonFromYard' active={field.value}>Общий со двора</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='separateFromStreet' active={field.value}>Отдельный с улицы</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='separateFromYard' active={field.value}>Отдельный со двора</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='commonFromStreet'
+                  active={field.value}
+                >
+                  Общий с улицы
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='commonFromYard'
+                  active={field.value}
+                >
+                  Общий со двора
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='separateFromStreet'
+                  active={field.value}
+                >
+                  Отдельный с улицы
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='separateFromYard'
+                  active={field.value}
+                >
+                  Отдельный со двора
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -213,12 +407,48 @@ const FormBuilding = () => {
             name='BuildingLiftTypes'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='cargo' active={field.value}>Грузовой</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='escalator' active={field.value}>Эскалатор</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='lift' active={field.value}>Лифт</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='passenger' active={field.value}>Пассажирский</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='telpher' active={field.value}>Тельфер</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='travelator' active={field.value}>Траволатор</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='cargo'
+                  active={field.value}
+                >
+                  Грузовой
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='escalator'
+                  active={field.value}
+                >
+                  Эскалатор
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='lift'
+                  active={field.value}
+                >
+                  Лифт
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='passenger'
+                  active={field.value}
+                >
+                  Пассажирский
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='telpher'
+                  active={field.value}
+                >
+                  Тельфер
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='travelator'
+                  active={field.value}
+                >
+                  Траволатор
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -230,7 +460,9 @@ const FormBuilding = () => {
             render={({ field }) => (
               <CheckboxUI
                 label='Есть мебель в комнатах'
-                onChange={(e) => { field.onChange(e.target.checked) }}
+                onChange={(e) => {
+                  field.onChange(e.target.checked);
+                }}
                 defaultChecked={field.value || false}
                 id='HasFurniture'
               />
@@ -242,15 +474,24 @@ const FormBuilding = () => {
             name='AgentBonusValue'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Бонус агенту' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
+                value={field.value || ''}
+                label='Бонус агенту'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
             name='AgentBonusPaymentType'
             control={control}
             render={({ field }) => (
-              <SelectUI onChange={field.onChange} select={field.value} label='Тип оплаты'>
+              <SelectUI
+                onChange={field.onChange}
+                select={field.value}
+                label='Тип оплаты'
+              >
                 <SelectItemUI value='fixed'>Фиксированный</SelectItemUI>
                 <SelectItemUI value='percent'>Процент</SelectItemUI>
               </SelectUI>

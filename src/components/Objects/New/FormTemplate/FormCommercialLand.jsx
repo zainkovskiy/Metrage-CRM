@@ -26,9 +26,13 @@ const FormCommercialLand = () => {
             name='BargainTermsPrice'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => { field.onChange(parseInt(e.target.value.split(' ').join(''))) }}
+              <InputUI
+                onChange={(e) => {
+                  field.onChange(parseInt(e.target.value.split(' ').join('')));
+                }}
                 value={field.value ? useNumberTriad(field.value) : ''}
-                label='Цена' fullWidth
+                label='Цена'
+                fullWidth
               />
             )}
           />
@@ -37,10 +41,18 @@ const FormCommercialLand = () => {
             control={control}
             defaultValue='included'
             render={({ field }) => (
-              <SelectUI onChange={field.onChange} select={field.value} label='Тип НДС'>
+              <SelectUI
+                onChange={field.onChange}
+                select={field.value}
+                label='Тип НДС'
+              >
                 <SelectItemUI value='included'>НДС включен</SelectItemUI>
-                <SelectItemUI value='notIncluded'>НДС не облагается</SelectItemUI>
-                <SelectItemUI value='usn'>УСН (упрощенная система налогообложения)</SelectItemUI>
+                <SelectItemUI value='notIncluded'>
+                  НДС не облагается
+                </SelectItemUI>
+                <SelectItemUI value='usn'>
+                  УСН (упрощенная система налогообложения)
+                </SelectItemUI>
               </SelectUI>
             )}
           />
@@ -48,17 +60,31 @@ const FormCommercialLand = () => {
             name='LandArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                value={field.value || ''} label='Площадь участка' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                value={field.value || ''}
+                label='Площадь участка, в сотках'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
             name='LandStatus'
             control={control}
             render={({ field }) => (
-              <SelectUI onChange={field.onChange} select={field.value} label='Статус земли'>
-                <SelectItemUI value='forAgriculturalPurposes'>Участок сельскохозяйственного назначения</SelectItemUI>
-                <SelectItemUI value='industryTransportCommunications'>Участок промышленности, транспорта, связи и иного не сельхоз. назначения</SelectItemUI>
+              <SelectUI
+                onChange={field.onChange}
+                select={field.value}
+                label='Статус земли'
+              >
+                <SelectItemUI value='forAgriculturalPurposes'>
+                  Участок сельскохозяйственного назначения
+                </SelectItemUI>
+                <SelectItemUI value='industryTransportCommunications'>
+                  Участок промышленности, транспорта, связи и иного не сельхоз.
+                  назначения
+                </SelectItemUI>
                 <SelectItemUI value='settlements'>Поселений</SelectItemUI>
               </SelectUI>
             )}
@@ -67,19 +93,43 @@ const FormCommercialLand = () => {
             name='PermittedUseType'
             control={control}
             render={({ field }) => (
-              <SelectUI onChange={field.onChange} select={field.value} label='Вид разрешённого использования'>
-                <SelectItemUI value='agricultural'>Cельскохозяйственное использование</SelectItemUI>
-                <SelectItemUI value='businessManagement'>Деловое управление</SelectItemUI>
-                <SelectItemUI value='commonUseArea'>Общее пользование территории</SelectItemUI>
-                <SelectItemUI value='highriseBuildings'>Высотная застройка</SelectItemUI>
-                <SelectItemUI value='hotelAmenities'>Гостиничное обслуживание</SelectItemUI>
-                <SelectItemUI value='individualHousingConstruction'>Индивидуальное жилищное строительство (ИЖС)</SelectItemUI>
+              <SelectUI
+                onChange={field.onChange}
+                select={field.value}
+                label='Вид разрешённого использования'
+              >
+                <SelectItemUI value='agricultural'>
+                  Cельскохозяйственное использование
+                </SelectItemUI>
+                <SelectItemUI value='businessManagement'>
+                  Деловое управление
+                </SelectItemUI>
+                <SelectItemUI value='commonUseArea'>
+                  Общее пользование территории
+                </SelectItemUI>
+                <SelectItemUI value='highriseBuildings'>
+                  Высотная застройка
+                </SelectItemUI>
+                <SelectItemUI value='hotelAmenities'>
+                  Гостиничное обслуживание
+                </SelectItemUI>
+                <SelectItemUI value='individualHousingConstruction'>
+                  Индивидуальное жилищное строительство (ИЖС)
+                </SelectItemUI>
                 <SelectItemUI value='industry'>Промышленность</SelectItemUI>
                 <SelectItemUI value='leisure'>Отдых (рекреация)</SelectItemUI>
-                <SelectItemUI value='lowriseHousing'>Малоэтажное жилищное строительство (МЖС)</SelectItemUI>
-                <SelectItemUI value='publicUseOfCapitalConstruction'>Общественное использование объектов капитального строительства</SelectItemUI>
-                <SelectItemUI value='serviceVehicles'>Обслуживание автотранспорта</SelectItemUI>
-                <SelectItemUI value='shoppingCenters'>Торговые центры</SelectItemUI>
+                <SelectItemUI value='lowriseHousing'>
+                  Малоэтажное жилищное строительство (МЖС)
+                </SelectItemUI>
+                <SelectItemUI value='publicUseOfCapitalConstruction'>
+                  Общественное использование объектов капитального строительства
+                </SelectItemUI>
+                <SelectItemUI value='serviceVehicles'>
+                  Обслуживание автотранспорта
+                </SelectItemUI>
+                <SelectItemUI value='shoppingCenters'>
+                  Торговые центры
+                </SelectItemUI>
                 <SelectItemUI value='warehouses'>Склады</SelectItemUI>
               </SelectUI>
             )}
@@ -92,9 +142,27 @@ const FormCommercialLand = () => {
             name='ElectricityLocationType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='border' active={field.value}>По границе участка</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='location' active={field.value}>На участке</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='no' active={field.value}>Нет</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='border'
+                  active={field.value}
+                >
+                  По границе участка
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='location'
+                  active={field.value}
+                >
+                  На участке
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='no'
+                  active={field.value}
+                >
+                  Нет
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -106,9 +174,27 @@ const FormCommercialLand = () => {
             name='GasLocationType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='border' active={field.value}>По границе участка</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='location' active={field.value}>На участке</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='no' active={field.value}>Нет</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='border'
+                  active={field.value}
+                >
+                  По границе участка
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='location'
+                  active={field.value}
+                >
+                  На участке
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='no'
+                  active={field.value}
+                >
+                  Нет
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -120,9 +206,27 @@ const FormCommercialLand = () => {
             name='DrainageLocationType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='border' active={field.value}>По границе участка</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='location' active={field.value}>На участке</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='no' active={field.value}>Нет</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='border'
+                  active={field.value}
+                >
+                  По границе участка
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='location'
+                  active={field.value}
+                >
+                  На участке
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='no'
+                  active={field.value}
+                >
+                  Нет
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -134,9 +238,27 @@ const FormCommercialLand = () => {
             name='WaterLocationType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='border' active={field.value}>По границе участка</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='location' active={field.value}>На участке</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='no' active={field.value}>Нет</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='border'
+                  active={field.value}
+                >
+                  По границе участка
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='location'
+                  active={field.value}
+                >
+                  На участке
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='no'
+                  active={field.value}
+                >
+                  Нет
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -146,15 +268,24 @@ const FormCommercialLand = () => {
             name='AgentBonusValue'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Бонус агенту' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
+                value={field.value || ''}
+                label='Бонус агенту'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
             name='AgentBonusPaymentType'
             control={control}
             render={({ field }) => (
-              <SelectUI onChange={field.onChange} select={field.value} label='Тип оплаты'>
+              <SelectUI
+                onChange={field.onChange}
+                select={field.value}
+                label='Тип оплаты'
+              >
                 <SelectItemUI value='fixed'>Фиксированный</SelectItemUI>
                 <SelectItemUI value='percent'>Процент</SelectItemUI>
               </SelectUI>

@@ -18,18 +18,18 @@ const FormBusiness = () => {
   const [specialityTypes, setSpecialityTypes] = useState([]);
   useEffect(() => {
     requestSpecialityTypes();
-  }, [])
+  }, []);
 
   const requestSpecialityTypes = async (type = 'readyBusiness') => {
     const data = await getSpecialityTypes(type);
     setSpecialityTypes(data);
-  }
+  };
 
   const setTypeBusiness = (value, onChange) => {
     onChange(value);
     requestSpecialityTypes(value);
     setValue('SpecialtyTypes', '');
-  }
+  };
 
   return (
     <>
@@ -45,9 +45,13 @@ const FormBusiness = () => {
             name='BargainTermsPrice'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => { field.onChange(parseInt(e.target.value.split(' ').join(''))) }}
+              <InputUI
+                onChange={(e) => {
+                  field.onChange(parseInt(e.target.value.split(' ').join('')));
+                }}
                 value={field.value ? useNumberTriad(field.value) : ''}
-                label='Цена' fullWidth
+                label='Цена'
+                fullWidth
               />
             )}
           />
@@ -56,10 +60,18 @@ const FormBusiness = () => {
             control={control}
             defaultValue='included'
             render={({ field }) => (
-              <SelectUI onChange={field.onChange} select={field.value} label='Тип НДС'>
+              <SelectUI
+                onChange={field.onChange}
+                select={field.value}
+                label='Тип НДС'
+              >
                 <SelectItemUI value='included'>НДС включен</SelectItemUI>
-                <SelectItemUI value='notIncluded'>НДС не облагается</SelectItemUI>
-                <SelectItemUI value='usn'>УСН (упрощенная система налогообложения)</SelectItemUI>
+                <SelectItemUI value='notIncluded'>
+                  НДС не облагается
+                </SelectItemUI>
+                <SelectItemUI value='usn'>
+                  УСН (упрощенная система налогообложения)
+                </SelectItemUI>
               </SelectUI>
             )}
           />
@@ -68,9 +80,17 @@ const FormBusiness = () => {
             control={control}
             defaultValue='readyBusiness'
             render={({ field }) => (
-              <SelectUI onChange={(value) => setTypeBusiness(value, field.onChange)} select={field.value} label='Тип бизнеса'>
-                <SelectItemUI value='readyBusiness'>Готовый бизнес</SelectItemUI>
-                <SelectItemUI value='rentalBusiness'>Арендный бизнес</SelectItemUI>
+              <SelectUI
+                onChange={(value) => setTypeBusiness(value, field.onChange)}
+                select={field.value}
+                label='Тип бизнеса'
+              >
+                <SelectItemUI value='readyBusiness'>
+                  Готовый бизнес
+                </SelectItemUI>
+                <SelectItemUI value='rentalBusiness'>
+                  Арендный бизнес
+                </SelectItemUI>
               </SelectUI>
             )}
           />
@@ -91,36 +111,65 @@ const FormBusiness = () => {
             name='FloorNumber'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Этаж' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
+                value={field.value || ''}
+                label='Этаж'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
             name='TotalArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                value={field.value || ''} label='Общая площадь' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                value={field.value || ''}
+                label='Общая площадь, м2'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
             name='MonthlyIncome'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Месячная прибыль' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
+                value={field.value || ''}
+                label='Месячная прибыль'
+                fullWidth
+                type='number'
+              />
             )}
           />
         </FormWrapper>
         <Box column ai='flex-start'>
-          <TextSpanStyle>Недвижимость в собственности или в аренде</TextSpanStyle>
+          <TextSpanStyle>
+            Недвижимость в собственности или в аренде
+          </TextSpanStyle>
           <Controller
             control={control}
             name='EstateType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='owned' active={field.value}>В собственности</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='rent' active={field.value}>В аренде</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='owned'
+                  active={field.value}
+                >
+                  В собственности
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='rent'
+                  active={field.value}
+                >
+                  В аренде
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -131,7 +180,9 @@ const FormBusiness = () => {
           render={({ field }) => (
             <CheckboxUI
               label='Есть оборудование'
-              onChange={(e) => { field.onChange(e.target.checked) }}
+              onChange={(e) => {
+                field.onChange(e.target.checked);
+              }}
               defaultChecked={field.value || false}
               id='HasEquipment'
             />
@@ -142,22 +193,31 @@ const FormBusiness = () => {
             name='AgentBonusValue'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Бонус агенту' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
+                value={field.value || ''}
+                label='Бонус агенту'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
             name='AgentBonusPaymentType'
             control={control}
             render={({ field }) => (
-              <SelectUI onChange={field.onChange} select={field.value} label='Тип оплаты'>
+              <SelectUI
+                onChange={field.onChange}
+                select={field.value}
+                label='Тип оплаты'
+              >
                 <SelectItemUI value='fixed'>Фиксированный</SelectItemUI>
                 <SelectItemUI value='percent'>Процент</SelectItemUI>
               </SelectUI>
             )}
           />
         </FormWrapper>
-      </ObjectSliderBox >
+      </ObjectSliderBox>
       <ObjectSliderBox
         $column
         initial={{ scale: 0 }}

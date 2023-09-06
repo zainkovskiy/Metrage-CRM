@@ -81,6 +81,7 @@ export const SelectUI = ({
   disabled,
   small,
   name,
+  placeholder,
 }) => {
   const [open, setOpen] = useState(false);
   const idRef = useRef(uuidv4().split('-')[0]).current;
@@ -134,7 +135,7 @@ export const SelectUI = ({
             readOnly
             value={getSelectTitle()}
             onClick={isShow}
-            placeholder='Выбрать'
+            placeholder={placeholder || 'Выбрать'}
             ref={inputRef}
             error={error}
             disabled={disabled}

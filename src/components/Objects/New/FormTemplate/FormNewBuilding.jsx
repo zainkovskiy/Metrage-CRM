@@ -106,7 +106,7 @@ const FormNewBuilding = () => {
               <InputUI
                 onChange={(e) => field.onChange(parseFloat(e.target.value))}
                 value={field.value || ''}
-                label='Общая площадь'
+                label='Общая площадь, м2'
                 fullWidth
                 type='number'
               />
@@ -119,7 +119,7 @@ const FormNewBuilding = () => {
               <InputUI
                 onChange={(e) => field.onChange(parseFloat(e.target.value))}
                 value={field.value || ''}
-                label='Жилая площадь'
+                label='Жилая площадь, м2'
                 fullWidth
                 type='number'
               />
@@ -132,7 +132,7 @@ const FormNewBuilding = () => {
               <InputUI
                 onChange={(e) => field.onChange(parseFloat(e.target.value))}
                 value={field.value || ''}
-                label='Площадь кухни'
+                label='Площадь кухни, м2'
                 fullWidth
                 type='number'
               />
@@ -145,7 +145,7 @@ const FormNewBuilding = () => {
               <InputUI
                 onChange={(e) => field.onChange(e.target.value)}
                 value={field.value || ''}
-                label='Площадь комнат'
+                label='Площадь комнат, м2'
                 fullWidth
                 placeholder='Пример: 18+14-10'
               />
@@ -224,55 +224,6 @@ const FormNewBuilding = () => {
             )}
           />
         </FormWrapper>
-        <Box column>
-          <TextSpanStyle color='#656565' size={16}>
-            Данные владельца переуступки
-          </TextSpanStyle>
-          <FormWrapper $fullWidth>
-            <Controller
-              name='ownerObjectLastName'
-              control={control}
-              render={({ field }) => (
-                <InputUI
-                  onChange={(e) => field.onChange(e.target.value)}
-                  value={field.value || ''}
-                  // label='Фамилия'
-                  placeholder='Фамилия'
-                  fullWidth
-                  error={errors.ownerObjectLastName}
-                />
-              )}
-            />
-            <Controller
-              name='ownerObjectFirstName'
-              control={control}
-              render={({ field }) => (
-                <InputUI
-                  onChange={(e) => field.onChange(e.target.value)}
-                  value={field.value || ''}
-                  // label='Фамилия'
-                  placeholder='Имя'
-                  fullWidth
-                  error={errors.ownerObjectFirstName}
-                />
-              )}
-            />
-            <Controller
-              name='ownerObjectSecondName'
-              control={control}
-              render={({ field }) => (
-                <InputUI
-                  onChange={(e) => field.onChange(e.target.value)}
-                  value={field.value || ''}
-                  // label='Фамилия'
-                  placeholder='Отчество'
-                  fullWidth
-                  error={errors.ownerObjectSecondName}
-                />
-              )}
-            />
-          </FormWrapper>
-        </Box>
         <Box column ai='flex-start'>
           <TextSpanStyle>Тип комнат</TextSpanStyle>
           <Controller
@@ -438,46 +389,90 @@ const FormNewBuilding = () => {
             )}
           />
         </Box>
-        <FormWrapper>
-          <Controller
-            name='CplModerationPersonType'
-            control={control}
-            render={({ field }) => (
-              <SelectUI
-                onChange={field.onChange}
-                select={field.value}
-                label='Данные дольщика'
-              >
-                <SelectItemUI value='legal'>Юридическое лицо</SelectItemUI>
-                <SelectItemUI value='natural'>Физическое лицо</SelectItemUI>
-              </SelectUI>
-            )}
-          />
-          <Controller
-            name='SaleType'
-            control={control}
-            render={({ field }) => (
-              <SelectUI
-                onChange={field.onChange}
-                select={field.value}
-                label='Тип продажи'
-              >
-                <SelectItemUI value='dupt'>
-                  Договор уступки права требования
-                </SelectItemUI>
-                <SelectItemUI value='dzhsk'>Договор ЖСК</SelectItemUI>
-                <SelectItemUI value='free'>Свободная продажа</SelectItemUI>
-                <SelectItemUI value='fz214'>214-ФЗ</SelectItemUI>
-                <SelectItemUI value='investment'>
-                  Договор инвестирования
-                </SelectItemUI>
-                <SelectItemUI value='pdkp'>
-                  Предварительный договор купли-продажи
-                </SelectItemUI>
-              </SelectUI>
-            )}
-          />
-        </FormWrapper>
+        <Box column>
+          <TextSpanStyle color='#656565' size={16}>
+            Данные дольщика
+          </TextSpanStyle>
+          <FormWrapper $fullWidth>
+            <Controller
+              name='CplModerationPersonType'
+              control={control}
+              render={({ field }) => (
+                <SelectUI
+                  onChange={field.onChange}
+                  select={field.value}
+                  label='Тип дольщика'
+                >
+                  <SelectItemUI value='legal'>Юридическое лицо</SelectItemUI>
+                  <SelectItemUI value='natural'>Физическое лицо</SelectItemUI>
+                </SelectUI>
+              )}
+            />
+            <Controller
+              name='SaleType'
+              control={control}
+              render={({ field }) => (
+                <SelectUI
+                  onChange={field.onChange}
+                  select={field.value}
+                  label='Тип продажи'
+                >
+                  <SelectItemUI value='dupt'>
+                    Договор уступки права требования
+                  </SelectItemUI>
+                  <SelectItemUI value='dzhsk'>Договор ЖСК</SelectItemUI>
+                  <SelectItemUI value='free'>Свободная продажа</SelectItemUI>
+                  <SelectItemUI value='fz214'>214-ФЗ</SelectItemUI>
+                  <SelectItemUI value='investment'>
+                    Договор инвестирования
+                  </SelectItemUI>
+                  <SelectItemUI value='pdkp'>
+                    Предварительный договор купли-продажи
+                  </SelectItemUI>
+                </SelectUI>
+              )}
+            />
+            <Controller
+              name='ownerObjectLastName'
+              control={control}
+              render={({ field }) => (
+                <InputUI
+                  onChange={(e) => field.onChange(e.target.value)}
+                  value={field.value || ''}
+                  label='Фамилия'
+                  fullWidth
+                  error={errors.ownerObjectLastName}
+                />
+              )}
+            />
+            <Controller
+              name='ownerObjectFirstName'
+              control={control}
+              render={({ field }) => (
+                <InputUI
+                  onChange={(e) => field.onChange(e.target.value)}
+                  value={field.value || ''}
+                  label='Имя'
+                  fullWidth
+                  error={errors.ownerObjectFirstName}
+                />
+              )}
+            />
+            <Controller
+              name='ownerObjectSecondName'
+              control={control}
+              render={({ field }) => (
+                <InputUI
+                  onChange={(e) => field.onChange(e.target.value)}
+                  value={field.value || ''}
+                  label='Отчество'
+                  fullWidth
+                  error={errors.ownerObjectSecondName}
+                />
+              )}
+            />
+          </FormWrapper>
+        </Box>
         <FormWrapper>
           <Controller
             name='AgentBonusValue'

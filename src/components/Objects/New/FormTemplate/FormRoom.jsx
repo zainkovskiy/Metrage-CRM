@@ -27,9 +27,13 @@ const FormRoom = () => {
             name='Price'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => { field.onChange(parseInt(e.target.value.split(' ').join(''))) }}
+              <InputUI
+                onChange={(e) => {
+                  field.onChange(parseInt(e.target.value.split(' ').join('')));
+                }}
                 value={field.value ? useNumberTriad(field.value) : ''}
-                label='Цена' fullWidth
+                label='Цена'
+                fullWidth
               />
             )}
           />
@@ -37,8 +41,12 @@ const FormRoom = () => {
             name='BuildingCadastralNumber'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(e.target.value)}
-                value={field.value || ''} label='Кадастровый номер' fullWidth />
+              <InputUI
+                onChange={(e) => field.onChange(e.target.value)}
+                value={field.value || ''}
+                label='Кадастровый номер'
+                fullWidth
+              />
             )}
           />
         </FormWrapper>
@@ -47,16 +55,26 @@ const FormRoom = () => {
             name='FloorNumber'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Этаж' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
+                value={field.value || ''}
+                label='Этаж'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
             name='FloorsCount'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Этажей в доме' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
+                value={field.value || ''}
+                label='Этажей в доме'
+                fullWidth
+                type='number'
+              />
             )}
           />
         </FormWrapper>
@@ -65,7 +83,11 @@ const FormRoom = () => {
             name='FlatRoomsCount'
             control={control}
             render={({ field }) => (
-              <SelectUI onChange={field.onChange} select={field.value} label='Количество комнат'>
+              <SelectUI
+                onChange={field.onChange}
+                select={field.value}
+                label='Количество комнат'
+              >
                 <SelectItemUI value={1}>1-комнатная</SelectItemUI>
                 <SelectItemUI value={2}>2-комнатная</SelectItemUI>
                 <SelectItemUI value={3}>3-комнатная</SelectItemUI>
@@ -81,37 +103,61 @@ const FormRoom = () => {
             name='RoomsForSaleCount'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                value={field.value || ''} label='Комнат в продажу' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                value={field.value || ''}
+                label='Комнат в продажу'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
             name='TotalArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                value={field.value || ''} label='Общая площадь' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                value={field.value || ''}
+                label='Общая площадь, м2'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
             name='KitchenArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                value={field.value || ''} label='Площадь кухни' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                value={field.value || ''}
+                label='Площадь кухни, м2'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
             name='AllRoomsArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(e.target.value)}
-                value={field.value || ''} label='Площадь комнат' fullWidth placeholder="Пример: 18+14-10" />
+              <InputUI
+                onChange={(e) => field.onChange(e.target.value)}
+                value={field.value || ''}
+                label='Площадь комнат, м2'
+                fullWidth
+                placeholder='Пример: 18+14-10'
+              />
             )}
           />
           <Box column gap='0' ai='flex-start' jc='flex-end'>
-            <TextSpanStyle color='grey' size={10}>+ для смежных</TextSpanStyle>
-            <TextSpanStyle color='grey' size={10}>- для раздельных</TextSpanStyle>
+            <TextSpanStyle color='grey' size={10}>
+              + для смежных
+            </TextSpanStyle>
+            <TextSpanStyle color='grey' size={10}>
+              - для раздельных
+            </TextSpanStyle>
           </Box>
         </FormWrapper>
         <FormWrapper>
@@ -120,8 +166,12 @@ const FormRoom = () => {
             control={control}
             rules={{ min: { value: 0, message: 'Не допустимое значение' } }}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Раздельный санузел' fullWidth type='number'
+              <InputUI
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
+                value={field.value || ''}
+                label='Раздельный санузел'
+                fullWidth
+                type='number'
                 error={errors.CombinedWcsCount}
               />
             )}
@@ -131,8 +181,12 @@ const FormRoom = () => {
             control={control}
             rules={{ min: { value: 0, message: 'Не допустимое значение' } }}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Совмещенный санузел' fullWidth type='number'
+              <InputUI
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
+                value={field.value || ''}
+                label='Совмещенный санузел'
+                fullWidth
+                type='number'
                 error={errors.CombinedWcsCount}
               />
             )}
@@ -144,8 +198,12 @@ const FormRoom = () => {
             control={control}
             rules={{ min: { value: 0, message: 'Не допустимое значение' } }}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Балкон' fullWidth type='number'
+              <InputUI
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
+                value={field.value || ''}
+                label='Балкон'
+                fullWidth
+                type='number'
                 error={errors.BalconiesCount}
               />
             )}
@@ -155,8 +213,12 @@ const FormRoom = () => {
             control={control}
             rules={{ min: { value: 0, message: 'Не допустимое значение' } }}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Лоджия' fullWidth type='number'
+              <InputUI
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
+                value={field.value || ''}
+                label='Лоджия'
+                fullWidth
+                type='number'
                 error={errors.LoggiasCount}
               />
             )}
@@ -169,9 +231,27 @@ const FormRoom = () => {
             name='RoomType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='combined' active={field.value}>Совмещенная</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='separate' active={field.value}>Изолированная</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='both' active={field.value}>Оба варианта</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='combined'
+                  active={field.value}
+                >
+                  Совмещенная
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='separate'
+                  active={field.value}
+                >
+                  Изолированная
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='both'
+                  active={field.value}
+                >
+                  Оба варианта
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -183,10 +263,34 @@ const FormRoom = () => {
             name='RepairType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='cosmetic' active={field.value}>Косметический</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='design' active={field.value}>Дизайнерский</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='euro' active={field.value}>Евроремонт</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='no' active={field.value}>Без ремонта</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='cosmetic'
+                  active={field.value}
+                >
+                  Косметический
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='design'
+                  active={field.value}
+                >
+                  Дизайнерский
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='euro'
+                  active={field.value}
+                >
+                  Евроремонт
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='no'
+                  active={field.value}
+                >
+                  Без ремонта
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -198,9 +302,27 @@ const FormRoom = () => {
             name='WindowsViewType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='street' active={field.value}>На улицу</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='yard' active={field.value}>Во двор</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='yardAndStreet' active={field.value}>На улицу и двор</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='street'
+                  active={field.value}
+                >
+                  На улицу
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='yard'
+                  active={field.value}
+                >
+                  Во двор
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='yardAndStreet'
+                  active={field.value}
+                >
+                  На улицу и двор
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -212,7 +334,9 @@ const FormRoom = () => {
             render={({ field }) => (
               <CheckboxUI
                 label='Ипотека'
-                onChange={(e) => { field.onChange(e.target.checked) }}
+                onChange={(e) => {
+                  field.onChange(e.target.checked);
+                }}
                 defaultChecked={field.value || false}
                 id='MortgageAllowed'
               />
@@ -224,15 +348,24 @@ const FormRoom = () => {
             name='AgentBonusValue'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Бонус агенту' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
+                value={field.value || ''}
+                label='Бонус агенту'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
             name='AgentBonusPaymentType'
             control={control}
             render={({ field }) => (
-              <SelectUI onChange={field.onChange} select={field.value} label='Тип оплаты'>
+              <SelectUI
+                onChange={field.onChange}
+                select={field.value}
+                label='Тип оплаты'
+              >
                 <SelectItemUI value='fixed'>Фиксированный</SelectItemUI>
                 <SelectItemUI value='percent'>Процент</SelectItemUI>
               </SelectUI>

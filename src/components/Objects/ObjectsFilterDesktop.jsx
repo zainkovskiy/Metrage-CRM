@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { ButtonUI } from 'ui/ButtonUI';
+import { Box } from 'ui/Box';
+import { TextSpanStyle } from 'styles/styles';
 import ObjectsFilterForm from './ObjectsFilterForm';
 import SlideWindow from 'components/Main/SlideWindow';
 import { useWindowSize } from 'hooks/windowSize';
@@ -27,9 +29,14 @@ const ObjectsFilterDesktop = () => {
   };
   return (
     <ObjectsFilterStyle>
-      <ButtonUI size='small' onClick={toggleFilter}>
-        Фильтр
-      </ButtonUI>
+      <Box>
+        <ButtonUI size='small' onClick={toggleFilter}>
+          Фильтр
+        </ButtonUI>
+        {windowSize > 768 && (
+          <TextSpanStyle>Обязательно проверьте фильтр</TextSpanStyle>
+        )}
+      </Box>
       <Link to='new'>
         <ButtonUI size='small' variant='outline'>
           Создать

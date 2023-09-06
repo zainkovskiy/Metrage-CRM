@@ -27,25 +27,37 @@ const FormHouse = () => {
             name='BuildingCadastralNumber'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(e.target.value)}
-                value={field.value || ''} label='Кадастровый номер' fullWidth />
+              <InputUI
+                onChange={(e) => field.onChange(e.target.value)}
+                value={field.value || ''}
+                label='Кадастровый номер'
+                fullWidth
+              />
             )}
           />
           <Controller
             name='LandCadastralNumber'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(e.target.value)}
-                value={field.value || ''} label='Кадастровый номер земли' fullWidth />
+              <InputUI
+                onChange={(e) => field.onChange(e.target.value)}
+                value={field.value || ''}
+                label='Кадастровый номер земли'
+                fullWidth
+              />
             )}
           />
           <Controller
             name='Price'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => { field.onChange(parseInt(e.target.value.split(' ').join(''))) }}
+              <InputUI
+                onChange={(e) => {
+                  field.onChange(parseInt(e.target.value.split(' ').join('')));
+                }}
                 value={field.value ? useNumberTriad(field.value) : ''}
-                label='Цена' fullWidth
+                label='Цена'
+                fullWidth
               />
             )}
           />
@@ -53,40 +65,65 @@ const FormHouse = () => {
             name='FloorsCount'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Этажей в доме' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
+                value={field.value || ''}
+                label='Этажей в доме'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
             name='TotalArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                value={field.value || ''} label='Общая площадь' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                value={field.value || ''}
+                label='Общая площадь, м2'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
             name='LandArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                value={field.value || ''} label='Площадь участка' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                value={field.value || ''}
+                label='Площадь участка, в сотках'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
             name='BedroomsCount'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Количество спален' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
+                value={field.value || ''}
+                label='Количество спален'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
             name='WcsCount'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Количество санузлов' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
+                value={field.value || ''}
+                label='Количество санузлов'
+                fullWidth
+                type='number'
+              />
             )}
           />
         </FormWrapper>
@@ -97,13 +134,55 @@ const FormHouse = () => {
             name='PermittedLandUseType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='farm' active={field.value}>Сельскохозяйственное</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='gardening' active={field.value}>Садоводство</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='horticulture' active={field.value}>Огородничество</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='individualHousingConstruction' active={field.value}>ИЖС</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='other' active={field.value}>Иное</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='privateFarm' active={field.value}>Личное подсобное хозяйство</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='suburbanNonProfitPartnership' active={field.value}>Дачное хозяйство</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='farm'
+                  active={field.value}
+                >
+                  Сельскохозяйственное
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='gardening'
+                  active={field.value}
+                >
+                  Садоводство
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='horticulture'
+                  active={field.value}
+                >
+                  Огородничество
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='individualHousingConstruction'
+                  active={field.value}
+                >
+                  ИЖС
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='other'
+                  active={field.value}
+                >
+                  Иное
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='privateFarm'
+                  active={field.value}
+                >
+                  Личное подсобное хозяйство
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='suburbanNonProfitPartnership'
+                  active={field.value}
+                >
+                  Дачное хозяйство
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -115,14 +194,62 @@ const FormHouse = () => {
             name='MaterialTypesMaterialType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='aerocreteBlock' active={field.value}>Газобетонный блок</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='boards' active={field.value}>Щитовой</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='brick' active={field.value}>Кирпичный</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='foamConcreteBlock' active={field.value}>Пенобетонный блок</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='gasSilicateBlock' active={field.value}>Газосиликатный блок</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='monolith' active={field.value}>Монолитный</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='wireframe' active={field.value}>Каркасный</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='wood' active={field.value}>Деревянный</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='aerocreteBlock'
+                  active={field.value}
+                >
+                  Газобетонный блок
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='boards'
+                  active={field.value}
+                >
+                  Щитовой
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='brick'
+                  active={field.value}
+                >
+                  Кирпичный
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='foamConcreteBlock'
+                  active={field.value}
+                >
+                  Пенобетонный блок
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='gasSilicateBlock'
+                  active={field.value}
+                >
+                  Газосиликатный блок
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='monolith'
+                  active={field.value}
+                >
+                  Монолитный
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='wireframe'
+                  active={field.value}
+                >
+                  Каркасный
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='wood'
+                  active={field.value}
+                >
+                  Деревянный
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -134,10 +261,34 @@ const FormHouse = () => {
             name='HouseCondition'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='interiorDecorationRequired' active={field.value}>Без внутренней отделки</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='majorRepairsRequired' active={field.value}>Требует капитального ремонта или под снос</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='ready' active={field.value}>Готов к проживанию</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='unfinished' active={field.value}>Недостроенный</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='interiorDecorationRequired'
+                  active={field.value}
+                >
+                  Без внутренней отделки
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='majorRepairsRequired'
+                  active={field.value}
+                >
+                  Требует капитального ремонта или под снос
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='ready'
+                  active={field.value}
+                >
+                  Готов к проживанию
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='unfinished'
+                  active={field.value}
+                >
+                  Недостроенный
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -149,10 +300,34 @@ const FormHouse = () => {
             name='RepairType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='cosmetic' active={field.value}>Косметический</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='design' active={field.value}>Дизайнерский</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='euro' active={field.value}>Евроремонт</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='no' active={field.value}>Без ремонта</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='cosmetic'
+                  active={field.value}
+                >
+                  Косметический
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='design'
+                  active={field.value}
+                >
+                  Дизайнерский
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='euro'
+                  active={field.value}
+                >
+                  Евроремонт
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='no'
+                  active={field.value}
+                >
+                  Без ремонта
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -164,9 +339,27 @@ const FormHouse = () => {
             name='WaterSuburbanWaterType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='borehole' active={field.value}>Скважина</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='central' active={field.value}>Центральное</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='well' active={field.value}>Колодец</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='borehole'
+                  active={field.value}
+                >
+                  Скважина
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='central'
+                  active={field.value}
+                >
+                  Центральное
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='well'
+                  active={field.value}
+                >
+                  Колодец
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -178,9 +371,27 @@ const FormHouse = () => {
             name='DrainageType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='central' active={field.value}>Центральная</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='cesspool' active={field.value}>Выгребная яма</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='septicTank' active={field.value}>Септик</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='central'
+                  active={field.value}
+                >
+                  Центральная
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='cesspool'
+                  active={field.value}
+                >
+                  Выгребная яма
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='septicTank'
+                  active={field.value}
+                >
+                  Септик
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -192,10 +403,34 @@ const FormHouse = () => {
             name='GasType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='border' active={field.value}>По границе участка</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='gasBottle' active={field.value}>Газовый баллон</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='gasHolder' active={field.value}>Газгольдер</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='main' active={field.value}>Магистральный</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='border'
+                  active={field.value}
+                >
+                  По границе участка
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='gasBottle'
+                  active={field.value}
+                >
+                  Газовый баллон
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='gasHolder'
+                  active={field.value}
+                >
+                  Газгольдер
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='main'
+                  active={field.value}
+                >
+                  Магистральный
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -207,8 +442,20 @@ const FormHouse = () => {
             name='WcLocationType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='indoors' active={field.value}>В доме</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='outdoors' active={field.value}>На улице</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='indoors'
+                  active={field.value}
+                >
+                  В доме
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='outdoors'
+                  active={field.value}
+                >
+                  На улице
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -221,7 +468,9 @@ const FormHouse = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Дача'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='IsDacha'
                 />
@@ -233,7 +482,9 @@ const FormHouse = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Ипотека'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='MortgageAllowed'
                 />
@@ -245,7 +496,9 @@ const FormHouse = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Электричество'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='HasElectricity'
                 />
@@ -257,7 +510,9 @@ const FormHouse = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Вода'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='HasWater'
                 />
@@ -269,7 +524,9 @@ const FormHouse = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Газ'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='HasGas'
                 />
@@ -281,7 +538,9 @@ const FormHouse = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Канализация'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='HasDrainage'
                 />
@@ -295,7 +554,9 @@ const FormHouse = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Охрана'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='HasSecurity'
                 />
@@ -307,7 +568,9 @@ const FormHouse = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Есть баня'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='HasBathhouse'
                 />
@@ -319,7 +582,9 @@ const FormHouse = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Есть гараж'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='HasGarage'
                 />
@@ -331,7 +596,9 @@ const FormHouse = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Есть бассейн'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='HasPool'
                 />
@@ -343,7 +610,9 @@ const FormHouse = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Есть терасса'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='HouseHasTerrace'
                 />
@@ -355,7 +624,9 @@ const FormHouse = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Есть погреб'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='HouseHasCellar'
                 />
@@ -368,15 +639,24 @@ const FormHouse = () => {
             name='AgentBonusValue'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Бонус агенту' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
+                value={field.value || ''}
+                label='Бонус агенту'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
             name='AgentBonusPaymentType'
             control={control}
             render={({ field }) => (
-              <SelectUI onChange={field.onChange} select={field.value} label='Тип оплаты'>
+              <SelectUI
+                onChange={field.onChange}
+                select={field.value}
+                label='Тип оплаты'
+              >
                 <SelectItemUI value='fixed'>Фиксированный</SelectItemUI>
                 <SelectItemUI value='percent'>Процент</SelectItemUI>
               </SelectUI>

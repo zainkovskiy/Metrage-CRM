@@ -20,14 +20,16 @@ const FormOffice = () => {
   const [businessLoading, setBusinessLoading] = useState(false);
   useEffect(() => {
     requestBusinessBuildingTypes();
-  }, [])
+  }, []);
 
   const requestBusinessBuildingTypes = async () => {
     const data = await getBusinessBuildingTypes();
     setBuildingTypes(data);
-  }
+  };
   const handleChangeBusinessCenters = async (value) => {
-    if (businessLoading) { return }
+    if (businessLoading) {
+      return;
+    }
     setBusinessLoading(true);
     try {
       const res = await getBusinessСenters(value);
@@ -37,8 +39,7 @@ const FormOffice = () => {
     } finally {
       setBusinessLoading(false);
     }
-
-  }
+  };
   return (
     <>
       <ObjectSliderBox
@@ -53,9 +54,13 @@ const FormOffice = () => {
             name='BargainTermsPrice'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => { field.onChange(parseInt(e.target.value.split(' ').join(''))) }}
+              <InputUI
+                onChange={(e) => {
+                  field.onChange(parseInt(e.target.value.split(' ').join('')));
+                }}
                 value={field.value ? useNumberTriad(field.value) : ''}
-                label='Цена' fullWidth
+                label='Цена'
+                fullWidth
               />
             )}
           />
@@ -64,10 +69,18 @@ const FormOffice = () => {
             control={control}
             defaultValue='included'
             render={({ field }) => (
-              <SelectUI onChange={field.onChange} select={field.value} label='Тип НДС'>
+              <SelectUI
+                onChange={field.onChange}
+                select={field.value}
+                label='Тип НДС'
+              >
                 <SelectItemUI value='included'>НДС включен</SelectItemUI>
-                <SelectItemUI value='notIncluded'>НДС не облагается</SelectItemUI>
-                <SelectItemUI value='usn'>УСН (упрощенная система налогообложения)</SelectItemUI>
+                <SelectItemUI value='notIncluded'>
+                  НДС не облагается
+                </SelectItemUI>
+                <SelectItemUI value='usn'>
+                  УСН (упрощенная система налогообложения)
+                </SelectItemUI>
               </SelectUI>
             )}
           />
@@ -75,32 +88,52 @@ const FormOffice = () => {
             name='FloorNumber'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Этаж' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
+                value={field.value || ''}
+                label='Этаж'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
             name='BuildingFloorsCount'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Этажей в здании' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
+                value={field.value || ''}
+                label='Этажей в здании'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
             name='TotalArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                value={field.value || ''} label='Общая площадь' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                value={field.value || ''}
+                label='Общая площадь, м2'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
             name='LandArea'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                value={field.value || ''} label='Площадь участка' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                value={field.value || ''}
+                label='Площадь участка. в сотках'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
@@ -136,16 +169,26 @@ const FormOffice = () => {
             name='WaterPipesCount'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Количество мокрых точек' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
+                value={field.value || ''}
+                label='Количество мокрых точек'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
             name='AvailableFrom'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(e.target.value)}
-                value={field.value || ''} label='Дата освобождения' fullWidth type='date' />
+              <InputUI
+                onChange={(e) => field.onChange(e.target.value)}
+                value={field.value || ''}
+                label='Дата освобождения'
+                fullWidth
+                type='date'
+              />
             )}
           />
         </FormWrapper>
@@ -156,10 +199,34 @@ const FormOffice = () => {
             name='Layout'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='cabinet' active={field.value}>Кабинетная</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='corridorplan' active={field.value}>Коридорная</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='mixed' active={field.value}>Смешанная</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='openSpace' active={field.value}>Открытая</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='cabinet'
+                  active={field.value}
+                >
+                  Кабинетная
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='corridorplan'
+                  active={field.value}
+                >
+                  Коридорная
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='mixed'
+                  active={field.value}
+                >
+                  Смешанная
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='openSpace'
+                  active={field.value}
+                >
+                  Открытая
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -171,10 +238,34 @@ const FormOffice = () => {
             name='ConditionType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='cosmeticRepairsRequired' active={field.value}>Требуется косметический ремонт</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='finishing' active={field.value}>Под чистовую отделку</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='majorRepairsRequired' active={field.value}>Требуется капитальный ремонт</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='office' active={field.value}>Офисная отделка</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='cosmeticRepairsRequired'
+                  active={field.value}
+                >
+                  Требуется косметический ремонт
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='finishing'
+                  active={field.value}
+                >
+                  Под чистовую отделку
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='majorRepairsRequired'
+                  active={field.value}
+                >
+                  Требуется капитальный ремонт
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='office'
+                  active={field.value}
+                >
+                  Офисная отделка
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -186,9 +277,27 @@ const FormOffice = () => {
             name='BuildingStatusType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='operational' active={field.value}>Действующее</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='project' active={field.value}>Проект</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='underConstruction' active={field.value}>Строящееся</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='operational'
+                  active={field.value}
+                >
+                  Действующее
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='project'
+                  active={field.value}
+                >
+                  Проект
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='underConstruction'
+                  active={field.value}
+                >
+                  Строящееся
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -200,9 +309,27 @@ const FormOffice = () => {
             name='BuildingVentilationType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='forced' active={field.value}>Приточная</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='natural' active={field.value}>Естественная</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='no' active={field.value}>Нет</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='forced'
+                  active={field.value}
+                >
+                  Приточная
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='natural'
+                  active={field.value}
+                >
+                  Естественная
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='no'
+                  active={field.value}
+                >
+                  Нет
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -214,9 +341,27 @@ const FormOffice = () => {
             name='BuildingConditioningType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='central' active={field.value}>Центральное</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='local' active={field.value}>Местное</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='no' active={field.value}>Нет</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='central'
+                  active={field.value}
+                >
+                  Центральное
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='local'
+                  active={field.value}
+                >
+                  Местное
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='no'
+                  active={field.value}
+                >
+                  Нет
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -228,12 +373,48 @@ const FormOffice = () => {
             name='BuildingExtinguishingSystemType'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='alarm' active={field.value}>Сигнализация</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='gas' active={field.value}>Газовая</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='hydrant' active={field.value}>Гидрантная</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='no' active={field.value}>Нет</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='powder' active={field.value}>Порошковая</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='sprinkler' active={field.value}>Спринклерная</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='alarm'
+                  active={field.value}
+                >
+                  Сигнализация
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='gas'
+                  active={field.value}
+                >
+                  Газовая
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='hydrant'
+                  active={field.value}
+                >
+                  Гидрантная
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='no'
+                  active={field.value}
+                >
+                  Нет
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='powder'
+                  active={field.value}
+                >
+                  Порошковая
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='sprinkler'
+                  active={field.value}
+                >
+                  Спринклерная
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -245,12 +426,48 @@ const FormOffice = () => {
             name='BuildingLiftTypes'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='cargo' active={field.value}>Грузовой</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='escalator' active={field.value}>Эскалатор</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='lift' active={field.value}>Лифт</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='passenger' active={field.value}>Пассажирский</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='telpher' active={field.value}>Тельфер</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='travelator' active={field.value}>Траволатор</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='cargo'
+                  active={field.value}
+                >
+                  Грузовой
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='escalator'
+                  active={field.value}
+                >
+                  Эскалатор
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='lift'
+                  active={field.value}
+                >
+                  Лифт
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='passenger'
+                  active={field.value}
+                >
+                  Пассажирский
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='telpher'
+                  active={field.value}
+                >
+                  Тельфер
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='travelator'
+                  active={field.value}
+                >
+                  Траволатор
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
@@ -262,13 +479,27 @@ const FormOffice = () => {
             name='FurniturePresence'
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='yes' active={field.value}>Есть</ButtonToggleItem>
-                <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='no' active={field.value}>Нет</ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='yes'
+                  active={field.value}
+                >
+                  Есть
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='no'
+                  active={field.value}
+                >
+                  Нет
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
         </Box>
-        <TextSpanStyle bold color='#575757'>Инфраструктура рядом</TextSpanStyle>
+        <TextSpanStyle bold color='#575757'>
+          Инфраструктура рядом
+        </TextSpanStyle>
         <Box ai='flex-start'>
           <Box fullWidth column ai='flex-start'>
             <Controller
@@ -277,7 +508,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Автомойка'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasCarWash'
                 />
@@ -289,7 +522,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Автосервис'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasCarService'
                 />
@@ -301,7 +536,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Аптека'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasPharmacy'
                 />
@@ -313,7 +550,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Ателье одежды'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasClothesStudio'
                 />
@@ -325,7 +564,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Банкомат'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasAtm'
                 />
@@ -337,7 +578,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Бассейн'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasPool'
                 />
@@ -349,7 +592,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Буфет'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasBuffet'
                 />
@@ -361,7 +606,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Выставочно-складской комплекс'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasExhibitionAndWarehouseComplex'
                 />
@@ -373,7 +620,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Гостиница'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasHotel'
                 />
@@ -385,7 +634,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Кафе'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasCafe'
                 />
@@ -397,7 +648,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Кинотеатр'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasCinema'
                 />
@@ -409,7 +662,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Конференц-зал'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasConferenceRoom'
                 />
@@ -421,7 +676,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Медицинский центр'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasMedicalCenter'
                 />
@@ -435,7 +692,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Минимаркет'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasMinimarket'
                 />
@@ -447,7 +706,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Нотариальная контора'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasNotaryOffice'
                 />
@@ -459,7 +720,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Отделение банка'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasBankDepartmet'
                 />
@@ -471,7 +734,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Парк'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasPark'
                 />
@@ -483,7 +748,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Ресторан'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasRestaurant'
                 />
@@ -495,7 +762,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Салон красоты'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasBeautyShop'
                 />
@@ -507,7 +776,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Складские помещения'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasWarehouse'
                 />
@@ -519,7 +790,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Столовая'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasCanteen'
                 />
@@ -531,7 +804,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Супермаркет'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasSupermarket'
                 />
@@ -543,7 +818,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Торговая зона'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasShoppingArea'
                 />
@@ -555,7 +832,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Фитнес-центр'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasFitnessCentre'
                 />
@@ -567,7 +846,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Фотосалон'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasStudio'
                 />
@@ -579,7 +860,9 @@ const FormOffice = () => {
               render={({ field }) => (
                 <CheckboxUI
                   label='Центральная рецепция'
-                  onChange={(e) => { field.onChange(e.target.checked) }}
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
                   defaultChecked={field.value || false}
                   id='InfrastructureHasCentralReception'
                 />
@@ -592,15 +875,24 @@ const FormOffice = () => {
             name='AgentBonusValue'
             control={control}
             render={({ field }) => (
-              <InputUI onChange={(e) => field.onChange(parseInt(e.target.value))}
-                value={field.value || ''} label='Бонус агенту' fullWidth type='number' />
+              <InputUI
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
+                value={field.value || ''}
+                label='Бонус агенту'
+                fullWidth
+                type='number'
+              />
             )}
           />
           <Controller
             name='AgentBonusPaymentType'
             control={control}
             render={({ field }) => (
-              <SelectUI onChange={field.onChange} select={field.value} label='Тип оплаты'>
+              <SelectUI
+                onChange={field.onChange}
+                select={field.value}
+                label='Тип оплаты'
+              >
                 <SelectItemUI value='fixed'>Фиксированный</SelectItemUI>
                 <SelectItemUI value='percent'>Процент</SelectItemUI>
               </SelectUI>
