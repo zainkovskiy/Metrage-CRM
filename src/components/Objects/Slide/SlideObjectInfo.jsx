@@ -55,32 +55,14 @@ const SlideObjectInfo = () => {
     return `${typeObjects[object?.typeEstate][object?.Category]}`;
   };
   const getPrice = () => {
-    if (object.typeEstate === 'business') {
-      <Box jc='space-between' fullWidth ai='flex-start'>
-        <Box column ai='flex-start' gap='0'>
-          <TextSpanStyle bold>
-            {useNumberTriad(object?.BargainTermsPrice)} руб.
-          </TextSpanStyle>
-          <TextSpanStyle size={8}>{object?.BargainTermsVatType}</TextSpanStyle>
-        </Box>
+    return (
+      <Box jc='space-between'>
+        <TextSpanStyle bold>{useNumberTriad(object?.Price)} руб.</TextSpanStyle>
         <TextSpanStyle size={12}>
-          {useGetMeterPrice(object?.BargainTermsPrice, object?.TotalArea)}{' '}
-          руб/м2
+          {useGetMeterPrice(object?.Price, object?.TotalArea)} руб/м2
         </TextSpanStyle>
-      </Box>;
-    }
-    if (object.typeEstate === 'live') {
-      return (
-        <Box jc='space-between'>
-          <TextSpanStyle bold>
-            {useNumberTriad(object?.Price)} руб.
-          </TextSpanStyle>
-          <TextSpanStyle size={12}>
-            {useGetMeterPrice(object?.Price, object?.TotalArea)} руб/м2
-          </TextSpanStyle>
-        </Box>
-      );
-    }
+      </Box>
+    );
   };
   return (
     <SlideBlockStyle $wrap={windowSize < 768}>

@@ -57,6 +57,8 @@ const resetFilter = {
   Price: [null, null],
   Floor: [null, null],
   ExternalFind: false,
+  objectUID: '',
+  SaleType: '',
 };
 const ObjectsFilterForm = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -374,6 +376,49 @@ const ObjectsFilterForm = ({ onClose }) => {
             </SelectMultipleUI>
           )}
         />
+        {getValues('typeObject').includes('newBuildingFlatSale') && (
+          <>
+            <Controller
+              name='SaleType'
+              control={control}
+              render={({ field }) => (
+                <SelectUI
+                  onChange={(newValue) => {
+                    field.onChange(newValue);
+                  }}
+                  select={field.value}
+                  multiple
+                  label='Тип продажи'
+                >
+                  <SelectItemUI value='dupt'>
+                    Договор уступки права требования
+                  </SelectItemUI>
+                  <SelectItemUI value='dzhsk'>Договор ЖСК</SelectItemUI>
+                  <SelectItemUI value='free'>Свободная продажа</SelectItemUI>
+                  <SelectItemUI value='fz214'>214-ФЗ</SelectItemUI>
+                  <SelectItemUI value='investment'>
+                    Договор инвестирования
+                  </SelectItemUI>
+                  <SelectItemUI value='pdkp'>
+                    Предварительный договор купли-продажи
+                  </SelectItemUI>
+                </SelectUI>
+              )}
+            />
+            <Controller
+              name='numberDDU'
+              control={control}
+              render={({ field }) => (
+                <InputUI
+                  label='Номер ДДУ'
+                  value={field.value || ''}
+                  onChange={(e) => field.onChange(e.target.value)}
+                  type='number'
+                />
+              )}
+            />
+          </>
+        )}
         <Controller
           name='users'
           control={control}
@@ -621,6 +666,18 @@ const ObjectsFilterForm = ({ onClose }) => {
             </Box>
           </Box>
         )}
+        <Controller
+          name='objectUID'
+          control={control}
+          render={({ field }) => (
+            <InputUI
+              label='Номер объекта'
+              value={field.value || ''}
+              onChange={(e) => field.onChange(e.target.value)}
+              type='number'
+            />
+          )}
+        />
         <Controller
           name='ExternalFind'
           control={control}
