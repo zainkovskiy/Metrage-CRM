@@ -4,7 +4,7 @@ import imgErrorUrl from 'images/img-error.svg';
 import './style.scss';
 import { Galary } from '@zainkovskiy/image-carousel-simple';
 
-export const ImageGalary = ({ images }) => {
+export const ImageGalary = ({ images, height }) => {
   const [full, setFull] = useState(false);
   return (
     // <ImageGallery
@@ -21,6 +21,7 @@ export const ImageGalary = ({ images }) => {
     // />
     <Galary
       cover
+      height={height}
       images={images.map((img) => ({
         url: img.URL || imgErrorUrl,
       }))}

@@ -430,12 +430,8 @@ const ObjectsFilterForm = ({ onClose }) => {
               loading={usersLoading}
               defaultValue={[]}
               getOptionsLabel={(options) =>
-                `${
-                  options.lastName +
-                  ' ' +
-                  options.firstName +
-                  ' ' +
-                  options.secondName
+                `${options.lastName || ''} ${options.firstName || ''} ${
+                  options.secondName || ''
                 }`
               }
               onChange={(user) => field.onChange(user)}

@@ -153,7 +153,10 @@ const SlideObjectInfo = () => {
       </SlideInfoBlock>
       <SlideInfoBlock>
         {/* <img src={object?.photos[0].URL} style={{width: '100%', height: '100%', objectFit: 'cover'}}/> */}
-        <ImageGalary images={object?.photos || [{ URL: imgErrorUrl }]} />
+        <ImageGalary
+          images={object?.photos || [{ URL: imgErrorUrl }]}
+          height={windowSize < 768 ? 300 : ''}
+        />
       </SlideInfoBlock>
     </SlideBlockStyle>
   );
