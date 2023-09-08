@@ -22,6 +22,9 @@ const FormCords = () => {
   };
   return (
     <ObjectSliderBox $column>
+      <TextSpanStyle color='grey'>
+        При вводе адреса ОБЯЗАТЕЛЬНО выберете нужный из списка.
+      </TextSpanStyle>
       <Controller
         name='addressId'
         control={control}

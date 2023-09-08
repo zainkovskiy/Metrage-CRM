@@ -278,9 +278,7 @@ const ObjectsFilterForm = ({ onClose }) => {
     return false;
   };
   return (
-    <ObjectsFilterFormStyle
-    // onSubmit={handleSubmit(onSubmit)}
-    >
+    <ObjectsFilterFormStyle onSubmit={handleSubmit(onSubmit)}>
       <FormTop>
         <FormTitle>Фильтр</FormTitle>
         <Controller
@@ -301,6 +299,7 @@ const ObjectsFilterForm = ({ onClose }) => {
             </SelectUI>
           )}
         />
+        {/* //typeObject из за него не работает handleChange  */}
         <Controller
           name='typeObject'
           control={control}
@@ -419,6 +418,7 @@ const ObjectsFilterForm = ({ onClose }) => {
             />
           </>
         )}
+        {/* //users из за него не работает handleChange  */}
         <Controller
           name='users'
           control={control}

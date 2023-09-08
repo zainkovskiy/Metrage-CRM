@@ -156,6 +156,7 @@ const SlideObjectInfo = () => {
         <ImageGalary
           images={object?.photos || [{ URL: imgErrorUrl }]}
           height={windowSize < 768 ? 300 : ''}
+          status
         />
       </SlideInfoBlock>
     </SlideBlockStyle>
