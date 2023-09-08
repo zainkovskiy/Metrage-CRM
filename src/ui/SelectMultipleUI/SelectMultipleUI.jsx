@@ -21,7 +21,7 @@ const SelectInputContainer = styled.div`
       ${({ theme, error }) => (error ? 'red' : theme.color.primary)};
   }
 `;
-const SelectInputStyle = styled.div`
+const SelectInputStyle = styled.input`
   font-size: 14px;
   font-family: CeraCY, sans-serif;
   padding: ${({ $small }) =>
@@ -95,7 +95,10 @@ export const SelectMultipleUI = ({
   useEffect(() => {
     const form = document.getElementsByTagName('form');
     Array.from(form).forEach((item) => {
-      if (item.querySelector(`.input${idRef}`)) {
+      // if (item.querySelector(`.input${idRef}`)) {
+      //   formRef.current = item;
+      // }
+      if (document.querySelector(`input[id='${idRef}']`)) {
         formRef.current = item;
       }
     });
@@ -111,7 +114,6 @@ export const SelectMultipleUI = ({
     };
   }, []);
   const handlerClick = (e) => {
-    e.preventDefault();
     const currentId = e.target.id;
     if (currentId === idRef) {
       return;
@@ -168,10 +170,10 @@ export const SelectMultipleUI = ({
             disabled={disabled}
             $small={small}
             id={idRef}
-            className={`input${idRef}`}
-          >
-            {getSelectTitle()}
-          </SelectInputStyle>
+            // className={`input${idRef}`}
+            value={getSelectTitle()}
+            ref={inputRef}
+          />
           {!disabled && <ArrowStyle open={open} id={idRef} />}
         </SelectInputContainer>
         <AnimatePresence>
@@ -183,6 +185,7 @@ export const SelectMultipleUI = ({
               animate='vissible'
               $error={error}
               id={idRef}
+              name={idRef}
             >
               {Children.map(
                 children?.type === React.Fragment

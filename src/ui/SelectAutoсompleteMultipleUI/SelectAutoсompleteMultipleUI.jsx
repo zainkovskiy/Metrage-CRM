@@ -12,7 +12,7 @@ const SelectContainer = styled.div`
   border: 1px solid transparent;
   border-color: transparent;
   border-radius: 6px;
-  transition: border-color 0.3s;
+  // transition: border-color 0.3s;
   &:has(input:focus) {
     border-color: ${({ theme, error }) =>
       error ? 'red' : theme.color.primary};
@@ -149,6 +149,9 @@ export const SelectAutoсompleteMultipleUI = ({
   const idRef = useRef(uuidv4().split('-')[0]).current; // айди для всех блоков
   const [select, setSelect] = useState(value || []); //выбранное значение из списка
   useEffect(() => {
+    if (JSON.stringify(select) === JSON.stringify(value)) {
+      return;
+    }
     if (Array.isArray(value)) {
       setSelect(value);
     }
@@ -170,12 +173,15 @@ export const SelectAutoсompleteMultipleUI = ({
     return '';
   };
   const [inputValue, setInputValue] = useState(setOptionsLabel(value || [])); //текст внутри инпута
+  useEffect(() => {
+    setInputValue(setOptionsLabel(select));
+  }, [select]);
   //useEffect запускает (handlerClick) проверку совпадет ли айди с внутренними компонентами если нет то закрывает список
   const formRef = useRef(null);
   useEffect(() => {
     const form = document.getElementsByTagName('form');
     Array.from(form).forEach((item) => {
-      if (item.querySelector(`INPUT[id="${idRef}"]`)) {
+      if (document.querySelector(`input[id='${idRef}']`)) {
         formRef.current = item;
       }
     });
@@ -205,7 +211,6 @@ export const SelectAutoсompleteMultipleUI = ({
 
   //handlerClick фунекция для useEffect
   const handlerClick = (e) => {
-    e.preventDefault();
     const currentId = e.target.id;
     if (currentId === idRef) {
       return;

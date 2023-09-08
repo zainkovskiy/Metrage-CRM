@@ -91,10 +91,10 @@ const ObjectsFilterForm = ({ onClose }) => {
       });
   };
   const onSubmit = (data) => {
-    // console.log(data);
-    dispatch(setFilter(data));
-    dispatch(getObjectList());
-    onClose();
+    console.log(data);
+    // dispatch(setFilter(data));
+    // dispatch(getObjectList());
+    // onClose();
   };
   const resetForm = () => {
     dispatch(setFilter(deafaultFilter));
@@ -299,7 +299,6 @@ const ObjectsFilterForm = ({ onClose }) => {
             </SelectUI>
           )}
         />
-        {/* //typeObject из за него не работает handleChange  */}
         <Controller
           name='typeObject'
           control={control}
@@ -418,7 +417,6 @@ const ObjectsFilterForm = ({ onClose }) => {
             />
           </>
         )}
-        {/* //users из за него не работает handleChange  */}
         <Controller
           name='users'
           control={control}
@@ -688,7 +686,11 @@ const ObjectsFilterForm = ({ onClose }) => {
         />
       </FormTop>
       <Box jc='flex-start'>
-        <ButtonUI fullWidth type='submit' onClick={() => onSubmit(getValues())}>
+        <ButtonUI
+          fullWidth
+          type='submit'
+          // onClick={() => onSubmit(getValues())}
+        >
           Применить
         </ButtonUI>
         <ButtonUI variant='outline' fullWidth onClick={resetForm}>
