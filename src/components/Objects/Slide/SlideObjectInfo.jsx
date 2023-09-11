@@ -32,7 +32,7 @@ const SlideInfoBlock = styled.div`
   width: 100%;
   gap: 0.5rem;
   @media (min-width: 768px) {
-    height: 250px;
+    height: 300px;
   }
 `;
 const SlideObjectInfo = () => {
@@ -79,7 +79,7 @@ const SlideObjectInfo = () => {
             {object?.addressId?.addrString || 'Нет адреса'}
           </TextSpanStyle>
           {getPrice()}
-          {object?.platform?.length > 0 && (
+          {/* {object?.platform?.length > 0 && (
             <Box wrap jc='flex-start'>
               <TextSpanStyle size={12}>Ссылки:</TextSpanStyle>
               {object?.platform.map((item) => (
@@ -93,7 +93,7 @@ const SlideObjectInfo = () => {
                 </LinkUI>
               ))}
             </Box>
-          )}
+          )} */}
         </Box>
         {object?.Category !== 'landSale' && (
           <Box column ai='flex-start'>

@@ -9,6 +9,12 @@ import imgErrorUrl from 'images/img-error.svg';
 import megaphoneUrl, {
   ReactComponent as Megaphone,
 } from 'images/megaphone.svg';
+import exclamationUrl, {
+  ReactComponent as Exclamation,
+} from 'images/exclamation.svg';
+import hourglassUrl, {
+  ReactComponent as Hourglass,
+} from 'images/hourglass.svg';
 import { useGetMeterPrice } from './objectHook';
 
 const ObjectCardStyle = styled(motion.div)`
@@ -65,6 +71,12 @@ const LinkStyle = styled(Link)`
   text-decoration: none;
   color: black;
 `;
+const AdIcon = styled.span`
+  & > svg {
+    width: 30px;
+    height: 30px;
+  }
+`;
 const variants = {
   visible: {
     opacity: 1,
@@ -79,6 +91,36 @@ const ObjectCard = ({ object }) => {
       return object?.Area.split('/')[0];
     }
     return object?.Area || '0';
+  };
+  const getAdIcon = () => {
+    if (object?.hasErrors) {
+      return (
+        <TooltipUI title='Есть проблемы'>
+          <AdIcon>
+            <Exclamation />
+          </AdIcon>
+        </TooltipUI>
+      );
+    }
+    if (object?.onExponation) {
+      return (
+        <TooltipUI title='В рекламе'>
+          <AdIcon>
+            <Megaphone />
+          </AdIcon>
+        </TooltipUI>
+      );
+    }
+    if (object?.onAdv) {
+      return (
+        <TooltipUI title='Ожидаем выгрузки'>
+          <AdIcon>
+            <Hourglass />
+          </AdIcon>
+        </TooltipUI>
+      );
+    }
+    return '';
   };
   return (
     <LinkStyle to={`${object.CategoryOriginal}/${object?.UID}`}>
@@ -139,11 +181,7 @@ const ObjectCard = ({ object }) => {
               </TextSpanStyle>
             </Box>
           </Box>
-          {object?.onExponation && (
-            <TooltipUI title='В рекламе'>
-              <Megaphone />
-            </TooltipUI>
-          )}
+          {getAdIcon()}
         </ObjectCardFooter>
       </ObjectCardStyle>
     </LinkStyle>

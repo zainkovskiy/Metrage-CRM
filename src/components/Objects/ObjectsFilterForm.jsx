@@ -91,10 +91,10 @@ const ObjectsFilterForm = ({ onClose }) => {
       });
   };
   const onSubmit = (data) => {
-    console.log(data);
-    // dispatch(setFilter(data));
-    // dispatch(getObjectList());
-    // onClose();
+    // console.log(data);
+    dispatch(setFilter(data));
+    dispatch(getObjectList());
+    onClose();
   };
   const resetForm = () => {
     dispatch(setFilter(deafaultFilter));
@@ -375,47 +375,33 @@ const ObjectsFilterForm = ({ onClose }) => {
           )}
         />
         {getValues('typeObject').includes('newBuildingFlatSale') && (
-          <>
-            <Controller
-              name='SaleType'
-              control={control}
-              render={({ field }) => (
-                <SelectUI
-                  onChange={(newValue) => {
-                    field.onChange(newValue);
-                  }}
-                  select={field.value}
-                  multiple
-                  label='Тип продажи'
-                >
-                  <SelectItemUI value='dupt'>
-                    Договор уступки права требования
-                  </SelectItemUI>
-                  <SelectItemUI value='dzhsk'>Договор ЖСК</SelectItemUI>
-                  <SelectItemUI value='free'>Свободная продажа</SelectItemUI>
-                  <SelectItemUI value='fz214'>214-ФЗ</SelectItemUI>
-                  <SelectItemUI value='investment'>
-                    Договор инвестирования
-                  </SelectItemUI>
-                  <SelectItemUI value='pdkp'>
-                    Предварительный договор купли-продажи
-                  </SelectItemUI>
-                </SelectUI>
-              )}
-            />
-            <Controller
-              name='numberDDU'
-              control={control}
-              render={({ field }) => (
-                <InputUI
-                  label='Номер ДДУ'
-                  value={field.value || ''}
-                  onChange={(e) => field.onChange(e.target.value)}
-                  type='number'
-                />
-              )}
-            />
-          </>
+          <Controller
+            name='SaleType'
+            control={control}
+            render={({ field }) => (
+              <SelectUI
+                onChange={(newValue) => {
+                  field.onChange(newValue);
+                }}
+                select={field.value}
+                multiple
+                label='Тип продажи'
+              >
+                <SelectItemUI value='dupt'>
+                  Договор уступки права требования
+                </SelectItemUI>
+                <SelectItemUI value='dzhsk'>Договор ЖСК</SelectItemUI>
+                <SelectItemUI value='free'>Свободная продажа</SelectItemUI>
+                <SelectItemUI value='fz214'>214-ФЗ</SelectItemUI>
+                <SelectItemUI value='investment'>
+                  Договор инвестирования
+                </SelectItemUI>
+                <SelectItemUI value='pdkp'>
+                  Предварительный договор купли-продажи
+                </SelectItemUI>
+              </SelectUI>
+            )}
+          />
         )}
         <Controller
           name='users'

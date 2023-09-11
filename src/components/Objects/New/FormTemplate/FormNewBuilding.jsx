@@ -38,6 +38,26 @@ const FormNewBuilding = () => {
             )}
           />
           <Controller
+            name='FlatRoomsCount'
+            control={control}
+            render={({ field }) => (
+              <SelectUI
+                onChange={field.onChange}
+                select={field.value}
+                label='Количество комнат'
+              >
+                <SelectItemUI value={1}>1-комнатная</SelectItemUI>
+                <SelectItemUI value={2}>2-комнатная</SelectItemUI>
+                <SelectItemUI value={3}>3-комнатная</SelectItemUI>
+                <SelectItemUI value={4}>4-комнатная</SelectItemUI>
+                <SelectItemUI value={5}>5-комнатная</SelectItemUI>
+                <SelectItemUI value={6}>6+</SelectItemUI>
+                <SelectItemUI value={7}>Свободная планировка</SelectItemUI>
+                <SelectItemUI value={9}>Студия</SelectItemUI>
+              </SelectUI>
+            )}
+          />
+          <Controller
             name='BuildingCadastralNumber'
             control={control}
             render={({ field }) => (
@@ -46,6 +66,18 @@ const FormNewBuilding = () => {
                 value={field.value || ''}
                 label='Кадастровый номер'
                 fullWidth
+              />
+            )}
+          />
+          <Controller
+            name='numberDDU'
+            control={control}
+            render={({ field }) => (
+              <InputUI
+                label='Рег. номер ДДУ'
+                value={field.value || ''}
+                onChange={(e) => field.onChange(e.target.value)}
+                type='number'
               />
             )}
           />
@@ -79,26 +111,6 @@ const FormNewBuilding = () => {
           />
         </FormWrapper>
         <FormWrapper>
-          <Controller
-            name='FlatRoomsCount'
-            control={control}
-            render={({ field }) => (
-              <SelectUI
-                onChange={field.onChange}
-                select={field.value}
-                label='Количество комнат'
-              >
-                <SelectItemUI value={1}>1-комнатная</SelectItemUI>
-                <SelectItemUI value={2}>2-комнатная</SelectItemUI>
-                <SelectItemUI value={3}>3-комнатная</SelectItemUI>
-                <SelectItemUI value={4}>4-комнатная</SelectItemUI>
-                <SelectItemUI value={5}>5-комнатная</SelectItemUI>
-                <SelectItemUI value={6}>6+</SelectItemUI>
-                <SelectItemUI value={7}>Свободная планировка</SelectItemUI>
-                <SelectItemUI value={9}>Студия</SelectItemUI>
-              </SelectUI>
-            )}
-          />
           <Controller
             name='TotalArea'
             control={control}

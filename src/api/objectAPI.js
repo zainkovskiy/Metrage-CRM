@@ -1,68 +1,72 @@
-import axios from "axios";
+import axios from 'axios';
 const API = 'https://crm.metragegroup.com/API/REST.php';
 
 export const getSpecialityTypes = async (category) => {
   console.log(category);
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
-    method: "crm.objects.getSpecialityTypes",
+    method: 'crm.objects.getSpecialityTypes',
     fields: {
-      category: category
-    }
-  })
+      category: category,
+    },
+  });
   if (res?.statusText === 'OK') {
     console.log(res);
-    return res?.data?.result || []
+    return res?.data?.result || [];
   }
-  return []
-}
+  return [];
+};
 export const getBusinessBuildingTypes = async () => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
-    method: "crm.objects.getBusinessBuildingTypes",
-  })
+    method: 'crm.objects.getBusinessBuildingTypes',
+  });
   if (res?.statusText === 'OK') {
-    return res?.data?.result || []
+    return res?.data?.result || [];
   }
-  return []
-}
+  return [];
+};
 export const getBusinessСenters = async (value) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
-    method: "crm.objects.getBusinessСenters",
+    method: 'crm.objects.getBusinessСenters',
     fields: {
-      request: value
-    }
-  })
+      request: value,
+    },
+  });
   if (res?.statusText === 'OK') {
-    return res?.data?.result || []
+    return res?.data?.result || [];
   }
-  return []
-}
-export const createNewObject = async (object) => {
-  const res = await axios.post(API, {
-    metrage_id: metrage_id || null,
-    method: object?.typeEstate === 'commercial' ? "crm.objects.addBusiness" : "crm.objects.add",
-    fields: object,
-  })
-  if (res?.statusText === 'OK') {
-    return 'OK'
-  }
-}
+  return [];
+};
+// export const createNewObject = async (object) => {
+//   const res = await axios.post(API, {
+//     metrage_id: metrage_id || null,
+//     method:
+//       object?.typeEstate === 'commercial'
+//         ? 'crm.objects.addBusiness'
+//         : 'crm.objects.add',
+//     fields: object,
+//   });
+//   if (res?.statusText === 'OK') {
+//     return 'OK';
+//   }
+// };
 export const getOneObject = async (id, category, forUpdate) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
-    method: category === 'business' ? 'crm.objects.getBusiness' : 'crm.objects.get',
+    method:
+      category === 'business' ? 'crm.objects.getBusiness' : 'crm.objects.get',
     fields: {
       UID: id,
       forUpdate: forUpdate,
-    }
-  })
+    },
+  });
   if (res?.statusText === 'OK') {
-    return res?.data?.result || {}
+    return res?.data?.result || {};
   }
-  return {}
-}
+  return {};
+};
 export const getPublication = async (id, estate) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
@@ -70,13 +74,13 @@ export const getPublication = async (id, estate) => {
     fields: {
       UID: id,
       type: estate,
-    }
-  })
+    },
+  });
   if (res?.statusText === 'OK') {
-    return res?.data?.result || {}
+    return res?.data?.result || {};
   }
-  return {}
-}
+  return {};
+};
 export const setPublication = async (id, estate, date) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
@@ -85,13 +89,13 @@ export const setPublication = async (id, estate, date) => {
       UID: id,
       type: estate,
       date: date,
-    }
-  })
+    },
+  });
   if (res?.statusText === 'OK') {
-    return 'OK'
+    return 'OK';
   }
-  return "NO OK"
-}
+  return 'NO OK';
+};
 export const getPhotoListAPI = async (UID, estate) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
@@ -99,13 +103,13 @@ export const getPhotoListAPI = async (UID, estate) => {
     fields: {
       UID: UID,
       type: estate,
-    }
-  })
+    },
+  });
   if (res?.statusText === 'OK') {
-    return res?.data?.result || []
+    return res?.data?.result || [];
   }
-  return []
-}
+  return [];
+};
 export const setChangePhotoListAPI = async (UID, estate, newArr) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
@@ -113,25 +117,28 @@ export const setChangePhotoListAPI = async (UID, estate, newArr) => {
     fields: {
       UID: UID,
       type: estate,
-      photos: newArr
-    }
-  })
+      photos: newArr,
+    },
+  });
   if (res?.statusText === 'OK') {
-    return 'OK'
+    return 'OK';
   }
-  return ''
-}
+  return '';
+};
 export const uploadPhoto = async (files, UID) => {
   const data = new FormData();
   for (let file of files) {
     data.append('images[]', file);
   }
   data.append('UID', UID);
-  const res = await axios.post('https://crm.metragegroup.com/API/PhotoUpload.php', data);
+  const res = await axios.post(
+    'https://crm.metragegroup.com/API/PhotoUpload.php',
+    data
+  );
   if (res?.statusText === 'OK') {
     return res?.data || [];
   }
-  return []
+  return [];
   // const xhr = new XMLHttpRequest();
   // xhr.open('POST', 'https://crm.metragegroup.com/API/PhotoUpload.php', true);
   // xhr.responseType = 'json';
@@ -142,15 +149,15 @@ export const uploadPhoto = async (files, UID) => {
   //   // dispatch(loader())
   //   // id === 'uploader' && dispatch(edit())
   // }
-}
+};
 export const setDescriptionAPI = async (raw) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
     method: 'crm.objects.setDescription',
-    fields: raw,    
-  })
+    fields: raw,
+  });
   if (res?.statusText === 'OK') {
-    return 'OK'
+    return 'OK';
   }
-  return ''
-}
+  return '';
+};

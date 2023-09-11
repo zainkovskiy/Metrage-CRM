@@ -3,6 +3,23 @@ import axios from 'axios';
 
 const API = process.env.MAIN_API;
 
+export const createObject = createAsyncThunk(
+  'objects/createObject',
+  async (object, { dispatch }) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method:
+        object?.typeEstate === 'commercial'
+          ? 'crm.objects.addBusiness'
+          : 'crm.objects.add',
+      fields: object,
+    });
+    if (res?.statusText === 'OK') {
+      dispatch(getObjectList('create'));
+      return 'OK';
+    }
+  }
+);
 export const getObjectList = createAsyncThunk(
   'objects/getObjectList',
   async (_, { getState }) => {
@@ -11,7 +28,7 @@ export const getObjectList = createAsyncThunk(
       method: 'crm.objects.filter',
       fields: {
         ...getState().objects.filter,
-        offset: getState().objects.offset,
+        offset: 0,
       },
     });
     if (res?.statusText === 'OK') {
@@ -45,7 +62,7 @@ const initialState = {
     typeRealty: 'live',
     typeObject: ['flatSale'],
   },
-  offset: 0,
+  offset: 1,
 };
 
 const objectSlice = createSlice({
@@ -63,12 +80,17 @@ const objectSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getObjectList.pending, (state) => {
+      .addCase(getObjectList.pending, (state, action) => {
+        const source = action.meta.arg;
+        if (source) {
+          return;
+        }
         state.loadingList = true;
       })
       .addCase(getObjectList.fulfilled, (state, action) => {
         state.loadingList = false;
         state.objects = action.payload;
+        state.offset = 0;
       })
       .addCase(getObjectList.rejected, (state) => {
         state.loadingList = false;
