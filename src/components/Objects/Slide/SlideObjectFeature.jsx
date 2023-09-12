@@ -5,6 +5,7 @@ import { TextSpanStyle } from 'styles/styles';
 import { SlideBlockStyle } from '../ObjectsStyle';
 import { IconButton } from 'ui/IconButton';
 import { Box } from 'ui/Box';
+import { TooltipUI } from 'ui/TooltipUI';
 import editUrl, { ReactComponent as Edit } from 'images/edit.svg';
 import DialogWindow from 'components/Main/DialogWindow';
 import SlideDialogComment from './SlideDialogComment';
@@ -897,7 +898,9 @@ const SlideObjectFeature = () => {
             <Box gap='0.2rem'>
               Описание
               {object?.Description === 'Тут будет комментарий к объекту' && (
-                <AlertIcon />
+                <TooltipUI title='Отсутвует комментарий' flex>
+                  <AlertIcon />
+                </TooltipUI>
               )}
             </Box>
             <IconButton onClick={toggleEditComment}>

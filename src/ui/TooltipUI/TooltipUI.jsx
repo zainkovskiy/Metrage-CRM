@@ -4,7 +4,8 @@ import styled from 'styled-components';
 
 const TooltipUISttyle = styled(motion.div)`
   position: relative;
-`
+  ${({ $flex }) => $flex && 'display: flex;'};
+`;
 const TooltipTitleStyle = styled(motion.div)`
   position: absolute;
   top: 0;
@@ -20,7 +21,7 @@ const TooltipTitleStyle = styled(motion.div)`
   z-index: 99;
   user-select: none;
   pointer-events: none;
-`
+`;
 const hoverText = {
   initial: {
     scale: 0,
@@ -33,18 +34,22 @@ const hoverText = {
     opacity: 1,
     x: '-50%',
     y: '-100%',
-  }
-}
-export const TooltipUI = ({ title, children }) => {
+  },
+};
+export const TooltipUI = ({ title, children, flex }) => {
   return (
     <TooltipUISttyle
-      initial="initial"
-      animate="initial"
-      whileHover='animate'>
-      <TooltipTitleStyle variants={hoverText}
+      initial='initial'
+      animate='initial'
+      whileHover='animate'
+      $flex={flex}
+    >
+      <TooltipTitleStyle
+        variants={hoverText}
         transition={{
           duration: 0.3,
-        }}>
+        }}
+      >
         {title}
       </TooltipTitleStyle>
       {children}
