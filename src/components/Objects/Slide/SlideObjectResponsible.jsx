@@ -6,6 +6,9 @@ import styled from 'styled-components';
 import { useGetAvatar } from 'hooks/MakeAvatar';
 import DialogWindow from 'components/Main/DialogWindow';
 import UserFinder from 'components/Main/UserFinder';
+import { useDispatch } from 'react-redux';
+import { changeObjectResponsible } from '../../../store/objectSlice';
+import { useAsyncValue } from 'react-router-dom';
 
 const ResponsibleAvatar = styled.img`
   width: 36px;
@@ -14,10 +17,29 @@ const ResponsibleAvatar = styled.img`
   object-position: top;
   border-radius: 40px;
 `;
-const SlideObjectResponsible = ({ responsible }) => {
+const SlideObjectResponsible = ({ currentResponsible }) => {
+  const object = useAsyncValue();
+  const dispatch = useDispatch();
+  const [responsible, setResponsible] = useState(currentResponsible);
   const [openChange, setOpenChange] = useState(false);
   const toggleOpenChange = () => {
     setOpenChange(!openChange);
+  };
+  const changeResponsible = (user) => {
+    setResponsible(user);
+    dispatch(
+      changeObjectResponsible({
+        UID: object.UID,
+        type: object.typeEstate,
+        responsibleId: user.UID,
+      })
+    )
+      .unwrap()
+      .then((answer) => {
+        if (answer === 'OK') {
+          toggleOpenChange();
+        }
+      });
   };
   return (
     <>
@@ -30,17 +52,14 @@ const SlideObjectResponsible = ({ responsible }) => {
         </Box>
         <Box>
           <ResponsibleAvatar src={useGetAvatar(responsible || null)} />
-          <TextSpanStyle>{responsible?.title || 'Неизвестный'}</TextSpanStyle>
+          <TextSpanStyle>
+            {responsible?.lastName || ''} {responsible?.firstName || ''}
+          </TextSpanStyle>
         </Box>
       </Box>
       <DialogWindow open={openChange} onClose={toggleOpenChange}>
         <div onClick={(e) => e.stopPropagation()}>
-          <UserFinder
-            onClose={toggleOpenChange}
-            onChange={(user) => {
-              console.log(user);
-            }}
-          />
+          <UserFinder onClose={toggleOpenChange} onChange={changeResponsible} />
         </div>
       </DialogWindow>
     </>

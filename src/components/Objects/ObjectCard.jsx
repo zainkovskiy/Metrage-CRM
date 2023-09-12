@@ -142,7 +142,7 @@ const ObjectCard = ({ object }) => {
                   {object?.Price || '0'} руб.
                 </TextSpanStyle>
                 <TextSpanStyle size={10}>
-                  {useGetMeterPrice(object?.Price, object?.Area)} руб/м2
+                  {useGetMeterPrice(object?.Price, getArea())} руб/м2
                 </TextSpanStyle>
               </Box>
               <Box column gap='0' ai='flex-end'>

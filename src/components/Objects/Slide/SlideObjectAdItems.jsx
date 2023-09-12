@@ -26,7 +26,11 @@ const Table = styled.table`
 const SlideObjectAdItems = () => {
   const object = useAsyncValue();
   if (object?.platform?.length < 1) {
-    return <TextSpanStyle $fullWidth>Объекта нет в рекламе</TextSpanStyle>;
+    return (
+      <div style={{ marginTop: '0.5rem', width: '100%' }}>
+        <TextSpanStyle $fullWidth>Объекта нет в рекламе</TextSpanStyle>
+      </div>
+    );
   }
   return (
     <Table>

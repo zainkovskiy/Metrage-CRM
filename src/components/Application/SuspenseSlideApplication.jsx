@@ -4,9 +4,8 @@ import styled from 'styled-components';
 import { useWindowSize } from 'hooks/windowSize';
 import { setUpdateApplication } from 'store/applicationSlice';
 
-
-import Loader from "components/Main/Loader";
-import SlideWindow from "components/Main/SlideWindow";
+import Loader from 'components/Main/Loader';
+import SlideWindow from 'components/Main/SlideWindow';
 const TaskSlide = React.lazy(() => import('./TaskSlide'));
 import { getApplicationData } from 'api/application';
 import { useDispatch } from 'react-redux';
@@ -15,7 +14,7 @@ const LoaderContainer = styled.div`
   display: flex;
   justify-content: center;
   height: 100%;
-`
+`;
 
 const SuspenseSlideApplication = () => {
   const [open, setOpen] = useState(true);
@@ -27,22 +26,28 @@ const SuspenseSlideApplication = () => {
     setTimeout(() => {
       application.then((app) => {
         dispatch(setUpdateApplication(app.UID));
-      })
-      navigate('/', {replace: true});
-    }, 300)
+      });
+      navigate('/', { replace: true });
+    }, 300);
     setOpen(false);
-  }
+  };
   const getWidth = () => {
     if (windowSize < 768) {
       return '100%';
     }
     return '70%';
-  }
+  };
   return (
     <SlideWindow width={getWidth()} onClose={handleClose} open={open}>
-      <Suspense fallback={<LoaderContainer><Loader fill='#fff' /></LoaderContainer>}>
+      <Suspense
+        fallback={
+          <LoaderContainer>
+            <Loader fill='#fff' />
+          </LoaderContainer>
+        }
+      >
         <Await resolve={application}>
-          <TaskSlide closeSlide={handleClose}/>
+          <TaskSlide closeSlide={handleClose} />
         </Await>
       </Suspense>
     </SlideWindow>
@@ -51,7 +56,7 @@ const SuspenseSlideApplication = () => {
 
 export const loaderOpenSlide = async ({ request, params }) => {
   const { appId } = params;
-  return { application: getApplicationData(appId) }
-}
+  return { application: getApplicationData(appId) };
+};
 
 export default SuspenseSlideApplication;

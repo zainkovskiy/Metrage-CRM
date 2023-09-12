@@ -25,7 +25,7 @@ const SlideDialogAdHeaderStyle = styled.div`
   align-items: center;
 `;
 const OfficeListStyle = styled.div`
-  overflow: auto;
+  // overflow: auto;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -106,13 +106,13 @@ const SlideDialogAd = ({ onClose, UID, estate }) => {
               defaultChecked={ad?.onCian}
               onChange={handleChange}
             />
-            <InputUI
+            {/* <InputUI
               id='cianDate'
               type='date'
               disabled={true}
               small
               value={ad?.cianDate || ''}
-            />
+            /> */}
           </Box>
           <Box jc='space-between'>
             <CheckboxUI
@@ -121,13 +121,13 @@ const SlideDialogAd = ({ onClose, UID, estate }) => {
               defaultChecked={ad?.onDomclick}
               onChange={handleChange}
             />
-            <InputUI
+            {/* <InputUI
               id='domclickDate'
               type='date'
               disabled={true}
               small
               value={ad?.domclickDate || ''}
-            />
+            /> */}
           </Box>
           <Box jc='space-between'>
             <CheckboxUI
@@ -136,13 +136,13 @@ const SlideDialogAd = ({ onClose, UID, estate }) => {
               defaultChecked={ad?.onYandex}
               onChange={handleChange}
             />
-            <InputUI
+            {/* <InputUI
               id='yandexDate'
               type='date'
               disabled={true}
               small
               value={ad?.yandexDate || ''}
-            />
+            /> */}
           </Box>
           <Box jc='space-between'>
             <CheckboxUI
@@ -151,13 +151,13 @@ const SlideDialogAd = ({ onClose, UID, estate }) => {
               defaultChecked={ad?.onOther}
               onChange={handleChange}
             />
-            <InputUI
+            {/* <InputUI
               id='otherDate'
               type='date'
               disabled={true}
               small
               value={ad?.otherDate || ''}
-            />
+            /> */}
           </Box>
         </OfficeListStyle>
       )}

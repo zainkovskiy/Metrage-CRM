@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import FormFlat from "./New/FormTemplate/FormFlat";
+import styled from 'styled-components';
+import FormFlat from './New/FormTemplate/FormFlat';
 import FormRoom from './New/FormTemplate/FormRoom';
 import FormNewBuilding from './New/FormTemplate/FormNewBuilding';
 import FormFlatShare from './New/FormTemplate/FormFlatShare';
@@ -12,18 +12,17 @@ import FormLand from './New/FormTemplate/FormLand';
 import FormOffice from './New/FormTemplate/FormOffice';
 import FormBuilding from './New/FormTemplate/FormBuilding';
 import FormShoppingArea from './New/FormTemplate/FormShoppingArea';
-import FormFreeAppointmentObject from './New/FormTemplate/FormFreeAppointmentObject'
+import FormFreeAppointmentObject from './New/FormTemplate/FormFreeAppointmentObject';
 import FormIndustry from './New/FormTemplate/FormIndustry';
 import FormWarehouse from './New/FormTemplate/FormWarehouse';
 import FormBusiness from './New/FormTemplate/FormBusiness';
 import FormCommercialLand from './New/FormTemplate/FormCommercialLand';
-import {useNumberTriad} from 'hooks/StringHook';
-const DefaultComponent = styled.div`
-`
+import { useNumberTriad } from 'hooks/StringHook';
+const DefaultComponent = styled.div``;
 
 export const useSelectCategoryField = (category, type) => {
   if (!type || !category) {
-    return
+    return;
   }
   if (type === 'residential') {
     switch (category) {
@@ -75,14 +74,15 @@ export const useSelectCategoryField = (category, type) => {
     return DefaultComponent;
   }
   return DefaultComponent;
-}
+};
 
 export const useGetMeterPrice = (price, area) => {
-  if (!price || !area) return 0
+  if (!price || !area) return 0;
+  if (price < 1 || area < 1) return 0;
   const priceNumber = parseFloat(price.replace(/\s/g, ''));
   const areaNumber = parseFloat(area);
   if (typeof priceNumber === 'number' && typeof areaNumber === 'number') {
-    return useNumberTriad(Math.floor(priceNumber / areaNumber))
+    return useNumberTriad(Math.floor(priceNumber / areaNumber));
   }
-  return 0
-}
+  return 0;
+};

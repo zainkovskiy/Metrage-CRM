@@ -10,6 +10,7 @@ import SlideObjectStory from './SlideObjectStory';
 import { SlideBlockStyle } from '../ObjectsStyle';
 import MapPlacemark from 'components/Main/MapPlacemark';
 import { useWindowSize } from 'hooks/windowSize';
+import SlideObjectStatus from './SlideObjectStatus';
 
 const SlideObjectStyle = styled.div`
   height: 100%;
@@ -49,6 +50,7 @@ const SlideObject = ({ onCloseSlide }) => {
     <SlideObjectStyle>
       <SlideObjectContext>
         <SlideObjectMeta />
+        <SlideObjectStatus />
         {object?.isEditor && (
           <SlideObjectNav
             onCloseSlide={onCloseSlide}

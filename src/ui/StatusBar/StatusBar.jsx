@@ -7,14 +7,15 @@ const StatusBarStyle = styled.div`
   gap: 0.5rem;
   align-items: center;
   ${({ $disabled }) => $disabled && 'pointer-events: none'};
-  // ${({ $fullWidth }) => $fullWidth && 'width: 100%'};
+  ${({ $fullWidth }) => $fullWidth && 'width: 100%'};
   flex-grow: 1;
   ${({ $wrap }) => $wrap && 'flex-wrap: wrap'};
   ${({ $column }) => $column && 'flex-direction: column'};
 `;
 const StatusBarLineStyle = styled.div`
   height: 1px;
-  width: 100%;
+  // width: 100%;
+  flex-grow: 1;
   background-color: ${({ theme }) => theme.color.primary};
   min-width: 5px;
 `;

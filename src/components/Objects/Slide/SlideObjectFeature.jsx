@@ -4,10 +4,14 @@ import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
 import { SlideBlockStyle } from '../ObjectsStyle';
 import { IconButton } from 'ui/IconButton';
+import { Box } from 'ui/Box';
 import editUrl, { ReactComponent as Edit } from 'images/edit.svg';
 import DialogWindow from 'components/Main/DialogWindow';
 import SlideDialogComment from './SlideDialogComment';
 import { setDescriptionAPI } from 'api/objectAPI';
+import exclamationUrl, {
+  ReactComponent as Exclamation,
+} from 'images/exclamation.svg';
 import { device } from 'styles/device';
 import {
   RoomTypeTranslate,
@@ -45,7 +49,10 @@ import {
   СonveniencesTranslate,
 } from '../KeyTranslate';
 import { SliderTitle } from '../../../styles/slider';
-
+const AlertIcon = styled(Exclamation)`
+  width: 20px;
+  height: 20px;
+`;
 const FeatureContainer = styled(SlideBlockStyle)`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -887,7 +894,12 @@ const SlideObjectFeature = () => {
         </FeatureBlock>
         <FeatureBlock>
           <SliderTitle>
-            Описание
+            <Box gap='0.2rem'>
+              Описание
+              {object?.Description === 'Тут будет комментарий к объекту' && (
+                <AlertIcon />
+              )}
+            </Box>
             <IconButton onClick={toggleEditComment}>
               <Edit />
             </IconButton>

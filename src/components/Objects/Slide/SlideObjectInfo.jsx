@@ -146,7 +146,9 @@ const SlideObjectInfo = () => {
               </Box>
             </Box>
             {object?.responsibleId && (
-              <SlideObjectResponsible responsible={object?.responsibleId} />
+              <SlideObjectResponsible
+                currentResponsible={object?.responsibleId}
+              />
             )}
           </Box>
         )}

@@ -40,13 +40,15 @@ const FormTitle = styled.div`
   width: 100%;
   text-align: center;
 `;
+const user = globalUser ? JSON.parse(globalUser) : null;
 const deafaultFilter = {
   typeRealty: 'live',
-  typeObject: ['flatSale'],
+  stage: 1,
+  users: [user],
 };
 const resetFilter = {
   typeRealty: 'live',
-  typeObject: ['flatSale'],
+  typeObject: [],
   users: [],
   Address: '',
   TotalArea: [null, null],
@@ -59,6 +61,8 @@ const resetFilter = {
   ExternalFind: false,
   objectUID: '',
   SaleType: '',
+  stage: 1,
+  users: [user],
 };
 const ObjectsFilterForm = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -104,6 +108,9 @@ const ObjectsFilterForm = ({ onClose }) => {
   watch('typeRealty');
   watch('typeObject');
   const getTotalArea = () => {
+    if (!getValues('typeObject')) {
+      return false;
+    }
     if (getValues('typeObject').includes('flatSale')) {
       return true;
     }
@@ -146,6 +153,9 @@ const ObjectsFilterForm = ({ onClose }) => {
     return false;
   };
   const getLivingArea = () => {
+    if (!getValues('typeObject')) {
+      return false;
+    }
     if (getValues('typeObject').includes('flatSale')) {
       return true;
     }
@@ -158,6 +168,9 @@ const ObjectsFilterForm = ({ onClose }) => {
     return false;
   };
   const getKitchenArea = () => {
+    if (!getValues('typeObject')) {
+      return false;
+    }
     if (getValues('typeObject').includes('flatSale')) {
       return true;
     }
@@ -167,6 +180,9 @@ const ObjectsFilterForm = ({ onClose }) => {
     return false;
   };
   const getLandArea = () => {
+    if (!getValues('typeObject')) {
+      return false;
+    }
     if (getValues('typeObject').includes('houseSale')) {
       return true;
     }
@@ -197,6 +213,9 @@ const ObjectsFilterForm = ({ onClose }) => {
     return false;
   };
   const getFloors = () => {
+    if (!getValues('typeObject')) {
+      return false;
+    }
     if (getValues('typeObject').includes('flatSale')) {
       return true;
     }
@@ -230,6 +249,9 @@ const ObjectsFilterForm = ({ onClose }) => {
     return false;
   };
   const getRoomsCount = () => {
+    if (!getValues('typeObject')) {
+      return false;
+    }
     if (getValues('typeObject').includes('flatSale')) {
       return true;
     }
@@ -374,35 +396,36 @@ const ObjectsFilterForm = ({ onClose }) => {
             </SelectMultipleUI>
           )}
         />
-        {getValues('typeObject').includes('newBuildingFlatSale') && (
-          <Controller
-            name='SaleType'
-            control={control}
-            render={({ field }) => (
-              <SelectUI
-                onChange={(newValue) => {
-                  field.onChange(newValue);
-                }}
-                select={field.value}
-                multiple
-                label='Тип продажи'
-              >
-                <SelectItemUI value='dupt'>
-                  Договор уступки права требования
-                </SelectItemUI>
-                <SelectItemUI value='dzhsk'>Договор ЖСК</SelectItemUI>
-                <SelectItemUI value='free'>Свободная продажа</SelectItemUI>
-                <SelectItemUI value='fz214'>214-ФЗ</SelectItemUI>
-                <SelectItemUI value='investment'>
-                  Договор инвестирования
-                </SelectItemUI>
-                <SelectItemUI value='pdkp'>
-                  Предварительный договор купли-продажи
-                </SelectItemUI>
-              </SelectUI>
-            )}
-          />
-        )}
+        {getValues('typeObject') &&
+          getValues('typeObject').includes('newBuildingFlatSale') && (
+            <Controller
+              name='SaleType'
+              control={control}
+              render={({ field }) => (
+                <SelectUI
+                  onChange={(newValue) => {
+                    field.onChange(newValue);
+                  }}
+                  select={field.value}
+                  multiple
+                  label='Тип продажи'
+                >
+                  <SelectItemUI value='dupt'>
+                    Договор уступки права требования
+                  </SelectItemUI>
+                  <SelectItemUI value='dzhsk'>Договор ЖСК</SelectItemUI>
+                  <SelectItemUI value='free'>Свободная продажа</SelectItemUI>
+                  <SelectItemUI value='fz214'>214-ФЗ</SelectItemUI>
+                  <SelectItemUI value='investment'>
+                    Договор инвестирования
+                  </SelectItemUI>
+                  <SelectItemUI value='pdkp'>
+                    Предварительный договор купли-продажи
+                  </SelectItemUI>
+                </SelectUI>
+              )}
+            />
+          )}
         <Controller
           name='users'
           control={control}
@@ -646,6 +669,25 @@ const ObjectsFilterForm = ({ onClose }) => {
             </Box>
           </Box>
         )}
+        <Controller
+          name='stage'
+          control={control}
+          render={({ field }) => (
+            <SelectUI
+              onChange={(newValue) => field.onChange(newValue)}
+              select={field.value || ''}
+              multiple
+              label='Стадия'
+            >
+              <SelectItemUI value=''>Выбрать</SelectItemUI>
+              <SelectItemUI value={0}>Черновик</SelectItemUI>
+              <SelectItemUI value={1}>Активный</SelectItemUI>
+              <SelectItemUI value={2}>Закрепление</SelectItemUI>
+              <SelectItemUI value={3}>Продано</SelectItemUI>
+              <SelectItemUI value={4}>Срыв</SelectItemUI>
+            </SelectUI>
+          )}
+        />
         <Controller
           name='objectUID'
           control={control}

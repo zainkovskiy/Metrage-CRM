@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const API = process.env.MAIN_API;
+const user = globalUser ? JSON.parse(globalUser) : null;
 
 export const createObject = createAsyncThunk(
   'objects/createObject',
@@ -54,13 +55,45 @@ export const getMoreObjects = createAsyncThunk(
     return [];
   }
 );
+export const changeObjectResponsible = createAsyncThunk(
+  'objects/changeObjectResponsible',
+  async (raw) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.objects.setOwner',
+      fields: {
+        UID: raw.UID,
+        type: raw.type,
+        responsibleId: raw.responsibleId,
+      },
+    });
+    if (res?.statusText === 'OK') {
+      return res.statusText;
+    }
+  }
+);
+export const changeObjectStage = createAsyncThunk(
+  'objects/changeObjectStage',
+  async (raw) => {
+    await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.objects.setStage',
+      fields: {
+        StageId: raw.stage,
+        UID: raw.UID,
+        type: raw.type,
+      },
+    });
+  }
+);
 const initialState = {
   loadingList: false,
   loadingMore: false,
   objects: [],
   filter: {
     typeRealty: 'live',
-    typeObject: ['flatSale'],
+    stage: 1,
+    users: [user],
   },
   offset: 1,
 };
