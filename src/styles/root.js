@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 import CeraCY_TTF from '../public/fonts/CeraCYRegular.ttf';
 import CeraCY_WOFF from '../public/fonts/CeraCYRegular.woff';
 import CeraCY_WOFF2 from '../public/fonts/CeraCYRegular.woff2';
@@ -46,7 +46,7 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-appearance: none;
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
   }
-`
+`;
 export const rootTheme = {
   color: {
     primary: '#85009e',
@@ -57,8 +57,8 @@ export const rootTheme = {
   font: {
     family: 'CeraCY, sans-serif',
     familyBold: 'CeraCYBold, sans-serif',
-  }
-}
+  },
+};
 export const darkTheme = {
   color: {
     primary: '#fff',
@@ -69,5 +69,5 @@ export const darkTheme = {
   font: {
     family: 'CeraCY, sans-serif',
     familyBold: 'CeraCYBold, sans-serif',
-  }
-}
+  },
+};

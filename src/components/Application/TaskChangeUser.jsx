@@ -1,9 +1,9 @@
 import React from 'react';
-
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { changeAgent } from 'store/applicationSlice';
 import { useNavigate } from 'react-router-dom';
+import UserFinder from '../Main/UserFinder';
 
 const TaskChangeUserStyle = styled.div``;
 
