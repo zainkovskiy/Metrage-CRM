@@ -7,8 +7,10 @@ import { ButtonLink } from 'ui/ButtonLink';
 import DialogWindow from 'components/Main/DialogWindow';
 import { useAsyncValue } from 'react-router-dom';
 import { onRepublication } from '../../../api/objectAPI';
+import { useSelector } from 'react-redux';
 
 const SlideObjectAd = () => {
+  const isAdmin = useSelector((state) => state.user.isAdmin);
   const [sure, setSure] = useState(false);
   const object = useAsyncValue();
   const handleClick = () => {
@@ -27,9 +29,11 @@ const SlideObjectAd = () => {
     <SlideBlockStyle $column gap='0'>
       <SliderTitle>
         Реклама
-        <ButtonLink onClick={handleClick} size={12}>
-          Перепубликовать
-        </ButtonLink>
+        {isAdmin === '1' && (
+          <ButtonLink onClick={handleClick} size={12}>
+            Перепубликовать
+          </ButtonLink>
+        )}
       </SliderTitle>
       <SlideObjectAdItems />
       {sure && (

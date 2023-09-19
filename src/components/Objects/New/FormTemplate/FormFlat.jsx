@@ -161,7 +161,7 @@ const FormFlat = () => {
               },
               min: {
                 value: 2,
-                message: 'Минимальное знаение: 5',
+                message: 'Минимальное знаение: 2',
               },
             }}
             render={({ field }) => (

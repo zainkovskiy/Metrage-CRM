@@ -903,9 +903,11 @@ const SlideObjectFeature = () => {
                 </TooltipUI>
               )}
             </Box>
-            <IconButton onClick={toggleEditComment}>
-              <Edit />
-            </IconButton>
+            {object?.isEditor && (
+              <IconButton onClick={toggleEditComment}>
+                <Edit />
+              </IconButton>
+            )}
           </SliderTitle>
           <FeatureBlock>
             <TextSpanStyle size={10}>{object?.Description}</TextSpanStyle>
