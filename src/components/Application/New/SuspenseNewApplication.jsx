@@ -4,14 +4,16 @@ import styled from 'styled-components';
 import { getDetailForNewApp } from 'api/application';
 import { useWindowSize } from 'hooks/windowSize';
 
-import SlideWindow from "components/Main/SlideWindow";
+import SlideWindow from 'components/Main/SlideWindow';
 import Loader from 'components/Main/Loader';
-const NewTask = React.lazy(() => import('components/Application/NewTask'));
+const NewApplication = React.lazy(() =>
+  import('components/Application/New/NewApplication')
+);
 
 const LoaderContainer = styled.div`
   display: flex;
   height: 100%;
-`
+`;
 
 const SuspenseNewApplication = () => {
   const { detailData } = useLoaderData();
@@ -21,9 +23,9 @@ const SuspenseNewApplication = () => {
   const handleClose = () => {
     setTimeout(() => {
       navigate('/', { replace: true });
-    }, 300)
+    }, 300);
     setOpen(false);
-  }
+  };
   const getWidth = () => {
     if (windowSize < 768) {
       return '100%';
@@ -32,12 +34,18 @@ const SuspenseNewApplication = () => {
       return '50%';
     }
     return '30%';
-  }
+  };
   return (
     <SlideWindow open={open} onClose={handleClose} width={getWidth()}>
-      <Suspense fallback={<LoaderContainer><Loader fill='#fff' /></LoaderContainer>}>
+      <Suspense
+        fallback={
+          <LoaderContainer>
+            <Loader fill='#fff' />
+          </LoaderContainer>
+        }
+      >
         <Await resolve={detailData}>
-          <NewTask slideClose={handleClose}/>
+          <NewApplication slideClose={handleClose} />
         </Await>
       </Suspense>
     </SlideWindow>
@@ -47,8 +55,8 @@ const SuspenseNewApplication = () => {
 export const newTaskLoader = async ({ request, params }) => {
   const { chatId } = params;
   if (!chatId) {
-    return { detailData: null }
+    return { detailData: null };
   }
-  return { detailData: getDetailForNewApp(chatId) }
-}
+  return { detailData: getDetailForNewApp(chatId) };
+};
 export default SuspenseNewApplication;

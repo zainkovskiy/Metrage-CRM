@@ -102,6 +102,7 @@ const FormFlatShare = () => {
           <Controller
             name='TotalArea'
             control={control}
+            rules={{ required: 'Поле обязательное' }}
             render={({ field }) => (
               <InputUI
                 onChange={(e) => field.onChange(parseFloat(e.target.value))}
@@ -109,12 +110,23 @@ const FormFlatShare = () => {
                 label='Общая площадь, м2'
                 fullWidth
                 type='number'
+                error={errors?.TotalArea}
               />
             )}
           />
           <Controller
             name='LivingArea'
             control={control}
+            rules={{
+              required: {
+                value: true,
+                message: 'Поле обязательное',
+              },
+              min: {
+                value: 5,
+                message: 'Минимальное знаение: 5',
+              },
+            }}
             render={({ field }) => (
               <InputUI
                 onChange={(e) => field.onChange(parseFloat(e.target.value))}
@@ -122,12 +134,23 @@ const FormFlatShare = () => {
                 label='Жилая площадь, м2'
                 fullWidth
                 type='number'
+                error={errors?.LivingArea}
               />
             )}
           />
           <Controller
             name='KitchenArea'
             control={control}
+            rules={{
+              required: {
+                value: true,
+                message: 'Поле обязательное',
+              },
+              min: {
+                value: 2,
+                message: 'Минимальное знаение: 5',
+              },
+            }}
             render={({ field }) => (
               <InputUI
                 onChange={(e) => field.onChange(parseFloat(e.target.value))}
@@ -135,6 +158,7 @@ const FormFlatShare = () => {
                 label='Площадь кухни, м2'
                 fullWidth
                 type='number'
+                error={errors?.KitchenArea}
               />
             )}
           />

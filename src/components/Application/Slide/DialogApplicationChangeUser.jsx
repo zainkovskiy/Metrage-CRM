@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { changeAgent } from 'store/applicationSlice';
 import { useNavigate } from 'react-router-dom';
-import UserFinder from '../Main/UserFinder';
+import UserFinder from '../../Main/UserFinder';
 
-const TaskChangeUserStyle = styled.div``;
+const ApplicationChangeUserStyle = styled.div``;
 
-const TaskChangeUser = ({ onClose, UID }) => {
+const DialogApplicationChangeUser = ({ onClose, UID }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const changeUser = (user) => {
@@ -26,10 +26,10 @@ const TaskChangeUser = ({ onClose, UID }) => {
     });
   };
   return (
-    <TaskChangeUserStyle onClick={(e) => e.stopPropagation()}>
+    <ApplicationChangeUserStyle onClick={(e) => e.stopPropagation()}>
       <UserFinder onClose={onClose} onChange={changeUser} />
-    </TaskChangeUserStyle>
+    </ApplicationChangeUserStyle>
   );
 };
 
-export default TaskChangeUser;
+export default DialogApplicationChangeUser;

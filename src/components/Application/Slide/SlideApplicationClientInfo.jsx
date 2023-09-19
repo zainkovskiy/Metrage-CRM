@@ -7,62 +7,74 @@ import whatsappUrl, { ReactComponent as WhatsApp } from 'images/whatsapp.svg';
 import telegramUrl, { ReactComponent as Telegram } from 'images/telegram.svg';
 import celendarUrl, { ReactComponent as Celendar } from 'images/calendar2.svg';
 import editUrl, { ReactComponent as Edit } from 'images/edit.svg';
-import { TaskBlockStyle, TaskSlideTitleStyle, TaskSlideSide } from './TaskStyle';
+import {
+  ApplicationBlockStyle,
+  ApplicationSlideSide,
+} from '../applicationStyle';
 import { Box } from 'ui/Box';
 import { IconButton } from 'ui/IconButton';
 import DialogWindow from 'components/Main/DialogWindow';
-import ApplicationNextContact from './ApplicationNextContact';
-import ApplicationEditName from './ApplicationEditName ';
+import ApplicationNextContact from '../ApplicationNextContact';
+import ApplicationEditName from '../ApplicationEditName ';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkApplication } from '../../store/applicationSlice';
+import { checkApplication } from '../../../store/applicationSlice';
+import { SliderTitle } from '../../../styles/slider';
 
-
-const TaskSlideClientInfoStyle = styled.div`
+const ApplicationSlideClientInfoStyle = styled.div`
   display: flex;
   width: 100%;
   gap: 0.5rem;
-`
+`;
 const TextSpanStyleLink = styled(TextSpanStyle)`
   cursor: pointer;
-  transition: color .3s, text-decoration .3s;
-  &:hover{
+  transition: color 0.3s, text-decoration 0.3s;
+  &:hover {
     color: ${({ theme }) => theme.color.primary};
     text-decoration: underline;
   }
-`
-const TaskSlideClientInfo = ({ client, demand, children, UID }) => {
+`;
+const SlideApplicationClientInfo = ({ client, demand, children, UID }) => {
   const dispatch = useDispatch();
-  const isAdmin = useSelector((state) => state.user?.isAdmin || ''); 
+  const isAdmin = useSelector((state) => state.user?.isAdmin || '');
   const [isShowPhone, setIsShowPhone] = useState(false);
   const [isShowNextContact, setIsShowNextContact] = useState(false);
   const [isShowEditName, setIsShowEditName] = useState(false);
-  const phone = client?.phones[0]?.value ? client?.phones[0]?.value.toString() : null;
+  const phone = client?.phones[0]?.value
+    ? client?.phones[0]?.value.toString()
+    : null;
   const getPhone = () => {
     if (phone) {
       if (isShowPhone) {
-        return <TextSpanStyle>{phone}</TextSpanStyle>
+        return <TextSpanStyle>{phone}</TextSpanStyle>;
       }
-      return <TextSpanStyleLink onClick={() => setIsShowPhone(true)}>{phone.slice(0, 4).concat('*******')}</TextSpanStyleLink>
+      return (
+        <TextSpanStyleLink onClick={() => setIsShowPhone(true)}>
+          {phone.slice(0, 4).concat('*******')}
+        </TextSpanStyleLink>
+      );
     }
-    return <TextSpanStyle>Нет номера</TextSpanStyle>
-  }
+    return <TextSpanStyle>Нет номера</TextSpanStyle>;
+  };
   const toggleShowNextContact = () => {
     setIsShowNextContact(!isShowNextContact);
-  }
+  };
   const toggleEditName = () => {
     setIsShowEditName(!isShowEditName);
-  }
+  };
   const isCheckedApplication = (e) => {
-    dispatch(checkApplication({
-      position: e.target.checked,
-      UID: UID,
-    }))
-  }
+    dispatch(
+      checkApplication({
+        position: e.target.checked,
+        UID: UID,
+      })
+    );
+  };
   return (
     <>
-      <TaskBlockStyle $column>
-        <TaskSlideTitleStyle>Клиент:
+      <ApplicationBlockStyle $column>
+        <SliderTitle>
+          Клиент:
           <CheckboxUI
             size='small'
             position='left'
@@ -71,21 +83,20 @@ const TaskSlideClientInfo = ({ client, demand, children, UID }) => {
             onChange={isCheckedApplication}
             disabled={isAdmin !== '1'}
           />
-        </TaskSlideTitleStyle>
-        <TaskSlideClientInfoStyle>
-          <TaskSlideSide gap='1rem'>
-            <TaskSlideSide>
+        </SliderTitle>
+        <ApplicationSlideClientInfoStyle>
+          <ApplicationSlideSide gap='1rem'>
+            <ApplicationSlideSide>
               <Box jc='flex-start'>
-                <TextSpanStyle size={16}>{client?.lastName} {client?.firstName}</TextSpanStyle>
+                <TextSpanStyle size={16}>
+                  {client?.lastName} {client?.firstName}
+                </TextSpanStyle>
                 <IconButton onClick={toggleEditName}>
                   <Edit />
                 </IconButton>
               </Box>
-              {
-                getPhone()
-              }
-              {
-                phone &&
+              {getPhone()}
+              {phone && (
                 <Box sp={{ marginTop: '0.5rem' }} jc='flex-start'>
                   <LinkButtonStyle
                     href={`tel:${'+7'.concat(phone.slice(1, phone.length))}`}
@@ -97,7 +108,9 @@ const TaskSlideClientInfo = ({ client, demand, children, UID }) => {
                     <Phone />
                   </LinkButtonStyle>
                   <LinkButtonStyle
-                    href={`https://wa.me/${'+7'.concat(phone.slice(1, phone.length))}`}
+                    href={`https://wa.me/${'+7'.concat(
+                      phone.slice(1, phone.length)
+                    )}`}
                     target='__blank'
                     bg='#25D366'
                     fill='#fff'
@@ -106,34 +119,46 @@ const TaskSlideClientInfo = ({ client, demand, children, UID }) => {
                     <WhatsApp />
                   </LinkButtonStyle>
                   <LinkButtonStyle
-                    href={`https://t.me/${'+7'.concat(phone.slice(1, phone.length))}`}
+                    href={`https://t.me/${'+7'.concat(
+                      phone.slice(1, phone.length)
+                    )}`}
                     target='__blank'
                     bg='#2bb6f6;'
                   >
                     <Telegram />
                   </LinkButtonStyle>
                 </Box>
-              }
-            </TaskSlideSide>
+              )}
+            </ApplicationSlideSide>
             {children}
-          </TaskSlideSide>
-          <TaskSlideSide>
-            <TextSpanStyle nowrap size={12}>Дата сделки: {useDateFormat(demand?.winDate)}</TextSpanStyle>
-            <TextSpanStyle nowrap size={12} color='#ccc'>Последний контакт: {useDateFormat(demand?.lastContact)}</TextSpanStyle>
+          </ApplicationSlideSide>
+          <ApplicationSlideSide>
+            <TextSpanStyle nowrap size={12}>
+              Дата сделки: {useDateFormat(demand?.winDate)}
+            </TextSpanStyle>
+            <TextSpanStyle nowrap size={12} color='#ccc'>
+              Последний контакт: {useDateFormat(demand?.lastContact)}
+            </TextSpanStyle>
             <Box jc='flex-start' wrap gap='0'>
-              <TextSpanStyle nowrap size={12}>Следующий контакт: &nbsp;</TextSpanStyle>
+              <TextSpanStyle nowrap size={12}>
+                Следующий контакт: &nbsp;
+              </TextSpanStyle>
               <Box>
-                <TextSpanStyle nowrap size={12}>{useDateFormat(demand?.nextContact)}</TextSpanStyle>
+                <TextSpanStyle nowrap size={12}>
+                  {useDateFormat(demand?.nextContact)}
+                </TextSpanStyle>
                 <IconButton onClick={toggleShowNextContact}>
                   <Celendar />
                 </IconButton>
               </Box>
             </Box>
-            <TaskSlideTitleStyle size={12} color='#ccc'>Комментарий:</TaskSlideTitleStyle>
+            <SliderTitle size={12} color='#ccc'>
+              Комментарий:
+            </SliderTitle>
             <TextSpanStyle size={11}>{demand?.comment}</TextSpanStyle>
-          </TaskSlideSide>
-        </TaskSlideClientInfoStyle>
-      </TaskBlockStyle>
+          </ApplicationSlideSide>
+        </ApplicationSlideClientInfoStyle>
+      </ApplicationBlockStyle>
       <DialogWindow open={isShowNextContact} onClose={toggleShowNextContact}>
         <ApplicationNextContact onClose={toggleShowNextContact} />
       </DialogWindow>
@@ -154,15 +179,15 @@ const LinkButtonStyle = styled.a`
   width: 30px;
   height: 30px;
   cursor: pointer;
-  transition: transform .3s;
-  &:hover{
+  transition: transform 0.3s;
+  &:hover {
     transform: scale(1.1);
   }
-  & > svg{
+  & > svg {
     fill: ${({ fill }) => fill && fill};
     width: ${({ iSize }) => iSize && iSize + 'px'};
     height: ${({ iSize }) => iSize && iSize + 'px'};
   }
-`
+`;
 
-export default TaskSlideClientInfo;
+export default SlideApplicationClientInfo;

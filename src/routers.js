@@ -1,31 +1,30 @@
-import React from "react";
-import { createBrowserRouter } from "react-router-dom";
+import React from 'react';
+import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
 
-import SuspenseApplication from "components/Application/SuspenseApplication";
-import SuspenseSlideApplication from "components/Application/SuspenseSlideApplication";
-import { loaderOpenSlide } from "components/Application/SuspenseSlideApplication";
-import SuspenseNewApplication from "components/Application/SuspenseNewApplication";
-import { newTaskLoader } from 'components/Application/SuspenseNewApplication';
+import SuspenseApplication from 'components/Application/SuspenseApplication';
+import SuspenseSlideApplication from 'components/Application/Slide/SuspenseSlideApplication';
+import { loaderOpenSlide } from 'components/Application/Slide/SuspenseSlideApplication';
+import SuspenseNewApplication from 'components/Application/New/SuspenseNewApplication';
+import { newTaskLoader } from 'components/Application/New/SuspenseNewApplication';
 
-import SuspenseObjects from "components/Objects/SuspenseObjects";
-import SuspenseNewObjects from "components/Objects/New/SuspenseNewObjects";
+import SuspenseObjects from 'components/Objects/SuspenseObjects';
+import SuspenseNewObjects from 'components/Objects/New/SuspenseNewObjects';
 import { loaderEditSlide } from 'components/Objects/New/SuspenseNewObjects';
-import SuspenseSlideObjects from "components/Objects/Slide/SuspenseSlideObjects";
+import SuspenseSlideObjects from 'components/Objects/Slide/SuspenseSlideObjects';
 import { loaderObjectSlide } from 'components/Objects/Slide/SuspenseSlideObjects';
 
-import TaskContent from "components/Task/TaskContent";
-import SuspenceDeal from "components/Deal/SuspenceDeal";
-import SuspenseNewDeal from "components/Deal/New/SuspenseNewDeal";
-import SuspenseSlideDeal from "components/Deal/Slide/SuspenseSlideDeal";
+import TaskContent from 'components/Task/TaskContent';
+import SuspenceDeal from 'components/Deal/SuspenceDeal';
+import SuspenseNewDeal from 'components/Deal/New/SuspenseNewDeal';
+import SuspenseSlideDeal from 'components/Deal/Slide/SuspenseSlideDeal';
 import { loaderDealSlide } from 'components/Deal/Slide/SuspenseSlideDeal';
 
-import SuspenceClient from "components/Client/SuspenceClient";
-import SuspenseSlideClient from "components/Client/Slide/SuspenseSlideClient";
+import SuspenceClient from 'components/Client/SuspenceClient';
+import SuspenseSlideClient from 'components/Client/Slide/SuspenseSlideClient';
 
-import SuspenceUser from "components/User/SuspenceUser";
-import SuspenseSlideUser from "components/User/Slide/SuspenseSlideUser";
-
+import SuspenceUser from 'components/User/SuspenceUser';
+import SuspenseSlideUser from 'components/User/Slide/SuspenseSlideUser';
 
 export const routers = createBrowserRouter([
   {
@@ -39,19 +38,19 @@ export const routers = createBrowserRouter([
           {
             path: '/new-app',
             element: <SuspenseNewApplication />,
-            loader: newTaskLoader
+            loader: newTaskLoader,
           },
           {
             path: '/new-app/:chatId',
             element: <SuspenseNewApplication />,
-            loader: newTaskLoader
+            loader: newTaskLoader,
           },
           {
             path: '/application/:appId',
             element: <SuspenseSlideApplication />,
             loader: loaderOpenSlide,
           },
-        ]
+        ],
       },
       {
         path: 'task',
@@ -63,7 +62,7 @@ export const routers = createBrowserRouter([
         children: [
           {
             path: 'new',
-            element: <SuspenseNewObjects />
+            element: <SuspenseNewObjects />,
           },
           {
             path: ':category/:objectId',
@@ -75,7 +74,7 @@ export const routers = createBrowserRouter([
             element: <SuspenseNewObjects />,
             loader: loaderEditSlide,
           },
-        ]
+        ],
       },
       {
         path: 'deal',
@@ -83,14 +82,14 @@ export const routers = createBrowserRouter([
         children: [
           {
             path: 'new',
-            element: <SuspenseNewDeal />
+            element: <SuspenseNewDeal />,
           },
           {
             path: ':dealId',
             element: <SuspenseSlideDeal />,
             loader: loaderDealSlide,
           },
-        ]
+        ],
       },
       {
         path: 'client',
@@ -105,7 +104,7 @@ export const routers = createBrowserRouter([
             element: <SuspenseSlideClient />,
             // loader: loaderDealSlide,
           },
-        ]
+        ],
       },
       {
         path: 'users',
@@ -120,7 +119,7 @@ export const routers = createBrowserRouter([
             element: <SuspenseSlideUser />,
             // loader: loaderDealSlide,
           },
-        ]
+        ],
       },
       {
         path: 'home',
@@ -128,9 +127,9 @@ export const routers = createBrowserRouter([
       },
       {
         path: '*',
-        element: <p>page not found</p>
-      }
-    ]
+        element: <p>page not found</p>,
+      },
+    ],
   },
   // {
   //   path: 'engineer-works',
@@ -142,6 +141,6 @@ export const routers = createBrowserRouter([
   // },
   {
     path: '*',
-    element: <p>page not found</p>
+    element: <p>page not found</p>,
   },
-])
+]);

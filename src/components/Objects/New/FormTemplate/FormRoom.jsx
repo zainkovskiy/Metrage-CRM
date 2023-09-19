@@ -115,6 +115,7 @@ const FormRoom = () => {
           <Controller
             name='TotalArea'
             control={control}
+            rules={{ required: 'Поле обязательное' }}
             render={({ field }) => (
               <InputUI
                 onChange={(e) => field.onChange(parseFloat(e.target.value))}
@@ -122,6 +123,7 @@ const FormRoom = () => {
                 label='Общая площадь, м2'
                 fullWidth
                 type='number'
+                error={errors?.TotalArea}
               />
             )}
           />

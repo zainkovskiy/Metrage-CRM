@@ -132,6 +132,7 @@ const FormoCottage = () => {
           <Controller
             control={control}
             name='PermittedLandUseType'
+            rules={{ required: 'Поле обязательное' }}
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
                 <ButtonToggleItem
@@ -186,6 +187,11 @@ const FormoCottage = () => {
               </ButtonToggleGroup>
             )}
           />
+          {errors?.PermittedLandUseType && (
+            <TextSpanStyle size={12} color='red'>
+              {errors?.PermittedLandUseType?.message}
+            </TextSpanStyle>
+          )}
         </Box>
         <Box column ai='flex-start'>
           <TextSpanStyle>Материал дома</TextSpanStyle>

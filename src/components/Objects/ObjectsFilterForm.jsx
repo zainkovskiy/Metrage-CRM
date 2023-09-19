@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Controller, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import {
   SelectMultipleUI,
@@ -12,11 +13,11 @@ import { ButtonUI } from 'ui/ButtonUI';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import { Box } from 'ui/Box';
 import { TextSpanStyle } from 'styles/styles';
-import Dadata from 'components/Main/Dadata';
 import { setFilter, getObjectList } from 'store/objectSlice';
 import { useNumberTriad } from 'hooks/StringHook';
 import { getUserList } from 'api/search';
-import { Controller, useForm } from 'react-hook-form';
+import Dadata from 'components/Main/Dadata';
+import MapCircle from 'components/Main/MapCircle';
 
 const ObjectsFilterFormStyle = styled.form`
   display: flex;
@@ -45,6 +46,7 @@ const deafaultFilter = {
   typeRealty: 'live',
   stage: 1,
   users: [user],
+  cords: [],
 };
 const resetFilter = {
   typeRealty: 'live',
@@ -63,6 +65,7 @@ const resetFilter = {
   SaleType: '',
   stage: 1,
   users: [user],
+  cords: [],
 };
 const ObjectsFilterForm = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -709,6 +712,18 @@ const ObjectsFilterForm = ({ onClose }) => {
               id='ExternalFind'
               checked={field.value || false}
               onChange={(e) => field.onChange(e.target.checked)}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name='cords'
+          render={({ field }) => (
+            <MapCircle
+              circle={field.value}
+              onChange={field.onChange}
+              error={errors?.cords}
+              ref={field.ref}
             />
           )}
         />

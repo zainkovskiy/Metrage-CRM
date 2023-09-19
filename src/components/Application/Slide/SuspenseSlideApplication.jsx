@@ -6,7 +6,7 @@ import { setUpdateApplication } from 'store/applicationSlice';
 
 import Loader from 'components/Main/Loader';
 import SlideWindow from 'components/Main/SlideWindow';
-const TaskSlide = React.lazy(() => import('./TaskSlide'));
+const SlideApplication = React.lazy(() => import('./SlideApplication'));
 import { getApplicationData } from 'api/application';
 import { useDispatch } from 'react-redux';
 
@@ -47,7 +47,7 @@ const SuspenseSlideApplication = () => {
         }
       >
         <Await resolve={application}>
-          <TaskSlide closeSlide={handleClose} />
+          <SlideApplication closeSlide={handleClose} />
         </Await>
       </Suspense>
     </SlideWindow>

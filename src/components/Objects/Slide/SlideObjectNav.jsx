@@ -4,6 +4,7 @@ import { Box } from 'ui/Box';
 import styled from 'styled-components';
 import DialogWindow from 'components/Main/DialogWindow';
 import SlideDialogAd from './SlideDialogAd';
+import SlideDialogVideo from './SlideDialogVideo';
 import SlideDialogPhoto from './SlideDialogPhoto';
 import { useAsyncValue, useNavigate } from 'react-router-dom';
 
@@ -14,62 +15,77 @@ const ObjectSlideButton = styled.div`
   user-select: none;
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
-  transition: border-bottom .3s, color .3s;
-  &:hover{
+  transition: border-bottom 0.3s, color 0.3s;
+  &:hover {
     border-bottom: 1px solid #676767;
     color: #676767;
   }
-  &:active{
+  &:active {
     border-bottom: 1px solid transparent;
   }
-`
+`;
 const ObjectNavDivide = styled.span`
   width: 1px;
   background-color: #ccc;
-`
+`;
 
 const SlideObjectNav = ({ onCloseSlide, changePhoto }) => {
   const navigate = useNavigate();
   const object = useAsyncValue();
   const [ad, setAd] = useState(false);
   const [photo, setPhoto] = useState(false);
+  const [video, setVideo] = useState(false);
   const isShowAd = () => {
     setAd(!ad);
-  }
+  };
   const isShowPhoto = () => {
     setPhoto(!photo);
-  }
+  };
+  const isShowVideo = () => {
+    setVideo(!video);
+  };
   const clickEdit = () => {
     setTimeout(() => {
-      navigate(`/objects/edit/${object?.typeEstate}/${object?.UID}`, { replace: true });
-    }, 300)
+      navigate(`/objects/edit/${object?.typeEstate}/${object?.UID}`, {
+        replace: true,
+      });
+    }, 300);
     onCloseSlide();
-  }
+  };
   return (
     <SlideBlockStyle>
       <Box jc='space-between' fullWidth>
         <Box ai='normal'>
-          <ObjectSlideButton onClick={isShowPhoto}>
-            Фото
-          </ObjectSlideButton>
+          <ObjectSlideButton onClick={isShowPhoto}>Фото</ObjectSlideButton>
           <ObjectNavDivide />
-          <ObjectSlideButton onClick={isShowAd}>
-            Реклама
-          </ObjectSlideButton>
+          <ObjectSlideButton onClick={isShowVideo}>Видео</ObjectSlideButton>
+          <ObjectNavDivide />
+          <ObjectSlideButton onClick={isShowAd}>Реклама</ObjectSlideButton>
         </Box>
-        <ObjectSlideButton onClick={clickEdit}>
-          Редактировать
-        </ObjectSlideButton>
+        <ObjectSlideButton onClick={clickEdit}>Редактировать</ObjectSlideButton>
       </Box>
       <DialogWindow open={photo} onClose={isShowPhoto}>
         <SlideDialogPhoto
           onClose={isShowPhoto}
-          UID={object.UID} estate={object?.typeEstate} 
+          UID={object.UID}
+          estate={object?.typeEstate}
           changePhoto={changePhoto}
-          />
+        />
+      </DialogWindow>
+      <DialogWindow open={video} onClose={isShowVideo}>
+        <SlideDialogVideo
+          onClose={isShowVideo}
+          // UID={object.UID}
+          // estate={object?.typeEstate}
+          // changePhoto={changePhoto}
+        />
       </DialogWindow>
       <DialogWindow open={ad} onClose={isShowAd}>
-        <SlideDialogAd onClose={isShowAd} UID={object.UID} estate={object.typeEstate} />
+        <SlideDialogAd
+          onClose={isShowAd}
+          UID={object.UID}
+          estate={object.typeEstate}
+        />
       </DialogWindow>
     </SlideBlockStyle>
   );

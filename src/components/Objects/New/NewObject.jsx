@@ -31,8 +31,8 @@ const NewObject = ({ onClose }) => {
     dispatch(createObject(data))
       .unwrap()
       .then((answer) => {
-        if (answer === 'OK') {
-          onClose();
+        if (answer?.status === 'OK') {
+          onClose('', answer?.url);
         }
       });
   };

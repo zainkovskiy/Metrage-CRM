@@ -13,7 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
-    "@zainkovskiy/image-carousel-simple": "^0.1.0",
+    "@zainkovskiy/image-carousel-simple": "^0.2.0",
     "array-move": "^4.0.0",
     "axios": "^1.4.0",
     "babel-plugin-styled-components": "^2.1.1",

@@ -17,7 +17,10 @@ export const createObject = createAsyncThunk(
     });
     if (res?.statusText === 'OK') {
       dispatch(getObjectList('create'));
-      return 'OK';
+      return {
+        status: res?.data?.result?.result,
+        url: res?.data?.result?.URL || null,
+      };
     }
   }
 );
@@ -93,7 +96,16 @@ const initialState = {
   filter: {
     typeRealty: 'live',
     stage: 1,
-    users: [user],
+    users: [
+      user,
+      {
+        UID: '1',
+        firstName: 'Иван',
+        lastName: 'Мищенко',
+        secondName: 'Владимирович',
+        phone: '89231786699',
+      },
+    ],
   },
   offset: 1,
 };

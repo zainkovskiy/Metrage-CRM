@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const SliderStyle = styled.div`
   height: 100%;
@@ -19,13 +19,14 @@ export const SliderBlock = styled.div`
   padding: 0.5rem;
   background-color: #fff;
   border-radius: 5px;
-`
+`;
 
 export const SliderTitle = styled.div`
-  border-bottom: 1px solid #786464;
-  color: #786464;
+  border-bottom: 1px solid ${({ color }) => (color ? color : '#786464')};
+  color: ${({ color }) => (color ? color : '#786464')};
   font-family: ${({ theme }) => theme.font.family};
   display: flex;
   justify-content: space-between;
   width: 100%;
-`
+  ${({ size }) => size && `font-size: ${size}px`}
+`;

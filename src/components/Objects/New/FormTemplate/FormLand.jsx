@@ -62,19 +62,6 @@ const FormLand = () => {
             )}
           />
           <Controller
-            name='TotalArea'
-            control={control}
-            render={({ field }) => (
-              <InputUI
-                onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                value={field.value || ''}
-                label='Общая площадь, м2'
-                fullWidth
-                type='number'
-              />
-            )}
-          />
-          <Controller
             name='LandArea'
             control={control}
             render={({ field }) => (
@@ -106,6 +93,7 @@ const FormLand = () => {
           <Controller
             control={control}
             name='PermittedLandUseType'
+            rules={{ required: 'Поле обязательное' }}
             render={({ field }) => (
               <ButtonToggleGroup type='apart'>
                 <ButtonToggleItem
@@ -160,6 +148,11 @@ const FormLand = () => {
               </ButtonToggleGroup>
             )}
           />
+          {errors?.PermittedLandUseType && (
+            <TextSpanStyle size={12} color='red'>
+              {errors?.PermittedLandUseType?.message}
+            </TextSpanStyle>
+          )}
         </Box>
         <Box column ai='flex-start'>
           <TextSpanStyle>Ремонт</TextSpanStyle>

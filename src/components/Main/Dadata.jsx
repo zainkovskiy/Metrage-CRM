@@ -7,10 +7,23 @@ import styled from 'styled-components';
 
 const InputDadata = styled(InputStyle)`
   border: 1px solid;
-  border-color: ${({ theme, error }) => error ? 'red' : theme.color.primary} !important;
+  border-color: ${({ theme, error }) =>
+    error ? 'red' : theme.color.primary} !important;
   box-shadow: none;
-`
-const Dadata = ({ onChange, value, label, inputRef, error, disabled, defaultQuery }) => {
+  &:focus {
+    outline: 1px solid
+      ${({ theme, error }) => (error ? 'red' : theme.color.primary)};
+  }
+`;
+const Dadata = ({
+  onChange,
+  value,
+  label,
+  inputRef,
+  error,
+  disabled,
+  defaultQuery,
+}) => {
   return (
     <LabelStyle fullWidth>
       {label}
@@ -24,13 +37,17 @@ const Dadata = ({ onChange, value, label, inputRef, error, disabled, defaultQuer
           value={value}
           customInput={InputDadata}
           defaultQuery={defaultQuery}
-          renderOption={(suggestion) => { return <TextSpanStyle>{suggestion.value}</TextSpanStyle> }}
+          renderOption={(suggestion) => {
+            return <TextSpanStyle>{suggestion.value}</TextSpanStyle>;
+          }}
           inputProps={{
             error: error && 'error',
-            disabled: disabled
+            disabled: disabled,
           }}
         />
-        <TextSpanStyle color='red' size={12}>{error?.message && error.message}</TextSpanStyle>
+        <TextSpanStyle color='red' size={12}>
+          {error?.message && error.message}
+        </TextSpanStyle>
       </div>
     </LabelStyle>
   );

@@ -2,8 +2,8 @@ import React from 'react';
 import { Circle, YMaps, Map } from 'react-yandex-maps';
 import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
-import { TaskSlideTitleStyle } from './TaskStyle';
 import { useAsyncValue } from 'react-router-dom';
+import { SliderTitle } from 'styles/slider';
 
 const TaskObjectInfoStyle = styled.div`
   background-color: #fff;
@@ -12,21 +12,19 @@ const TaskObjectInfoStyle = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-`
-const TaskObjectInfo = () => {
+`;
+const SlideApplicationObjectInfo = () => {
   const application = useAsyncValue();
   const demand = application?.demand;
   return (
     <TaskObjectInfoStyle>
-      <TaskSlideTitleStyle>Потребность</TaskSlideTitleStyle>
+      <SliderTitle>Потребность</SliderTitle>
       <TextSpanStyle>{demand?.typePlace}</TextSpanStyle>
-      {
-        demand?.address?.value &&
+      {demand?.address?.value && (
         <TextSpanStyle>{demand?.address?.value}</TextSpanStyle>
-      }
-      {
-        demand?.cords &&
-        <YMaps >
+      )}
+      {demand?.cords && (
+        <YMaps>
           <Map
             defaultState={{ center: demand.cords[0], zoom: 12 }}
             width={'100%'}
@@ -35,9 +33,9 @@ const TaskObjectInfo = () => {
             <Circle geometry={demand?.cords} />
           </Map>
         </YMaps>
-      }
+      )}
     </TaskObjectInfoStyle>
   );
 };
 
-export default TaskObjectInfo;
+export default SlideApplicationObjectInfo;

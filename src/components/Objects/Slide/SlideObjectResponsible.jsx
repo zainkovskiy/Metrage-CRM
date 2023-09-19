@@ -17,10 +17,10 @@ const ResponsibleAvatar = styled.img`
   object-position: top;
   border-radius: 40px;
 `;
-const SlideObjectResponsible = ({ currentResponsible }) => {
+const SlideObjectResponsible = () => {
   const object = useAsyncValue();
   const dispatch = useDispatch();
-  const [responsible, setResponsible] = useState(currentResponsible);
+  const [responsible, setResponsible] = useState(object?.responsibleId || '');
   const [openChange, setOpenChange] = useState(false);
   const toggleOpenChange = () => {
     setOpenChange(!openChange);
@@ -46,9 +46,11 @@ const SlideObjectResponsible = ({ currentResponsible }) => {
       <Box column ai='flex-start' gap='0.2rem'>
         <Box gap='0.2rem'>
           <TextSpanStyle size={10}>Ответственный:</TextSpanStyle>
-          <ButtonLink size={10} color='#bd79c9' onClick={toggleOpenChange}>
-            сменить
-          </ButtonLink>
+          {object?.isEditor && (
+            <ButtonLink size={10} color='#bd79c9' onClick={toggleOpenChange}>
+              сменить
+            </ButtonLink>
+          )}
         </Box>
         <Box>
           <ResponsibleAvatar src={useGetAvatar(responsible || null)} />

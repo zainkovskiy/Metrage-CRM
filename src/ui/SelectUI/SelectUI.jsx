@@ -130,7 +130,7 @@ export const SelectUI = ({
     <LabelStyle fullWidth={fullWidth} ref={selectRef} id={idRef}>
       {label}
       <SelectContainer error={error} id={idRef}>
-        <SelectInputContainer id={idRef}>
+        <SelectInputContainer id={idRef} error={error}>
           <SelectInputStyle
             readOnly
             value={getSelectTitle()}

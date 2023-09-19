@@ -162,10 +162,10 @@ const SlideDialogAd = ({ onClose, UID, estate }) => {
         </OfficeListStyle>
       )}
       <Box jc='flex-start'>
-        <ButtonUI onClick={onClose}>Отменить</ButtonUI>
-        <ButtonUI onClick={saveAd} variant='outline'>
-          Сохранить
+        <ButtonUI onClick={onClose} variant='outline'>
+          Отменить
         </ButtonUI>
+        <ButtonUI onClick={saveAd}>Сохранить</ButtonUI>
       </Box>
     </SlideDialogAdStyle>
   );

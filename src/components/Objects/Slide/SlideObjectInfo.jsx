@@ -3,7 +3,6 @@ import { useAsyncValue } from 'react-router-dom';
 import styled from 'styled-components';
 import imgErrorUrl from 'images/img-error.svg';
 
-import { LinkUI } from 'ui/LinkUI';
 import { Box } from 'ui/Box';
 import { TextSpanStyle } from 'styles/styles';
 import { SlideBlockStyle } from '../ObjectsStyle';
@@ -79,24 +78,9 @@ const SlideObjectInfo = () => {
             {object?.addressId?.addrString || 'Нет адреса'}
           </TextSpanStyle>
           {getPrice()}
-          {/* {object?.platform?.length > 0 && (
-            <Box wrap jc='flex-start'>
-              <TextSpanStyle size={12}>Ссылки:</TextSpanStyle>
-              {object?.platform.map((item) => (
-                <LinkUI
-                  key={item.href}
-                  href={item.URL}
-                  target='_blank'
-                  size={12}
-                >
-                  {item.platform}
-                </LinkUI>
-              ))}
-            </Box>
-          )} */}
         </Box>
-        {object?.Category !== 'landSale' && (
-          <Box column ai='flex-start'>
+        <Box column ai='flex-start'>
+          {object?.Category !== 'landSale' && (
             <Box jc='space-between' fullWidth>
               <Box>
                 <AreaStyle />
@@ -145,13 +129,9 @@ const SlideObjectInfo = () => {
                 </Box>
               </Box>
             </Box>
-            {object?.responsibleId && (
-              <SlideObjectResponsible
-                currentResponsible={object?.responsibleId}
-              />
-            )}
-          </Box>
-        )}
+          )}
+          {object?.responsibleId && <SlideObjectResponsible />}
+        </Box>
       </SlideInfoBlock>
       <SlideInfoBlock>
         {/* <img src={object?.photos[0].URL} style={{width: '100%', height: '100%', objectFit: 'cover'}}/> */}

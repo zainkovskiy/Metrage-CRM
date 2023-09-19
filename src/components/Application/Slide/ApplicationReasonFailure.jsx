@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
 import { Box } from 'ui/Box';
 import { ButtonUI } from 'ui/ButtonUI';
- 
-const TaskReasonFailureStyle = styled.div`
+
+const ApplicationReasonFailureStyle = styled.div`
   position: absolute;
   width: 200px;
   background-color: rgb(255, 255, 255);
@@ -18,9 +18,9 @@ const TaskReasonFailureStyle = styled.div`
   flex-direction: column;
   gap: 0.5rem;
   z-index: 99;
-  &::after{
+  &::after {
     position: absolute;
-    content: "";
+    content: '';
     bottom: 100%;
     right: 1rem;
     width: 0px;
@@ -29,37 +29,45 @@ const TaskReasonFailureStyle = styled.div`
     border-width: 0px 10px 9px;
     border-color: transparent transparent rgb(255, 255, 255);
   }
-`
+`;
 const TexAreaStyle = styled.textarea`
   width: 100%;
-  border: 1px solid ${({theme}) => theme.color.primary};
-  font-family: ${({theme}) => theme.font.family};
+  border: 1px solid ${({ theme }) => theme.color.primary};
+  font-family: ${({ theme }) => theme.font.family};
   resize: none;
   border-radius: 5px;
   padding: 0.2rem;
   box-sizing: border-box;
-  &:focus{
-    outline: 1px solid ${({theme}) => theme.color.primary};
+  &:focus {
+    outline: 1px solid ${({ theme }) => theme.color.primary};
   }
-`
-const TaskReasonFailure = ({setFailure, onClose}) => {
+`;
+const ApplicationReasonFailure = ({ setFailure, onClose }) => {
   const [value, setValue] = useState('');
   const handleChange = (e) => {
     setValue(e.target.value);
-  }
+  };
   const handleClick = () => {
     setFailure(value.trim());
-  }
+  };
   return (
-    <TaskReasonFailureStyle>
+    <ApplicationReasonFailureStyle>
       <TextSpanStyle color='#7c7777'>Комментарий</TextSpanStyle>
-      <TexAreaStyle onChange={handleChange} value={value} rows="5"></TexAreaStyle>
+      <TexAreaStyle
+        onChange={handleChange}
+        value={value}
+        rows='5'
+      ></TexAreaStyle>
       <Box>
-        <ButtonUI size='small'  onClick={handleClick}>В срыв</ButtonUI>
-        <ButtonUI size='small' variant='outline' onClick={onClose}>Отменить</ButtonUI>
+        <ButtonUI size='small' onClick={handleClick}>
+          В срыв
+        </ButtonUI>
+        <ButtonUI size='small' variant='outline' onClick={onClose}>
+          Отменить
+        </ButtonUI>
       </Box>
-    </TaskReasonFailureStyle>
+    </ApplicationReasonFailureStyle>
   );
 };
 
-export default TaskReasonFailure;
+export default ApplicationReasonFailure;

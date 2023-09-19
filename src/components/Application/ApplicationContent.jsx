@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import Tasks from './Tasks';
-import TaskFilter from './TaskFilter';
+import Applications from './Applications';
+import ApplicationFilter from './ApplicationFilter';
 import { Outlet } from 'react-router-dom';
 import { device } from 'styles/device';
 import { getApplicationList, clearApplication } from 'store/applicationSlice';
@@ -13,11 +13,11 @@ const ApplicationContentStyle = styled.div`
   flex-direction: column;
   padding: 0.5rem;
   gap: 0.5rem;
-  @media ${device.tablet}{
+  @media ${device.tablet} {
     padding: 0;
     gap: 0;
   }
-`
+`;
 const ApplicationContent = () => {
   const firstMount = useRef(true);
   const dispatch = useDispatch();
@@ -25,15 +25,15 @@ const ApplicationContent = () => {
     getList();
     return () => {
       dispatch(clearApplication());
-    }
-  }, [])
+    };
+  }, []);
   const getList = () => {
     dispatch(getApplicationList());
-  }
+  };
   return (
     <ApplicationContentStyle>
-      <TaskFilter />
-      <Tasks firstMount={firstMount.current} />
+      <ApplicationFilter />
+      <Applications firstMount={firstMount.current} />
       <Outlet />
     </ApplicationContentStyle>
   );

@@ -1,15 +1,18 @@
 import React, { useEffect, useRef } from 'react';
-import BuyComponent from './BuyComponent';
-import SellComponent from './SellComponent';
-import { ButtonToggleGroup, ButtonToggleItem } from 'ui/ButtonToggle/ButtonToggle';
-import { useForm, Controller, set } from 'react-hook-form';
+import BuyComponent from '../BuyComponent';
+import SellComponent from '../SellComponent';
+import {
+  ButtonToggleGroup,
+  ButtonToggleItem,
+} from 'ui/ButtonToggle/ButtonToggle';
+import { useForm, Controller } from 'react-hook-form';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { ButtonUI } from 'ui/ButtonUI';
 import { AnimatePresence, motion } from 'framer-motion';
-import { changeType, getTask } from 'store/applicationSlice';
-import { TaskSlideTitleStyle } from './TaskStyle';
+import { changeType } from 'store/applicationSlice';
 import { useAsyncValue } from 'react-router-dom';
+import { SliderTitle } from 'styles/slider';
 
 const BuySellEditFormStyle = styled.form`
   padding: 0.5rem;
@@ -19,7 +22,7 @@ const BuySellEditFormStyle = styled.form`
   gap: 0.5rem;
   display: flex;
   flex-grow: 1;
-`
+`;
 const EditButtonGroupStyle = styled(motion.div)`
   display: flex;
   gap: 0.5rem;
@@ -30,9 +33,9 @@ const EditButtonGroupStyle = styled(motion.div)`
   left: 0;
   right: 0;
   justify-content: center;
-  box-shadow: 0px 2px 10px 1px rgba(128,128,128,1);
+  box-shadow: 0px 2px 10px 1px rgba(128, 128, 128, 1);
   overflow: hidden;
-`
+`;
 const getComponent = (key) => {
   switch (key) {
     case 'sell':
@@ -46,7 +49,7 @@ const getComponent = (key) => {
     default:
       return SellComponent;
   }
-}
+};
 const BuySellEditForm = () => {
   const application = useAsyncValue();
   const dispatch = useDispatch();
@@ -56,8 +59,15 @@ const BuySellEditForm = () => {
     if (firstMout.current) {
       firstMout.current = false;
     }
-  }, [])
-  const { control, handleSubmit, watch, getValues, reset, formState: { errors, isDirty } } = useForm({
+  }, []);
+  const {
+    control,
+    handleSubmit,
+    watch,
+    getValues,
+    reset,
+    formState: { errors, isDirty },
+  } = useForm({
     defaultValues: {
       type: demand?.type,
       typePlace: demand?.typePlace,
@@ -65,25 +75,27 @@ const BuySellEditForm = () => {
       cords: demand?.cords,
       costStart: demand?.costStart || '',
       costEnd: demand?.costEnd || '',
-    }
+    },
   });
 
   const onSubmit = (data) => {
-    dispatch(changeType({
-      uid: application.UID,
-      form: data
-    })).then((res) => {
+    dispatch(
+      changeType({
+        uid: application.UID,
+        form: data,
+      })
+    ).then((res) => {
       reset(data);
     });
-  }
+  };
   const clearAnyChange = () => {
-    reset()
-  }
+    reset();
+  };
   const ActiveComponent = getComponent(getValues('type'));
   watch('type');
   return (
     <BuySellEditFormStyle onSubmit={handleSubmit(onSubmit)}>
-      <TaskSlideTitleStyle>Потребность</TaskSlideTitleStyle>
+      <SliderTitle>Потребность</SliderTitle>
       <div>
         <Controller
           control={control}
@@ -91,16 +103,42 @@ const BuySellEditForm = () => {
           rules={{ required: 'Выберет тип' }}
           render={({ field }) => (
             <ButtonToggleGroup>
-              <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='sell' active={field.value}>Продать</ButtonToggleItem>
-              <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='buy' active={field.value}>Купить</ButtonToggleItem>
-              <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='rent' active={field.value}>Сдать</ButtonToggleItem>
-              <ButtonToggleItem onClick={(e) => field.onChange(e.target.id)} id='take' active={field.value}>Снять</ButtonToggleItem>
+              <ButtonToggleItem
+                onClick={(e) => field.onChange(e.target.id)}
+                id='sell'
+                active={field.value}
+              >
+                Продать
+              </ButtonToggleItem>
+              <ButtonToggleItem
+                onClick={(e) => field.onChange(e.target.id)}
+                id='buy'
+                active={field.value}
+              >
+                Купить
+              </ButtonToggleItem>
+              <ButtonToggleItem
+                onClick={(e) => field.onChange(e.target.id)}
+                id='rent'
+                active={field.value}
+              >
+                Сдать
+              </ButtonToggleItem>
+              <ButtonToggleItem
+                onClick={(e) => field.onChange(e.target.id)}
+                id='take'
+                active={field.value}
+              >
+                Снять
+              </ButtonToggleItem>
             </ButtonToggleGroup>
           )}
         />
-        {
-          errors?.type && <TextSpanStyle color='red' size={12}>{errors?.type?.message}</TextSpanStyle>
-        }
+        {errors?.type && (
+          <TextSpanStyle color='red' size={12}>
+            {errors?.type?.message}
+          </TextSpanStyle>
+        )}
       </div>
       <AnimatePresence mode='wait'>
         <ActiveComponent
@@ -110,8 +148,7 @@ const BuySellEditForm = () => {
         />
       </AnimatePresence>
       <AnimatePresence>
-        {
-          isDirty &&
+        {isDirty && (
           <EditButtonGroupStyle
             initial={{ y: -100 }}
             animate={{ y: 0 }}
@@ -121,12 +158,13 @@ const BuySellEditForm = () => {
             }}
           >
             <ButtonUI type='submit'>Сохранить</ButtonUI>
-            <ButtonUI variant='outline' onClick={clearAnyChange}>Отменить</ButtonUI>
+            <ButtonUI variant='outline' onClick={clearAnyChange}>
+              Отменить
+            </ButtonUI>
           </EditButtonGroupStyle>
-        }
+        )}
       </AnimatePresence>
     </BuySellEditFormStyle>
-
   );
 };
 

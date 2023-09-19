@@ -45,9 +45,11 @@ const SlideObjectStatus = () => {
           <StatusBarItem title='Продано' onClick={changeStepper} />
           <StatusBarItem title='Срыв' onClick={changeStepper} />
         </StatusBar>
-        <ButtonLink onClick={setFailure} size={12}>
-          {activeStepper === 4 ? 'Вернуть из срыва' : 'Отправить в Срыв'}
-        </ButtonLink>
+        {object?.isEditor && (
+          <ButtonLink onClick={setFailure} size={12}>
+            {activeStepper === 4 ? 'Вернуть из срыва' : 'Отправить в Срыв'}
+          </ButtonLink>
+        )}
       </Box>
     </SliderBlock>
   );

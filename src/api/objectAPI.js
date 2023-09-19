@@ -161,3 +161,25 @@ export const setDescriptionAPI = async (raw) => {
   }
   return '';
 };
+export const onRepublication = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.objects.Republication',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return '';
+};
+export const setNewVideo = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.objects.setVideo',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return '';
+};
