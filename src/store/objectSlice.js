@@ -96,16 +96,7 @@ const initialState = {
   filter: {
     typeRealty: 'live',
     stage: 1,
-    users: [
-      user,
-      {
-        UID: '1',
-        firstName: 'Иван',
-        lastName: 'Мищенко',
-        secondName: 'Владимирович',
-        phone: '89231786699',
-      },
-    ],
+    users: [user],
   },
   offset: 1,
 };
