@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ButtonUI } from 'ui/ButtonUI';
 import { Box } from 'ui/Box';
@@ -7,6 +8,10 @@ import { TextSpanStyle } from 'styles/styles';
 import ObjectsFilterForm from './ObjectsFilterForm';
 import SlideWindow from 'components/Main/SlideWindow';
 import { useWindowSize } from 'hooks/windowSize';
+import { IconButtonSimple } from '../../ui/IconButtonSimple/IconButtonSimple';
+import { HiddenBoxUI } from 'ui/HiddenBoxUI';
+import { useSelector } from 'react-redux';
+import ObjectBasket from './ObjectBasket';
 const ObjectsFilterStyle = styled.div`
   display: flex;
   justify-content: space-between;
@@ -17,7 +22,15 @@ const ObjectsFilterStyle = styled.div`
 `;
 const ObjectsFilterDesktop = () => {
   const [open, setOpen] = useState(false);
+  const [openBox, setOpenBox] = useState(false);
+  const basket = useSelector((state) => state.objects.basket);
   const windowSize = useWindowSize();
+  const handlerHiddenBox = () => {
+    setOpenBox(!openBox);
+  };
+  const onCloseHiddenBox = () => {
+    setOpenBox(null);
+  };
   const getWidth = () => {
     if (windowSize <= 768) {
       return '100%';
@@ -37,11 +50,32 @@ const ObjectsFilterDesktop = () => {
           <TextSpanStyle>Обязательно проверьте фильтр</TextSpanStyle>
         )}
       </Box>
-      <Link to='new'>
-        <ButtonUI size='small' variant='outline'>
-          Создать
-        </ButtonUI>
-      </Link>
+      <Box>
+        <Link to='new'>
+          <ButtonUI size='small' variant='outline'>
+            Создать
+          </ButtonUI>
+        </Link>
+        <motion.div style={{ position: 'relative' }}>
+          <IconButtonSimple
+            icon={basket.length > 0 ? 'basketFull' : 'basket'}
+            border='none'
+            onClick={handlerHiddenBox}
+            id='basket'
+          />
+          <AnimatePresence>
+            {openBox && (
+              <HiddenBoxUI
+                id='basket'
+                onClose={onCloseHiddenBox}
+                open={openBox}
+              >
+                <ObjectBasket />
+              </HiddenBoxUI>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      </Box>
       <SlideWindow open={open} onClose={toggleFilter} width={getWidth()}>
         <ObjectsFilterForm onClose={toggleFilter} />
       </SlideWindow>

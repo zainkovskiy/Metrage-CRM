@@ -24,7 +24,7 @@ const ApplicationContent = () => {
   useEffect(() => {
     getList();
     return () => {
-      dispatch(clearApplication());
+      // dispatch(clearApplication());
     };
   }, []);
   const getList = () => {

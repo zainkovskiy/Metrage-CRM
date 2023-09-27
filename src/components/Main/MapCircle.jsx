@@ -1,5 +1,12 @@
-import React, { forwardRef } from "react";
-import { YMaps, Map, Button, Circle, FullscreenControl, ZoomControl } from 'react-yandex-maps';
+import React, { forwardRef } from 'react';
+import {
+  YMaps,
+  Map,
+  Button,
+  Circle,
+  FullscreenControl,
+  ZoomControl,
+} from 'react-yandex-maps';
 import { TextSpanStyle } from 'styles/styles';
 import { Box } from 'ui/Box';
 
@@ -14,51 +21,61 @@ const MapCircle = forwardRef(({ circle, onChange, error }, ref) => {
     if (circleRef.current) {
       if (drawCircle) {
         startDraw();
-        return
+        return;
       }
       stopDraw();
     }
-  }, [drawCircle])
+  }, [drawCircle]);
   const scrollOff = () => {
     mapRef.current.behaviors.disable('scrollZoom');
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    if (
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      )
+    ) {
       //... отключаем перетаскивание карты
       mapRef.current.behaviors.disable('drag');
     }
-  }
+  };
 
   const isDraw = () => {
     setDrawCircle(!drawCircle);
-  }
+  };
   const startDraw = () => {
     circleRef.current.editor.startDrawing();
-    circleRef.current.editor.events.add("statechange", event => {
+    circleRef.current.editor.events.add('statechange', (event) => {
       setCircleCords();
     });
   };
   const stopDraw = () => {
     circleRef.current.editor.stopEditing();
-  }
+  };
   const setCircleCords = () => {
-    onChange([circleRef.current.geometry.getCoordinates(), circleRef.current.geometry.getRadius()]);
-  }
+    onChange([
+      circleRef.current.geometry.getCoordinates(),
+      circleRef.current.geometry.getRadius(),
+    ]);
+  };
   const toggleFullScreen = () => {
     setFullscreen(!fullScreen);
-  }
+  };
   return (
     <YMaps
       query={{
         apikey: process.env.YANDEX_API_KEY,
-        // load: 'package.full' 
+        // load: 'package.full'
       }}
       ref={ymapRef}
     >
       <Map
-        defaultState={{ center: circle ? circle[0] : [55.030204, 82.920430], zoom: 14 }}
+        defaultState={{
+          center: circle ? circle[0] : [55.030204, 82.92043],
+          zoom: 14,
+        }}
         width={'100%'}
         height={250}
-        modules={["geoObject.addon.editor", 'LoadingObjectManager']}
-        instanceRef={yaMap => {
+        modules={['geoObject.addon.editor', 'LoadingObjectManager']}
+        instanceRef={(yaMap) => {
           if (yaMap) {
             mapRef.current = yaMap;
             scrollOff();
@@ -70,38 +87,44 @@ const MapCircle = forwardRef(({ circle, onChange, error }, ref) => {
           geometry={circle || []}
           onClick={() => circleRef.current.editor.stopEditing()}
           options={{
-            editorDrawingCursor: "crosshair",
+            editorDrawingCursor: 'crosshair',
           }}
         />
         <Button
           data={{
-            image: `${drawCircle ?
-              'https://crm.centralnoe.ru/dealincom/assets/img/remove_icon.png' :
-              'https://crm.centralnoe.ru/dealincom/assets/svg/location-pin-svgrepo-com.svg'
-              }`,
+            image: `${
+              drawCircle
+                ? 'https://crm.centralnoe.ru/dealincom/assets/img/remove_icon.png'
+                : 'https://crm.centralnoe.ru/dealincom/assets/svg/location-pin-svgrepo-com.svg'
+            }`,
             title: `${drawCircle ? 'Отменить' : 'Указать на карте (круг)'}`,
           }}
           options={{
             float: 'left',
             position: {
               left: 10,
-              top: 10
-            }
+              top: 10,
+            },
           }}
           onClick={isDraw}
         />
         <FullscreenControl onClick={toggleFullScreen} />
         <ZoomControl />
       </Map>
-      {
-        error?.message &&
+      {error?.message && (
         <Box>
-          <TextSpanStyle color='red' size={12}>{error?.message && error.message}</TextSpanStyle>
-          <input type="text" ref={ref} style={{ height: 0, width: 0, border: 'none' }} />
+          <TextSpanStyle color='red' size={12}>
+            {error?.message && error.message}
+          </TextSpanStyle>
+          <input
+            type='text'
+            ref={ref}
+            style={{ height: 0, width: 0, border: 'none' }}
+          />
         </Box>
-      }
-    </YMaps >
-  )
-})
+      )}
+    </YMaps>
+  );
+});
 
 export default MapCircle;

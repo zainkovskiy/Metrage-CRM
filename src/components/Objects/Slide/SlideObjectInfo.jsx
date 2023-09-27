@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAsyncValue } from 'react-router-dom';
 import styled from 'styled-components';
 import imgErrorUrl from 'images/img-error.svg';
@@ -9,12 +9,18 @@ import { SlideBlockStyle } from '../ObjectsStyle';
 import SlideObjectResponsible from './SlideObjectResponsible';
 import { ReactComponent as Area } from 'images/arrow-bottom-left.svg';
 import { ReactComponent as Height } from 'images/height.svg';
+import { IconButton } from 'ui/IconButton';
+import { TooltipUI } from 'ui/TooltipUI';
+import { ReactComponent as Plus } from 'images/plus.svg';
+import { ReactComponent as Minus } from 'images/minus.svg';
 
 import { useGetMeterPrice } from '../objectHook';
 import { useNumberTriad } from 'hooks/StringHook';
 import { ImageGalary } from 'components/Main/ImageGalary';
 import { useWindowSize } from 'hooks/windowSize';
 import { FlatRoomsCountTranslate } from '../KeyTranslate';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToBasket, removeFromBasket } from '../../../store/objectSlice';
 const AreaStyle = styled(Area)`
   width: 36px;
   height: 36px;
@@ -36,7 +42,17 @@ const SlideInfoBlock = styled.div`
 `;
 const SlideObjectInfo = () => {
   const windowSize = useWindowSize();
+  const dispatch = useDispatch();
+  const basket = useSelector((state) => state.objects.basket);
   const object = useAsyncValue();
+  const [match, setMatch] = useState(false);
+  useEffect(() => {
+    basket.forEach((element) => {
+      if (element.UID === object.UID) {
+        setMatch(true);
+      }
+    });
+  }, []);
   const getLineTypeObject = () => {
     if (!object?.Category) {
       return '';
@@ -63,15 +79,33 @@ const SlideObjectInfo = () => {
       </Box>
     );
   };
+  const addObjectToBasket = () => {
+    if (match) {
+      dispatch(removeFromBasket(object));
+      setMatch(false);
+      return;
+    }
+    dispatch(addToBasket(object));
+    setMatch(true);
+  };
   return (
     <SlideBlockStyle $wrap={windowSize < 768}>
       <SlideInfoBlock>
         <Box column ai='flex-start'>
-          <Box column gap='0' ai='flex-start'>
-            <TextSpanStyle size={10}>
-              {object?.typeDeal} {typeEstateTranslate[object?.typeEstate]}
-            </TextSpanStyle>
-            <TextSpanStyle size={12}>{getLineTypeObject()}</TextSpanStyle>
+          <Box fullWidth jc='space-between'>
+            <Box column gap='0' ai='flex-start'>
+              <TextSpanStyle size={10}>
+                {object?.typeDeal} {typeEstateTranslate[object?.typeEstate]}
+              </TextSpanStyle>
+              <TextSpanStyle size={12}>{getLineTypeObject()}</TextSpanStyle>
+            </Box>
+            <TooltipUI
+              title={match ? 'Удалить из подборки' : 'Добавить в подборку'}
+            >
+              <IconButton onClick={addObjectToBasket}>
+                {match ? <Minus /> : <Plus />}
+              </IconButton>
+            </TooltipUI>
           </Box>
           <TextSpanStyle bold>
             {' '}

@@ -46,7 +46,7 @@ const deafaultFilter = {
   typeRealty: 'live',
   stage: 1,
   users: [user],
-  cords: [],
+  cords: null,
 };
 const resetFilter = {
   typeRealty: 'live',
@@ -65,7 +65,7 @@ const resetFilter = {
   SaleType: '',
   stage: 1,
   users: [user],
-  cords: [],
+  cords: null,
 };
 const ObjectsFilterForm = ({ onClose }) => {
   const dispatch = useDispatch();

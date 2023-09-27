@@ -1,5 +1,5 @@
-import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
+import React from 'react';
 import App from './App';
 
 import SuspenseApplication from 'components/Application/SuspenseApplication';
@@ -19,6 +19,10 @@ import SuspenceDeal from 'components/Deal/SuspenceDeal';
 import SuspenseNewDeal from 'components/Deal/New/SuspenseNewDeal';
 import SuspenseSlideDeal from 'components/Deal/Slide/SuspenseSlideDeal';
 import { loaderDealSlide } from 'components/Deal/Slide/SuspenseSlideDeal';
+
+import SuspenceCompilations from 'components/Compilations/SuspenceCompilations';
+import SuspenseSlideCompilations from 'components/Compilations/Slide/SuspenseSlideCompilations';
+import { loaderCompilationSlide } from 'components/Compilations/Slide/SuspenseSlideCompilations';
 
 import SuspenceClient from 'components/Client/SuspenceClient';
 import SuspenseSlideClient from 'components/Client/Slide/SuspenseSlideClient';
@@ -88,6 +92,17 @@ export const routers = createBrowserRouter([
             path: ':dealId',
             element: <SuspenseSlideDeal />,
             loader: loaderDealSlide,
+          },
+        ],
+      },
+      {
+        path: 'compilation',
+        element: <SuspenceCompilations />,
+        children: [
+          {
+            path: ':compilationId',
+            element: <SuspenseSlideCompilations />,
+            loader: loaderCompilationSlide,
           },
         ],
       },

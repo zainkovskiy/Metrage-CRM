@@ -93,6 +93,7 @@ const initialState = {
   loadingList: false,
   loadingMore: false,
   objects: [],
+  basket: [],
   filter: {
     typeRealty: 'live',
     stage: 1,
@@ -108,6 +109,24 @@ const objectSlice = createSlice({
     setFilter(state, action) {
       state.filter = action.payload;
       state.offset = 0;
+    },
+    addToBasket(state, action) {
+      const object = action.payload;
+      const find = state.basket.find((item) => item.UID === object.UID);
+      if (find) {
+        return;
+      }
+      state.basket = [...state.basket, object];
+    },
+    removeFromBasket(state, action) {
+      const object = action.payload;
+      const find = state.basket.find((item) => item.UID === object.UID);
+      if (find) {
+        state.basket.splice(state.basket.indexOf(find), 1);
+      }
+    },
+    clearBasket(state, action) {
+      state.basket = [];
     },
     clearObjects(state, action) {
       state.objects = [];
@@ -144,5 +163,6 @@ const objectSlice = createSlice({
       });
   },
 });
-export const { clearObjects, setFilter } = objectSlice.actions;
+export const { clearObjects, setFilter, addToBasket, removeFromBasket } =
+  objectSlice.actions;
 export default objectSlice.reducer;

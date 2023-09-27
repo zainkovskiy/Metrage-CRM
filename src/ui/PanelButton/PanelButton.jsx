@@ -17,6 +17,7 @@ import chartUrl, { ReactComponent as Chart } from 'images/chart.svg';
 import hrUrl, { ReactComponent as Hr } from 'images/hr.svg';
 import studyUrl, { ReactComponent as Study } from 'images/study.svg';
 import phoneUrl, { ReactComponent as Phone } from 'images/phone2.svg';
+import { ReactComponent as Compilation } from 'images/select.svg';
 import headphoneUrl, {
   ReactComponent as Headphone,
 } from 'images/headphone.svg';
@@ -152,6 +153,9 @@ const MailStyle = styled(Mail)`
 const ClientStyle = styled(Client)`
   ${iconStyle};
 `;
+const compilationStyle = styled(Compilation)`
+  ${iconStyle};
+`;
 const iconVariant = {
   todo: TodoStyle,
   calendar: CalendarStyle,
@@ -170,4 +174,5 @@ const iconVariant = {
   phone: PhoneStyle,
   mail: MailStyle,
   client: ClientStyle,
+  compilation: compilationStyle,
 };
