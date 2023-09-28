@@ -63,7 +63,7 @@ const ObjectBasket = () => {
   const clearCompilation = () => {
     setCompilationList(null);
   };
-  const selectCompilation = ({ id }) => {
+  const selectCompilation = (id) => {
     dispatch(addToCompilation(id));
   };
   if (basket.length === 0) {
