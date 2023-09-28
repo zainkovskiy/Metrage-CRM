@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import imgErrorUrl from 'images/img-error.svg';
 
 import { Box } from 'ui/Box';
+import { ButtonUI } from 'ui/ButtonUI';
 import { TextSpanStyle } from 'styles/styles';
 import { SlideBlockStyle } from '../ObjectsStyle';
 import SlideObjectResponsible from './SlideObjectResponsible';
@@ -39,6 +40,16 @@ const SlideInfoBlock = styled.div`
   @media (min-width: 768px) {
     height: 300px;
   }
+`;
+const ButtonBlock = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+`;
+const ContentBlock = styled.div`
+  width: 100%;
+  display: flex;
+  ${({ $wrap }) => $wrap && 'flex-wrap: wrap;'};
 `;
 const SlideObjectInfo = () => {
   const windowSize = useWindowSize();
@@ -89,94 +100,96 @@ const SlideObjectInfo = () => {
     setMatch(true);
   };
   return (
-    <SlideBlockStyle $wrap={windowSize < 768}>
-      <SlideInfoBlock>
-        <Box column ai='flex-start'>
-          <Box fullWidth jc='space-between'>
+    <SlideBlockStyle $wrap>
+      <ButtonBlock>
+        <ButtonUI size='small' onClick={addObjectToBasket}>
+          {match ? 'Удалить из подборки' : 'Добавить в подборку'}
+        </ButtonUI>
+      </ButtonBlock>
+      <ContentBlock $wrap={windowSize < 768}>
+        <SlideInfoBlock>
+          <Box column ai='flex-start'>
             <Box column gap='0' ai='flex-start'>
               <TextSpanStyle size={10}>
                 {object?.typeDeal} {typeEstateTranslate[object?.typeEstate]}
               </TextSpanStyle>
               <TextSpanStyle size={12}>{getLineTypeObject()}</TextSpanStyle>
             </Box>
-            <TooltipUI
-              title={match ? 'Удалить из подборки' : 'Добавить в подборку'}
-            >
-              <IconButton onClick={addObjectToBasket}>
-                {match ? <Minus /> : <Plus />}
-              </IconButton>
-            </TooltipUI>
+            <TextSpanStyle bold>
+              {' '}
+              {object?.addressId?.addrString || 'Нет адреса'}
+            </TextSpanStyle>
+            {getPrice()}
           </Box>
-          <TextSpanStyle bold>
-            {' '}
-            {object?.addressId?.addrString || 'Нет адреса'}
-          </TextSpanStyle>
-          {getPrice()}
-        </Box>
-        <Box column ai='flex-start'>
-          {object?.Category !== 'landSale' && (
-            <Box jc='space-between' fullWidth>
-              <Box>
-                <AreaStyle />
-                <Box column gap='0' jc='space-between' ai='flex-start'>
-                  <Box gap='0.2rem' ai='flex-end'>
-                    <TextSpanStyle bold>
-                      {object?.TotalArea || 0} м2
-                    </TextSpanStyle>
-                    <TextSpanStyle size={12}>Общая</TextSpanStyle>
+          <Box column ai='flex-start'>
+            {object?.Category !== 'landSale' && (
+              <Box jc='space-between' fullWidth>
+                <Box>
+                  <AreaStyle />
+                  <Box column gap='0' jc='space-between' ai='flex-start'>
+                    <Box gap='0.2rem' ai='flex-end'>
+                      <TextSpanStyle bold>
+                        {object?.TotalArea || 0} м2
+                      </TextSpanStyle>
+                      <TextSpanStyle size={12}>Общая</TextSpanStyle>
+                    </Box>
+                    {object?.LivingArea && (
+                      <Box gap='0.2rem' ai='flex-end'>
+                        <TextSpanStyle bold>
+                          {object?.LivingArea} м2
+                        </TextSpanStyle>
+                        <TextSpanStyle size={12}>Жилая</TextSpanStyle>
+                      </Box>
+                    )}
+                    {object?.BuildingTotalArea && (
+                      <Box gap='0.2rem' ai='flex-end'>
+                        <TextSpanStyle bold>
+                          {object?.BuildingTotalArea} м2
+                        </TextSpanStyle>
+                        <TextSpanStyle size={12}>Здание</TextSpanStyle>
+                      </Box>
+                    )}
                   </Box>
-                  {object?.LivingArea && (
-                    <Box gap='0.2rem' ai='flex-end'>
-                      <TextSpanStyle bold>
-                        {object?.LivingArea} м2
-                      </TextSpanStyle>
-                      <TextSpanStyle size={12}>Жилая</TextSpanStyle>
-                    </Box>
-                  )}
-                  {object?.BuildingTotalArea && (
-                    <Box gap='0.2rem' ai='flex-end'>
-                      <TextSpanStyle bold>
-                        {object?.BuildingTotalArea} м2
-                      </TextSpanStyle>
-                      <TextSpanStyle size={12}>Здание</TextSpanStyle>
-                    </Box>
-                  )}
                 </Box>
-              </Box>
-              <Box>
-                <HeightStyle />
-                <Box column gap='0' jc='space-between' ai='flex-start'>
-                  {object?.FloorNumber && (
+                <Box>
+                  <HeightStyle />
+                  <Box column gap='0' jc='space-between' ai='flex-start'>
+                    {object?.FloorNumber && (
+                      <Box gap='0.2rem' ai='flex-end'>
+                        <TextSpanStyle bold>
+                          {object?.FloorNumber || 0}
+                        </TextSpanStyle>
+                        <TextSpanStyle size={12}>Этаж</TextSpanStyle>
+                      </Box>
+                    )}
                     <Box gap='0.2rem' ai='flex-end'>
                       <TextSpanStyle bold>
-                        {object?.FloorNumber || 0}
+                        {object?.FloorsCount ||
+                          object?.BuildingFloorsCount ||
+                          0}
                       </TextSpanStyle>
-                      <TextSpanStyle size={12}>Этаж</TextSpanStyle>
+                      <TextSpanStyle size={12}>Этажей</TextSpanStyle>
                     </Box>
-                  )}
-                  <Box gap='0.2rem' ai='flex-end'>
-                    <TextSpanStyle bold>
-                      {object?.FloorsCount || object?.BuildingFloorsCount || 0}
-                    </TextSpanStyle>
-                    <TextSpanStyle size={12}>Этажей</TextSpanStyle>
                   </Box>
                 </Box>
               </Box>
-            </Box>
-          )}
-          {object?.responsibleId && <SlideObjectResponsible />}
-        </Box>
-      </SlideInfoBlock>
-      <SlideInfoBlock>
-        {/* <img src={object?.photos[0].URL} style={{width: '100%', height: '100%', objectFit: 'cover'}}/> */}
-        <ImageGalary
-          images={
-            object?.photos?.length > 0 ? object.photos : [{ URL: imgErrorUrl }]
-          }
-          height={windowSize < 768 ? 300 : ''}
-          status
-        />
-      </SlideInfoBlock>
+            )}
+            {object?.responsibleId && <SlideObjectResponsible />}
+          </Box>
+        </SlideInfoBlock>
+        <SlideInfoBlock>
+          {/* <img src={object?.photos[0].URL} style={{width: '100%', height: '100%', objectFit: 'cover'}}/> */}
+          <ImageGalary
+            images={
+              object?.photos?.length > 0
+                ? object.photos
+                : [{ URL: imgErrorUrl }]
+            }
+            height={windowSize < 768 ? 300 : ''}
+            status
+          />
+        </SlideInfoBlock>
+      </ContentBlock>
     </SlideBlockStyle>
   );
 };

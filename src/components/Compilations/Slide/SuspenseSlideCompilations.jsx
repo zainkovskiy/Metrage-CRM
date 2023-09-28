@@ -20,9 +20,7 @@ const SuspenseNewDeal = () => {
   const [open, setOpen] = useState(true);
   const windowSize = useWindowSize();
   const { compilation } = useLoaderData();
-  compilation.then((data) => {
-    console.log(data);
-  });
+
   const handleClose = () => {
     setTimeout(() => {
       navigate('/compilation', { replace: true });
@@ -33,7 +31,7 @@ const SuspenseNewDeal = () => {
     if (windowSize <= 768) {
       return '100%';
     }
-    return '70%';
+    return '50%';
   };
   return (
     <SlideWindow open={open} onClose={handleClose} width={getWidth()}>
@@ -45,7 +43,10 @@ const SuspenseNewDeal = () => {
         }
       >
         <Await resolve={compilation}>
-          <SlideCompilation onCloseSlide={() => setOpen(false)} />
+          <SlideCompilation
+            onCloseSlide={() => setOpen(false)}
+            onClose={handleClose}
+          />
         </Await>
       </Suspense>
     </SlideWindow>

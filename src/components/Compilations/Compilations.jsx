@@ -16,6 +16,9 @@ const CompilationsStyle = styled.div`
 
 const Compilations = () => {
   const compilations = useSelector((state) => state.compilation.compilations);
+  if (!compilations || compilations?.length === '0') {
+    return;
+  }
   return (
     <CompilationsStyle>
       {compilations.map((item) => (

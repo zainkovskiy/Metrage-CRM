@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
@@ -6,8 +6,12 @@ import { ButtonUI } from 'ui/ButtonUI';
 import { Box } from 'ui/Box';
 import { useNumberTriad } from 'hooks/StringHook';
 import { ButtonLink } from 'ui/ButtonLink';
-import { createNewCompilation } from '../../store/compilationSlice';
+import {
+  createNewCompilation,
+  addToCompilation,
+} from '../../store/compilationSlice';
 import { removeFromBasket } from '../../store/objectSlice';
+import { getCompilationSimpleList } from '../../api/compilationAPI';
 
 const ObjectBasketStyle = styled.div`
   padding: 0.5rem;
@@ -31,14 +35,36 @@ const ObjectBasketItem = styled.div`
   gap: 0.5rem;
   width: 100%;
 `;
+const ObjectCompilationItem = styled.div`
+  width: 100%;
+  padding: 0.2rem;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: background 0.3s;
+  &:hover {
+    background: #eee;
+  }
+`;
 const ObjectBasket = () => {
   const basket = useSelector((state) => state.objects.basket);
+  const [compilationList, setCompilationList] = useState(null);
   const dispatch = useDispatch();
   const createCompilation = () => {
     dispatch(createNewCompilation());
   };
   const removeItem = (object) => {
     dispatch(removeFromBasket(object));
+  };
+  const requestCompilationList = () => {
+    getCompilationSimpleList().then((data) => {
+      setCompilationList(data);
+    });
+  };
+  const clearCompilation = () => {
+    setCompilationList(null);
+  };
+  const selectCompilation = ({ id }) => {
+    dispatch(addToCompilation(id));
   };
   if (basket.length === 0) {
     return (
@@ -47,6 +73,15 @@ const ObjectBasket = () => {
           В подборках пусто
         </TextSpanStyle>
       </ObjectBasketStyle>
+    );
+  }
+  if (compilationList) {
+    return (
+      <CompilationList
+        compilationList={compilationList}
+        clearCompilation={clearCompilation}
+        selectCompilation={selectCompilation}
+      />
     );
   }
   return (
@@ -69,15 +104,45 @@ const ObjectBasket = () => {
         ))}
       </ObjectBasketItems>
       <Box fullWidth column id='basket'>
-        <ButtonUI fullWidth onClick={createCompilation} id='basket'>
+        <ButtonUI size='small' fullWidth onClick={createCompilation}>
           Создать подборку
         </ButtonUI>
-        <ButtonUI fullWidth id='basket'>
+        <ButtonUI
+          size='small'
+          fullWidth
+          id='basket'
+          onClick={requestCompilationList}
+        >
           Добавить в подборку
         </ButtonUI>
       </Box>
     </ObjectBasketStyle>
   );
 };
-
+const CompilationList = ({
+  compilationList,
+  clearCompilation,
+  selectCompilation,
+}) => {
+  return (
+    <ObjectBasketStyle id='basket'>
+      <TextSpanStyle>Выберете подборку</TextSpanStyle>
+      <ObjectBasketItems id='basket'>
+        {compilationList.map((item) => (
+          <ObjectCompilationItem
+            key={item.UID}
+            onClick={() => selectCompilation(item.UID)}
+          >
+            <TextSpanStyle size={12}>{item?.name || 'Без имени'}</TextSpanStyle>
+          </ObjectCompilationItem>
+        ))}
+      </ObjectBasketItems>
+      <Box fullWidth column id='basket'>
+        <ButtonUI id='basket' size='small' fullWidth onClick={clearCompilation}>
+          Назад
+        </ButtonUI>
+      </Box>
+    </ObjectBasketStyle>
+  );
+};
 export default ObjectBasket;

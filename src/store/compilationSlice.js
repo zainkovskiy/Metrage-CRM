@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 const API = process.env.MAIN_API;
+import { clearBasket } from '../store/objectSlice';
 
 export const createNewCompilation = createAsyncThunk(
   'objects/createNewCompilation',
@@ -13,7 +14,23 @@ export const createNewCompilation = createAsyncThunk(
       },
     });
     if (res.statusText === 'OK') {
-      console.log(res);
+      dispatch(clearBasket());
+    }
+  }
+);
+export const addToCompilation = createAsyncThunk(
+  'objects/addToCompilation',
+  async (id, { getState, dispatch }) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.compilation.addRosterItems',
+      fields: {
+        UID: id,
+        objects: getState().objects.basket,
+      },
+    });
+    if (res.statusText === 'OK') {
+      dispatch(clearBasket());
     }
   }
 );
@@ -29,6 +46,38 @@ export const getCompilationList = createAsyncThunk(
     });
     if (res.statusText === 'OK') {
       return res?.data?.result || [];
+    }
+  }
+);
+export const removeCompilationItem = createAsyncThunk(
+  'objects/removeCompilationItem',
+  async (id, { dispatch }) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.compilation.delRosterItems',
+      fields: {
+        UID: id,
+      },
+    });
+    if (res.statusText === 'OK') {
+      dispatch(getCompilationList());
+      return 'OK';
+    }
+  }
+);
+export const removeCompilation = createAsyncThunk(
+  'objects/removeCompilation',
+  async (id, { dispatch }) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.compilation.delRoster',
+      fields: {
+        UID: id,
+      },
+    });
+    if (res.statusText === 'OK') {
+      dispatch(getCompilationList());
+      return 'OK';
     }
   }
 );

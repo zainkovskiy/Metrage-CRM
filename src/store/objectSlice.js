@@ -163,6 +163,11 @@ const objectSlice = createSlice({
       });
   },
 });
-export const { clearObjects, setFilter, addToBasket, removeFromBasket } =
-  objectSlice.actions;
+export const {
+  clearObjects,
+  setFilter,
+  addToBasket,
+  removeFromBasket,
+  clearBasket,
+} = objectSlice.actions;
 export default objectSlice.reducer;

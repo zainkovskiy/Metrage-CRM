@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ButtonUI } from 'ui/ButtonUI';
+import { BadgeUI } from 'ui/BadgeUI';
 import { Box } from 'ui/Box';
 import { TextSpanStyle } from 'styles/styles';
 import ObjectsFilterForm from './ObjectsFilterForm';
@@ -57,23 +58,25 @@ const ObjectsFilterDesktop = () => {
           </ButtonUI>
         </Link>
         <motion.div style={{ position: 'relative' }}>
-          <IconButtonSimple
-            icon={basket.length > 0 ? 'basketFull' : 'basket'}
-            border='none'
-            onClick={handlerHiddenBox}
-            id='basket'
-          />
-          <AnimatePresence>
-            {openBox && (
-              <HiddenBoxUI
-                id='basket'
-                onClose={onCloseHiddenBox}
-                open={openBox}
-              >
-                <ObjectBasket />
-              </HiddenBoxUI>
-            )}
-          </AnimatePresence>
+          <BadgeUI badgeContent={Number(basket.length)}>
+            <IconButtonSimple
+              icon='basket'
+              border='none'
+              onClick={handlerHiddenBox}
+              id='basket'
+            />
+            <AnimatePresence>
+              {openBox && (
+                <HiddenBoxUI
+                  id='basket'
+                  onClose={onCloseHiddenBox}
+                  open={openBox}
+                >
+                  <ObjectBasket />
+                </HiddenBoxUI>
+              )}
+            </AnimatePresence>
+          </BadgeUI>
         </motion.div>
       </Box>
       <SlideWindow open={open} onClose={toggleFilter} width={getWidth()}>
