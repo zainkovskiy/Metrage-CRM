@@ -11,6 +11,7 @@ import { SlideBlockStyle } from '../ObjectsStyle';
 import MapPlacemark from 'components/Main/MapPlacemark';
 import { useWindowSize } from 'hooks/windowSize';
 import SlideObjectStatus from './SlideObjectStatus';
+import SlideToMyObject from './SlideToMyObject';
 
 const SlideObjectStyle = styled.div`
   height: 100%;
@@ -46,6 +47,9 @@ const SlideObject = ({ onCloseSlide }) => {
     object.photos = photos;
     setChange(!change);
   };
+  if (JSON.stringify(object) === '{}') {
+    return;
+  }
   return (
     <SlideObjectStyle>
       <SlideObjectContext>
@@ -58,7 +62,12 @@ const SlideObject = ({ onCloseSlide }) => {
           />
         )}
         <SlideObjectInfo />
-        <SlideObjectAd />
+        {object?.subtypeEstate === 'liveExternal' ||
+        object?.subtypeEstate === 'businessExternal' ? (
+          <SlideToMyObject />
+        ) : (
+          <SlideObjectAd />
+        )}
         <SlideObjectFeature />
         <SlideBlockStyle>
           <MapPlacemark cords={getCords()} disable height={300} />

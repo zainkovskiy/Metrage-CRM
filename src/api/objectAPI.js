@@ -59,6 +59,7 @@ export const getOneObject = async (id, category, forUpdate) => {
       category === 'business' ? 'crm.objects.getBusiness' : 'crm.objects.get',
     fields: {
       UID: id,
+      CategoryOriginal: category,
       forUpdate: forUpdate,
     },
   });
@@ -176,6 +177,17 @@ export const setNewVideo = async (raw) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
     method: 'crm.objects.setVideo',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return '';
+};
+export const addToMyObject = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.objects.toMy',
     fields: raw,
   });
   if (res?.statusText === 'OK') {

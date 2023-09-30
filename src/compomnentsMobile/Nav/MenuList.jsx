@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 const variants = {
   open: {},
-  closed: {}
-}
+  closed: {},
+};
 const MenuListStyle = styled(motion.div)`
   position: fixed;
   background-color: #000000ab;
@@ -21,7 +21,7 @@ const MenuListStyle = styled(motion.div)`
   gap: 0.5rem;
   padding: 0.5rem;
   box-sizing: border-box;
-`
+`;
 const MenuListTop = styled.div`
   flex-grow: 1;
   display: flex;
@@ -29,26 +29,41 @@ const MenuListTop = styled.div`
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-`
+`;
 const LinkNav = styled(Link)`
   text-decoration: none;
   color: #fff;
   font-family: ${({ theme }) => theme.font.family};
-`
+`;
 const LinkOriginNav = styled.a`
   text-decoration: none;
   color: #fff;
   font-family: ${({ theme }) => theme.font.family};
-`
+`;
 const MenuList = ({ onClose }) => {
   return (
     <MenuListStyle variants={variants}>
       <MenuListTop>
-        <LinkNav to='/' onClick={onClose}>Заявки</LinkNav>
-        <LinkNav to='/objects' onClick={onClose}>Объекты</LinkNav>
-        <LinkNav to='/deal' onClick={onClose}>Сделки</LinkNav>
+        <LinkNav to='/' onClick={onClose}>
+          Заявки
+        </LinkNav>
+        <LinkNav to='/objects' onClick={onClose}>
+          Объекты
+        </LinkNav>
+        <LinkNav to='/deal' onClick={onClose}>
+          Сделки
+        </LinkNav>
+        <LinkNav to='/compilation' onClick={onClose}>
+          Подборки
+        </LinkNav>
       </MenuListTop>
-      <LinkOriginNav target='_href' href='http://crm.metragegroup.com/mail' onClick={onClose}>Почта</LinkOriginNav>
+      <LinkOriginNav
+        target='_href'
+        href='http://crm.metragegroup.com/mail'
+        onClick={onClose}
+      >
+        Почта
+      </LinkOriginNav>
     </MenuListStyle>
   );
 };

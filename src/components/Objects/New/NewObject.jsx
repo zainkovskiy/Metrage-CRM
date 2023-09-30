@@ -10,6 +10,7 @@ import { useSelectCategoryField } from '../objectHook';
 import { useAsyncValue } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { createObject } from 'store/objectSlice';
+import TitleAdv from './TitleAdv';
 
 const NewObjectStyle = styled(motion.form)`
   display: flex;
@@ -52,6 +53,7 @@ const NewObject = ({ onClose }) => {
         {methods.getValues('typeDeal') && <TypeObject />}
         {methods.getValues('Category') && (
           <>
+            {object && <TitleAdv />}
             <FormCords />
             <FieldsCategory />
           </>

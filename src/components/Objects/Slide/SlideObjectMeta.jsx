@@ -10,21 +10,25 @@ import { useAsyncValue } from 'react-router-dom';
 const SlideObjectMeta = () => {
   const object = useAsyncValue();
   const copyID = () => {
-    navigator.clipboard.writeText(`http://crm.metragegroup.com?objects=${object.typeEstate}/${object.UID}`);
-  }
+    navigator.clipboard.writeText(
+      `http://crm.metragegroup.com?objects=${object.subtypeEstate}/${object.UID}`
+    );
+  };
   return (
-    <SlideBlockStyle
-      jc='space-between'
-    >
-      <Box gap="0">
+    <SlideBlockStyle jc='space-between'>
+      <Box gap='0'>
         <IconButton onClick={copyID}>
           <Copy />
         </IconButton>
         <TextSpanStyle size={12}>ID: {object?.UID}</TextSpanStyle>
       </Box>
       <Box>
-        <TextSpanStyle size={12}>Создано: {useDateFormat(object?.created, 'DD.MM.YY')}</TextSpanStyle>
-        <TextSpanStyle size={12}>Изменено: {useDateFormat(object?.updated, 'DD.MM.YY')}</TextSpanStyle>
+        <TextSpanStyle size={12}>
+          Создано: {useDateFormat(object?.created, 'DD.MM.YY')}
+        </TextSpanStyle>
+        <TextSpanStyle size={12}>
+          Изменено: {useDateFormat(object?.updated, 'DD.MM.YY')}
+        </TextSpanStyle>
       </Box>
     </SlideBlockStyle>
   );

@@ -49,6 +49,7 @@ const ButtonBlock = styled.div`
 const ContentBlock = styled.div`
   width: 100%;
   display: flex;
+  gap: 0.5rem;
   ${({ $wrap }) => $wrap && 'flex-wrap: wrap;'};
 `;
 const SlideObjectInfo = () => {
