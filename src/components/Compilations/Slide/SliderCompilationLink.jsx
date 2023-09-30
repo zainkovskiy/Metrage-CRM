@@ -32,7 +32,7 @@ const LinkStyle = styled(Link)`
 const SliderCompilationLink = () => {
   const compilation = useAsyncValue();
   const copyLink = () => {
-    if (compilation?.objects?.length === '1') {
+    if (compilation?.objects?.length === 1) {
       navigator.clipboard.writeText(
         `http://crm.metragegroup.com/select-one?id=${compilation.UID}`
       );
