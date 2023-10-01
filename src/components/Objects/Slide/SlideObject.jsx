@@ -62,8 +62,8 @@ const SlideObject = ({ onCloseSlide }) => {
           />
         )}
         <SlideObjectInfo />
-        {object?.subtypeEstate === 'liveExternal' ||
-        object?.subtypeEstate === 'businessExternal' ? (
+        {object?.subTypeEstate === 'liveExternal' ||
+        object?.subTypeEstate === 'businessExternal' ? (
           <SlideToMyObject />
         ) : (
           <SlideObjectAd />

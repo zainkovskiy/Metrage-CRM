@@ -14,7 +14,7 @@ export const getOneCompilation = async (id) => {
   }
   return {};
 };
-export const getCompilationSimpleList = async (id) => {
+export const getCompilationSimpleList = async () => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
     method: 'crm.compilation.listLite',
@@ -23,4 +23,18 @@ export const getCompilationSimpleList = async (id) => {
     return res?.data?.result || [];
   }
   return {};
+};
+export const setNewComment = async (id, comment) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.compilation.updPresentationDescription',
+    fields: {
+      UID: id,
+      comment: comment,
+    },
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No OK';
 };

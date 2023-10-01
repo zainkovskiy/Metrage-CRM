@@ -56,7 +56,9 @@ export const getOneObject = async (id, category, forUpdate) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
     method:
-      category === 'business' ? 'crm.objects.getBusiness' : 'crm.objects.get',
+      category === 'business' || category === 'businessExternal'
+        ? 'crm.objects.getBusiness'
+        : 'crm.objects.get',
     fields: {
       UID: id,
       CategoryOriginal: category,
