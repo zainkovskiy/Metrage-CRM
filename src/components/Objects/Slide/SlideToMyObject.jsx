@@ -8,15 +8,21 @@ import { addToMyObject } from '../../../api/objectAPI';
 const SlideToMyObject = () => {
   const object = useAsyncValue();
   const [showButton, setShowButton] = useState(true);
+  const [disabled, setDisabled] = useState(false);
   const handleClick = () => {
+    setDisabled(true);
     addToMyObject({
       UID: object?.UID,
-      type: object?.subtypeEstate,
-    }).then((answer) => {
-      if (answer === 'OK') {
-        setShowButton(false);
-      }
-    });
+      type: object?.subTypeEstate,
+    })
+      .then((answer) => {
+        if (answer === 'OK') {
+          setShowButton(false);
+        }
+      })
+      .finally(() => {
+        setDisabled(false);
+      });
   };
   return (
     <SliderBlock>
@@ -30,8 +36,8 @@ const SlideToMyObject = () => {
           </TextSpanStyle>
         </Box>
         {showButton ? (
-          <ButtonUI onClick={handleClick} size='small'>
-            В мои объекты
+          <ButtonUI disabled={disabled} onClick={handleClick} size='small'>
+            {disabled ? 'В процессе...' : 'В мои объекты'}
           </ButtonUI>
         ) : (
           <TextSpanStyle size={12}>Объект добавлен</TextSpanStyle>
