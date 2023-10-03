@@ -175,7 +175,16 @@ const SlideObjectInfo = () => {
                 </Box>
               </Box>
             )}
-            {object?.responsibleId && <SlideObjectResponsible />}
+            {object?.responsibleId && (
+              <SlideObjectResponsible
+                link={
+                  object?.subTypeEstate === 'liveExternal' ||
+                  object?.subTypeEstate === 'businessExternal'
+                    ? object?.videoUrl
+                    : ''
+                }
+              />
+            )}
           </Box>
         </SlideInfoBlock>
         <SlideInfoBlock>

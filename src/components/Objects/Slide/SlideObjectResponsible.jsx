@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box } from 'ui/Box';
 import { ButtonLink } from 'ui/ButtonLink';
+import { LinkUI } from 'ui/LinkUI';
 import { TextSpanStyle } from 'styles/styles';
 import styled from 'styled-components';
 import { useGetAvatar } from 'hooks/MakeAvatar';
@@ -17,7 +18,7 @@ const ResponsibleAvatar = styled.img`
   object-position: top;
   border-radius: 40px;
 `;
-const SlideObjectResponsible = () => {
+const SlideObjectResponsible = ({ link }) => {
   const object = useAsyncValue();
   const dispatch = useDispatch();
   const [responsible, setResponsible] = useState(object?.responsibleId || '');
@@ -58,6 +59,9 @@ const SlideObjectResponsible = () => {
             {responsible?.lastName || ''} {responsible?.firstName || ''}
           </TextSpanStyle>
         </Box>
+        <LinkUI size={12} href={link} target='_blank'>
+          Ссылка на площадку
+        </LinkUI>
       </Box>
       <DialogWindow open={openChange} onClose={toggleOpenChange}>
         <div onClick={(e) => e.stopPropagation()}>

@@ -55,7 +55,7 @@ const SliderCompilationObjects = ({ onClose }) => {
         <SliderTitle>
           Объекты
           <ButtonLink onClick={removeThisCompilation} size={12} id='basket'>
-            Удалить подбоорку
+            Удалить подборку
           </ButtonLink>
         </SliderTitle>
         <SliderObjects>

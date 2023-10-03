@@ -47,6 +47,7 @@ const deafaultFilter = {
   stage: 1,
   users: [user],
   cords: null,
+  agentType: 'all',
 };
 const resetFilter = {
   typeRealty: 'live',
@@ -66,6 +67,9 @@ const resetFilter = {
   stage: 1,
   users: [user],
   cords: null,
+  dealType: '',
+  platform: '',
+  agentType: 'all',
 };
 const ObjectsFilterForm = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -110,6 +114,7 @@ const ObjectsFilterForm = ({ onClose }) => {
   };
   watch('typeRealty');
   watch('typeObject');
+  watch('ExternalFind');
   const getTotalArea = () => {
     if (!getValues('typeObject')) {
       return false;
@@ -306,6 +311,22 @@ const ObjectsFilterForm = ({ onClose }) => {
     <ObjectsFilterFormStyle onSubmit={handleSubmit(onSubmit)}>
       <FormTop>
         <FormTitle>Фильтр</FormTitle>
+        <Controller
+          name='dealType'
+          control={control}
+          render={({ field }) => (
+            <SelectUI
+              onChange={(newValue) => {
+                field.onChange(newValue);
+              }}
+              select={field.value || ''}
+              label='Тип потребности'
+            >
+              <SelectItemUI value='Sell'>Продать</SelectItemUI>
+              <SelectItemUI value='Rent'>Сдать</SelectItemUI>
+            </SelectUI>
+          )}
+        />
         <Controller
           name='typeRealty'
           control={control}
@@ -715,6 +736,44 @@ const ObjectsFilterForm = ({ onClose }) => {
             />
           )}
         />
+        {getValues('ExternalFind') && (
+          <>
+            <Controller
+              name='platform'
+              control={control}
+              render={({ field }) => (
+                <SelectUI
+                  onChange={(newValue) => {
+                    field.onChange(newValue);
+                  }}
+                  select={field.value || ''}
+                  label='Площадка'
+                >
+                  <SelectItemUI value='avito'>Авито</SelectItemUI>
+                  <SelectItemUI value='cian'>ЦИАН</SelectItemUI>
+                  <SelectItemUI value='yandex'>Яндекс</SelectItemUI>
+                </SelectUI>
+              )}
+            />
+            <Controller
+              name='agentType'
+              control={control}
+              render={({ field }) => (
+                <SelectUI
+                  onChange={(newValue) => {
+                    field.onChange(newValue);
+                  }}
+                  select={field.value || 'all'}
+                  label='Автор объявления'
+                >
+                  <SelectItemUI value='all'>Все</SelectItemUI>
+                  <SelectItemUI value='private'>Частник</SelectItemUI>
+                  <SelectItemUI value='agent'>Агент</SelectItemUI>
+                </SelectUI>
+              )}
+            />
+          </>
+        )}
         <Controller
           control={control}
           name='cords'

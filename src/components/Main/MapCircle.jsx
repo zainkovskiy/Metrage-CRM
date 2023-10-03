@@ -1,4 +1,5 @@
 import React, { forwardRef } from 'react';
+import { useSelector } from 'react-redux';
 import {
   YMaps,
   Map,
@@ -14,6 +15,7 @@ const MapCircle = forwardRef(({ circle, onChange, error }, ref) => {
   const mapRef = React.useRef(null);
   const circleRef = React.useRef(null);
   const ymapRef = React.useRef(null);
+  const office = useSelector((state) => state.user.office);
   const [drawCircle, setDrawCircle] = React.useState(false);
   const [fullScreen, setFullscreen] = React.useState(false);
 
@@ -59,6 +61,12 @@ const MapCircle = forwardRef(({ circle, onChange, error }, ref) => {
   const toggleFullScreen = () => {
     setFullscreen(!fullScreen);
   };
+  const defaueltCords = () => {
+    if (office === '1') {
+      return [55.030204, 82.92043];
+    }
+    return [55.75222, 37.61556];
+  };
   return (
     <YMaps
       query={{
@@ -69,7 +77,7 @@ const MapCircle = forwardRef(({ circle, onChange, error }, ref) => {
     >
       <Map
         defaultState={{
-          center: circle ? circle[0] : [55.030204, 82.92043],
+          center: circle ? circle[0] : defaueltCords(),
           zoom: 14,
         }}
         width={'100%'}

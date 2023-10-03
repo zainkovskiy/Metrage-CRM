@@ -142,7 +142,8 @@ const ObjectCard = ({ object }) => {
                   {object?.Price || '0'} руб.
                 </TextSpanStyle>
                 <TextSpanStyle size={10}>
-                  {useGetMeterPrice(object?.Price, getArea())} руб/м2
+                  {useGetMeterPrice(object?.Price, getArea())}{' '}
+                  {object?.Category === 'Жил. Уч.' ? 'руб/сот.' : 'руб/м2'}
                 </TextSpanStyle>
               </Box>
               <Box column gap='0' ai='flex-end'>
@@ -151,11 +152,14 @@ const ObjectCard = ({ object }) => {
                 </TextSpanStyle>
                 <Box>
                   <TextSpanStyle bold size={12}>
-                    {getArea()} м2
+                    {getArea()}{' '}
+                    {object?.Category === 'Жил. Уч.' ? 'сот.' : 'м2'}
                   </TextSpanStyle>
-                  <TextSpanStyle size={10}>
-                    {object?.Floors || '1 эт.'}
-                  </TextSpanStyle>
+                  {object?.Category !== 'Жил. Уч.' && (
+                    <TextSpanStyle size={10}>
+                      {object?.Floors || '1 эт.'}
+                    </TextSpanStyle>
+                  )}
                 </Box>
               </Box>
             </Box>
