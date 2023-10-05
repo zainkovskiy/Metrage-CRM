@@ -65,18 +65,11 @@ const SlideObjectNav = ({ onCloseSlide, changePhoto }) => {
         <ObjectSlideButton onClick={clickEdit}>Редактировать</ObjectSlideButton>
       </Box>
       <DialogWindow open={photo} onClose={isShowPhoto}>
-        <SlideDialogPhoto
-          onClose={isShowPhoto}
-          UID={object.UID}
-          estate={object?.typeEstate}
-          changePhoto={changePhoto}
-        />
+        <SlideDialogPhoto onClose={isShowPhoto} changePhoto={changePhoto} />
       </DialogWindow>
       <DialogWindow open={video} onClose={isShowVideo}>
         <SlideDialogVideo
           onClose={isShowVideo}
-          // UID={object.UID}
-          // estate={object?.typeEstate}
           // changePhoto={changePhoto}
         />
       </DialogWindow>

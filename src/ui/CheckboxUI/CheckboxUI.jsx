@@ -9,6 +9,7 @@ const LabelStyle = styled.label`
   align-items: center;
   cursor: pointer;
   ${({ $disabled }) => $disabled && 'opacity: .5; pointer-events: none;'}
+  ${({ $fullWidth }) => $fullWidth && 'width: 100%;'};
 `;
 const InputTemplate = styled.span`
   width: ${({ $size }) => ($size === 'small' ? '12px' : '16px')};
@@ -39,6 +40,7 @@ export const CheckboxUI = (props) => {
     id,
     checked,
     labelSize,
+    fullWidth,
   } = props;
   return (
     <LabelStyle
@@ -46,6 +48,7 @@ export const CheckboxUI = (props) => {
       $size={size}
       $disabled={disabled}
       $labelSize={labelSize}
+      $fullWidth={fullWidth}
     >
       <InputStyle
         type='checkbox'

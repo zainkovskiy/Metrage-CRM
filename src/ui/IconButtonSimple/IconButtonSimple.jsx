@@ -5,12 +5,18 @@ import chatUrl, { ReactComponent as Chat } from 'images/chat.svg';
 import userUrl, { ReactComponent as User } from 'images/user.svg';
 import { ReactComponent as Basket } from 'images/basket.svg';
 import { ReactComponent as BasketFull } from 'images/basket-loaded.svg';
+import { ReactComponent as Edit } from 'images/edit.svg';
+import { ReactComponent as Cut } from 'images/cut.svg';
+import { ReactComponent as ArrowBack } from 'images/arrow-around-left.svg';
+import { ReactComponent as ArrowRepeat } from 'images/arrow-around-right.svg';
+import { ReactComponent as Stamp } from 'images/stamp.svg';
+import { ReactComponent as Brush } from 'images/brush.svg';
 import styled, { css } from 'styled-components';
 
 const IconButtonSimpleStyle = styled.div`
   cursor: pointer;
-  border: ${({ border }) =>
-    border ? border : '1px solid ${({ theme }) => theme.color.primary};'};
+  border: ${({ $border, theme }) =>
+    $border ? $border : `1px solid ${theme.color.primary};`};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,6 +61,24 @@ const BasketStyle = styled(Basket)`
 const BasketFullStyle = styled(BasketFull)`
   ${iconStyle};
 `;
+const EditStyle = styled(Edit)`
+  ${iconStyle};
+`;
+const CutStyle = styled(Cut)`
+  ${iconStyle};
+`;
+const ArrowBackStyle = styled(ArrowBack)`
+  ${iconStyle};
+`;
+const ArrowRepeatStyle = styled(ArrowRepeat)`
+  ${iconStyle};
+`;
+const BrushStyle = styled(Brush)`
+  ${iconStyle};
+`;
+const StampStyle = styled(Stamp)`
+  ${iconStyle};
+`;
 
 export const IconButtonSimple = (props) => {
   const { icon, border } = props;
@@ -63,7 +87,7 @@ export const IconButtonSimple = (props) => {
   };
   const IconButton = getIconButton();
   return (
-    <IconButtonSimpleStyle {...props}>
+    <IconButtonSimpleStyle {...props} $border={border}>
       <IconButton />
     </IconButtonSimpleStyle>
   );
@@ -76,4 +100,10 @@ const iconVariant = {
   user: UserStyle,
   basket: BasketStyle,
   basketFull: BasketFullStyle,
+  edit: EditStyle,
+  cut: CutStyle,
+  back: ArrowBackStyle,
+  repeat: ArrowRepeatStyle,
+  brush: BrushStyle,
+  stamp: StampStyle,
 };

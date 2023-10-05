@@ -11,9 +11,11 @@ import objectSlice from './objectSlice';
 import dealSlice from './dealSlice';
 import { socketMiddleware } from './socket';
 import compilationSlice from './compilationSlice';
+import photoSlice from './photoSlice';
 
 const reducers = combineReducers({
   user: userSlice,
+  photo: photoSlice,
   chat: chatSlice,
   telegram: telegramSlice,
   application: applicationSlice,

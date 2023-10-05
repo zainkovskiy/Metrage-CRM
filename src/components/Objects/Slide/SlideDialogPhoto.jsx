@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
-import { getPhotoListAPI, setChangePhotoListAPI } from 'api/objectAPI';
+// import { getPhotoListAPI, setChangePhotoListAPI } from 'api/objectAPI';
 import closeUrl, { ReactComponent as Close } from 'images/close.svg';
-import { ReactComponent as NoImage } from 'images/no-image.svg';
 import { TextSpanStyle } from 'styles/styles';
 import { ButtonUI } from 'ui/ButtonUI';
-import { CheckboxUI } from 'ui/CheckboxUI';
 import SlideDialogPhotoSceleton from './SlideDialogPhotoSceleton';
 import SlideDialogPhotoUploader from './SlideDialogPhotoUploader';
+import SlideDialogEditPhoto from './SlideDialogEditPhoto';
+import SlideDialogPhotoItem from './SlideDialogPhotoItem';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  getPhotoList,
+  clearPhotos,
+  setWebAllPhotos,
+  swapPhoto,
+  saveChangeList,
+} from '../../../store/photoSlice';
+import { useAsyncValue } from 'react-router-dom';
 
 const SlideDialogPhotoStyle = styled.div`
   width: 80vw;
@@ -59,72 +67,47 @@ const ButtonWrap = styled.div`
   padding: 0 0.5rem;
   margin-bottom: 0.5rem;
 `;
-const SlideDialogPhoto = ({ UID, estate, onClose, changePhoto }) => {
-  const [loading, setLoading] = useState(true);
-  const [change, setChange] = useState(true);
-  const [photos, setPhotos] = useState([]);
-  const [photosOrigin, setPhotosOrigin] = useState([]);
+const SlideDialogPhoto = ({ onClose, changePhoto }) => {
+  const object = useAsyncValue();
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.photo.loading);
+  const photos = useSelector((state) => state.photo.photos);
+  const photosOrigin = useSelector((state) => state.photo.photosOrigin);
+  const targetPhoto = useSelector((state) => state.photo.targetPhoto);
   const dragPhotoRef = React.useRef(null);
   useEffect(() => {
-    getPhotoList();
+    dispatch(
+      getPhotoList({
+        UID: object.UID,
+        type: object.typeEstate,
+      })
+    );
+    return () => {
+      dispatch(clearPhotos());
+    };
   }, []);
-  const getPhotoList = async () => {
-    try {
-      const res = await getPhotoListAPI(UID, estate);
-      setPhotos(res);
-      setPhotosOrigin(JSON.parse(JSON.stringify(res)));
-    } catch (err) {
-    } finally {
-      setLoading(false);
-    }
-  };
-  const removePhoto = (UID) => {
-    setPhotos((prevState) => prevState.filter((item) => item.UID !== UID));
-  };
-  const setWeb = (photo) => {
-    setPhotos(
-      photos.map((item) => {
-        if (item.UID === photo.UID) {
-          item.isWeb = !item.isWeb;
-          return item;
-        }
-        return item;
-      })
-    );
-  };
-  const setObjectLayout = (photo) => {
-    setPhotos(
-      photos.map((item) => {
-        if (item.UID === photo.UID) {
-          item.isObjectLayout = !item.isObjectLayout;
-          return item;
-        }
-        return item;
-      })
-    );
-  };
   const setWebAll = () => {
-    setPhotos(
-      photos.map((item) => {
-        item.isWeb = true;
-        return item;
-      })
-    );
+    dispatch(setWebAllPhotos());
   };
   const saveChange = async () => {
     if (JSON.stringify(photos) === JSON.stringify(photosOrigin)) {
       onClose();
       return;
     }
-    setLoading(true);
-    try {
-      await setChangePhotoListAPI(UID, estate, photos);
-    } catch (error) {
-    } finally {
-      setLoading(false);
-      changePhoto(photos);
-      onClose();
-    }
+    dispatch(
+      saveChangeList({
+        UID: object.UID,
+        type: object.typeEstate,
+        photos: photos,
+      })
+    )
+      .unwrap()
+      .then((answer) => {
+        if (answer === 'OK') {
+          changePhoto(photos);
+          onClose();
+        }
+      });
   };
   const setDragPhotoStart = (dragStart) => {
     dragPhotoRef.current = dragStart;
@@ -133,33 +116,30 @@ const SlideDialogPhoto = ({ UID, estate, onClose, changePhoto }) => {
     if (dragEnd.UID === dragPhotoRef.current.UID) {
       return;
     }
-    swapPhoto(dragEnd);
-  };
-  const swapPhoto = (dragEnd) => {
-    let statePhotos = photos;
-    statePhotos.splice(
-      statePhotos.indexOf(dragEnd),
-      0,
-      ...statePhotos.splice(statePhotos.indexOf(dragPhotoRef.current), 1)
+    dispatch(
+      swapPhoto({
+        dragStart: dragPhotoRef.current,
+        dragEnd: dragEnd,
+      })
     );
-    setPhotos(statePhotos);
-    setChange(!change);
   };
-  const uploadedPhotos = (newPhotos) => {
-    setPhotos([...photos, ...newPhotos]);
-  };
+  if (targetPhoto) {
+    return <SlideDialogEditPhoto />;
+  }
   return (
     <SlideDialogPhotoStyle onClick={(e) => e.stopPropagation()}>
       <SlideDialogPhotoHeaderStyle>
         <TextSpanStyle>Фото {photos.length}</TextSpanStyle>
         <CloseButtonStyle src={closeUrl} onClick={onClose} />
       </SlideDialogPhotoHeaderStyle>
-      <SlideDialogPhotoUploader UID={UID} uploadedPhotos={uploadedPhotos} />
-      <ButtonWrap>
-        <ButtonUI small onClick={setWebAll}>
-          Выгрузить все
-        </ButtonUI>
-      </ButtonWrap>
+      <SlideDialogPhotoUploader />
+      {photos.length > 0 && (
+        <ButtonWrap>
+          <ButtonUI size='small' onClick={setWebAll}>
+            Выгрузить все
+          </ButtonUI>
+        </ButtonWrap>
+      )}
       <SlideDialogPhotoContext>
         {loading ? (
           <>
@@ -171,14 +151,11 @@ const SlideDialogPhoto = ({ UID, estate, onClose, changePhoto }) => {
         ) : (
           <>
             {photos.map((item, idx) => (
-              <SliderPhoto
+              <SlideDialogPhotoItem
                 key={item?.UID || idx}
                 photo={item}
-                removePhoto={removePhoto}
                 setDragPhotoStart={setDragPhotoStart}
                 setDragPhotoEnd={setDragPhotoEnd}
-                setWeb={setWeb}
-                setObjectLayout={setObjectLayout}
               />
             ))}
           </>
@@ -193,134 +170,6 @@ const SlideDialogPhoto = ({ UID, estate, onClose, changePhoto }) => {
         </ButtonUI>
       </SlideDialogPhotoFooter>
     </SlideDialogPhotoStyle>
-  );
-};
-
-const SliderPhotoSContainer = styled(motion.div)`
-  position: relative;
-  transition: opacity 0.3s;
-  cursor: grab;
-  display: flex;
-  flex-direction: column;
-`;
-const SliderPhotoItem = styled.img`
-  width: 100%;
-  height: 250px;
-  object-fit: contain;
-  background-color: #929292;
-  border-radius: 5px 5px 0 0;
-`;
-const RemoveIcon = styled(Close)`
-  fill: red;
-  width: 16px;
-  height: 16px;
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  cursor: pointer;
-  padding: 0.2rem;
-  border-radius: 40px;
-  transition: background-color 0.3s;
-  &:hover {
-    background-color: #f9ebeb9c;
-  }
-  &:active {
-    background-color: transparent;
-  }
-`;
-const SliderPhotoItemFooter = styled.div`
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 0 0 5px 5px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-`;
-const SliderPhoto = ({
-  photo,
-  removePhoto,
-  setDragPhotoStart,
-  setDragPhotoEnd,
-  setWeb,
-  setObjectLayout,
-}) => {
-  const dragStartHandler = () => {
-    //событие взятие карточки
-    setDragPhotoStart(photo);
-  };
-  const dragEndHandler = (event) => {
-    //отпустили перемещение
-    event.target.style.opacity = 1;
-  };
-  const dragOverHandler = (event) => {
-    //местоположение над другой карточки
-    event.preventDefault();
-    event.target.style.opacity = 0.5;
-  };
-  const dropHandler = (event) => {
-    //отпустили карточку
-    setDragPhotoEnd(photo);
-    event.target.style.opacity = 1;
-  };
-  if (photo?.allow === false) {
-    return <PhotoNotAllow />;
-  }
-  return (
-    <SliderPhotoSContainer
-      draggable={true}
-      onDragStart={dragStartHandler}
-      onDragLeave={dragEndHandler}
-      onDragEnd={dragEndHandler}
-      onDragOver={dragOverHandler}
-      onDrop={dropHandler}
-    >
-      <SliderPhotoItem src={photo.URL} />
-      <RemoveIcon onClick={() => removePhoto(photo.UID)} />
-      <SliderPhotoItemFooter>
-        <CheckboxUI
-          label='Выгружать'
-          id={`isWeb${photo.UID}`}
-          checked={photo?.isWeb}
-          onChange={() => {
-            setWeb(photo);
-          }}
-        />
-        <CheckboxUI
-          label='Планировка'
-          id={`isObjectLayout${photo.UID}`}
-          checked={photo?.isObjectLayout}
-          onChange={() => {
-            setObjectLayout(photo);
-          }}
-        />
-      </SliderPhotoItemFooter>
-    </SliderPhotoSContainer>
-  );
-};
-const PhotoNotAllowContext = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 250px;
-  border-radius: 5px 5px 0 0;
-  background-color: #ccc;
-`;
-const NoImageStyle = styled(NoImage)`
-  width: 60px;
-  height: 60px;
-  fill: ${({ theme }) => theme.color.primary};
-`;
-const PhotoNotAllow = () => {
-  return (
-    <SliderPhotoSContainer>
-      {/* <RemoveIcon onClick={() => removePhoto(photo.UID)} /> */}
-      <PhotoNotAllowContext>
-        <NoImageStyle />
-      </PhotoNotAllowContext>
-      <SliderPhotoItemFooter>
-        <TextSpanStyle>Формат не поддерживается</TextSpanStyle>
-      </SliderPhotoItemFooter>
-    </SliderPhotoSContainer>
   );
 };
 

@@ -59,9 +59,11 @@ const SlideObjectResponsible = ({ link }) => {
             {responsible?.lastName || ''} {responsible?.firstName || ''}
           </TextSpanStyle>
         </Box>
-        <LinkUI size={12} href={link} target='_blank'>
-          Ссылка на площадку
-        </LinkUI>
+        {link && (
+          <LinkUI size={12} href={link} target='_blank'>
+            Ссылка на площадку
+          </LinkUI>
+        )}
       </Box>
       <DialogWindow open={openChange} onClose={toggleOpenChange}>
         <div onClick={(e) => e.stopPropagation()}>
