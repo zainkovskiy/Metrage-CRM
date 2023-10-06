@@ -39,11 +39,17 @@ export const InputUI = forwardRef((props, ref) => {
     defaultValue,
     placeholder,
     small,
+    hidden,
     labelSize,
   } = props;
   const InputComponent = getInputComponent(type);
   return (
-    <LabelStyle fullWidth={fullWidth} width={width} labelSize={labelSize}>
+    <LabelStyle
+      fullWidth={fullWidth}
+      width={width}
+      labelSize={labelSize}
+      hidden={hidden}
+    >
       {label}
       <ContainerInput>
         <InputComponent

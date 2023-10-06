@@ -87,6 +87,17 @@ export const saveChangeTargetPhoto = createAsyncThunk(
     return {};
   }
 );
+export const cropPhoto = createAsyncThunk('photo/cropPhoto', async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.photoeditor.Crop',
+    fields: raw,
+  });
+  if (res.statusText === 'OK') {
+    return res?.data?.result || {};
+  }
+  return {};
+});
 export const removeStampPhoto = createAsyncThunk(
   'photo/removeStampPhoto',
   async (raw) => {
@@ -201,6 +212,9 @@ const photoSlice = createSlice({
         state.targetPhoto = action.payload;
       })
       .addCase(removeStampPhoto.fulfilled, (state, action) => {
+        state.targetPhoto = action.payload;
+      })
+      .addCase(cropPhoto.fulfilled, (state, action) => {
         state.targetPhoto = action.payload;
       })
       .addCase(saveChangeTargetPhoto.pending, (state, action) => {

@@ -44,9 +44,18 @@ const CloseButtonStyle = styled.img`
     transform: scale(0.9);
   }
 `;
+const Line = styled.span`
+  height: 1px;
+  background-color: #ccc;
+`;
+
 const SlideDialogAd = ({ onClose, UID, estate }) => {
   const [loading, setLoading] = useState(true);
   const [ad, setAd] = useState({});
+  const [checkboxExpired, setCheckboxExpired] = useState({
+    avito: false,
+    cian: false,
+  });
   useEffect(() => {
     getAdList();
   }, []);
@@ -68,6 +77,24 @@ const SlideDialogAd = ({ onClose, UID, estate }) => {
       [id]: value,
     }));
   };
+  const setExpired = (e, key) => {
+    const id = e.target.id;
+    const value = e.target.value;
+
+    setAd((prevState) => ({
+      ...prevState,
+      [id]: { ...prevState[id], expired: value },
+    }));
+  };
+  const isCheckboxExpired = (e) => {
+    const id = e.target.id;
+    const value = e.target.checked;
+
+    setCheckboxExpired((prevState) => ({
+      ...prevState,
+      [id]: value,
+    }));
+  };
   const saveAd = () => {
     setPublication(UID, estate, ad).then((res) => {
       res === 'OK' && onClose();
@@ -83,6 +110,40 @@ const SlideDialogAd = ({ onClose, UID, estate }) => {
         <SlideDialogAdSkeleton />
       ) : (
         <OfficeListStyle>
+          <Box jc='space-between'>
+            <CheckboxUI
+              id='onCian'
+              label='ЦИАН'
+              defaultChecked={ad?.onCian}
+              onChange={handleChange}
+            />
+            <InputUI
+              id='cianDate'
+              type='date'
+              disabled={true}
+              small
+              hidden
+              value={ad?.cianDate || ''}
+            />
+          </Box>
+          <Box jc='space-between'>
+            <CheckboxUI
+              id='cian'
+              label='Продвижение до'
+              defaultChecked={checkboxExpired.cian}
+              onChange={isCheckboxExpired}
+              disabled={!(ad?.cianPromo?.active && ad?.onCian)}
+            />
+            <InputUI
+              id='cianPromo'
+              type='date'
+              disabled={!(ad?.cianPromo?.active && checkboxExpired.cian)}
+              small
+              value={ad?.cianPromo?.expired || ''}
+              onChange={setExpired}
+            />
+          </Box>
+          <Line />
           <Box jc='space-between'>
             <CheckboxUI
               id='onAvito'
@@ -101,19 +162,22 @@ const SlideDialogAd = ({ onClose, UID, estate }) => {
           </Box>
           <Box jc='space-between'>
             <CheckboxUI
-              id='onCian'
-              label='ЦИАН'
-              defaultChecked={ad?.onCian}
-              onChange={handleChange}
+              id='avito'
+              label='Продвижение до'
+              defaultChecked={checkboxExpired.avito}
+              onChange={isCheckboxExpired}
+              disabled={!(ad?.avitoPromo?.active && ad?.onAvito)}
             />
-            {/* <InputUI
-              id='cianDate'
+            <InputUI
+              id='avitoPromo'
               type='date'
-              disabled={true}
+              disabled={!(ad?.avitoPromo?.active && checkboxExpired.avito)}
               small
-              value={ad?.cianDate || ''}
-            /> */}
+              value={ad?.avitoPromo?.expired || ''}
+              onChange={setExpired}
+            />
           </Box>
+          <Line />
           <Box jc='space-between'>
             <CheckboxUI
               id='onDomclick'
@@ -129,6 +193,7 @@ const SlideDialogAd = ({ onClose, UID, estate }) => {
               value={ad?.domclickDate || ''}
             /> */}
           </Box>
+          <Line />
           <Box jc='space-between'>
             <CheckboxUI
               id='onYandex'
@@ -144,6 +209,7 @@ const SlideDialogAd = ({ onClose, UID, estate }) => {
               value={ad?.yandexDate || ''}
             /> */}
           </Box>
+          <Line />
           <Box jc='space-between'>
             <CheckboxUI
               id='onOther'
