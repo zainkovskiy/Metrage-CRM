@@ -51,11 +51,8 @@ const Line = styled.span`
 
 const SlideDialogAd = ({ onClose, UID, estate }) => {
   const [loading, setLoading] = useState(true);
-  const [ad, setAd] = useState({});
-  const [checkboxExpired, setCheckboxExpired] = useState({
-    avito: false,
-    cian: false,
-  });
+  const [ad, setAd] = useState(null);
+  const [checkboxExpired, setCheckboxExpired] = useState({});
   useEffect(() => {
     getAdList();
   }, []);
@@ -63,6 +60,10 @@ const SlideDialogAd = ({ onClose, UID, estate }) => {
     try {
       const res = await getPublication(UID, estate);
       setAd(res);
+      setCheckboxExpired({
+        avito: res?.avitoPromo?.expired ? true : false,
+        cian: res?.cianPromo?.expired ? true : false,
+      });
     } catch (err) {
     } finally {
       setLoading(false);
@@ -130,14 +131,16 @@ const SlideDialogAd = ({ onClose, UID, estate }) => {
             <CheckboxUI
               id='cian'
               label='Продвижение до'
-              defaultChecked={checkboxExpired.cian}
+              defaultChecked={checkboxExpired.avito}
               onChange={isCheckboxExpired}
               disabled={!(ad?.cianPromo?.active && ad?.onCian)}
             />
             <InputUI
               id='cianPromo'
               type='date'
-              disabled={!(ad?.cianPromo?.active && checkboxExpired.cian)}
+              disabled={
+                !(ad?.cianPromo?.active && checkboxExpired.cian && ad?.onCian)
+              }
               small
               value={ad?.cianPromo?.expired || ''}
               onChange={setExpired}
@@ -171,7 +174,13 @@ const SlideDialogAd = ({ onClose, UID, estate }) => {
             <InputUI
               id='avitoPromo'
               type='date'
-              disabled={!(ad?.avitoPromo?.active && checkboxExpired.avito)}
+              disabled={
+                !(
+                  ad?.avitoPromo?.active &&
+                  checkboxExpired.avito &&
+                  ad?.onAvito
+                )
+              }
               small
               value={ad?.avitoPromo?.expired || ''}
               onChange={setExpired}

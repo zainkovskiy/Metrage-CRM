@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import ButtonBack from '../../../ui/ButtonBack/ButtonBack';
 import { ButtonUI } from '../../../ui/ButtonUI/ButtonUI';
@@ -61,6 +61,7 @@ const EditPhotoFooter = styled.div`
 `;
 const SlideDialogEditPhoto = () => {
   const editPhoto = useSelector((state) => state.photo.targetPhoto);
+  const photoRef = useRef(null);
   const dispatch = useDispatch();
   const [crop, setCrop] = React.useState({
     height: 0,
@@ -98,6 +99,7 @@ const SlideDialogEditPhoto = () => {
     );
   };
   const cropTargetPhoto = () => {
+    console.log(photoRef);
     if (crop.width === 0 && crop.height === 0) {
       return;
     }
@@ -105,6 +107,8 @@ const SlideDialogEditPhoto = () => {
       cropPhoto({
         UID: editPhoto.UID,
         ...crop,
+        width: photoRef.current.clientWidth,
+        height: photoRef.current.clientHeight,
       })
     );
   };
@@ -145,7 +149,7 @@ const SlideDialogEditPhoto = () => {
       </EditPhotoNav>
       <EditPhotoContainer>
         <ReactCrop crop={crop} onChange={(c) => setCrop(c)}>
-          <EditPhotoStyle src={editPhoto.URL} />
+          <EditPhotoStyle ref={photoRef} src={editPhoto.URL} />
         </ReactCrop>
       </EditPhotoContainer>
       <EditPhotoFooter>
