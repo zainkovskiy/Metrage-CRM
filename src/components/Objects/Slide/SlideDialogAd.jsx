@@ -89,12 +89,19 @@ const SlideDialogAd = ({ onClose, UID, estate }) => {
   };
   const isCheckboxExpired = (e) => {
     const id = e.target.id;
-    const value = e.target.checked;
+    const checked = e.target.checked;
 
     setCheckboxExpired((prevState) => ({
       ...prevState,
-      [id]: value,
+      [id]: checked,
     }));
+    if (!checked) {
+      const promo = id === 'cian' ? 'cianPromo' : 'avitoPromo';
+      setAd((prevState) => ({
+        ...prevState,
+        [promo]: { ...prevState[promo], expired: '' },
+      }));
+    }
   };
   const saveAd = () => {
     setPublication(UID, estate, ad).then((res) => {
