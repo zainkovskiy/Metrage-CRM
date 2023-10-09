@@ -138,7 +138,7 @@ const SlideDialogAd = ({ onClose, UID, estate }) => {
             <CheckboxUI
               id='cian'
               label='Продвижение до'
-              defaultChecked={checkboxExpired.avito}
+              defaultChecked={checkboxExpired.cian}
               onChange={isCheckboxExpired}
               disabled={!(ad?.cianPromo?.active && ad?.onCian)}
             />
