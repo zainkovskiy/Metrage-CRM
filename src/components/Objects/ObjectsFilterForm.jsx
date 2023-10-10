@@ -48,6 +48,7 @@ const deafaultFilter = {
   users: [user],
   cords: null,
   agentType: 'all',
+  onAdv: 'pofig',
 };
 const resetFilter = {
   typeRealty: 'live',
@@ -70,6 +71,7 @@ const resetFilter = {
   dealType: '',
   platform: '',
   agentType: 'all',
+  onAdv: 'pofig',
 };
 const ObjectsFilterForm = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -709,6 +711,22 @@ const ObjectsFilterForm = ({ onClose }) => {
               <SelectItemUI value={2}>Закрепление</SelectItemUI>
               <SelectItemUI value={3}>Продано</SelectItemUI>
               <SelectItemUI value={4}>Срыв</SelectItemUI>
+            </SelectUI>
+          )}
+        />
+        <Controller
+          name='onAdv'
+          control={control}
+          render={({ field }) => (
+            <SelectUI
+              onChange={(newValue) => field.onChange(newValue)}
+              select={field.value || 'pofig'}
+              multiple
+              label='В рекламе'
+            >
+              <SelectItemUI value='yes'>Да</SelectItemUI>
+              <SelectItemUI value='no'>Нет</SelectItemUI>
+              <SelectItemUI value='pofig'>Не важно</SelectItemUI>
             </SelectUI>
           )}
         />

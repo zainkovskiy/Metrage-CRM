@@ -1,51 +1,78 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-const API = 'https://crm.metragegroup.com/API/REST.php';
+const API = process.env.MAIN_API;
+const user = globalUser ? JSON.parse(globalUser) : null;
 
 export const getApplicationList = createAsyncThunk(
   'application/getApplicationList',
   async (_, { dispatch, getState }) => {
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
-      method: "crm.demand.list",
-    })
+      method: 'crm.demand.list',
+    });
     if (res?.statusText === 'OK') {
-      return res?.data?.result?.transwerData || []
+      return res?.data?.result?.transwerData || [];
     }
-    return []
+    return [];
   }
-)
+);
+export const getApplicationFilterList = createAsyncThunk(
+  'application/getApplicationFilterList',
+  async (raw, { dispatch }) => {
+    try {
+      const res = await axios
+        .post(API, {
+          metrage_id: metrage_id || null,
+          method: 'crm.demand.filter ',
+          fields: raw,
+        })
+        .catch((err) => {
+          throw new Error(
+            `${err?.response?.status}, ${err?.response?.data?.reason}`
+          );
+        });
+      if (res?.statusText === 'OK') {
+        return res?.data?.result?.transwerData || [];
+      }
+    } catch (error) {
+      console.log(error);
+      return [];
+    } finally {
+      dispatch(setApplicationFilter(raw));
+    }
+  }
+);
 export const getMoreApplication = createAsyncThunk(
   'application/getMoreApplication',
   async (_, { dispatch, getState }) => {
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
-      method: "crm.demand.list",
+      method: 'crm.demand.list',
       fields: {
         offset: getState().application.offset + 1,
-      }
-    })
+      },
+    });
     if (res?.statusText === 'OK') {
-      return res?.data?.result?.transwerData || []
+      return res?.data?.result?.transwerData || [];
     }
-    return []
+    return [];
   }
-)
+);
 export const setNewApplication = createAsyncThunk(
   'application/setNewApplication',
   async (form, { dispatch }) => {
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
-      method: "crm.demand.add",
-      fields: form
-    })
+      method: 'crm.demand.add',
+      fields: form,
+    });
     if (res?.statusText === 'OK') {
       dispatch(setUpdateApplication(res?.data?.result?.UID));
-      return res
+      return res;
     }
   }
-)
+);
 export const changeAgent = createAsyncThunk(
   'application/changeAgent',
   async (raw, { dispatch, rejectWithValue }) => {
@@ -56,9 +83,9 @@ export const changeAgent = createAsyncThunk(
         fields: {
           UID: raw.UID,
           responsibleId: raw.responsibleId,
-          interaction: raw?.interaction
-        }
-      })
+          interaction: raw?.interaction,
+        },
+      });
       if (data?.result?.status === 'OK') {
         return data.result.status;
       }
@@ -67,7 +94,7 @@ export const changeAgent = createAsyncThunk(
       // return rejectWithValue(err);
     }
   }
-)
+);
 export const changeStage = createAsyncThunk(
   'application/changeStage',
   async (raw) => {
@@ -77,11 +104,11 @@ export const changeStage = createAsyncThunk(
       fields: {
         stageId: raw.stage,
         UID: raw.UID,
-        comment: raw.comment
-      }
-    })
+        comment: raw.comment,
+      },
+    });
   }
-)
+);
 export const setNewContact = createAsyncThunk(
   'application/setNewContact',
   async (data, { rejectWithValue, getState, dispatch }) => {
@@ -91,17 +118,17 @@ export const setNewContact = createAsyncThunk(
         method: 'crm.demand.show',
         fields: {
           UID: data.UID,
-          ...data.form
-        }
-      })
+          ...data.form,
+        },
+      });
       if (res?.statusText !== 'OK') {
         throw new Error('Server error');
       }
     } catch (error) {
-      return rejectWithValue(error)
+      return rejectWithValue(error);
     }
   }
-)
+);
 export const checkApplication = createAsyncThunk(
   'application/updateContact',
   async (raw, { rejectWithValue }) => {
@@ -110,13 +137,13 @@ export const checkApplication = createAsyncThunk(
         metrage_id: metrage_id || null,
         method: 'crm.demand.checked',
         fields: raw,
-      })
-      return res
+      });
+      return res;
     } catch (error) {
-      return rejectWithValue(error)
+      return rejectWithValue(error);
     }
   }
-)
+);
 export const updateContact = createAsyncThunk(
   'application/updateContact',
   async (raw, { rejectWithValue }) => {
@@ -126,15 +153,15 @@ export const updateContact = createAsyncThunk(
         method: 'crm.contact.update',
         fields: {
           UID: raw.UID,
-          fields: raw.form
-        }
-      })
-      return res
+          fields: raw.form,
+        },
+      });
+      return res;
     } catch (error) {
-      return rejectWithValue(error)
+      return rejectWithValue(error);
     }
   }
-)
+);
 export const changeType = createAsyncThunk(
   'application/changeType',
   async (raw, { rejectWithValue }) => {
@@ -144,15 +171,15 @@ export const changeType = createAsyncThunk(
         method: 'crm.demand.setType',
         fields: {
           UID: raw.uid,
-          ...raw.form
-        }
-      })
-      return res
+          ...raw.form,
+        },
+      });
+      return res;
     } catch (error) {
-      return rejectWithValue(error)
+      return rejectWithValue(error);
     }
   }
-)
+);
 export const setUpdateApplication = createAsyncThunk(
   'application/setUpdateApplication',
   async (UID) => {
@@ -161,39 +188,40 @@ export const setUpdateApplication = createAsyncThunk(
       method: 'crm.demand.listOne',
       fields: {
         UID: UID,
-      }
-    })
+      },
+    });
     if (res?.statusText === 'OK') {
-      return res?.data?.result?.transwerData?.length > 0 ? res?.data?.result?.transwerData[0] : null;
+      return res?.data?.result?.transwerData?.length > 0
+        ? res?.data?.result?.transwerData[0]
+        : null;
     }
   }
-)
+);
 const initialState = {
   loadingList: false,
   loadingMore: false,
   applications: [],
   offset: 0,
   loadingNewApplication: false,
-  view: 'tile',
-  filterTypeList: 'all',
+  filter: {
+    users: [user],
+    status: 'all',
+    type: 'all',
+    isFailure: false,
+    isWork: true,
+  },
 };
-
 
 const applicationSlice = createSlice({
   name: 'application',
   initialState,
   reducers: {
-    setApplicationView(state, action) {
-      const newView = action.payload;
-      state.view = newView;
-    },
-    setFilterTypeApplicationList(state, action) {
-      const newFilterTypeList = action.payload;
-      state.filterTypeList = newFilterTypeList;
-    },
     clearApplication(state, action) {
       state.applications = [];
       state.offset = 0;
+    },
+    setApplicationFilter(state, action) {
+      state.filter = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -234,16 +262,32 @@ const applicationSlice = createSlice({
       })
       .addCase(setUpdateApplication.fulfilled, (state, action) => {
         const app = action.payload;
-        if (!app) { return }
+        if (!app) {
+          return;
+        }
         const find = state.applications.find((item) => item.UID === app.UID);
         if (!find) {
           state.applications = [app, ...state.applications];
-          return
+          return;
         }
-        if (JSON.stringify(app) === JSON.stringify(find)) { return }
+        if (JSON.stringify(app) === JSON.stringify(find)) {
+          return;
+        }
         state.applications.splice(state.applications.indexOf(find), 1, app);
       })
-  }
-})
-export const { setApplicationView, setFilterTypeApplicationList, clearApplication } = applicationSlice.actions;
+      .addCase(getApplicationFilterList.pending, (state) => {
+        state.loadingList = true;
+        state.offset = 0;
+      })
+      .addCase(getApplicationFilterList.fulfilled, (state, action) => {
+        state.loadingList = false;
+        state.applications = action.payload;
+      })
+      .addCase(getApplicationFilterList.rejected, (state) => {
+        state.loadingList = false;
+      });
+  },
+});
+export const { clearApplication, setApplicationFilter } =
+  applicationSlice.actions;
 export default applicationSlice.reducer;

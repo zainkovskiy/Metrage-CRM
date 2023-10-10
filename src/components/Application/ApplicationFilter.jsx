@@ -1,17 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { ButtonToggleGroup } from 'ui/ButtonToggle';
-import { ButtonToggleItem } from 'ui/ButtonToggle';
+import SlideWindow from 'components/Main/SlideWindow';
 import { ButtonUI } from 'ui/ButtonUI';
 import { Box } from 'ui/Box';
-import { SelectUI, SelectItemUI } from 'ui/SelectUI';
-import {
-  setApplicationView,
-  setFilterTypeApplicationList,
-} from 'store/applicationSlice';
+import {} from 'store/applicationSlice';
 import { Link } from 'react-router-dom';
 import { useWindowSize } from 'hooks/windowSize';
+import ApplicationFilterForm from './ApplicationFilterForm';
 
 const ApplicationFilterStyle = styled.div`
   display: flex;
@@ -22,53 +18,30 @@ const ApplicationFilterStyle = styled.div`
 `;
 const ApplicationFilter = () => {
   const dispatch = useDispatch();
-  const view = useSelector((state) => state.application.view);
-  const filterTypeList = useSelector(
-    (state) => state.application.filterTypeList
-  );
   const windowSize = useWindowSize();
-  const installView = (e) => {
-    dispatch(setApplicationView(e.target.id));
+  const [open, setOpen] = useState(false);
+  const toggleFilter = () => {
+    setOpen(!open);
   };
-  const setTypeList = (type) => {
-    dispatch(setFilterTypeApplicationList(type));
+  const getWidth = () => {
+    if (windowSize <= 768) {
+      return '100%';
+    }
+    return '30%';
   };
   return (
     <ApplicationFilterStyle>
-      <Box>
-        {windowSize > 768 && (
-          <ButtonToggleGroup>
-            <ButtonToggleItem
-              variant='light'
-              id='tile'
-              active={view}
-              onClick={installView}
-            >
-              Плиткой
-            </ButtonToggleItem>
-            <ButtonToggleItem
-              variant='light'
-              id='list'
-              active={view}
-              onClick={installView}
-            >
-              Списком
-            </ButtonToggleItem>
-          </ButtonToggleGroup>
-        )}
-        <SelectUI small select={filterTypeList} onChange={setTypeList}>
-          <SelectItemUI value='buy'>Купить</SelectItemUI>
-          <SelectItemUI value='sell'>Продать</SelectItemUI>
-          <SelectItemUI value='rent'>Сдать</SelectItemUI>
-          <SelectItemUI value='take'>Снять</SelectItemUI>
-          <SelectItemUI value='all'>Всё</SelectItemUI>
-        </SelectUI>
-      </Box>
+      <ButtonUI size='small' onClick={toggleFilter}>
+        Фильтр
+      </ButtonUI>
       <Link to='new-app'>
         <ButtonUI size='small' variant='outline'>
           Создать
         </ButtonUI>
       </Link>
+      <SlideWindow open={open} onClose={toggleFilter} width={getWidth()}>
+        <ApplicationFilterForm onClose={toggleFilter} />
+      </SlideWindow>
     </ApplicationFilterStyle>
   );
 };

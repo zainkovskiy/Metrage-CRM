@@ -35,16 +35,6 @@ const Applications = ({ firstMount }) => {
   const applications = useSelector((state) => state.application.applications);
   const loading = useSelector((state) => state.application.loadingList);
   const loadingMore = useSelector((state) => state.application.loadingMore);
-  const filterTypeList = useSelector(
-    (state) => state.application.filterTypeList
-  );
-
-  const getRenderList = (application) => {
-    if (filterTypeList === 'all') {
-      return application;
-    }
-    return application?.demand?.type === filterTypeList;
-  };
 
   if (firstMount && loading) {
     return <Loader />;
@@ -64,7 +54,7 @@ const Applications = ({ firstMount }) => {
       <ApplicationsStyle>
         <AnimatePresence>
           {applications?.length > 0 &&
-            applications.filter(getRenderList).map((application) => {
+            applications.map((application) => {
               return (
                 <ApplicationCard
                   key={application?.UID}

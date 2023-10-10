@@ -98,6 +98,7 @@ const initialState = {
     typeRealty: 'live',
     stage: 1,
     users: [user],
+    onAdv: 'pofig',
   },
   offset: 1,
 };

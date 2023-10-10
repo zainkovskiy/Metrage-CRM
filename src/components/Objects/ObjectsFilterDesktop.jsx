@@ -52,11 +52,6 @@ const ObjectsFilterDesktop = () => {
         )}
       </Box>
       <Box>
-        <Link to='new'>
-          <ButtonUI size='small' variant='outline'>
-            Создать
-          </ButtonUI>
-        </Link>
         <motion.div style={{ position: 'relative' }}>
           <BadgeUI badgeContent={Number(basket.length)}>
             <IconButtonSimple
@@ -78,6 +73,11 @@ const ObjectsFilterDesktop = () => {
             </AnimatePresence>
           </BadgeUI>
         </motion.div>
+        <Link to='new'>
+          <ButtonUI size='small' variant='outline'>
+            Создать
+          </ButtonUI>
+        </Link>
       </Box>
       <SlideWindow open={open} onClose={toggleFilter} width={getWidth()}>
         <ObjectsFilterForm onClose={toggleFilter} />
