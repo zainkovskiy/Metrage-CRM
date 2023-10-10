@@ -24,7 +24,7 @@ export const getApplicationFilterList = createAsyncThunk(
       const res = await axios
         .post(API, {
           metrage_id: metrage_id || null,
-          method: 'crm.demand.filter ',
+          method: 'crm.demand.filter',
           fields: raw,
         })
         .catch((err) => {
@@ -101,11 +101,7 @@ export const changeStage = createAsyncThunk(
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
       method: 'crm.demand.setStage',
-      fields: {
-        stageId: raw.stage,
-        UID: raw.UID,
-        comment: raw.comment,
-      },
+      fields: raw,
     });
   }
 );

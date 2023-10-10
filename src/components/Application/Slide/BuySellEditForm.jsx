@@ -75,6 +75,7 @@ const BuySellEditForm = () => {
       cords: demand?.cords,
       costStart: demand?.costStart || '',
       costEnd: demand?.costEnd || '',
+      buyType: application?.buyType || '',
     },
   });
 
@@ -145,6 +146,7 @@ const BuySellEditForm = () => {
           control={control}
           errors={errors}
           firstMout={firstMout.current}
+          type={getValues('type')}
         />
       </AnimatePresence>
       <AnimatePresence>

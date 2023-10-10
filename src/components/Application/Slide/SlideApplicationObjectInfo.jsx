@@ -13,6 +13,10 @@ const TaskObjectInfoStyle = styled.div`
   flex-direction: column;
   gap: 0.5rem;
 `;
+const buyTypeTranslate = {
+  forMyself: 'Покупает себе',
+  forBusiness: 'Для заработка',
+};
 const SlideApplicationObjectInfo = () => {
   const application = useAsyncValue();
   const demand = application?.demand;
@@ -20,6 +24,11 @@ const SlideApplicationObjectInfo = () => {
     <TaskObjectInfoStyle>
       <SliderTitle>Потребность</SliderTitle>
       <TextSpanStyle>{demand?.typePlace}</TextSpanStyle>
+      {application?.buyType && (
+        <TextSpanStyle>
+          Причина покупки: {buyTypeTranslate[application?.buyType]}
+        </TextSpanStyle>
+      )}
       {demand?.address?.value && (
         <TextSpanStyle>{demand?.address?.value}</TextSpanStyle>
       )}
