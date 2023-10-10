@@ -212,6 +212,7 @@ const NewApplication = ({ slideClose }) => {
                 control={control}
                 errors={errors}
                 firstMout={firstMout.current}
+                type={getValues('type')}
               />
             </AnimatePresence>
           </NewApplicationBlockStyle>

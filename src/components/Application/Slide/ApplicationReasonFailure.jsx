@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
 import { Box } from 'ui/Box';
 import { ButtonUI } from 'ui/ButtonUI';
+import { CheckboxUI } from 'ui/CheckboxUI';
 
 const ApplicationReasonFailureStyle = styled.div`
   position: absolute;
@@ -44,25 +45,34 @@ const TexAreaStyle = styled.textarea`
 `;
 const ApplicationReasonFailure = ({ setFailure, onClose }) => {
   const [value, setValue] = useState('');
+  const [agent, setAgent] = useState(false);
   const handleChange = (e) => {
     setValue(e.target.value);
   };
   const handleClick = () => {
-    setFailure(value.trim());
+    setFailure({
+      comment: value.trim(),
+      isAgent: agent,
+    });
+  };
+  const setIsAgent = (e) => {
+    setAgent(e.target.checked);
   };
   return (
     <ApplicationReasonFailureStyle>
       <TextSpanStyle color='#7c7777'>Комментарий</TextSpanStyle>
-      <TexAreaStyle
-        onChange={handleChange}
-        value={value}
-        rows='5'
-      ></TexAreaStyle>
+      <CheckboxUI
+        label='Это агент'
+        onChange={setIsAgent}
+        checked={agent}
+        id='isAgent'
+      />
+      <TexAreaStyle onChange={handleChange} value={value} rows='5' />
       <Box>
-        <ButtonUI size='small' onClick={handleClick}>
+        <ButtonUI fullWidth size='small' onClick={handleClick}>
           В срыв
         </ButtonUI>
-        <ButtonUI size='small' variant='outline' onClick={onClose}>
+        <ButtonUI fullWidth size='small' variant='outline' onClick={onClose}>
           Отменить
         </ButtonUI>
       </Box>

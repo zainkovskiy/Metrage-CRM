@@ -19,18 +19,18 @@ const SlideApplicationStatus = ({ status, UID }) => {
   const isExternal = useSelector((state) => state.user.isExternal);
   const [reason, setReason] = useState(false);
   const [activeStepper, setActiveStepper] = useState(status - 1 || '');
-  const changeStepper = (idx, comment) => {
+  const changeStepper = (idx, fields) => {
     dispatch(
       changeStage({
         stage: idx + 1,
         UID: UID,
-        comment: comment,
+        ...fields,
       })
     );
     setActiveStepper(idx);
   };
-  const setFailure = (comment) => {
-    changeStepper(-1, comment);
+  const setFailure = (fields) => {
+    changeStepper(-1, fields);
     setReason(false);
   };
   const changeFailure = () => {
@@ -48,8 +48,10 @@ const SlideApplicationStatus = ({ status, UID }) => {
         fullWidth
         wrap
       >
-        <StatusBarItem title='Заявка создана' onClick={changeStepper} />
-        <StatusBarItem title='В работе' onClick={changeStepper} />
+        <StatusBarItem title='Первый контакт' onClick={changeStepper} />
+        <StatusBarItem title='Проведена встреча' onClick={changeStepper} />
+        <StatusBarItem title='Показы' onClick={changeStepper} />
+        <StatusBarItem title='Закрепление' onClick={changeStepper} />
         <StatusBarItem title='Успешно' onClick={changeStepper} />
       </StatusBar>
       <div style={{ position: 'relative', display: 'flex' }}>

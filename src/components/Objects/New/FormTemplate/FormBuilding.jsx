@@ -135,6 +135,59 @@ const FormBuilding = () => {
           />
         </FormWrapper>
         <Box column ai='flex-start'>
+          <TextSpanStyle>Класс здания</TextSpanStyle>
+          <Controller
+            control={control}
+            name='TypeClassType'
+            render={({ field }) => (
+              <ButtonToggleGroup type='apart'>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='a'
+                  active={field.value}
+                >
+                  A
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='aPlus'
+                  active={field.value}
+                >
+                  A+
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='b'
+                  active={field.value}
+                >
+                  B
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='bMinus'
+                  active={field.value}
+                >
+                  B-
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='bPlus'
+                  active={field.value}
+                >
+                  B+
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='c'
+                  active={field.value}
+                >
+                  C
+                </ButtonToggleItem>
+              </ButtonToggleGroup>
+            )}
+          />
+        </Box>
+        <Box column ai='flex-start'>
           <TextSpanStyle>Планировка</TextSpanStyle>
           <Controller
             control={control}

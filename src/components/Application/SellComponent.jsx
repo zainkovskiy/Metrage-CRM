@@ -13,13 +13,13 @@ const variants = {
   },
   close: {
     x: '100%',
-  }
-}
+  },
+};
 const SellComponentStyle = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-`
+`;
 const SellComponent = ({ firstMout, control, errors }) => {
   return (
     <SellComponentStyle
@@ -38,14 +38,18 @@ const SellComponent = ({ firstMout, control, errors }) => {
             select={field.value || ''}
             onChange={field.onChange}
             inputRef={field.ref}
-            label='Тип'
+            label='Тип объекта'
             error={errors?.typePlace}
           >
             <SelectItemUI value='Квартира'>Квартира</SelectItemUI>
             <SelectItemUI value='Комната'>Комната</SelectItemUI>
-            <SelectItemUI value='Коммерческая недвижимость'>Коммерческая недвижимость</SelectItemUI>
+            <SelectItemUI value='Коммерческая недвижимость'>
+              Коммерческая недвижимость
+            </SelectItemUI>
             <SelectItemUI value='Дом'>Дом</SelectItemUI>
-            <SelectItemUI value='Земельный участок'>Земельный участок</SelectItemUI>
+            <SelectItemUI value='Земельный участок'>
+              Земельный участок
+            </SelectItemUI>
             <SelectItemUI value='Гараж'>Гараж</SelectItemUI>
           </SelectUI>
         )}
@@ -65,6 +69,6 @@ const SellComponent = ({ firstMout, control, errors }) => {
         )}
       />
     </SellComponentStyle>
-  )
-}
+  );
+};
 export default SellComponent;

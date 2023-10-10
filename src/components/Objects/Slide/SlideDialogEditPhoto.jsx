@@ -107,8 +107,8 @@ const SlideDialogEditPhoto = () => {
       cropPhoto({
         UID: editPhoto.UID,
         ...crop,
-        width: photoRef.current.clientWidth,
-        height: photoRef.current.clientHeight,
+        clientWidth: photoRef.current.clientWidth,
+        clientHeight: photoRef.current.clientHeight,
       })
     );
   };

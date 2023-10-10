@@ -15,14 +15,14 @@ const variants = {
   },
   close: {
     x: '-100%',
-  }
-}
+  },
+};
 const BuyComponentStyle = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-`
-const BuyComponent = ({ firstMout, control, errors }) => {
+`;
+const BuyComponent = ({ firstMout, control, errors, type }) => {
   return (
     <BuyComponentStyle
       variants={variants}
@@ -40,18 +40,41 @@ const BuyComponent = ({ firstMout, control, errors }) => {
             select={field.value || ''}
             onChange={field.onChange}
             inputRef={field.ref}
-            label='Тип'
+            label='Тип объекта'
             error={errors?.typePlace}
           >
             <SelectItemUI value='Квартира'>Квартира</SelectItemUI>
             <SelectItemUI value='Комната'>Комната</SelectItemUI>
-            <SelectItemUI value='Коммерческая недвижимость'>Коммерческая недвижимость</SelectItemUI>
+            <SelectItemUI value='Коммерческая недвижимость'>
+              Коммерческая недвижимость
+            </SelectItemUI>
             <SelectItemUI value='Дом'>Дом</SelectItemUI>
-            <SelectItemUI value='Земельный участок'>Земельный участок</SelectItemUI>
+            <SelectItemUI value='Земельный участок'>
+              Земельный участок
+            </SelectItemUI>
             <SelectItemUI value='Гараж'>Гараж</SelectItemUI>
           </SelectUI>
         )}
       />
+      {type === 'buy' && (
+        <Controller
+          control={control}
+          name='buyType'
+          rules={{ required: 'Выберете тип' }}
+          render={({ field }) => (
+            <SelectUI
+              select={field.value || ''}
+              onChange={field.onChange}
+              inputRef={field.ref}
+              label='Причина покупки'
+              error={errors?.buyType}
+            >
+              <SelectItemUI value='forMyself'>Покупает себе</SelectItemUI>
+              <SelectItemUI value='forBusiness'>Для заработка</SelectItemUI>
+            </SelectUI>
+          )}
+        />
+      )}
       <div style={{ display: 'flex', gap: '0.5rem' }}>
         <Controller
           name='costStart'
@@ -96,6 +119,6 @@ const BuyComponent = ({ firstMout, control, errors }) => {
         )}
       />
     </BuyComponentStyle>
-  )
-}
+  );
+};
 export default BuyComponent;

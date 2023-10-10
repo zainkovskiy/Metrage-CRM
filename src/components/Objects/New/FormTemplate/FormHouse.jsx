@@ -126,6 +126,20 @@ const FormHouse = () => {
               />
             )}
           />
+          <Controller
+            name='KPId'
+            control={control}
+            render={({ field }) => (
+              <InputUI
+                onChange={(e) => {
+                  field.onChange(parseInt(e.target.value.split(' ').join('')));
+                }}
+                value={field.value || ''}
+                label='ID Коттеджного посёлка'
+                fullWidth
+              />
+            )}
+          />
         </FormWrapper>
         <Box column ai='flex-start'>
           <TextSpanStyle>Вид земельного участка</TextSpanStyle>
