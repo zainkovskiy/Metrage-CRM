@@ -4,6 +4,7 @@ import { Box } from 'ui/Box';
 import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
 import InputText from '../../../ui/InputText/InputText';
+import { useAsyncValue } from 'react-router-dom';
 
 const ContactBlock = styled.div`
   flex-grow: 1;
@@ -16,6 +17,7 @@ const ContactLine = styled.div`
 `;
 
 const SliderClientContact = () => {
+  const client = useAsyncValue();
   return (
     <SliderBlock>
       <Box column>
@@ -24,30 +26,36 @@ const SliderClientContact = () => {
           <ContactBlock>
             <ContactLine>
               <TextSpanStyle>Фамилия:</TextSpanStyle>
-              <InputText value='Василий' onChange={() => {}} />
+              <InputText value={client?.lastName || ''} onChange={() => {}} />
             </ContactLine>
             <ContactLine>
               <TextSpanStyle>Имя:</TextSpanStyle>
-              <InputText value='Петрович' onChange={() => {}} />
+              <InputText value={client?.firstName || ''} onChange={() => {}} />
             </ContactLine>
             <ContactLine>
               <TextSpanStyle>Отчество:</TextSpanStyle>
-              <InputText value='Чык-чырыквич' onChange={() => {}} />
+              <InputText value={client?.secondName || ''} onChange={() => {}} />
             </ContactLine>
           </ContactBlock>
           <ContactBlock>
             <ContactLine>
               <TextSpanStyle>Телефон:</TextSpanStyle>
-              <InputText value='89999999999' onChange={() => {}} />
+              <InputText
+                value={client?.phone[0]?.value || ''}
+                onChange={() => {}}
+              />
             </ContactLine>
             <ContactLine>
               <TextSpanStyle></TextSpanStyle>
-              <InputText value='89999999999' onChange={() => {}} />
+              <InputText
+                value={client?.phone[1]?.value || ''}
+                onChange={() => {}}
+              />
             </ContactLine>
             <ContactLine>
               <TextSpanStyle>Почта:</TextSpanStyle>
               <InputText
-                value='chik-cirik.v.p@belarus.by'
+                value={client?.email[0]?.value || ''}
                 onChange={() => {}}
               />
             </ContactLine>

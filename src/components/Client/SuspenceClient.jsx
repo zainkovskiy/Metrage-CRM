@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import Loader from 'components/Main/Loader';
 
 const ClientContent = React.lazy(() =>

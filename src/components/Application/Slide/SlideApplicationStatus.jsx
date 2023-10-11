@@ -22,7 +22,7 @@ const SlideApplicationStatus = ({ status, UID }) => {
   const changeStepper = (idx, fields) => {
     dispatch(
       changeStage({
-        stage: idx + 1,
+        stageId: idx + 1,
         UID: UID,
         ...fields,
       })

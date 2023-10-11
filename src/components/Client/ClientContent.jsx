@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { device } from 'styles/device';
 import ClientFilter from './ClientFilter';
+import Clients from './Clients';
+import { getClientsList } from '../../store/clientsSlice';
 
 const ClientContentStyle = styled.div`
   flex-grow: 1;
@@ -18,10 +21,18 @@ const ClientContentStyle = styled.div`
 `;
 
 const ClientContent = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    getClients();
+  }, []);
+  const getClients = () => {
+    dispatch(getClientsList());
+  };
   return (
     <ClientContentStyle>
       <ClientFilter />
-      <Link to='3'>client slider</Link>
+      <Clients />
+      {/* <Link to='3'>client slider</Link> */}
       <Outlet />
     </ClientContentStyle>
   );

@@ -5,6 +5,7 @@ import { ButtonUI } from 'ui/ButtonUI';
 import { TextSpanStyle } from 'styles/styles';
 import styled from 'styled-components';
 import metrageUrl from 'images/logo_small.svg';
+import { useAsyncValue } from 'react-router-dom';
 const ResponsibleSide = styled.div`
   flex-grow: 1;
   width: 100%;
@@ -18,12 +19,15 @@ const ClientIcon = styled.img`
   object-fit: contain;
 `;
 const SliderClientResponsible = () => {
+  const client = useAsyncValue();
   return (
     <SliderBlock>
       <Box fullWidth ai='flex-start'>
         <ResponsibleSide>
           <SliderTitle>Ответственный</SliderTitle>
-          <TextSpanStyle>Ванечкин Василий Павлович</TextSpanStyle>
+          <TextSpanStyle>
+            {client?.responsible?.title || 'Нет ответственного'}
+          </TextSpanStyle>
           <ButtonUI size='small'>Сменить</ButtonUI>
         </ResponsibleSide>
         <ResponsibleSide>

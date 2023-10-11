@@ -3,6 +3,7 @@ import { SliderBlock, SliderTitle } from '../../../styles/slider';
 import { Box } from 'ui/Box';
 import AudioPlayerCard from 'ui/AudioPlayerCard/AudioPlayerCard';
 import styled from 'styled-components';
+import { useAsyncValue } from 'react-router-dom';
 
 const Calls = styled.div`
   width: 100%;
@@ -13,20 +14,20 @@ const Calls = styled.div`
   gap: 0.5rem;
 `;
 const SliderClientCallsStyle = styled(SliderBlock)`
-  flex-grow: 1;
+  // flex-grow: 1;
 `;
 
 const SliderClientCalls = () => {
+  const client = useAsyncValue();
   return (
     <SliderClientCallsStyle>
       <Box column>
         <SliderTitle>Звонки</SliderTitle>
         <Calls>
-          <AudioPlayerCard />
-          <AudioPlayerCard />
-          <AudioPlayerCard />
-          <AudioPlayerCard />
-          <AudioPlayerCard />
+          {client?.calls?.length > 0 &&
+            client.calls.map((call, idx) => (
+              <AudioPlayerCard call={call} key={idx} />
+            ))}
         </Calls>
       </Box>
     </SliderClientCallsStyle>

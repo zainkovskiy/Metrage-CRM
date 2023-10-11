@@ -1,5 +1,4 @@
 import React from 'react';
-// import { SlideBlockStyle } from '../DealStyle';
 import { TextSpanStyle } from 'styles/styles';
 import { Box } from 'ui/Box';
 import { useDateFormat } from 'hooks/DateFormat';
@@ -9,9 +8,11 @@ import { useAsyncValue } from 'react-router-dom';
 import { SliderBlock } from '../../../styles/slider';
 
 const SlideClientMeta = () => {
-  // const deal = useAsyncValue();
+  const client = useAsyncValue();
   const copyID = () => {
-    // navigator.clipboard.writeText(`http://crm.metragegroup.com?deal=${deal.UID}`);
+    navigator.clipboard.writeText(
+      `http://crm.metragegroup.com?deal=${client.UID}`
+    );
   };
   return (
     <SliderBlock>
@@ -20,7 +21,7 @@ const SlideClientMeta = () => {
           <IconButton onClick={copyID}>
             <Copy />
           </IconButton>
-          <TextSpanStyle size={12}>ID: 3</TextSpanStyle>
+          <TextSpanStyle size={12}>ID: {client.UID}</TextSpanStyle>
         </Box>
         <Box>
           <TextSpanStyle size={12}>

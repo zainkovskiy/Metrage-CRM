@@ -12,6 +12,7 @@ import dealSlice from './dealSlice';
 import { socketMiddleware } from './socket';
 import compilationSlice from './compilationSlice';
 import photoSlice from './photoSlice';
+import clientsSlice from './clientsSlice';
 
 const reducers = combineReducers({
   user: userSlice,
@@ -22,6 +23,7 @@ const reducers = combineReducers({
   objects: objectSlice,
   deal: dealSlice,
   compilation: compilationSlice,
+  clients: clientsSlice,
 });
 
 export const store = configureStore({

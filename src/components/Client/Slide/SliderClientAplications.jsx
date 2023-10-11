@@ -3,29 +3,31 @@ import styled from 'styled-components';
 import { SliderBlock, SliderTitle } from '../../../styles/slider';
 import { TextSpanStyle } from 'styles/styles';
 import { Box } from 'ui/Box';
-import metrageUrl from 'images/logo_small.svg';
+import { useAsyncValue } from 'react-router-dom';
+import { useDateFormat } from 'hooks/DateFormat';
 
 const ClientApplications = styled.div`
   width: 100%;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 0.5rem;
-  height: 200px;
   overflow: auto;
+  max-height: 200px;
 `;
 
 const SliderClientAplications = () => {
+  const client = useAsyncValue();
   return (
     <SliderBlock>
       <Box fullWidth column>
         <SliderTitle>Заявки</SliderTitle>
         <ClientApplications>
-          <ClientApplicationItem color='#d9d9d9' />
-          <ClientApplicationItem color='#98E391' />
-          <ClientApplicationItem color='#EF9E9E' />
-          <ClientApplicationItem color='#d9d9d9' />
-          <ClientApplicationItem color='#98E391' />
-          <ClientApplicationItem color='#EF9E9E' />
+          {client?.demands?.length > 0 &&
+            client.demands.map((item) => {
+              return (
+                <ClientApplicationItem key={item.UID} application={item} />
+              );
+            })}
         </ClientApplications>
       </Box>
     </SliderBlock>
@@ -44,8 +46,8 @@ const ClientApplicationItemStyle = styled.div`
   box-sizing: border-box;
 `;
 const ClientApplicationSide = styled.div`
-  flex-grow: 1;
-  width: 100%;
+  // flex-grow: 1;
+  // width: 100%;
 `;
 const ClientApplicationLine = styled.div`
   display: flex;
@@ -59,34 +61,35 @@ const ClientIcon = styled.img`
   align-self: center;
 `;
 
-const ClientApplicationItem = ({ color }) => {
+const ClientApplicationItem = ({ application }) => {
   return (
-    <ClientApplicationItemStyle $color={color}>
+    <ClientApplicationItemStyle $color={application?.stageColour || '#ccc'}>
       <ClientApplicationSide>
         <TextSpanStyle>Ответственный:</TextSpanStyle>
-        <TextSpanStyle color='#898989'>Ванечкин Василий Петрович</TextSpanStyle>
+        <TextSpanStyle>
+          {application?.responsibleFirstName || ''}{' '}
+          {application?.responsibleLastName || ''}
+        </TextSpanStyle>
       </ClientApplicationSide>
       <ClientApplicationSide>
         <ClientApplicationLine>
           <TextSpanStyle size={12}>Потребность:</TextSpanStyle>
-          <TextSpanStyle size={12} color='#898989'>
-            Купить
-          </TextSpanStyle>
+          <TextSpanStyle size={12}>{application?.type || ''}</TextSpanStyle>
         </ClientApplicationLine>
         <ClientApplicationLine>
           <TextSpanStyle size={12}>Статус:</TextSpanStyle>
-          <TextSpanStyle size={12} color='#898989'>
-            Заявка создана
+          <TextSpanStyle size={12}>
+            {application?.stageName || ''}
           </TextSpanStyle>
         </ClientApplicationLine>
         <ClientApplicationLine>
           <TextSpanStyle size={12}>Дата создания:</TextSpanStyle>
-          <TextSpanStyle size={12} color='#898989'>
-            29.08.2023
+          <TextSpanStyle size={12}>
+            {useDateFormat(application?.created, 'DD.MM.YY')}
           </TextSpanStyle>
         </ClientApplicationLine>
       </ClientApplicationSide>
-      <ClientIcon src={metrageUrl} />
+      <ClientIcon src={application.sourcePicture} />
     </ClientApplicationItemStyle>
   );
 };

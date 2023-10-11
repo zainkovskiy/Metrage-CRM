@@ -26,6 +26,7 @@ import { loaderCompilationSlide } from 'components/Compilations/Slide/SuspenseSl
 
 import SuspenceClient from 'components/Client/SuspenceClient';
 import SuspenseSlideClient from 'components/Client/Slide/SuspenseSlideClient';
+import { loaderClientSlide } from 'components/Client/Slide/SuspenseSlideClient';
 
 import SuspenceUser from 'components/User/SuspenceUser';
 import SuspenseSlideUser from 'components/User/Slide/SuspenseSlideUser';
@@ -117,7 +118,7 @@ export const routers = createBrowserRouter([
           {
             path: ':id',
             element: <SuspenseSlideClient />,
-            // loader: loaderDealSlide,
+            loader: loaderClientSlide,
           },
         ],
       },
