@@ -42,6 +42,7 @@ const PanelControl = () => {
         <PanelButton icon='deal' path='deal' title='Сделка' />
         <PanelButton icon='compilation' path='compilation' title='Подборки' />
         <PanelButton icon='client' path='client' title='Клиенты' />
+        <PanelButton icon='chart' path='dashboard' title='Аналитики' />
         {/* <PanelButton icon='users' path='users' title='Пользователи' /> */}
         {/* <PanelButton icon='todo' path='/task' title='Задачи' />
         <PanelButton icon='calendar' path='calendar' title='Календарь' />
@@ -50,7 +51,6 @@ const PanelControl = () => {
         <PanelButton icon='grade' path='grade' title='Оценка' />
         <PanelButton icon='lawyer' path='lawyer' title='Заказ юриста' />
         <PanelButton icon='insurance' path='insurance' title='Страховка' />
-        <PanelButton icon='chart' path='chart' title='Аналитики' />
         <PanelButton icon='hr' path='hr' title='Соискатели' />
         <PanelButton icon='study' path='study' title='Обучение' /> */}
       </div>

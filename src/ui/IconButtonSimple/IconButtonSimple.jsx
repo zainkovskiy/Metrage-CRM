@@ -15,12 +15,9 @@ import styled, { css } from 'styled-components';
 
 const IconButtonSimpleStyle = styled.div`
   cursor: pointer;
-  border: ${({ $border, theme }) =>
-    $border ? $border : `1px solid ${theme.color.primary};`};
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2px;
   border-radius: 5px;
   transition: transform 0.3s;
   @media (hover: none) {
@@ -81,13 +78,13 @@ const StampStyle = styled(Stamp)`
 `;
 
 export const IconButtonSimple = (props) => {
-  const { icon, border } = props;
+  const { icon } = props;
   const getIconButton = () => {
     return iconVariant[icon];
   };
   const IconButton = getIconButton();
   return (
-    <IconButtonSimpleStyle {...props} $border={border}>
+    <IconButtonSimpleStyle {...props}>
       <IconButton />
     </IconButtonSimpleStyle>
   );

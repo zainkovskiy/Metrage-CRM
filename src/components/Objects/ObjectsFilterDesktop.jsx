@@ -56,7 +56,6 @@ const ObjectsFilterDesktop = () => {
           <BadgeUI badgeContent={Number(basket.length)}>
             <IconButtonSimple
               icon='basket'
-              border='none'
               onClick={handlerHiddenBox}
               id='basket'
             />
