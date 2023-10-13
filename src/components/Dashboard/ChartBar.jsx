@@ -10,7 +10,8 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-const ChartBar = () => {
+const ChartBar = ({ chart }) => {
+  console.log(chart);
   return (
     <ResponsiveContainer width='100%' height={250}>
       <BarChart data={data}>

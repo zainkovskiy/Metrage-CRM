@@ -1,9 +1,10 @@
 import React from 'react';
-import ChartBar from './ChartBar';
-import ChartPie from './ChartPie';
 import styled from 'styled-components';
+import ChartArea from './ChartArea';
+import ChartSankey from './ChartSankey';
+import ChartPie from './ChartPie';
+import ChartDoublePie from './ChartDoublePie';
 import { TextSpanStyle } from '../../styles/styles';
-import { SliderTitle } from '../../styles/slider';
 import { ButtonLink } from '../../ui/ButtonLink/ButtonLink';
 
 const ChartItemStyle = styled.div`
@@ -18,22 +19,40 @@ const ChartItemStyle = styled.div`
 const TextSpanStyleBorder = styled(TextSpanStyle)`
   border-bottom: 1px solid black;
 `;
-const ChartItem = ({ chart, type }) => {
+const ChartItem = ({ chart }) => {
   if (!chart) {
     return;
   }
+  const getChartComponent = () => {
+    switch (chart?.graphName) {
+      case 'PieChart':
+        return ChartPie;
+      case 'SankeyChart':
+        return ChartSankey;
+      case 'AreaChart':
+        return ChartArea;
+      case 'doublePieChart':
+        return ChartDoublePie;
+      default:
+        return DefaultComponent;
+    }
+  };
+  const ChartComponent = getChartComponent();
   return (
     <ChartItemStyle>
       <TextSpanStyleBorder align='end'>
         {chart?.title || ''}
       </TextSpanStyleBorder>
-      {type === 'bar' && <ChartBar />}
-      {type === 'pie' && <ChartPie />}
-      <ButtonLink size={12} color='#727272'>
-        {chart?.rangeTitle || ''}
-      </ButtonLink>
+      <ChartComponent chart={chart?.data || []} />
+      {chart?.rangeTitle && (
+        <ButtonLink size={12} color='#727272'>
+          {chart?.rangeTitle || ''}
+        </ButtonLink>
+      )}
     </ChartItemStyle>
   );
 };
-
+const DefaultComponent = () => {
+  return <div style={{ height: 250 }} />;
+};
 export default ChartItem;

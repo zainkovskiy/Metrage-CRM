@@ -15,9 +15,10 @@ const Charts = () => {
   console.log(dashboard);
   return (
     <ChartBarStyle>
-      <ChartItem chart={dashboard?.clients || null} type='bar' />
-      <ChartItem chart={dashboard?.demands || null} type='bar' />
-      <ChartItem chart={dashboard?.sources || null} type='pie' />
+      <ChartItem chart={dashboard?.clients || null} />
+      <ChartItem chart={dashboard?.demands || null} />
+      <ChartItem chart={dashboard?.sources || null} />
+      <ChartItem chart={dashboard?.objects || null} />
     </ChartBarStyle>
   );
 };
