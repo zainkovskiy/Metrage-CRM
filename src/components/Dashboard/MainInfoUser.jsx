@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useGetAvatar } from 'hooks/MakeAvatar';
 import { Box } from 'ui/Box';
 import { TextSpanStyle } from 'styles/styles';
 import { ButtonLink } from '../../ui/ButtonLink/ButtonLink';
+import DialogWindow from 'components/Main/DialogWindow';
+import MainSelectList from './MainSelectList';
+import { useDispatch } from 'react-redux';
+import { changeSource } from '../../store/dashboardSlice';
 
 const Avatar = styled.img`
   width: 48px;
@@ -24,12 +28,27 @@ const Line = styled.span`
   background-color: black;
 `;
 const MainInfoUser = ({ user, view, rights }) => {
-  // console.log(view);
-  // console.log(rights);
+  const dispatch = useDispatch();
+  const [openSelect, setOpenSelect] = useState(null);
+  const openSelectList = (source) => {
+    setOpenSelect(source);
+  };
+  const closeSelectList = () => {
+    setOpenSelect(null);
+  };
+  const selectSource = (source) => {
+    dispatch(changeSource(source));
+  };
   const getButton = () => {
     if (rights?.changeViewer) {
       return (
-        <ButtonLink size={12} color='#727272'>
+        <ButtonLink
+          size={12}
+          color='#727272'
+          onClick={() => {
+            openSelectList('user');
+          }}
+        >
           {view?.type === 'user' && view?.title
             ? view?.title
             : 'Другой пользователь'}
@@ -38,14 +57,31 @@ const MainInfoUser = ({ user, view, rights }) => {
     }
     if (rights?.officeViewOne) {
       return (
-        <ButtonLink size={12} color='#727272'>
+        <ButtonLink
+          size={12}
+          color='#727272'
+          onClick={() =>
+            selectSource({
+              source: 'office',
+              select: {
+                UID: view?.UID,
+              },
+            })
+          }
+        >
           {view?.title || ''}
         </ButtonLink>
       );
     }
     if (rights?.officeViewAll) {
       return (
-        <ButtonLink size={12} color='#727272'>
+        <ButtonLink
+          size={12}
+          color='#727272'
+          onClick={() => {
+            openSelectList('office');
+          }}
+        >
           {view?.title || 'Офис'}
         </ButtonLink>
       );
@@ -66,6 +102,13 @@ const MainInfoUser = ({ user, view, rights }) => {
       <TextSpanStyle>{user?.officeName || ''}</TextSpanStyle>
       <Line />
       {getButton()}
+      <DialogWindow open={Boolean(openSelect)} onClose={closeSelectList}>
+        <MainSelectList
+          source={openSelect}
+          onClose={closeSelectList}
+          onChange={selectSource}
+        />
+      </DialogWindow>
     </MainInfoUserStyle>
   );
 };

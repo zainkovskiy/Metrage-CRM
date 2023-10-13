@@ -9,10 +9,10 @@ const ChartBarStyle = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   grid-auto-rows: min-content;
   gap: 0.5rem;
+  overflow: auto;
 `;
 const Charts = () => {
   const dashboard = useSelector((state) => state.dashboard.data);
-  console.log(dashboard);
   return (
     <ChartBarStyle>
       <ChartItem chart={dashboard?.clients || null} />

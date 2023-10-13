@@ -7,6 +7,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
+import DefaultChartComponent from './DefaultChartComponent';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
@@ -38,13 +39,19 @@ const renderCustomizedLabel = ({
 };
 
 export const ChartPie = ({ chart }) => {
+  if (chart.length === 0) {
+    return <DefaultChartComponent />;
+  }
+  if (!chart) {
+    return <DefaultChartComponent />;
+  }
   return (
     <ResponsiveContainer width='100%' height={250}>
       <PieChart>
         <Tooltip />
         <Legend />
         <Pie
-          data={chart}
+          data={chart || []}
           cx='50%'
           cy='50%'
           labelLine={false}

@@ -9,8 +9,15 @@ import {
   ResponsiveContainer,
   Legend,
 } from 'recharts';
+import DefaultChartComponent from './DefaultChartComponent';
 
 const ChartArea = ({ chart }) => {
+  if (chart.length === 0) {
+    return <DefaultChartComponent />;
+  }
+  if (!chart) {
+    return <DefaultChartComponent />;
+  }
   return (
     <ResponsiveContainer width='100%' height={250}>
       <AreaChart

@@ -7,6 +7,8 @@ const MainInfoBirthDayStyle = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  max-height: 50%;
+  overflow: auto;
 `;
 const MainInfoBirthDay = ({ birthday }) => {
   return (

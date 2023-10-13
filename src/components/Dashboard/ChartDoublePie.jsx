@@ -1,7 +1,17 @@
 import React from 'react';
 import { PieChart, Pie, ResponsiveContainer, Tooltip, Legend } from 'recharts';
+import DefaultChartComponent from './DefaultChartComponent';
 
 const ChartDoublePie = ({ chart }) => {
+  if (Array.isArray(chart)) {
+    return <DefaultChartComponent />;
+  }
+  if (JSON.stringify(chart) === '{}') {
+    return <DefaultChartComponent />;
+  }
+  if (!chart) {
+    return <DefaultChartComponent />;
+  }
   return (
     <ResponsiveContainer width='100%' height={250}>
       <PieChart>
