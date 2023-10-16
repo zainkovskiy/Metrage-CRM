@@ -40,6 +40,7 @@ const ClientApplicationItemStyle = styled.div`
   display: flex;
   gap: 0.5rem;
   background-color: ${({ $color }) => ($color ? $color : '#d9d9d9')};
+  justify-content: space-between;
   padding: 0.5rem;
   border-radius: 5px;
   width: 100%;

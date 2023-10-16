@@ -48,17 +48,20 @@ export const ChartPie = ({ chart }) => {
   return (
     <ResponsiveContainer width='100%' height={250}>
       <PieChart>
-        <Tooltip />
-        <Legend />
+        {/* <Tooltip /> */}
+        <Legend
+          wrapperStyle={{ fontFamily: 'CeraCY, sans-serif', fontSize: 12 }}
+        />
         <Pie
           data={chart || []}
           cx='50%'
           cy='50%'
-          labelLine={false}
-          label={renderCustomizedLabel}
+          labelLine={true}
+          label
           outerRadius={80}
           fill='#8884d8'
           dataKey='value'
+          style={{ fontFamily: 'CeraCY, sans-serif', fontSize: 12 }}
         >
           {chart.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />

@@ -39,53 +39,13 @@ const MainInfoUser = ({ user, view, rights }) => {
   const selectSource = (source) => {
     dispatch(changeSource(source));
   };
-  const getButton = () => {
-    if (rights?.changeViewer) {
-      return (
-        <ButtonLink
-          size={12}
-          color='#727272'
-          onClick={() => {
-            openSelectList('user');
-          }}
-        >
-          {view?.type === 'user' && view?.title
-            ? view?.title
-            : 'Другой пользователь'}
-        </ButtonLink>
-      );
-    }
-    if (rights?.officeViewOne) {
-      return (
-        <ButtonLink
-          size={12}
-          color='#727272'
-          onClick={() =>
-            selectSource({
-              source: 'office',
-              select: {
-                UID: view?.UID,
-              },
-            })
-          }
-        >
-          {view?.title || ''}
-        </ButtonLink>
-      );
-    }
-    if (rights?.officeViewAll) {
-      return (
-        <ButtonLink
-          size={12}
-          color='#727272'
-          onClick={() => {
-            openSelectList('office');
-          }}
-        >
-          {view?.title || 'Офис'}
-        </ButtonLink>
-      );
-    }
+  const setOneOffice = () => {
+    selectSource({
+      source: 'office',
+      select: {
+        UID: view?.UID,
+      },
+    });
   };
   return (
     <MainInfoUserStyle>
@@ -101,7 +61,30 @@ const MainInfoUser = ({ user, view, rights }) => {
       </Box>
       <TextSpanStyle>{user?.officeName || ''}</TextSpanStyle>
       <Line />
-      {getButton()}
+      {rights?.changeViewer && (
+        <ButtonLink
+          size={12}
+          color='#727272'
+          onClick={() => {
+            openSelectList('user');
+          }}
+        >
+          {view?.type === 'user' && view?.title
+            ? view?.title
+            : 'Другой пользователь'}
+        </ButtonLink>
+      )}
+      {(rights?.officeViewOne || rights?.officeViewAll) && (
+        <ButtonLink
+          size={12}
+          color='#727272'
+          onClick={() => {
+            rights?.officeViewOne ? setOneOffice() : openSelectList('office');
+          }}
+        >
+          {view?.type === 'office' ? view?.title : 'Офис'}
+        </ButtonLink>
+      )}
       <DialogWindow open={Boolean(openSelect)} onClose={closeSelectList}>
         <MainSelectList
           source={openSelect}

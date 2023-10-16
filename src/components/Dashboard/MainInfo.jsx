@@ -13,7 +13,7 @@ const MainInfoStyle = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  max-width: 250px;
+  width: 300px;
 `;
 
 const MainInfo = () => {

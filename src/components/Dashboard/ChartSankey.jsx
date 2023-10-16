@@ -1,5 +1,5 @@
 import React from 'react';
-import { ResponsiveContainer, Sankey, Tooltip, Legend } from 'recharts';
+import { ResponsiveContainer, Sankey } from 'recharts';
 import DefaultChartComponent from './DefaultChartComponent';
 
 const ChartSankey = ({ chart }) => {
@@ -14,11 +14,77 @@ const ChartSankey = ({ chart }) => {
   }
   return (
     <ResponsiveContainer width='100%' height={250}>
-      <Sankey data={chart} nodePadding={50} link={{ stroke: '#77c878' }}>
-        <Legend />
-        <Tooltip />
-      </Sankey>
+      <Sankey
+        data={chart}
+        nodePadding={50}
+        // link={{ stroke: '#77c878' }}
+        link={<CustomLink />}
+        node={<CustomNode />}
+        margin={{
+          right: 100,
+        }}
+      ></Sankey>
     </ResponsiveContainer>
+  );
+};
+const CustomLink = (props) => {
+  return (
+    <g className='recharts-layer'>
+      <path
+        className='recharts-sankey-link'
+        d={`M${props.sourceX},${props.sourceY} 
+        C${props.sourceControlX},${props.sourceY} 
+        ${props.targetControlX},${props.targetY} 
+        ${props.targetX},${props.targetY}`}
+        fill='none'
+        stroke={
+          props?.payload?.source?.name === 'Срыв' ||
+          props?.payload?.target?.name === 'Срыв'
+            ? 'red'
+            : '#77c878'
+        }
+        strokeWidth={props.linkWidth}
+        strokeOpacity='0.2'
+      ></path>
+    </g>
+  );
+};
+const CustomNode = (props) => {
+  return (
+    <g className='recharts-layer'>
+      <path
+        x={props.x}
+        y={props.y}
+        width={props.width}
+        height={props.height}
+        radius='0'
+        className='recharts-rectangle recharts-sankey-node'
+        fill='#5192ca'
+        fillOpacity='0.8'
+        role='img'
+        d={`M ${props.x},${props.y} h ${props.payload.dx} v ${props.payload.dy} h -10 Z`}
+      ></path>
+      <text
+        textAnchor='start'
+        x={props.x + 15}
+        y={props.y + props.height / 2}
+        fontSize='12'
+        stroke='#727272'
+        fontFamily='CeraCY, sans-serif'
+      >
+        {props.payload.name}
+      </text>
+      <text
+        textAnchor='start'
+        x={props.x + 15}
+        y={props.y + props.height / 2 + 14}
+        fontSize='10'
+        stroke='#727272'
+        fontFamily='CeraCY, sans-serif'
+      >
+        {props.payload.value}
+      </text>
+    </g>
   );
 };
 const data = {
