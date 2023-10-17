@@ -16,6 +16,19 @@ export const getClientsList = createAsyncThunk(
     return [];
   }
 );
+export const saveChangeContact = createAsyncThunk(
+  'clients/saveChangeContact',
+  async (raw, { dispatch }) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.contact.update',
+      fields: raw,
+    });
+    if (res?.statusText === 'OK') {
+      return dispatch(getClientsList());
+    }
+  }
+);
 
 const initialState = {
   loading: true,

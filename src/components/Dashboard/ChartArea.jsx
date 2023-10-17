@@ -36,6 +36,7 @@ const ChartArea = ({ chart }) => {
   return (
     <ResponsiveContainer width='100%' height={250}>
       <AreaChart
+        layout='vertical'
         data={chart}
         margin={{
           top: 10,
@@ -46,10 +47,14 @@ const ChartArea = ({ chart }) => {
       >
         <CartesianGrid strokeDasharray='3 3' />
         <XAxis
-          dataKey='name'
+          type='number'
           style={{ fontFamily: 'CeraCY, sans-serif', fontSize: 12 }}
         />
-        <YAxis style={{ fontFamily: 'CeraCY, sans-serif', fontSize: 12 }} />
+        <YAxis
+          dataKey='name'
+          type='category'
+          style={{ fontFamily: 'CeraCY, sans-serif', fontSize: 12 }}
+        />
         <Tooltip content={<CustomToolTip />} />
         <Legend
           onMouseEnter={handleMouseEnter}
@@ -59,16 +64,16 @@ const ChartArea = ({ chart }) => {
         <Area
           type='monotone'
           dataKey='Активные'
-          stroke='#8884d8'
-          fill='#8884d8'
+          stroke='#01ff3e'
+          fill='#01ff3e'
           dataValue='active'
           opacity={opacity.active}
         />
         <Area
           type='monotone'
           dataKey='Срыв'
-          stroke='#82ca9d'
-          fill='#82ca9d'
+          stroke='#ffa2a2'
+          fill='#ffa2a2'
           dataValue='failure'
           opacity={opacity.failure}
         />

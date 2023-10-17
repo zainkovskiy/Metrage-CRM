@@ -1,8 +1,21 @@
 import React from 'react';
-import { PieChart, Pie, ResponsiveContainer, Tooltip, Legend } from 'recharts';
+import {
+  PieChart,
+  Pie,
+  ResponsiveContainer,
+  Tooltip,
+  Legend,
+  Cell,
+} from 'recharts';
 import DefaultChartComponent from './DefaultChartComponent';
 import { TextSpanStyle } from 'styles/styles';
 import styled from 'styled-components';
+const colorPie = {
+  Avito: '#000',
+  Cian: '#0368ff',
+  Domclick: '#53b374',
+  Yandex: '#fc3f1e',
+};
 
 const ChartDoublePie = ({ chart }) => {
   if (Array.isArray(chart)) {
@@ -17,8 +30,8 @@ const ChartDoublePie = ({ chart }) => {
   return (
     <ResponsiveContainer width='100%' height={250}>
       <PieChart>
-        <Tooltip content={<CustomToolTip />} />
         {/* <Legend /> */}
+        <Tooltip content={<CustomToolTip />} />
         <Pie
           data={chart?.inCircle || []}
           dataKey='value'
@@ -38,7 +51,15 @@ const ChartDoublePie = ({ chart }) => {
           fill='#82ca9d'
           label={(props) => `${props.payload.name} ${props.payload.value}`}
           style={{ fontFamily: 'CeraCY, sans-serif', fontSize: 12 }}
-        />
+        >
+          {chart.outCircle.map((item) => (
+            <Cell
+              key={item.name}
+              fill={colorPie[item.name]}
+              dataName='outside'
+            />
+          ))}
+        </Pie>
       </PieChart>
     </ResponsiveContainer>
   );
@@ -49,6 +70,9 @@ const CustomToolTipStyle = styled.div`
   border-radius: 5px;
 `;
 const CustomToolTip = ({ active, payload }) => {
+  if (payload[0]?.payload?.dataName === 'outside') {
+    return;
+  }
   if (active && payload && payload.length) {
     return (
       <CustomToolTipStyle>

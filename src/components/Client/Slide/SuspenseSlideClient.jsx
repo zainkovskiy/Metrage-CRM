@@ -50,8 +50,8 @@ const SuspenseSlideClient = () => {
 };
 
 export const loaderClientSlide = async ({ request, params }) => {
-  // const { id } = params;
-  const id = 13320;
+  const { id } = params;
+  // const id = 13320;
   return { client: getOneClient(id) };
 };
 

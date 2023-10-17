@@ -66,6 +66,9 @@ const ChartItem = ({ chart }) => {
     }
   };
   const getChartComponent = () => {
+    if (chart?.data?.length === 0) {
+      return DefaultChartComponent;
+    }
     switch (chart?.graphName) {
       case 'PieChart':
         return ChartPie;

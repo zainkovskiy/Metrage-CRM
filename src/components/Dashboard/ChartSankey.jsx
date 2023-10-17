@@ -22,6 +22,8 @@ const ChartSankey = ({ chart }) => {
         node={<CustomNode />}
         margin={{
           right: 100,
+          bottom: 20,
+          top: 20,
         }}
       ></Sankey>
     </ResponsiveContainer>
@@ -37,12 +39,7 @@ const CustomLink = (props) => {
         ${props.targetControlX},${props.targetY} 
         ${props.targetX},${props.targetY}`}
         fill='none'
-        stroke={
-          props?.payload?.source?.name === 'Срыв' ||
-          props?.payload?.target?.name === 'Срыв'
-            ? 'red'
-            : '#77c878'
-        }
+        stroke={props?.payload?.target?.isLoss ? 'red' : '#77c878'}
         strokeWidth={props.linkWidth}
         strokeOpacity='0.2'
       ></path>
