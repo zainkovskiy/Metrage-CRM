@@ -56,6 +56,12 @@ const MenuList = ({ onClose }) => {
         <LinkNav to='/compilation' onClick={onClose}>
           Подборки
         </LinkNav>
+        <LinkNav to='/compilation' onClick={onClose}>
+          Подборки
+        </LinkNav>
+        <LinkNav to='/client' onClick={onClose}>
+          Клиенты
+        </LinkNav>
       </MenuListTop>
       <LinkOriginNav
         target='_href'
