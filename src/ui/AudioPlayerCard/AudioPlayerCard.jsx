@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
 import AudioPlayer from 'components/Main/AudioPlayer';
-
+import { useDateFormat } from 'hooks/DateFormat';
 const PlayerStyle = styled.div`
   width: 100%;
   border-radius: 5px;
@@ -39,6 +39,9 @@ const BusyText = styled(TextSpanStyle)`
 const AudioPlayerCard = ({ call }) => {
   return (
     <PlayerStyle>
+      <TextSpanStyle size={10} color='#aea8a8'>
+        {useDateFormat(call?.started, 'DD MMMM YYYY HH:MM')}
+      </TextSpanStyle>
       <TextSpanStyle>
         {call?.direction} звонок на номер: {call?.userPhone}
       </TextSpanStyle>

@@ -11,7 +11,7 @@ const SlideClientMeta = () => {
   const client = useAsyncValue();
   const copyID = () => {
     navigator.clipboard.writeText(
-      `http://crm.metragegroup.com?deal=${client.UID}`
+      `http://crm.metragegroup.com?client=${client.UID}`
     );
   };
   return (

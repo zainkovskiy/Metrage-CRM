@@ -41,20 +41,35 @@ export const routers = createBrowserRouter([
     children: [
       {
         path: '/',
+        element: <SuspenceDashboard />,
+        children: [
+          // {
+          //   path: 'new',
+          //   element: <SuspenseNewDeal />
+          // },
+          // {
+          //   path: ':id',
+          //   element: <SuspenseSlideUser />,
+          //   // loader: loaderDealSlide,
+          // },
+        ],
+      },
+      {
+        path: 'application',
         element: <SuspenseApplication />,
         children: [
           {
-            path: '/new-app',
+            path: 'new',
             element: <SuspenseNewApplication />,
             loader: newTaskLoader,
           },
           {
-            path: '/new-app/:chatId',
+            path: 'new/:chatId',
             element: <SuspenseNewApplication />,
             loader: newTaskLoader,
           },
           {
-            path: '/application/:appId',
+            path: ':appId',
             element: <SuspenseSlideApplication />,
             loader: loaderOpenSlide,
           },
@@ -153,21 +168,6 @@ export const routers = createBrowserRouter([
             element: <SuspenseSlideUser />,
             // loader: loaderDealSlide,
           },
-        ],
-      },
-      {
-        path: 'dashboard',
-        element: <SuspenceDashboard />,
-        children: [
-          // {
-          //   path: 'new',
-          //   element: <SuspenseNewDeal />
-          // },
-          // {
-          //   path: ':id',
-          //   element: <SuspenseSlideUser />,
-          //   // loader: loaderDealSlide,
-          // },
         ],
       },
       {

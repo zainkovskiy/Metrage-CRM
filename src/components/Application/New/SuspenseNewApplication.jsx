@@ -22,7 +22,7 @@ const SuspenseNewApplication = () => {
   const windowSize = useWindowSize();
   const handleClose = () => {
     setTimeout(() => {
-      navigate('/', { replace: true });
+      navigate('/application', { replace: true });
     }, 300);
     setOpen(false);
   };

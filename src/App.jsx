@@ -29,11 +29,12 @@ const App = () => {
   useEffect(() => {
     // sendRequest();
     if (globalReferer && globalRefererId) {
-      if (globalReferer === 'bid') {
-        navigate(`application/${globalRefererId}`);
-      } else {
-        navigate(`${globalReferer}/${globalRefererId}`);
-      }
+      navigate(`${globalReferer}/${globalRefererId}`);
+      // if (globalReferer === 'bid') {
+      //   navigate(`application/${globalRefererId}`);
+      // } else {
+      //   navigate(`${globalReferer}/${globalRefererId}`);
+      // }
     }
     dispatch({ type: 'socket/connect' });
     return () => {

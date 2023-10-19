@@ -112,7 +112,7 @@ const variants = {
 };
 const ApplicationCard = ({ application }) => {
   return (
-    <LinkStyle to={`application/${application.UID}`}>
+    <LinkStyle to={`${application.UID}`}>
       <ApplicationStyle variants={variants} initial='hidden' animate='visible'>
         <ApplicationHeader $color={application?.color}>
           {application?.demand?.events !== 0 ? (

@@ -28,7 +28,7 @@ const Search = () => {
     Promise.allSettled([
       getСontactList(value),
       getUserList(value),
-      getObjectList(),
+      getObjectList(value),
     ])
       .then((res) => {
         setFindList([

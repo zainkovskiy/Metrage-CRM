@@ -93,6 +93,9 @@ const ObjectCard = ({ object }) => {
     return object?.Area || '0';
   };
   const getAdIcon = () => {
+    if (!object?.onAdv) {
+      return;
+    }
     if (object?.hasErrors) {
       return (
         <TooltipUI title='Есть проблемы'>

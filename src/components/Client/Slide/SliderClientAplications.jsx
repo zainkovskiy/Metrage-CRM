@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { SliderBlock, SliderTitle } from '../../../styles/slider';
 import { TextSpanStyle } from 'styles/styles';
 import { Box } from 'ui/Box';
-import { useAsyncValue } from 'react-router-dom';
+import { Link, useAsyncValue } from 'react-router-dom';
 import { useDateFormat } from 'hooks/DateFormat';
 
 const ClientApplications = styled.div`
@@ -36,7 +36,7 @@ const SliderClientAplications = () => {
 
 export default SliderClientAplications;
 
-const ClientApplicationItemStyle = styled.div`
+const ClientApplicationItemStyle = styled(Link)`
   display: flex;
   gap: 0.5rem;
   background-color: ${({ $color }) => ($color ? $color : '#d9d9d9')};
@@ -45,6 +45,8 @@ const ClientApplicationItemStyle = styled.div`
   border-radius: 5px;
   width: 100%;
   box-sizing: border-box;
+  cursor: pointer;
+  text-decoration: none;
 `;
 const ClientApplicationSide = styled.div`
   // flex-grow: 1;
@@ -54,6 +56,7 @@ const ClientApplicationLine = styled.div`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  gap: 0.5rem;
 `;
 const ClientIcon = styled.img`
   width: 24px;
@@ -64,7 +67,10 @@ const ClientIcon = styled.img`
 
 const ClientApplicationItem = ({ application }) => {
   return (
-    <ClientApplicationItemStyle $color={application?.stageColour || '#ccc'}>
+    <ClientApplicationItemStyle
+      $color={application?.stageColour || '#ccc'}
+      to={`/application/${application.UID}`}
+    >
       <ClientApplicationSide>
         <TextSpanStyle>Ответственный:</TextSpanStyle>
         <TextSpanStyle>

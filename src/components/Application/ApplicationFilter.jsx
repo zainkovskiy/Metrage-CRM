@@ -34,7 +34,7 @@ const ApplicationFilter = () => {
       <ButtonUI size='small' onClick={toggleFilter}>
         Фильтр
       </ButtonUI>
-      <Link to='new-app'>
+      <Link to='new'>
         <ButtonUI size='small' variant='outline'>
           Создать
         </ButtonUI>

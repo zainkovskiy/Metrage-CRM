@@ -4,6 +4,7 @@ import { useAsyncValue } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { Box } from 'ui/Box';
 import { ButtonUI } from 'ui/ButtonUI';
+import { CheckboxUI } from 'ui/CheckboxUI';
 import { TextSpanStyle } from 'styles/styles';
 import InputText from '../../../ui/InputText/InputText';
 import { SliderBlock, SliderTitle } from '../../../styles/slider';
@@ -110,6 +111,21 @@ const SliderClientContact = () => {
                 }}
               />
             </ContactLine>
+            <Controller
+              control={control}
+              name='isRealtor'
+              render={({ field }) => (
+                <CheckboxUI
+                  label='Риэлтор'
+                  size='small'
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
+                  defaultChecked={field.value || client?.isRealtor || false}
+                  id='HasDrainage'
+                />
+              )}
+            />
           </ContactBlock>
           <ContactBlock>
             <ContactLine>
@@ -148,7 +164,7 @@ const SliderClientContact = () => {
               <TextSpanStyle>Почта:</TextSpanStyle>
               <Controller
                 name='email'
-                defaultValue={client?.email || ''}
+                defaultValue={client?.email[0]?.value || ''}
                 control={control}
                 render={({ field }) => {
                   return (

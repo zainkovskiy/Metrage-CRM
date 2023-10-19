@@ -20,6 +20,7 @@ import { CheckboxUI } from 'ui/CheckboxUI';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkApplication } from '../../../store/applicationSlice';
 import { SliderTitle } from '../../../styles/slider';
+import { Link } from 'react-router-dom';
 
 const ApplicationSlideClientInfoStyle = styled.div`
   display: flex;
@@ -33,6 +34,9 @@ const TextSpanStyleLink = styled(TextSpanStyle)`
     color: ${({ theme }) => theme.color.primary};
     text-decoration: underline;
   }
+`;
+const ClientLinnk = styled(Link)`
+  text-decoration: none;
 `;
 const SlideApplicationClientInfo = ({ client, demand, children, UID }) => {
   const dispatch = useDispatch();
@@ -88,9 +92,11 @@ const SlideApplicationClientInfo = ({ client, demand, children, UID }) => {
           <ApplicationSlideSide gap='1rem'>
             <ApplicationSlideSide>
               <Box jc='flex-start'>
-                <TextSpanStyle size={16}>
-                  {client?.lastName} {client?.firstName}
-                </TextSpanStyle>
+                <ClientLinnk to={`/client/${client.UID}`}>
+                  <TextSpanStyle size={16}>
+                    {client?.lastName} {client?.firstName}
+                  </TextSpanStyle>
+                </ClientLinnk>
                 <IconButton onClick={toggleEditName}>
                   <Edit />
                 </IconButton>

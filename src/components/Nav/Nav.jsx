@@ -15,6 +15,8 @@ import TelegramConect from 'components/Nav/TelegramConect';
 import TelegramDiscription from 'components/Nav/TelegramDiscription';
 import DialogWindow from 'components/Main/DialogWindow';
 import Search from './Search';
+import { Link } from 'react-router-dom';
+import chartUrl, { ReactComponent as Chart } from 'images/chart.svg';
 
 const NavStyle = styled.nav`
   grid-area: nav;
@@ -25,7 +27,27 @@ const NavStyle = styled.nav`
   gap: 1rem;
   align-items: center;
   justify-content: space-between;
-`
+`;
+const LogoDash = styled.div`
+  display: flex;
+  align-item: center;
+  gap: 0.5rem;
+`;
+const DashboardButton = styled(Link)`
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: transform 0.3s;
+  &:hover {
+    transform: scale(1.3);
+  }
+  &:active {
+    transform: scale(0.9);
+  }
+  & > svg {
+    fill: ${({ theme }) => theme.color.primary};
+  }
+`;
 const Nav = () => {
   const dispatch = useDispatch();
   const [openBox, setOpenBox] = React.useState(false);
@@ -34,19 +56,24 @@ const Nav = () => {
   const messageCounter = useSelector((state) => state.chat.messageCounter);
   const handlerHiddenBox = () => {
     setOpenBox(!openBox);
-  }
+  };
   const onCloseHiddenBox = () => {
     setOpenBox(null);
-  }
+  };
   const handlerShowChat = () => {
     dispatch(toggleShowChat());
-  }
+  };
   const toggleDialog = () => {
     setOpen(!open);
-  }
+  };
   return (
     <NavStyle>
-      <LogoComponent />
+      <LogoDash>
+        <LogoComponent />
+        <DashboardButton to='/'>
+          <Chart />
+        </DashboardButton>
+      </LogoDash>
       <Search />
       <div style={{ display: 'flex', gap: '1rem', position: 'relative' }}>
         <TooltipUI title='пользователи'>
@@ -64,21 +91,20 @@ const Nav = () => {
           </BadgeUI>
         </TooltipUI>
         <AnimatePresence>
-          {
-            openBox &&
+          {openBox && (
             <HiddenBoxUI id='user' onClose={onCloseHiddenBox} open={openBox}>
               <MenuProfile id='user' toggleDialog={toggleDialog} />
             </HiddenBoxUI>
-          }
+          )}
         </AnimatePresence>
       </div>
       <AnimatePresence>
         <DialogWindow onClose={toggleDialog} open={open}>
-          {
-            isTelegram ?
-              <TelegramDiscription onClose={toggleDialog} /> :
-              <TelegramConect onClose={toggleDialog} />
-          }
+          {isTelegram ? (
+            <TelegramDiscription onClose={toggleDialog} />
+          ) : (
+            <TelegramConect onClose={toggleDialog} />
+          )}
         </DialogWindow>
       </AnimatePresence>
     </NavStyle>

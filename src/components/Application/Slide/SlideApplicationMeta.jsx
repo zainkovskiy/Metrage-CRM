@@ -7,7 +7,9 @@ import { IconButton } from 'ui/IconButton';
 import copyUrl, { ReactComponent as Copy } from 'images/copy.svg';
 const SlideApplicationMeta = ({ UID, lostDate, created, updated }) => {
   const copyID = () => {
-    navigator.clipboard.writeText(`http://crm.metragegroup.com?bid=${UID}`);
+    navigator.clipboard.writeText(
+      `http://crm.metragegroup.com?application=${UID}`
+    );
   };
   return (
     <ApplicationBlockStyle jc='space-between'>

@@ -9,7 +9,7 @@ export const getApplicationList = createAsyncThunk(
   async (_, { dispatch, getState }) => {
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
-      method: 'crm.demand.list',
+      method: 'crm.demand.filter',
     });
     if (res?.statusText === 'OK') {
       return res?.data?.result?.transwerData || [];

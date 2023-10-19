@@ -17,22 +17,26 @@ import UserFinder from 'components/Main/UserFinder';
 import DialogWindow from 'components/Main/DialogWindow';
 
 import back from 'images/back.png';
-import { forwardOpenLineChat, closeOpenLineChat, toggleShowChat } from 'store/chatSlice';
+import {
+  forwardOpenLineChat,
+  closeOpenLineChat,
+  toggleShowChat,
+} from 'store/chatSlice';
 
 const FieldLineHeaderStyle = styled.div`
   padding: 1rem;
-  border-bottom: 1px solid ${({ theme }) => theme.color.primary};  
+  border-bottom: 1px solid ${({ theme }) => theme.color.primary};
   display: flex;
   gap: 1rem;
   align-items: center;
   justify-content: space-between;
-`
+`;
 const ChatAvatar = styled.img`
   width: 48px;
   height: 48px;
   object-fit: cover;
   border-radius: 40px;
-`
+`;
 const Field = styled.div`
   background-image: url(${back});
   background-position: center;
@@ -45,12 +49,12 @@ const Field = styled.div`
   padding: 0.5rem;
   overflow-y: auto;
   overflow-x: hidden;
-`
+`;
 const SourceImg = styled.img`
   width: 20px;
   height: 20px;
   object-fit: contain;
-`
+`;
 const FieldLine = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -61,45 +65,47 @@ const FieldLine = () => {
   const [open, setOpen] = useState(false);
   const getAvatar = () => {
     if (!targetAuthor) {
-      return `https://ui-avatars.com/api/?name=Metrage&background=85009e&color=fff`
+      return `https://ui-avatars.com/api/?name=Metrage&background=85009e&color=fff`;
     }
     if (targetAuthor?.avatar) {
-      return targetAuthor.avatar
+      return targetAuthor.avatar;
     }
-    return `https://ui-avatars.com/api/?name=${targetAuthor?.lastName}+${targetAuthor?.firstName}&background=85009e&color=fff`
-  }
+    return `https://ui-avatars.com/api/?name=${targetAuthor?.lastName}+${targetAuthor?.firstName}&background=85009e&color=fff`;
+  };
   const scrollField = () => {
     if (fieldRef.current) {
       fieldRef.current.scrollTop = fieldRef.current.scrollHeight;
       firstUpdate.current = false;
     }
-  }
+  };
   const getSource = () => {
     switch (currentChat?.itemSource || null) {
       case 'avito':
         return 'https://crm.metragegroup.com/uploads/contents/demands/avito-min.png';
       case 'cian':
-        return 'https://crm.metragegroup.com/uploads/contents/demands/cian-min.png'
+        return 'https://crm.metragegroup.com/uploads/contents/demands/cian-min.png';
       default:
         break;
     }
-  }
+  };
   const forwardingApplication = (user) => {
     dispatch(forwardOpenLineChat(user.UID));
     openUserFinder();
-  }
+  };
   const openUserFinder = () => {
     setOpen(!open);
-  }
+  };
   const closecChat = () => {
-    dispatch(closeOpenLineChat())
-  }
-  const transferApplication = () =>{
-    navigate(`new-app/${currentChat.chatId}`, {state: { author: targetAuthor }});
+    dispatch(closeOpenLineChat());
+  };
+  const transferApplication = () => {
+    navigate(`/application/new/${currentChat.chatId}`, {
+      state: { author: targetAuthor },
+    });
     dispatch(toggleShowChat());
-  }
+  };
   if (!currentChat) {
-    return
+    return;
   }
   return (
     <>
@@ -109,46 +115,52 @@ const FieldLine = () => {
           <Box fullWidth column ai='flex-start'>
             <Box jc='space-between' fullWidth>
               <Box>
-                <TextSpanStyle size={16}>{targetAuthor?.lastName} {targetAuthor?.firstName}</TextSpanStyle>
-                {
-                  currentChat?.itemSource &&
-                  <SourceImg src={getSource()} />
-                }
+                <TextSpanStyle size={16}>
+                  {targetAuthor?.lastName} {targetAuthor?.firstName}
+                </TextSpanStyle>
+                {currentChat?.itemSource && <SourceImg src={getSource()} />}
               </Box>
               <ButtonLink size={12} onClick={openUserFinder}>
                 Переадресовать
               </ButtonLink>
             </Box>
             <TextSpanStyle size={12}>
-              По объекту: <LinkUI size={12} href={currentChat?.itemUrl} target='_blank'>{currentChat?.itemAddress}</LinkUI>
+              По объекту:{' '}
+              <LinkUI size={12} href={currentChat?.itemUrl} target='_blank'>
+                {currentChat?.itemAddress}
+              </LinkUI>
             </TextSpanStyle>
           </Box>
         </Box>
         <ChatMenu>
-          <ChatMenuItem onClick={transferApplication}>Перенести в заявку</ChatMenuItem>
+          <ChatMenuItem onClick={transferApplication}>
+            Перенести в заявку
+          </ChatMenuItem>
           <ChatMenuItem onClick={closecChat}>Закрыть диалог</ChatMenuItem>
         </ChatMenu>
       </FieldLineHeaderStyle>
       <Field ref={fieldRef}>
         <AnimatePresence>
-          {
-            currentChat?.messages.map((message, idx) =>
-              <MessageItem
-                key={idx}
-                message={message}
-                target={message?.author?.UID === targetAuthor?.UID}
-                last={idx === currentChat?.messages?.length - 1}
-                scrollField={scrollField}
-                firstUpdate={firstUpdate.current}
-              />
-            )
-          }
+          {currentChat?.messages.map((message, idx) => (
+            <MessageItem
+              key={idx}
+              message={message}
+              target={message?.author?.UID === targetAuthor?.UID}
+              last={idx === currentChat?.messages?.length - 1}
+              scrollField={scrollField}
+              firstUpdate={firstUpdate.current}
+            />
+          ))}
         </AnimatePresence>
       </Field>
       <FieldSend />
       <DialogWindow onClose={openUserFinder} open={open}>
         <div onClick={(e) => e.stopPropagation()}>
-          <UserFinder title='Переадресовать чат' onClose={openUserFinder} onChange={forwardingApplication} />
+          <UserFinder
+            title='Переадресовать чат'
+            onClose={openUserFinder}
+            onChange={forwardingApplication}
+          />
         </div>
       </DialogWindow>
     </>

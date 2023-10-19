@@ -27,7 +27,7 @@ const SuspenseSlideApplication = () => {
       application.then((app) => {
         dispatch(setUpdateApplication(app.UID));
       });
-      navigate('/', { replace: true });
+      navigate('/application', { replace: true });
     }, 300);
     setOpen(false);
   };
