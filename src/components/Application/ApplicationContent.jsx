@@ -6,6 +6,7 @@ import { Outlet } from 'react-router-dom';
 import { device } from 'styles/device';
 import { getApplicationList, clearApplication } from 'store/applicationSlice';
 import { useDispatch } from 'react-redux';
+import { getApplicationFilterList } from '../../store/applicationSlice';
 
 const ApplicationContentStyle = styled.div`
   flex-grow: 1;
@@ -28,7 +29,7 @@ const ApplicationContent = () => {
     };
   }, []);
   const getList = () => {
-    dispatch(getApplicationList());
+    dispatch(getApplicationFilterList());
   };
   return (
     <ApplicationContentStyle>

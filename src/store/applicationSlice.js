@@ -19,13 +19,13 @@ export const getApplicationList = createAsyncThunk(
 );
 export const getApplicationFilterList = createAsyncThunk(
   'application/getApplicationFilterList',
-  async (raw, { dispatch }) => {
+  async (raw, { dispatch, getState }) => {
     try {
       const res = await axios
         .post(API, {
           metrage_id: metrage_id || null,
           method: 'crm.demand.filter',
-          fields: raw,
+          fields: raw || getState().application.filter,
         })
         .catch((err) => {
           throw new Error(
@@ -39,7 +39,9 @@ export const getApplicationFilterList = createAsyncThunk(
       console.log(error);
       return [];
     } finally {
-      dispatch(setApplicationFilter(raw));
+      if (raw) {
+        dispatch(setApplicationFilter(raw));
+      }
     }
   }
 );

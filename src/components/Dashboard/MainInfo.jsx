@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import MainInfoUser from './MainInfoUser';
 import MainInfoBirthDay from './MainInfoBirthDay';
 import styled from 'styled-components';
+import { device } from '../../styles/device';
 
 const MainInfoStyle = styled.div`
   height: 100%;
@@ -14,6 +15,9 @@ const MainInfoStyle = styled.div`
   justify-content: space-between;
   flex-direction: column;
   width: 300px;
+  @media (${device.tablet}) {
+    width: 100%;
+  }
 `;
 
 const MainInfo = () => {
