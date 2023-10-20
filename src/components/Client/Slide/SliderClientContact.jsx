@@ -60,7 +60,24 @@ const SliderClientContact = () => {
   return (
     <SliderBlock onSubmit={handleSubmit(onSubmit)}>
       <SliderClientContactStyle>
-        <SliderTitle>Контакт</SliderTitle>
+        <SliderTitle>
+          Контакт{' '}
+          <Controller
+            control={control}
+            name='isRealtor'
+            render={({ field }) => (
+              <CheckboxUI
+                label='Риэлтор'
+                size='small'
+                onChange={(e) => {
+                  field.onChange(e.target.checked);
+                }}
+                defaultChecked={field.value || client?.isRealtor || false}
+                id='HasDrainage'
+              />
+            )}
+          />
+        </SliderTitle>
         <Box fullWidth gap='2rem' ai='flex-start'>
           <ContactBlock>
             <ContactLine>
@@ -111,21 +128,6 @@ const SliderClientContact = () => {
                 }}
               />
             </ContactLine>
-            <Controller
-              control={control}
-              name='isRealtor'
-              render={({ field }) => (
-                <CheckboxUI
-                  label='Риэлтор'
-                  size='small'
-                  onChange={(e) => {
-                    field.onChange(e.target.checked);
-                  }}
-                  defaultChecked={field.value || client?.isRealtor || false}
-                  id='HasDrainage'
-                />
-              )}
-            />
           </ContactBlock>
           <ContactBlock>
             <ContactLine>

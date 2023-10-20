@@ -7,7 +7,7 @@ import { device } from '../../styles/device';
 
 const MainInfoStyle = styled.div`
   height: 100%;
-  background-color: #f5f5f5;
+  background-color: #f0dbf5;
   padding: 1rem;
   box-sizing: border-box;
   border-radius: 40px 0 40px 0;
@@ -24,7 +24,7 @@ const MainInfo = () => {
   const data = useSelector((state) => state.dashboard.data || {});
   return (
     <MainInfoStyle>
-      <MainInfoUser {...data?.mainInfo} />
+      <MainInfoUser {...data?.mainInfo} notify={data?.notify || null} />
       <MainInfoBirthDay birthday={data?.birthday || {}} />
     </MainInfoStyle>
   );

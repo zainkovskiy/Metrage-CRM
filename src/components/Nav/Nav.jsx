@@ -79,12 +79,13 @@ const Nav = () => {
         <TooltipUI title='пользователи'>
           <IconButtonSimple id='user' icon='user' onClick={handlerHiddenBox} />
         </TooltipUI>
-        <TooltipUI title='база знаний'>
+        {}
+        {/* <TooltipUI title='база знаний'>
           <IconButtonSimple icon='book' />
         </TooltipUI>
         <TooltipUI title='избранное'>
           <IconButtonSimple icon='heart' />
-        </TooltipUI>
+        </TooltipUI> */}
         <TooltipUI title='чат'>
           <BadgeUI badgeContent={Number(messageCounter)}>
             <IconButtonSimple icon='chat' onClick={handlerShowChat} />

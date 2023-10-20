@@ -12,6 +12,7 @@ const CompilationsStyle = styled.div`
   gap: 1rem;
   padding: 1rem;
   box-sizing: border-box;
+  overflow: auto;
 `;
 
 const Compilations = () => {

@@ -45,6 +45,9 @@ const MenuList = ({ onClose }) => {
     <MenuListStyle variants={variants}>
       <MenuListTop>
         <LinkNav to='/' onClick={onClose}>
+          На главную
+        </LinkNav>
+        <LinkNav to='/application' onClick={onClose}>
           Заявки
         </LinkNav>
         <LinkNav to='/objects' onClick={onClose}>

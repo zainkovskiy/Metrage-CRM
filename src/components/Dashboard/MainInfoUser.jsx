@@ -8,6 +8,8 @@ import DialogWindow from 'components/Main/DialogWindow';
 import MainSelectList from './MainSelectList';
 import { useDispatch } from 'react-redux';
 import { changeSource } from '../../store/dashboardSlice';
+import warningUrl, { ReactComponent as Warning } from 'images/warning.svg';
+import alertUrl, { ReactComponent as Alert } from 'images/alert.svg';
 
 const Avatar = styled.img`
   width: 48px;
@@ -27,7 +29,18 @@ const Line = styled.span`
   height: 1px;
   background-color: black;
 `;
-const MainInfoUser = ({ user, view, rights }) => {
+const IconError = styled.img`
+  width: 14px;
+  height: 14px;
+`;
+const ErrorTitle = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
+`;
+const MainInfoUser = ({ user, view, rights, notify }) => {
+  console.log(notify);
   const dispatch = useDispatch();
   const [openSelect, setOpenSelect] = useState(null);
   const openSelectList = (source) => {
@@ -84,6 +97,46 @@ const MainInfoUser = ({ user, view, rights }) => {
         >
           {view?.type === 'office' ? view?.title : 'Офис'}
         </ButtonLink>
+      )}
+      {notify?.errors && notify?.errors?.length > 0 && (
+        <div>
+          <ErrorTitle>
+            <TextSpanStyle color='#ffa328' size={12}>
+              Важно
+            </TextSpanStyle>
+            <IconError src={alertUrl} />
+          </ErrorTitle>
+          {notify.errors.map((error, idx) => (
+            <ErrorTitle key={`error${idx}`}>
+              <TextSpanStyle size={12} color='#727272'>
+                {error?.title}
+              </TextSpanStyle>
+              <TextSpanStyle size={12} color='#727272'>
+                {error?.value}
+              </TextSpanStyle>
+            </ErrorTitle>
+          ))}
+        </div>
+      )}
+      {notify?.warnings && notify.warnings.length > 0 && (
+        <div>
+          <ErrorTitle>
+            <TextSpanStyle color='red' size={12}>
+              Критически важно
+            </TextSpanStyle>
+            <IconError src={warningUrl} />
+          </ErrorTitle>
+          {notify.warnings.map((warning, idx) => (
+            <ErrorTitle key={`warning${idx}`}>
+              <TextSpanStyle size={12} color='#727272'>
+                {warning?.title}
+              </TextSpanStyle>
+              <TextSpanStyle size={12} color='#727272'>
+                {warning?.value}
+              </TextSpanStyle>
+            </ErrorTitle>
+          ))}
+        </div>
       )}
       <DialogWindow open={Boolean(openSelect)} onClose={closeSelectList}>
         <MainSelectList

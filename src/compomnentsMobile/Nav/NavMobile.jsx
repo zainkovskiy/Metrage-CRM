@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { useCycle, motion, AnimatePresence } from "framer-motion";
+import { useCycle, motion, AnimatePresence } from 'framer-motion';
 import { toggleShowChat } from 'store/chatSlice';
 
 import TelegramConect from 'components/Nav/TelegramConect';
@@ -24,7 +24,7 @@ const NavMobileStyle = styled.nav`
   background-color: rgb(249, 245, 245);
   justify-content: space-between;
   box-sizing: border-box;
-`
+`;
 const NavMobile = () => {
   const [openBox, setOpenBox] = React.useState(false);
   const [open, setOpen] = React.useState(false);
@@ -35,53 +35,48 @@ const NavMobile = () => {
 
   const handlerShowChat = () => {
     dispatch(toggleShowChat());
-  }
+  };
   const handlerHiddenBox = () => {
     setOpenBox(!openBox);
-  }
+  };
   const onCloseHiddenBox = () => {
     setOpenBox(null);
-  }
+  };
   const toggleDialog = () => {
     setOpen(!open);
-  }
+  };
   return (
     <NavMobileStyle>
       <motion.div animate={isOpen ? 'open' : 'closed'} initial={false}>
         <MenuToogle toggle={toggleOpen} open={isOpen} />
-        {
-          isOpen &&
-          <MenuList onClose={toggleOpen}/>
-        }
+        {isOpen && <MenuList onClose={toggleOpen} />}
       </motion.div>
       <LogoComponent />
       <div style={{ display: 'flex', gap: '0.5rem', position: 'relative' }}>
         <IconButtonSimple id='user' icon='user' onClick={handlerHiddenBox} />
-        <IconButtonSimple icon='heart' />
+        {/* <IconButtonSimple icon='heart' /> */}
         <BadgeUI badgeContent={Number(messageCounter)}>
           <IconButtonSimple icon='chat' onClick={handlerShowChat} />
         </BadgeUI>
         <AnimatePresence>
-          {
-            openBox &&
+          {openBox && (
             <HiddenBoxUI id='user' onClose={onCloseHiddenBox} open={openBox}>
               <MenuProfile id='user' toggleDialog={toggleDialog} />
             </HiddenBoxUI>
-          }
+          )}
         </AnimatePresence>
       </div>
       <AnimatePresence>
         <DialogWindow onClose={toggleDialog} open={open}>
-          {
-            isTelegram ?
-              <TelegramDiscription onClose={toggleDialog} /> :
-              <TelegramConect onClose={toggleDialog} />
-          }
+          {isTelegram ? (
+            <TelegramDiscription onClose={toggleDialog} />
+          ) : (
+            <TelegramConect onClose={toggleDialog} />
+          )}
         </DialogWindow>
       </AnimatePresence>
     </NavMobileStyle>
   );
 };
-
 
 export default NavMobile;
