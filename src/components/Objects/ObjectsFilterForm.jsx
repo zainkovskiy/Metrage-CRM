@@ -10,7 +10,6 @@ import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { SelectAutoсompleteMultipleUI } from 'ui/SelectAutoсompleteMultipleUI';
 import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
-import { CheckboxUI } from 'ui/CheckboxUI';
 import { Box } from 'ui/Box';
 import { TextSpanStyle } from 'styles/styles';
 import { setFilter, getObjectList } from 'store/objectSlice';
@@ -18,11 +17,15 @@ import { useNumberTriad } from 'hooks/StringHook';
 import { getUserList } from 'api/search';
 import Dadata from 'components/Main/Dadata';
 import MapCircle from 'components/Main/MapCircle';
+import {
+  ButtonToggleGroup,
+  ButtonToggleItem,
+} from '../../ui/ButtonToggle/ButtonToggle';
 
 const ObjectsFilterFormStyle = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
   height: 100%;
   justify-content: space-between;
   overflow: auto;
@@ -49,6 +52,7 @@ const deafaultFilter = {
   cords: null,
   agentType: 'all',
   onAdv: 'pofig',
+  ExternalFindType: 'our',
 };
 const resetFilter = {
   typeRealty: 'live',
@@ -72,6 +76,7 @@ const resetFilter = {
   platform: '',
   agentType: 'all',
   onAdv: 'pofig',
+  ExternalFindType: 'our',
 };
 const ObjectsFilterForm = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -108,15 +113,17 @@ const ObjectsFilterForm = ({ onClose }) => {
     dispatch(setFilter(data));
     dispatch(getObjectList());
     onClose();
+    localStorage.setItem('filterObject', JSON.stringify(data));
   };
   const resetForm = () => {
     dispatch(setFilter(deafaultFilter));
     reset(resetFilter);
     setUsers([]);
+    localStorage.removeItem('filterObject');
   };
   watch('typeRealty');
   watch('typeObject');
-  watch('ExternalFind');
+  watch('ExternalFindType');
   const getTotalArea = () => {
     if (!getValues('typeObject')) {
       return false;
@@ -311,8 +318,46 @@ const ObjectsFilterForm = ({ onClose }) => {
   };
   return (
     <ObjectsFilterFormStyle onSubmit={handleSubmit(onSubmit)}>
+      <Box jc='flex-start'>
+        <ButtonUI
+          fullWidth
+          type='submit'
+          // onClick={() => onSubmit(getValues())}
+        >
+          Применить
+        </ButtonUI>
+        <ButtonUI variant='outline' fullWidth onClick={resetForm}>
+          Очистить
+        </ButtonUI>
+      </Box>
       <FormTop>
         <FormTitle>Фильтр</FormTitle>
+        <Controller
+          name='ExternalFindType'
+          control={control}
+          render={({ field }) => (
+            <ButtonToggleGroup fullWidth>
+              <ButtonToggleItem
+                id='our'
+                active={field.value}
+                onClick={(e) => {
+                  field.onChange(e.target.id);
+                }}
+              >
+                НАША БАЗА
+              </ButtonToggleItem>
+              <ButtonToggleItem
+                id='outer'
+                active={field.value}
+                onClick={(e) => {
+                  field.onChange(e.target.id);
+                }}
+              >
+                ВНЕШНЯЯ
+              </ButtonToggleItem>
+            </ButtonToggleGroup>
+          )}
+        />
         <Controller
           name='dealType'
           control={control}
@@ -452,28 +497,30 @@ const ObjectsFilterForm = ({ onClose }) => {
               )}
             />
           )}
-        <Controller
-          name='users'
-          control={control}
-          render={({ field }) => (
-            <SelectAutoсompleteMultipleUI
-              options={users}
-              placeholder='Ответственный'
-              inputChange={getUsers}
-              loading={usersLoading}
-              defaultValue={[]}
-              getOptionsLabel={(options) =>
-                `${options.lastName || ''} ${options.firstName || ''} ${
-                  options.secondName || ''
-                }`
-              }
-              onChange={(user) => field.onChange(user)}
-              isOpenOptions={(open) => !open && setUsers([])}
-              value={field.value || []}
-              label='Ответственный'
-            />
-          )}
-        />
+        {getValues('ExternalFindType') === 'our' && (
+          <Controller
+            name='users'
+            control={control}
+            render={({ field }) => (
+              <SelectAutoсompleteMultipleUI
+                options={users}
+                placeholder='Ответственный'
+                inputChange={getUsers}
+                loading={usersLoading}
+                defaultValue={[]}
+                getOptionsLabel={(options) =>
+                  `${options.lastName || ''} ${options.firstName || ''} ${
+                    options.secondName || ''
+                  }`
+                }
+                onChange={(user) => field.onChange(user)}
+                isOpenOptions={(open) => !open && setUsers([])}
+                value={field.value || []}
+                label='Ответственный'
+              />
+            )}
+          />
+        )}
         <Controller
           name='Address'
           control={control}
@@ -695,54 +742,58 @@ const ObjectsFilterForm = ({ onClose }) => {
             </Box>
           </Box>
         )}
-        <Controller
-          name='stage'
-          control={control}
-          render={({ field }) => (
-            <SelectUI
-              onChange={(newValue) => field.onChange(newValue)}
-              select={field.value || ''}
-              multiple
-              label='Стадия'
-            >
-              <SelectItemUI value=''>Выбрать</SelectItemUI>
-              <SelectItemUI value={0}>Черновик</SelectItemUI>
-              <SelectItemUI value={1}>Активный</SelectItemUI>
-              <SelectItemUI value={2}>Закрепление</SelectItemUI>
-              <SelectItemUI value={3}>Продано</SelectItemUI>
-              <SelectItemUI value={4}>Срыв</SelectItemUI>
-            </SelectUI>
-          )}
-        />
-        <Controller
-          name='onAdv'
-          control={control}
-          render={({ field }) => (
-            <SelectUI
-              onChange={(newValue) => field.onChange(newValue)}
-              select={field.value || 'pofig'}
-              multiple
-              label='В рекламе'
-            >
-              <SelectItemUI value='yes'>Да</SelectItemUI>
-              <SelectItemUI value='no'>Нет</SelectItemUI>
-              <SelectItemUI value='pofig'>Не важно</SelectItemUI>
-            </SelectUI>
-          )}
-        />
-        <Controller
-          name='objectUID'
-          control={control}
-          render={({ field }) => (
-            <InputUI
-              label='Номер объекта'
-              value={field.value || ''}
-              onChange={(e) => field.onChange(e.target.value)}
-              type='number'
+        {getValues('ExternalFindType') === 'our' && (
+          <>
+            <Controller
+              name='stage'
+              control={control}
+              render={({ field }) => (
+                <SelectUI
+                  onChange={(newValue) => field.onChange(newValue)}
+                  select={field.value || ''}
+                  multiple
+                  label='Стадия'
+                >
+                  <SelectItemUI value=''>Выбрать</SelectItemUI>
+                  <SelectItemUI value={0}>Черновик</SelectItemUI>
+                  <SelectItemUI value={1}>Активный</SelectItemUI>
+                  <SelectItemUI value={2}>Закрепление</SelectItemUI>
+                  <SelectItemUI value={3}>Продано</SelectItemUI>
+                  <SelectItemUI value={4}>Срыв</SelectItemUI>
+                </SelectUI>
+              )}
             />
-          )}
-        />
-        <Controller
+            <Controller
+              name='onAdv'
+              control={control}
+              render={({ field }) => (
+                <SelectUI
+                  onChange={(newValue) => field.onChange(newValue)}
+                  select={field.value || 'pofig'}
+                  multiple
+                  label='В рекламе'
+                >
+                  <SelectItemUI value='yes'>Да</SelectItemUI>
+                  <SelectItemUI value='no'>Нет</SelectItemUI>
+                  <SelectItemUI value='pofig'>Не важно</SelectItemUI>
+                </SelectUI>
+              )}
+            />
+            <Controller
+              name='objectUID'
+              control={control}
+              render={({ field }) => (
+                <InputUI
+                  label='Номер объекта'
+                  value={field.value || ''}
+                  onChange={(e) => field.onChange(e.target.value)}
+                  type='number'
+                />
+              )}
+            />
+          </>
+        )}
+        {/* <Controller
           name='ExternalFind'
           control={control}
           render={({ field }) => (
@@ -753,8 +804,8 @@ const ObjectsFilterForm = ({ onClose }) => {
               onChange={(e) => field.onChange(e.target.checked)}
             />
           )}
-        />
-        {getValues('ExternalFind') && (
+        /> */}
+        {getValues('ExternalFindType') === 'outer' && (
           <>
             <Controller
               name='platform'
@@ -805,18 +856,6 @@ const ObjectsFilterForm = ({ onClose }) => {
           )}
         />
       </FormTop>
-      <Box jc='flex-start'>
-        <ButtonUI
-          fullWidth
-          type='submit'
-          // onClick={() => onSubmit(getValues())}
-        >
-          Применить
-        </ButtonUI>
-        <ButtonUI variant='outline' fullWidth onClick={resetForm}>
-          Очистить
-        </ButtonUI>
-      </Box>
     </ObjectsFilterFormStyle>
   );
 };

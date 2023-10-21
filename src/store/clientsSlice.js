@@ -29,6 +29,19 @@ export const saveChangeContact = createAsyncThunk(
     }
   }
 );
+export const changeClientResponsible = createAsyncThunk(
+  'clients/changeClientResponsible',
+  async (raw, { dispatch }) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.contact.setResponsible',
+      fields: raw,
+    });
+    if (res?.statusText === 'OK') {
+      return dispatch(getClientsList());
+    }
+  }
+);
 
 const initialState = {
   loading: true,

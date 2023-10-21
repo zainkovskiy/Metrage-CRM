@@ -89,17 +89,25 @@ export const changeObjectStage = createAsyncThunk(
     });
   }
 );
+const getFilter = () => {
+  const filter = localStorage.getItem('filterObject');
+  if (filter) {
+    return JSON.parse(filter);
+  }
+  return {
+    typeRealty: 'live',
+    stage: 1,
+    users: [user],
+    onAdv: 'pofig',
+    ExternalFindType: 'our',
+  };
+};
 const initialState = {
   loadingList: false,
   loadingMore: false,
   objects: [],
   basket: [],
-  filter: {
-    typeRealty: 'live',
-    stage: 1,
-    users: [user],
-    onAdv: 'pofig',
-  },
+  filter: getFilter(),
   offset: 1,
 };
 

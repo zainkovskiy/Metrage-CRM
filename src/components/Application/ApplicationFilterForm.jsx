@@ -20,15 +20,20 @@ const ApplicationSlideFilterSlide = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: 1rem;
   box-sizing: border-box;
 `;
 const FormFields = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
   overflow: auto;
   flex-grow: 1;
+`;
+const FormTitle = styled.div`
+  font-family: ${({ theme }) => theme.font.family};
+  width: 100%;
+  text-align: center;
 `;
 const user = globalUser ? JSON.parse(globalUser) : null;
 const resetFilter = {
@@ -61,16 +66,27 @@ const ApplicationFilterForm = ({ onClose }) => {
       });
   };
   const onSubmit = (data) => {
+    localStorage.setItem('filterApplication', JSON.stringify(data));
     dispatch(getApplicationFilterList(data));
     onClose();
   };
   const setResetFilter = () => {
     reset(resetFilter);
     dispatch(setApplicationFilter(resetFilter));
+    localStorage.removeItem('filterApplication');
   };
   return (
     <ApplicationSlideFilterSlide onSubmit={handleSubmit(onSubmit)}>
+      <Box>
+        <ButtonUI type='submit' fullWidth>
+          Применить
+        </ButtonUI>
+        <ButtonUI variant='outline' fullWidth onClick={setResetFilter}>
+          Очистить
+        </ButtonUI>
+      </Box>
       <FormFields>
+        <FormTitle>Фильтр</FormTitle>
         <Controller
           name='users'
           control={control}
@@ -157,14 +173,6 @@ const ApplicationFilterForm = ({ onClose }) => {
           )}
         />
       </FormFields>
-      <Box>
-        <ButtonUI type='submit' fullWidth>
-          Применить
-        </ButtonUI>
-        <ButtonUI variant='outline' fullWidth onClick={setResetFilter}>
-          Очистить
-        </ButtonUI>
-      </Box>
     </ApplicationSlideFilterSlide>
   );
 };
