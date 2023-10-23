@@ -22,6 +22,8 @@ const DealStyle = styled.div`
   gap: 1rem;
   flex-grow: 1;
   overflow: auto;
+  padding: 0.5rem;
+  box-sizing: border-box;
   @media ${device.tablet} {
     gap: 0.5rem;
   }

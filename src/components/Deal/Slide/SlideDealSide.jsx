@@ -58,7 +58,7 @@ const SlideDealSide = () => {
                 Тип: {CategoryTranslate[deal?.objectParams?.Category]}
               </TextSpanStyle>
               <TextSpanStyle size={12}>
-                Цена: {useNumberTriad(deal?.objectParams?.Price)} руб.
+                Цена: {useNumberTriad(deal?.objectParams?.Price || '0')} руб.
               </TextSpanStyle>
             </div>
           </Box>

@@ -9,16 +9,16 @@ import { device } from 'styles/device';
 const CloseButtonStyle = styled.img`
   width: 18px;
   height: 18px;
-  opacity: .5;
+  opacity: 0.5;
   cursor: pointer;
-  transition: transform .3s;
-  &:hover{
+  transition: transform 0.3s;
+  &:hover {
     transform: scale(1.1);
   }
-  &:active{
+  &:active {
     transform: scale(0.9);
   }
-`
+`;
 const SlideDialogCommentStyle = styled.form`
   background-color: #fff;
   width: 50vw;
@@ -30,30 +30,30 @@ const SlideDialogCommentStyle = styled.form`
     width: 80vw;
     height: 80vh;
   }
-`
+`;
 const SlideDialogCommentHeaderStyle = styled.div`
-  padding: 0.5rem;
+  padding: 0.5rem 0.5rem 0 0.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-`
+`;
 const SlideDialogCommentFooter = styled.div`
   padding: 0.5rem;
   display: flex;
   gap: 0.5rem;
-`
+`;
 const SlideDialogCommentContent = styled.div`
   padding: 0.5rem;
   flex-grow: 1;
-`
+`;
 const TextAreaContainer = styled.div`
   height: 100%;
   border: 1px solid transparent;
   border-radius: 6px;
-  &:has(textarea:focus){
+  &:has(textarea:focus) {
     border: 1px solid ${({ theme }) => theme.color.primary};
   }
-`
+`;
 const TextAreaStyle = styled.textarea`
   resize: none;
   padding: 0.5rem;
@@ -66,14 +66,14 @@ const TextAreaStyle = styled.textarea`
   font-family: ${({ theme }) => theme.font.family};
   font-size: 12px;
   outline: none;
-`
+`;
 
 const SlideDialogComment = ({ onClose, comment, setNewDescription }) => {
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
     setNewDescription(data);
     onClose();
-  }
+  };
   return (
     <SlideDialogCommentStyle
       onSubmit={handleSubmit(onSubmit)}
@@ -89,11 +89,14 @@ const SlideDialogComment = ({ onClose, comment, setNewDescription }) => {
         </TextAreaContainer>
       </SlideDialogCommentContent>
       <SlideDialogCommentFooter>
-        <ButtonUI size='small' onClick={onClose}>Отменить</ButtonUI>
-        <ButtonUI size='small' type='submit' variant='outline'>Сохранить</ButtonUI>
+        <ButtonUI size='small' onClick={onClose}>
+          Отменить
+        </ButtonUI>
+        <ButtonUI size='small' type='submit' variant='outline'>
+          Сохранить
+        </ButtonUI>
       </SlideDialogCommentFooter>
     </SlideDialogCommentStyle>
-
   );
 };
 

@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { SlideBlockStyle } from '../DealStyle';
 import { SlideGridWrapper } from '../DealStyle';
-import { TextSpanStyle } from 'styles/styles';
 import { IconButton } from 'ui/IconButton';
-import { Box } from 'ui/Box';
 import { ReactComponent as Plus } from 'images/plus.svg';
-import { ReactComponent as Close } from 'images/close.svg';
 import { useAsyncValue } from 'react-router-dom';
+import SideDealUser from './SideDealUser';
+import DialogWindow from 'components/Main/DialogWindow';
+import UserFinder from 'components/Main/UserFinder';
+import { addUserSide, removeUserSide } from '../../../api/dealAPI';
 
 const FeatureTitle = styled.div`
   border-bottom: 1px solid #786464;
@@ -16,7 +17,7 @@ const FeatureTitle = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-`
+`;
 const SlideParticipants = styled.div`
   border: 1px solid #ccc;
   width: 100%;
@@ -25,51 +26,108 @@ const SlideParticipants = styled.div`
   border-radius: 5px;
   height: 150px;
   overflow: auto;
-`
-const SlideParticipantsText = styled(TextSpanStyle)`
-  text-overflow: ellipsis;
-  overflow: hidden;
-`
+`;
 const SlideDealParticipants = () => {
+  const [change, setChange] = useState(false);
+  const [addSideWindow, setAddSideWindow] = useState(null);
   const deal = useAsyncValue();
+  const openSideWindow = (side) => {
+    setAddSideWindow(side);
+  };
+  const closeRealtorWindow = () => {
+    setAddSideWindow(null);
+  };
+  const addNewUser = (user) => {
+    const find = deal[addSideWindow].find(
+      (currentRealtor) => currentRealtor.UID.toString() === user.UID.toString()
+    );
+    if (find) {
+      return;
+    }
+    addUserSide(
+      {
+        UID: deal.UID,
+        userId: user.UID,
+      },
+      addSideWindow
+    ).then((answer) => {
+      if (answer === 'OK') {
+        deal[addSideWindow].push(user);
+        setChange(!change);
+      }
+    });
+  };
+  const removeUser = (user, source) => {
+    removeUserSide({
+      UID: deal.UID,
+      userId: user.UID,
+      type: user.type,
+    }).then((answer) => {
+      if (answer === 'OK') {
+        deal[source] = deal[source].filter(
+          (currentRealtor) => currentRealtor.UID !== user.UID
+        );
+        setChange(!change);
+      }
+    });
+  };
   return (
-    <SlideGridWrapper>
-      <SlideBlockStyle $column>
-        <FeatureTitle>Риелторы
-          <IconButton onClick={() => { }}>
-            <Plus />
-          </IconButton>
-        </FeatureTitle>
-        <SlideParticipants>
-          {
-            deal?.realtors?.length > 0 &&
-            deal.realtors.map((realtor) => (
-              <Box jc='space-between' key={realtor?.UID}>
-                <SlideParticipantsText size={12} nowrap>{realtor?.lastName} {realtor?.firstName} {realtor?.secondName}</SlideParticipantsText>
-                <IconButton onClick={() => { }} color='error'>
-                  <Close />
-                </IconButton>
-              </Box>
-            ))
-          }
-        </SlideParticipants>
-      </SlideBlockStyle>
-      <SlideBlockStyle $column>
-        <FeatureTitle>Юристы
-          <IconButton onClick={() => { }}>
-            <Plus />
-          </IconButton>
-        </FeatureTitle>
-        <SlideParticipants>
-          <Box jc='space-between'>
-            <SlideParticipantsText size={12} nowrap>Дунаускас Ольга Владимировна</SlideParticipantsText>
-            <IconButton onClick={() => { }} color='error'>
-              <Close />
+    <>
+      <SlideGridWrapper>
+        <SlideBlockStyle $column>
+          <FeatureTitle>
+            Риелторы
+            <IconButton onClick={() => openSideWindow('realtors')}>
+              <Plus />
             </IconButton>
-          </Box>
-        </SlideParticipants>
-      </SlideBlockStyle>
-    </SlideGridWrapper>
+          </FeatureTitle>
+          <SlideParticipants>
+            {deal?.realtors?.length > 0 &&
+              deal.realtors.map((realtor) => (
+                <SideDealUser
+                  user={realtor}
+                  key={realtor?.UID}
+                  type='realtor'
+                  removeUser={removeUser}
+                  dealUID={deal.UID}
+                />
+              ))}
+          </SlideParticipants>
+        </SlideBlockStyle>
+        <SlideBlockStyle $column>
+          <FeatureTitle>
+            Юристы
+            <IconButton onClick={() => openSideWindow('lawyers')}>
+              <Plus />
+            </IconButton>
+          </FeatureTitle>
+          <SlideParticipants>
+            {deal?.lawyers?.length > 0 &&
+              deal.lawyers.map((lawyer) => (
+                <SideDealUser
+                  user={lawyer}
+                  key={lawyer?.UID}
+                  removeUser={removeUser}
+                  type='lawyer'
+                />
+              ))}
+          </SlideParticipants>
+        </SlideBlockStyle>
+      </SlideGridWrapper>
+      <DialogWindow open={Boolean(addSideWindow)} onClose={closeRealtorWindow}>
+        <div onClick={(e) => e.stopPropagation()}>
+          <UserFinder
+            onClose={closeRealtorWindow}
+            onChange={addNewUser}
+            title={
+              addSideWindow === 'realtors'
+                ? 'Добавить риэлтора'
+                : 'Добавить юриста'
+            }
+          />
+        </div>
+      </DialogWindow>
+    </>
   );
 };
 

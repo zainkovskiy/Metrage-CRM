@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { SlideBlockStyle } from '../DealStyle';
 import { RealtyTypeTranslate, DealTypeTranslate } from '../keyTranslate';
 import { InputUI } from 'ui/InputUI';
+import { useNumberTriad } from 'hooks/StringHook';
 
 const FeatureTitle = styled.div`
   border-bottom: 1px solid #786464;
@@ -75,6 +76,13 @@ const SlideDealInfo = () => {
           <TextSpanStyle size={12}>
             Тип недвижимости:{' '}
             {deal?.realtyType ? RealtyTypeTranslate[deal.realtyType] : ''}
+          </TextSpanStyle>
+          <TextSpanStyle size={12}>
+            Стоимость объекта: {useNumberTriad(deal?.objectCost || '0')} руб.
+          </TextSpanStyle>
+          <TextSpanStyle size={12}>
+            Комиссия агенства: {useNumberTriad(deal?.agencyComission || '0')}{' '}
+            руб.
           </TextSpanStyle>
         </div>
       </SlideDealInfoContent>

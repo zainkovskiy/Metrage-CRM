@@ -41,6 +41,7 @@ export const InputUI = forwardRef((props, ref) => {
     small,
     hidden,
     labelSize,
+    AutoComplete,
   } = props;
   const InputComponent = getInputComponent(type);
   return (
@@ -68,6 +69,7 @@ export const InputUI = forwardRef((props, ref) => {
           placeholder={placeholder}
           small={small}
           id={id}
+          autoComplete={AutoComplete}
         />
         {helperText && (
           <TextSpanStyle color='#7a7a7a' size={12}>
@@ -136,6 +138,7 @@ const InputCustom = forwardRef((props, ref) => {
     defaultValue,
     placeholder,
     small,
+    AutoComplete,
   } = props;
   return (
     <ContainerIcon error={error}>
@@ -155,6 +158,7 @@ const InputCustom = forwardRef((props, ref) => {
         placeholder={placeholder}
         $small={small}
         id={id}
+        autoComplete={AutoComplete && 'off'}
       />
       {icon && iconVariant[icon]}
     </ContainerIcon>

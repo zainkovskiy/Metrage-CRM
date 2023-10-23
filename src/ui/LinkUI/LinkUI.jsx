@@ -12,9 +12,15 @@ const LinkStyle = styled.a`
   }
 `;
 
-export const LinkUI = ({ children, td, size, href, target }) => {
+export const LinkUI = ({ children, td, size, href, target, download }) => {
   return (
-    <LinkStyle href={href} target={target} td={td} size={size}>
+    <LinkStyle
+      href={href}
+      target={target}
+      td={td}
+      size={size}
+      download={download}
+    >
       {children}
     </LinkStyle>
   );

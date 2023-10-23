@@ -5,6 +5,7 @@ import { useAsyncValue } from 'react-router-dom';
 import { TextSpanStyle } from 'styles/styles';
 import { InputUI } from 'ui/InputUI';
 import { CheckboxUI } from 'ui/CheckboxUI';
+import { useDateFormat } from '../../../hooks/DateFormat';
 
 const FeatureTitle = styled.div`
   border-bottom: 1px solid #786464;
@@ -67,8 +68,9 @@ const SlidePreliminaryAgreement = () => {
             size='small'
             labelSize={12}
           />
-          <TextSpanStyle>
-            depositDate: {deal?.depositDate} no info
+          <TextSpanStyle size={12}>
+            Дата принятия задатка:{' '}
+            {deal?.depositDate ? useDateFormat(deal.depositDate) : ''}
           </TextSpanStyle>
         </SlideSide>
         <SlideSide>
