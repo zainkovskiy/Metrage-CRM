@@ -9,6 +9,8 @@ import { IconButton } from 'ui/IconButton';
 import { Box } from 'ui/Box';
 import { ReactComponent as Close } from 'images/close.svg';
 import { LinkUI } from 'ui/LinkUI';
+import { useSelector } from 'react-redux';
+import { removeFile } from '../../../api/uploadAPI';
 
 const FeatureTitle = styled.div`
   border-bottom: 1px solid #786464;
@@ -25,22 +27,31 @@ const SliderText = styled(TextSpanStyle)`
 
 const SliderFiles = () => {
   const deal = useAsyncValue();
-  const files = deal.files;
-  // const [files, setFiles] = useState([]);
+  const userId = useSelector((state) => state.user.UID);
+  const [change, setChange] = useState(false);
   const uploadFiles = (uploadFiles) => {
-    // setFiles([...files, ...uploadFiles]);
+    deal.files = [...deal.files, ...uploadFiles];
+    setChange(!change);
   };
-  const removeFile = (file) => {
-    // setFiles((prevState) =>
-    //   prevState.filter((item) => JSON.stringify(item) !== JSON.stringify(file))
-    // );
+  const removeCurrentFile = (file) => {
+    removeFile(file.UID).then((answer) => {
+      if (answer === 'OK') {
+        deal.files = deal.files.filter((item) => item.UID !== file.UID);
+        setChange(!change);
+      }
+    });
+  };
+  const raw = {
+    entityId: deal.UID,
+    entityType: 'deal',
+    author: userId,
   };
   return (
     <SlideBlockStyle $column>
       <FeatureTitle>Файлы</FeatureTitle>
-      <UploderFiles UID={deal.UID} callback={uploadFiles} fullWidth />
+      <UploderFiles raw={raw} callback={uploadFiles} fullWidth />
       <SlideGridWrapper $fullWidth>
-        {files.map((file) => {
+        {deal.files.map((file) => {
           return (
             <Box jc='space-between' key={file.UID} fullWidth>
               <SliderText size={12} nowrap>
@@ -57,7 +68,7 @@ const SliderFiles = () => {
                 </LinkUI>
                 <IconButton
                   onClick={() => {
-                    removeFile(file);
+                    removeCurrentFile(file);
                   }}
                   color='error'
                 >

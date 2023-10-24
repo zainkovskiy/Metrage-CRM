@@ -31,7 +31,7 @@ const FindItem = styled(TextSpanStyle)`
     background-color: ${({ $select }) => ($select ? '#84019e6e' : '#f9f5f5')};
   }
 `;
-const SlideContacFind = () => {
+const SlideContacFind = ({ addContact, type }) => {
   const [contactList, setContactList] = useState([]);
   const [selectContact, setSelectContact] = useState('');
   const [search, setSearch] = useState(false);
@@ -59,6 +59,17 @@ const SlideContacFind = () => {
   const setContact = (contact) => {
     setSelectContact(contact);
   };
+  const clearContact = () => {
+    setSelectContact([]);
+  };
+  const saveContact = () => {
+    if (selectContact) {
+      addContact({
+        ...selectContact,
+        type: type,
+      });
+    }
+  };
   return (
     <SlideContacFindStyle onClick={(e) => e.stopPropagation()}>
       <InputUI onChange={handleChange} type='search' />
@@ -78,8 +89,10 @@ const SlideContacFind = () => {
           ))}
       </FieldFind>
       <Box jc='flex-start'>
-        <ButtonUI size='small'>Сохранить</ButtonUI>
-        <ButtonUI size='small' variant='outline'>
+        <ButtonUI size='small' onClick={saveContact}>
+          Сохранить
+        </ButtonUI>
+        <ButtonUI size='small' variant='outline' onClick={clearContact}>
           Очистить
         </ButtonUI>
       </Box>

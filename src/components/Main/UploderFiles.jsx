@@ -42,7 +42,7 @@ const UploadingIcon = styled.span`
   animation: ${rotation} 1s linear infinite;
 `;
 
-const UploderFiles = ({ UID, callback, fullWidth, label }) => {
+const UploderFiles = ({ raw, callback, fullWidth, label }) => {
   const [uploading, setUploading] = useState(false);
   const handleChange = (e) => {
     upload(e?.target?.files);
@@ -71,7 +71,7 @@ const UploderFiles = ({ UID, callback, fullWidth, label }) => {
   };
   const upload = (files) => {
     setUploading(true);
-    uploadFiles(files, UID)
+    uploadFiles(files, raw)
       .then((uploadPhoto) => {
         if (callback) {
           callback(uploadPhoto);

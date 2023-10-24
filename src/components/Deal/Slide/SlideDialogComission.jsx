@@ -5,7 +5,8 @@ import closeUrl, { ReactComponent as Close } from 'images/close.svg';
 import { ButtonUI } from 'ui/ButtonUI';
 import { device } from 'styles/device';
 import { InputUI } from 'ui/InputUI';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
+import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 
 const CloseButtonStyle = styled.img`
   width: 18px;
@@ -44,9 +45,12 @@ const SlideDialogComissiontFooter = styled.div`
 const SlideDialogComissiontContent = styled.div`
   padding: 0.5rem;
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 `;
-const SlideDialogComission = ({ onClose, comission, onChange }) => {
-  const { handleSubmit, register } = useForm();
+const SlideDialogComission = ({ onClose, comission, side, onChange }) => {
+  const { handleSubmit, register, control } = useForm();
   const onSubmit = (data) => {
     onChange(data);
   };
@@ -66,6 +70,22 @@ const SlideDialogComission = ({ onClose, comission, onChange }) => {
           small
           type='number'
           {...register('comissionSize')}
+        />
+        <Controller
+          name='side'
+          control={control}
+          defaultValue={side}
+          render={({ field }) => (
+            <SelectUI
+              onChange={field.onChange}
+              select={field.value}
+              label='Сторона сделки'
+              small
+            >
+              <SelectItemUI value='seller'>Продавец</SelectItemUI>
+              <SelectItemUI value='buyer'>Покупатель</SelectItemUI>
+            </SelectUI>
+          )}
         />
       </SlideDialogComissiontContent>
       <SlideDialogComissiontFooter>

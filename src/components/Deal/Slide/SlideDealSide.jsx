@@ -12,6 +12,8 @@ import { Box } from 'ui/Box';
 import { useNumberTriad } from 'hooks/StringHook';
 import { CategoryTranslate } from '../keyTranslate';
 import { ReactComponent as Plus } from 'images/plus.svg';
+import SideDealUser from './SideDealUser';
+import { addContactSide, removeContactSide } from '../../../api/dealAPI';
 
 const FeatureTitle = styled.div`
   border-bottom: 1px solid #786464;
@@ -35,16 +37,51 @@ const FeatureClientList = styled.div`
 `;
 const SlideDealSide = () => {
   const deal = useAsyncValue();
-  const [contactFind, setFindContact] = useState(false);
-  const toggleFindContact = () => {
-    setFindContact(!contactFind);
+  const [contactFind, setFindContact] = useState(null);
+  const [change, setChange] = useState(false);
+
+  const openFindContact = (e) => {
+    const id = e.target.id;
+    setFindContact(id);
+  };
+  const closeFindContact = (source) => {
+    setFindContact(null);
+  };
+  const addContactToSide = (newContact) => {
+    const source = newContact?.type === 'seller' ? 'sellersSide' : 'buyersSide';
+    addContactSide({
+      UID: deal.UID,
+      side: newContact?.type,
+      contactId: newContact?.UID,
+    }).then((answer) => {
+      if (answer === 'OK') {
+        deal[source] = [...deal[source], newContact];
+        setChange(!change);
+      }
+    });
+  };
+  const removeContactFromSide = (currentContact) => {
+    const source =
+      currentContact?.type === 'seller' ? 'sellersSide' : 'buyersSide';
+    removeContactSide({
+      UID: deal.UID,
+      contactId: currentContact?.UID,
+      side: currentContact?.type,
+    }).then((answer) => {
+      if (answer === 'OK') {
+        deal[source] = deal[source].filter(
+          (user) => user.UID !== currentContact.UID
+        );
+        setChange(!change);
+      }
+    });
   };
   return (
     <>
       <SlideGridWrapper>
         <SlideBlockStyle $column jc='space-between'>
           <Box column fullWidth ai='flex-start'>
-            <FeatureTitle>Объект</FeatureTitle>
+            <FeatureTitle>Продавец</FeatureTitle>
             <div>
               <TextSpanStyle size={12}>
                 {deal?.objectParams?.street} {deal?.objectParams?.house}
@@ -66,17 +103,27 @@ const SlideDealSide = () => {
             <Box fullWidth>
               <FeatureSubTitle>
                 Клиенты
-                <IconButton onClick={toggleFindContact}>
+                <IconButton id='seller' onClick={openFindContact}>
                   <Plus />
                 </IconButton>
               </FeatureSubTitle>
             </Box>
-            <FeatureClientList />
+            <FeatureClientList>
+              {deal?.sellersSide?.length > 0 &&
+                deal.sellersSide.map((seller) => (
+                  <SideDealUser
+                    user={seller}
+                    key={seller.UID}
+                    type='seller'
+                    removeUser={removeContactFromSide}
+                  />
+                ))}
+            </FeatureClientList>
           </Box>
         </SlideBlockStyle>
         <SlideBlockStyle $column jc='space-between'>
           <Box column fullWidth>
-            <FeatureTitle>Заявка</FeatureTitle>
+            <FeatureTitle>Покупатель</FeatureTitle>
             <Box fullWidth ai='flex-start' column gap='0'>
               <TextSpanStyle size={12}>
                 Заявка: {deal?.bidParams?.firstName || ''}
@@ -90,17 +137,27 @@ const SlideDealSide = () => {
             <Box fullWidth>
               <FeatureSubTitle>
                 Клиенты
-                <IconButton onClick={toggleFindContact}>
+                <IconButton onClick={openFindContact} id='buyer'>
                   <Plus />
                 </IconButton>
               </FeatureSubTitle>
             </Box>
-            <FeatureClientList />
+            <FeatureClientList>
+              {deal?.buyersSide?.length > 0 &&
+                deal.buyersSide.map((buyer) => (
+                  <SideDealUser
+                    user={buyer}
+                    key={buyer.UID}
+                    type='buyer'
+                    removeUser={removeContactFromSide}
+                  />
+                ))}
+            </FeatureClientList>
           </Box>
         </SlideBlockStyle>
       </SlideGridWrapper>
-      <DialogWindow onClose={toggleFindContact} open={contactFind}>
-        <SlideContacFind />
+      <DialogWindow onClose={closeFindContact} open={Boolean(contactFind)}>
+        <SlideContacFind addContact={addContactToSide} type={contactFind} />
       </DialogWindow>
     </>
   );

@@ -20,9 +20,9 @@ const SlideDeal = () => {
       <SliderContext>
         <SlideDealMeta />
         <SlideDealStatus />
+        <SlideDealInfo />
         <SlideDealParticipants />
         <SlideDealSide />
-        <SlideDealInfo />
         <SlidePreliminaryAgreement />
         <SliderFiles />
         {/* {
@@ -30,7 +30,7 @@ const SlideDeal = () => {
           <SlideObjectStory type={object?.typeEstate} id={object?.UID} fullWidth height={500}/>
         } */}
       </SliderContext>
-      {windowSize > 768 && <SlideDealStory />}
+      {windowSize > 768 && <SlideDealStory UID={deal.UID} />}
     </SliderStyle>
   );
 };

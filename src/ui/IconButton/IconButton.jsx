@@ -38,9 +38,9 @@ const IconButtonStyle = styled.div`
     pointer-events: none;
   }
 `;
-export const IconButton = ({ children, sp, onClick, color }) => {
+export const IconButton = ({ children, sp, onClick, color, id }) => {
   return (
-    <IconButtonStyle $sp={sp} onClick={onClick} color={color}>
+    <IconButtonStyle $sp={sp} onClick={onClick} color={color} id={id}>
       {children}
     </IconButtonStyle>
   );

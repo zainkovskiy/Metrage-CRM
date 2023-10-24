@@ -102,3 +102,26 @@ export const setNewComission = async (raw) => {
   }
   return 'No OK';
 };
+
+export const addContactSide = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.deal.clientsAdd',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No OK';
+};
+export const removeContactSide = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.deal.clientsDel',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No OK';
+};

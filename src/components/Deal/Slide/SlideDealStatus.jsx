@@ -12,14 +12,12 @@ const SlideDealStatus = () => {
     <SlideBlockStyle>
       <SlideGridWrapper $fullWidth>
         <StatusBar activeStep={activeStepper} disabled={false} column>
-          <StatusBarItem
-            title='Закрепление по сделки'
-            onClick={changeStepper}
-          />
-          <StatusBarItem title='Допуск получен' onClick={changeStepper} />
-          <StatusBarItem title='Сделка состоялась' onClick={changeStepper} />
-          <StatusBarItem title='Акт подпписан' onClick={changeStepper} />
-          <StatusBarItem title='К расчету допущен' onClick={changeStepper} />
+          <StatusBarItem title='Закрепление' onClick={changeStepper} />
+          <StatusBarItem title='ПДКП (бронь)' onClick={changeStepper} />
+          <StatusBarItem title='ДКП' onClick={changeStepper} />
+          <StatusBarItem title='Акт подписан' onClick={changeStepper} />
+          <StatusBarItem title='К расчету' onClick={changeStepper} />
+          <StatusBarItem title='Агент расчитан' onClick={changeStepper} />
         </StatusBar>
         <Box column>
           <ButtonLink onClick={() => {}} size={12} color='green'>

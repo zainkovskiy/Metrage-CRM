@@ -21,8 +21,10 @@ const SideDealUser = (props) => {
     switch (type) {
       case 'realtor':
         return UserRealtor;
-      default:
+      case 'lawyers':
         return UserLawyer;
+      default:
+        return SimpleUser;
     }
   };
   const SideComponent = getSideComponent();
@@ -34,14 +36,15 @@ const UserRealtor = ({ user, removeUser, type, dealUID }) => {
   const toggleEditComission = () => {
     setIsEditComission(!isEditComission);
   };
-  const changeNewComission = ({ comissionSize }) => {
+  const changeNewComission = (data) => {
     setNewComission({
       UID: dealUID,
-      comissionSize: comissionSize,
       userId: user.UID,
+      ...data,
     }).then((answer) => {
       if (answer === 'OK') {
-        user.comissionSize = comissionSize;
+        user.comissionSize = data.comissionSize;
+        user.size = data.size;
         toggleEditComission();
       }
     });
@@ -80,6 +83,7 @@ const UserRealtor = ({ user, removeUser, type, dealUID }) => {
           onClose={toggleEditComission}
           comission={user?.comissionSize}
           onChange={changeNewComission}
+          side={user.side}
         />
       </DialogWindow>
     </>
@@ -94,6 +98,24 @@ const UserLawyer = ({ user, removeUser, type }) => {
       },
       'lawyers'
     );
+  };
+  return (
+    <Box jc='space-between'>
+      <SlideParticipantsText size={12} nowrap>
+        {user?.lastName} {user?.firstName} {user?.secondName}
+      </SlideParticipantsText>{' '}
+      <IconButton onClick={removeMySelf} color='error'>
+        <Close />
+      </IconButton>
+    </Box>
+  );
+};
+const SimpleUser = ({ user, type, removeUser }) => {
+  const removeMySelf = () => {
+    removeUser({
+      ...user,
+      type,
+    });
   };
   return (
     <Box jc='space-between'>
