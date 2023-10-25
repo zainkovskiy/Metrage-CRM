@@ -8,9 +8,9 @@ import { CheckboxUI } from 'ui/CheckboxUI';
 import { TextSpanStyle } from 'styles/styles';
 import InputText from '../../../ui/InputText/InputText';
 import { SliderBlock, SliderTitle } from '../../../styles/slider';
-import { AnimatePresence, motion } from 'framer-motion';
 import { saveChangeContact } from '../../../store/clientsSlice';
 import { useDispatch } from 'react-redux';
+import { SliderFormButtonGroup } from '../../../styles/SliderFormButtonGroup';
 
 const ContactBlock = styled.div`
   flex-grow: 1;
@@ -25,19 +25,6 @@ const SliderClientContactStyle = styled.form`
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-`;
-const ButtonContainer = styled(motion.div)`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 0.5rem;
-  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.45);
-  background: #fff;
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  justify-content: center;
 `;
 const SliderClientContact = () => {
   const client = useAsyncValue();
@@ -180,20 +167,14 @@ const SliderClientContact = () => {
             </ContactLine>
           </ContactBlock>
         </Box>
-        <AnimatePresence>
-          {isDirty && (
-            <ButtonContainer
-              initial={{ height: 0 }}
-              exit={{ height: 0 }}
-              animate={{ height: 'fit-content' }}
-            >
-              <TextSpanStyle>Сохранить изменения?</TextSpanStyle>
-              <ButtonUI type='submit' size='small'>
-                Сохранить
-              </ButtonUI>
-            </ButtonContainer>
-          )}
-        </AnimatePresence>
+        {isDirty && (
+          <SliderFormButtonGroup>
+            <TextSpanStyle>Сохранить изменения?</TextSpanStyle>
+            <ButtonUI type='submit' size='small'>
+              Сохранить
+            </ButtonUI>
+          </SliderFormButtonGroup>
+        )}
       </SliderClientContactStyle>
     </SliderBlock>
   );

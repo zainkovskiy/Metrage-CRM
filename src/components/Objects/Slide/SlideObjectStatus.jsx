@@ -24,7 +24,7 @@ const SlideObjectStatus = () => {
     setActiveStepper(idx);
   };
   const setFailure = () => {
-    if (activeStepper == 4) {
+    if (activeStepper === 4) {
       changeStepper(0);
       return;
     }

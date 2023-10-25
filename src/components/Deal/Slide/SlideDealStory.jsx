@@ -10,7 +10,7 @@ const SlideDealStory = ({ UID, fullWidth, height }) => {
   }, []);
   const getHistory = () => {
     setLoader(true);
-    getHistoryList(UID, 'deals')
+    getHistoryList(UID, 'deal')
       .then((data) => {
         setHistory(data || []);
       })
@@ -21,7 +21,7 @@ const SlideDealStory = ({ UID, fullWidth, height }) => {
   const sendMessage = (message) => {
     const newMessage = message.trim();
     if (newMessage) {
-      sendHistoryMessage('deals', UID, newMessage).then((data) => {
+      sendHistoryMessage('deal', UID, newMessage).then((data) => {
         setHistory([...history, data]);
       });
     }

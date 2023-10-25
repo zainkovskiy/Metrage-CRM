@@ -6,6 +6,7 @@ import { TextSpanStyle } from 'styles/styles';
 import { InputUI } from 'ui/InputUI';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import { useDateFormat } from '../../../hooks/DateFormat';
+import { Controller, useFormContext } from 'react-hook-form';
 
 const FeatureTitle = styled.div`
   border-bottom: 1px solid #786464;
@@ -23,50 +24,77 @@ const SlideSide = styled.div`
 `;
 const SlidePreliminaryAgreement = () => {
   const deal = useAsyncValue();
+  const { control } = useFormContext();
+
   return (
     <SlideBlockStyle $column>
       <FeatureTitle>Предварительный договор</FeatureTitle>
       <SlideGridWrapper $fullWidth>
         <SlideSide>
-          <InputUI
-            small
-            label='Сумма задатка'
-            labelSize={12}
-            defaultValue={deal?.depositAmount || ''}
-            type='number'
+          <Controller
+            name='depositAmount'
+            control={control}
+            render={({ field }) => (
+              <InputUI
+                small
+                label='Сумма задатка'
+                labelSize={12}
+                value={field.value || ''}
+                type='number'
+                onChange={(e) => field.onChange(e.target.value)}
+              />
+            )}
           />
-          <CheckboxUI
-            disabled={!deal?.isLawyer || false}
-            label='Задаток принят'
-            // onChange={(e) => {
-            //   field.onChange(e.target.checked);
-            // }}
-            defaultChecked={deal?.depositAccepted || false}
-            id='depositAccepted'
-            size='small'
-            labelSize={12}
+          <Controller
+            name='depositAccepted'
+            control={control}
+            render={({ field }) => (
+              <CheckboxUI
+                disabled={!deal?.isLawyer || false}
+                label='Задаток принят'
+                onChange={(e) => {
+                  field.onChange(e.target.checked);
+                }}
+                checked={field.value || false}
+                id='depositAccepted'
+                size='small'
+                labelSize={12}
+              />
+            )}
           />
-          <CheckboxUI
-            disabled={!deal?.isСashier || false}
-            label='Задаток сдан в кассу'
-            // onChange={(e) => {
-            //   field.onChange(e.target.checked);
-            // }}
-            defaultChecked={deal?.depositDelivered || false}
-            id='depositDelivered'
-            size='small'
-            labelSize={12}
+          <Controller
+            name='depositDelivered'
+            control={control}
+            render={({ field }) => (
+              <CheckboxUI
+                disabled={!deal?.isСashier || false}
+                label='Задаток сдан в кассу'
+                onChange={(e) => {
+                  field.onChange(e.target.checked);
+                }}
+                checked={field.value || false}
+                id='depositDelivered'
+                size='small'
+                labelSize={12}
+              />
+            )}
           />
-          <CheckboxUI
-            disabled={!deal?.isСashier || false}
-            label='Задаток возвращен клиенту'
-            // onChange={(e) => {
-            //   field.onChange(e.target.checked);
-            // }}
-            defaultChecked={deal?.depositReturned || false}
-            id='depositReturned'
-            size='small'
-            labelSize={12}
+          <Controller
+            name='depositReturned'
+            control={control}
+            render={({ field }) => (
+              <CheckboxUI
+                disabled={!deal?.isСashier || false}
+                label='Задаток возвращен клиенту'
+                onChange={(e) => {
+                  field.onChange(e.target.checked);
+                }}
+                defaultChecked={field.value || false}
+                id='depositReturned'
+                size='small'
+                labelSize={12}
+              />
+            )}
           />
           <TextSpanStyle size={12}>
             Дата принятия задатка:{' '}
@@ -74,19 +102,33 @@ const SlidePreliminaryAgreement = () => {
           </TextSpanStyle>
         </SlideSide>
         <SlideSide>
-          <InputUI
-            small
-            label='Дата заключения ПДКП'
-            labelSize={12}
-            defaultValue={deal?.preAgreementDateStart || ''}
-            type='date'
+          <Controller
+            name='preAgreementDateStart'
+            control={control}
+            render={({ field }) => (
+              <InputUI
+                small
+                label='Дата заключения ПДКП'
+                labelSize={12}
+                value={field.value || ''}
+                onChange={(e) => field.onChange(e.target.value)}
+                type='date'
+              />
+            )}
           />
-          <InputUI
-            small
-            label='Дата окончания ПДКП'
-            labelSize={12}
-            defaultValue={deal?.preAgreementDateEnd || ''}
-            type='date'
+          <Controller
+            name='preAgreementDateEnd'
+            control={control}
+            render={({ field }) => (
+              <InputUI
+                small
+                label='Дата окончания ПДКП'
+                labelSize={12}
+                value={field.value || ''}
+                onChange={(e) => field.onChange(e.target.value)}
+                type='date'
+              />
+            )}
           />
         </SlideSide>
       </SlideGridWrapper>

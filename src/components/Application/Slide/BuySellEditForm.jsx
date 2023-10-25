@@ -9,10 +9,11 @@ import { useForm, Controller } from 'react-hook-form';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { ButtonUI } from 'ui/ButtonUI';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { changeType } from 'store/applicationSlice';
 import { useAsyncValue } from 'react-router-dom';
 import { SliderTitle } from 'styles/slider';
+import { SliderFormButtonGroup } from '../../../styles/SliderFormButtonGroup';
 
 const BuySellEditFormStyle = styled.form`
   padding: 0.5rem;
@@ -22,19 +23,6 @@ const BuySellEditFormStyle = styled.form`
   gap: 0.5rem;
   display: flex;
   flex-grow: 1;
-`;
-const EditButtonGroupStyle = styled(motion.div)`
-  display: flex;
-  gap: 0.5rem;
-  position: fixed;
-  top: 0;
-  padding: 0.5rem;
-  background-color: #fff;
-  left: 0;
-  right: 0;
-  justify-content: center;
-  box-shadow: 0px 2px 10px 1px rgba(128, 128, 128, 1);
-  overflow: hidden;
 `;
 const getComponent = (key) => {
   switch (key) {
@@ -151,19 +139,12 @@ const BuySellEditForm = () => {
       </AnimatePresence>
       <AnimatePresence>
         {isDirty && (
-          <EditButtonGroupStyle
-            initial={{ y: -100 }}
-            animate={{ y: 0 }}
-            exit={{ y: -100 }}
-            transition={{
-              duration: 0.3,
-            }}
-          >
+          <SliderFormButtonGroup>
             <ButtonUI type='submit'>Сохранить</ButtonUI>
             <ButtonUI variant='outline' onClick={clearAnyChange}>
               Отменить
             </ButtonUI>
-          </EditButtonGroupStyle>
+          </SliderFormButtonGroup>
         )}
       </AnimatePresence>
     </BuySellEditFormStyle>

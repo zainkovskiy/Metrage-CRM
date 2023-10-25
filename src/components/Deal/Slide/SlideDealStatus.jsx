@@ -3,10 +3,30 @@ import { SlideBlockStyle, SlideGridWrapper } from '../DealStyle';
 import { ButtonLink } from 'ui/ButtonLink';
 import { Box } from 'ui/Box';
 import { StatusBar, StatusBarItem } from '../../../ui/StatusBar/StatusBar';
-const SlideDealStatus = () => {
-  const [activeStepper, setActiveStepper] = useState(0);
+import { setDealStage } from '../../../api/dealAPI';
+
+const SlideDealStatus = ({ status, UID }) => {
+  const [activeStepper, setActiveStepper] = useState(parseInt(status) || 0);
   const changeStepper = (idx) => {
+    setDealStage({
+      StageId: activeStepper,
+      UID: UID,
+    });
     setActiveStepper(idx);
+  };
+  const setFailure = () => {
+    if (activeStepper === 6) {
+      changeStepper(0);
+      return;
+    }
+    changeStepper(6);
+  };
+  const setFinally = () => {
+    // if (activeStepper === 5) {
+    //   changeStepper(0);
+    //   return;
+    // }
+    changeStepper(5);
   };
   return (
     <SlideBlockStyle>
@@ -18,13 +38,14 @@ const SlideDealStatus = () => {
           <StatusBarItem title='Акт подписан' onClick={changeStepper} />
           <StatusBarItem title='К расчету' onClick={changeStepper} />
           <StatusBarItem title='Агент расчитан' onClick={changeStepper} />
+          <StatusBarItem title='Срыв' onClick={changeStepper} />
         </StatusBar>
         <Box column>
-          <ButtonLink onClick={() => {}} size={12} color='green'>
+          <ButtonLink onClick={setFinally} size={12} color='green'>
             Агент расчитан
           </ButtonLink>
-          <ButtonLink onClick={() => {}} size={12}>
-            {activeStepper < 0 ? 'Вернуть из срыва' : 'Отправить в Срыв'}
+          <ButtonLink onClick={setFailure} size={12}>
+            {activeStepper === 6 ? 'Вернуть из срыва' : 'Отправить в Срыв'}
           </ButtonLink>
         </Box>
       </SlideGridWrapper>
