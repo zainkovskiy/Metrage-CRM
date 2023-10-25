@@ -6,6 +6,7 @@ import { TextSpanStyle } from 'styles/styles';
 import { useDateFormat } from 'hooks/DateFormat';
 import doneUrl, { ReactComponent as Done } from 'images/done2.svg';
 import { Box } from 'ui/Box';
+import { statusVarinants } from './DealStatus';
 
 const LinkStyle = styled(Link)`
   text-decoration: none;
@@ -104,7 +105,9 @@ const DealCard = ({ deal }) => {
           </TextSpanStyle>
         </DealContent>
         <DealFooter>
-          <TextSpanStyle size={10}> Статус: {deal?.dealStatus}</TextSpanStyle>
+          <TextSpanStyle size={10}>
+            Статус: {statusVarinants[deal?.dealStatus]}
+          </TextSpanStyle>
         </DealFooter>
       </DealCardStyle>
     </LinkStyle>

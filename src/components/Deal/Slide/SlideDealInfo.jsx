@@ -8,6 +8,7 @@ import { RealtyTypeTranslate, DealTypeTranslate } from '../keyTranslate';
 import { InputUI } from 'ui/InputUI';
 import { useNumberTriad } from 'hooks/StringHook';
 import { Controller, useFormContext } from 'react-hook-form';
+import { statusVarinants } from '../DealStatus';
 
 const FeatureTitle = styled.div`
   border-bottom: 1px solid #786464;
@@ -104,9 +105,6 @@ const SlideDealInfo = () => {
           />
         </SlideDealInfoSide>
         <div>
-          <TextSpanStyle size={12}>
-            Статус: {deal?.dealStatus || ''}
-          </TextSpanStyle>
           <TextSpanStyle size={12}>
             Тип сделки: {deal?.dealType ? DealTypeTranslate[deal.dealType] : ''}
           </TextSpanStyle>

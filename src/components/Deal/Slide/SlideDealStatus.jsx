@@ -6,46 +6,40 @@ import { StatusBar, StatusBarItem } from '../../../ui/StatusBar/StatusBar';
 import { setDealStage } from '../../../api/dealAPI';
 
 const SlideDealStatus = ({ status, UID }) => {
-  const [activeStepper, setActiveStepper] = useState(parseInt(status) || 0);
+  const [activeStepper, setActiveStepper] = useState(status - 1 || '');
+
   const changeStepper = (idx) => {
     setDealStage({
-      StageId: activeStepper,
+      StageId: idx + 1,
       UID: UID,
     });
     setActiveStepper(idx);
   };
   const setFailure = () => {
-    if (activeStepper === 6) {
+    if (activeStepper < 0) {
       changeStepper(0);
       return;
     }
-    changeStepper(6);
-  };
-  const setFinally = () => {
-    // if (activeStepper === 5) {
-    //   changeStepper(0);
-    //   return;
-    // }
-    changeStepper(5);
+    changeStepper(-1);
   };
   return (
     <SlideBlockStyle>
       <SlideGridWrapper $fullWidth>
-        <StatusBar activeStep={activeStepper} disabled={false} column>
+        <StatusBar
+          activeStep={activeStepper}
+          disabled={activeStepper < 0}
+          column
+        >
           <StatusBarItem title='Закрепление' onClick={changeStepper} />
           <StatusBarItem title='ПДКП (бронь)' onClick={changeStepper} />
           <StatusBarItem title='ДКП' onClick={changeStepper} />
           <StatusBarItem title='Акт подписан' onClick={changeStepper} />
           <StatusBarItem title='К расчету' onClick={changeStepper} />
           <StatusBarItem title='Агент расчитан' onClick={changeStepper} />
-          <StatusBarItem title='Срыв' onClick={changeStepper} />
         </StatusBar>
         <Box column>
-          <ButtonLink onClick={setFinally} size={12} color='green'>
-            Агент расчитан
-          </ButtonLink>
           <ButtonLink onClick={setFailure} size={12}>
-            {activeStepper === 6 ? 'Вернуть из срыва' : 'Отправить в Срыв'}
+            {activeStepper < 0 ? 'Вернуть из срыва' : 'Отправить в Срыв'}
           </ButtonLink>
         </Box>
       </SlideGridWrapper>

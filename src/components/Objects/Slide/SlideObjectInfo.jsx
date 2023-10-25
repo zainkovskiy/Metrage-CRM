@@ -107,7 +107,7 @@ const SlideObjectInfo = () => {
           {match ? 'Удалить из подборки' : 'Добавить в подборку'}
         </ButtonUI>
       </ButtonBlock>
-      <ContentBlock $wrap={windowSize < 768}>
+      <ContentBlock $wrap={windowSize < 1201}>
         <SlideInfoBlock>
           <Box column ai='flex-start'>
             <Box column gap='0' ai='flex-start'>

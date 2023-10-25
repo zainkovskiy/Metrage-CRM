@@ -18,7 +18,7 @@ const SlideFromContainer = ({ clearChangeForm }) => {
   return (
     <>
       <SlideDealMeta />
-      <SlideDealStatus status={deal?.dealStatusId || 0} UID={deal.UID} />
+      <SlideDealStatus status={deal?.dealStatusId} UID={deal.UID} />
       <SlideDealInfo />
       <SlideDealParticipants />
       <SlideDealSide />

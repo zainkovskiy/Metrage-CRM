@@ -139,7 +139,7 @@ export const updateDeal = async (raw) => {
 export const setDealStage = async (raw) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
-    method: 'crm.objects.setStage',
+    method: 'crm.deal.setStage',
     fields: raw,
   });
   if (res?.statusText === 'OK') {
