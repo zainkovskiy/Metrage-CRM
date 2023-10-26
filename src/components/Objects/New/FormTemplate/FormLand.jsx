@@ -384,7 +384,7 @@ const FormLand = () => {
           />
         </FormWrapper>
       </ObjectSliderBox>
-      <ObjectSliderBox
+      {/* <ObjectSliderBox
         $column
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
@@ -392,7 +392,7 @@ const FormLand = () => {
         transition={{ duration: 0.3 }}
       >
         <ButtonUI type='submit'>Сохранить</ButtonUI>
-      </ObjectSliderBox>
+      </ObjectSliderBox> */}
     </>
   );
 };

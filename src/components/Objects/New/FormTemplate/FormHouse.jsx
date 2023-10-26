@@ -684,7 +684,7 @@ const FormHouse = () => {
           />
         </FormWrapper>
       </ObjectSliderBox>
-      <ObjectSliderBox
+      {/* <ObjectSliderBox
         $column
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
@@ -692,7 +692,7 @@ const FormHouse = () => {
         transition={{ duration: 0.3 }}
       >
         <ButtonUI type='submit'>Сохранить</ButtonUI>
-      </ObjectSliderBox>
+      </ObjectSliderBox> */}
     </>
   );
 };

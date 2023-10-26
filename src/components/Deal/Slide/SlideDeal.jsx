@@ -56,7 +56,10 @@ const SlideDeal = () => {
     },
   });
   const onSubmit = (data) => {
-    updateDeal(data).then((answer) => {
+    updateDeal({
+      ...data,
+      UID: deal.UID,
+    }).then((answer) => {
       if (answer === 'OK') {
         methods.reset(data);
         resetValues.current = data;

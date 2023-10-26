@@ -6,7 +6,7 @@ import FormFlatShare from './New/FormTemplate/FormFlatShare';
 import FormGarage from './New/FormTemplate/FormGarage';
 import FormHouse from './New/FormTemplate/FormHouse';
 import FormHouseShare from './New/FormTemplate/FormHouseShare';
-import FormoCottage from './New/FormTemplate/FormoCottage';
+import FormCottage from './New/FormTemplate/FormCottage';
 import FormTownhouse from './New/FormTemplate/FormTownhouse';
 import FormLand from './New/FormTemplate/FormLand';
 import FormOffice from './New/FormTemplate/FormOffice';
@@ -41,7 +41,7 @@ export const useSelectCategoryField = (category, type) => {
       case 'houseShareSale':
         return FormHouseShare;
       case 'cottageSale':
-        return FormoCottage;
+        return FormCottage;
       case 'townhouseSale':
         return FormTownhouse;
       case 'landSale':

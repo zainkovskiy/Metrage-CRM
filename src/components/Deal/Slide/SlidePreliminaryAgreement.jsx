@@ -25,10 +25,12 @@ const SlideSide = styled.div`
 const SlidePreliminaryAgreement = () => {
   const deal = useAsyncValue();
   const { control } = useFormContext();
-
+  console.log(deal.dealType === 'developer');
   return (
     <SlideBlockStyle $column>
-      <FeatureTitle>Предварительный договор</FeatureTitle>
+      <FeatureTitle>
+        {deal.dealType === 'developer' ? 'Бронь' : 'Предварительный договор'}
+      </FeatureTitle>
       <SlideGridWrapper $fullWidth>
         <SlideSide>
           <Controller
@@ -108,7 +110,11 @@ const SlidePreliminaryAgreement = () => {
             render={({ field }) => (
               <InputUI
                 small
-                label='Дата заключения ПДКП'
+                label={
+                  deal.dealType === 'developer'
+                    ? 'Дата брони'
+                    : 'Дата заключения ПДКП'
+                }
                 labelSize={12}
                 value={field.value || ''}
                 onChange={(e) => field.onChange(e.target.value)}
@@ -122,7 +128,11 @@ const SlidePreliminaryAgreement = () => {
             render={({ field }) => (
               <InputUI
                 small
-                label='Дата окончания ПДКП'
+                label={
+                  deal.dealType === 'developer'
+                    ? 'Дата окончания брони'
+                    : 'Дата окончания ПДКП'
+                }
                 labelSize={12}
                 value={field.value || ''}
                 onChange={(e) => field.onChange(e.target.value)}

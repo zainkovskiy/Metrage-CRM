@@ -10,7 +10,7 @@ import { CheckboxUI } from 'ui/CheckboxUI';
 import { TextSpanStyle } from 'styles/styles';
 import { useNumberTriad } from 'hooks/StringHook';
 
-const FormoCottage = () => {
+const FormCottage = () => {
   const { control } = useFormContext();
   const { errors } = useFormState();
   return (
@@ -670,7 +670,7 @@ const FormoCottage = () => {
           />
         </FormWrapper>
       </ObjectSliderBox>
-      <ObjectSliderBox
+      {/* <ObjectSliderBox
         $column
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
@@ -678,9 +678,9 @@ const FormoCottage = () => {
         transition={{ duration: 0.3 }}
       >
         <ButtonUI type='submit'>Сохранить</ButtonUI>
-      </ObjectSliderBox>
+      </ObjectSliderBox> */}
     </>
   );
 };
 
-export default FormoCottage;
+export default FormCottage;

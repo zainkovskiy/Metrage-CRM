@@ -3,17 +3,20 @@ import Loader from 'components/Main/Loader';
 import SlideWindow from 'components/Main/SlideWindow';
 import { Await, useLoaderData, useNavigate } from 'react-router-dom';
 import { useWindowSize } from 'hooks/windowSize';
-// import { getOneObject } from 'api/objectAPI';
-const NewDeal = React.lazy(() => import('components/Deal/New/NewDeal'));
+import { useDispatch } from 'react-redux';
+import { getClientsList } from '../../../store/clientsSlice';
+const NewClient = React.lazy(() => import('components/Client/New/NewClient'));
 
-const SuspenseNewDeal = () => {
+const SuspenseNewClient = () => {
   const { deal } = useLoaderData() || {};
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
   const windowSize = useWindowSize();
+  const dispatch = useDispatch();
   const handleClose = () => {
     setTimeout(() => {
-      navigate('/deal', { replace: true });
+      dispatch(getClientsList());
+      navigate('/client', { replace: true });
     }, 300);
     setOpen(false);
   };
@@ -21,20 +24,16 @@ const SuspenseNewDeal = () => {
     if (windowSize <= 768) {
       return '100%';
     }
-    return '50%';
+    return '30%';
   };
   return (
     <SlideWindow open={open} onClose={handleClose} width={getWidth()}>
       <Suspense fallback={<Loader />}>
         <Await resolve={deal}>
-          <NewDeal onClose={handleClose} />
+          <NewClient onClose={handleClose} />
         </Await>
       </Suspense>
     </SlideWindow>
   );
 };
-// export const loaderEditSlide = async ({ request, params }) => {
-//   const { objectId, category } = params;
-//   return { object: getOneObject(objectId, category, true) }
-// }
-export default SuspenseNewDeal;
+export default SuspenseNewClient;

@@ -14,11 +14,11 @@ const ClientFilterStyle = styled.div`
 const ClientFilter = () => {
   return (
     <ClientFilterStyle>
-      {/* <Link to='new'> */}
-      <ButtonUI size='small' variant='outline'>
-        Создать
-      </ButtonUI>
-      {/* </Link> */}
+      <Link to='new'>
+        <ButtonUI size='small' variant='outline'>
+          Создать
+        </ButtonUI>
+      </Link>
     </ClientFilterStyle>
   );
 };

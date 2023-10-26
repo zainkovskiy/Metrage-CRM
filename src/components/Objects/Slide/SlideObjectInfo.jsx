@@ -10,10 +10,6 @@ import { SlideBlockStyle } from '../ObjectsStyle';
 import SlideObjectResponsible from './SlideObjectResponsible';
 import { ReactComponent as Area } from 'images/arrow-bottom-left.svg';
 import { ReactComponent as Height } from 'images/height.svg';
-import { IconButton } from 'ui/IconButton';
-import { TooltipUI } from 'ui/TooltipUI';
-import { ReactComponent as Plus } from 'images/plus.svg';
-import { ReactComponent as Minus } from 'images/minus.svg';
 
 import { useGetMeterPrice } from '../objectHook';
 import { useNumberTriad } from 'hooks/StringHook';
@@ -22,6 +18,7 @@ import { useWindowSize } from 'hooks/windowSize';
 import { FlatRoomsCountTranslate } from '../KeyTranslate';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToBasket, removeFromBasket } from '../../../store/objectSlice';
+import SlideCountView from './SlideCountView';
 const AreaStyle = styled(Area)`
   width: 36px;
   height: 36px;
@@ -175,16 +172,19 @@ const SlideObjectInfo = () => {
                 </Box>
               </Box>
             )}
-            {object?.responsibleId && (
-              <SlideObjectResponsible
-                link={
-                  object?.subTypeEstate === 'liveExternal' ||
-                  object?.subTypeEstate === 'businessExternal'
-                    ? object?.videoUrl
-                    : ''
-                }
-              />
-            )}
+            <Box jc='space-between' fullWidth>
+              {object?.responsibleId && (
+                <SlideObjectResponsible
+                  link={
+                    object?.subTypeEstate === 'liveExternal' ||
+                    object?.subTypeEstate === 'businessExternal'
+                      ? object?.videoUrl
+                      : ''
+                  }
+                />
+              )}
+              {object?.advStats && <SlideCountView view={object.advStats} />}
+            </Box>
           </Box>
         </SlideInfoBlock>
         <SlideInfoBlock>

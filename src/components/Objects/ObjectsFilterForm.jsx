@@ -755,11 +755,11 @@ const ObjectsFilterForm = ({ onClose }) => {
                   label='Стадия'
                 >
                   <SelectItemUI value=''>Выбрать</SelectItemUI>
-                  <SelectItemUI value={0}>Черновик</SelectItemUI>
-                  <SelectItemUI value={1}>Активный</SelectItemUI>
-                  <SelectItemUI value={2}>Закрепление</SelectItemUI>
-                  <SelectItemUI value={3}>Продано</SelectItemUI>
-                  <SelectItemUI value={4}>Срыв</SelectItemUI>
+                  <SelectItemUI value='0'>Черновик</SelectItemUI>
+                  <SelectItemUI value='1'>Активный</SelectItemUI>
+                  <SelectItemUI value='2'>Закрепление</SelectItemUI>
+                  <SelectItemUI value='3'>Продано</SelectItemUI>
+                  <SelectItemUI value='4'>Срыв</SelectItemUI>
                 </SelectUI>
               )}
             />

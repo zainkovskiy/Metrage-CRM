@@ -40,7 +40,6 @@ const ErrorTitle = styled.div`
   align-items: center;
 `;
 const MainInfoUser = ({ user, view, rights, notify }) => {
-  console.log(notify);
   const dispatch = useDispatch();
   const [openSelect, setOpenSelect] = useState(null);
   const openSelectList = (source) => {

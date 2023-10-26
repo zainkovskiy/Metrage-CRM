@@ -66,9 +66,7 @@ const FormBusiness = () => {
                 label='Тип НДС'
               >
                 <SelectItemUI value='included'>НДС включен</SelectItemUI>
-                <SelectItemUI value='notIncluded'>
-                  НДС не облагается
-                </SelectItemUI>
+                <SelectItemUI value='notIncluded'>НДС не включен</SelectItemUI>
                 <SelectItemUI value='usn'>
                   УСН (упрощенная система налогообложения)
                 </SelectItemUI>
@@ -218,7 +216,7 @@ const FormBusiness = () => {
           />
         </FormWrapper>
       </ObjectSliderBox>
-      <ObjectSliderBox
+      {/* <ObjectSliderBox
         $column
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
@@ -226,7 +224,7 @@ const FormBusiness = () => {
         transition={{ duration: 0.3 }}
       >
         <ButtonUI type='submit'>Сохранить</ButtonUI>
-      </ObjectSliderBox>
+      </ObjectSliderBox> */}
     </>
   );
 };

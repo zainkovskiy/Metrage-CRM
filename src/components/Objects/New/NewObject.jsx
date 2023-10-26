@@ -11,6 +11,9 @@ import { useAsyncValue } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { createObject } from 'store/objectSlice';
 import TitleAdv from './TitleAdv';
+import { ObjectSliderBox } from '../ObjectsStyle';
+import { ButtonUI } from 'ui/ButtonUI';
+import FormRent from './FormRent';
 
 const NewObjectStyle = styled(motion.form)`
   display: flex;
@@ -57,6 +60,18 @@ const NewObject = ({ onClose }) => {
             <FormCords />
             <FieldsCategory />
           </>
+        )}
+        {methods.getValues('typeDeal') === 'sell' && object && <FormRent />}
+        {methods.getValues('Category') && (
+          <ObjectSliderBox
+            $column
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <ButtonUI type='submit'>Сохранить</ButtonUI>
+          </ObjectSliderBox>
         )}
       </NewObjectStyle>
     </FormProvider>
