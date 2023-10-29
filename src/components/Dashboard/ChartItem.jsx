@@ -54,12 +54,12 @@ const ChartItem = ({ chart }) => {
   }
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
-  useEffect(() => {
-    addEventListener('click', handleClickButtonList);
-    return () => {
-      removeEventListener('click', handleClickButtonList);
-    };
-  }, []);
+  // useEffect(() => {
+  //   addEventListener('click', handleClickButtonList);
+  //   return () => {
+  //     removeEventListener('click', handleClickButtonList);
+  //   };
+  // }, []);
   const handleClickButtonList = (e) => {
     if (e.target.id !== chart.APIName && open) {
       setOpen(false);

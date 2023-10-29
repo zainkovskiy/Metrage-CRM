@@ -81,7 +81,7 @@ const UserRealtor = ({ user, removeUser, type, dealUID }) => {
       <DialogWindow open={isEditComission} onClose={toggleEditComission}>
         <SlideDialogComission
           onClose={toggleEditComission}
-          comission={user?.comissionSize}
+          comission={user.comissionSize}
           onChange={changeNewComission}
           side={user.side}
         />

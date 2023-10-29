@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
 import closeUrl, { ReactComponent as Close } from 'images/close.svg';
@@ -21,12 +21,12 @@ const CloseButtonStyle = styled.img`
     transform: scale(0.9);
   }
 `;
-const SlideDialogComissiontStyle = styled.form`
+const SlideDialogComissiontStyle = styled.div`
   background-color: #fff;
   width: 30vw;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
-  border-radius: 5px;
   @media ${device.tablet} {
     width: 80vw;
   }
@@ -50,49 +50,44 @@ const SlideDialogComissiontContent = styled.div`
   gap: 1rem;
 `;
 const SlideDialogComission = ({ onClose, comission, side, onChange }) => {
-  const { handleSubmit, register, control } = useForm();
-  const onSubmit = (data) => {
-    onChange(data);
+  const [currentSide, setCurrentSide] = useState(side || '');
+  const [currentComission, setCurrentComission] = useState(comission || '');
+
+  const onSubmit = () => {
+    onChange({
+      comissionSize: currentComission,
+      side: currentSide,
+    });
   };
   return (
-    <SlideDialogComissiontStyle
-      onClick={(e) => e.stopPropagation()}
-      onSubmit={handleSubmit(onSubmit)}
-    >
+    <SlideDialogComissiontStyle onClick={(e) => e.stopPropagation()}>
       <SlideDialogComissiontHeader>
         <TextSpanStyle>Комиссия</TextSpanStyle>
         <CloseButtonStyle src={closeUrl} onClick={onClose} />
       </SlideDialogComissiontHeader>
       <SlideDialogComissiontContent>
         <InputUI
-          defaultValue={comission}
           AutoComplete
           small
           type='number'
-          {...register('comissionSize')}
+          onChange={(e) => setCurrentComission(e.target.value)}
+          value={currentComission}
         />
-        <Controller
-          name='side'
-          control={control}
-          defaultValue={side}
-          render={({ field }) => (
-            <SelectUI
-              onChange={field.onChange}
-              select={field.value}
-              label='Сторона сделки'
-              small
-            >
-              <SelectItemUI value='seller'>Продавец</SelectItemUI>
-              <SelectItemUI value='buyer'>Покупатель</SelectItemUI>
-            </SelectUI>
-          )}
-        />
+        <SelectUI
+          onChange={(newValue) => setCurrentSide(newValue)}
+          select={currentSide}
+          label='Сторона сделки'
+          small
+        >
+          <SelectItemUI value='seller'>Продавец</SelectItemUI>
+          <SelectItemUI value='buyer'>Покупатель</SelectItemUI>
+        </SelectUI>
       </SlideDialogComissiontContent>
       <SlideDialogComissiontFooter>
         <ButtonUI size='small' onClick={onClose} fullWidth>
           Отменить
         </ButtonUI>
-        <ButtonUI size='small' variant='outline' type='submit' fullWidth>
+        <ButtonUI size='small' onClick={onSubmit} variant='outline' fullWidth>
           Сохранить
         </ButtonUI>
       </SlideDialogComissiontFooter>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   PieChart,
   Pie,
@@ -16,7 +16,6 @@ const colorPie = {
   Domclick: '#53b374',
   Yandex: '#fc3f1e',
 };
-
 const ChartDoublePie = ({ chart }) => {
   if (Array.isArray(chart)) {
     return <DefaultChartComponent />;
@@ -54,9 +53,17 @@ const ChartDoublePie = ({ chart }) => {
         >
           {chart.outCircle.map((item) => (
             <Cell
+              onClick={() => {
+                console.log(item);
+              }}
               key={item.name}
               fill={colorPie[item.name]}
               dataName='outside'
+              style={{
+                cursor: 'pointer',
+                fontFamily: 'CeraCY, sans-serif',
+                fontSize: 12,
+              }}
             />
           ))}
         </Pie>

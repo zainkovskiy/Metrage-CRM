@@ -25,7 +25,6 @@ const SlideSide = styled.div`
 const SlidePreliminaryAgreement = () => {
   const deal = useAsyncValue();
   const { control } = useFormContext();
-  console.log(deal.dealType === 'developer');
   return (
     <SlideBlockStyle $column>
       <FeatureTitle>

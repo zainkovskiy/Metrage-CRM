@@ -44,7 +44,6 @@ export const setNewRange = createAsyncThunk(
       fields: raw,
     });
     if (res?.statusText === 'OK') {
-      console.log(res?.data?.result);
       return res?.data?.result || {};
     }
     return {};
