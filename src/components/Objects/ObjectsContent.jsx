@@ -4,7 +4,7 @@ import ObjectsFilter from './ObjectsFilter';
 import Objects from './Objects';
 import styled from 'styled-components';
 import { device } from 'styles/device';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { getObjectList, clearObjects } from 'store/objectSlice';
 import ObjectsFilterDesktop from './ObjectsFilterDesktop';
 
@@ -22,7 +22,10 @@ const ObjectsContentStyle = styled.div`
 
 const ObjectsContent = () => {
   const firstMount = useRef(true);
+  const location = useLocation();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  console.log(location.state);
   useEffect(() => {
     getList();
     return () => {
@@ -30,7 +33,13 @@ const ObjectsContent = () => {
     };
   }, []);
   const getList = () => {
-    dispatch(getObjectList());
+    dispatch(getObjectList(location?.state))
+      .unwrap()
+      .finally(() => {
+        if (location?.state) {
+          navigate('.', { replace: true });
+        }
+      });
   };
   return (
     <ObjectsContentStyle>

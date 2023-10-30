@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import MainInfoUser from './MainInfoUser';
 import MainInfoBirthDay from './MainInfoBirthDay';
+import MainInfoCalendar from './MainInfoCalendar';
 import styled from 'styled-components';
 import { device } from '../../styles/device';
 
@@ -25,7 +26,8 @@ const MainInfo = () => {
   return (
     <MainInfoStyle>
       <MainInfoUser {...data?.mainInfo} notify={data?.notify || null} />
-      <MainInfoBirthDay birthday={data?.birthday || {}} />
+      <MainInfoCalendar events={data?.birthday || []} />
+      <MainInfoBirthDay birthday={data?.birthday || []} />
     </MainInfoStyle>
   );
 };

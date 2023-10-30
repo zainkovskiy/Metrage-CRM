@@ -26,12 +26,18 @@ export const createObject = createAsyncThunk(
 );
 export const getObjectList = createAsyncThunk(
   'objects/getObjectList',
-  async (_, { getState }) => {
+  async (chartFilter, { getState }) => {
+    const getCurrentFilter = () => {
+      if (chartFilter) {
+        return chartFilter;
+      }
+      return getState().objects.filter;
+    };
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
       method: 'crm.objects.filter',
       fields: {
-        ...getState().objects.filter,
+        ...getCurrentFilter(),
         offset: 0,
       },
     });
@@ -103,7 +109,7 @@ const getFilter = () => {
   };
 };
 const initialState = {
-  loadingList: false,
+  loadingList: true,
   loadingMore: false,
   objects: [],
   basket: [],
@@ -140,17 +146,18 @@ const objectSlice = createSlice({
     clearObjects(state, action) {
       state.objects = [];
       state.offset = 0;
+      state.loadingList = true;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getObjectList.pending, (state, action) => {
-        const source = action.meta.arg;
-        if (source) {
-          return;
-        }
-        state.loadingList = true;
-      })
+      // .addCase(getObjectList.pending, (state, action) => {
+      //   // const source = action.meta.arg;
+      //   // if (source) {
+      //   //   return;
+      //   // }
+      //   // state.loadingList = true;
+      // })
       .addCase(getObjectList.fulfilled, (state, action) => {
         state.loadingList = false;
         state.objects = action.payload;

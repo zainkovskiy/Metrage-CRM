@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   PieChart,
   Pie,
@@ -10,6 +10,7 @@ import {
 import DefaultChartComponent from './DefaultChartComponent';
 import { TextSpanStyle } from 'styles/styles';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 const colorPie = {
   Avito: '#000',
   Cian: '#0368ff',
@@ -17,6 +18,7 @@ const colorPie = {
   Yandex: '#fc3f1e',
 };
 const ChartDoublePie = ({ chart }) => {
+  const navigate = useNavigate();
   if (Array.isArray(chart)) {
     return <DefaultChartComponent />;
   }
@@ -26,6 +28,19 @@ const ChartDoublePie = ({ chart }) => {
   if (!chart) {
     return <DefaultChartComponent />;
   }
+  const applyFilter = (piece) => {
+    navigate('/objects', { state: piece.filter });
+  };
+  const handleMouseEnter = (e) => {
+    if (e?.target?.style?.opacity) {
+      e.target.style.opacity = 0.7;
+    }
+  };
+  const handleMouseLeave = (e) => {
+    if (e?.target?.style?.opacity) {
+      e.target.style.opacity = 1;
+    }
+  };
   return (
     <ResponsiveContainer width='100%' height={250}>
       <PieChart>
@@ -54,7 +69,7 @@ const ChartDoublePie = ({ chart }) => {
           {chart.outCircle.map((item) => (
             <Cell
               onClick={() => {
-                console.log(item);
+                applyFilter(item);
               }}
               key={item.name}
               fill={colorPie[item.name]}
@@ -63,7 +78,11 @@ const ChartDoublePie = ({ chart }) => {
                 cursor: 'pointer',
                 fontFamily: 'CeraCY, sans-serif',
                 fontSize: 12,
+                opacity: 1,
+                transition: 'opacity .3s',
               }}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
             />
           ))}
         </Pie>

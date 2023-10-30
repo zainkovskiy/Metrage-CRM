@@ -25,7 +25,7 @@ const SuspenseNewObjects = () => {
   const { object } = useLoaderData();
   const handleClose = () => {
     setTimeout(() => {
-      dispatch(getObjectList('update'));
+      dispatch(getObjectList());
       navigate('/objects', { replace: true });
     }, 300);
     setOpen(false);
