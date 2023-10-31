@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import MainInfoUser from './MainInfoUser';
 import MainInfoBirthDay from './MainInfoBirthDay';
 import MainInfoCalendar from './MainInfoCalendar';
+import MainInfoDeals from './MainInfoDeals';
 import styled from 'styled-components';
 import { device } from '../../styles/device';
 
@@ -26,7 +27,8 @@ const MainInfo = () => {
   return (
     <MainInfoStyle>
       <MainInfoUser {...data?.mainInfo} notify={data?.notify || null} />
-      <MainInfoCalendar events={data?.birthday || []} />
+      {/* <MainInfoCalendar events={data?.birthday || []} /> */}
+      <MainInfoDeals deals={data?.deals || []} />
       <MainInfoBirthDay birthday={data?.birthday || []} />
     </MainInfoStyle>
   );

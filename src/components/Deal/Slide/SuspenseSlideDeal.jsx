@@ -5,6 +5,8 @@ import SlideWindow from 'components/Main/SlideWindow';
 import { Await, useLoaderData, useNavigate } from 'react-router-dom';
 import { useWindowSize } from 'hooks/windowSize';
 import { getOneDeal } from 'api/dealAPI';
+import { useDispatch } from 'react-redux';
+import { getDealList } from '../../../store/dealSlice';
 const SlideDeal = React.lazy(() => import('components/Deal/Slide/SlideDeal'));
 
 const LoaderContainer = styled.div`
@@ -15,11 +17,13 @@ const LoaderContainer = styled.div`
 
 const SuspenseNewDeal = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(true);
   const windowSize = useWindowSize();
   const { deal } = useLoaderData();
   const handleClose = () => {
     setTimeout(() => {
+      // dispatch(getDealList());
       navigate('/deal', { replace: true });
     }, 300);
     setOpen(false);

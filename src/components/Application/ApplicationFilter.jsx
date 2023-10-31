@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
 import SlideWindow from 'components/Main/SlideWindow';
 import { ButtonUI } from 'ui/ButtonUI';
-import { Box } from 'ui/Box';
 import {} from 'store/applicationSlice';
 import { Link } from 'react-router-dom';
 import { useWindowSize } from 'hooks/windowSize';
@@ -17,7 +15,6 @@ const ApplicationFilterStyle = styled.div`
   padding: 0.5rem 0.5rem;
 `;
 const ApplicationFilter = () => {
-  const dispatch = useDispatch();
   const windowSize = useWindowSize();
   const [open, setOpen] = useState(false);
   const toggleFilter = () => {

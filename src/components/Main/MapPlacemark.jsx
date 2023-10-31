@@ -1,4 +1,5 @@
 import React, { forwardRef, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import {
   YMaps,
   Map,
@@ -11,7 +12,10 @@ import { Box } from 'ui/Box';
 
 const MapPlacemark = forwardRef(
   ({ onChange, error, cords, clearErrors, disable, height }, ref) => {
-    const [center, setCenter] = React.useState(cords || [55.030204, 82.92043]);
+    const office = useSelector((state) => state.user.office);
+    const [center, setCenter] = React.useState(
+      cords || office === '2' ? [55.75222, 37.61556] : [55.030204, 82.92043]
+    );
     const mapRef = React.useRef(null);
     const [fullScreen, setFullscreen] = React.useState(false);
     useEffect(() => {

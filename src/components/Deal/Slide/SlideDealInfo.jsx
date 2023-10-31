@@ -1,14 +1,12 @@
 import React from 'react';
 import { useAsyncValue } from 'react-router-dom';
 import { TextSpanStyle } from 'styles/styles';
-import { useDateFormat } from 'hooks/DateFormat';
 import styled from 'styled-components';
 import { SlideBlockStyle } from '../DealStyle';
 import { RealtyTypeTranslate, DealTypeTranslate } from '../keyTranslate';
 import { InputUI } from 'ui/InputUI';
-import { useNumberTriad } from 'hooks/StringHook';
 import { Controller, useFormContext } from 'react-hook-form';
-import { statusVarinants } from '../DealStatus';
+import { useNumberTriad } from 'hooks/StringHook';
 
 const FeatureTitle = styled.div`
   border-bottom: 1px solid #786464;
@@ -35,6 +33,23 @@ const SlideDealInfo = () => {
   return (
     <SlideBlockStyle $column ai='flex-start'>
       <FeatureTitle>Общая информация</FeatureTitle>
+      <div>
+        <TextSpanStyle>Название: {deal?.dealTitle || ''}</TextSpanStyle>
+        <TextSpanStyle>
+          Тип сделки: {deal?.dealType ? DealTypeTranslate[deal.dealType] : ''}
+        </TextSpanStyle>
+        <TextSpanStyle>
+          Тип недвижимости:{' '}
+          {deal?.realtyType ? RealtyTypeTranslate[deal.realtyType] : ''}
+        </TextSpanStyle>
+        {/* <TextSpanStyle size={12}>
+            Стоимость объекта: {useNumberTriad(deal?.objectCost || '0')} руб.
+          </TextSpanStyle>
+          <TextSpanStyle size={12}>
+            Комиссия агенства: {useNumberTriad(deal?.agencyComission || '0')}{' '}
+            руб.
+          </TextSpanStyle> */}
+      </div>
       <SlideDealInfoContent>
         <SlideDealInfoSide>
           <Controller
@@ -81,9 +96,10 @@ const SlideDealInfo = () => {
                 small
                 label='Стоимость объекта, руб'
                 labelSize={12}
-                value={field.value || ''}
-                type='number'
-                onChange={(e) => field.onChange(e.target.value)}
+                value={field.value ? useNumberTriad(field.value || 0) : ''}
+                onChange={(e) =>
+                  field.onChange(parseInt(e.target.value.split(' ').join('')))
+                }
                 fullWidth
               />
             )}
@@ -96,30 +112,15 @@ const SlideDealInfo = () => {
                 small
                 label='Комиссия агенства, руб'
                 labelSize={12}
-                value={field.value || ''}
-                type='number'
-                onChange={(e) => field.onChange(e.target.value)}
+                value={field.value ? useNumberTriad(field.value || 0) : ''}
+                onChange={(e) =>
+                  field.onChange(parseInt(e.target.value.split(' ').join('')))
+                }
                 fullWidth
               />
             )}
           />
         </SlideDealInfoSide>
-        <div>
-          <TextSpanStyle size={12}>
-            Тип сделки: {deal?.dealType ? DealTypeTranslate[deal.dealType] : ''}
-          </TextSpanStyle>
-          <TextSpanStyle size={12}>
-            Тип недвижимости:{' '}
-            {deal?.realtyType ? RealtyTypeTranslate[deal.realtyType] : ''}
-          </TextSpanStyle>
-          {/* <TextSpanStyle size={12}>
-            Стоимость объекта: {useNumberTriad(deal?.objectCost || '0')} руб.
-          </TextSpanStyle>
-          <TextSpanStyle size={12}>
-            Комиссия агенства: {useNumberTriad(deal?.agencyComission || '0')}{' '}
-            руб.
-          </TextSpanStyle> */}
-        </div>
       </SlideDealInfoContent>
     </SlideBlockStyle>
   );

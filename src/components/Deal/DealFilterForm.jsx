@@ -1,36 +1,31 @@
 import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { getUserList } from 'api/search';
 import { Box } from 'ui/Box';
+import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { SelectAutoсompleteMultipleUI } from 'ui/SelectAutoсompleteMultipleUI';
-import { CheckboxUI } from 'ui/CheckboxUI';
-import { getUserList } from 'api/search';
-import { setApplicationFilter } from 'store/applicationSlice';
-import { getApplicationFilterList } from '../../store/applicationSlice';
 import {
-  FilterFields,
   FilterFormStyle,
   FilterTitle,
+  FilterFields,
 } from '../../styles/filter';
 
-const user = globalUser ? JSON.parse(globalUser) : null;
-const resetFilter = {
-  users: [user],
-  status: 'all',
-  type: 'all',
-  isFailure: false,
-  isWork: true,
-};
-const ApplicationFilterForm = ({ onClose }) => {
-  const dispatch = useDispatch();
-  const filter = useSelector((state) => state.application.filter);
+const DealFilterForm = ({ onClose }) => {
   const [users, setUsers] = useState([]);
   const [usersLoading, setUsersLoading] = useState(false);
   const { control, handleSubmit, reset } = useForm({
-    defaultValues: filter,
+    // defaultValues: filter,
   });
+  const onSubmit = (data) => {
+    console.log(data);
+    // localStorage.setItem('filterApplication', JSON.stringify(data));
+    // dispatch(getApplicationFilterList(data));
+    // onClose();
+  };
+  const setResetFilter = () => {};
   const getUsers = (value) => {
     if (value.length < 2) {
       setUsers([]);
@@ -44,16 +39,6 @@ const ApplicationFilterForm = ({ onClose }) => {
       .finally(() => {
         setUsersLoading(false);
       });
-  };
-  const onSubmit = (data) => {
-    localStorage.setItem('filterApplication', JSON.stringify(data));
-    dispatch(getApplicationFilterList(data));
-    onClose();
-  };
-  const setResetFilter = () => {
-    reset(resetFilter);
-    dispatch(setApplicationFilter(resetFilter));
-    localStorage.removeItem('filterApplication');
   };
   return (
     <FilterFormStyle onSubmit={handleSubmit(onSubmit)}>
@@ -90,8 +75,27 @@ const ApplicationFilterForm = ({ onClose }) => {
           )}
         />
         <Controller
+          name='dealType'
+          control={control}
+          defaultValue={'all'}
+          render={({ field }) => (
+            <SelectUI
+              onChange={(newValue) => {
+                field.onChange(newValue);
+              }}
+              select={field.value}
+              label='Тип сделки'
+            >
+              <SelectItemUI value='all'>Все</SelectItemUI>
+              <SelectItemUI value='simple'>Обычная</SelectItemUI>
+              <SelectItemUI value='developer'>От застройщика</SelectItemUI>
+            </SelectUI>
+          )}
+        />
+        <Controller
           name='status'
           control={control}
+          defaultValue={'all'}
           render={({ field }) => (
             <SelectUI
               onChange={(newValue) => {
@@ -101,54 +105,26 @@ const ApplicationFilterForm = ({ onClose }) => {
               label='Статус'
             >
               <SelectItemUI value='all'>Все</SelectItemUI>
-              <SelectItemUI value='first'>Первый контакт</SelectItemUI>
-              <SelectItemUI value='meet'>Проведена встреча</SelectItemUI>
-              <SelectItemUI value='show'>Показы</SelectItemUI>
-              <SelectItemUI value='catch'>Закрепление</SelectItemUI>
-              <SelectItemUI value='success'>Успешно</SelectItemUI>
+              <SelectItemUI value='new'>Закрепление</SelectItemUI>
+              <SelectItemUI value='pre'>ПДКП</SelectItemUI>
+              <SelectItemUI value='success'>ДКП</SelectItemUI>
+              <SelectItemUI value='registration'>Акт подписан</SelectItemUI>
+              <SelectItemUI value='finally'>Агент расчитан</SelectItemUI>
+              <SelectItemUI value='loss'>Срыв</SelectItemUI>
             </SelectUI>
           )}
         />
         <Controller
-          name='type'
           control={control}
+          name='plannedDate'
+          defaultValue={''}
           render={({ field }) => (
-            <SelectUI
-              onChange={(newValue) => {
-                field.onChange(newValue);
-              }}
-              select={field.value || 'all'}
-              label='Тип потребности'
-            >
-              <SelectItemUI value='all'>Все</SelectItemUI>
-              <SelectItemUI value='sell'>Продать</SelectItemUI>
-              <SelectItemUI value='buy'>Купить</SelectItemUI>
-              <SelectItemUI value='rent'>Сдать</SelectItemUI>
-              <SelectItemUI value='take'>Снять</SelectItemUI>
-            </SelectUI>
-          )}
-        />
-        <Controller
-          name='isWork'
-          control={control}
-          render={({ field }) => (
-            <CheckboxUI
-              label='В работе'
-              id='isWork'
-              checked={field.value || false}
-              onChange={(e) => field.onChange(e.target.checked)}
-            />
-          )}
-        />
-        <Controller
-          name='isFailure'
-          control={control}
-          render={({ field }) => (
-            <CheckboxUI
-              label='Срыв'
-              id='isFailure'
-              checked={field.value || false}
-              onChange={(e) => field.onChange(e.target.checked)}
+            <InputUI
+              type='date'
+              small
+              value={field.value}
+              onChange={field.onChange}
+              label='Дата сделки (План) *'
             />
           )}
         />
@@ -157,4 +133,4 @@ const ApplicationFilterForm = ({ onClose }) => {
   );
 };
 
-export default ApplicationFilterForm;
+export default DealFilterForm;

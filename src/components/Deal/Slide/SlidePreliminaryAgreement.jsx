@@ -7,6 +7,7 @@ import { InputUI } from 'ui/InputUI';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import { useDateFormat } from '../../../hooks/DateFormat';
 import { Controller, useFormContext } from 'react-hook-form';
+import { useNumberTriad } from 'hooks/StringHook';
 
 const FeatureTitle = styled.div`
   border-bottom: 1px solid #786464;
@@ -40,9 +41,10 @@ const SlidePreliminaryAgreement = () => {
                 small
                 label='Сумма задатка'
                 labelSize={12}
-                value={field.value || ''}
-                type='number'
-                onChange={(e) => field.onChange(e.target.value)}
+                value={field.value ? useNumberTriad(field.value || 0) : ''}
+                onChange={(e) =>
+                  field.onChange(parseInt(e.target.value.split(' ').join('')))
+                }
               />
             )}
           />
@@ -52,7 +54,7 @@ const SlidePreliminaryAgreement = () => {
             render={({ field }) => (
               <CheckboxUI
                 disabled={!deal?.isLawyer || false}
-                label='Задаток принят'
+                label='Задаток принят в АН'
                 onChange={(e) => {
                   field.onChange(e.target.checked);
                 }}
@@ -64,34 +66,34 @@ const SlidePreliminaryAgreement = () => {
             )}
           />
           <Controller
-            name='depositDelivered'
+            name='depositReturned'
             control={control}
             render={({ field }) => (
               <CheckboxUI
                 disabled={!deal?.isСashier || false}
-                label='Задаток сдан в кассу'
+                label='Задаток выдан на руки'
                 onChange={(e) => {
                   field.onChange(e.target.checked);
                 }}
-                checked={field.value || false}
-                id='depositDelivered'
+                defaultChecked={field.value || false}
+                id='depositReturned'
                 size='small'
                 labelSize={12}
               />
             )}
           />
           <Controller
-            name='depositReturned'
+            name='depositDelivered'
             control={control}
             render={({ field }) => (
               <CheckboxUI
                 disabled={!deal?.isСashier || false}
-                label='Задаток возвращен клиенту'
+                label='Задаток в другом АН'
                 onChange={(e) => {
                   field.onChange(e.target.checked);
                 }}
-                defaultChecked={field.value || false}
-                id='depositReturned'
+                checked={field.value || false}
+                id='depositDelivered'
                 size='small'
                 labelSize={12}
               />

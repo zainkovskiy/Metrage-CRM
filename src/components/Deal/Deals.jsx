@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { AnimatePresence } from 'framer-motion';
 import styled from 'styled-components';
 import Loader from 'components/Main/Loader';
 import DealCard from './DealCard';
 import { device } from 'styles/device';
+import ButtonLoader from 'ui/ButtonLoader/ButtonLoader';
 const DealContainer = styled.div`
   padding: 0.5rem;
   flex-grow: 1;
@@ -30,19 +31,28 @@ const DealStyle = styled.div`
 `;
 
 const Deals = () => {
+  const loadingMore = useSelector((state) => state.objects.loadingMore);
   const loading = useSelector((state) => state.deal.loadingList);
   const deals = useSelector((state) => state.deal.deals);
-
   if (loading) {
     return <Loader />;
   }
   return (
-    <DealStyle>
+    <>
+      <DealStyle>
+        <AnimatePresence>
+          {deals.length > 0 &&
+            deals.map((deal) => <DealCard key={deal.UID} deal={deal} />)}
+        </AnimatePresence>
+      </DealStyle>
       <AnimatePresence>
-        {deals.length > 0 &&
-          deals.map((deal) => <DealCard key={deal.UID} deal={deal} />)}
+        {deals.length >= 50 && (
+          <ButtonLoader onClick={() => {}} loading={loadingMore} fullWidth>
+            Загрузить еще
+          </ButtonLoader>
+        )}
       </AnimatePresence>
-    </DealStyle>
+    </>
   );
 };
 

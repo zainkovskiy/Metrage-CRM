@@ -25,7 +25,6 @@ const ObjectsContent = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  console.log(location.state);
   useEffect(() => {
     getList();
     return () => {

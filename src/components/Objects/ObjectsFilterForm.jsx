@@ -805,6 +805,26 @@ const ObjectsFilterForm = ({ onClose }) => {
             />
           )}
         /> */}
+        {getValues('ExternalFindType') === 'our' && (
+          <Controller
+            name='curPlatform'
+            control={control}
+            render={({ field }) => (
+              <SelectUI
+                onChange={(newValue) => {
+                  field.onChange(newValue);
+                }}
+                select={field.value || ''}
+                label='Площадка'
+              >
+                <SelectItemUI value='avito'>Авито</SelectItemUI>
+                <SelectItemUI value='cian'>ЦИАН</SelectItemUI>
+                <SelectItemUI value='yandex'>Яндекс</SelectItemUI>
+                <SelectItemUI value='domclick'>Домклик</SelectItemUI>
+              </SelectUI>
+            )}
+          />
+        )}
         {getValues('ExternalFindType') === 'outer' && (
           <>
             <Controller

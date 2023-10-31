@@ -62,10 +62,10 @@ const MapCircle = forwardRef(({ circle, onChange, error }, ref) => {
     setFullscreen(!fullScreen);
   };
   const defaueltCords = () => {
-    if (office === '1') {
-      return [55.030204, 82.92043];
+    if (office === '2') {
+      return [55.75222, 37.61556];
     }
-    return [55.75222, 37.61556];
+    return [55.030204, 82.92043];
   };
   return (
     <YMaps

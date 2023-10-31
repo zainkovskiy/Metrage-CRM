@@ -7,6 +7,7 @@ import { useDateFormat } from 'hooks/DateFormat';
 import doneUrl, { ReactComponent as Done } from 'images/done2.svg';
 import { Box } from 'ui/Box';
 import { statusVarinants } from './DealStatus';
+import { useNumberTriad } from '../../hooks/StringHook';
 
 const LinkStyle = styled(Link)`
   text-decoration: none;
@@ -38,7 +39,7 @@ const DealHeader = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  background-color: #6ecd4c;
+  background-color: ${({ $color }) => $color};
   width: 100%;
   box-sizing: border-box;
 `;
@@ -72,18 +73,33 @@ const variants = {
 };
 
 const DealCard = ({ deal }) => {
+  const getHeaderColor = () => {
+    switch (deal?.dealStatus) {
+      case 'loss':
+        return '#e94f4f';
+      case 'new':
+        return '#646262';
+      default:
+        return '#2ba400';
+    }
+  };
   return (
     <LinkStyle to={`${deal?.UID}`}>
       <DealCardStyle variants={variants} initial='hidden' animate='visible'>
-        <DealHeader>
-          <TextSpanStyle size={10}>Сделка №{deal?.UID}</TextSpanStyle>
-          <TextSpanStyle size={12}>
-            {deal?.street || ''} {deal?.house || ''}
+        <DealHeader $color={getHeaderColor()}>
+          <TextSpanStyle color='#fff' size={10}>
+            Сделка №{deal?.UID}
+          </TextSpanStyle>
+          <TextSpanStyle color='#fff' size={12}>
+            {deal?.dealTitle || ''}
           </TextSpanStyle>
         </DealHeader>
         <DealContent>
-          <TextSpanStyle size={10}>
+          <TextSpanStyle size={12}>
             Дата сделки (план): {useDateFormat(deal?.plannedDate)}
+          </TextSpanStyle>
+          <TextSpanStyle size={10}>
+            Статус: {statusVarinants[deal?.dealStatus]}
           </TextSpanStyle>
           <TextSpanStyle size={10}>
             Тип сделки:{' '}
@@ -94,20 +110,14 @@ const DealCard = ({ deal }) => {
             {deal?.realtyType === 'live' ? 'жилая' : 'коммерческая'}
           </TextSpanStyle>
           <Box jc='flex-start'>
-            <TextSpanStyle size={10}>Задаток: {deal?.Price}</TextSpanStyle>
+            <TextSpanStyle size={10}>
+              Сумма сделки: {useNumberTriad(deal?.Price || 0)} руб.
+            </TextSpanStyle>
             {deal?.depositAccepted && <DoneIcon title='btb' />}
           </Box>
-          <TextSpanStyle size={10}>
-            Оставить в рекламе: {deal?.advertising ? 'да' : 'нет'}
-          </TextSpanStyle>
-          <TextSpanStyle size={10}>
-            Реклама в "Домклик": {deal?.hasDomclick ? 'да' : 'нет '}
-          </TextSpanStyle>
         </DealContent>
         <DealFooter>
-          <TextSpanStyle size={10}>
-            Статус: {statusVarinants[deal?.dealStatus]}
-          </TextSpanStyle>
+          <TextSpanStyle size={10}>{deal?.realtor || ''}</TextSpanStyle>
         </DealFooter>
       </DealCardStyle>
     </LinkStyle>

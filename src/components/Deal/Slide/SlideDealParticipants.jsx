@@ -53,7 +53,8 @@ const SlideDealParticipants = () => {
     ).then((answer) => {
       if (answer === 'OK') {
         deal[addSideWindow].push(user);
-        setChange(!change);
+        // setChange(!change);
+        setAddSideWindow(null);
       }
     });
   };

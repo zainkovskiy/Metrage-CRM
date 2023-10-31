@@ -20,9 +20,9 @@ const SlideFromContainer = ({ clearChangeForm }) => {
       <SlideDealMeta />
       <SlideDealStatus status={deal?.dealStatusId} UID={deal.UID} />
       <SlideDealInfo />
+      <SlidePreliminaryAgreement />
       <SlideDealParticipants />
       <SlideDealSide />
-      <SlidePreliminaryAgreement />
       <SliderFiles />
       <AnimatePresence>
         {isDirty && (

@@ -7,6 +7,9 @@ export const getDealList = createAsyncThunk('deal/getDealList', async () => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
     method: 'crm.deal.list',
+    fields: {
+      offset: 0,
+    },
   });
   if (res?.statusText === 'OK') {
     return res?.data?.result || [];
@@ -14,19 +17,25 @@ export const getDealList = createAsyncThunk('deal/getDealList', async () => {
   return [];
 });
 const initialState = {
-  loadingList: false,
+  loadingList: true,
   deals: [],
+  offset: 0,
 };
 
 const dealSlice = createSlice({
   name: 'deal',
   initialState,
-  reducers: {},
+  reducers: {
+    clearDeals(state, action) {
+      state.deals = [];
+      state.offset = 0;
+    },
+  },
   extraReducers: (builder) => {
     builder
-      .addCase(getDealList.pending, (state) => {
-        state.loadingList = true;
-      })
+      // .addCase(getDealList.pending, (state) => {
+      //   state.loadingList = true;
+      // })
       .addCase(getDealList.fulfilled, (state, action) => {
         state.loadingList = false;
         state.deals = action.payload;
@@ -36,5 +45,5 @@ const dealSlice = createSlice({
       });
   },
 });
-export const {} = dealSlice.actions;
+export const { clearDeals } = dealSlice.actions;
 export default dealSlice.reducer;
