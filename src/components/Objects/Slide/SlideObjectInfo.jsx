@@ -183,7 +183,10 @@ const SlideObjectInfo = () => {
                   }
                 />
               )}
-              {object?.advStats && <SlideCountView view={object.advStats} />}
+              {(object?.advStats?.viewsAll ||
+                object?.advStats?.viewslast7days) && (
+                <SlideCountView view={object.advStats} />
+              )}
             </Box>
           </Box>
         </SlideInfoBlock>

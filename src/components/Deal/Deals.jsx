@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AnimatePresence } from 'framer-motion';
 import styled from 'styled-components';
 import Loader from 'components/Main/Loader';
 import DealCard from './DealCard';
 import { device } from 'styles/device';
 import ButtonLoader from 'ui/ButtonLoader/ButtonLoader';
+import { getDealListMore } from '../../store/dealSlice';
 const DealContainer = styled.div`
-  padding: 0.5rem;
-  flex-grow: 1;
-  box-sizing: border-box;
   overflow: auto;
+  flex-grow: 1;
+  padding: 0.5rem;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -21,24 +22,25 @@ const DealStyle = styled.div`
   grid-auto-rows: min-content;
   width: 100%;
   gap: 1rem;
-  flex-grow: 1;
-  overflow: auto;
-  padding: 0.5rem;
-  box-sizing: border-box;
   @media ${device.tablet} {
     gap: 0.5rem;
   }
 `;
 
 const Deals = () => {
-  const loadingMore = useSelector((state) => state.objects.loadingMore);
+  const disaptch = useDispatch();
+  const loadingMore = useSelector((state) => state.deal.loadingMore);
+  const buttonMore = useSelector((state) => state.deal.buttonMore);
   const loading = useSelector((state) => state.deal.loadingList);
   const deals = useSelector((state) => state.deal.deals);
   if (loading) {
     return <Loader />;
   }
+  const loadMore = () => {
+    disaptch(getDealListMore());
+  };
   return (
-    <>
+    <DealContainer>
       <DealStyle>
         <AnimatePresence>
           {deals.length > 0 &&
@@ -46,13 +48,13 @@ const Deals = () => {
         </AnimatePresence>
       </DealStyle>
       <AnimatePresence>
-        {deals.length >= 50 && (
-          <ButtonLoader onClick={() => {}} loading={loadingMore} fullWidth>
+        {buttonMore && (
+          <ButtonLoader onClick={loadMore} loading={loadingMore} fullWidth>
             Загрузить еще
           </ButtonLoader>
         )}
       </AnimatePresence>
-    </>
+    </DealContainer>
   );
 };
 

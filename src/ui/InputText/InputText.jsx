@@ -5,6 +5,9 @@ export const InputTextContainer = styled.div`
   border-radius: 6px;
   border: 1px solid transparent;
   width: 100%;
+  &:hover {
+    border: 1px solid #ccc;
+  }
   &:has(input:focus) {
     border: 1px solid ${({ theme }) => theme.color.primary};
   }
@@ -21,6 +24,7 @@ export const InputStyle = styled.input`
   position: relative;
   text-align: end;
   color: #898989;
+  ${({ $align }) => `text-align: ${$align};`};
   &:hover {
     color: #000;
   }
@@ -28,7 +32,7 @@ export const InputStyle = styled.input`
     color: #000;
   }
 `;
-const InputText = ({ value, onChange }) => {
+const InputText = ({ value, onChange, align }) => {
   const [read, setRead] = useState(true);
   const setEdit = () => {
     if (read) {
@@ -46,6 +50,7 @@ const InputText = ({ value, onChange }) => {
         onBlur={setReadOnly}
         value={value}
         onChange={onChange}
+        $align={align}
       />
     </InputTextContainer>
   );

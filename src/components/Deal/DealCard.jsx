@@ -95,15 +95,15 @@ const DealCard = ({ deal }) => {
           </TextSpanStyle>
         </DealHeader>
         <DealContent>
-          <TextSpanStyle size={12}>
+          <TextSpanStyle size={12} align='end' bold>
             Дата сделки (план): {useDateFormat(deal?.plannedDate)}
           </TextSpanStyle>
-          <TextSpanStyle size={10}>
+          <TextSpanStyle size={12} align='end' bold>
             Статус: {statusVarinants[deal?.dealStatus]}
           </TextSpanStyle>
           <TextSpanStyle size={10}>
             Тип сделки:{' '}
-            {deal?.dealType === 'simple' ? 'обычнвя' : 'от застройщика'}
+            {deal?.dealType === 'simple' ? 'обычная' : 'от застройщика'}
           </TextSpanStyle>
           <TextSpanStyle size={10}>
             Тип недвижимости:{' '}

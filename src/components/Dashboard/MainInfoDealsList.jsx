@@ -7,15 +7,20 @@ import MainInfoDealsItem from './MainInfoDealsItem';
 const MainInfoDealsListStyle = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
   width: 100%;
+  position: relative;
+`;
+const MainInfoDate = styled(TextSpanStyle)`
+  position: sticky;
+  top: 0;
+  background-color: #f0dbf5;
 `;
 const MainInfoDealsList = ({ list }) => {
   return (
     <MainInfoDealsListStyle>
-      <TextSpanStyle bold color='#8d8c8c'>
+      <MainInfoDate bold color='#8d8c8c'>
         {useDateFormat(list?.date, 'DD MMMM YYYY')}
-      </TextSpanStyle>
+      </MainInfoDate>
       {list?.deals?.length > 0 &&
         list.deals.map((deal, idx) => (
           <MainInfoDealsItem deal={deal} key={deal.UID} />

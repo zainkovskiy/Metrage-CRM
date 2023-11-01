@@ -53,6 +53,7 @@ const SlideDeal = () => {
       actualDate: deal?.actualDate || '',
       objectCost: deal?.objectCost || '',
       agencyComission: deal?.agencyComission || '',
+      dealTitle: deal?.dealTitle || '',
     },
   });
   const onSubmit = (data) => {

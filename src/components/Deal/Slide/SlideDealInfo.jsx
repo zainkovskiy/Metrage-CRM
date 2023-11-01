@@ -4,7 +4,9 @@ import { TextSpanStyle } from 'styles/styles';
 import styled from 'styled-components';
 import { SlideBlockStyle } from '../DealStyle';
 import { RealtyTypeTranslate, DealTypeTranslate } from '../keyTranslate';
+import { Box } from 'ui/Box';
 import { InputUI } from 'ui/InputUI';
+import InputText from '../../../ui/InputText/InputText';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useNumberTriad } from 'hooks/StringHook';
 
@@ -33,8 +35,23 @@ const SlideDealInfo = () => {
   return (
     <SlideBlockStyle $column ai='flex-start'>
       <FeatureTitle>Общая информация</FeatureTitle>
-      <div>
-        <TextSpanStyle>Название: {deal?.dealTitle || ''}</TextSpanStyle>
+      <div style={{ width: '100%' }}>
+        <Box jc='flex-start'>
+          <TextSpanStyle>Название:</TextSpanStyle>
+          <Controller
+            name='dealTitle'
+            control={control}
+            render={({ field }) => (
+              <InputText
+                align='start'
+                value={field.value}
+                onChange={(e) => {
+                  field.onChange(e.target.value);
+                }}
+              />
+            )}
+          />
+        </Box>
         <TextSpanStyle>
           Тип сделки: {deal?.dealType ? DealTypeTranslate[deal.dealType] : ''}
         </TextSpanStyle>

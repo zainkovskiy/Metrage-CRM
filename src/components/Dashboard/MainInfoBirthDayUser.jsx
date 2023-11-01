@@ -11,10 +11,16 @@ const Avatar = styled.img`
   object-fit: cover;
   object-position: top;
 `;
-
+const MainInfoBirthDayUserStyle = styled.div`
+  border-radius: 5px;
+  padding: 0.2rem 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+`;
 const MainInfoBirthDayUser = ({ user }) => {
   return (
-    <Box jc='flex-start'>
+    <MainInfoBirthDayUserStyle>
       <Avatar
         src={useGetAvatar({
           avatar: user?.avatar,
@@ -28,7 +34,7 @@ const MainInfoBirthDayUser = ({ user }) => {
           {user?.name || ''} {user?.lastName || ''}
         </TextSpanStyle>
       </Box>
-    </Box>
+    </MainInfoBirthDayUserStyle>
   );
 };
 

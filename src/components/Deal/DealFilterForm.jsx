@@ -12,20 +12,30 @@ import {
   FilterTitle,
   FilterFields,
 } from '../../styles/filter';
+import {
+  defaultDealFilter,
+  getDealList,
+  resetFilter,
+} from '../../store/dealSlice';
 
 const DealFilterForm = ({ onClose }) => {
+  const dispatch = useDispatch();
   const [users, setUsers] = useState([]);
   const [usersLoading, setUsersLoading] = useState(false);
+  const filter = useSelector((state) => state.deal.filter);
   const { control, handleSubmit, reset } = useForm({
-    // defaultValues: filter,
+    defaultValues: filter,
   });
   const onSubmit = (data) => {
-    console.log(data);
-    // localStorage.setItem('filterApplication', JSON.stringify(data));
-    // dispatch(getApplicationFilterList(data));
-    // onClose();
+    dispatch(getDealList(data));
+    localStorage.setItem('filterDeal', JSON.stringify(data));
+    onClose();
   };
-  const setResetFilter = () => {};
+  const setResetFilter = () => {
+    reset(defaultDealFilter);
+    dispatch(resetFilter());
+    localStorage.removeItem('filterDeal');
+  };
   const getUsers = (value) => {
     if (value.length < 2) {
       setUsers([]);
@@ -77,7 +87,6 @@ const DealFilterForm = ({ onClose }) => {
         <Controller
           name='dealType'
           control={control}
-          defaultValue={'all'}
           render={({ field }) => (
             <SelectUI
               onChange={(newValue) => {
@@ -95,7 +104,6 @@ const DealFilterForm = ({ onClose }) => {
         <Controller
           name='status'
           control={control}
-          defaultValue={'all'}
           render={({ field }) => (
             <SelectUI
               onChange={(newValue) => {
@@ -117,7 +125,6 @@ const DealFilterForm = ({ onClose }) => {
         <Controller
           control={control}
           name='plannedDate'
-          defaultValue={''}
           render={({ field }) => (
             <InputUI
               type='date'

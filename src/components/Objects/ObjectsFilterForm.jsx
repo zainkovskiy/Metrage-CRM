@@ -77,6 +77,8 @@ const resetFilter = {
   agentType: 'all',
   onAdv: 'pofig',
   ExternalFindType: 'our',
+  curPlatform: '',
+  platform: '',
 };
 const ObjectsFilterForm = ({ onClose }) => {
   const dispatch = useDispatch();

@@ -17,6 +17,7 @@ const MainInfoStyle = styled.div`
   justify-content: space-between;
   flex-direction: column;
   width: 300px;
+  gap: 0.5rem;
   @media (${device.tablet}) {
     width: 100%;
   }
@@ -28,8 +29,10 @@ const MainInfo = () => {
     <MainInfoStyle>
       <MainInfoUser {...data?.mainInfo} notify={data?.notify || null} />
       {/* <MainInfoCalendar events={data?.birthday || []} /> */}
-      <MainInfoDeals deals={data?.deals || []} />
-      <MainInfoBirthDay birthday={data?.birthday || []} />
+      {data?.deals?.length > 0 && <MainInfoDeals deals={data?.deals || []} />}
+      {data?.birthday?.length > 0 && (
+        <MainInfoBirthDay birthday={data?.birthday || []} />
+      )}
     </MainInfoStyle>
   );
 };
