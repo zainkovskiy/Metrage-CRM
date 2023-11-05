@@ -2,11 +2,11 @@ import React, { Suspense, useState } from 'react';
 import styled from 'styled-components';
 import Loader from 'components/Main/Loader';
 import SlideWindow from 'components/Main/SlideWindow';
-import { Await, useLoaderData, useNavigate } from 'react-router-dom';
+import { Await, useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import { useWindowSize } from 'hooks/windowSize';
 import { getOneDeal } from 'api/dealAPI';
 import { useDispatch } from 'react-redux';
-import { getDealList } from '../../../store/dealSlice';
+import { getDealOneMiniCard } from '../../../store/dealSlice';
 const SlideDeal = React.lazy(() => import('components/Deal/Slide/SlideDeal'));
 
 const LoaderContainer = styled.div`
@@ -18,12 +18,15 @@ const LoaderContainer = styled.div`
 const SuspenseNewDeal = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const params = useParams();
   const [open, setOpen] = useState(true);
   const windowSize = useWindowSize();
   const { deal } = useLoaderData();
   const handleClose = () => {
     setTimeout(() => {
-      // dispatch(getDealList());
+      if (params?.dealId) {
+        dispatch(getDealOneMiniCard(params.dealId));
+      }
       navigate('/deal', { replace: true });
     }, 300);
     setOpen(false);

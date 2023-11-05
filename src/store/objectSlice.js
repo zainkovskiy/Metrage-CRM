@@ -16,7 +16,7 @@ export const createObject = createAsyncThunk(
       fields: object,
     });
     if (res?.statusText === 'OK') {
-      dispatch(getObjectList('create'));
+      // dispatch(getObjectList('create'));
       return {
         status: res?.data?.result?.result,
         url: res?.data?.result?.URL || null,
@@ -93,6 +93,20 @@ export const changeObjectStage = createAsyncThunk(
         type: raw.type,
       },
     });
+  }
+);
+export const getObjectOneMiniCard = createAsyncThunk(
+  'objects/getObjectOneMiniCard',
+  async (raw) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.objects.filter',
+      fields: raw,
+    });
+    if (res?.statusText === 'OK') {
+      return res?.data?.result?.objects || {};
+    }
+    return {};
   }
 );
 const getFilter = () => {
@@ -176,6 +190,19 @@ const objectSlice = createSlice({
       })
       .addCase(getMoreObjects.rejected, (state, action) => {
         state.loadingMore = false;
+      })
+      .addCase(getObjectOneMiniCard.fulfilled, (state, action) => {
+        const curObject = action.payload;
+        const findObject = state.objects.find(
+          (object) => object.UID === curObject.UID
+        );
+        if (!findObject) {
+          return;
+        }
+        if (JSON.stringify(curObject) === JSON.stringify(findObject)) {
+          return;
+        }
+        state.objects.splice(state.objects.indexOf(findObject), 1, curObject);
       });
   },
 });

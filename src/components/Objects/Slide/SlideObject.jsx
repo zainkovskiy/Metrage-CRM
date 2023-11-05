@@ -7,8 +7,6 @@ import SlideObjectInfo from './SlideObjectInfo';
 import SlideObjectAd from './SlideObjectAd';
 import SlideObjectFeature from './SlideObjectFeature';
 import SlideObjectStory from './SlideObjectStory';
-import { SlideBlockStyle } from '../ObjectsStyle';
-import MapPlacemark from 'components/Main/MapPlacemark';
 import { useWindowSize } from 'hooks/windowSize';
 import SlideObjectStatus from './SlideObjectStatus';
 import SlideToMyObject from './SlideToMyObject';
@@ -33,16 +31,6 @@ const SlideObject = ({ onCloseSlide }) => {
   const object = useAsyncValue();
   const windowSize = useWindowSize();
   const [change, setChange] = useState(false);
-  const getCords = () => {
-    const address = object.addressId;
-    if (!address) {
-      return;
-    }
-    if (address?.geo_lat && address?.geo_lon) {
-      return [address?.geo_lat, address?.geo_lon];
-    }
-    return;
-  };
   const changePhoto = (photos) => {
     object.photos = photos;
     setChange(!change);
@@ -69,9 +57,6 @@ const SlideObject = ({ onCloseSlide }) => {
           <SlideObjectAd />
         )}
         <SlideObjectFeature />
-        <SlideBlockStyle>
-          <MapPlacemark cords={getCords()} disable height={300} />
-        </SlideBlockStyle>
         {windowSize <= 768 && object?.isEditor && (
           <SlideObjectStory
             type={object?.typeEstate}

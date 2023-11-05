@@ -42,12 +42,29 @@ export const getDealListMore = createAsyncThunk(
     return [];
   }
 );
+export const getDealOneMiniCard = createAsyncThunk(
+  'deal/getDealOneMiniCard',
+  async (UID) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.deal.filter',
+      fields: {
+        UID: UID,
+      },
+    });
+    if (res?.statusText === 'OK') {
+      return res?.data?.result || {};
+    }
+    return {};
+  }
+);
 export const defaultDealFilter = {
   users: [user],
   dealType: 'all',
   status: 'all',
   plannedDate: '',
 };
+
 const getFilter = () => {
   const filter = localStorage.getItem('filterDeal');
   if (filter) {
@@ -115,6 +132,17 @@ const dealSlice = createSlice({
       })
       .addCase(getDealListMore.rejected, (state) => {
         state.loadingMore = false;
+      })
+      .addCase(getDealOneMiniCard.fulfilled, (state, action) => {
+        const curDeal = action.payload;
+        const findDeal = state.deals.find((deal) => deal.UID === curDeal.UID);
+        if (!findDeal) {
+          return;
+        }
+        if (JSON.stringify(curDeal) === JSON.stringify(findDeal)) {
+          return;
+        }
+        state.deals.splice(state.deals.indexOf(findDeal), 1, curDeal);
       });
   },
 });

@@ -14,6 +14,7 @@ const SuspenseNewObjects = () => {
   const handleClose = (e, url) => {
     setTimeout(() => {
       if (url) {
+        console.log(url);
         navigate(url, { replace: true });
       } else {
         navigate('/objects', { replace: true });

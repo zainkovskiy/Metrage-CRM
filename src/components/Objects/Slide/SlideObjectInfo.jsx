@@ -19,6 +19,8 @@ import { FlatRoomsCountTranslate } from '../KeyTranslate';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToBasket, removeFromBasket } from '../../../store/objectSlice';
 import SlideCountView from './SlideCountView';
+import SlideDialogMap from './SlideDialogMap';
+import DialogWindow from 'components/Main/DialogWindow';
 const AreaStyle = styled(Area)`
   width: 36px;
   height: 36px;
@@ -41,7 +43,7 @@ const SlideInfoBlock = styled.div`
 const ButtonBlock = styled.div`
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 `;
 const ContentBlock = styled.div`
   width: 100%;
@@ -55,6 +57,7 @@ const SlideObjectInfo = () => {
   const basket = useSelector((state) => state.objects.basket);
   const object = useAsyncValue();
   const [match, setMatch] = useState(false);
+  const [openMap, setOpenMap] = useState(false);
   useEffect(() => {
     basket.forEach((element) => {
       if (element.UID === object.UID) {
@@ -97,9 +100,15 @@ const SlideObjectInfo = () => {
     dispatch(addToBasket(object));
     setMatch(true);
   };
+  const toggleOpenMap = () => {
+    setOpenMap(!openMap);
+  };
   return (
     <SlideBlockStyle $wrap>
       <ButtonBlock>
+        <ButtonUI size='small' variant='outline' onClick={toggleOpenMap}>
+          На карте
+        </ButtonUI>
         <ButtonUI size='small' onClick={addObjectToBasket}>
           {match ? 'Удалить из подборки' : 'Добавить в подборку'}
         </ButtonUI>
@@ -183,8 +192,7 @@ const SlideObjectInfo = () => {
                   }
                 />
               )}
-              {(object?.advStats?.viewsAll ||
-                object?.advStats?.viewslast7days) && (
+              {object?.advStats?.viewsAll !== 0 && (
                 <SlideCountView view={object.advStats} />
               )}
             </Box>
@@ -203,6 +211,9 @@ const SlideObjectInfo = () => {
           />
         </SlideInfoBlock>
       </ContentBlock>
+      <DialogWindow open={openMap} onClose={toggleOpenMap}>
+        <SlideDialogMap onClose={toggleOpenMap} />
+      </DialogWindow>
     </SlideBlockStyle>
   );
 };
