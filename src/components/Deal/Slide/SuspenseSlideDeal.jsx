@@ -6,7 +6,7 @@ import { Await, useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import { useWindowSize } from 'hooks/windowSize';
 import { getOneDeal } from 'api/dealAPI';
 import { useDispatch } from 'react-redux';
-import { getDealOneMiniCard } from '../../../store/dealSlice';
+import { getSliceMiniCard } from '../../../store/dealSlice';
 const SlideDeal = React.lazy(() => import('components/Deal/Slide/SlideDeal'));
 
 const LoaderContainer = styled.div`
@@ -25,7 +25,7 @@ const SuspenseNewDeal = () => {
   const handleClose = () => {
     setTimeout(() => {
       if (params?.dealId) {
-        dispatch(getDealOneMiniCard(params.dealId));
+        dispatch(getSliceMiniCard(params.dealId));
       }
       navigate('/deal', { replace: true });
     }, 300);

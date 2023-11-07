@@ -67,7 +67,7 @@ const SlideDialogMap = ({ onClose }) => {
         <SlideMapPlacemark
           cords={getCords()}
           height={'100%'}
-          apiTemplate={`${object?.typeEstate}_${object?.UID}`}
+          apiTemplate={`${object?.subTypeEstate}_${object?.UID}`}
         />
       </DialogMapContext>
     </SlideDialogMapStyle>

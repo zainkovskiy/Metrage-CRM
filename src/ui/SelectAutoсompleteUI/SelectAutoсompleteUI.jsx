@@ -246,6 +246,9 @@ export const SelectAutoсompleteUI = ({
     if (onChange) {
       onChange('');
     }
+    if (inputChange) {
+      inputChange('');
+    }
   };
   //окрывае/закрывает список
   const handleClickArrow = (e) => {

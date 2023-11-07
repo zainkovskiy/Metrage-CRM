@@ -3,9 +3,11 @@ import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserList } from 'api/search';
 import { Box } from 'ui/Box';
+import { TextSpanStyle } from 'styles/styles';
 import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
+import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
 import { SelectAutoсompleteMultipleUI } from 'ui/SelectAutoсompleteMultipleUI';
 import {
   FilterFormStyle,
@@ -17,10 +19,12 @@ import {
   getDealList,
   resetFilter,
 } from '../../store/dealSlice';
+import { getLocalOfficeList } from '../../api/search';
 
 const DealFilterForm = ({ onClose }) => {
   const dispatch = useDispatch();
   const [users, setUsers] = useState([]);
+  const [officeList, setOfficeList] = useState([]);
   const [usersLoading, setUsersLoading] = useState(false);
   const filter = useSelector((state) => state.deal.filter);
   const { control, handleSubmit, reset } = useForm({
@@ -49,6 +53,15 @@ const DealFilterForm = ({ onClose }) => {
       .finally(() => {
         setUsersLoading(false);
       });
+  };
+  const getOfficeList = (value) => {
+    if (value.length < 2) {
+      setOfficeList([]);
+      return;
+    }
+    getLocalOfficeList(value).then((data) => {
+      setOfficeList(data);
+    });
   };
   return (
     <FilterFormStyle onSubmit={handleSubmit(onSubmit)}>
@@ -81,6 +94,20 @@ const DealFilterForm = ({ onClose }) => {
               isOpenOptions={(open) => !open && setUsers([])}
               value={field.value || []}
               label='Ответственный'
+            />
+          )}
+        />
+        <Controller
+          name='office'
+          control={control}
+          render={({ field }) => (
+            <SelectAutoсompleteUI
+              label='Офис'
+              options={officeList}
+              getOptionsLabel={(options) => options.address}
+              onChange={(option) => field.onChange(option)}
+              value={field.value}
+              inputChange={getOfficeList}
             />
           )}
         />
@@ -122,19 +149,37 @@ const DealFilterForm = ({ onClose }) => {
             </SelectUI>
           )}
         />
-        <Controller
-          control={control}
-          name='plannedDate'
-          render={({ field }) => (
-            <InputUI
-              type='date'
-              small
-              value={field.value}
-              onChange={field.onChange}
-              label='Дата сделки (План) *'
+        <Box column gap='0.2rem' fullWidth ai='flex-start'>
+          <TextSpanStyle>Дата сделки (План)</TextSpanStyle>
+          <Box fullWidth>
+            <Controller
+              control={control}
+              name='plannedDateFrom'
+              render={({ field }) => (
+                <InputUI
+                  type='date'
+                  small
+                  value={field.value}
+                  onChange={field.onChange}
+                  fullWidth
+                />
+              )}
             />
-          )}
-        />
+            <Controller
+              control={control}
+              name='plannedDateTo'
+              render={({ field }) => (
+                <InputUI
+                  type='date'
+                  small
+                  value={field.value}
+                  onChange={field.onChange}
+                  fullWidth
+                />
+              )}
+            />
+          </Box>
+        </Box>
       </FilterFields>
     </FilterFormStyle>
   );

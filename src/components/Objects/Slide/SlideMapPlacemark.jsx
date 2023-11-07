@@ -1,14 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import {
-  YMaps,
-  Map,
-  FullscreenControl,
-  Placemark,
-  ZoomControl,
-  Clusterer,
-} from 'react-yandex-maps';
+import { YMaps, Map, Placemark, ZoomControl } from 'react-yandex-maps';
 import SlideMapObjectsList from './SlideMapObjectsList';
 
 const SlideMapPlacemarkContainer = styled.div`
@@ -21,11 +14,10 @@ const SlideMapPlacemark = ({ cords, height, apiTemplate }) => {
   const mapRef = useRef(null);
   const ymapRef = useRef(null);
   const objectManagerRef = useRef(null);
-  const [fullScreen, setFullscreen] = React.useState(false);
   const [otherObjects, setOtherObjects] = useState([]);
 
   const scrollOff = () => {
-    mapRef.current.behaviors.disable('scrollZoom');
+    // mapRef.current.behaviors.disable('scrollZoom');
     if (
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent
@@ -36,9 +28,6 @@ const SlideMapPlacemark = ({ cords, height, apiTemplate }) => {
     }
   };
 
-  const toggleFullScreen = () => {
-    setFullscreen(!fullScreen);
-  };
   const cleareOtherList = () => {
     if (otherObjects.length > 0) {
       setOtherObjects([]);
@@ -70,7 +59,6 @@ const SlideMapPlacemark = ({ cords, height, apiTemplate }) => {
         paddingTemplate: `${apiTemplate}_%b`,
       }
     );
-    objectManagerRef.current = loadingObjectManager;
     function onObjectClick(e) {
       const objectId = e.get('objectId');
       const object = loadingObjectManager.objects.getById(objectId);
@@ -87,9 +75,27 @@ const SlideMapPlacemark = ({ cords, height, apiTemplate }) => {
         type: 'cluster',
       });
     }
+    function onObjectsCollectionAdd(e) {
+      const objectPoint = e.get('child');
+      if (
+        objectPoint?.properties?.objType !== 'liveExternal' &&
+        objectPoint?.properties?.objType !== 'businessExternal'
+      ) {
+        loadingObjectManager.objects.setObjectOptions(e.get('objectId'), {
+          iconColor: '#85009e',
+        });
+      }
+      //это работает но выводит по 1
+      // test();
+    }
     loadingObjectManager.objects.events.add(['click'], onObjectClick);
+    loadingObjectManager.objects.events.add(['add'], onObjectsCollectionAdd);
     loadingObjectManager.clusters.events.add(['click'], onClickCluster);
+    objectManagerRef.current = loadingObjectManager;
     mapRef.current.geoObjects.add(objectManagerRef.current);
+  };
+  const test = () => {
+    console.log(objectManagerRef.current.objects.getLength());
   };
   return (
     <SlideMapPlacemarkContainer>
@@ -120,10 +126,9 @@ const SlideMapPlacemark = ({ cords, height, apiTemplate }) => {
           <Placemark
             geometry={cords}
             options={{
-              iconColor: `#85009e`,
+              iconColor: `red`,
             }}
           />
-          <FullscreenControl onClick={toggleFullScreen} />
           <ZoomControl />
         </Map>
       </YMaps>

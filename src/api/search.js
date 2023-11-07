@@ -69,3 +69,20 @@ export const getOfficeList = async (value) => {
     return [];
   }
 };
+export const getLocalOfficeList = async (reqValue) => {
+  try {
+    const res = await axios.post(process.env.MAIN_API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.dashboard.getOffices',
+      fields: {
+        req: reqValue,
+      },
+    });
+    if (res.statusText !== 'OK') {
+      throw new Error('Error');
+    }
+    return res?.data?.result || [];
+  } catch (error) {
+    return [];
+  }
+};

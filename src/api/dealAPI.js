@@ -50,10 +50,9 @@ export const createDeal = async (form) => {
     },
   });
   if (res?.statusText === 'OK') {
-    console.log(res);
-    return 'OK';
+    return res?.data?.result;
   }
-  return 'No OK';
+  return { result: 'No OK' };
 };
 export const getOneDeal = async (id) => {
   const res = await axios.post(API, {

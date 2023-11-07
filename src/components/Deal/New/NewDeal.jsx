@@ -17,6 +17,8 @@ import {
   createDeal,
 } from 'api/dealAPI';
 import { useNumberTriad } from 'hooks/StringHook';
+import { useDispatch } from 'react-redux';
+import { addNewDeal } from '../../../store/dealSlice';
 
 const NewDealStyle = styled.form`
   padding: 0.5rem;
@@ -62,10 +64,13 @@ const NewDeal = ({ onClose }) => {
       realtyType: 'live',
     },
   });
+  const dispatch = useDispatch();
   const onSubmit = (data) => {
-    console.log(data);
     createDeal(data).then((answer) => {
-      answer === 'OK' && onClose();
+      if (answer?.result === 'OK') {
+        dispatch(addNewDeal(answer?.UID));
+        onClose();
+      }
     });
   };
   const getNewBuilder = (value) => {

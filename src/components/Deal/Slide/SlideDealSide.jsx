@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAsyncValue } from 'react-router-dom';
+import { Link, useAsyncValue } from 'react-router-dom';
 import styled from 'styled-components';
 import { SlideBlockStyle } from '../DealStyle';
 import { SlideGridWrapper } from '../DealStyle';
@@ -14,7 +14,6 @@ import { CategoryTranslate } from '../keyTranslate';
 import { ReactComponent as Plus } from 'images/plus.svg';
 import SideDealUser from './SideDealUser';
 import { addContactSide, removeContactSide } from '../../../api/dealAPI';
-
 const FeatureTitle = styled.div`
   border-bottom: 1px solid #786464;
   color: #786464;
@@ -34,6 +33,16 @@ const FeatureClientList = styled.div`
   border-radius: 5px;
   height: 150px;
   overflow: auto;
+`;
+const TextNavigate = styled(Link)`
+  font-family: ${({ theme }) => theme.font.family};
+  font-size: 12px;
+  text-decoration: none;
+  cursor: pointer;
+  color: #000;
+  &:hover {
+    color: ${({ theme }) => theme.color.primary};
+  }
 `;
 const SlideDealSide = () => {
   const deal = useAsyncValue();
@@ -83,9 +92,17 @@ const SlideDealSide = () => {
           <Box column fullWidth ai='flex-start'>
             <FeatureTitle>Продавец</FeatureTitle>
             <div>
-              <TextSpanStyle size={12}>
-                {deal?.objectParams?.street} {deal?.objectParams?.house}
-              </TextSpanStyle>
+              {deal?.dealType === 'simple' ? (
+                <TextNavigate
+                  to={`/objects/${deal?.objectParams?.type}/${deal?.objectParams?.UID}`}
+                >
+                  {deal?.objectParams?.street} {deal?.objectParams?.house}
+                </TextNavigate>
+              ) : (
+                <TextSpanStyle size={12}>
+                  {deal?.objectParams?.street} {deal?.objectParams?.house}
+                </TextSpanStyle>
+              )}
               <TextSpanStyle size={10}>
                 {deal?.objectParams?.city}
               </TextSpanStyle>
@@ -125,9 +142,12 @@ const SlideDealSide = () => {
           <Box column fullWidth>
             <FeatureTitle>Покупатель</FeatureTitle>
             <Box fullWidth ai='flex-start' column gap='0'>
-              <TextSpanStyle size={12}>
+              <TextNavigate
+                size={12}
+                to={`/application/${deal?.bidParams?.UID}`}
+              >
                 Заявка: {deal?.bidParams?.firstName || ''}
-              </TextSpanStyle>
+              </TextNavigate>
               <TextSpanStyle size={12}>
                 Потребность: {deal?.bidParams?.type || ''}
               </TextSpanStyle>

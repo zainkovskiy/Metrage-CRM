@@ -42,8 +42,21 @@ export const getDealListMore = createAsyncThunk(
     return [];
   }
 );
-export const getDealOneMiniCard = createAsyncThunk(
-  'deal/getDealOneMiniCard',
+export const addNewDeal = createAsyncThunk('deal/addNewDeal', async (UID) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.deal.filter',
+    fields: {
+      UID: UID,
+    },
+  });
+  if (res?.statusText === 'OK') {
+    return res?.data?.result || {};
+  }
+  return {};
+});
+export const getSliceMiniCard = createAsyncThunk(
+  'deal/getSliceMiniCard',
   async (UID) => {
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
@@ -133,7 +146,7 @@ const dealSlice = createSlice({
       .addCase(getDealListMore.rejected, (state) => {
         state.loadingMore = false;
       })
-      .addCase(getDealOneMiniCard.fulfilled, (state, action) => {
+      .addCase(getSliceMiniCard.fulfilled, (state, action) => {
         const curDeal = action.payload;
         const findDeal = state.deals.find((deal) => deal.UID === curDeal.UID);
         if (!findDeal) {
@@ -143,6 +156,9 @@ const dealSlice = createSlice({
           return;
         }
         state.deals.splice(state.deals.indexOf(findDeal), 1, curDeal);
+      })
+      .addCase(addNewDeal.fulfilled, (state, action) => {
+        state.deals = [action.payload, ...state.deals];
       });
   },
 });
