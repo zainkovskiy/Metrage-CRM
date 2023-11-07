@@ -110,24 +110,26 @@ const variants = {
 // small, уменьшает paddings
 // if loading в листе рисует лоадер
 
-export const SelectAutoсompleteUI = ({
-  loading,
-  options,
-  inputChange,
-  getOptionsLabel,
-  getOptionsSubtitle,
-  defaultValueText,
-  filterOptions,
-  value,
-  onChange,
-  label,
-  fullWidth,
-  inputRef,
-  error,
-  disabled,
-  small,
-  placeholder,
-}) => {
+export const SelectAutoсompleteUI = (props) => {
+  // console.log(props);
+  const {
+    loading,
+    options,
+    inputChange,
+    getOptionsLabel,
+    getOptionsSubtitle,
+    defaultValueText,
+    filterOptions,
+    value,
+    onChange,
+    label,
+    fullWidth,
+    inputRef,
+    error,
+    disabled,
+    small,
+    placeholder,
+  } = props;
   const [open, setOpen] = useState(false); //если true показывает список options
   const firstOpen = useRef(true); //при первом открытии списка окрывает полный
   const idRef = useRef(uuidv4().split('-')[0]).current; // айди для всех блоков
@@ -144,6 +146,14 @@ export const SelectAutoсompleteUI = ({
   const [inputValue, setInputValue] = useState(
     value ? setOptionsLabel(value) : ''
   ); //текст внутри инпута
+  useEffect(() => {
+    if (JSON.stringify(select) === JSON.stringify(value)) {
+      return;
+    }
+    if (value.length === 0) {
+      clearValue();
+    }
+  }, [value]);
   //useEffect запускает (handlerClick) проверку совпадет ли айди с внутренними компонентами если нет то закрывает список
   const selectRef = useRef(null);
   const listenerRef = useRef(null);

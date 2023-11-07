@@ -84,7 +84,6 @@ const DealFilterForm = ({ onClose }) => {
               placeholder='Ответственный'
               inputChange={getUsers}
               loading={usersLoading}
-              defaultValue={[]}
               getOptionsLabel={(options) =>
                 `${options.lastName || ''} ${options.firstName || ''} ${
                   options.secondName || ''
@@ -104,7 +103,7 @@ const DealFilterForm = ({ onClose }) => {
             <SelectAutoсompleteUI
               label='Офис'
               options={officeList}
-              getOptionsLabel={(options) => options.address}
+              getOptionsLabel={(options) => options.name}
               onChange={(option) => field.onChange(option)}
               value={field.value}
               inputChange={getOfficeList}

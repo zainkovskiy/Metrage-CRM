@@ -73,9 +73,11 @@ export const getSliceMiniCard = createAsyncThunk(
 );
 export const defaultDealFilter = {
   users: [user],
+  office: '',
   dealType: 'all',
   status: 'all',
-  plannedDate: '',
+  plannedDateFrom: '',
+  plannedDateTo: '',
 };
 
 const getFilter = () => {
