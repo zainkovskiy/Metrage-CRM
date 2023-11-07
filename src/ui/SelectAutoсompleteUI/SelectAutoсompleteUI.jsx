@@ -150,8 +150,9 @@ export const SelectAutoсompleteUI = (props) => {
     if (JSON.stringify(select) === JSON.stringify(value)) {
       return;
     }
-    if (value.length === 0) {
-      clearValue();
+    if (value?.length === 0) {
+      setSelect(value);
+      setInputValue(value);
     }
   }, [value]);
   //useEffect запускает (handlerClick) проверку совпадет ли айди с внутренними компонентами если нет то закрывает список
