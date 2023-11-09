@@ -4,6 +4,7 @@ import { TextSpanStyle } from 'styles/styles';
 import { useDateFormat } from '../../hooks/DateFormat';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useGetAvatar } from 'hooks/MakeAvatar';
 
 const LinkStyle = styled(Link)`
   text-decoration: none;
@@ -46,6 +47,19 @@ const variants = {
     opacity: 0,
   },
 };
+const UserCardAvatar = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+  object-position: top;
+  object-fit: contain;
+`;
+const AvatarContainer = styled.div`
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+`;
 const UserCard = ({ user }) => {
   return (
     <LinkStyle to={user?.UID}>
@@ -56,13 +70,22 @@ const UserCard = ({ user }) => {
           </TextSpanStyle>
         </UserCardHeader>
         <UserCardContent>
-          <TextSpanStyle size={12}>
-            Фамилия: {user?.lastName || ''}
-          </TextSpanStyle>
-          <TextSpanStyle size={12}>Имя: {user?.firstName || ''} </TextSpanStyle>
-          <TextSpanStyle size={12}>
-            Отчество: {user?.secondName || ''}
-          </TextSpanStyle>
+          <AvatarContainer>
+            <UserCardAvatar
+              src={useGetAvatar({
+                avatar: user?.avatar,
+                firsName: user?.firsName,
+                lastName: user?.lastName,
+              })}
+            />
+            <div>
+              <TextSpanStyle size={12}>
+                {user?.firstName || ''} {user?.lastName || ''}
+              </TextSpanStyle>
+              {/* <TextSpanStyle size={12}>{user?.firstName || ''} </TextSpanStyle> */}
+              <TextSpanStyle size={12}>{user?.secondName || ''}</TextSpanStyle>
+            </div>
+          </AvatarContainer>
           <TextSpanStyle size={12}>e-mail: {user?.email || ''}</TextSpanStyle>
           <TextSpanStyle size={12}>Офис: {user?.office || ''}</TextSpanStyle>
         </UserCardContent>
