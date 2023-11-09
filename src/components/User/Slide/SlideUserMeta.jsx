@@ -9,9 +9,11 @@ import { useAsyncValue } from 'react-router-dom';
 import { SliderBlock } from '../../../styles/slider';
 
 const SlideUserMeta = () => {
-  // const deal = useAsyncValue();
+  const user = useAsyncValue();
   const copyID = () => {
-    // navigator.clipboard.writeText(`http://crm.metragegroup.com?deal=${deal.UID}`);
+    navigator.clipboard.writeText(
+      `http://crm.metragegroup.com?users=${user.UID}`
+    );
   };
   return (
     <SliderBlock>
@@ -20,14 +22,11 @@ const SlideUserMeta = () => {
           <IconButton onClick={copyID}>
             <Copy />
           </IconButton>
-          <TextSpanStyle size={12}>ID: 3</TextSpanStyle>
+          <TextSpanStyle size={12}>ID: {user?.UID}</TextSpanStyle>
         </Box>
         <Box>
           <TextSpanStyle size={12}>
-            Создано: {useDateFormat('2023-08-29', 'DD.MM.YY')}
-          </TextSpanStyle>
-          <TextSpanStyle size={12}>
-            Изменено: {useDateFormat('2023-08-29', 'DD.MM.YY')}
+            Создано: {useDateFormat(user?.created, 'DD.MM.YY')}
           </TextSpanStyle>
         </Box>
       </Box>

@@ -27,6 +27,7 @@ export const SliderTitle = styled.div`
   font-family: ${({ theme }) => theme.font.family};
   display: flex;
   justify-content: space-between;
+  align-items: ${(ai) => ai && ai};
   width: 100%;
   ${({ size }) => size && `font-size: ${size}px`}
 `;

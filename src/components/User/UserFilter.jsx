@@ -16,7 +16,7 @@ const UserFilter = () => {
     <UserFilterStyle>
       {/* <Link to='new'> */}
       <ButtonUI size='small' variant='outline'>
-        Создать 11
+        Создать
       </ButtonUI>
       {/* </Link> */}
     </UserFilterStyle>

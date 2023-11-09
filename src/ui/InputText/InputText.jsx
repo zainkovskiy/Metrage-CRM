@@ -5,7 +5,7 @@ export const InputTextContainer = styled.div`
   border-radius: 6px;
   border: 1px solid transparent;
   width: 100%;
-  &:hover {
+  &:hover:has(input:not([disabled])) {
     border: 1px solid #ccc;
   }
   &:has(input:focus) {
@@ -25,14 +25,20 @@ export const InputStyle = styled.input`
   text-align: end;
   color: #898989;
   ${({ $align }) => `text-align: ${$align};`};
-  &:hover {
+  &:hover:not([disabled]) {
     color: #000;
   }
   &:focus {
     color: #000;
   }
+  &:disabled {
+    background-color: #fff;
+  }
+  ::-webkit-calendar-picker-indicator {
+    ${({ readOnly }) => readOnly && 'display: none;'};
+  }
 `;
-const InputText = ({ value, onChange, align }) => {
+const InputText = ({ value, onChange, align, disabled, type = 'text' }) => {
   const [read, setRead] = useState(true);
   const setEdit = () => {
     if (read) {
@@ -51,6 +57,8 @@ const InputText = ({ value, onChange, align }) => {
         value={value}
         onChange={onChange}
         $align={align}
+        disabled={disabled}
+        type={type}
       />
     </InputTextContainer>
   );

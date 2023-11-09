@@ -14,6 +14,7 @@ import compilationSlice from './compilationSlice';
 import photoSlice from './photoSlice';
 import clientsSlice from './clientsSlice';
 import dashboardSlice from './dashboardSlice';
+import usersSlice from './usersSlice';
 
 const reducers = combineReducers({
   user: userSlice,
@@ -26,6 +27,7 @@ const reducers = combineReducers({
   compilation: compilationSlice,
   clients: clientsSlice,
   dashboard: dashboardSlice,
+  users: usersSlice,
 });
 
 export const store = configureStore({

@@ -4,6 +4,7 @@ import Loader from 'components/Main/Loader';
 import SlideWindow from 'components/Main/SlideWindow';
 import { Await, useLoaderData, useNavigate } from 'react-router-dom';
 import { useWindowSize } from 'hooks/windowSize';
+import { getOneUser } from '../../../api/usersApi';
 const SlideUser = React.lazy(() => import('components/User/Slide/SlideUser'));
 
 const LoaderContainer = styled.div`
@@ -16,10 +17,10 @@ const SuspenseSlideUser = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
   const windowSize = useWindowSize();
-  // const { client } = useLoaderData();
+  const { user } = useLoaderData();
   const handleClose = () => {
     setTimeout(() => {
-      navigate('/client', { replace: true });
+      navigate('/users', { replace: true });
     }, 300);
     setOpen(false);
   };
@@ -38,17 +39,17 @@ const SuspenseSlideUser = () => {
           </LoaderContainer>
         }
       >
-        {/* <Await resolve={deal}> */}
-        <SlideUser />
-        {/* </Await> */}
+        <Await resolve={user}>
+          <SlideUser />
+        </Await>
       </Suspense>
     </SlideWindow>
   );
 };
 
-// export const loaderDealSlide = async ({ request, params }) => {
-//   const { dealId } = params;
-//   return { deal: getOneDeal(dealId) }
-// }
+export const loaderUserSlide = async ({ request, params }) => {
+  const { id } = params;
+  return { user: getOneUser(id) };
+};
 
 export default SuspenseSlideUser;
