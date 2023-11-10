@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { device } from 'styles/device';
 import UserFilter from './UserFilter';
-import { getUsersList } from '../../store/usersSlice';
+import { clearUsers, getUsersList } from '../../store/usersSlice';
 import Users from './Users';
 
 const UserContentStyle = styled.div`
@@ -25,7 +25,7 @@ const UserContent = () => {
   useEffect(() => {
     getUsers();
     return () => {
-      // dispatch(clearDeals());
+      dispatch(clearUsers());
     };
   }, []);
 

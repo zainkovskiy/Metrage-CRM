@@ -95,3 +95,16 @@ export const updatePhone = async (editPhone) => {
   }
   return 'No OK';
 };
+export const createNewUser = async (form) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.users.create',
+    fields: {
+      ...form,
+    },
+  });
+  if (res?.statusText === 'OK') {
+    return res?.data?.result;
+  }
+  return { result: 'No OK' };
+};

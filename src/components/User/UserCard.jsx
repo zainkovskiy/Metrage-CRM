@@ -80,10 +80,9 @@ const UserCard = ({ user }) => {
             />
             <div>
               <TextSpanStyle size={12}>
-                {user?.firstName || ''} {user?.lastName || ''}
+                {user?.firstName || ''} {user?.secondName || ''}
               </TextSpanStyle>
-              {/* <TextSpanStyle size={12}>{user?.firstName || ''} </TextSpanStyle> */}
-              <TextSpanStyle size={12}>{user?.secondName || ''}</TextSpanStyle>
+              <TextSpanStyle size={12}>{user?.lastName || ''}</TextSpanStyle>
             </div>
           </AvatarContainer>
           <TextSpanStyle size={12}>e-mail: {user?.email || ''}</TextSpanStyle>

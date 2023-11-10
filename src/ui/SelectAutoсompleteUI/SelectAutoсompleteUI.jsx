@@ -272,7 +272,7 @@ export const SelectAutoсompleteUI = (props) => {
   return (
     <LabelSelect fullWidth={fullWidth} error={error} ref={selectRef}>
       {label}
-      <SelectContainer id={idRef}>
+      <SelectContainer id={idRef} error={error}>
         <SelectInputStyle
           id={idRef}
           value={inputValue}

@@ -5,8 +5,9 @@ import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { InputUI } from 'ui/InputUI';
 
 const FormRent = () => {
-  const { control } = useFormContext();
+  const { control, getValues, watch } = useFormContext();
   const { errors } = useFormState();
+  watch('otherUtilities');
   return (
     <ObjectSliderBox
       $column
@@ -54,6 +55,50 @@ const FormRent = () => {
             />
           )}
         />
+        <Controller
+          name='utilityMeters'
+          control={control}
+          render={({ field }) => (
+            <SelectUI
+              onChange={field.onChange}
+              select={field.value}
+              label='Оплата по счетчикам'
+            >
+              <SelectItemUI value='0'>Арендатором</SelectItemUI>
+              <SelectItemUI value='1'>Собственником</SelectItemUI>
+            </SelectUI>
+          )}
+        />
+        <Controller
+          name='otherUtilities'
+          control={control}
+          render={({ field }) => (
+            <SelectUI
+              onChange={field.onChange}
+              select={field.value}
+              label='Другие ЖКУ'
+            >
+              <SelectItemUI value='0'>Арендатором</SelectItemUI>
+              <SelectItemUI value='1'>Собственником</SelectItemUI>
+            </SelectUI>
+          )}
+        />
+        <Controller
+          name='otherUtilitiesPayment'
+          control={control}
+          render={({ field }) => (
+            <InputUI
+              onChange={(e) => field.onChange(parseInt(e.target.value))}
+              value={field.value}
+              label='Cумма за другие ЖКУ'
+              fullWidth
+              type='number'
+              disabled={getValues('otherUtilities') !== '0'}
+            />
+          )}
+        />
+      </FormWrapper>
+      <FormWrapper>
         <Controller
           name='ClientFee'
           control={control}

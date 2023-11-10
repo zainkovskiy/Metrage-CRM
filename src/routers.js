@@ -31,6 +31,7 @@ import { loaderClientSlide } from 'components/Client/Slide/SuspenseSlideClient';
 
 import SuspenceUser from 'components/User/SuspenceUser';
 import SuspenseSlideUser from 'components/User/Slide/SuspenseSlideUser';
+import SuspenseNewUser from './components/User/New/SuspenseNewUser';
 import { loaderUserSlide } from 'components/User/Slide/SuspenseSlideUser';
 
 import SuspenceDashboard from 'components/Dashboard/SuspenceDashboard';
@@ -146,10 +147,10 @@ export const routers = createBrowserRouter([
         path: 'users',
         element: <SuspenceUser />,
         children: [
-          // {
-          //   path: 'new',
-          //   element: <SuspenseNewDeal />
-          // },
+          {
+            path: 'new',
+            element: <SuspenseNewUser />,
+          },
           {
             path: ':id',
             element: <SuspenseSlideUser />,

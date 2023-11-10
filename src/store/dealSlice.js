@@ -107,7 +107,7 @@ const dealSlice = createSlice({
     setNewFilter(state, action) {
       state.filter = action.payload;
     },
-    resetFilter(state, action) {
+    resetFilter(state) {
       state.filter = defaultDealFilter;
     },
   },

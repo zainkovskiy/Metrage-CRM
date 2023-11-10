@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { changeSource } from '../../store/dashboardSlice';
 import warningUrl, { ReactComponent as Warning } from 'images/warning.svg';
 import alertUrl, { ReactComponent as Alert } from 'images/alert.svg';
+import { Link } from 'react-router-dom';
 
 const Avatar = styled.img`
   width: 48px;
@@ -39,7 +40,14 @@ const ErrorTitle = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
+const LinkStyle = styled(Link)`
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
 const MainInfoUser = ({ user, view, rights, notify }) => {
+  console.log(user);
   const dispatch = useDispatch();
   const [openSelect, setOpenSelect] = useState(null);
   const openSelectList = (source) => {
@@ -63,13 +71,15 @@ const MainInfoUser = ({ user, view, rights, notify }) => {
     <MainInfoUserStyle>
       <Box jc='flex-start'>
         <Avatar src={useGetAvatar(user)} />
-        <Box column ai='flex-start' gap='0'>
-          <TextSpanStyle size='10'>{user?.position || ''}</TextSpanStyle>
-          <TextSpanStyle size={12}>
-            {user?.lastName || ''} {user?.firstName || ''}
-          </TextSpanStyle>
-          <TextSpanStyle size={12}>{user?.secondName || ''}</TextSpanStyle>
-        </Box>
+        <LinkStyle to={`/users/${user.UID}`}>
+          <Box column ai='flex-start' gap='0'>
+            <TextSpanStyle size='10'>{user?.position || ''}</TextSpanStyle>
+            <TextSpanStyle size={12}>
+              {user?.lastName || ''} {user?.firstName || ''}
+            </TextSpanStyle>
+            <TextSpanStyle size={12}>{user?.secondName || ''}</TextSpanStyle>
+          </Box>
+        </LinkStyle>
       </Box>
       <TextSpanStyle>{user?.officeName || ''}</TextSpanStyle>
       <Line />

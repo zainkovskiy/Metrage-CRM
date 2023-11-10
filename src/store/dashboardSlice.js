@@ -61,6 +61,7 @@ const dashboardSlice = createSlice({
   reducers: {
     clearDashboard(state) {
       state.data = {};
+      state.loading = true;
     },
   },
   extraReducers: (builder) => {

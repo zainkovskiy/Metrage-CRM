@@ -65,7 +65,7 @@ const WindowPassword = ({ UID, onClose }) => {
           fullWidth
           disabled={loading}
         />
-        <TextSpanStyle size={10}>Не менее 6 символом</TextSpanStyle>
+        <TextSpanStyle size={10}>Не менее 6 символов</TextSpanStyle>
       </Box>
       <Box jc='flex-start'>
         <ButtonUI

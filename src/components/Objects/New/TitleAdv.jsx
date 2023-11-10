@@ -16,7 +16,7 @@ const TitleAdv = () => {
             onChange={(e) => {
               field.onChange(e.target.value);
             }}
-            value={field.value}
+            value={field.value || ''}
             label='Заголовок для рекламы'
             fullWidth
           />

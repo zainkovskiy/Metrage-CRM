@@ -3,8 +3,8 @@ import SliderStory from 'components/Main/SliderStory/SliderStory';
 import { sendHistoryMessage, getHistoryList } from 'api/storyAPI';
 import { useAsyncValue } from 'react-router-dom';
 
-const SlideDealStory = () => {
-  const deal = useAsyncValue();
+const SlideUsersStory = () => {
+  const user = useAsyncValue();
   const [history, setHistory] = useState([]);
   const [loader, setLoader] = useState(false);
   useEffect(() => {
@@ -12,7 +12,7 @@ const SlideDealStory = () => {
   }, []);
   const getHistory = () => {
     setLoader(true);
-    getHistoryList(deal.UID, 'deal')
+    getHistoryList(user.UID, 'users')
       .then((data) => {
         setHistory(data || []);
       })
@@ -23,14 +23,20 @@ const SlideDealStory = () => {
   const sendMessage = (message) => {
     const newMessage = message.trim();
     if (newMessage) {
-      sendHistoryMessage('deal', desl.UID, newMessage).then((data) => {
+      sendHistoryMessage('users', user.UID, newMessage).then((data) => {
         setHistory([...history, data]);
       });
     }
   };
   return (
-    <SliderStory loader={loader} history={history} onChange={sendMessage} />
+    <SliderStory
+      loader={loader}
+      history={history}
+      onChange={sendMessage}
+      // fullWidth={fullWidth}
+      // height={height}
+    />
   );
 };
 
-export default SlideDealStory;
+export default SlideUsersStory;

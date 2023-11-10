@@ -3,15 +3,16 @@ import { useWindowSize } from 'hooks/windowSize';
 import { SliderStyle, SliderContext } from '../../../styles/slider';
 import SlideUserMeta from './SlideUserMeta';
 import SlideFormContainer from './SlideFormContainer';
-import SlideClientStory from './SlideClientStory';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useAsyncValue } from 'react-router-dom';
 import SlideUserPhones from './SlideUserPhones';
 import SliderUserObjects from './SliderUserObjects';
+import SlideUsersStory from './SlideUsersStory';
 
 const SlideUser = () => {
   const windowSize = useWindowSize();
   const user = useAsyncValue();
+  const isAdmin = user?.rights?.admin || false;
   const methods = useForm({
     defaultValues: {
       UID: user?.UID,
@@ -35,7 +36,7 @@ const SlideUser = () => {
         <SlideUserPhones />
         <SliderUserObjects />
       </SliderContext>
-      {/* {windowSize > 768 && <SlideClientStory />} */}
+      {isAdmin && windowSize > 768 && <SlideUsersStory />}
     </SliderStyle>
   );
 };

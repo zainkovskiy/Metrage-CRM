@@ -81,7 +81,7 @@ const SlideDeal = () => {
           } */}
         </SlideDealStyle>
       </FormProvider>
-      {windowSize > 768 && <SlideDealStory UID={deal.UID} />}
+      {windowSize > 768 && <SlideDealStory />}
     </SliderStyle>
   );
 };

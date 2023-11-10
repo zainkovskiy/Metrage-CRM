@@ -80,8 +80,7 @@ const SlideUserMain = () => {
         </SliderTitle>
         <Box fullWidth gap='0.5rem' ai='normal'>
           <AvatarContainer style={{ position: 'relative' }}>
-            {!user?.active}
-            <InfoText size={12}>Уволен</InfoText>
+            {!user?.active && <InfoText size={12}>Уволен</InfoText>}
             <Avatar
               src={useGetAvatar({
                 avatar: user?.avatar,
