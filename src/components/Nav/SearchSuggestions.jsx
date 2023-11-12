@@ -51,7 +51,6 @@ const CloseButton = styled.span`
   }
 `;
 const SearchSuggestions = ({ suggestions, clearSuggestions }) => {
-  console.log(suggestions);
   const handleClose = () => {
     clearSuggestions();
   };
@@ -92,7 +91,7 @@ const SearchSuggestions = ({ suggestions, clearSuggestions }) => {
   );
 };
 
-const SearchSuggestionsItemStyle = styled.div`
+const SearchSuggestionsItemStyle = styled(Link)`
   padding: 0.5rem;
   cursor: pointer;
   ${({ $notFound }) => $notFound && 'color: #786464'};
@@ -158,11 +157,13 @@ const SearchSuggestionsItem = ({
     if (type === 'Контакты') {
       return `${path}/${suggestion?.UID}`;
     }
+    if (type === 'Пользователи') {
+      return `${path}/${suggestion?.UID}`;
+    }
     return '';
   };
   return (
     <SearchSuggestionsItemStyle
-      as={type !== 'Пользователи' && Link}
       $notFound={notFound}
       to={getPath()}
       onClick={clearSuggestions}

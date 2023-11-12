@@ -16,8 +16,8 @@ import OfficeFinder from '../../Main/OfficeFinder';
 import { setNewUserValue } from '../../../api/usersApi';
 
 const Avatar = styled.img`
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border-radius: 50px;
   object-fit: cover;
   object-position: top;
@@ -78,17 +78,7 @@ const SlideUserMain = () => {
             </ButtonLink>
           )}
         </SliderTitle>
-        <Box fullWidth gap='0.5rem' ai='normal'>
-          <AvatarContainer style={{ position: 'relative' }}>
-            {!user?.active && <InfoText size={12}>Уволен</InfoText>}
-            <Avatar
-              src={useGetAvatar({
-                avatar: user?.avatar,
-                firsName: user?.firsName,
-                lastName: user?.lastName,
-              })}
-            />
-          </AvatarContainer>
+        <Box fullWidth gap='0.5rem' ai='normal' wrap>
           <UserBlock>
             <UserLine>
               <TextSpanStyle>Фамилия:</TextSpanStyle>
@@ -195,6 +185,16 @@ const SlideUserMain = () => {
               </Box>
             </UserLine>
           </UserBlock>
+          <AvatarContainer style={{ position: 'relative' }}>
+            {!user?.active && <InfoText size={12}>Уволен</InfoText>}
+            <Avatar
+              src={useGetAvatar({
+                avatar: user?.avatar,
+                firsName: user?.firsName,
+                lastName: user?.lastName,
+              })}
+            />
+          </AvatarContainer>
         </Box>
       </Box>
       <DialogWindow open={showPass} onClose={toggleShowPass}>

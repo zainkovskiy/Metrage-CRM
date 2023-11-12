@@ -39,7 +39,7 @@ const Search = () => {
           },
           {
             title: 'Пользователи',
-            path: '/',
+            path: '/users',
             list: res[1].status === 'fulfilled' ? res[1].value : [],
           },
           {
