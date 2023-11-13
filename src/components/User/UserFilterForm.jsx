@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box } from 'ui/Box';
@@ -20,6 +20,7 @@ import { getLocalOfficeList } from '../../api/search';
 const UserFilterForm = ({ onClose }) => {
   const dispatch = useDispatch();
   const [officeList, setOfficeList] = useState([]);
+  const officeRequest = useRef(false);
   const filter = useSelector((state) => state.users.filter);
   const { control, handleSubmit, reset } = useForm({
     defaultValues: filter,
@@ -39,9 +40,17 @@ const UserFilterForm = ({ onClose }) => {
       setOfficeList([]);
       return;
     }
-    getLocalOfficeList(value).then((data) => {
-      setOfficeList(data);
-    });
+    if (officeRequest.current) {
+      return;
+    }
+    officeRequest.current = true;
+    getLocalOfficeList(value)
+      .then((data) => {
+        setOfficeList(data);
+      })
+      .finally(() => {
+        officeRequest.current = false;
+      });
   };
   return (
     <FilterFormStyle onSubmit={handleSubmit(onSubmit)}>

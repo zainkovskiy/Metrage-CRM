@@ -10,6 +10,9 @@ const InputDadata = styled(InputStyle)`
   border-color: ${({ theme, error }) =>
     error ? 'red' : theme.color.primary} !important;
   box-shadow: none;
+  ${({ small }) =>
+    small &&
+    'padding: 0.2rem 0.5rem !important; font-size: 14px !important; height: auto !important;'};
   &:focus {
     outline: 1px solid
       ${({ theme, error }) => (error ? 'red' : theme.color.primary)};
@@ -23,6 +26,7 @@ const Dadata = ({
   error,
   disabled,
   defaultQuery,
+  small,
 }) => {
   return (
     <LabelStyle fullWidth>
@@ -43,6 +47,7 @@ const Dadata = ({
           inputProps={{
             error: error && 'error',
             disabled: disabled,
+            small: small,
           }}
         />
         <TextSpanStyle color='red' size={12}>

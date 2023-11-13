@@ -35,6 +35,7 @@ const SellComponent = ({ firstMout, control, errors }) => {
         rules={{ required: 'Выберете тип' }}
         render={({ field }) => (
           <SelectUI
+            small
             select={field.value || ''}
             onChange={field.onChange}
             inputRef={field.ref}
@@ -60,6 +61,7 @@ const SellComponent = ({ firstMout, control, errors }) => {
         rules={{ required: 'Укажите адрес' }}
         render={({ field }) => (
           <Dadata
+            small
             value={field.value}
             onChange={field.onChange}
             inputRef={field.ref}

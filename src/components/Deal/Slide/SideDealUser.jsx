@@ -21,7 +21,7 @@ const SideDealUser = (props) => {
     switch (type) {
       case 'realtor':
         return UserRealtor;
-      case 'lawyers':
+      case 'lawyer':
         return UserLawyer;
       default:
         return SimpleUser;
@@ -84,12 +84,29 @@ const UserRealtor = ({ user, removeUser, type, dealUID }) => {
           comission={user.comissionSize}
           onChange={changeNewComission}
           side={user.side}
+          type={type}
         />
       </DialogWindow>
     </>
   );
 };
-const UserLawyer = ({ user, removeUser, type }) => {
+const UserLawyer = ({ user, removeUser, type, dealUID }) => {
+  const [isEditComission, setIsEditComission] = useState(false);
+  const toggleEditComission = () => {
+    setIsEditComission(!isEditComission);
+  };
+  const changeNewComission = (data) => {
+    setNewComission({
+      UID: dealUID,
+      userId: user.UID,
+      ...data,
+    }).then((answer) => {
+      if (answer === 'OK') {
+        user.comissionSize = data.comissionSize;
+        toggleEditComission();
+      }
+    });
+  };
   const removeMySelf = () => {
     removeUser(
       {
@@ -100,14 +117,35 @@ const UserLawyer = ({ user, removeUser, type }) => {
     );
   };
   return (
-    <Box jc='space-between'>
-      <SlideParticipantsText size={12} nowrap>
-        {user?.lastName} {user?.firstName} {user?.secondName}
-      </SlideParticipantsText>{' '}
-      <IconButton onClick={removeMySelf} color='error'>
-        <Close />
-      </IconButton>
-    </Box>
+    <>
+      <Box jc='space-between'>
+        <Box column ai='flex-start' gap='0'>
+          <SlideParticipantsText size={12} nowrap>
+            {user?.lastName} {user?.firstName} {user?.secondName}
+          </SlideParticipantsText>
+          <TextSpanStyle size={10}>
+            Оплата юриста: {useNumberTriad(user?.comissionSize || '0')} руб.
+          </TextSpanStyle>
+        </Box>
+        <Box>
+          <IconButton onClick={toggleEditComission} color='info'>
+            <Edit />
+          </IconButton>
+          <IconButton onClick={removeMySelf} color='error'>
+            <Close />
+          </IconButton>
+        </Box>
+      </Box>
+      <DialogWindow open={isEditComission} onClose={toggleEditComission}>
+        <SlideDialogComission
+          onClose={toggleEditComission}
+          comission={user.comissionSize}
+          onChange={changeNewComission}
+          side={user.side}
+          type={type}
+        />
+      </DialogWindow>
+    </>
   );
 };
 const SimpleUser = ({ user, type, removeUser }) => {

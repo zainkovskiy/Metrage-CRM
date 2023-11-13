@@ -1,33 +1,30 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box } from 'ui/Box';
 import { ButtonUI } from 'ui/ButtonUI';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
+import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
 import { SelectAutoсompleteMultipleUI } from 'ui/SelectAutoсompleteMultipleUI';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import { getUserList } from 'api/search';
 import { setApplicationFilter } from 'store/applicationSlice';
 import { getApplicationFilterList } from '../../store/applicationSlice';
+import { getLocalOfficeList } from '../../api/search';
 import {
   FilterFields,
   FilterFormStyle,
   FilterTitle,
 } from '../../styles/filter';
+import { defaultAppFilter } from '../../store/applicationSlice';
 
-const user = globalUser ? JSON.parse(globalUser) : null;
-const resetFilter = {
-  users: [user],
-  status: 'all',
-  type: 'all',
-  isFailure: false,
-  isWork: true,
-};
 const ApplicationFilterForm = ({ onClose }) => {
   const dispatch = useDispatch();
   const filter = useSelector((state) => state.application.filter);
   const [users, setUsers] = useState([]);
   const [usersLoading, setUsersLoading] = useState(false);
+  const [officeList, setOfficeList] = useState([]);
+  const officeRequest = useRef(false);
   const { control, handleSubmit, reset } = useForm({
     defaultValues: filter,
   });
@@ -45,14 +42,31 @@ const ApplicationFilterForm = ({ onClose }) => {
         setUsersLoading(false);
       });
   };
+  const getOfficeList = (value) => {
+    if (value.length < 2) {
+      setOfficeList([]);
+      return;
+    }
+    if (officeRequest.current) {
+      return;
+    }
+    officeRequest.current = true;
+    getLocalOfficeList(value)
+      .then((data) => {
+        setOfficeList(data);
+      })
+      .finally(() => {
+        officeRequest.current = false;
+      });
+  };
   const onSubmit = (data) => {
     localStorage.setItem('filterApplication', JSON.stringify(data));
     dispatch(getApplicationFilterList(data));
     onClose();
   };
   const setResetFilter = () => {
-    reset(resetFilter);
-    dispatch(setApplicationFilter(resetFilter));
+    reset(defaultAppFilter);
+    dispatch(setApplicationFilter(defaultAppFilter));
     localStorage.removeItem('filterApplication');
   };
   return (
@@ -86,6 +100,20 @@ const ApplicationFilterForm = ({ onClose }) => {
               isOpenOptions={(open) => !open && setUsers([])}
               value={field.value || []}
               label='Ответственный'
+            />
+          )}
+        />
+        <Controller
+          name='office'
+          control={control}
+          render={({ field }) => (
+            <SelectAutoсompleteUI
+              label='Офис'
+              options={officeList}
+              getOptionsLabel={(options) => options.name}
+              onChange={(option) => field.onChange(option)}
+              value={field.value}
+              inputChange={getOfficeList}
             />
           )}
         />

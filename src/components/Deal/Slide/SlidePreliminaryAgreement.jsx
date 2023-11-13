@@ -99,12 +99,22 @@ const SlidePreliminaryAgreement = () => {
               />
             )}
           />
-          <TextSpanStyle size={12}>
-            Дата принятия задатка:{' '}
-            {deal?.depositDate ? useDateFormat(deal.depositDate) : ''}
-          </TextSpanStyle>
         </SlideSide>
         <SlideSide>
+          <Controller
+            name='depositDate'
+            control={control}
+            render={({ field }) => (
+              <InputUI
+                small
+                label='Дата принятия задатка:'
+                labelSize={12}
+                value={field.value || ''}
+                onChange={(e) => field.onChange(e.target.value)}
+                type='date'
+              />
+            )}
+          />
           <Controller
             name='preAgreementDateStart'
             control={control}

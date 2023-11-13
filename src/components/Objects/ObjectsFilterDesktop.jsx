@@ -25,6 +25,7 @@ const ObjectsFilterDesktop = () => {
   const [open, setOpen] = useState(false);
   const [openBox, setOpenBox] = useState(false);
   const basket = useSelector((state) => state.objects.basket);
+  const objectItems = useSelector((state) => state.objects.objectItems);
   const windowSize = useWindowSize();
   const handlerHiddenBox = () => {
     setOpenBox(!openBox);
@@ -48,7 +49,7 @@ const ObjectsFilterDesktop = () => {
           Фильтр
         </ButtonUI>
         {windowSize > 768 && (
-          <TextSpanStyle>Обязательно проверьте фильтр</TextSpanStyle>
+          <TextSpanStyle>Всего: {objectItems}</TextSpanStyle>
         )}
       </Box>
       <Box>

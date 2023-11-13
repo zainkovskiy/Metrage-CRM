@@ -10,14 +10,19 @@ import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import WindowChangePosition from './WindowChangePosition';
 import DialogWindow from 'components/Main/DialogWindow';
 import { setNewUserValue } from '../../../api/usersApi';
+import WindowIsFire from './WindowIsFire';
 
-const SlideUserAddition = () => {
+const SlideUserAddition = ({ toggleChangeIsFire }) => {
   const user = useAsyncValue();
   const { control } = useFormContext();
   const [showPosition, setShowPostion] = useState(false);
+  const [showIsFire, setShowIsFire] = useState(false);
   const isAdmin = user?.rights?.admin || false;
   const toggleShowPosition = () => {
-    setShowPostion(!showPosition);
+    setShowPostion(!showIsFire);
+  };
+  const toggleShowIsFire = () => {
+    setShowIsFire(!showIsFire);
   };
   const setPosition = (newPosition) => {
     user.position = newPosition;
@@ -25,6 +30,10 @@ const SlideUserAddition = () => {
       UID: user?.UID,
       position: newPosition,
     });
+  };
+  const setIsFireValue = () => {
+    user.active = !user?.active;
+    toggleChangeIsFire();
   };
   return (
     <SliderBlock>
@@ -107,7 +116,21 @@ const SlideUserAddition = () => {
             </Box>
           )}
         </Box>
+        {isAdmin && (
+          <Box jc='flex-start' fullWidth>
+            <ButtonLink color='#85009e' size={12} onClick={toggleShowIsFire}>
+              {user?.active ? 'Уволить' : 'Активировать'}
+            </ButtonLink>
+          </Box>
+        )}
       </Box>
+      <DialogWindow open={showIsFire} onClose={toggleShowIsFire}>
+        <WindowIsFire
+          onClose={toggleShowIsFire}
+          onChange={setIsFireValue}
+          UID={user.UID}
+        />
+      </DialogWindow>
       <DialogWindow open={showPosition} onClose={toggleShowPosition}>
         <WindowChangePosition
           onChange={setPosition}

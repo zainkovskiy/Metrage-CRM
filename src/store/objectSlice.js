@@ -42,9 +42,9 @@ export const getObjectList = createAsyncThunk(
       },
     });
     if (res?.statusText === 'OK') {
-      return res?.data?.result?.objects || [];
+      return res?.data?.result || {};
     }
-    return [];
+    return {};
   }
 );
 export const getMoreObjects = createAsyncThunk(
@@ -126,6 +126,7 @@ const initialState = {
   loadingList: true,
   loadingMore: false,
   objects: [],
+  objectItems: 0,
   basket: [],
   filter: getFilter(),
   offset: 1,
@@ -159,6 +160,7 @@ const objectSlice = createSlice({
     },
     clearObjects(state, action) {
       state.objects = [];
+      state.objectItems = 0;
       state.offset = 0;
       state.loadingList = true;
     },
@@ -174,7 +176,8 @@ const objectSlice = createSlice({
       // })
       .addCase(getObjectList.fulfilled, (state, action) => {
         state.loadingList = false;
-        state.objects = action.payload;
+        state.objects = action.payload?.objects || [];
+        state.objectItems = action.payload?.items || 0;
         state.offset = 0;
       })
       .addCase(getObjectList.rejected, (state) => {

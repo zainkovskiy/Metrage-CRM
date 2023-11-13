@@ -4,6 +4,7 @@ import ChartArea from './ChartArea';
 import ChartSankey from './ChartSankey';
 import ChartPie from './ChartPie';
 import ChartDoublePie from './ChartDoublePie';
+import ChartTable from './ChartTable';
 import DefaultChartComponent from './DefaultChartComponent';
 import { TextSpanStyle } from '../../styles/styles';
 import { ButtonLink } from '../../ui/ButtonLink/ButtonLink';
@@ -78,6 +79,8 @@ const ChartItem = ({ chart }) => {
         return ChartArea;
       case 'doublePieChart':
         return ChartDoublePie;
+      case 'rTable':
+        return ChartTable;
       default:
         return DefaultChartComponent;
     }

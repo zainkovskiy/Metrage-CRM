@@ -49,20 +49,25 @@ const SlideDialogComissiontContent = styled.div`
   flex-direction: column;
   gap: 1rem;
 `;
-const SlideDialogComission = ({ onClose, comission, side, onChange }) => {
+const SlideDialogComission = ({ onClose, comission, side, onChange, type }) => {
   const [currentSide, setCurrentSide] = useState(side || '');
   const [currentComission, setCurrentComission] = useState(comission || '');
 
   const onSubmit = () => {
-    onChange({
+    let changeObject = {
       comissionSize: currentComission,
-      side: currentSide,
-    });
+    };
+    if (type === 'realtor') {
+      changeObject = { ...changeObject, side: currentSide };
+    }
+    onChange(changeObject);
   };
   return (
     <SlideDialogComissiontStyle onClick={(e) => e.stopPropagation()}>
       <SlideDialogComissiontHeader>
-        <TextSpanStyle>Комиссия</TextSpanStyle>
+        <TextSpanStyle>
+          {type === 'realtor' ? 'Комиссия' : 'Оплата юриста'}
+        </TextSpanStyle>
         <CloseButtonStyle src={closeUrl} onClick={onClose} />
       </SlideDialogComissiontHeader>
       <SlideDialogComissiontContent>
@@ -73,15 +78,17 @@ const SlideDialogComission = ({ onClose, comission, side, onChange }) => {
           onChange={(e) => setCurrentComission(e.target.value)}
           value={currentComission}
         />
-        <SelectUI
-          onChange={(newValue) => setCurrentSide(newValue)}
-          select={currentSide}
-          label='Сторона сделки'
-          small
-        >
-          <SelectItemUI value='seller'>Продавец</SelectItemUI>
-          <SelectItemUI value='buyer'>Покупатель</SelectItemUI>
-        </SelectUI>
+        {type === 'realtor' && (
+          <SelectUI
+            onChange={(newValue) => setCurrentSide(newValue)}
+            select={currentSide}
+            label='Сторона сделки'
+            small
+          >
+            <SelectItemUI value='seller'>Продавец</SelectItemUI>
+            <SelectItemUI value='buyer'>Покупатель</SelectItemUI>
+          </SelectUI>
+        )}
       </SlideDialogComissiontContent>
       <SlideDialogComissiontFooter>
         <ButtonUI size='small' onClick={onClose} fullWidth>

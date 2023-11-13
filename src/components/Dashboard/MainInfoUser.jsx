@@ -47,7 +47,6 @@ const LinkStyle = styled(Link)`
   }
 `;
 const MainInfoUser = ({ user, view, rights, notify }) => {
-  console.log(user);
   const dispatch = useDispatch();
   const [openSelect, setOpenSelect] = useState(null);
   const openSelectList = (source) => {

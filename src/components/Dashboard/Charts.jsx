@@ -19,6 +19,7 @@ const Charts = () => {
       <ChartItem chart={dashboard?.demands || null} />
       <ChartItem chart={dashboard?.sources || null} />
       <ChartItem chart={dashboard?.objects || null} />
+      <ChartItem chart={dashboard?.dealsProfit || null} />
     </ChartBarStyle>
   );
 };

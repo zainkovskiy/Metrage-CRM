@@ -108,3 +108,16 @@ export const createNewUser = async (form) => {
   }
   return { result: 'No OK' };
 };
+export const changeActiveStage = async (UID) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.users.ChangeActiveState',
+    fields: {
+      UID: UID,
+    },
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No OK';
+};

@@ -121,12 +121,14 @@ const NewApplication = ({ slideClose }) => {
           <NewApplicationBlockStyle>
             <TitleFormStyle>ФИО</TitleFormStyle>
             <InputUI
+              small
               label='Фамилия'
               register={register('lastName')}
               error={errors?.lastName}
               defaultValue={getLoacationValue('lastName')}
             />
             <InputUI
+              small
               label='Имя'
               register={register('firstName', {
                 required: 'Поле обязательное',
@@ -134,6 +136,7 @@ const NewApplication = ({ slideClose }) => {
               error={errors?.firstName}
             />
             <InputUI
+              small
               label='Отчество'
               register={register('secondName')}
               error={errors?.secondName}
@@ -143,6 +146,7 @@ const NewApplication = ({ slideClose }) => {
           <NewApplicationBlockStyle>
             <TitleFormStyle>Контакты</TitleFormStyle>
             <InputUI
+              small
               label='Телефон'
               type='phone'
               defaultValue={getResolveValue('phones', detailData)}
@@ -156,6 +160,7 @@ const NewApplication = ({ slideClose }) => {
               error={errors?.phone}
             />
             <InputUI
+              small
               label='Почта'
               type='email'
               defaultValue={getResolveValue('mails', detailData)}
@@ -218,7 +223,7 @@ const NewApplication = ({ slideClose }) => {
           </NewApplicationBlockStyle>
           <NewApplicationBlockStyle>
             <ButtonUI type='submit' variant='outline'>
-              Передать
+              Создать
             </ButtonUI>
           </NewApplicationBlockStyle>
         </NewApplicationStyle>

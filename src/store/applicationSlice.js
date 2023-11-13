@@ -195,18 +195,22 @@ export const setUpdateApplication = createAsyncThunk(
     }
   }
 );
+
+export const defaultAppFilter = {
+  users: [user],
+  status: 'all',
+  type: 'all',
+  isFailure: false,
+  isWork: true,
+  office: '',
+};
+
 const getFilter = () => {
   const filter = localStorage.getItem('filterApplication');
   if (filter) {
     return JSON.parse(filter);
   }
-  return {
-    users: [user],
-    status: 'all',
-    type: 'all',
-    isFailure: false,
-    isWork: true,
-  };
+  return defaultAppFilter;
 };
 const initialState = {
   loadingList: false,

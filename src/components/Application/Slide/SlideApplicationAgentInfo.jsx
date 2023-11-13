@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { TextSpanStyle } from 'styles/styles';
 import {
   ApplicationBlockStyle,
@@ -12,7 +13,15 @@ const ApplicationSlideAgentInfoStyle = styled.div`
   gap: 0.5rem;
   width: 100%;
 `;
-
+const LinkStyle = styled(Link)`
+  text-decoration: none;
+  & > span {
+    transition: color 0.3s;
+  }
+  &:hover > span {
+    color: ${({ theme }) => theme.color.primary};
+  }
+`;
 const SlideApplicationAgentInfo = ({ responsible, recommender, children }) => {
   return (
     <ApplicationBlockStyle>
@@ -20,7 +29,9 @@ const SlideApplicationAgentInfo = ({ responsible, recommender, children }) => {
         <ApplicationSlideSide>
           <SliderTitle>Агент:</SliderTitle>
           <div>
-            <TextSpanStyle size={16}>{responsible?.title}</TextSpanStyle>
+            <LinkStyle to={`/users/${responsible.UID}`}>
+              <TextSpanStyle size={16}>{responsible?.title}</TextSpanStyle>
+            </LinkStyle>
             <TextSpanStyle size={12} color='#ccc'>
               {responsible?.officeName}
             </TextSpanStyle>

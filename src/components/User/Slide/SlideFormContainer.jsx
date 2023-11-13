@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormContext, useFormState } from 'react-hook-form';
 import styled from 'styled-components';
 import SlideUserMain from './SlideUserMain';
@@ -16,16 +16,20 @@ const SlideFormContainerStyle = styled.form`
 `;
 
 const SlideFormContainer = () => {
+  const [changeIsFire, setChangeIsFire] = useState(false);
   const { handleSubmit, reset } = useFormContext();
   const { isDirty } = useFormState();
   const onSubmit = (data) => {
     setNewUserValue(data);
     reset(data);
   };
+  const toggleChangeIsFire = () => {
+    setChangeIsFire(!changeIsFire);
+  };
   return (
     <SlideFormContainerStyle onSubmit={handleSubmit(onSubmit)}>
       <SlideUserMain />
-      <SlideUserAddition />
+      <SlideUserAddition toggleChangeIsFire={toggleChangeIsFire} />
       <AnimatePresence>
         {isDirty && (
           <SliderFormButtonGroup>

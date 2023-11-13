@@ -37,6 +37,7 @@ const BuyComponent = ({ firstMout, control, errors, type }) => {
         rules={{ required: 'Выберете тип' }}
         render={({ field }) => (
           <SelectUI
+            small
             select={field.value || ''}
             onChange={field.onChange}
             inputRef={field.ref}
@@ -63,6 +64,7 @@ const BuyComponent = ({ firstMout, control, errors, type }) => {
           rules={{ required: 'Выберете тип' }}
           render={({ field }) => (
             <SelectUI
+              small
               select={field.value || ''}
               onChange={field.onChange}
               inputRef={field.ref}
@@ -82,6 +84,7 @@ const BuyComponent = ({ firstMout, control, errors, type }) => {
           control={control}
           render={({ field }) => (
             <InputUI
+              small
               {...field}
               label='Цена от'
               error={errors?.costStart}
@@ -96,6 +99,7 @@ const BuyComponent = ({ firstMout, control, errors, type }) => {
           control={control}
           render={({ field }) => (
             <InputUI
+              small
               {...field}
               label='Цена до'
               error={errors?.costEnd}
@@ -108,7 +112,7 @@ const BuyComponent = ({ firstMout, control, errors, type }) => {
       <Controller
         control={control}
         name='cords'
-        rules={{ required: 'Укажите область на карте' }}
+        // rules={{ required: 'Укажите область на карте' }}
         render={({ field }) => (
           <MapCircle
             circle={field.value}

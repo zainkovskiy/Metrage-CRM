@@ -110,6 +110,7 @@ const SlideDealParticipants = () => {
                   key={lawyer?.UID}
                   removeUser={removeUser}
                   type='lawyer'
+                  dealUID={deal.UID}
                 />
               ))}
           </SlideParticipants>
