@@ -18,6 +18,9 @@ export const PanelControlStyle = styled(motion.aside)`
   overflow: hidden;
   z-index: 99;
   gap: 1rem;
+  @media print {
+    display: none;
+  }
 `;
 const LineStyle = styled.span`
   margin: 0px 1rem;

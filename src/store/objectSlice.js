@@ -130,6 +130,7 @@ const initialState = {
   basket: [],
   filter: getFilter(),
   offset: 1,
+  viewCard: 'cell',
 };
 
 const objectSlice = createSlice({
@@ -163,6 +164,9 @@ const objectSlice = createSlice({
       state.objectItems = 0;
       state.offset = 0;
       state.loadingList = true;
+    },
+    setViewCard(state, action) {
+      state.viewCard = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -215,5 +219,6 @@ export const {
   addToBasket,
   removeFromBasket,
   clearBasket,
+  setViewCard,
 } = objectSlice.actions;
 export default objectSlice.reducer;

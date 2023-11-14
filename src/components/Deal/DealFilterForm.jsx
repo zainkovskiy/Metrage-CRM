@@ -24,6 +24,7 @@ import { getLocalOfficeList } from '../../api/search';
 const DealFilterForm = ({ onClose }) => {
   const dispatch = useDispatch();
   const [users, setUsers] = useState([]);
+  const [lawyers, setLawyers] = useState([]);
   const [officeList, setOfficeList] = useState([]);
   const [usersLoading, setUsersLoading] = useState(false);
   const filter = useSelector((state) => state.deal.filter);
@@ -53,6 +54,15 @@ const DealFilterForm = ({ onClose }) => {
       .finally(() => {
         setUsersLoading(false);
       });
+  };
+  const getLawyers = (value) => {
+    if (value.length < 2) {
+      setLawyers([]);
+      return;
+    }
+    getUserList(value).then((data) => {
+      setLawyers(data);
+    });
   };
   const getOfficeList = (value) => {
     if (value.length < 2) {
@@ -111,6 +121,24 @@ const DealFilterForm = ({ onClose }) => {
           )}
         />
         <Controller
+          name='lawyer'
+          control={control}
+          render={({ field }) => (
+            <SelectAutoсompleteUI
+              label='Юрист'
+              options={lawyers}
+              getOptionsLabel={(options) =>
+                `${options.lastName || ''} ${options.firstName || ''} ${
+                  options.secondName || ''
+                }`
+              }
+              onChange={(lawyer) => field.onChange(lawyer)}
+              value={field.value || ''}
+              inputChange={getLawyers}
+            />
+          )}
+        />
+        <Controller
           name='dealType'
           control={control}
           render={({ field }) => (
@@ -148,37 +176,32 @@ const DealFilterForm = ({ onClose }) => {
             </SelectUI>
           )}
         />
-        <Box column gap='0.2rem' fullWidth ai='flex-start'>
-          <TextSpanStyle>Дата сделки (План)</TextSpanStyle>
-          <Box fullWidth>
-            <Controller
-              control={control}
-              name='plannedDateFrom'
-              render={({ field }) => (
-                <InputUI
-                  type='date'
-                  small
-                  value={field.value}
-                  onChange={field.onChange}
-                  fullWidth
-                />
-              )}
+        <Controller
+          control={control}
+          name='plannedDateFrom'
+          render={({ field }) => (
+            <InputUI
+              type='date'
+              value={field.value}
+              onChange={field.onChange}
+              fullWidth
+              label='Дата сделки (План) От'
             />
-            <Controller
-              control={control}
-              name='plannedDateTo'
-              render={({ field }) => (
-                <InputUI
-                  type='date'
-                  small
-                  value={field.value}
-                  onChange={field.onChange}
-                  fullWidth
-                />
-              )}
+          )}
+        />
+        <Controller
+          control={control}
+          name='plannedDateTo'
+          render={({ field }) => (
+            <InputUI
+              type='date'
+              value={field.value}
+              onChange={field.onChange}
+              fullWidth
+              label='Дата сделки (План) До'
             />
-          </Box>
-        </Box>
+          )}
+        />
       </FilterFields>
     </FilterFormStyle>
   );

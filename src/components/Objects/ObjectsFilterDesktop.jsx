@@ -11,8 +11,10 @@ import SlideWindow from 'components/Main/SlideWindow';
 import { useWindowSize } from 'hooks/windowSize';
 import { IconButtonSimple } from '../../ui/IconButtonSimple/IconButtonSimple';
 import { HiddenBoxUI } from 'ui/HiddenBoxUI';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import ObjectBasket from './ObjectBasket';
+import { setViewCard } from '../../store/objectSlice';
+import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 const ObjectsFilterStyle = styled.div`
   display: flex;
   justify-content: space-between;
@@ -22,8 +24,10 @@ const ObjectsFilterStyle = styled.div`
   flex-wrap: wrap;
 `;
 const ObjectsFilterDesktop = () => {
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [openBox, setOpenBox] = useState(false);
+  const viewCard = useSelector((state) => state.objects.viewCard);
   const basket = useSelector((state) => state.objects.basket);
   const objectItems = useSelector((state) => state.objects.objectItems);
   const windowSize = useWindowSize();
@@ -42,12 +46,21 @@ const ObjectsFilterDesktop = () => {
   const toggleFilter = () => {
     setOpen(!open);
   };
+  const changeViewCard = (newValue) => {
+    dispatch(setViewCard(newValue));
+  };
   return (
     <ObjectsFilterStyle>
       <Box>
         <ButtonUI size='small' onClick={toggleFilter}>
           Фильтр
         </ButtonUI>
+        {windowSize > 768 && (
+          <SelectUI small onChange={changeViewCard} select={viewCard}>
+            <SelectItemUI value='cell'>Плитка</SelectItemUI>
+            <SelectItemUI value='table'>Таблица</SelectItemUI>
+          </SelectUI>
+        )}
         {windowSize > 768 && (
           <TextSpanStyle>Всего: {objectItems}</TextSpanStyle>
         )}

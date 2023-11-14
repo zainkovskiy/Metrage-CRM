@@ -4,28 +4,32 @@ import axios from 'axios';
 const API = process.env.MAIN_API;
 const user = globalUser ? JSON.parse(globalUser) : null;
 
-export const getApplicationList = createAsyncThunk(
-  'application/getApplicationList',
-  async (_, { dispatch, getState }) => {
-    const res = await axios.post(API, {
-      metrage_id: metrage_id || null,
-      method: 'crm.demand.filter',
-    });
-    if (res?.statusText === 'OK') {
-      return res?.data?.result?.transwerData || [];
-    }
-    return [];
-  }
-);
+// export const getApplicationList = createAsyncThunk(
+//   'application/getApplicationList',
+//   async (_, { dispatch, getState }) => {
+//     const res = await axios.post(API, {
+//       metrage_id: metrage_id || null,
+//       method: 'crm.demand.filter',
+//     });
+//     if (res?.statusText === 'OK') {
+//       return res?.data?.result?.transwerData || [];
+//     }
+//     return [];
+//   }
+// );
 export const getApplicationFilterList = createAsyncThunk(
   'application/getApplicationFilterList',
-  async (raw, { dispatch, getState }) => {
+  async (filterForm, { dispatch, getState }) => {
+    const curFilter = filterForm ? filterForm : getState().application.filter;
     try {
       const res = await axios
         .post(API, {
           metrage_id: metrage_id || null,
           method: 'crm.demand.filter',
-          fields: raw || getState().application.filter,
+          fields: {
+            ...curFilter,
+            offset: 0,
+          },
         })
         .catch((err) => {
           throw new Error(
@@ -39,8 +43,8 @@ export const getApplicationFilterList = createAsyncThunk(
       console.log(error);
       return [];
     } finally {
-      if (raw) {
-        dispatch(setApplicationFilter(raw));
+      if (filterForm) {
+        dispatch(setApplicationFilter(filterForm));
       }
     }
   }
@@ -203,6 +207,9 @@ export const defaultAppFilter = {
   isFailure: false,
   isWork: true,
   office: '',
+  source: '',
+  plannedDateFrom: '',
+  plannedDateTo: '',
 };
 
 const getFilter = () => {
@@ -213,12 +220,13 @@ const getFilter = () => {
   return defaultAppFilter;
 };
 const initialState = {
-  loadingList: false,
+  loadingList: true,
   loadingMore: false,
   applications: [],
   offset: 0,
   loadingNewApplication: false,
   filter: getFilter(),
+  viewCard: 'cell',
 };
 
 const applicationSlice = createSlice({
@@ -228,23 +236,27 @@ const applicationSlice = createSlice({
     clearApplication(state, action) {
       state.applications = [];
       state.offset = 0;
+      state.loadingList = true;
     },
     setApplicationFilter(state, action) {
       state.filter = action.payload;
     },
+    setViewCard(state, action) {
+      state.viewCard = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getApplicationList.pending, (state) => {
-        state.loadingList = true;
-      })
-      .addCase(getApplicationList.fulfilled, (state, action) => {
-        state.loadingList = false;
-        state.applications = action.payload;
-      })
-      .addCase(getApplicationList.rejected, (state) => {
-        state.loadingList = false;
-      })
+      // .addCase(getApplicationList.pending, (state) => {
+      //   // state.loadingList = true;
+      // })
+      // .addCase(getApplicationList.fulfilled, (state, action) => {
+      //   state.loadingList = false;
+      //   state.applications = action.payload;
+      // })
+      // .addCase(getApplicationList.rejected, (state) => {
+      //   state.loadingList = false;
+      // })
       .addCase(getMoreApplication.pending, (state, action) => {
         state.loadingMore = true;
       })
@@ -297,6 +309,6 @@ const applicationSlice = createSlice({
       });
   },
 });
-export const { clearApplication, setApplicationFilter } =
+export const { clearApplication, setApplicationFilter, setViewCard } =
   applicationSlice.actions;
 export default applicationSlice.reducer;

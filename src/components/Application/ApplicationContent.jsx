@@ -1,12 +1,15 @@
 import React, { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import Applications from './Applications';
+import ApplicationsTable from './ApplicationsTable';
 import ApplicationFilter from './ApplicationFilter';
-import { Outlet } from 'react-router-dom';
 import { device } from 'styles/device';
-import { getApplicationList, clearApplication } from 'store/applicationSlice';
-import { useDispatch } from 'react-redux';
-import { getApplicationFilterList } from '../../store/applicationSlice';
+import {
+  getApplicationFilterList,
+  clearApplication,
+} from 'store/applicationSlice';
 
 const ApplicationContentStyle = styled.div`
   flex-grow: 1;
@@ -19,22 +22,36 @@ const ApplicationContentStyle = styled.div`
     gap: 0;
   }
 `;
+const DefaultError = styled.div``;
+
 const ApplicationContent = () => {
-  const firstMount = useRef(true);
+  const viewCard = useSelector((state) => state.application.viewCard);
   const dispatch = useDispatch();
   useEffect(() => {
     getList();
     return () => {
-      // dispatch(clearApplication());
+      dispatch(clearApplication());
     };
   }, []);
   const getList = () => {
     dispatch(getApplicationFilterList());
   };
+  const getApplicationComponent = () => {
+    switch (viewCard) {
+      case 'cell':
+        return Applications;
+      case 'table':
+        return ApplicationsTable;
+      default:
+        return DefaultError;
+    }
+  };
+  const ApplicationComponent = getApplicationComponent();
   return (
     <ApplicationContentStyle>
       <ApplicationFilter />
-      <Applications firstMount={firstMount.current} />
+      <ApplicationComponent />
+      {/* <Applications /> */}
       <Outlet />
     </ApplicationContentStyle>
   );

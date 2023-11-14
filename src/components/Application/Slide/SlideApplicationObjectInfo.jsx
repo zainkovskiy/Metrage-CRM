@@ -35,7 +35,10 @@ const SlideApplicationObjectInfo = () => {
       {demand?.cords && (
         <YMaps>
           <Map
-            defaultState={{ center: demand.cords[0], zoom: 12 }}
+            defaultState={{
+              center: demand?.cords?.[0] || [55.030204, 82.92043],
+              zoom: 12,
+            }}
             width={'100%'}
             height={250}
           >

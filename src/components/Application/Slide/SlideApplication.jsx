@@ -77,11 +77,13 @@ const SlideApplication = ({ closeSlide }) => {
               </ButtonUI>
             )}
           </SlideApplicationAgentInfo>
-          {isExternal === '1' ? (
-            <SlideApplicationObjectInfo />
+          <BuySellEditForm />
+          {/* {isExternal === '1' ? (
+          <SlideApplicationObjectInfo />
           ) : (
             <BuySellEditForm />
-          )}
+          )} */}
+
           <SlideApplicationCalls calls={application?.calls} />
           {windowSize <= 768 && (
             <SlideApplicationStory

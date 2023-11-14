@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import ObjectsFilter from './ObjectsFilter';
+import { useDispatch, useSelector } from 'react-redux';
 import Objects from './Objects';
+import ObjectsTable from './ObjectsTable';
 import styled from 'styled-components';
 import { device } from 'styles/device';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
@@ -19,8 +19,9 @@ const ObjectsContentStyle = styled.div`
     gap: 0;
   }
 `;
-
+const DefaultError = styled.div``;
 const ObjectsContent = () => {
+  const viewCard = useSelector((state) => state.objects.viewCard);
   const firstMount = useRef(true);
   const location = useLocation();
   const navigate = useNavigate();
@@ -40,10 +41,22 @@ const ObjectsContent = () => {
         }
       });
   };
+  const getObjectsComponent = () => {
+    switch (viewCard) {
+      case 'cell':
+        return Objects;
+      case 'table':
+        return ObjectsTable;
+      default:
+        return DefaultError;
+    }
+  };
+  const ObkectsComponent = getObjectsComponent();
   return (
     <ObjectsContentStyle>
       <ObjectsFilterDesktop />
-      <Objects firstMount={firstMount.current} />
+      <ObkectsComponent firstMount={firstMount.current} />
+      {/* <Objects firstMount={firstMount.current} /> */}
       <Outlet />
     </ObjectsContentStyle>
   );

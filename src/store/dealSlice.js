@@ -78,6 +78,7 @@ export const defaultDealFilter = {
   status: 'all',
   plannedDateFrom: '',
   plannedDateTo: '',
+  lawyer: '',
 };
 
 const getFilter = () => {
@@ -94,6 +95,7 @@ const initialState = {
   filter: getFilter(),
   offset: 0,
   buttonMore: false,
+  viewCard: 'cell',
 };
 
 const dealSlice = createSlice({
@@ -109,6 +111,9 @@ const dealSlice = createSlice({
     },
     resetFilter(state) {
       state.filter = defaultDealFilter;
+    },
+    setViewCard(state, action) {
+      state.viewCard = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -164,5 +169,6 @@ const dealSlice = createSlice({
       });
   },
 });
-export const { clearDeals, setNewFilter, resetFilter } = dealSlice.actions;
+export const { clearDeals, setNewFilter, resetFilter, setViewCard } =
+  dealSlice.actions;
 export default dealSlice.reducer;

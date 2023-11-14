@@ -27,6 +27,9 @@ const NavStyle = styled.nav`
   gap: 1rem;
   align-items: center;
   justify-content: space-between;
+  @media print {
+    display: none;
+  }
 `;
 const LogoDash = styled.div`
   display: flex;

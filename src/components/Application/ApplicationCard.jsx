@@ -160,7 +160,7 @@ const ApplicationCard = ({ application }) => {
           </ApplicationComment>
         </ApplicationContent>
         <ApplicationFooter>
-          <TextSpanStyle size={10}>Агент:</TextSpanStyle>
+          {/* <TextSpanStyle size={10}>Агент:</TextSpanStyle> */}
           <TextSpanStyle size={12}>
             {application?.responsible?.title}
           </TextSpanStyle>

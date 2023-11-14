@@ -29,14 +29,14 @@ const ApplicationsStyle = styled(motion.div)`
   }
 `;
 
-const Applications = ({ firstMount }) => {
+const Applications = () => {
   const dispatch = useDispatch();
   const [isButtonMore, setIsButtonMore] = useState(true);
   const applications = useSelector((state) => state.application.applications);
   const loading = useSelector((state) => state.application.loadingList);
   const loadingMore = useSelector((state) => state.application.loadingMore);
 
-  if (firstMount && loading) {
+  if (loading) {
     return <Loader />;
   }
 

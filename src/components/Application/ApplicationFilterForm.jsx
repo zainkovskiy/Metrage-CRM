@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box } from 'ui/Box';
+import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
@@ -138,6 +139,28 @@ const ApplicationFilterForm = ({ onClose }) => {
           )}
         />
         <Controller
+          name='source'
+          control={control}
+          render={({ field }) => (
+            <SelectUI
+              onChange={(newValue) => field.onChange(newValue)}
+              select={field.value || ''}
+              label='Источник'
+            >
+              <SelectItemUI value=''>Выбрать</SelectItemUI>
+              <SelectItemUI value='0'>Ручной ввод</SelectItemUI>
+              <SelectItemUI value='1'>ЦИАН</SelectItemUI>
+              <SelectItemUI value='2'>Авито</SelectItemUI>
+              <SelectItemUI value='3'>Мегафон</SelectItemUI>
+              <SelectItemUI value='4'>Яндекс</SelectItemUI>
+              <SelectItemUI value='5'>Сайт (НСК)</SelectItemUI>
+              <SelectItemUI value='6'>Сайт (Москва)</SelectItemUI>
+              <SelectItemUI value='7'>Звонки 8800</SelectItemUI>
+              <SelectItemUI value='8'>КВИЗ</SelectItemUI>
+            </SelectUI>
+          )}
+        />
+        <Controller
           name='type'
           control={control}
           render={({ field }) => (
@@ -154,6 +177,32 @@ const ApplicationFilterForm = ({ onClose }) => {
               <SelectItemUI value='rent'>Сдать</SelectItemUI>
               <SelectItemUI value='take'>Снять</SelectItemUI>
             </SelectUI>
+          )}
+        />
+        <Controller
+          control={control}
+          name='plannedDateFrom'
+          render={({ field }) => (
+            <InputUI
+              type='date'
+              value={field.value}
+              onChange={field.onChange}
+              fullWidth
+              label='Дата сделки (План) От'
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name='plannedDateTo'
+          render={({ field }) => (
+            <InputUI
+              type='date'
+              value={field.value}
+              onChange={field.onChange}
+              fullWidth
+              label='Дата сделки (План) До'
+            />
           )}
         />
         <Controller

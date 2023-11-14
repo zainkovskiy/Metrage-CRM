@@ -60,7 +60,10 @@ const BuySellEditForm = () => {
       type: demand?.type,
       typePlace: demand?.typePlace,
       address: demand?.address,
-      cords: demand?.cords,
+      cords:
+        demand?.cords?.length === 0
+          ? [[55.030204, 82.92043], 0]
+          : demand?.cords,
       costStart: demand?.costStart || '',
       costEnd: demand?.costEnd || '',
       buyType: application?.buyType || '',
