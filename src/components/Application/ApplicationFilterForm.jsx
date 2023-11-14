@@ -181,27 +181,27 @@ const ApplicationFilterForm = ({ onClose }) => {
         />
         <Controller
           control={control}
-          name='plannedDateFrom'
+          name='createdDateFrom'
           render={({ field }) => (
             <InputUI
               type='date'
               value={field.value}
               onChange={field.onChange}
               fullWidth
-              label='Дата сделки (План) От'
+              label='Дата создания, от'
             />
           )}
         />
         <Controller
           control={control}
-          name='plannedDateTo'
+          name='createdDateTo'
           render={({ field }) => (
             <InputUI
               type='date'
               value={field.value}
               onChange={field.onChange}
               fullWidth
-              label='Дата сделки (План) До'
+              label='Дата создания, До'
             />
           )}
         />

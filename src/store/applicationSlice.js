@@ -208,8 +208,8 @@ export const defaultAppFilter = {
   isWork: true,
   office: '',
   source: '',
-  plannedDateFrom: '',
-  plannedDateTo: '',
+  createdDateFrom: '',
+  createdDateTo: '',
 };
 
 const getFilter = () => {

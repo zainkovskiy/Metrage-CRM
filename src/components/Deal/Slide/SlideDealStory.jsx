@@ -23,7 +23,7 @@ const SlideDealStory = () => {
   const sendMessage = (message) => {
     const newMessage = message.trim();
     if (newMessage) {
-      sendHistoryMessage('deal', desl.UID, newMessage).then((data) => {
+      sendHistoryMessage('deal', deal.UID, newMessage).then((data) => {
         setHistory([...history, data]);
       });
     }
