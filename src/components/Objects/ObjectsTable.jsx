@@ -86,7 +86,6 @@ const ObjectsTable = () => {
         <TableHeader>
           <tr>
             <th>Номер</th>
-            <th>Город</th>
             <th>Адрес</th>
             <th>Тип сделки</th>
             <th>Тип недвижимости</th>
@@ -108,8 +107,7 @@ const ObjectsTable = () => {
                 animate='visible'
               >
                 <td>{object?.UID}</td>
-                <td>{object?.AddressCity || ''}</td>
-                <td>{object?.AddressStreet || 'Нет адреса'}</td>
+                <td>{object?.addrString || 'Нет адреса'}</td>
                 <td>{object?.SubCategory}</td>
                 <td>{object?.Category}</td>
                 <td>
@@ -127,7 +125,7 @@ const ObjectsTable = () => {
                 <td style={{ whiteSpace: 'nowrap' }}>
                   <Box column gap='0'>
                     <span>{useNumberTriad(object?.Price || 0)}</span>
-                    <span>
+                    <span style={{ fontSize: 10 }}>
                       {useGetMeterPrice(object?.Price, getArea(object))}{' '}
                       {object?.Category === 'Жил. Уч.' ? 'сот.' : 'м2'}
                     </span>

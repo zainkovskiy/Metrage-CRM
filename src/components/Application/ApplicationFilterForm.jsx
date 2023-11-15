@@ -201,7 +201,7 @@ const ApplicationFilterForm = ({ onClose }) => {
               value={field.value}
               onChange={field.onChange}
               fullWidth
-              label='Дата создания, До'
+              label='Дата создания, до'
             />
           )}
         />

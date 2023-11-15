@@ -7,16 +7,15 @@ import { device } from 'styles/device';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { getObjectList, clearObjects } from 'store/objectSlice';
 import ObjectsFilterDesktop from './ObjectsFilterDesktop';
+import ObjectsMap from './ObjectsMap';
 
 const ObjectsContentStyle = styled.div`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
-  gap: 0.5rem;
   @media ${device.tablet} {
     padding: 0;
-    gap: 0;
   }
 `;
 const DefaultError = styled.div``;
@@ -47,6 +46,8 @@ const ObjectsContent = () => {
         return Objects;
       case 'table':
         return ObjectsTable;
+      case 'map':
+        return ObjectsMap;
       default:
         return DefaultError;
     }

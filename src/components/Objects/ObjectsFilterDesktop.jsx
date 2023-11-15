@@ -59,6 +59,7 @@ const ObjectsFilterDesktop = () => {
           <SelectUI small onChange={changeViewCard} select={viewCard}>
             <SelectItemUI value='cell'>Плитка</SelectItemUI>
             <SelectItemUI value='table'>Таблица</SelectItemUI>
+            <SelectItemUI value='map'>Карта</SelectItemUI>
           </SelectUI>
         )}
         {windowSize > 768 && (
