@@ -33,6 +33,7 @@ export const GlobalStyle = createGlobalStyle`
     font-style: normal;
   }
   #root{
+    height: 100dvh;
     min-height: ${document.documentElement.clientHeight}px;
     display: flex;
     flex-direction: column;

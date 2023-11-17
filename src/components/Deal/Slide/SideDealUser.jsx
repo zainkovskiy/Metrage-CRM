@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
-import { IconButton } from 'ui/IconButton';
 import { Box } from 'ui/Box';
+import { IconButton } from 'ui/IconButton';
 import { ReactComponent as Close } from 'images/close.svg';
 import { ReactComponent as Edit } from 'images/edit.svg';
 import { useNumberTriad } from 'hooks/StringHook';

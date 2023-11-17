@@ -8,12 +8,25 @@ const ButtonLinkStyle = styled.span`
   cursor: pointer;
   white-space: nowrap;
   &:hover {
-    text-decoration: underline;
+    ${({ $borderNone }) => !$borderNone && 'text-decoration: underline;'}
   }
 `;
-export const ButtonLink = ({ children, size, onClick, color, id }) => {
+export const ButtonLink = ({
+  children,
+  size,
+  onClick,
+  color,
+  id,
+  borderNone,
+}) => {
   return (
-    <ButtonLinkStyle $size={size} onClick={onClick} $color={color} id={id}>
+    <ButtonLinkStyle
+      $size={size}
+      onClick={onClick}
+      $color={color}
+      id={id}
+      $borderNone={borderNone}
+    >
       {children}
     </ButtonLinkStyle>
   );

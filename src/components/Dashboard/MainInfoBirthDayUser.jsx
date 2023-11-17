@@ -31,7 +31,7 @@ const MainInfoBirthDayUser = ({ user }) => {
       <Avatar
         src={useGetAvatar({
           avatar: user?.avatar,
-          firsName: user?.name,
+          firstName: user?.name,
           lastName: user?.lastName,
         })}
       />

@@ -1,7 +1,9 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { Suspense } from 'react';
 import styled from 'styled-components';
-const CloseCircleButtonUI = React.lazy(() => import('ui/CloseCircleButtonUI/CloseCircleButtonUI'));
+const CloseCircleButtonUI = React.lazy(() =>
+  import('ui/CloseCircleButtonUI/CloseCircleButtonUI')
+);
 const ButtonBack = React.lazy(() => import('ui/ButtonBack/ButtonBack'));
 import { useWindowSize } from 'hooks/windowSize';
 import { device } from 'styles/device';
@@ -18,15 +20,15 @@ const SlideWindowStyle = styled(motion.div)`
   justify-content: flex-end;
   z-index: 999;
   overflow: hidden;
-  @media ${device.tablet}{
+  @media ${device.tablet} {
     height: ${document.documentElement.clientHeight - 42}px;
   }
-`
+`;
 const SlideWindowContainer = styled(motion.div)`
   ${({ $mobile }) => $mobile && 'flex-direction: column;'};
   display: flex;
   width: ${({ width }) => width || '100%'};
-`
+`;
 const SlideWindowContent = styled.div`
   width: 100%;
   background-color: ${({ theme }) => theme.color.primary};
@@ -34,46 +36,45 @@ const SlideWindowContent = styled.div`
   overflow: auto;
   box-sizing: border-box;
   flex-grow: 1;
-`
+`;
 const ButtonContainer = styled.div`
   background-color: ${({ theme }) => theme.color.primary};
   padding: 0.5rem 0.5rem 0px;
-`
+`;
 const variantsBack = {
   open: {
     opacity: 1,
     transition: {
-      duration: .2,
-    }
+      duration: 0.2,
+    },
   },
   close: {
     opacity: 0,
     transition: {
-      duration: .2,
-    }
-  }
-}
+      duration: 0.2,
+    },
+  },
+};
 const variantsContent = {
   open: {
     x: 0,
     transition: {
-      duration: .3,
-    }
+      duration: 0.3,
+    },
   },
   close: {
     x: 1000,
     transition: {
-      duration: .3,
-    }
-  }
-}
+      duration: 0.3,
+    },
+  },
+};
 
 const SlideWindow = ({ children, width, onClose, open }) => {
   const windowSize = useWindowSize();
   return (
     <AnimatePresence mode='wait'>
-      {
-        open &&
+      {open && (
         <SlideWindowStyle
           variants={variantsBack}
           initial='close'
@@ -90,23 +91,21 @@ const SlideWindow = ({ children, width, onClose, open }) => {
             onClick={(e) => e.stopPropagation()}
             $mobile={windowSize <= 425}
           >
-            {
-              windowSize > 425 ?
-                <Suspense>
-                  <CloseCircleButtonUI onClose={onClose} />
-                </Suspense> :
-                <Suspense>
-                  <ButtonContainer>
-                    <ButtonBack color='#fff' onClick={onClose} />
-                  </ButtonContainer>
-                </Suspense>
-            }
-            <SlideWindowContent>
-              {children}
-            </SlideWindowContent>
+            {windowSize > 425 ? (
+              <Suspense>
+                <CloseCircleButtonUI onClose={onClose} />
+              </Suspense>
+            ) : (
+              <Suspense>
+                <ButtonContainer>
+                  <ButtonBack color='#fff' onClick={onClose} />
+                </ButtonContainer>
+              </Suspense>
+            )}
+            <SlideWindowContent>{children}</SlideWindowContent>
           </SlideWindowContainer>
-        </SlideWindowStyle >
-      }
+        </SlideWindowStyle>
+      )}
     </AnimatePresence>
   );
 };

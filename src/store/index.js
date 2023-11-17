@@ -15,6 +15,7 @@ import photoSlice from './photoSlice';
 import clientsSlice from './clientsSlice';
 import dashboardSlice from './dashboardSlice';
 import usersSlice from './usersSlice';
+import taskSlice from './taskSlice';
 
 const reducers = combineReducers({
   user: userSlice,
@@ -28,6 +29,7 @@ const reducers = combineReducers({
   clients: clientsSlice,
   dashboard: dashboardSlice,
   users: usersSlice,
+  task: taskSlice,
 });
 
 export const store = configureStore({

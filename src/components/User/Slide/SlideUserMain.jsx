@@ -190,7 +190,7 @@ const SlideUserMain = () => {
             <Avatar
               src={useGetAvatar({
                 avatar: user?.avatar,
-                firsName: user?.firsName,
+                firstName: user?.firstName,
                 lastName: user?.lastName,
               })}
             />

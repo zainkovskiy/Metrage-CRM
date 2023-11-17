@@ -2,6 +2,11 @@ import { createBrowserRouter } from 'react-router-dom';
 import React from 'react';
 import App from './App';
 
+import SuspenseTask from 'components/Task/SuspenseTask';
+import SuspenseSlideTask from 'components/Task/Slide/SuspenseSlideTask';
+import { loaderTaskSlide } from 'components/Task/Slide/SuspenseSlideTask';
+import SuspenseNewTask from 'components/Task/New/SuspenseNewTask';
+
 import SuspenseApplication from 'components/Application/SuspenseApplication';
 import SuspenseSlideApplication from 'components/Application/Slide/SuspenseSlideApplication';
 import { loaderOpenSlide } from 'components/Application/Slide/SuspenseSlideApplication';
@@ -55,6 +60,21 @@ export const routers = createBrowserRouter([
           //   element: <SuspenseSlideUser />,
           //   // loader: loaderDealSlide,
           // },
+        ],
+      },
+      {
+        path: 'task',
+        element: <SuspenseTask />,
+        children: [
+          {
+            path: 'new',
+            element: <SuspenseNewTask />,
+          },
+          {
+            path: ':id',
+            element: <SuspenseSlideTask />,
+            loader: loaderTaskSlide,
+          },
         ],
       },
       {

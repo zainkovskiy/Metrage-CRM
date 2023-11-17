@@ -27,7 +27,7 @@ const TableHeader = styled.thead`
   position: sticky;
   top: 0;
   background: #fff;
-  box-shadow: 0px 3px 3px #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
   & > tr > th {
     padding: 0.3rem;
   }
