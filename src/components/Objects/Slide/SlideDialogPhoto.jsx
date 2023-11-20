@@ -75,6 +75,7 @@ const SlideDialogPhoto = ({ onClose, changePhoto }) => {
   const photosOrigin = useSelector((state) => state.photo.photosOrigin);
   const targetPhoto = useSelector((state) => state.photo.targetPhoto);
   const dragPhotoRef = React.useRef(null);
+
   useEffect(() => {
     dispatch(
       getPhotoList({

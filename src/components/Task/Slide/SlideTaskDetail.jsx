@@ -7,6 +7,12 @@ import SlideUserItems from './SlideUserItems';
 import UserFinder from 'components/Main/UserFinder';
 import DialogWindow from 'components/Main/DialogWindow';
 import { device } from 'styles/device';
+import {
+  addCoresponsible,
+  addObserver,
+  removeCoresponsible,
+  removeObserver,
+} from '../../../api/taskApi';
 
 const SlideUserListStyle = styled.div`
   background-color: rgb(255, 255, 255);
@@ -27,6 +33,12 @@ const SlideTaskDetail = () => {
   const [changeToggle, setChangeToggle] = useState(false);
   const [sourceChange, setSourceChange] = useState(null);
   const removeUser = (user) => {
+    const raw = {
+      UID: task?.UID,
+      userId: user?.user?.UID,
+    };
+    user.source === 'coresponsible' && removeCoresponsible(raw);
+    user.source === 'observers' && removeObserver(raw);
     task[user.source] = task[user.source].filter(
       (item) => item.UID !== user.user.UID
     );
@@ -44,6 +56,12 @@ const SlideTaskDetail = () => {
       closeUserFinder();
       return;
     }
+    const raw = {
+      UID: task?.UID,
+      userId: user?.UID,
+    };
+    sourceChange === 'coresponsible' && addCoresponsible(raw);
+    sourceChange === 'observers' && addObserver(raw);
     task[sourceChange] = [...task[sourceChange], user];
     closeUserFinder();
   };

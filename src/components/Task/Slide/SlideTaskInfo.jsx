@@ -1,20 +1,50 @@
 import React from 'react';
 import { TextSpanStyle } from 'styles/styles';
 import { Box } from 'ui/Box';
-import { useAsyncValue } from 'react-router-dom';
+import { useAsyncValue, useNavigate } from 'react-router-dom';
 import { SliderBlock, SliderTitle } from '../../../styles/slider';
 import styled from 'styled-components';
+import { ButtonLink } from 'ui/ButtonLink';
+import { useSelector } from 'react-redux';
 
 const SlideTaskInfoStyle = styled(SliderBlock)`
   flex-grow: 1;
 `;
 
-const SlideTaskInfo = () => {
+const SlideTaskInfo = ({ closeSlide }) => {
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
   const task = useAsyncValue();
+
+  const clickEdit = () => {
+    setTimeout(() => {
+      navigate(`/task/edit/${task?.UID}`, {
+        replace: true,
+      });
+    }, 300);
+    closeSlide();
+  };
+  const isShowButton = () => {
+    if (task?.creatorId?.UID === user?.UID) {
+      return true;
+    } else {
+      if (user?.isAdmin === '1') {
+        return true;
+      }
+    }
+    return false;
+  };
   return (
     <SlideTaskInfoStyle>
       <Box column ai='flex-start'>
-        <SliderTitle>{task.title}</SliderTitle>
+        <SliderTitle>
+          {task.title}
+          {isShowButton() && (
+            <ButtonLink color='#786464' size={12} onClick={clickEdit}>
+              Редактировать
+            </ButtonLink>
+          )}
+        </SliderTitle>
         <TextSpanStyle>{task.description}</TextSpanStyle>
         {/* <TextSpanStyle>
           Lorem ipsum dolor sit amet consectetur adipisicing elit.

@@ -88,7 +88,7 @@ const SlideDialogPhotoItem = ({
       })
     );
   };
-  const dragStartHandler = () => {
+  const dragStartHandler = (e) => {
     //событие взятие карточки
     setDragPhotoStart(photo);
   };

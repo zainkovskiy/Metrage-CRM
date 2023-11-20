@@ -20,6 +20,15 @@ export const getTaskList = createAsyncThunk(
     return null;
   }
 );
+export const setReadAll = createAsyncThunk('task/setReadAll', async () => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.task.setReadedAll',
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+});
 export const defaultTaskFilter = {};
 const getFilter = () => {
   const filter = localStorage.getItem('filterTask');
@@ -56,6 +65,11 @@ const taskSlice = createSlice({
     });
     builder.addCase(getTaskList.rejected, (state, action) => {
       state.loadingList = false;
+    });
+    builder.addCase(setReadAll.fulfilled, (state, action) => {
+      state.taskData.tasks = state.taskData.tasks.map((task) => {
+        return { ...task, notify: 0 };
+      });
     });
   },
 });

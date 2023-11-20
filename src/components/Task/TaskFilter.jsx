@@ -7,7 +7,8 @@ import { ButtonLink } from 'ui/ButtonLink';
 import { TextSpanStyle } from 'styles/styles';
 import SlideWindow from 'components/Main/SlideWindow';
 import { useWindowSize } from 'hooks/windowSize';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setReadAll } from '../../store/taskSlice';
 
 const TaskFilterStyle = styled.div`
   display: flex;
@@ -31,6 +32,7 @@ const LineSeporator = styled.span`
 `;
 
 const TaskFilter = () => {
+  const dispatch = useDispatch();
   const taskData = useSelector((state) => state.task.taskData);
   const [open, setOpen] = useState(false);
   const windowSize = useWindowSize();
@@ -42,6 +44,9 @@ const TaskFilter = () => {
       return '100%';
     }
     return '30%';
+  };
+  const readAll = () => {
+    dispatch(setReadAll());
   };
   return (
     <TaskFilterStyle>
@@ -57,7 +62,9 @@ const TaskFilter = () => {
             Комментарии: {taskData?.withNotify || 0}
           </TextSpanStyle>
           <LineSeporator />
-          <ButtonLink color='#fff'>Прочитать все</ButtonLink>
+          <ButtonLink color='#fff' onClick={readAll}>
+            Прочитать все
+          </ButtonLink>
         </BoxInfo>
       </Box>
       <Link to='new'>

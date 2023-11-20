@@ -6,7 +6,6 @@ import { Await, useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import { useWindowSize } from 'hooks/windowSize';
 import { getOneTask } from '../../../api/taskApi';
 import { useDispatch } from 'react-redux';
-import { getSliceUserMiniCard } from '../../../store/usersSlice';
 const SlideTask = React.lazy(() => import('components/Task/Slide/SlideTask'));
 
 const LoaderContainer = styled.div`
@@ -24,9 +23,12 @@ const SuspenseSlideTask = () => {
   const { task } = useLoaderData();
   const handleClose = () => {
     setTimeout(() => {
-      dispatch(getSliceUserMiniCard(params.id));
       navigate('/task', { replace: true });
     }, 300);
+    setOpen(false);
+    closeSlide();
+  };
+  const closeSlide = () => {
     setOpen(false);
   };
   const getWidth = () => {
@@ -45,7 +47,7 @@ const SuspenseSlideTask = () => {
         }
       >
         <Await resolve={task}>
-          <SlideTask />
+          <SlideTask closeSlide={closeSlide} />
         </Await>
       </Suspense>
     </SlideWindow>

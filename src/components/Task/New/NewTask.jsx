@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import styled from 'styled-components';
+import { Box } from 'ui/Box';
+import { TextSpanStyle } from 'styles/styles';
 import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
 import { SliderTitle } from '../../../styles/slider';
-import { getLocalOfficeList } from '../../../api/search';
-import { createNewUser, getPositionList } from '../../../api/usersApi';
 import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
-import { useDispatch } from 'react-redux';
-import { addNewMiniCard } from '../../../store/usersSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserList } from '../../../api/search';
+import { createNewTask } from '../../../api/taskApi';
+import { useAsyncValue } from 'react-router-dom';
 
 const NewUserStyle = styled.form`
   padding: 0.5rem;
@@ -27,39 +29,59 @@ const FormContainer = styled.div`
   gap: 0.5rem;
   flex-grow: 1;
 `;
+const TextAreaStyle = styled.textarea`
+  border-radius: 5px;
+  padding: 0.3rem;
+  resize: none;
+  font-family: ${({ theme }) => theme.font.family};
+  border: 1px solid ${({ theme }) => theme.color.primary};
+  width: 100%;
+  box-sizing: border-box;
+  outline: 1px solid transparent;
+  transition: outline 0.3s;
+  &:focus {
+    outline: 1px solid ${({ theme }) => theme.color.primary};
+  }
+`;
 const NewTask = ({ onClose }) => {
+  const userId = useSelector((state) => state.user.UID);
+  const task = useAsyncValue();
   const dispatch = useDispatch();
-  const [officeList, setOfficeList] = useState([]);
-  const [positionList, setPositionList] = useState([]);
+  const [userList, setUserList] = useState([]);
   const {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      responsibleId: task?.responsibleId || '',
+      title: task?.title || '',
+      description: task?.description || '',
+      duedate: task?.duedate || '',
+    },
+  });
 
-  useEffect(() => {
-    getPositions();
-  }, []);
   const onSubmit = (data) => {
-    createNewUser(data).then((answer) => {
+    if (task) {
+      onClose();
+      return;
+    }
+    createNewTask({
+      creatorId: userId,
+      ...data,
+    }).then((answer) => {
       if (answer.result === 'OK') {
-        dispatch(addNewMiniCard(answer.UID));
         onClose();
       }
     });
   };
-  const getOfficeList = (value) => {
+  const getUserListValue = (value) => {
     if (value.length < 2) {
-      setOfficeList([]);
+      setUserList([]);
       return;
     }
-    getLocalOfficeList(value).then((data) => {
-      setOfficeList(data);
-    });
-  };
-  const getPositions = () => {
-    getPositionList().then((data) => {
-      setPositionList(data);
+    getUserList(value).then((list) => {
+      setUserList(list);
     });
   };
   return (
@@ -67,119 +89,70 @@ const NewTask = ({ onClose }) => {
       <FormContainer>
         <SliderTitle>Новый задача</SliderTitle>
         <Controller
+          name='responsibleId'
           control={control}
-          name='lastName'
-          rules={{ required: { value: true, message: 'Поле обязательно' } }}
+          // rules={{ required: { value: true, message: 'Поле обязательно' } }}
           render={({ field }) => (
-            <InputUI
+            <SelectAutoсompleteUI
               small
-              value={field.value || ''}
-              onChange={field.onChange}
-              label='Фамилия'
-              error={errors?.lastName}
-              ref={field.ref}
+              label='Исполнитель'
+              options={userList}
+              getOptionsLabel={(options) =>
+                `${options.firstName} ${options.lastName}`
+              }
+              onChange={(option) => field.onChange(option)}
+              value={field.value}
+              inputChange={getUserListValue}
+              // error={errors?.office}
+              // inputRef={field.ref}
             />
           )}
         />
         <Controller
           control={control}
-          name='firstName'
-          rules={{ required: { value: true, message: 'Поле обязательно' } }}
+          name='title'
+          // rules={{ required: { value: true, message: 'Поле обязательно' } }}
           render={({ field }) => (
             <InputUI
               small
               value={field.value || ''}
               onChange={field.onChange}
-              label='Имя'
-              error={errors?.firstName}
-              ref={field.ref}
+              label='Название'
             />
           )}
         />
         <Controller
           control={control}
-          name='secondName'
-          rules={{ required: { value: true, message: 'Поле обязательно' } }}
+          name='description'
+          // rules={{ required: { value: true, message: 'Поле обязательно' } }}
           render={({ field }) => (
-            <InputUI
-              small
-              value={field.value || ''}
-              onChange={field.onChange}
-              label='Отчество'
-              error={errors?.secondName}
-              ref={field.ref}
-            />
+            <Box column ai='flex-start' gap='0.2rem'>
+              <TextSpanStyle>Описание</TextSpanStyle>
+              <TextAreaStyle
+                type='date'
+                small
+                value={field.value || ''}
+                onChange={field.onChange}
+                rows={8}
+                // error={errors?.birthDate}
+                // ref={field.ref}
+              />
+            </Box>
           )}
         />
         <Controller
           control={control}
-          name='phone'
-          rules={{
-            required: { value: true, message: 'Поле обязательно' },
-            minLength: { value: 11, message: 'Не меньше 11 символов' },
-            maxLength: { value: 11, message: 'Не больше 11 символов' },
-            pattern: { value: /^8\d{10}$/, message: 'Пример 8XXXXXXXXXX' },
-          }}
-          render={({ field }) => (
-            <InputUI
-              type='number'
-              small
-              value={field.value || ''}
-              onChange={field.onChange}
-              label='Номер телефона'
-              error={errors?.phone}
-              ref={field.ref}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name='birthDate'
-          rules={{ required: { value: true, message: 'Поле обязательно' } }}
+          name='duedate'
+          // rules={{ required: { value: true, message: 'Поле обязательно' } }}
           render={({ field }) => (
             <InputUI
               type='date'
               small
               value={field.value || ''}
               onChange={field.onChange}
-              label='Дата рождения'
-              error={errors?.birthDate}
-              ref={field.ref}
-            />
-          )}
-        />
-        <Controller
-          name='office'
-          control={control}
-          rules={{ required: { value: true, message: 'Поле обязательно' } }}
-          render={({ field }) => (
-            <SelectAutoсompleteUI
-              small
-              label='Офис'
-              options={officeList}
-              getOptionsLabel={(options) => options.name}
-              onChange={(option) => field.onChange(option)}
-              value={field.value}
-              inputChange={getOfficeList}
-              error={errors?.office}
-              inputRef={field.ref}
-            />
-          )}
-        />
-        <Controller
-          name='position'
-          control={control}
-          rules={{ required: { value: true, message: 'Поле обязательно' } }}
-          render={({ field }) => (
-            <SelectAutoсompleteUI
-              small
-              label='Должность'
-              options={positionList}
-              getOptionsLabel={(options) => options.positionName}
-              onChange={(option) => field.onChange(option)}
-              value={field.value}
-              error={errors?.position}
-              inputRef={field.ref}
+              label='Срок до'
+              // error={errors?.birthDate}
+              // ref={field.ref}
             />
           )}
         />

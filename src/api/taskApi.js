@@ -14,3 +14,71 @@ export const getOneTask = async (id) => {
   }
   return {};
 };
+export const createNewTask = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.task.add',
+    fields: {
+      ...raw,
+    },
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No OK';
+};
+export const setTaskStage = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.task.setStage',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No OK';
+};
+export const addCoresponsible = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.task.addCoresponsible',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No OK';
+};
+export const addObserver = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.task.addObserver',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No OK';
+};
+export const removeCoresponsible = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.task.delCoresponsible',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No OK';
+};
+export const removeObserver = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.task.delObserver',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No OK';
+};

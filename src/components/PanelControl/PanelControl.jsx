@@ -40,13 +40,13 @@ const PanelControl = () => {
       }}
     >
       <div style={{ flexGrow: 1 }}>
-        <PanelButton icon='todo' path='/task' title='Задачи' />
         <PanelButton icon='list' path='application' title='Заявки' />
         <PanelButton icon='home' path='objects' title='Объекты' />
         <PanelButton icon='deal' path='deal' title='Сделка' />
         <PanelButton icon='compilation' path='compilation' title='Подборки' />
         <PanelButton icon='client' path='client' title='Клиенты' />
         <PanelButton icon='users' path='users' title='Пользователи' />
+        <PanelButton icon='todo' path='/task' title='Задачи' />
         {/* <PanelButton icon='chart' path='/' title='Аналитики' /> */}
         {/* <PanelButton icon='calendar' path='calendar' title='Календарь' />
         <PanelButton icon='home' path='home' title='Объекты' />

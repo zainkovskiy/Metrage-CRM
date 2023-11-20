@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
@@ -26,6 +26,7 @@ const TaskContent = () => {
       dispatch(clearTasks());
     };
   }, []);
+
   const getTasks = () => {
     dispatch(getTaskList());
   };

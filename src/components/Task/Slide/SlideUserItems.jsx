@@ -65,6 +65,7 @@ const SlideUserItems = ({
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0 }}
+              key={user.UID}
             >
               <IconAvatar
                 src={useGetAvatar({

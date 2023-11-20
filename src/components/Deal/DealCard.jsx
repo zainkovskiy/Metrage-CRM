@@ -79,6 +79,8 @@ const DealCard = ({ deal }) => {
         return '#e94f4f';
       case 'new':
         return '#646262';
+      case 'finally':
+        return '#84019e';
       default:
         return '#2ba400';
     }

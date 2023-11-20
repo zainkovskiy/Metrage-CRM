@@ -46,12 +46,23 @@ const IconAvatar = styled.img`
   height: 22px;
   border-radius: 40px;
 `;
-const NotifyCount = styled.span`
+const NotifyCount = styled(motion.span)`
   min-width: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #0bc60b;
+  color: #fff;
+  padding: 0 0.2rem;
+  box-sizing: border-box;
+  border-radius: 40px;
+  font-size: 10px;
+`;
+const NotifyCountZero = styled(motion.span)`
+  min-width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #fff;
   padding: 0 0.2rem;
   box-sizing: border-box;
@@ -97,7 +108,7 @@ const TaskTable = () => {
         <TableHeader>
           <tr>
             <th>Название</th>
-            <th>Важность</th>
+            <th>Стадия</th>
             <th>Активность</th>
             <th>Крайний срок</th>
             <th>Постановщик</th>
@@ -121,8 +132,21 @@ const TaskTable = () => {
                 <td>{task?.importance}</td>
                 <td>
                   <Box jc='flex-start'>
-                    <NotifyCount>{task?.notify}</NotifyCount>
                     {useDateFormat(task?.activity, 'DD.MM.YY')}
+                    <AnimatePresence>
+                      {task?.notify > 0 ? (
+                        <NotifyCount
+                          variants={variants}
+                          exit='hidden'
+                          initial='hidden'
+                          animate='visible'
+                        >
+                          {task?.notify}
+                        </NotifyCount>
+                      ) : (
+                        <NotifyCountZero />
+                      )}
+                    </AnimatePresence>
                   </Box>
                 </td>
                 <td>{useDateFormat(task?.duedate, 'DD.MM.YY')}</td>

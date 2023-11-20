@@ -64,6 +64,9 @@ const MainSelectList = ({ source, onClose, onChange }) => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
+    if (source === 'office') {
+      getList();
+    }
   }, []);
   useEffect(() => {
     if (!selectUser) {
@@ -133,7 +136,14 @@ const MainSelectList = ({ source, onClose, onChange }) => {
         </TextSpanStyle>
         <CloseButtonStyle src={closeUrl} alt='close' onClick={onClose} />
       </Header>
-      <InputUI value={value} onChange={handleChange} ref={inputRef} fullWidth />
+      {source === 'user' && (
+        <InputUI
+          value={value}
+          onChange={handleChange}
+          ref={inputRef}
+          fullWidth
+        />
+      )}
       <MainSelectListStyle>
         {list.length > 0 ? (
           list.map((item) => (

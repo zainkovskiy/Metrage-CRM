@@ -53,7 +53,7 @@ const SlidePreliminaryAgreement = () => {
             control={control}
             render={({ field }) => (
               <CheckboxUI
-                disabled={!deal?.isLawyer || false}
+                disabled={!deal?.isСashier || false}
                 label='Задаток принят в АН'
                 onChange={(e) => {
                   field.onChange(e.target.checked);

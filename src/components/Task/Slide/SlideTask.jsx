@@ -7,17 +7,18 @@ import SlideTaskInfo from './SlideTaskInfo';
 import SlideTaskDetail from './SlideTaskDetail';
 import SlideTaskResult from './SlideTaskResult';
 import SlideTaskStory from './SlideTaskStory';
+import SlideTaskStatus from './SlideTaskStatus';
 
-const SlideTask = () => {
+const SlideTask = ({ closeSlide }) => {
   const task = useAsyncValue();
   const windowSize = useWindowSize();
-  console.log(task);
   return (
     <SliderStyle>
       <SliderContext>
         <SlideTaskMeta />
-        <SlideTaskInfo />
-        <SlideTaskResult />
+        <SlideTaskStatus status={task?.stageId || 0} UID={task.UID} />
+        <SlideTaskInfo closeSlide={closeSlide} />
+        {task?.result && <SlideTaskResult />}
         {windowSize < 768 && <SlideTaskDetail />}
         <SlideTaskStory />
       </SliderContext>

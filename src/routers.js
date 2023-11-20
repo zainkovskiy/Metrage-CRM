@@ -6,6 +6,7 @@ import SuspenseTask from 'components/Task/SuspenseTask';
 import SuspenseSlideTask from 'components/Task/Slide/SuspenseSlideTask';
 import { loaderTaskSlide } from 'components/Task/Slide/SuspenseSlideTask';
 import SuspenseNewTask from 'components/Task/New/SuspenseNewTask';
+import { loaderEditTask } from 'components/Task/New/SuspenseNewTask';
 
 import SuspenseApplication from 'components/Application/SuspenseApplication';
 import SuspenseSlideApplication from 'components/Application/Slide/SuspenseSlideApplication';
@@ -63,21 +64,6 @@ export const routers = createBrowserRouter([
         ],
       },
       {
-        path: 'task',
-        element: <SuspenseTask />,
-        children: [
-          {
-            path: 'new',
-            element: <SuspenseNewTask />,
-          },
-          {
-            path: ':id',
-            element: <SuspenseSlideTask />,
-            loader: loaderTaskSlide,
-          },
-        ],
-      },
-      {
         path: 'application',
         element: <SuspenseApplication />,
         children: [
@@ -97,10 +83,6 @@ export const routers = createBrowserRouter([
             loader: loaderOpenSlide,
           },
         ],
-      },
-      {
-        path: 'task',
-        element: <TaskContent />,
       },
       {
         path: 'objects',
@@ -194,8 +176,24 @@ export const routers = createBrowserRouter([
         ],
       },
       {
-        path: 'home',
-        element: <p>home</p>,
+        path: 'task',
+        element: <SuspenseTask />,
+        children: [
+          {
+            path: 'new',
+            element: <SuspenseNewTask />,
+          },
+          {
+            path: ':id',
+            element: <SuspenseSlideTask />,
+            loader: loaderTaskSlide,
+          },
+          {
+            path: 'edit/:id',
+            element: <SuspenseNewTask />,
+            loader: loaderEditTask,
+          },
+        ],
       },
       {
         path: '*',
