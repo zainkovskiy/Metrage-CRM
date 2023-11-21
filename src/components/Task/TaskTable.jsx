@@ -152,16 +152,16 @@ const TaskTable = () => {
                 <td>{useDateFormat(task?.duedate, 'DD.MM.YY')}</td>
                 <td>
                   <Box jc='flex-start'>
-                    <IconAvatar src={task?.responsible?.avatar} />
-                    {task?.responsible?.lastName || ''}{' '}
-                    {task?.responsible?.firstName || ''}
+                    <IconAvatar src={task?.creator?.avatar} />
+                    {task?.creator?.lastName || ''}{' '}
+                    {task?.creator?.firstName || ''}
                   </Box>
                 </td>
                 <td>
                   <Box jc='flex-start'>
-                    <IconAvatar src={task?.creator?.avatar} />
-                    {task?.creator?.lastName || ''}{' '}
-                    {task?.creator?.firstName || ''}
+                    <IconAvatar src={task?.responsible?.avatar} />
+                    {task?.responsible?.lastName || ''}{' '}
+                    {task?.responsible?.firstName || ''}
                   </Box>
                 </td>
               </TableLine>

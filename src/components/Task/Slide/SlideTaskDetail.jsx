@@ -12,6 +12,8 @@ import {
   addObserver,
   removeCoresponsible,
   removeObserver,
+  setCreator,
+  setResponsible,
 } from '../../../api/taskApi';
 
 const SlideUserListStyle = styled.div`
@@ -33,6 +35,7 @@ const SlideTaskDetail = () => {
   const [changeToggle, setChangeToggle] = useState(false);
   const [sourceChange, setSourceChange] = useState(null);
   const removeUser = (user) => {
+    console.log(user);
     const raw = {
       UID: task?.UID,
       userId: user?.user?.UID,
@@ -52,6 +55,16 @@ const SlideTaskDetail = () => {
   };
   const selectUser = (user) => {
     if (sourceChange === 'creatorId' || sourceChange === 'responsibleId') {
+      sourceChange === 'creatorId' &&
+        setCreator({
+          UID: task?.UID,
+          creator: user,
+        });
+      sourceChange === 'responsibleId' &&
+        setResponsible({
+          UID: task?.UID,
+          responsible: user,
+        });
       task[sourceChange] = user;
       closeUserFinder();
       return;
@@ -76,6 +89,7 @@ const SlideTaskDetail = () => {
         buttonName='сменить'
         buttonOnClick={openUserFinder}
         source='creatorId'
+        mode='wait'
       />
       <SlideUserItems
         title='Ответственный'
@@ -83,6 +97,7 @@ const SlideTaskDetail = () => {
         buttonName='сменить'
         buttonOnClick={openUserFinder}
         source='responsibleId'
+        mode='wait'
       />
       <SlideUserItems
         title='Соисполнители'

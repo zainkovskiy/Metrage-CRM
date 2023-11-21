@@ -6,6 +6,7 @@ import { Await, useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import { useWindowSize } from 'hooks/windowSize';
 import { getOneTask } from '../../../api/taskApi';
 import { useDispatch } from 'react-redux';
+import { updateTaskCard } from '../../../store/taskSlice';
 const SlideTask = React.lazy(() => import('components/Task/Slide/SlideTask'));
 
 const LoaderContainer = styled.div`
@@ -22,6 +23,7 @@ const SuspenseSlideTask = () => {
   const windowSize = useWindowSize();
   const { task } = useLoaderData();
   const handleClose = () => {
+    dispatch(updateTaskCard(params));
     setTimeout(() => {
       navigate('/task', { replace: true });
     }, 300);

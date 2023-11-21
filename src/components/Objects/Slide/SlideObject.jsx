@@ -10,6 +10,7 @@ import SlideObjectStory from './SlideObjectStory';
 import { useWindowSize } from 'hooks/windowSize';
 import SlideObjectStatus from './SlideObjectStatus';
 import SlideToMyObject from './SlideToMyObject';
+import SlideObjectDocs from './SlideObjectDocs';
 
 const SlideObjectStyle = styled.div`
   height: 100%;
@@ -65,6 +66,7 @@ const SlideObject = ({ onCloseSlide }) => {
             height={500}
           />
         )}
+        {object?.isEditor && <SlideObjectDocs />}
       </SlideObjectContext>
       {windowSize > 768 && object?.isEditor && (
         <SlideObjectStory type={object?.typeEstate} id={object?.UID} />

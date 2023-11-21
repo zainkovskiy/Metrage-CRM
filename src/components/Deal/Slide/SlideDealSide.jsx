@@ -3,8 +3,8 @@ import { Link, useAsyncValue } from 'react-router-dom';
 import styled from 'styled-components';
 import { SlideBlockStyle } from '../DealStyle';
 import { SlideGridWrapper } from '../DealStyle';
-import SlideContacFind from './SlideContacFind';
 import { IconButton } from 'ui/IconButton';
+import SlideContacFind from './SlideContacFind';
 import DialogWindow from 'components/Main/DialogWindow';
 
 import { TextSpanStyle } from 'styles/styles';

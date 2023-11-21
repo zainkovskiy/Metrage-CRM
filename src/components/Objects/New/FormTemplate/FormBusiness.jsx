@@ -119,6 +119,19 @@ const FormBusiness = () => {
             )}
           />
           <Controller
+            name='BuildingFloorsCount'
+            control={control}
+            render={({ field }) => (
+              <InputUI
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
+                value={field.value || ''}
+                label='Этажей в здании'
+                fullWidth
+                type='number'
+              />
+            )}
+          />
+          <Controller
             name='TotalArea'
             control={control}
             render={({ field }) => (

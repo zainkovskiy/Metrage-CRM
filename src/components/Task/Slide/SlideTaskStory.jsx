@@ -12,7 +12,7 @@ const SlideTaskStory = () => {
   }, []);
   const getHistory = () => {
     setLoader(true);
-    getHistoryList(task.UID, 'task')
+    getHistoryList(task.UID, 'tasks')
       .then((data) => {
         setHistory(data || []);
       })
@@ -23,7 +23,7 @@ const SlideTaskStory = () => {
   const sendMessage = (message) => {
     const newMessage = message.trim();
     if (newMessage) {
-      sendHistoryMessage('task', task.UID, newMessage).then((data) => {
+      sendHistoryMessage('tasks', task.UID, newMessage).then((data) => {
         setHistory([...history, data]);
       });
     }

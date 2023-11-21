@@ -9,8 +9,9 @@ import { SliderTitle } from '../../../styles/slider';
 import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserList } from '../../../api/search';
-import { createNewTask } from '../../../api/taskApi';
+import { createNewTask, updateTask } from '../../../api/taskApi';
 import { useAsyncValue } from 'react-router-dom';
+import { updateTaskCard } from '../../../store/taskSlice';
 
 const NewUserStyle = styled.form`
   padding: 0.5rem;
@@ -63,7 +64,15 @@ const NewTask = ({ onClose }) => {
 
   const onSubmit = (data) => {
     if (task) {
-      onClose();
+      updateTask({
+        ...task,
+        ...data,
+      }).then((answer) => {
+        if (answer === 'OK') {
+          dispatch(updateTaskCard(task.UID));
+          onClose();
+        }
+      });
       return;
     }
     createNewTask({

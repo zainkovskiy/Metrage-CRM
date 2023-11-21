@@ -101,7 +101,8 @@ const UploderFiles = ({ raw, callback, fullWidth, label }) => {
         onChange={handleChange}
       />
       <TextSpanStyle>
-        {uploading ? 'Загрузка' : `${label || 'Загрузка файлов'}`}
+        Загрузка файлов
+        {/* {uploading ? 'Загружается ...' : `${label || 'Загрузка файлов'}`} */}
       </TextSpanStyle>
     </UploaderStyle>
   );

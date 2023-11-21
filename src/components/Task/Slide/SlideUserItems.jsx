@@ -28,6 +28,7 @@ const SlideUserItems = ({
   source,
   cbRemove,
   buttonOnClick,
+  mode,
 }) => {
   const windowSize = useWindowSize();
   const remove = (user) => {
@@ -59,7 +60,7 @@ const SlideUserItems = ({
         jc='flex-start'
         ai='flex-start'
       >
-        <AnimatePresence initial={false}>
+        <AnimatePresence initial={false} mode={mode}>
           {users.map((user) => (
             <SlideUserItem
               initial={{ scale: 0 }}
