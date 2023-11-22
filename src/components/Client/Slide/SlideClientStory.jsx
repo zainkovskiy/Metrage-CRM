@@ -20,10 +20,10 @@ const SlideClientStory = () => {
         setLoader(false);
       });
   };
-  const sendMessage = (message) => {
-    const newMessage = message.trim();
-    if (newMessage) {
-      sendHistoryMessage('contact', client.UID, newMessage).then((data) => {
+  const sendMessage = (messageObj) => {
+    messageObj.message = messageObj.message.trim();
+    if (messageObj.message) {
+      sendHistoryMessage('contact', client.UID, messageObj).then((data) => {
         setHistory([...history, data]);
       });
     }
@@ -33,8 +33,8 @@ const SlideClientStory = () => {
       loader={loader}
       history={history}
       onChange={sendMessage}
-      // fullWidth={fullWidth}
-      // height={height}
+      source='client'
+      sourceId={client.UID}
     />
   );
 };

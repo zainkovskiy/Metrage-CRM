@@ -8,6 +8,7 @@ import TaskFilter from './TaskFilter';
 import { clearTasks, getTaskList } from '../../store/taskSlice';
 
 const TaskContentStyle = styled.div`
+  width: 100%;
   flex-grow: 1;
   display: flex;
   flex-direction: column;

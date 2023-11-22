@@ -23,7 +23,7 @@ const SuspenseSlideTask = () => {
   const windowSize = useWindowSize();
   const { task } = useLoaderData();
   const handleClose = () => {
-    dispatch(updateTaskCard(params));
+    dispatch(updateTaskCard(params.id));
     setTimeout(() => {
       navigate('/task', { replace: true });
     }, 300);

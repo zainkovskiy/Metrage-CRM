@@ -9,6 +9,7 @@ import { InputUI } from 'ui/InputUI';
 import InputText from '../../../ui/InputText/InputText';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useNumberTriad } from 'hooks/StringHook';
+import { CheckboxUI } from 'ui/CheckboxUI';
 
 const FeatureTitle = styled.div`
   border-bottom: 1px solid #786464;
@@ -138,6 +139,22 @@ const SlideDealInfo = () => {
             )}
           />
         </SlideDealInfoSide>
+        <Controller
+          name='agentsCalculated'
+          control={control}
+          render={({ field }) => (
+            <CheckboxUI
+              label='Агенты расчитаны полностью'
+              onChange={(e) => {
+                field.onChange(e.target.checked);
+              }}
+              defaultChecked={field.value || false}
+              id='agentsCalculated'
+              size='small'
+              labelSize={12}
+            />
+          )}
+        />
       </SlideDealInfoContent>
     </SlideBlockStyle>
   );

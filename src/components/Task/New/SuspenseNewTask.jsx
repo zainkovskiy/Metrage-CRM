@@ -4,14 +4,25 @@ import SlideWindow from 'components/Main/SlideWindow';
 import { useLoaderData, useNavigate, Await } from 'react-router-dom';
 import { useWindowSize } from 'hooks/windowSize';
 import { getOneTask } from '../../../api/taskApi';
+import { useDispatch } from 'react-redux';
+import { addNewTaskCard } from '../../../store/taskSlice';
 const NewTask = React.lazy(() => import('components/Task/New/NewTask'));
 
 const SuspenseNewTask = () => {
   const { task } = useLoaderData() || {};
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(true);
   const windowSize = useWindowSize();
-  const handleClose = () => {
+  const handleClose = (uid) => {
+    if (uid) {
+      setTimeout(() => {
+        dispatch(addNewTaskCard(uid));
+        navigate(`/task/${uid}`, { replace: true });
+      }, 300);
+      setOpen(false);
+      return;
+    }
     setTimeout(() => {
       navigate('/task', { replace: true });
     }, 300);

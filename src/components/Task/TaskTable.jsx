@@ -11,6 +11,9 @@ import { useDateFormat } from 'hooks/DateFormat';
 
 const TaskTableStyle = styled.div`
   height: 100%;
+`;
+const TaskTableContainer = styled.div`
+  width: 100%;
   overflow: auto;
 `;
 const TableStyle = styled.table`
@@ -87,13 +90,13 @@ const TaskTable = () => {
   // const loadingMore = useSelector((state) => state.application.loadingMore);
 
   const more = () => {
-    dispatch(getMoreApplication())
-      .unwrap()
-      .then((data) => {
-        if (data?.length < 30) {
-          setIsButtonMore(false);
-        }
-      });
+    // dispatch(getMoreApplication())
+    //   .unwrap()
+    //   .then((data) => {
+    //     if (data?.length < 30) {
+    //       setIsButtonMore(false);
+    //     }
+    //   });
   };
   const navigateTo = (uid) => {
     navigate(`${uid}`);
@@ -104,77 +107,77 @@ const TaskTable = () => {
   }
   return (
     <TaskTableStyle>
-      <TableStyle>
-        <TableHeader>
-          <tr>
-            <th>Название</th>
-            <th>Стадия</th>
-            <th>Активность</th>
-            <th>Крайний срок</th>
-            <th>Постановщик</th>
-            <th>Ответственный</th>
-          </tr>
-        </TableHeader>
-        <tbody>
-          <AnimatePresence>
-            {tasks.map((task) => (
-              <TableLine
-                key={task.UID}
-                onClick={() => {
-                  navigateTo(task.UID);
-                }}
-                variants={variants}
-                initial='hidden'
-                animate='visible'
-                $deadline={task?.isOverdue || false}
-              >
-                <td>{task?.title}</td>
-                <td>{task?.importance}</td>
-                <td>
-                  <Box jc='flex-start'>
-                    {useDateFormat(task?.activity, 'DD.MM.YY')}
-                    <AnimatePresence>
-                      {task?.notify > 0 ? (
-                        <NotifyCount
-                          variants={variants}
-                          exit='hidden'
-                          initial='hidden'
-                          animate='visible'
-                        >
-                          {task?.notify}
-                        </NotifyCount>
-                      ) : (
-                        <NotifyCountZero />
-                      )}
-                    </AnimatePresence>
-                  </Box>
-                </td>
-                <td>{useDateFormat(task?.duedate, 'DD.MM.YY')}</td>
-                <td>
-                  <Box jc='flex-start'>
-                    <IconAvatar src={task?.creator?.avatar} />
-                    {task?.creator?.lastName || ''}{' '}
-                    {task?.creator?.firstName || ''}
-                  </Box>
-                </td>
-                <td>
-                  <Box jc='flex-start'>
-                    <IconAvatar src={task?.responsible?.avatar} />
-                    {task?.responsible?.lastName || ''}{' '}
-                    {task?.responsible?.firstName || ''}
-                  </Box>
-                </td>
-              </TableLine>
-            ))}
-          </AnimatePresence>
-        </tbody>
-      </TableStyle>
+      <TaskTableContainer>
+        <TableStyle>
+          <TableHeader>
+            <tr>
+              <th>Название</th>
+              <th>Стадия</th>
+              <th>Активность</th>
+              <th>Крайний срок</th>
+              <th>Постановщик</th>
+              <th>Ответственный</th>
+            </tr>
+          </TableHeader>
+          <tbody>
+            <AnimatePresence>
+              {tasks.map((task) => (
+                <TableLine
+                  key={task.UID}
+                  onClick={() => {
+                    navigateTo(task.UID);
+                  }}
+                  variants={variants}
+                  initial='hidden'
+                  animate='visible'
+                  $deadline={task?.isOverdue || false}
+                >
+                  <td>{task?.title}</td>
+                  <td>{task?.importance}</td>
+                  <td>
+                    <Box jc='flex-start'>
+                      {useDateFormat(task?.activity, 'DD.MM.YY')}
+                      <AnimatePresence>
+                        {task?.notify > 0 ? (
+                          <NotifyCount
+                            variants={variants}
+                            exit='hidden'
+                            initial='hidden'
+                            animate='visible'
+                          >
+                            {task?.notify}
+                          </NotifyCount>
+                        ) : (
+                          <NotifyCountZero />
+                        )}
+                      </AnimatePresence>
+                    </Box>
+                  </td>
+                  <td>{useDateFormat(task?.duedate, 'DD.MM.YY')}</td>
+                  <td>
+                    <Box jc='flex-start'>
+                      <IconAvatar src={task?.creator?.avatar} />
+                      {task?.creator?.lastName || ''}{' '}
+                      {task?.creator?.firstName || ''}
+                    </Box>
+                  </td>
+                  <td>
+                    <Box jc='flex-start'>
+                      <IconAvatar src={task?.responsible?.avatar} />
+                      {task?.responsible?.lastName || ''}{' '}
+                      {task?.responsible?.firstName || ''}
+                    </Box>
+                  </td>
+                </TableLine>
+              ))}
+            </AnimatePresence>
+          </tbody>
+        </TableStyle>
+      </TaskTableContainer>
       {/* <AnimatePresence>
-        {isButtonMore && (
-          <ButtonLoader onClick={more} loading={loadingMore} fullWidth>
-            Загрузить еще
-          </ButtonLoader>
-        )}
+        <ButtonLoader onClick={more} loading={false} fullWidth>
+          Загрузить еще
+        </ButtonLoader>
       </AnimatePresence> */}
     </TaskTableStyle>
   );

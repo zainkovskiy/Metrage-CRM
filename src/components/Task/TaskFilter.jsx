@@ -9,6 +9,7 @@ import SlideWindow from 'components/Main/SlideWindow';
 import { useWindowSize } from 'hooks/windowSize';
 import { useDispatch, useSelector } from 'react-redux';
 import { setReadAll } from '../../store/taskSlice';
+import { device } from 'styles/device';
 
 const TaskFilterStyle = styled.div`
   display: flex;
@@ -25,6 +26,9 @@ const BoxInfo = styled.div`
   padding: 0.2rem 0.5rem;
   background-color: #85009e;
   border-radius: 5px;
+  @media ${device.tablet} {
+    display: none;
+  }
 `;
 const LineSeporator = styled.span`
   width: 1px;

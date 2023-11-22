@@ -23,9 +23,9 @@ export const createNewTask = async (raw) => {
     },
   });
   if (res?.statusText === 'OK') {
-    return 'OK';
+    return res?.data?.result || null;
   }
-  return 'No OK';
+  return null;
 };
 export const setTaskStage = async (raw) => {
   const res = await axios.post(API, {

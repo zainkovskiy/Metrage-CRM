@@ -41,6 +41,7 @@ const SlideDeal = () => {
     actualDate: deal?.actualDate || '',
     objectCost: deal?.objectCost || '',
     agencyComission: deal?.agencyComission || '',
+    agentsCalculated: deal?.agentsCalculated || false,
   });
   const methods = useForm({
     defaultValues: {
@@ -56,6 +57,7 @@ const SlideDeal = () => {
       objectCost: deal?.objectCost || '',
       agencyComission: deal?.agencyComission || '',
       dealTitle: deal?.dealTitle || '',
+      agentsCalculated: deal?.agentsCalculated || false,
     },
   });
   const onSubmit = (data) => {

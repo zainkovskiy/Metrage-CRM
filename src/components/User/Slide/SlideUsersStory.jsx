@@ -20,10 +20,10 @@ const SlideUsersStory = () => {
         setLoader(false);
       });
   };
-  const sendMessage = (message) => {
-    const newMessage = message.trim();
-    if (newMessage) {
-      sendHistoryMessage('users', user.UID, newMessage).then((data) => {
+  const sendMessage = (messageObj) => {
+    messageObj.message = messageObj.message.trim();
+    if (messageObj.message) {
+      sendHistoryMessage('users', user.UID, messageObj).then((data) => {
         setHistory([...history, data]);
       });
     }
@@ -33,6 +33,8 @@ const SlideUsersStory = () => {
       loader={loader}
       history={history}
       onChange={sendMessage}
+      source='user'
+      sourceId={user.UID}
       // fullWidth={fullWidth}
       // height={height}
     />

@@ -44,6 +44,21 @@ export const updateTaskCard = createAsyncThunk(
     return {};
   }
 );
+export const addNewTaskCard = createAsyncThunk(
+  'users/addNewTaskCard',
+  async (UID) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.task.getOne',
+      fields: { UID: UID },
+    });
+
+    if (res?.statusText === 'OK') {
+      return res?.data?.result || {};
+    }
+    return {};
+  }
+);
 export const defaultTaskFilter = {};
 const getFilter = () => {
   const filter = localStorage.getItem('filterTask');
@@ -102,6 +117,9 @@ const taskSlice = createSlice({
         1,
         curTask
       );
+    });
+    builder.addCase(addNewTaskCard.fulfilled, (state, action) => {
+      state.taskData.tasks = [...state.taskData.tasks, action.payload];
     });
   },
 });

@@ -1,46 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { AnimatePresence, motion } from 'framer-motion';
-import styled from 'styled-components';
+import { AnimatePresence } from 'framer-motion';
 import Loader from 'components/Main/Loader';
 import { statusVarinants } from './DealStatus';
 import ButtonLoader from 'ui/ButtonLoader/ButtonLoader';
 import { useNumberTriad } from 'hooks/StringHook';
 import { useDateFormat } from 'hooks/DateFormat';
 import { getDealListMore } from '../../store/dealSlice';
-
-const DealTableStyle = styled.div`
-  height: 100%;
-  overflow: auto;
-`;
-const TableStyle = styled.table`
-  border-collapse: collapse;
-  width: 100%;
-  font-family: ${({ theme }) => theme.font.family};
-  font-size: 12px;
-  position: relative;
-`;
-const TableHeader = styled.thead`
-  font-family: ${({ theme }) => theme.font.familyBold};
-  position: sticky;
-  top: 0;
-  background: #fff;
-  border-bottom: 1px solid #f0f0f0;
-  & > tr > th {
-    padding: 0.3rem;
-  }
-`;
-const TableLine = styled(motion.tr)`
-  cursor: pointer;
-  transition: background 0.3s;
-  &: hover {
-    background: #e6b2f0;
-  }
-  & > td {
-    padding: 0.3rem;
-  }
-`;
+import {
+  DealTableStyle,
+  TableStyle,
+  TableHeader,
+  TableLine,
+} from './styles/dealTable';
 
 const variants = {
   visible: {
@@ -79,6 +52,7 @@ const DealTable = () => {
             {/* <th>Тип сделки</th>
             <th>Тип недвижимости</th> */}
             <th>Сумма</th>
+            <th>Риелтор</th>
             <th>Юрист</th>
             <th>Оплата юристу</th>
             <th>Комиссия</th>
@@ -109,6 +83,7 @@ const DealTable = () => {
                 <td style={{ whiteSpace: 'nowrap' }}>
                   {useNumberTriad(deal?.Price || 0)}
                 </td>
+                <td>{deal.realtor}</td>
                 <td>{deal.lawyerName}</td>
                 <td style={{ whiteSpace: 'nowrap' }}>
                   {useNumberTriad(deal?.lawyerPrice || 0)}

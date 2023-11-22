@@ -10,22 +10,22 @@ const FieldSendStyle = styled.div`
   border-radius: 0 0 5px 5px;
   padding: 0.5rem;
   border-top: 1px solid ${({ theme }) => theme.color.primary};
-  @media ${device.tablet}{
+  @media ${device.tablet} {
     border-radius: 5px;
   }
-`
+`;
 
 const FieldSend = () => {
   const dispatch = useDispatch();
   const sendMessage = (message) => {
     if (message.trimStart().length === 0) {
-      return
+      return;
     }
     dispatch(sendChatMessage(message));
-  }
+  };
   return (
     <FieldSendStyle>
-      <InputChatUI onClick={sendMessage} />
+      <InputChatUI onClick={sendMessage} noAttachment />
     </FieldSendStyle>
   );
 };

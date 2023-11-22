@@ -20,10 +20,10 @@ const SlideTaskStory = () => {
         setLoader(false);
       });
   };
-  const sendMessage = (message) => {
-    const newMessage = message.trim();
-    if (newMessage) {
-      sendHistoryMessage('tasks', task.UID, newMessage).then((data) => {
+  const sendMessage = (messamessageObje) => {
+    messageObj.message = messageObj.message.trim();
+    if (messageObj.message) {
+      sendHistoryMessage('tasks', task.UID, messageObj).then((data) => {
         setHistory([...history, data]);
       });
     }
@@ -35,6 +35,8 @@ const SlideTaskStory = () => {
       onChange={sendMessage}
       fullWidth
       height={300}
+      source='task'
+      sourceId={task.UID}
     />
   );
 };

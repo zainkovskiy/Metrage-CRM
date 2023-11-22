@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { sendHistoryMessage, getHistoryList } from 'api/storyAPI';
-import { useLocation } from 'react-router-dom';
+import { useAsyncValue, useLocation } from 'react-router-dom';
 import SliderStory from 'components/Main/SliderStory/SliderStory';
 
 const SlideApplicationStory = ({ UID, fullWidth, height }) => {
+  const application = useAsyncValue();
   const locationRef = useRef(null);
   const [history, setHistory] = useState([]);
   const [loader, setLoader] = useState(false);
@@ -34,10 +35,9 @@ const SlideApplicationStory = ({ UID, fullWidth, height }) => {
       });
   };
 
-  const sendMessage = (message) => {
-    const newMessage = message.trim();
-    if (newMessage) {
-      sendHistoryMessage('demands', UID, newMessage).then((data) => {
+  const sendMessage = (messageObj) => {
+    if (messageObj.message) {
+      sendHistoryMessage('demands', UID, messageObj).then((data) => {
         setHistory([...history, data]);
       });
     }
@@ -49,6 +49,8 @@ const SlideApplicationStory = ({ UID, fullWidth, height }) => {
       onChange={sendMessage}
       fullWidth={fullWidth}
       height={height}
+      source='application'
+      sourceId={application.UID}
     />
   );
 };

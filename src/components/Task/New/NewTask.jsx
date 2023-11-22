@@ -78,10 +78,8 @@ const NewTask = ({ onClose }) => {
     createNewTask({
       creatorId: userId,
       ...data,
-    }).then((answer) => {
-      if (answer.result === 'OK') {
-        onClose();
-      }
+    }).then((data) => {
+      onClose(data?.UID || null);
     });
   };
   const getUserListValue = (value) => {
@@ -96,7 +94,9 @@ const NewTask = ({ onClose }) => {
   return (
     <NewUserStyle onSubmit={handleSubmit(onSubmit)}>
       <FormContainer>
-        <SliderTitle>Новый задача</SliderTitle>
+        <SliderTitle>
+          {task ? 'Редактировать задачу' : 'Новый задача'}
+        </SliderTitle>
         <Controller
           name='responsibleId'
           control={control}

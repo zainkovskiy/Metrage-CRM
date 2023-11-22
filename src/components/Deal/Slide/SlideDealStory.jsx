@@ -20,16 +20,22 @@ const SlideDealStory = () => {
         setLoader(false);
       });
   };
-  const sendMessage = (message) => {
-    const newMessage = message.trim();
-    if (newMessage) {
-      sendHistoryMessage('deal', deal.UID, newMessage).then((data) => {
+  const sendMessage = (messageObj) => {
+    messageObj.message = messageObj.message.trim();
+    if (messageObj.message) {
+      sendHistoryMessage('deal', deal.UID, messageObj).then((data) => {
         setHistory([...history, data]);
       });
     }
   };
   return (
-    <SliderStory loader={loader} history={history} onChange={sendMessage} />
+    <SliderStory
+      loader={loader}
+      history={history}
+      onChange={sendMessage}
+      source='deal'
+      sourceId={deal.UID}
+    />
   );
 };
 

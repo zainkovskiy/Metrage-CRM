@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from 'axios';
 const API = 'https://crm.metragegroup.com/API/REST.php';
 
 export const sendHistoryMessage = async (method, appId, message) => {
@@ -8,13 +8,13 @@ export const sendHistoryMessage = async (method, appId, message) => {
     fields: {
       type: method,
       UID: appId,
-      message: message
-    }
-  })
-  if(res?.statusText === 'OK'){
+      ...message,
+    },
+  });
+  if (res?.statusText === 'OK') {
     return res?.data?.result;
   }
-}
+};
 
 export const getHistoryList = async (id, type) => {
   const res = await axios.post(API, {
@@ -22,10 +22,10 @@ export const getHistoryList = async (id, type) => {
     method: 'crm.history.list',
     fields: {
       UID: id,
-      type: type
-    }
-  })
+      type: type,
+    },
+  });
   if (res?.statusText === 'OK') {
     return res?.data?.result || [];
   }
-}
+};

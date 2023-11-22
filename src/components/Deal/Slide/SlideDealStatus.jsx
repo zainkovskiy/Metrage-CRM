@@ -34,7 +34,7 @@ const SlideDealStatus = ({ status, UID }) => {
           <StatusBarItem title='ПДКП (бронь)' onClick={changeStepper} />
           <StatusBarItem title='ДКП' onClick={changeStepper} />
           <StatusBarItem title='Акт подписан' onClick={changeStepper} />
-          <StatusBarItem title='Агент расчитан' onClick={changeStepper} />
+          <StatusBarItem title='Оплачено' onClick={changeStepper} />
         </StatusBar>
         <Box column>
           <ButtonLink onClick={setFailure} size={12}>

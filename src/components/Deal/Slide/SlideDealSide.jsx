@@ -44,6 +44,11 @@ const TextNavigate = styled(Link)`
     color: ${({ theme }) => theme.color.primary};
   }
 `;
+const PhotoObject = styled.img`
+  width: 100px;
+  height: 100%;
+  border-radius: 5px;
+`;
 const SlideDealSide = () => {
   const deal = useAsyncValue();
   const [contactFind, setFindContact] = useState(null);
@@ -91,30 +96,43 @@ const SlideDealSide = () => {
         <SlideBlockStyle $column jc='space-between'>
           <Box column fullWidth ai='flex-start'>
             <FeatureTitle>Продавец</FeatureTitle>
-            <div>
-              {deal?.dealType === 'simple' ? (
-                <TextNavigate
-                  to={`/objects/${deal?.objectParams?.type}/${deal?.objectParams?.UID}`}
-                >
-                  {deal?.objectParams?.street} {deal?.objectParams?.house}
-                </TextNavigate>
-              ) : (
-                <TextSpanStyle size={12}>
-                  {deal?.objectParams?.street} {deal?.objectParams?.house}
-                </TextSpanStyle>
+            <Box jc='flex-start' ai='normal'>
+              {deal?.objectParams?.photo && (
+                <PhotoObject src={deal?.objectParams?.photo || null} />
               )}
-              <TextSpanStyle size={10}>
-                {deal?.objectParams?.city}
-              </TextSpanStyle>
-            </div>
-            <div>
-              <TextSpanStyle size={10}>
-                Тип: {CategoryTranslate[deal?.objectParams?.Category]}
-              </TextSpanStyle>
-              <TextSpanStyle size={12}>
-                Цена: {useNumberTriad(deal?.objectParams?.Price || '0')} руб.
-              </TextSpanStyle>
-            </div>
+              <Box column ai='flex-start' jc='space-between'>
+                <div>
+                  {deal?.dealType === 'simple' ? (
+                    <TextNavigate
+                      to={`/objects/${deal?.objectParams?.type}/${deal?.objectParams?.UID}`}
+                    >
+                      {deal?.objectParams?.street} {deal?.objectParams?.house}
+                    </TextNavigate>
+                  ) : (
+                    <TextSpanStyle size={12}>
+                      {deal?.objectParams?.street} {deal?.objectParams?.house}
+                    </TextSpanStyle>
+                  )}
+                  <TextSpanStyle size={10}>
+                    {deal?.objectParams?.city}
+                  </TextSpanStyle>
+                </div>
+                <div>
+                  <TextSpanStyle size={10}>
+                    Тип: {CategoryTranslate[deal?.objectParams?.Category]}
+                  </TextSpanStyle>
+                  <TextSpanStyle size={12}>
+                    Цена: {useNumberTriad(deal?.objectParams?.Price || '0')}{' '}
+                    руб.
+                  </TextSpanStyle>
+                  {deal?.objectParams?.TotalArea && (
+                    <TextSpanStyle size={10}>
+                      Площадь: {deal?.objectParams?.TotalArea || '0'} м2.
+                    </TextSpanStyle>
+                  )}
+                </div>
+              </Box>
+            </Box>
           </Box>
           <Box column fullWidth>
             <Box fullWidth>
@@ -146,7 +164,9 @@ const SlideDealSide = () => {
                 size={12}
                 to={`/application/${deal?.bidParams?.UID}`}
               >
-                Заявка: {deal?.bidParams?.firstName || ''}
+                Заявка: {deal?.bidParams?.lastName || ''}{' '}
+                {deal?.bidParams?.firstName || ''}{' '}
+                {deal?.bidParams?.secondName || ''}
               </TextNavigate>
               <TextSpanStyle size={12}>
                 Потребность: {deal?.bidParams?.type || ''}

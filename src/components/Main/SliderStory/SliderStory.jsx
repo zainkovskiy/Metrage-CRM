@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { TitleFormStyle } from 'styles/styles';
 import { InputChatUI } from 'ui/InputChatUI/InputChatUI';
 import SlideStoryField from './SlideStoryField';
+import { useSelector } from 'react-redux';
 
 const SliderStoryStyle = styled.div`
   background-color: #fff;
@@ -17,12 +18,26 @@ const SliderStoryStyle = styled.div`
     $height && `height: ${$height}px; min-height: ${$height}px`};
   box-sizing: border-box;
 `;
-const SliderStory = ({ onChange, history, loader, fullWidth, height }) => {
+const SliderStory = ({
+  onChange,
+  history,
+  loader,
+  fullWidth,
+  height,
+  source,
+  sourceId,
+}) => {
+  const userId = useSelector((state) => state.user.UID);
+  const raw = {
+    entityId: sourceId,
+    entityType: `${source}Files`,
+    author: userId,
+  };
   return (
     <SliderStoryStyle $fullWidth={fullWidth} $height={height}>
       <TitleFormStyle ta='center'>История</TitleFormStyle>
       <SlideStoryField history={history} loader={loader} />
-      <InputChatUI onClick={onChange} placeholder='Напишите комментарий' />
+      <InputChatUI onClick={onChange} placeholder='Комментарий' raw={raw} />
     </SliderStoryStyle>
   );
 };

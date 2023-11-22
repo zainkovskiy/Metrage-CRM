@@ -17,13 +17,13 @@ const SlideObjectAd = () => {
     setSure(!sure);
   };
   const sureAnswer = (answer) => {
-    if (!answer) {
-      return;
+    if (answer) {
+      onRepublication({
+        type: object?.typeEstate,
+        UID: object?.UID,
+      });
     }
-    onRepublication({
-      type: object?.typeEstate,
-      UID: object?.UID,
-    });
+    return;
   };
   return (
     <SlideBlockStyle $column gap='0'>

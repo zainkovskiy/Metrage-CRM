@@ -2,10 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { SlideBlockStyle, SlideGridWrapper } from '../DealStyle';
 import { useAsyncValue } from 'react-router-dom';
-import { TextSpanStyle } from 'styles/styles';
 import { InputUI } from 'ui/InputUI';
 import { CheckboxUI } from 'ui/CheckboxUI';
-import { useDateFormat } from '../../../hooks/DateFormat';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useNumberTriad } from 'hooks/StringHook';
 
