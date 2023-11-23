@@ -201,7 +201,6 @@ const SliderText = styled(TextSpanStyle)`
 `;
 
 const FileCoponent = ({ file, removeCurrentFile }) => {
-  console.log(file);
   return (
     <Box jc='space-between' fullWidth>
       <SliderText size={12} nowrap>

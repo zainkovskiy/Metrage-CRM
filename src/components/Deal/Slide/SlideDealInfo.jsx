@@ -37,7 +37,7 @@ const SlideDealInfo = () => {
     <SlideBlockStyle $column ai='flex-start'>
       <FeatureTitle>Общая информация</FeatureTitle>
       <div style={{ width: '100%' }}>
-        <Box jc='flex-start'>
+        <Box jc='flex-start' gap='0'>
           <TextSpanStyle>Название:</TextSpanStyle>
           <Controller
             name='dealTitle'
@@ -53,13 +53,20 @@ const SlideDealInfo = () => {
             )}
           />
         </Box>
-        <TextSpanStyle>
-          Тип сделки: {deal?.dealType ? DealTypeTranslate[deal.dealType] : ''}
-        </TextSpanStyle>
-        <TextSpanStyle>
-          Тип недвижимости:{' '}
-          {deal?.realtyType ? RealtyTypeTranslate[deal.realtyType] : ''}
-        </TextSpanStyle>
+        <Box wrap jc='flex-start'>
+          <Box ai='flex-start'>
+            <TextSpanStyle bold>Тип сделки:</TextSpanStyle>
+            <TextSpanStyle>
+              {deal?.dealType ? DealTypeTranslate[deal.dealType] : ''}
+            </TextSpanStyle>
+          </Box>
+          <Box ai='flex-start'>
+            <TextSpanStyle bold>Тип недвижимости:</TextSpanStyle>
+            <TextSpanStyle>
+              {deal?.realtyType ? RealtyTypeTranslate[deal.realtyType] : ''}
+            </TextSpanStyle>
+          </Box>
+        </Box>
         {/* <TextSpanStyle size={12}>
             Стоимость объекта: {useNumberTriad(deal?.objectCost || '0')} руб.
           </TextSpanStyle>
@@ -144,7 +151,7 @@ const SlideDealInfo = () => {
           control={control}
           render={({ field }) => (
             <CheckboxUI
-              label='Агенты расчитаны полностью'
+              label='Агенты рассчитаны полностью'
               onChange={(e) => {
                 field.onChange(e.target.checked);
               }}

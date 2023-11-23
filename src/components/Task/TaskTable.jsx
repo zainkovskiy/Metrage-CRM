@@ -29,9 +29,6 @@ const TableHeader = styled.thead`
   top: 0;
   background: #fff;
   border-bottom: 1px solid #f0f0f0;
-  & > tr > th {
-    padding: 0.3rem;
-  }
 `;
 const TableLine = styled(motion.tr)`
   ${({ $deadline }) => $deadline && 'background: #eda4a4;'};
@@ -86,8 +83,8 @@ const TaskTable = () => {
   // const [isButtonMore, setIsButtonMore] = useState(true);
   // const applications = useSelector((state) => state.application.applications);
   const loading = useSelector((state) => state.task.loadingList);
-  const tasks = useSelector((state) => state.task.taskData?.tasks || []);
   // const loadingMore = useSelector((state) => state.application.loadingMore);
+  const tasks = useSelector((state) => state.task.taskData?.tasks || []);
 
   const more = () => {
     // dispatch(getMoreApplication())
@@ -101,7 +98,6 @@ const TaskTable = () => {
   const navigateTo = (uid) => {
     navigate(`${uid}`);
   };
-
   if (loading) {
     return <Loader />;
   }

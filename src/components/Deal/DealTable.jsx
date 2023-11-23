@@ -7,13 +7,9 @@ import { statusVarinants } from './DealStatus';
 import ButtonLoader from 'ui/ButtonLoader/ButtonLoader';
 import { useNumberTriad } from 'hooks/StringHook';
 import { useDateFormat } from 'hooks/DateFormat';
-import { getDealListMore } from '../../store/dealSlice';
-import {
-  DealTableStyle,
-  TableStyle,
-  TableHeader,
-  TableLine,
-} from './styles/dealTable';
+import { getDealListMore, setSortFilterName } from '../../store/dealSlice';
+import * as DealTableStyle from './styles/dealTable';
+import { sortFilter } from './sortFilter';
 
 const variants = {
   visible: {
@@ -30,7 +26,14 @@ const DealTable = () => {
   const loadingMore = useSelector((state) => state.deal.loadingMore);
   const buttonMore = useSelector((state) => state.deal.buttonMore);
   const loading = useSelector((state) => state.deal.loadingList);
-  const deals = useSelector((state) => state.deal.deals);
+  const sortName = useSelector((state) => state.deal.sortName);
+  const deals = useSelector((state) => state.deal.deals).slice(0);
+  console.log(deals);
+
+  const setSortName = (newSortName) => {
+    dispatch(setSortFilterName(newSortName));
+  };
+
   if (loading) {
     return <Loader />;
   }
@@ -41,61 +44,129 @@ const DealTable = () => {
     navigate(`${uid}`);
   };
   return (
-    <DealTableStyle>
-      <TableStyle>
-        <TableHeader>
+    <DealTableStyle.DealTableContainer>
+      <DealTableStyle.TableStyle>
+        <DealTableStyle.TableHeader>
           <tr>
-            <th>Номер</th>
-            <th>Адрес</th>
-            <th>Дата сделки</th>
-            <th>Статус</th>
+            <DealTableStyle.TableThStyle
+              $isButton
+              $match={sortName === 'numberUp' || sortName === 'numberDown'}
+              onClick={() =>
+                setSortName(sortName === 'numberUp' ? 'numberDown' : 'numberUp')
+              }
+            >
+              <div>
+                Номер{' '}
+                <DealTableStyle.ArrowStyle
+                  $isUp={sortName === 'numberDown'}
+                  $isSelect={
+                    sortName === 'numberUp' || sortName === 'numberDown'
+                  }
+                />
+              </div>
+            </DealTableStyle.TableThStyle>
+            <DealTableStyle.TableThStyle
+              $isButton
+              $match={sortName === 'addressUp' || sortName === 'addressDown'}
+              onClick={() =>
+                setSortName(
+                  sortName === 'addressUp' ? 'addressDown' : 'addressUp'
+                )
+              }
+            >
+              <div>
+                Адрес{' '}
+                <DealTableStyle.ArrowStyle
+                  $isUp={sortName === 'addressDown'}
+                  $isSelect={
+                    sortName === 'addressUp' || sortName === 'addressDown'
+                  }
+                />
+              </div>
+            </DealTableStyle.TableThStyle>
+            <DealTableStyle.TableThStyle
+              $isButton
+              $match={sortName === 'dateUp' || sortName === 'dateDown'}
+              onClick={() =>
+                setSortName(sortName === 'dateUp' ? 'dateDown' : 'dateUp')
+              }
+            >
+              <div>
+                Дата сделки{' '}
+                <DealTableStyle.ArrowStyle
+                  $isUp={sortName === 'dateDown'}
+                  $isSelect={sortName === 'dateUp' || sortName === 'dateDown'}
+                />
+              </div>
+            </DealTableStyle.TableThStyle>
+            <DealTableStyle.TableThStyle>Статус</DealTableStyle.TableThStyle>
             {/* <th>Тип сделки</th>
             <th>Тип недвижимости</th> */}
-            <th>Сумма</th>
-            <th>Риелтор</th>
-            <th>Юрист</th>
-            <th>Оплата юристу</th>
-            <th>Комиссия</th>
+            <DealTableStyle.TableThStyle>Сумма</DealTableStyle.TableThStyle>
+            <DealTableStyle.TableThStyle>Риелтор</DealTableStyle.TableThStyle>
+            <DealTableStyle.TableThStyle
+              $isButton
+              $match={sortName === 'lawyerUp' || sortName === 'lawyerDown'}
+              onClick={() =>
+                setSortName(sortName === 'lawyerUp' ? 'lawyerDown' : 'lawyerUp')
+              }
+            >
+              <div>
+                Юрист{' '}
+                <DealTableStyle.ArrowStyle
+                  $isUp={sortName === 'lawyerDown'}
+                  $isSelect={
+                    sortName === 'lawyerUp' || sortName === 'lawyerDown'
+                  }
+                />
+              </div>
+            </DealTableStyle.TableThStyle>
+            <DealTableStyle.TableThStyle>
+              Оплата юристу
+            </DealTableStyle.TableThStyle>
+            <DealTableStyle.TableThStyle>Комиссия</DealTableStyle.TableThStyle>
           </tr>
-        </TableHeader>
+        </DealTableStyle.TableHeader>
         <tbody>
           <AnimatePresence>
-            {deals.map((deal) => (
-              <TableLine
-                key={deal.UID}
-                onClick={() => {
-                  navigateTo(deal.UID);
-                }}
-                variants={variants}
-                initial='hidden'
-                animate='visible'
-              >
-                <td>{deal.UID}</td>
-                <td>{deal.dealTitle}</td>
-                <td>{useDateFormat(deal?.plannedDate, 'DD.MM.YY')}</td>
-                <td>{statusVarinants[deal?.dealStatus]}</td>
-                {/* <td>
+            {deals
+              .sort((a, b) => sortFilter(a, b, sortName))
+              .map((deal) => (
+                <DealTableStyle.TableLine
+                  key={deal.UID}
+                  onClick={() => {
+                    navigateTo(deal.UID);
+                  }}
+                  variants={variants}
+                  initial='hidden'
+                  animate='visible'
+                >
+                  <td>{deal.UID}</td>
+                  <td>{deal.dealTitle}</td>
+                  <td>{useDateFormat(deal?.plannedDate, 'DD.MM.YY')}</td>
+                  <td>{statusVarinants[deal?.dealStatus]}</td>
+                  {/* <td>
                   {deal?.dealType === 'simple' ? 'Обычная' : 'От застройщика'}
                 </td>
                 <td>
                   {deal?.realtyType === 'live' ? 'Жилая' : 'Коммерческая'}
                 </td> */}
-                <td style={{ whiteSpace: 'nowrap' }}>
-                  {useNumberTriad(deal?.Price || 0)}
-                </td>
-                <td>{deal.realtor}</td>
-                <td>{deal.lawyerName}</td>
-                <td style={{ whiteSpace: 'nowrap' }}>
-                  {useNumberTriad(deal?.lawyerPrice || 0)}
-                </td>
-                <td style={{ whiteSpace: 'nowrap' }}>
-                  {useNumberTriad(deal?.agentPrice || 0)}
-                </td>
-              </TableLine>
-            ))}
+                  <td style={{ whiteSpace: 'nowrap' }}>
+                    {useNumberTriad(deal?.Price || 0)}
+                  </td>
+                  <td>{deal.realtor}</td>
+                  <td>{deal.lawyerName}</td>
+                  <td style={{ whiteSpace: 'nowrap' }}>
+                    {useNumberTriad(deal?.lawyerPrice || 0)}
+                  </td>
+                  <td style={{ whiteSpace: 'nowrap' }}>
+                    {useNumberTriad(deal?.agentPrice || 0)}
+                  </td>
+                </DealTableStyle.TableLine>
+              ))}
           </AnimatePresence>
         </tbody>
-      </TableStyle>
+      </DealTableStyle.TableStyle>
       <AnimatePresence>
         {buttonMore && (
           <ButtonLoader onClick={loadMore} loading={loadingMore} fullWidth>
@@ -103,7 +174,7 @@ const DealTable = () => {
           </ButtonLoader>
         )}
       </AnimatePresence>
-    </DealTableStyle>
+    </DealTableStyle.DealTableContainer>
   );
 };
 

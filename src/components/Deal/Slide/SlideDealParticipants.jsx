@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { SlideBlockStyle } from '../DealStyle';
 import { SlideGridWrapper } from '../DealStyle';
+import { Box } from 'ui/Box';
 import { IconButton } from 'ui/IconButton';
 import { ReactComponent as Plus } from 'images/plus.svg';
 import { useAsyncValue } from 'react-router-dom';
@@ -9,6 +10,8 @@ import SideDealUser from './SideDealUser';
 import DialogWindow from 'components/Main/DialogWindow';
 import UserFinder from 'components/Main/UserFinder';
 import { addUserSide, removeUserSide } from '../../../api/dealAPI';
+import { TextSpanStyle } from 'styles/styles';
+import { useNumberTriad } from 'hooks/StringHook';
 
 const FeatureTitle = styled.div`
   border-bottom: 1px solid #786464;
@@ -52,7 +55,10 @@ const SlideDealParticipants = () => {
       addSideWindow
     ).then((answer) => {
       if (answer === 'OK') {
-        deal[addSideWindow].push(user);
+        deal[addSideWindow].push({
+          ...user,
+          comissionSize: 0,
+        });
         // setChange(!change);
         setAddSideWindow(null);
       }
@@ -72,12 +78,37 @@ const SlideDealParticipants = () => {
       }
     });
   };
+  const getSum = (source) => {
+    let comission = 0;
+    if (deal?.[source]?.length > 0) {
+      const comissionSum = deal?.[source].reduce(
+        (accumulator, realtor) =>
+          accumulator + parseInt(realtor?.comissionSize || 0),
+        0
+      );
+      comission = comissionSum;
+    }
+    return `${useNumberTriad(comission)} руб.`;
+  };
+  const changeUserComission = (user) => {
+    deal[`${user.type}s`].map((userArr) => {
+      if (userArr.UID === user.UID) {
+        userArr.comissionSize = user.comissionSize;
+        return userArr;
+      }
+      return userArr;
+    });
+    setChange(!change);
+  };
   return (
     <>
       <SlideGridWrapper>
         <SlideBlockStyle $column>
           <FeatureTitle>
-            Риелторы
+            <Box>
+              Риелторы
+              <TextSpanStyle size={10}>{getSum('realtors')}</TextSpanStyle>
+            </Box>
             <IconButton onClick={() => openSideWindow('realtors')}>
               <Plus />
             </IconButton>
@@ -91,13 +122,17 @@ const SlideDealParticipants = () => {
                   type='realtor'
                   removeUser={removeUser}
                   dealUID={deal.UID}
+                  changeUserComission={changeUserComission}
                 />
               ))}
           </SlideParticipants>
         </SlideBlockStyle>
         <SlideBlockStyle $column>
           <FeatureTitle>
-            Юристы
+            <Box>
+              Юристы
+              <TextSpanStyle size={10}>{getSum('lawyers')}</TextSpanStyle>
+            </Box>
             <IconButton onClick={() => openSideWindow('lawyers')}>
               <Plus />
             </IconButton>
@@ -111,6 +146,7 @@ const SlideDealParticipants = () => {
                   removeUser={removeUser}
                   type='lawyer'
                   dealUID={deal.UID}
+                  changeUserComission={changeUserComission}
                 />
               ))}
           </SlideParticipants>

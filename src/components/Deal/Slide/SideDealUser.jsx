@@ -31,7 +31,13 @@ const SideDealUser = (props) => {
   return <SideComponent {...props} />;
 };
 
-const UserRealtor = ({ user, removeUser, type, dealUID }) => {
+const UserRealtor = ({
+  user,
+  removeUser,
+  type,
+  dealUID,
+  changeUserComission,
+}) => {
   const [isEditComission, setIsEditComission] = useState(false);
   const toggleEditComission = () => {
     setIsEditComission(!isEditComission);
@@ -45,6 +51,11 @@ const UserRealtor = ({ user, removeUser, type, dealUID }) => {
       if (answer === 'OK') {
         user.comissionSize = data.comissionSize;
         user.size = data.size;
+        changeUserComission({
+          userId: user.UID,
+          comissionSize: data.comissionSize,
+          type: type,
+        });
         toggleEditComission();
       }
     });
@@ -90,7 +101,13 @@ const UserRealtor = ({ user, removeUser, type, dealUID }) => {
     </>
   );
 };
-const UserLawyer = ({ user, removeUser, type, dealUID }) => {
+const UserLawyer = ({
+  user,
+  removeUser,
+  type,
+  dealUID,
+  changeUserComission,
+}) => {
   const [isEditComission, setIsEditComission] = useState(false);
   const toggleEditComission = () => {
     setIsEditComission(!isEditComission);
@@ -103,6 +120,11 @@ const UserLawyer = ({ user, removeUser, type, dealUID }) => {
     }).then((answer) => {
       if (answer === 'OK') {
         user.comissionSize = data.comissionSize;
+        changeUserComission({
+          userId: user.UID,
+          comissionSize: data.comissionSize,
+          type: type,
+        });
         toggleEditComission();
       }
     });

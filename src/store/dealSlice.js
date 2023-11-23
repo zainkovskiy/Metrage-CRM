@@ -79,6 +79,7 @@ export const defaultDealFilter = {
   plannedDateFrom: '',
   plannedDateTo: '',
   lawyer: '',
+  sortName: null,
 };
 
 const getFilter = () => {
@@ -114,6 +115,9 @@ const dealSlice = createSlice({
     },
     setViewCard(state, action) {
       state.viewCard = action.payload;
+    },
+    setSortFilterName(state, action) {
+      state.sortName = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -169,6 +173,11 @@ const dealSlice = createSlice({
       });
   },
 });
-export const { clearDeals, setNewFilter, resetFilter, setViewCard } =
-  dealSlice.actions;
+export const {
+  clearDeals,
+  setNewFilter,
+  resetFilter,
+  setViewCard,
+  setSortFilterName,
+} = dealSlice.actions;
 export default dealSlice.reducer;

@@ -6,7 +6,6 @@ import { SlideGridWrapper } from '../DealStyle';
 import { IconButton } from 'ui/IconButton';
 import SlideContacFind from './SlideContacFind';
 import DialogWindow from 'components/Main/DialogWindow';
-
 import { TextSpanStyle } from 'styles/styles';
 import { Box } from 'ui/Box';
 import { useNumberTriad } from 'hooks/StringHook';
@@ -98,7 +97,11 @@ const SlideDealSide = () => {
             <FeatureTitle>Продавец</FeatureTitle>
             <Box jc='flex-start' ai='normal'>
               {deal?.objectParams?.photo && (
-                <PhotoObject src={deal?.objectParams?.photo || null} />
+                <Link
+                  to={`/objects/${deal?.objectParams?.type}/${deal?.objectParams?.UID}`}
+                >
+                  <PhotoObject src={deal?.objectParams?.photo || null} />
+                </Link>
               )}
               <Box column ai='flex-start' jc='space-between'>
                 <div>

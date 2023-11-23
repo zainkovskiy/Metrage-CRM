@@ -20,7 +20,7 @@ const SlideTaskStory = () => {
         setLoader(false);
       });
   };
-  const sendMessage = (messamessageObje) => {
+  const sendMessage = (messageObj) => {
     messageObj.message = messageObj.message.trim();
     if (messageObj.message) {
       sendHistoryMessage('tasks', task.UID, messageObj).then((data) => {
