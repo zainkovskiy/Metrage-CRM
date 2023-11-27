@@ -9,6 +9,7 @@ export const LabelStyle = styled.label`
   width: ${({ fullWidth, width }) =>
     fullWidth ? '100%' : width ? width : 'auto'};
   ${({ hidden }) => hidden && 'visibility: hidden'};
+  ${({ fg }) => fg && `flex-grow: ${fg}`};
 `;
 export const ContainerIcon = styled.div`
   position: relative;

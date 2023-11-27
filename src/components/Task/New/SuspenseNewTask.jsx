@@ -15,7 +15,7 @@ const SuspenseNewTask = () => {
   const [open, setOpen] = useState(true);
   const windowSize = useWindowSize();
   const handleClose = (uid) => {
-    if (uid) {
+    if (uid && uid?.type !== 'click') {
       setTimeout(() => {
         dispatch(addNewTaskCard(uid));
         navigate(`/task/${uid}`, { replace: true });

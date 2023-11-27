@@ -177,31 +177,78 @@ const DealFilterForm = ({ onClose }) => {
           )}
         />
         <Controller
+          name='agentsCalculated'
           control={control}
-          name='plannedDateFrom'
           render={({ field }) => (
-            <InputUI
-              type='date'
-              value={field.value}
-              onChange={field.onChange}
-              fullWidth
-              label='Дата сделки (План) От'
-            />
+            <SelectUI
+              onChange={(newValue) => {
+                field.onChange(newValue);
+              }}
+              select={field.value || 'all'}
+              label='Агент рассчитан'
+            >
+              <SelectItemUI value='all'>Все</SelectItemUI>
+              <SelectItemUI value='yes'>Да</SelectItemUI>
+              <SelectItemUI value='no'>Нет</SelectItemUI>
+            </SelectUI>
           )}
         />
-        <Controller
-          control={control}
-          name='plannedDateTo'
-          render={({ field }) => (
-            <InputUI
-              type='date'
-              value={field.value}
-              onChange={field.onChange}
-              fullWidth
-              label='Дата сделки (План) До'
-            />
-          )}
-        />
+        <Box wrap>
+          <Controller
+            control={control}
+            name='plannedDateFrom'
+            render={({ field }) => (
+              <InputUI
+                type='date'
+                value={field.value}
+                onChange={field.onChange}
+                fg='1'
+                label='Дата сделки (План) От'
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name='plannedDateTo'
+            render={({ field }) => (
+              <InputUI
+                type='date'
+                value={field.value}
+                onChange={field.onChange}
+                fg='1'
+                label='Дата сделки (План) До'
+              />
+            )}
+          />
+        </Box>
+        <Box wrap>
+          <Controller
+            control={control}
+            name='actualDateFrom'
+            render={({ field }) => (
+              <InputUI
+                type='date'
+                value={field.value}
+                onChange={field.onChange}
+                fg='1'
+                label='Дата сделки (Факт) От'
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name='actualDateTo'
+            render={({ field }) => (
+              <InputUI
+                type='date'
+                value={field.value}
+                onChange={field.onChange}
+                fg='1'
+                label='Дата сделки (Факт) До'
+              />
+            )}
+          />
+        </Box>
       </FilterFields>
     </FilterFormStyle>
   );

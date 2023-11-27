@@ -503,7 +503,6 @@ const FormNewBuilding = () => {
                   label='Рег. номер ДДУ'
                   value={field.value || ''}
                   onChange={(e) => field.onChange(e.target.value)}
-                  type='number'
                 />
               )}
             />

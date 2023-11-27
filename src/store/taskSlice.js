@@ -32,10 +32,11 @@ export const setReadAll = createAsyncThunk('task/setReadAll', async () => {
 export const updateTaskCard = createAsyncThunk(
   'users/updateTaskCard',
   async (UID) => {
+    console.log(UID);
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
       method: 'crm.task.getOne',
-      fields: { UID: UID },
+      fields: { UID: UID.toString() },
     });
 
     if (res?.statusText === 'OK') {
@@ -50,10 +51,12 @@ export const addNewTaskCard = createAsyncThunk(
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
       method: 'crm.task.getOne',
-      fields: { UID: UID },
+      fields: { UID: UID.toString() },
     });
 
     if (res?.statusText === 'OK') {
+      console.log(UID);
+      console.log(res);
       return res?.data?.result || {};
     }
     return {};
@@ -119,7 +122,9 @@ const taskSlice = createSlice({
       );
     });
     builder.addCase(addNewTaskCard.fulfilled, (state, action) => {
-      state.taskData.tasks = [...state.taskData.tasks, action.payload];
+      if (action.payload?.UID) {
+        state.taskData.tasks = [...state.taskData.tasks, action.payload];
+      }
     });
   },
 });

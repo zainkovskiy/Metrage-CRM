@@ -72,9 +72,9 @@ const SearchSuggestions = ({ suggestions, clearSuggestions }) => {
           </SearchSuggestionsTitle>
           {suggestion?.list?.length > 0 ? (
             <>
-              {suggestion.list.map((item) => (
+              {suggestion.list.map((item, idx) => (
                 <SearchSuggestionsItem
-                  key={suggestion + item.UID}
+                  key={`suggestion${item.UID}${idx}`}
                   suggestion={item}
                   type={suggestion?.title}
                   path={suggestion?.path}

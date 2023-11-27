@@ -13,6 +13,7 @@ import { CategoryTranslate } from '../keyTranslate';
 import { ReactComponent as Plus } from 'images/plus.svg';
 import SideDealUser from './SideDealUser';
 import { addContactSide, removeContactSide } from '../../../api/dealAPI';
+import imgErrorUrl from 'images/img-error.svg';
 const FeatureTitle = styled.div`
   border-bottom: 1px solid #786464;
   color: #786464;
@@ -96,13 +97,11 @@ const SlideDealSide = () => {
           <Box column fullWidth ai='flex-start'>
             <FeatureTitle>Продавец</FeatureTitle>
             <Box jc='flex-start' ai='normal'>
-              {deal?.objectParams?.photo && (
-                <Link
-                  to={`/objects/${deal?.objectParams?.type}/${deal?.objectParams?.UID}`}
-                >
-                  <PhotoObject src={deal?.objectParams?.photo || null} />
-                </Link>
-              )}
+              <Link
+                to={`/objects/${deal?.objectParams?.type}/${deal?.objectParams?.UID}`}
+              >
+                <PhotoObject src={deal?.objectParams?.photo || imgErrorUrl} />
+              </Link>
               <Box column ai='flex-start' jc='space-between'>
                 <div>
                   {deal?.dealType === 'simple' ? (

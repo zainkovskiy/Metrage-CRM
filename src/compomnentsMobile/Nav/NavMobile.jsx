@@ -45,6 +45,7 @@ const NavMobile = () => {
   const toggleDialog = () => {
     setOpen(!open);
   };
+
   return (
     <NavMobileStyle>
       <motion.div animate={isOpen ? 'open' : 'closed'} initial={false}>

@@ -151,6 +151,7 @@ const SlideDealInfo = () => {
           control={control}
           render={({ field }) => (
             <CheckboxUI
+              disabled={!deal?.isСashier || false}
               label='Агенты рассчитаны полностью'
               onChange={(e) => {
                 field.onChange(e.target.checked);

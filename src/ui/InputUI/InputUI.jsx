@@ -42,11 +42,13 @@ export const InputUI = forwardRef((props, ref) => {
     hidden,
     labelSize,
     AutoComplete,
+    fg,
   } = props;
   const InputComponent = getInputComponent(type);
   return (
     <LabelStyle
       fullWidth={fullWidth}
+      fg={fg}
       width={width}
       labelSize={labelSize}
       hidden={hidden}
