@@ -5,13 +5,14 @@ import { Link } from 'react-router-dom';
 import { ReactComponent as Search } from 'images/search.svg';
 import { getUserList, getСontactList, getObjectList } from 'api/search';
 import MobileSuggestionList from './MobileSuggestionList';
+import MenuListButton from './MenuListButton';
 const variants = {
   open: {},
   closed: {},
 };
 const MenuListStyle = styled(motion.div)`
   position: fixed;
-  background-color: #000000ab;
+  background-color: #85009e;
   top: 0;
   bottom: 0;
   left: 0;
@@ -29,9 +30,8 @@ const MenuListTop = styled.div`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  gap: 0.5rem;
 `;
 const LinkNav = styled(Link)`
   text-decoration: none;
@@ -170,7 +170,44 @@ const MenuList = ({ onClose }) => {
         />
       ) : (
         <MenuListTop>
-          <LinkNav to='/' onClick={onClose}>
+          <MenuListButton title='На главную' path='/' onClick={onClose} />
+          <MenuListButton
+            title='Заявки'
+            icon='application'
+            path='application'
+            onClick={onClose}
+          />
+          <MenuListButton
+            title='Объекты'
+            icon='objects'
+            path='objects'
+            onClick={onClose}
+          />
+          <MenuListButton
+            title='Сделки'
+            icon='deal'
+            path='deal'
+            onClick={onClose}
+          />
+          <MenuListButton
+            title='Клиенты'
+            icon='client'
+            path='client'
+            onClick={onClose}
+          />
+          <MenuListButton
+            title='Пользователи'
+            icon='users'
+            path='users'
+            onClick={onClose}
+          />
+          <MenuListButton
+            title='Задачи'
+            icon='task'
+            path='task'
+            onClick={onClose}
+          />
+          {/* <LinkNav to='/' onClick={onClose}>
             На главную
           </LinkNav>
           <LinkNav to='/application' onClick={onClose}>
@@ -184,8 +221,8 @@ const MenuList = ({ onClose }) => {
           </LinkNav>
           <LinkNav to='/compilation' onClick={onClose}>
             Подборки
-          </LinkNav>
-          <LinkNav to='/client' onClick={onClose}>
+          </LinkNav> */}
+          {/* <LinkNav to='/client' onClick={onClose}>
             Клиенты
           </LinkNav>
           <LinkNav to='/users' onClick={onClose}>
@@ -193,7 +230,7 @@ const MenuList = ({ onClose }) => {
           </LinkNav>
           <LinkNav to='/task' onClick={onClose}>
             Задачи
-          </LinkNav>
+          </LinkNav> */}
         </MenuListTop>
       )}
       <LinkOriginNav

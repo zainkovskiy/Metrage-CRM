@@ -9,7 +9,7 @@ const MobileSuggestionListStyle = styled.div`
   padding: 0.5rem;
   box-sizing: border-box;
   overflow: auto;
-  width: 100%;
+  width: 80%;
 `;
 
 const MobileSuggestionTitle = styled.span`
