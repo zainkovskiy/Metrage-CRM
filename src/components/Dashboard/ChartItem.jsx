@@ -50,7 +50,7 @@ const ButtonListItem = styled(TextSpanStyle)`
   }
 `;
 const ChartItem = ({ chart }) => {
-  if (!chart) {
+  if (!chart || !chart?.visible) {
     return;
   }
   const [open, setOpen] = useState(false);
