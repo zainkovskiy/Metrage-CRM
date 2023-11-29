@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SlideDealMeta from './SlideDealMeta';
 import SlideDealStatus from './SlideDealStatus';
 import SlideDealParticipants from './SlideDealParticipants';
@@ -14,12 +14,26 @@ import { useAsyncValue } from 'react-router-dom';
 
 const SlideFromContainer = ({ clearChangeForm }) => {
   const deal = useAsyncValue();
+  const [isDisgraced, setIsDisgraced] = useState(
+    deal?.dealStatusId >= 5 || false
+  );
   const { isDirty } = useFormState();
+  const handlerIsDisgraced = (status) => {
+    if (status !== 5) {
+      setIsDisgraced(false);
+      return;
+    }
+    setIsDisgraced(true);
+  };
   return (
     <>
       <SlideDealMeta />
-      <SlideDealStatus status={deal?.dealStatusId} UID={deal.UID} />
-      <SlideDealInfo />
+      <SlideDealStatus
+        status={deal?.dealStatusId}
+        UID={deal.UID}
+        handlerIsDisgraced={handlerIsDisgraced}
+      />
+      <SlideDealInfo isDisgraced={isDisgraced} />
       <SlidePreliminaryAgreement />
       <SlideDealParticipants />
       <SlideDealSide />

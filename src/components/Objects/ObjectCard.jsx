@@ -15,6 +15,9 @@ import exclamationUrl, {
 import hourglassUrl, {
   ReactComponent as Hourglass,
 } from 'images/hourglass.svg';
+import avitoUrl from '../../public/logo/avito.svg';
+import cianUrl from '../../public/logo/CIAN.png';
+import domclickUrl from '../../public/logo/domclick.svg';
 import { useGetMeterPrice } from './objectHook';
 
 const ObjectCardStyle = styled(motion.div)`
@@ -71,11 +74,11 @@ const LinkStyle = styled(Link)`
   text-decoration: none;
   color: black;
 `;
-const AdIcon = styled.span`
-  & > svg {
-    width: 30px;
-    height: 30px;
-  }
+const PlatformIcon = styled.img`
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  ${({ $isGrey }) => $isGrey && 'filter: grayscale(1);'};
 `;
 const variants = {
   visible: {
@@ -98,28 +101,22 @@ const ObjectCard = ({ object }) => {
     }
     if (object?.hasErrors) {
       return (
-        <TooltipUI title='Есть проблемы'>
-          <AdIcon>
-            <Exclamation />
-          </AdIcon>
+        <TooltipUI title='Есть проблемы' flex>
+          <PlatformIcon src={exclamationUrl} />
         </TooltipUI>
       );
     }
     if (object?.onExponation) {
       return (
-        <TooltipUI title='В рекламе'>
-          <AdIcon>
-            <Megaphone />
-          </AdIcon>
+        <TooltipUI title='В рекламе' flex>
+          <PlatformIcon src={megaphoneUrl} />
         </TooltipUI>
       );
     }
     if (object?.onAdv) {
       return (
-        <TooltipUI title='Ожидаем выгрузки'>
-          <AdIcon>
-            <Hourglass />
-          </AdIcon>
+        <TooltipUI title='Ожидаем выгрузки' flex>
+          <PlatformIcon src={hourglassUrl} />
         </TooltipUI>
       );
     }
@@ -188,7 +185,18 @@ const ObjectCard = ({ object }) => {
               </TextSpanStyle>
             </Box>
           </Box>
-          {getAdIcon()}
+          <Box gap='0.2rem'>
+            {object?.advCian > 0 && (
+              <PlatformIcon src={cianUrl} $isGrey={object?.advCian === 1} />
+            )}
+            {object?.advAvito > 0 && (
+              <PlatformIcon src={avitoUrl} $isGrey={object?.advAvito === 1} />
+            )}
+            {object?.advDk > 0 && (
+              <PlatformIcon src={domclickUrl} $isGrey={object?.advDk === 1} />
+            )}
+            {getAdIcon()}
+          </Box>
         </ObjectCardFooter>
       </ObjectCardStyle>
     </LinkStyle>

@@ -10,14 +10,14 @@ const SlideMapPlacemarkContainer = styled.div`
   position: relative;
   overflow: hidden;
 `;
-const SlideMapPlacemark = ({ cords, height, apiTemplate }) => {
+const SlideMapPlacemark = ({ cords, height, apiTemplate, getCountObject }) => {
   const mapRef = useRef(null);
   const ymapRef = useRef(null);
   const objectManagerRef = useRef(null);
   const [otherObjects, setOtherObjects] = useState([]);
 
   const scrollOff = () => {
-    // mapRef.current.behaviors.disable('scrollZoom');
+    mapRef.current.behaviors.disable('scrollZoom');
     if (
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent
@@ -85,17 +85,18 @@ const SlideMapPlacemark = ({ cords, height, apiTemplate }) => {
           iconColor: '#85009e',
         });
       }
-      //это работает но выводит по 1
-      // test();
+      setCountObject();
     }
+
     loadingObjectManager.objects.events.add(['click'], onObjectClick);
     loadingObjectManager.objects.events.add(['add'], onObjectsCollectionAdd);
     loadingObjectManager.clusters.events.add(['click'], onClickCluster);
     objectManagerRef.current = loadingObjectManager;
     mapRef.current.geoObjects.add(objectManagerRef.current);
   };
-  const test = () => {
-    console.log(objectManagerRef.current.objects.getLength());
+  const setCountObject = () => {
+    getCountObject &&
+      getCountObject(objectManagerRef.current.objects.getLength());
   };
   return (
     <SlideMapPlacemarkContainer>

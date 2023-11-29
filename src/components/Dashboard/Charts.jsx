@@ -20,6 +20,7 @@ const Charts = () => {
       <ChartItem chart={dashboard?.sources || null} />
       <ChartItem chart={dashboard?.objects || null} />
       <ChartItem chart={dashboard?.dealsProfit || null} />
+      <ChartItem chart={dashboard?.dealsOffices || null} />
     </ChartBarStyle>
   );
 };

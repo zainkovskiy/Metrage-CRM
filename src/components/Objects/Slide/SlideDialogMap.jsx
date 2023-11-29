@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import SlideMapPlacemark from './SlideMapPlacemark';
 import closeUrl from 'images/close.svg';
 import { useAsyncValue } from 'react-router-dom';
 import { TextSpanStyle } from '../../../styles/styles';
+import { Box } from 'ui/Box';
 import { useSelector } from 'react-redux';
 import { device } from '../../../styles/device';
 
@@ -35,7 +36,7 @@ const DialogMapHeader = styled.div`
   border-radius: 5px;
   background: #fff;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
 `;
 const DialogMapContext = styled.div`
@@ -49,6 +50,7 @@ const DialogMapContext = styled.div`
 const SlideDialogMap = ({ onClose }) => {
   const object = useAsyncValue();
   const office = useSelector((state) => state.user.office);
+  const [countObject, serCountObject] = useState(0);
 
   const getCords = () => {
     const address = object.addressId;
@@ -57,10 +59,18 @@ const SlideDialogMap = ({ onClose }) => {
     }
     return office === '2' ? [55.75222, 37.61556] : [55.030204, 82.92043];
   };
+  const getCountObject = (count) => {
+    serCountObject(count);
+  };
   return (
     <SlideDialogMapStyle onClick={(e) => e.stopPropagation()}>
       <DialogMapHeader>
-        <TextSpanStyle>{object?.addressId?.addrString || ''}</TextSpanStyle>
+        <Box column ai='flex-start' gap='0'>
+          <TextSpanStyle>{object?.addressId?.addrString || ''}</TextSpanStyle>
+          <TextSpanStyle size={12}>
+            Похожих вариантов: {countObject}
+          </TextSpanStyle>
+        </Box>
         <CloseButtonStyle src={closeUrl} alt='close' onClick={onClose} />
       </DialogMapHeader>
       <DialogMapContext>
@@ -68,6 +78,7 @@ const SlideDialogMap = ({ onClose }) => {
           cords={getCords()}
           height={'100%'}
           apiTemplate={`${object?.subTypeEstate}_${object?.UID}`}
+          getCountObject={getCountObject}
         />
       </DialogMapContext>
     </SlideDialogMapStyle>

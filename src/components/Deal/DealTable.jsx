@@ -92,11 +92,26 @@ const DealTable = () => {
               }
             >
               <div>
-                Дата сделки{' '}
+                Дата сделки (план)
                 <DealTableStyle.ArrowStyle
                   $isUp={sortName === 'dateDown'}
                   $isSelect={sortName === 'dateUp' || sortName === 'dateDown'}
                 />
+              </div>
+            </DealTableStyle.TableThStyle>
+            <DealTableStyle.TableThStyle
+            // $isButton
+            // $match={sortName === 'dateUp' || sortName === 'dateDown'}
+            // onClick={() =>
+            //   setSortName(sortName === 'dateUp' ? 'dateDown' : 'dateUp')
+            // }
+            >
+              <div>
+                Дата сделки (факт)
+                {/* <DealTableStyle.ArrowStyle
+                  $isUp={sortName === 'dateDown'}
+                  $isSelect={sortName === 'dateUp' || sortName === 'dateDown'}
+                /> */}
               </div>
             </DealTableStyle.TableThStyle>
             <DealTableStyle.TableThStyle>Статус</DealTableStyle.TableThStyle>
@@ -125,6 +140,21 @@ const DealTable = () => {
               Оплата юристу
             </DealTableStyle.TableThStyle>
             <DealTableStyle.TableThStyle>Комиссия</DealTableStyle.TableThStyle>
+            <DealTableStyle.TableThStyle
+            // $isButton
+            // $match={sortName === 'dateUp' || sortName === 'dateDown'}
+            // onClick={() =>
+            //   setSortName(sortName === 'dateUp' ? 'dateDown' : 'dateUp')
+            // }
+            >
+              <div>
+                Агент расчитан
+                {/* <DealTableStyle.ArrowStyle
+                  $isUp={sortName === 'dateDown'}
+                  $isSelect={sortName === 'dateUp' || sortName === 'dateDown'}
+                /> */}
+              </div>
+            </DealTableStyle.TableThStyle>
           </tr>
         </DealTableStyle.TableHeader>
         <tbody>
@@ -144,6 +174,7 @@ const DealTable = () => {
                   <td>{deal.UID}</td>
                   <td>{deal.dealTitle}</td>
                   <td>{useDateFormat(deal?.plannedDate, 'DD.MM.YY')}</td>
+                  <td>{useDateFormat(deal?.actualDate, 'DD.MM.YY')}</td>
                   <td>{statusVarinants[deal?.dealStatus]}</td>
                   {/* <td>
                   {deal?.dealType === 'simple' ? 'Обычная' : 'От застройщика'}
@@ -161,6 +192,9 @@ const DealTable = () => {
                   </td>
                   <td style={{ whiteSpace: 'nowrap' }}>
                     {useNumberTriad(deal?.agentPrice || 0)}
+                  </td>
+                  <td style={{ whiteSpace: 'nowrap' }}>
+                    {deal?.agentsCalculated ? 'Да' : 'Нет'}
                   </td>
                 </DealTableStyle.TableLine>
               ))}

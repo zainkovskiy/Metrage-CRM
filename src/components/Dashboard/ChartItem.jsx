@@ -103,7 +103,10 @@ const ChartItem = ({ chart }) => {
       <TextSpanStyleBorder align='end'>
         {chart?.title || ''}
       </TextSpanStyleBorder>
-      <ChartComponent chart={chart?.data || null} />
+      <ChartComponent
+        chart={chart?.data || null}
+        header={chart?.header || null}
+      />
       {chart?.rangeTitle && (
         <ButtonContainer id={chart?.APIName}>
           <ButtonLink

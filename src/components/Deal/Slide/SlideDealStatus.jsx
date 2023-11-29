@@ -5,7 +5,7 @@ import { Box } from 'ui/Box';
 import { StatusBar, StatusBarItem } from '../../../ui/StatusBar/StatusBar';
 import { setDealStage } from '../../../api/dealAPI';
 
-const SlideDealStatus = ({ status, UID }) => {
+const SlideDealStatus = ({ status, UID, handlerIsDisgraced }) => {
   const [activeStepper, setActiveStepper] = useState(status - 1 || '');
 
   const changeStepper = (idx) => {
@@ -14,6 +14,7 @@ const SlideDealStatus = ({ status, UID }) => {
       UID: UID,
     });
     setActiveStepper(idx);
+    handlerIsDisgraced(idx + 1);
   };
   const setFailure = () => {
     if (activeStepper < 0) {

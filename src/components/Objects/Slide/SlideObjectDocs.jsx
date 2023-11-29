@@ -60,7 +60,6 @@ const FileItem = styled.div`
 const SlideObjectDocs = () => {
   const object = useAsyncValue();
   const user = useSelector((state) => state.user);
-  console.log(user.isChief);
   const [checkboxValue, setCheckboxValue] = useState(
     object?.isExclusive || false
   );

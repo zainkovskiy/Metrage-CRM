@@ -113,10 +113,11 @@ const DealCard = ({ deal }) => {
           </TextSpanStyle>
           <Box jc='flex-start'>
             <TextSpanStyle size={10}>
-              Сумма сделки: {useNumberTriad(deal?.Price || 0)} руб.
+              Сумму коммисии: {useNumberTriad(deal?.lawyerPrice || 0)} руб.
             </TextSpanStyle>
-            {deal?.depositAccepted && <DoneIcon title='btb' />}
+            {deal?.agentsCalculated && <DoneIcon title='btb' />}
           </Box>
+          <TextSpanStyle size={10}>{deal?.lawyerName || ''}</TextSpanStyle>
         </DealContent>
         <DealFooter>
           <TextSpanStyle size={10}>{deal?.realtor || ''}</TextSpanStyle>

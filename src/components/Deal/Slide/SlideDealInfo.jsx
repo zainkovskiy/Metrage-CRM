@@ -30,7 +30,7 @@ const SlideDealInfoSide = styled.div`
   gap: 0.5rem;
 `;
 
-const SlideDealInfo = () => {
+const SlideDealInfo = ({ isDisgraced }) => {
   const deal = useAsyncValue();
   const { control } = useFormContext();
   return (
@@ -151,7 +151,7 @@ const SlideDealInfo = () => {
           control={control}
           render={({ field }) => (
             <CheckboxUI
-              disabled={!deal?.isСashier || false}
+              disabled={!deal?.isСashier || !isDisgraced || false}
               label='Агенты рассчитаны полностью'
               onChange={(e) => {
                 field.onChange(e.target.checked);
