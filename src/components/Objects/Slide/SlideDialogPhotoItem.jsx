@@ -17,7 +17,7 @@ import closeUrl, { ReactComponent as Close } from 'images/close.svg';
 import { ReactComponent as NoImage } from 'images/no-image.svg';
 import { useAsyncValue } from 'react-router-dom';
 
-const SliderPhotoSContainer = styled(motion.div)`
+const SliderPhotoContainer = styled(motion.div)`
   position: relative;
   transition: opacity 0.3s;
   cursor: grab;
@@ -110,7 +110,7 @@ const SlideDialogPhotoItem = ({
     return <PhotoNotAllow />;
   }
   return (
-    <SliderPhotoSContainer
+    <SliderPhotoContainer
       draggable={true}
       onDragStart={dragStartHandler}
       onDragLeave={dragEndHandler}
@@ -150,7 +150,7 @@ const SlideDialogPhotoItem = ({
           <SelectItemUI value='yard'>Двор</SelectItemUI>
         </SelectUI>
       </SliderPhotoItemFooter>
-    </SliderPhotoSContainer>
+    </SliderPhotoContainer>
   );
 };
 

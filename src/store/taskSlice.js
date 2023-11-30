@@ -30,9 +30,8 @@ export const setReadAll = createAsyncThunk('task/setReadAll', async () => {
   }
 });
 export const updateTaskCard = createAsyncThunk(
-  'users/updateTaskCard',
+  'task/updateTaskCard',
   async (UID) => {
-    console.log(UID);
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
       method: 'crm.task.getOne',
@@ -46,7 +45,7 @@ export const updateTaskCard = createAsyncThunk(
   }
 );
 export const addNewTaskCard = createAsyncThunk(
-  'users/addNewTaskCard',
+  'task/addNewTaskCard',
   async (UID) => {
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
@@ -75,6 +74,7 @@ const initialState = {
   taskData: null,
   loadingList: true,
   filter: getFilter(),
+  viewCard: 'table',
 };
 
 const taskSlice = createSlice({
@@ -87,8 +87,28 @@ const taskSlice = createSlice({
     setNewFilter(state, action) {
       state.filter = action.payload;
     },
+    setViewCard(state, action) {
+      state.viewCard = action.payload;
+    },
     resetFilter(state) {
       state.filter = defaultTaskFilter;
+    },
+    setTaskNewStage(state, action) {
+      const curTask = action.payload;
+      const findTask = state.taskData.tasks.find(
+        (task) => task.UID === curTask.UID
+      );
+      if (!findTask) {
+        return;
+      }
+      if (JSON.stringify(curTask) === JSON.stringify(findTask)) {
+        return;
+      }
+      state.taskData.tasks.splice(
+        state.taskData.tasks.indexOf(findTask),
+        1,
+        curTask
+      );
     },
   },
   extraReducers: (builder) => {
@@ -129,5 +149,11 @@ const taskSlice = createSlice({
   },
 });
 
-export const { resetFilter, setNewFilter, clearTasks } = taskSlice.actions;
+export const {
+  resetFilter,
+  setNewFilter,
+  clearTasks,
+  setViewCard,
+  setTaskNewStage,
+} = taskSlice.actions;
 export default taskSlice.reducer;

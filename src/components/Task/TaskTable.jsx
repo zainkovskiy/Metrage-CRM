@@ -34,7 +34,7 @@ const TableLine = styled(motion.tr)`
   ${({ $deadline }) => $deadline && 'background: #eda4a4;'};
   cursor: pointer;
   transition: background 0.3s;
-  &: hover {
+  &:hover {
     background: #e6b2f0;
   }
   & > td {

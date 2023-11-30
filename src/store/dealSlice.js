@@ -78,8 +78,11 @@ export const defaultDealFilter = {
   status: 'all',
   plannedDateFrom: '',
   plannedDateTo: '',
+  actualDateFrom: '',
+  actualDateTo: '',
   lawyer: '',
   sortName: null,
+  agentsCalculated: 'all',
 };
 
 const getFilter = () => {

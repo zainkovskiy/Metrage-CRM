@@ -8,8 +8,9 @@ import { TextSpanStyle } from 'styles/styles';
 import SlideWindow from 'components/Main/SlideWindow';
 import { useWindowSize } from 'hooks/windowSize';
 import { useDispatch, useSelector } from 'react-redux';
-import { setReadAll } from '../../store/taskSlice';
+import { setReadAll, setViewCard } from '../../store/taskSlice';
 import { device } from 'styles/device';
+import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 
 const TaskFilterStyle = styled.div`
   display: flex;
@@ -38,6 +39,7 @@ const LineSeporator = styled.span`
 const TaskFilter = () => {
   const dispatch = useDispatch();
   const taskData = useSelector((state) => state.task.taskData);
+  const viewCard = useSelector((state) => state.task.viewCard);
   const [open, setOpen] = useState(false);
   const windowSize = useWindowSize();
   const toggleFilter = () => {
@@ -52,34 +54,49 @@ const TaskFilter = () => {
   const readAll = () => {
     dispatch(setReadAll());
   };
+  const changeViewCard = (newValue) => {
+    dispatch(setViewCard(newValue));
+  };
   return (
-    <TaskFilterStyle>
-      <Box gap='1rem'>
-        <ButtonUI size='small' onClick={toggleFilter}>
-          Фильтр
-        </ButtonUI>
-        <BoxInfo>
-          <TextSpanStyle color='#fff'>
-            Просрочены: {taskData?.overdue || 0}
-          </TextSpanStyle>
-          <TextSpanStyle color='#fff'>
-            Комментарии: {taskData?.withNotify || 0}
-          </TextSpanStyle>
-          <LineSeporator />
-          <ButtonLink color='#fff' onClick={readAll}>
-            Прочитать все
-          </ButtonLink>
-        </BoxInfo>
-      </Box>
-      <Link to='new'>
-        <ButtonUI size='small' variant='outline'>
-          Создать
-        </ButtonUI>
-      </Link>
-      {/* <SlideWindow open={open} onClose={toggleFilter} width={getWidth()}>
+    <>
+      <TaskFilterStyle>
+        <Box gap='1rem'>
+          <ButtonUI size='small' onClick={toggleFilter}>
+            Фильтр
+          </ButtonUI>
+          {windowSize > 1024 && (
+            <SelectUI small onChange={changeViewCard} select={viewCard}>
+              <SelectItemUI value='table'>Таблица</SelectItemUI>
+              <SelectItemUI value='kanban'>Канбан</SelectItemUI>
+            </SelectUI>
+          )}
+        </Box>
+        <Link to='new'>
+          <ButtonUI size='small' variant='outline'>
+            Создать
+          </ButtonUI>
+        </Link>
+        {/* <SlideWindow open={open} onClose={toggleFilter} width={getWidth()}>
         <UserFilterForm onClose={toggleFilter} />
       </SlideWindow> */}
-    </TaskFilterStyle>
+      </TaskFilterStyle>
+      {windowSize > 768 && (
+        <TaskFilterStyle>
+          <BoxInfo>
+            <TextSpanStyle color='#fff'>
+              Просрочены: {taskData?.overdue || 0}
+            </TextSpanStyle>
+            <TextSpanStyle color='#fff'>
+              Комментарии: {taskData?.withNotify || 0}
+            </TextSpanStyle>
+            <LineSeporator />
+            <ButtonLink color='#fff' onClick={readAll}>
+              Прочитать все
+            </ButtonLink>
+          </BoxInfo>
+        </TaskFilterStyle>
+      )}
+    </>
   );
 };
 
