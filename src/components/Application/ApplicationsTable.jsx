@@ -11,6 +11,9 @@ import { useDateFormat } from 'hooks/DateFormat';
 const ApplicationsTableStyle = styled.div`
   height: 100%;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 `;
 const TableStyle = styled.table`
   border-collapse: collapse;
@@ -18,6 +21,7 @@ const TableStyle = styled.table`
   font-family: ${({ theme }) => theme.font.family};
   font-size: 12px;
   position: relative;
+  background-color: #fff;
 `;
 const TableHeader = styled.thead`
   font-family: ${({ theme }) => theme.font.familyBold};
@@ -25,15 +29,17 @@ const TableHeader = styled.thead`
   top: 0;
   background: #fff;
   border-bottom: 1px solid #f0f0f0;
+  position: sticky;
+  top: 0;
   & > tr > th {
     padding: 0.3rem;
   }
 `;
 const TableLine = styled(motion.tr)`
   cursor: pointer;
-  transition: background 0.3s;
-  &: hover {
-    background: #e6b2f0;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #e6b2f0;
   }
   & > td {
     padding: 0.3rem;

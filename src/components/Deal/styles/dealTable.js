@@ -12,6 +12,7 @@ export const TableStyle = styled.table`
   font-family: ${({ theme }) => theme.font.family};
   font-size: 12px;
   position: relative;
+  background-color: #fff;
 `;
 export const TableHeader = styled.thead`
   font-family: ${({ theme }) => theme.font.familyBold};
@@ -25,9 +26,9 @@ export const TableHeader = styled.thead`
 `;
 export const TableLine = styled(motion.tr)`
   cursor: pointer;
-  transition: background 0.3s;
-  &: hover {
-    background: #e6b2f0;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #e6b2f0;
   }
   & > td {
     padding: 0.3rem;
@@ -37,14 +38,14 @@ export const TableThStyle = styled.th`
   padding: 0.3rem;
   ${({ $isButton }) => $isButton && 'cursor: pointer;'}
   ${({ $match }) => $match && 'background: #84019e4d;'}
-  transition: background .3s;
+  transition: background-color .3s;
   & > div {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.2rem;
   }
-  &: hover > div >svg {
+  &:hover > div > svg {
     opacity: 1;
   }
 `;
@@ -55,5 +56,5 @@ export const ArrowStyle = styled(Arrow)`
   width: 10px;
   height: 10px;
   pointer-events: none;
-  transition: opacity 0.3s, transform .3s;
-s`;
+  transition: opacity 0.3s, transform 0.3s;
+`;

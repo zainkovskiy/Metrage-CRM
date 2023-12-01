@@ -21,6 +21,7 @@ const TableStyle = styled.table`
   font-family: ${({ theme }) => theme.font.family};
   font-size: 12px;
   position: relative;
+  background-color: #fff;
 `;
 const TableHeader = styled.thead`
   font-family: ${({ theme }) => theme.font.familyBold};
@@ -34,9 +35,9 @@ const TableHeader = styled.thead`
 `;
 const TableLine = styled(motion.tr)`
   cursor: pointer;
-  transition: background 0.3s;
-  &: hover {
-    background: #e6b2f0;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #e6b2f0;
   }
   & > td {
     padding: 0.3rem;

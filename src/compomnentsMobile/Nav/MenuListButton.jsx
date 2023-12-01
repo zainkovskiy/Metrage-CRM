@@ -50,6 +50,8 @@ const MenuListIcon = ({ icon }) => {
         return IconSvg.Users;
       case 'task':
         return IconSvg.Task;
+      case 'compilation':
+        return IconSvg.Compilation;
       default:
         return Stub;
     }

@@ -7,6 +7,7 @@ import { Box } from 'ui/Box';
 import { Link } from 'react-router-dom';
 import { setTaskNewStage } from '../../store/taskSlice';
 import { ReactComponent as Arrow } from 'images/arrow-down.svg';
+import { setTaskStage } from '../../api/taskApi';
 
 const TaskKanbanStyle = styled.div`
   display: grid;
@@ -72,6 +73,10 @@ const TaskKanban = () => {
         stageId: parseInt(newStage),
       })
     );
+    setTaskStage({
+      stageId: newStage,
+      UID: currentTask.UID,
+    });
     setCurrentTask(null);
   };
   const dragStartHandler = (event, task) => {

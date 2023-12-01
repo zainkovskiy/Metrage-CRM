@@ -190,6 +190,12 @@ const MenuList = ({ onClose }) => {
             onClick={onClose}
           />
           <MenuListButton
+            title='Подборки'
+            icon='compilation'
+            path='compilation'
+            onClick={onClose}
+          />
+          <MenuListButton
             title='Клиенты'
             icon='client'
             path='client'
