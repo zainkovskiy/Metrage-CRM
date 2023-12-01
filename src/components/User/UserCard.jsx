@@ -16,6 +16,7 @@ const UserCardStyle = styled(motion.div)`
   border: 1px solid ${({ theme }) => theme.color.primary};
   cursor: pointer;
   transition: box-shadow 0.2s, transform 0.2s;
+  background-color: #fff;
   @media (hover: hover) {
     &:hover {
       transform: scale(1.03);

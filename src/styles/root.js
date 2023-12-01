@@ -6,6 +6,9 @@ import CeraCYBold_TTF from '../public/fonts/CeraCYBold.ttf';
 import CeraCYBold_WOFF from '../public/fonts/CeraCYBold.woff';
 import CeraCYBold_WOFF2 from '../public/fonts/CeraCYBold.woff2';
 
+import wall1Url from '../public/Wall_1.jpg';
+import wall2Url from '../public/Wall_2.jpg';
+
 export const GlobalStyle = createGlobalStyle`
   * {
     margin: 0;
@@ -38,6 +41,11 @@ export const GlobalStyle = createGlobalStyle`
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    //Новый год
+    background-image: url(${wall2Url});
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
   }
   .react-dadata__input:focus{
     box-shadow: none !important;

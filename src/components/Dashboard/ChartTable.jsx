@@ -5,6 +5,7 @@ import { useNumberTriad } from 'hooks/StringHook';
 const TableContainer = styled.div`
   max-height: 250px;
   overflow: auto;
+  flex-grow: 1;
 `;
 const TableStyle = styled.table`
   width: 100%;

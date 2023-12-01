@@ -15,6 +15,8 @@ const TaskTableStyle = styled.div`
 const TaskTableContainer = styled.div`
   width: 100%;
   overflow: auto;
+  background-color: #fff;
+  border-radius: 5px;
 `;
 const TableStyle = styled.table`
   border-collapse: collapse;
@@ -29,6 +31,9 @@ const TableHeader = styled.thead`
   top: 0;
   background: #fff;
   border-bottom: 1px solid #f0f0f0;
+  & > tr > th {
+    padding: 0.3rem;
+  }
 `;
 const TableLine = styled(motion.tr)`
   ${({ $deadline }) => $deadline && 'background: #eda4a4;'};
