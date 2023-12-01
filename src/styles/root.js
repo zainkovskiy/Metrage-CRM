@@ -42,7 +42,7 @@ export const GlobalStyle = createGlobalStyle`
     flex-direction: column;
     overflow: hidden;
     //Новый год
-    background-image: url(${wall2Url});
+    background-image: url(${wall1Url});
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
