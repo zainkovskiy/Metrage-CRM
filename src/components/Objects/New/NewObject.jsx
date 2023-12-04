@@ -58,7 +58,7 @@ const NewObject = ({ onClose }) => {
           <>
             {object && <TitleAdv />}
             <FormCords />
-            <FieldsCategory />
+            <FieldsCategory typeDeal={object?.typeDeal} />
           </>
         )}
         {methods.getValues('typeDeal') === 'sell' && object && <FormRent />}

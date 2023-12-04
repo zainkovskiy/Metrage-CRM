@@ -185,7 +185,7 @@ const DealFilterForm = ({ onClose }) => {
                 field.onChange(newValue);
               }}
               select={field.value || 'all'}
-              label='Агент рассчитан'
+              label='Оплачено'
             >
               <SelectItemUI value='all'>Все</SelectItemUI>
               <SelectItemUI value='yes'>Да</SelectItemUI>

@@ -2,17 +2,10 @@ import React, { useRef } from 'react';
 import { useAsyncValue } from 'react-router-dom';
 import { useWindowSize } from 'hooks/windowSize';
 import SlideDealStory from './SlideDealStory';
-import SlideDealMeta from './SlideDealMeta';
-import SlideDealStatus from './SlideDealStatus';
-import SlideDealParticipants from './SlideDealParticipants';
-import SlideDealSide from './SlideDealSide';
-import SlideDealInfo from './SlideDealInfo';
-import SlidePreliminaryAgreement from './SlidePreliminaryAgreement';
-import SliderFiles from './SliderFiles';
 import SlideFromContainer from './SlideFromContainer';
 import { SliderStyle, SliderContext } from '../../../styles/slider';
 import styled from 'styled-components';
-import { FormProvider, useForm, useFormState } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { updateDeal } from '../../../api/dealAPI';
 
 const SlideDealStyle = styled.form`
@@ -42,6 +35,8 @@ const SlideDeal = () => {
     objectCost: deal?.objectCost || '',
     agencyComission: deal?.agencyComission || '',
     agentsCalculated: deal?.agentsCalculated || false,
+    lawyerCalculated: deal?.lawyerCalculated || false,
+    lawyerCalculatedType: deal?.lawyerCalculatedType || 'cash',
   });
   const methods = useForm({
     defaultValues: {
@@ -58,6 +53,8 @@ const SlideDeal = () => {
       agencyComission: deal?.agencyComission || '',
       dealTitle: deal?.dealTitle || '',
       agentsCalculated: deal?.agentsCalculated || false,
+      lawyerCalculated: deal?.lawyerCalculated || false,
+      lawyerCalculatedType: deal?.lawyerCalculatedType || 'cash',
     },
   });
   const onSubmit = (data) => {

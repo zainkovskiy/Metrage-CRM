@@ -157,6 +157,8 @@ const ApplicationFilterForm = ({ onClose }) => {
               <SelectItemUI value='6'>Сайт (Москва)</SelectItemUI>
               <SelectItemUI value='7'>Звонки 8800</SelectItemUI>
               <SelectItemUI value='8'>КВИЗ</SelectItemUI>
+              <SelectItemUI value='9'>Новостройки НСК</SelectItemUI>
+              <SelectItemUI value='10'>Новостройки МСК</SelectItemUI>
             </SelectUI>
           )}
         />

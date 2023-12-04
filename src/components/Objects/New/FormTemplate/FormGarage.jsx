@@ -10,7 +10,7 @@ import { CheckboxUI } from 'ui/CheckboxUI';
 import { TextSpanStyle } from 'styles/styles';
 import { useNumberTriad } from 'hooks/StringHook';
 
-const FormGarage = () => {
+const FormGarage = ({ typeDeal }) => {
   const { control } = useFormContext();
   const { errors } = useFormState();
   return (
@@ -75,6 +75,24 @@ const FormGarage = () => {
               />
             )}
           />
+          {typeDeal === 'buy' && (
+            <Controller
+              name='SaleType'
+              control={control}
+              render={({ field }) => (
+                <SelectUI
+                  onChange={field.onChange}
+                  select={field.value || 'free'}
+                  label='Тип продажи'
+                >
+                  <SelectItemUI value='free'>Свободная</SelectItemUI>
+                  <SelectItemUI value='alternative'>
+                    Альтернативная
+                  </SelectItemUI>
+                </SelectUI>
+              )}
+            />
+          )}
         </FormWrapper>
         <Box column ai='flex-start'>
           <TextSpanStyle>Тип гаража</TextSpanStyle>

@@ -4,5 +4,5 @@ export const statusVarinants = {
   pre: 'ПДКП',
   success: 'ДКП',
   registration: 'Акт подписан',
-  finally: 'Агент расчитан',
+  finally: 'Оплачено',
 };

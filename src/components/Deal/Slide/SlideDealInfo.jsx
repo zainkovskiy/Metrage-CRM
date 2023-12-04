@@ -10,6 +10,7 @@ import InputText from '../../../ui/InputText/InputText';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useNumberTriad } from 'hooks/StringHook';
 import { CheckboxUI } from 'ui/CheckboxUI';
+import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 
 const FeatureTitle = styled.div`
   border-bottom: 1px solid #786464;
@@ -32,7 +33,8 @@ const SlideDealInfoSide = styled.div`
 
 const SlideDealInfo = ({ isDisgraced }) => {
   const deal = useAsyncValue();
-  const { control } = useFormContext();
+  const { control, getValues, watch } = useFormContext();
+  const lawyerCalculatedWatch = watch('lawyerCalculated');
   return (
     <SlideBlockStyle $column ai='flex-start'>
       <FeatureTitle>Общая информация</FeatureTitle>
@@ -160,9 +162,46 @@ const SlideDealInfo = ({ isDisgraced }) => {
               id='agentsCalculated'
               size='small'
               labelSize={12}
+              fullWidth
             />
           )}
         />
+        <Box fullWidth column ai='flex-start'>
+          <Controller
+            name='lawyerCalculated'
+            control={control}
+            render={({ field }) => (
+              <CheckboxUI
+                disabled={!deal?.isСashier || !isDisgraced || false}
+                label='Юристы рассчитаны'
+                onChange={(e) => {
+                  field.onChange(e.target.checked);
+                }}
+                defaultChecked={field.value || false}
+                id='lawyerCalculated'
+                size='small'
+                labelSize={12}
+              />
+            )}
+          />
+          <Controller
+            name='lawyerCalculatedType'
+            control={control}
+            render={({ field }) => (
+              <SelectUI
+                onChange={(newValue) => {
+                  field.onChange(newValue);
+                }}
+                disabled={!lawyerCalculatedWatch}
+                select={field.value || 'all'}
+                small
+              >
+                <SelectItemUI value='cash'>Наличные</SelectItemUI>
+                <SelectItemUI value='non-cash'>Безнал</SelectItemUI>
+              </SelectUI>
+            )}
+          />
+        </Box>
       </SlideDealInfoContent>
     </SlideBlockStyle>
   );
