@@ -171,7 +171,7 @@ const DealFilterForm = ({ onClose }) => {
               <SelectItemUI value='pre'>ПДКП</SelectItemUI>
               <SelectItemUI value='success'>ДКП</SelectItemUI>
               <SelectItemUI value='registration'>Акт подписан</SelectItemUI>
-              <SelectItemUI value='finally'>Агент расчитан</SelectItemUI>
+              <SelectItemUI value='finally'>Оплачено</SelectItemUI>
               <SelectItemUI value='loss'>Срыв</SelectItemUI>
             </SelectUI>
           )}
@@ -185,7 +185,7 @@ const DealFilterForm = ({ onClose }) => {
                 field.onChange(newValue);
               }}
               select={field.value || 'all'}
-              label='Оплачено'
+              label='Агент расчитан полностью'
             >
               <SelectItemUI value='all'>Все</SelectItemUI>
               <SelectItemUI value='yes'>Да</SelectItemUI>
