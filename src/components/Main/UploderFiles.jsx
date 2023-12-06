@@ -17,6 +17,7 @@ const UploaderStyle = styled.label`
   box-sizing: border-box;
   ${({ $disabled }) => $disabled && 'pointer-events: none;'};
   ${({ $fullWidth }) => $fullWidth && 'width: 100%;'};
+  ${({ $height }) => $height && `height: ${$height};`};
 `;
 const UploaderIcon = styled(Upload)`
   width: 24px;
@@ -42,7 +43,14 @@ const UploadingIcon = styled.span`
   animation: ${rotation} 1s linear infinite;
 `;
 
-const UploderFiles = ({ raw, callback, fullWidth, label }) => {
+const UploderFiles = ({
+  raw,
+  callback,
+  fullWidth,
+  label,
+  height,
+  multiple,
+}) => {
   const [uploading, setUploading] = useState(false);
   const handleChange = (e) => {
     upload(e?.target?.files);
@@ -91,17 +99,18 @@ const UploderFiles = ({ raw, callback, fullWidth, label }) => {
       onDrop={dropHandler}
       $disabled={uploading}
       $fullWidth={fullWidth}
+      $height={height}
     >
       {uploading ? <UploadingIcon /> : <UploaderIcon />}
       <input
         id='uploader'
         type='file'
-        multiple={true}
+        multiple={multiple}
         hidden
         onChange={handleChange}
       />
       <TextSpanStyle>
-        Загрузка файлов
+        Загрузка {multiple ? 'файлов' : 'файла'}
         {/* {uploading ? 'Загружается ...' : `${label || 'Загрузка файлов'}`} */}
       </TextSpanStyle>
     </UploaderStyle>

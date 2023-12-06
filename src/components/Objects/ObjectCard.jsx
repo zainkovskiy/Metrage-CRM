@@ -6,15 +6,9 @@ import { TextSpanStyle } from 'styles/styles';
 import { Box } from 'ui/Box';
 import { TooltipUI } from 'ui/TooltipUI';
 import imgErrorUrl from 'images/img-error.svg';
-import megaphoneUrl, {
-  ReactComponent as Megaphone,
-} from 'images/megaphone.svg';
-import exclamationUrl, {
-  ReactComponent as Exclamation,
-} from 'images/exclamation.svg';
-import hourglassUrl, {
-  ReactComponent as Hourglass,
-} from 'images/hourglass.svg';
+import megaphoneUrl from 'images/megaphone.svg';
+import exclamationUrl from 'images/exclamation.svg';
+import hourglassUrl from 'images/hourglass.svg';
 import avitoUrl from '../../public/logo/avito.svg';
 import cianUrl from '../../public/logo/CIAN.png';
 import domclickUrl from '../../public/logo/domclick.svg';

@@ -1,0 +1,16 @@
+.wrapper-class{
+  border: 1px solid #85009e;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: auto;
+}
+.toolbar-class{
+  margin: 0;
+  border-radius: 5px 5px 0 0;
+}
+.editor-class{
+  background-color: #f7f7f7;
+  border-radius: 0 0 5px 5px;
+}

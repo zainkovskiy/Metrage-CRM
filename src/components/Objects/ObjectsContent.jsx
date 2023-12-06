@@ -52,11 +52,11 @@ const ObjectsContent = () => {
         return DefaultError;
     }
   };
-  const ObkectsComponent = getObjectsComponent();
+  const ObjectsComponent = getObjectsComponent();
   return (
     <ObjectsContentStyle>
       <ObjectsFilterDesktop />
-      <ObkectsComponent firstMount={firstMount.current} />
+      <ObjectsComponent firstMount={firstMount.current} />
       {/* <Objects firstMount={firstMount.current} /> */}
       <Outlet />
     </ObjectsContentStyle>

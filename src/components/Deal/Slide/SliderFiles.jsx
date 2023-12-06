@@ -49,7 +49,7 @@ const SliderFiles = () => {
   return (
     <SlideBlockStyle $column>
       <FeatureTitle>Файлы</FeatureTitle>
-      <UploderFiles raw={raw} callback={uploadFiles} fullWidth />
+      <UploderFiles raw={raw} callback={uploadFiles} fullWidth multiple />
       <SlideGridWrapper $fullWidth>
         {deal.files.map((file) => {
           return (

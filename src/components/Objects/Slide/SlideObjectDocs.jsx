@@ -144,7 +144,7 @@ const SlideObjectDocs = () => {
             </Box>
           </InputsSide>
           <FilesSide>
-            <UploderFiles raw={raw} callback={uploadFiles} fullWidth />
+            <UploderFiles raw={raw} callback={uploadFiles} fullWidth multiple />
           </FilesSide>
           {object?.files?.length > 0 && (
             <Box fullWidth column>

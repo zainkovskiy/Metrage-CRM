@@ -23,6 +23,7 @@ import headphoneUrl, {
 } from 'images/headphone.svg';
 import { ReactComponent as Mail } from 'images/mail.svg';
 import { ReactComponent as Client } from 'images/client.svg';
+import { ReactComponent as News } from 'images/news.svg';
 
 const PanelButtonContainerImgStyle = styled.div`
   padding: 0.5rem;
@@ -31,7 +32,7 @@ const PanelButtonContainerImgStyle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.3s;
+  transition: background-color 0.3s;
   pointer-events: none;
 `;
 const PanelButtonStyle = styled(Link)`
@@ -43,7 +44,7 @@ const PanelButtonStyle = styled(Link)`
   text-decoration: none;
   user-select: none;
   &:hover {
-    background: #cd96d8;
+    background-color: #cd96d8;
   }
 `;
 const PanelButtonLink = styled.a`
@@ -99,7 +100,7 @@ const iconStyle = css`
     $active ? theme.color.white : theme.color.primary};
   stroke: ${({ theme, $active }) =>
     $active ? theme.color.white : theme.color.primary};
-  pointer-event: none;
+  pointer-events: none;
   transition: fill 0.3s;
 `;
 const TodoStyle = styled(Todo)`
@@ -153,7 +154,10 @@ const MailStyle = styled(Mail)`
 const ClientStyle = styled(Client)`
   ${iconStyle};
 `;
-const compilationStyle = styled(Compilation)`
+const CompilationStyle = styled(Compilation)`
+  ${iconStyle};
+`;
+const NewsStyle = styled(News)`
   ${iconStyle};
 `;
 const iconVariant = {
@@ -174,5 +178,6 @@ const iconVariant = {
   phone: PhoneStyle,
   mail: MailStyle,
   client: ClientStyle,
-  compilation: compilationStyle,
+  compilation: CompilationStyle,
+  news: NewsStyle,
 };
