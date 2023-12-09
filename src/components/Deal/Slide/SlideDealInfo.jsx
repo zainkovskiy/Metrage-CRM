@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAsyncValue } from 'react-router-dom';
 import { TextSpanStyle } from 'styles/styles';
 import styled from 'styled-components';
@@ -6,11 +6,15 @@ import { SlideBlockStyle } from '../DealStyle';
 import { RealtyTypeTranslate, DealTypeTranslate } from '../keyTranslate';
 import { Box } from 'ui/Box';
 import { InputUI } from 'ui/InputUI';
-import InputText from '../../../ui/InputText/InputText';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useNumberTriad } from 'hooks/StringHook';
-import { CheckboxUI } from 'ui/CheckboxUI';
-import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
+import { CategoryTranslate } from '../keyTranslate';
+import { useDateFormat } from 'hooks/DateFormat';
+import { ReactComponent as Done } from 'images/done3.svg';
+import { ReactComponent as Circle } from 'images/circle.svg';
+import { ButtonLink } from 'ui/ButtonLink';
+import DialogWindow from 'components/Main/DialogWindow';
+import SlideDialogDDS from './SlideDialogDDS';
 
 const FeatureTitle = styled.div`
   border-bottom: 1px solid #786464;
@@ -19,6 +23,7 @@ const FeatureTitle = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
+  align-items: flex-end;
 `;
 const SlideDealInfoContent = styled.div`
   display: flex;
@@ -30,42 +35,60 @@ const SlideDealInfoSide = styled.div`
   display: flex;
   gap: 0.5rem;
 `;
-
-const SlideDealInfo = ({ isDisgraced }) => {
+const DoneIcon = styled(Done)`
+  width: 15px;
+  height: 15px;
+  fill: #2ba400;
+`;
+const CircleIcon = styled(Circle)`
+  width: 15px;
+  height: 15px;
+  fill: #b5b5b5;
+`;
+const SlideDealInfo = () => {
   const deal = useAsyncValue();
-  const { control, getValues, watch } = useFormContext();
-  const lawyerCalculatedWatch = watch('lawyerCalculated');
+  const { control } = useFormContext();
+  const [open, setOpen] = useState(false);
+  const openDds = () => {
+    setOpen(!open);
+  };
   return (
     <SlideBlockStyle $column ai='flex-start'>
-      <FeatureTitle>Общая информация</FeatureTitle>
+      <FeatureTitle>
+        Общая информация
+        <ButtonLink size={12} color='#85009E' onClick={openDds}>
+          ДДС
+        </ButtonLink>
+      </FeatureTitle>
+      <TextSpanStyle bold color='#85009E'>
+        {deal?.grossTitle}
+      </TextSpanStyle>
       <div style={{ width: '100%' }}>
-        <Box jc='flex-start' gap='0'>
-          <TextSpanStyle>Название:</TextSpanStyle>
-          <Controller
-            name='dealTitle'
-            control={control}
-            render={({ field }) => (
-              <InputText
-                align='start'
-                value={field.value}
-                onChange={(e) => {
-                  field.onChange(e.target.value);
-                }}
-              />
-            )}
-          />
-        </Box>
-        <Box wrap jc='flex-start'>
+        <Box wrap jc='space-between'>
           <Box ai='flex-start'>
-            <TextSpanStyle bold>Тип сделки:</TextSpanStyle>
-            <TextSpanStyle>
+            <TextSpanStyle size={10} bold>
+              Тип сделки:
+            </TextSpanStyle>
+            <TextSpanStyle size={10}>
               {deal?.dealType ? DealTypeTranslate[deal.dealType] : ''}
             </TextSpanStyle>
           </Box>
           <Box ai='flex-start'>
-            <TextSpanStyle bold>Тип недвижимости:</TextSpanStyle>
-            <TextSpanStyle>
+            <TextSpanStyle size={10} bold>
+              Тип недвижимости:
+            </TextSpanStyle>
+            <TextSpanStyle size={10}>
               {deal?.realtyType ? RealtyTypeTranslate[deal.realtyType] : ''}
+            </TextSpanStyle>
+          </Box>
+          <Box ai='flex-start'>
+            <TextSpanStyle size={10} bold>
+              Тип объекта:
+            </TextSpanStyle>
+            <TextSpanStyle size={10}>
+              {deal?.objectParams?.Category
+                ? CategoryTranslate[deal?.objectParams?.Category]
+                : ''}
             </TextSpanStyle>
           </Box>
         </Box>
@@ -85,7 +108,7 @@ const SlideDealInfo = ({ isDisgraced }) => {
             render={({ field }) => (
               <InputUI
                 fullWidth
-                label='Дата сделки (План)'
+                label='Планируемая дата закрытия'
                 value={field.value}
                 type='date'
                 small
@@ -102,7 +125,7 @@ const SlideDealInfo = ({ isDisgraced }) => {
             render={({ field }) => (
               <InputUI
                 fullWidth
-                label='Дата сделки (Факт)'
+                label='Фактическая дата закрытия'
                 value={field.value}
                 type='date'
                 small
@@ -148,61 +171,34 @@ const SlideDealInfo = ({ isDisgraced }) => {
             )}
           />
         </SlideDealInfoSide>
-        <Controller
-          name='agentsCalculated'
-          control={control}
-          render={({ field }) => (
-            <CheckboxUI
-              disabled={!deal?.isСashier || !isDisgraced || false}
-              label='Агенты рассчитаны полностью'
-              onChange={(e) => {
-                field.onChange(e.target.checked);
-              }}
-              defaultChecked={field.value || false}
-              id='agentsCalculated'
-              size='small'
-              labelSize={12}
-              fullWidth
-            />
-          )}
-        />
-        <Box fullWidth column ai='flex-start'>
-          <Controller
-            name='lawyerCalculated'
-            control={control}
-            render={({ field }) => (
-              <CheckboxUI
-                disabled={!deal?.isСashier || !isDisgraced || false}
-                label='Юристы рассчитаны'
-                onChange={(e) => {
-                  field.onChange(e.target.checked);
-                }}
-                defaultChecked={field.value || false}
-                id='lawyerCalculated'
-                size='small'
-                labelSize={12}
-              />
+        <Box jc='flex-start' wrap>
+          <Box gap='0.2rem'>
+            {deal?.agentsCalculated ? <DoneIcon /> : <CircleIcon />}
+            <TextSpanStyle size={12}>Агенты рассчитаны полностью</TextSpanStyle>
+          </Box>
+          <TextSpanStyle size={12} nowrap>
+            {useDateFormat(
+              deal?.agentsCalculatedDate || '2023-12-12',
+              'DD.MM.YYY'
             )}
-          />
-          <Controller
-            name='lawyerCalculatedType'
-            control={control}
-            render={({ field }) => (
-              <SelectUI
-                onChange={(newValue) => {
-                  field.onChange(newValue);
-                }}
-                disabled={!lawyerCalculatedWatch}
-                select={field.value || 'all'}
-                small
-              >
-                <SelectItemUI value='cash'>Наличные</SelectItemUI>
-                <SelectItemUI value='non-cash'>Безнал</SelectItemUI>
-              </SelectUI>
+          </TextSpanStyle>
+        </Box>
+        <Box jc='flex-start' wrap>
+          <Box gap='0.2rem'>
+            {deal?.lawyerCalculated ? <DoneIcon /> : <CircleIcon />}
+            <TextSpanStyle size={12}>Юристы рассчитаны полностью</TextSpanStyle>
+          </Box>
+          <TextSpanStyle size={12} nowrap>
+            {useDateFormat(
+              deal?.lawyerCalculatedDate || '2023-12-12',
+              'DD.MM.YYY'
             )}
-          />
+          </TextSpanStyle>
         </Box>
       </SlideDealInfoContent>
+      <DialogWindow open={open} onClose={openDds}>
+        <SlideDialogDDS UID={deal?.UID} />
+      </DialogWindow>
     </SlideBlockStyle>
   );
 };

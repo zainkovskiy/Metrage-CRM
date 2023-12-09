@@ -1,15 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Outlet } from 'react-router-dom';
 import FilterNews from './FilterNews';
 import News from './News';
+import { getNewsList } from '../../store/slices/newsSlice';
+import { useDispatch } from 'react-redux';
 
 const NewsContentStyle = styled.div`
-  width: 100%;
-  padding: 1rem;
-  box-sizing: border-box;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
 `;
 const NewsContent = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    getList();
+    // return () => {
+    //   dispatch(clearDeals());
+    // };
+  }, []);
+  const getList = () => {
+    dispatch(getNewsList());
+  };
   return (
     <NewsContentStyle>
       <FilterNews />

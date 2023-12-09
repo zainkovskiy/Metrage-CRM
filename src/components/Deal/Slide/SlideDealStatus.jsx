@@ -14,7 +14,7 @@ const SlideDealStatus = ({ status, UID, handlerIsDisgraced }) => {
       UID: UID,
     });
     setActiveStepper(idx);
-    handlerIsDisgraced(idx + 1);
+    // handlerIsDisgraced(idx + 1);
   };
   const setFailure = () => {
     if (activeStepper < 0) {
@@ -25,11 +25,12 @@ const SlideDealStatus = ({ status, UID, handlerIsDisgraced }) => {
   };
   return (
     <SlideBlockStyle>
-      <SlideGridWrapper $fullWidth>
+      <Box column>
         <StatusBar
           activeStep={activeStepper}
           disabled={activeStepper < 0}
-          column
+          wrap
+          // column
         >
           <StatusBarItem title='Закрепление' onClick={changeStepper} />
           <StatusBarItem title='ПДКП (бронь)' onClick={changeStepper} />
@@ -37,12 +38,12 @@ const SlideDealStatus = ({ status, UID, handlerIsDisgraced }) => {
           <StatusBarItem title='Акт подписан' onClick={changeStepper} />
           <StatusBarItem title='Оплачено' onClick={changeStepper} />
         </StatusBar>
-        <Box column>
+        <Box jc='flex-end' fullWidth>
           <ButtonLink onClick={setFailure} size={12}>
             {activeStepper < 0 ? 'Вернуть из срыва' : 'Отправить в Срыв'}
           </ButtonLink>
         </Box>
-      </SlideGridWrapper>
+      </Box>
     </SlideBlockStyle>
   );
 };

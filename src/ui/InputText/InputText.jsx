@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 export const InputTextContainer = styled.div`
   border-radius: 6px;
+  box-sizing: border-box;
   border: 1px solid transparent;
   width: 100%;
   &:hover:has(input:not([disabled])) {
@@ -13,7 +14,7 @@ export const InputTextContainer = styled.div`
   }
 `;
 export const InputStyle = styled.input`
-  font-size: 14px;
+  font-size: ${({ $size }) => ($size ? `${$size}px` : '14px')};
   font-family: CeraCY, sans-serif;
   padding: 0.2rem 0.5rem;
   border-radius: 5px;
@@ -38,7 +39,14 @@ export const InputStyle = styled.input`
     ${({ readOnly }) => readOnly && 'display: none;'};
   }
 `;
-const InputText = ({ value, onChange, align, disabled, type = 'text' }) => {
+const InputText = ({
+  value,
+  onChange,
+  align,
+  disabled,
+  type = 'text',
+  size,
+}) => {
   const [read, setRead] = useState(true);
   const setEdit = () => {
     if (read) {
@@ -57,6 +65,7 @@ const InputText = ({ value, onChange, align, disabled, type = 'text' }) => {
         value={value}
         onChange={onChange}
         $align={align}
+        $size={size}
         disabled={disabled}
         type={type}
       />

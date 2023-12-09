@@ -146,3 +146,27 @@ export const setDealStage = async (raw) => {
   }
   return 'No OK';
 };
+export const getDds = async (uid) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.deal.getDds',
+    fields: {
+      UID: uid,
+    },
+  });
+  if (res?.statusText === 'OK') {
+    return res?.data?.result || [];
+  }
+  return [];
+};
+export const calculationAgent = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.deal.specialPay',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No Ok';
+};

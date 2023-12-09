@@ -1,15 +1,19 @@
 import React from 'react';
-import imgErrorUrl from 'images/img-error.svg';
-import styled from 'styled-components';
-import { TextSpanStyle } from 'styles/styles';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import imgErrorUrl from 'images/img-error.svg';
+import { TextSpanStyle } from 'styles/styles';
+import { useDateFormat } from 'hooks/DateFormat';
+import { motion } from 'framer-motion';
 
-const NewsCardStyle = styled(Link)`
+const LinkStyle = styled(Link)`
+  text-decoration: none;
+`;
+const NewsCardStyle = styled(motion.div)`
   background-color: #93669a;
   display: flex;
   flex-direction: column;
   border-radius: 5px;
-  text-decoration: none;
 `;
 const NewsImage = styled.img`
   width: 100%;
@@ -29,27 +33,37 @@ const NewsCardFooter = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+const variants = {
+  visible: {
+    opacity: 1,
+  },
+  hidden: {
+    opacity: 0,
+  },
+};
 const NewsCard = ({ broadcast }) => {
   return (
-    <NewsCardStyle to='1'>
-      <NewsCardHeader>
-        <TextSpanStyle align='end' color='#fff' size={10}>
-          #23
-        </TextSpanStyle>
-        <TextSpanStyle color='#fff' size={12}>
-          {broadcast.title}
-        </TextSpanStyle>
-      </NewsCardHeader>
-      <NewsImage src={broadcast?.imageUrl || imgErrorUrl} />
-      <NewsCardFooter>
-        <TextSpanStyle color='#fff' size={10}>
-          Петров Петр
-        </TextSpanStyle>
-        <TextSpanStyle color='#fff' size={10}>
-          12.12.2023
-        </TextSpanStyle>
-      </NewsCardFooter>
-    </NewsCardStyle>
+    <LinkStyle to={`${broadcast?.UID || ''}`}>
+      <NewsCardStyle variants={variants} initial='hidden' animate='visible'>
+        <NewsCardHeader>
+          <TextSpanStyle align='end' color='#fff' size={10}>
+            #{broadcast?.UID || ''}
+          </TextSpanStyle>
+          <TextSpanStyle color='#fff' size={12}>
+            {broadcast.title}
+          </TextSpanStyle>
+        </NewsCardHeader>
+        <NewsImage src={broadcast?.imageUrl || imgErrorUrl} />
+        <NewsCardFooter>
+          <TextSpanStyle color='#fff' size={10}>
+            {broadcast?.author || ''}
+          </TextSpanStyle>
+          <TextSpanStyle color='#fff' size={10}>
+            {useDateFormat(broadcast?.created)}
+          </TextSpanStyle>
+        </NewsCardFooter>
+      </NewsCardStyle>
+    </LinkStyle>
   );
 };
 

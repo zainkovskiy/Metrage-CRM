@@ -5,13 +5,13 @@ import SlideNewsStory from './SlideNewsStory';
 import SlideNewsMeta from './SlideNewsMeta';
 import SlideNewsContent from './SlideNewsContent';
 
-const SlideNews = () => {
+const SlideNews = ({ onCloseSlide }) => {
   const windowSize = useWindowSize();
   return (
     <SliderStyle>
       <SliderContext>
         <SlideNewsMeta />
-        <SlideNewsContent />
+        <SlideNewsContent onCloseSlide={onCloseSlide} />
       </SliderContext>
       {windowSize > 768 && <SlideNewsStory />}
     </SliderStyle>

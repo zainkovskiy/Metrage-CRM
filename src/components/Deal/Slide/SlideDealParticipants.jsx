@@ -29,6 +29,9 @@ const SlideParticipants = styled.div`
   border-radius: 5px;
   height: 150px;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 `;
 const SlideDealParticipants = () => {
   const [change, setChange] = useState(false);
@@ -40,6 +43,7 @@ const SlideDealParticipants = () => {
   const closeRealtorWindow = () => {
     setAddSideWindow(null);
   };
+
   const addNewUser = (user) => {
     const find = deal[addSideWindow].find(
       (currentRealtor) => currentRealtor.UID.toString() === user.UID.toString()
@@ -102,7 +106,7 @@ const SlideDealParticipants = () => {
   };
   return (
     <>
-      <SlideGridWrapper>
+      <SlideGridWrapper $minWidth={250}>
         <SlideBlockStyle $column>
           <FeatureTitle>
             <Box>

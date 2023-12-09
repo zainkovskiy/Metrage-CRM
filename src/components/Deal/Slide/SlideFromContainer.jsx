@@ -11,32 +11,35 @@ import { ButtonUI } from 'ui/ButtonUI';
 import { SliderFormButtonGroup } from '../../../styles/SliderFormButtonGroup';
 import { AnimatePresence } from 'framer-motion';
 import { useAsyncValue } from 'react-router-dom';
+import SlideDealTitle from './SlideDealTitle';
+import SlideDealDeveloper from './SlideDealDeveloper';
+import SlideDealSimple from './SlideDealSimple';
+import SlideDealFix from './SlideDealFix';
 
 const SlideFromContainer = ({ clearChangeForm }) => {
   const deal = useAsyncValue();
-  const [isDisgraced, setIsDisgraced] = useState(
-    deal?.dealStatusId >= 5 || false
-  );
   const { isDirty } = useFormState();
-  const handlerIsDisgraced = (status) => {
-    if (status !== 5) {
-      setIsDisgraced(false);
-      return;
+  const getDealTypeComponent = () => {
+    switch (deal?.dealType) {
+      case 'developer':
+        return SlideDealDeveloper;
+
+      default:
+        return SlideDealSimple;
     }
-    setIsDisgraced(true);
   };
+  const DealTypeComponent = getDealTypeComponent();
   return (
     <>
       <SlideDealMeta />
-      <SlideDealStatus
-        status={deal?.dealStatusId}
-        UID={deal.UID}
-        handlerIsDisgraced={handlerIsDisgraced}
-      />
-      <SlideDealInfo isDisgraced={isDisgraced} />
-      <SlidePreliminaryAgreement />
+      <SlideDealStatus status={deal?.dealStatusId} UID={deal.UID} />
+      <SlideDealTitle />
+      <SlideDealInfo />
       <SlideDealParticipants />
-      <SlideDealSide />
+      <DealTypeComponent />
+      <SlideDealFix />
+      {/* <SlidePreliminaryAgreement /> */}
+      {/* <SlideDealSide /> */}
       <SliderFiles />
       <AnimatePresence>
         {isDirty && (

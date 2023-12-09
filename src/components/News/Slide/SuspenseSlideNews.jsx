@@ -4,9 +4,8 @@ import Loader from 'components/Main/Loader';
 import SlideWindow from 'components/Main/SlideWindow';
 import { Await, useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import { useWindowSize } from 'hooks/windowSize';
-import { getOneUser } from '../../../api/usersApi';
+import { getOneNews } from 'api/newsApi';
 import { useDispatch } from 'react-redux';
-import { getSliceUserMiniCard } from '../../../store/usersSlice';
 const SlideNews = React.lazy(() => import('components/News/Slide/SlideNews'));
 
 const LoaderContainer = styled.div`
@@ -45,7 +44,7 @@ const SuspenseSlideNews = () => {
         }
       >
         <Await resolve={news}>
-          <SlideNews />
+          <SlideNews onCloseSlide={() => setOpen(false)} />
         </Await>
       </Suspense>
     </SlideWindow>
@@ -54,8 +53,7 @@ const SuspenseSlideNews = () => {
 
 export const loaderNewsSlide = async ({ request, params }) => {
   const { id } = params;
-  // return { user: getOneUser(id) };
-  return { news: {} };
+  return { news: getOneNews(id) };
 };
 
 export default SuspenseSlideNews;

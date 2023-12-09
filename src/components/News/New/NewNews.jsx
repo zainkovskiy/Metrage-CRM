@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-
 import { Box } from 'ui/Box';
 import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
@@ -10,7 +9,10 @@ import { SliderTitle } from '../../../styles/slider';
 import imgErrorUrl from 'images/img-error.svg';
 import TextEditor from './TextEditor';
 import UploderFiles from '../../Main/UploderFiles';
-import { addNewNews } from '../../../store/slices/newsSlice';
+import { addNewNewsToList } from '../../../store/slices/newsSlice';
+import { createNews, updateNews } from 'api/newsApi';
+import { useAsyncValue } from 'react-router-dom';
+import { device } from 'styles/device';
 
 const NewNewsStyle = styled.div`
   background-color: #fff;
@@ -28,13 +30,37 @@ const TitleImage = styled.img`
   height: 150px;
   object-fit: cover;
   border-radius: 5px;
+  @media ${device.tablet} {
+    width: 150px;
+    min-width: 150px;
+    height: 100px;
+  }
 `;
-const NewNews = () => {
+const isJSON = (json) => {
+  try {
+    JSON.parse(json);
+  } catch (error) {
+    return false;
+  }
+  return true;
+};
+const getTemplate = (template) => {
+  if (!template) {
+    return null;
+  }
+  if (isJSON(template)) {
+    return JSON.parse(template);
+  }
+};
+const NewNews = ({ onClose }) => {
+  const news = useAsyncValue() || null;
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.UID);
-  const [url, setUrl] = useState(null);
-  const [title, setTitle] = useState('');
-  const [editorText, setEditorText] = useState(null);
+  const [url, setUrl] = useState(news?.imageUrl || null);
+  const [title, setTitle] = useState(news?.title || '');
+  const [editorText, setEditorText] = useState(
+    getTemplate(news?.template || null)
+  );
   const handleChangeTitle = (e) => {
     const value = e.target.value;
     setTitle(value);
@@ -54,13 +80,28 @@ const NewNews = () => {
       imageUrl: url,
       template: JSON.stringify(editorText),
     };
-    console.log(newNews);
-    dispatch(addNewNews(newNews));
+    if (news) {
+      updateNews({
+        ...newNews,
+        UID: news?.UID,
+      }).then((answer) => {
+        if (answer === 'OK') {
+          onClose(null, `/news/${news?.UID}`);
+        }
+      });
+      return;
+    }
+    createNews(newNews).then((uid) => {
+      if (uid) {
+        dispatch(addNewNewsToList(uid));
+      }
+      onClose(null, `/news/${uid}`);
+    });
   };
   const raw = { entityId: '', entityType: 'news', author: userId };
   return (
     <NewNewsStyle>
-      <SliderTitle>Создать новость</SliderTitle>
+      <SliderTitle>{news ? 'Редакировать' : 'Создать'} новость</SliderTitle>
       <InputUI
         value={title}
         onChange={handleChangeTitle}

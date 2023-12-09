@@ -213,6 +213,12 @@ const MenuList = ({ onClose }) => {
             path='task'
             onClick={onClose}
           />
+          <MenuListButton
+            title='Новости'
+            icon='news'
+            path='news'
+            onClick={onClose}
+          />
           {/* <LinkNav to='/' onClick={onClose}>
             На главную
           </LinkNav>

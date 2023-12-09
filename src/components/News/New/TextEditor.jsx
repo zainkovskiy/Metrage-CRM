@@ -7,9 +7,11 @@ import draftToHtml from 'draftjs-to-html';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import './TextEditor.scss';
 
-const SuspenseNews = ({ value, onChange }) => {
+const SuspenseNews = ({ value, onChange, defaultState }) => {
   const [editorState, setEditorState] = useState(
-    value ? convertFromRaw(value) : () => EditorState.createEmpty()
+    value
+      ? EditorState.createWithContent(convertFromRaw(value))
+      : () => EditorState.createEmpty()
   );
   useEffect(() => {
     if (onChange) {

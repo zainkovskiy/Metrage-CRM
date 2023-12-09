@@ -6,6 +6,8 @@ import { ButtonUI } from 'ui/ButtonUI';
 const FilterNewsStyle = styled.div`
   display: flex;
   justify-content: flex-end;
+  padding: 0.5rem;
+  box-sizing: border-box;
 `;
 const FilterNews = () => {
   return (

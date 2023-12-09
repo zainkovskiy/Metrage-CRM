@@ -4,6 +4,7 @@ import SlideWindow from 'components/Main/SlideWindow';
 import { Await, useLoaderData, useNavigate } from 'react-router-dom';
 import { useWindowSize } from 'hooks/windowSize';
 const NewNews = React.lazy(() => import('components/News/New/NewNews'));
+import { getOneNews } from 'api/newsApi';
 
 const SuspenseNewNews = () => {
   const { news } = useLoaderData() || {};
@@ -40,8 +41,7 @@ const SuspenseNewNews = () => {
 
 export const loaderEditNewsSlide = async ({ request, params }) => {
   const { id } = params;
-  // return { news: getOneObject(id) };
-  return { news: {} };
+  return { news: getOneNews(id) };
 };
 
 export default SuspenseNewNews;

@@ -4,10 +4,12 @@ import styled from 'styled-components';
 const iconButtonColor = {
   error: '#fb1b003b',
   info: '#7cd1ff66',
+  gold: '#d4d668a6',
 };
 const iconButtonColorSVG = {
   error: 'red',
   info: '#7cd1ff',
+  gold: '#aaac5dfc',
 };
 
 const IconButtonStyle = styled.div`

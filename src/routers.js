@@ -42,6 +42,7 @@ import { loaderUserSlide } from 'components/User/Slide/SuspenseSlideUser';
 
 import SuspenseNews from 'components/News/SuspenseNews';
 import SuspenseSlideNews from 'components/News/Slide/SuspenseSlideNews';
+import { loaderNewsSlide } from 'components/News/Slide/SuspenseSlideNews';
 import SuspenseNewNews from './components/News/New/SuspenseNewNews';
 import { loaderEditNewsSlide } from './components/News/New/SuspenseNewNews';
 
@@ -211,7 +212,7 @@ export const routers = createBrowserRouter([
           {
             path: ':id',
             element: <SuspenseSlideNews />,
-            // loader: loaderTaskSlide,
+            loader: loaderNewsSlide,
           },
           {
             path: 'edit/:id',

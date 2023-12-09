@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
 import closeUrl, { ReactComponent as Close } from 'images/close.svg';
@@ -8,6 +8,7 @@ import { device } from 'styles/device';
 import { InputUI } from 'ui/InputUI';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { useAsyncValue } from 'react-router-dom';
+import { calculationAgent } from '../../../api/dealAPI';
 const Title = styled.div`
   border-bottom: 1px solid #786464;
   color: #786464;
@@ -46,71 +47,63 @@ const SlideDialogComissiontFooter = styled.div`
   display: flex;
   gap: 0.5rem;
 `;
-const SlideDialogComission = ({ onClose, comission, onChange, type, user }) => {
+const SlideDialogCalculation = ({ onClose, user, type }) => {
   const deal = useAsyncValue();
-  const [currentSide, setCurrentSide] = useState(user?.side || '');
-  const [currentComission, setCurrentComission] = useState(comission || '');
+  const [summ, setSumm] = useState('');
+  const [payType, setPayType] = useState('');
   const onSubmit = () => {
-    let changeObject = {
-      comissionSize: currentComission,
+    const raw = {
+      UID: deal.UID,
+      agent: user,
+      agentType: type,
+      summ: summ,
+      payType: payType,
     };
-    if (type === 'realtor') {
-      changeObject = { ...changeObject, side: currentSide };
-    }
-    onChange(changeObject);
-  };
-  const getHelperText = () => {
-    if (!currentComission || currentComission <= 0) {
-      return '0% от общ. комиссии';
-    }
-    if (!deal?.agencyComission || deal?.agencyComission <= 0) {
-      return '0% от общ. комиссии';
-    }
-    const percent = (
-      (parseInt(currentComission) * 100) /
-      parseInt(deal.agencyComission)
-    ).toFixed(2);
-    return `${percent}% от общ. комиссии`;
+    calculationAgent(raw).finally(() => {
+      onClose();
+    });
   };
   return (
     <SlideDialogComissiontStyle onClick={(e) => e.stopPropagation()}>
       <Title>Оплата</Title>
-      <Box jc='flex-end' gap='0.3rem'>
-        <TextSpanStyle size={12}>Специалист:</TextSpanStyle>
-        <TextSpanStyle bold size={12}>
-          {user?.lastName || ''} {user?.firstName || ''}
+      <Box column ai='flex-end' gap='0'>
+        <Box jc='flex-end' gap='0.3rem'>
+          <TextSpanStyle size={12}>Специалист:</TextSpanStyle>
+          <TextSpanStyle bold size={12}>
+            {user?.lastName || ''} {user?.firstName || ''}
+          </TextSpanStyle>
+        </Box>
+        <TextSpanStyle size={10} color='#ccc'>
+          Полная сумма оплаты: {user?.comissionSize} руб.
         </TextSpanStyle>
       </Box>
-      {type === 'realtor' && (
-        <SelectUI
-          onChange={(newValue) => setCurrentSide(newValue)}
-          select={currentSide}
-          label='Сторона сделки'
-          small
-        >
-          <SelectItemUI value='seller'>Продавец</SelectItemUI>
-          <SelectItemUI value='buyer'>Покупатель</SelectItemUI>
-        </SelectUI>
-      )}
       <InputUI
         AutoComplete
         small
         type='number'
-        onChange={(e) => setCurrentComission(e.target.value)}
-        value={currentComission}
+        onChange={(e) => setSumm(e.target.value)}
+        value={summ}
         label='Сумма оплаты'
-        helperText={getHelperText()}
       />
+      <SelectUI
+        onChange={(newValue) => setPayType(newValue)}
+        select={payType}
+        label='Тип оплаты'
+        small
+      >
+        <SelectItemUI value='nal'>Наличные</SelectItemUI>
+        <SelectItemUI value='beznal'>Безнал</SelectItemUI>
+      </SelectUI>
       <SlideDialogComissiontFooter>
         <ButtonUI size='small' onClick={onClose} fullWidth>
           Отменить
         </ButtonUI>
         <ButtonUI size='small' onClick={onSubmit} variant='outline' fullWidth>
-          Сохранить
+          Расчитать
         </ButtonUI>
       </SlideDialogComissiontFooter>
     </SlideDialogComissiontStyle>
   );
 };
 
-export default SlideDialogComission;
+export default SlideDialogCalculation;
