@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import { ReactComponent as Upload } from 'images/upload.svg';
 import { TextSpanStyle } from 'styles/styles';
 import { uploadPhoto } from 'api/objectAPI';
-import { uploadFiles } from '../../api/uploadAPI';
+import { uploadFiles, uploadPhotosNews } from '../../api/uploadAPI';
 
 const UploaderStyle = styled.label`
   border: 1px dashed ${({ theme }) => theme.color.primary};
@@ -50,6 +50,7 @@ const UploderFiles = ({
   label,
   height,
   multiple,
+  news,
 }) => {
   const [uploading, setUploading] = useState(false);
   const handleChange = (e) => {
@@ -79,6 +80,20 @@ const UploderFiles = ({
   };
   const upload = (files) => {
     setUploading(true);
+
+    if (news) {
+      uploadPhotosNews(files, raw)
+        .then((uploadPhoto) => {
+          if (callback) {
+            callback(uploadPhoto);
+          }
+        })
+        .finally(() => {
+          setUploading(false);
+        });
+      return;
+    }
+
     uploadFiles(files, raw)
       .then((uploadPhoto) => {
         if (callback) {
@@ -109,7 +124,7 @@ const UploderFiles = ({
         hidden
         onChange={handleChange}
       />
-      <TextSpanStyle>
+      <TextSpanStyle align='center'>
         Загрузка {multiple ? 'файлов' : 'файла'}
         {/* {uploading ? 'Загружается ...' : `${label || 'Загрузка файлов'}`} */}
       </TextSpanStyle>

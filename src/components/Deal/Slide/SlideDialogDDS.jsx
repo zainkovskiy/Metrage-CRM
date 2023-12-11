@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { getDds } from '../../../api/dealAPI';
 import { SliderTitle } from '../../../styles/slider';
 import Loader from 'components/Main/Loader';
+import closeUrl from 'images/close.svg';
 const SlideDialogDDSStyle = styled.div`
   background-color: #fff;
   border-radius: 5px;
@@ -35,7 +36,20 @@ const Table = styled.table`
     padding: 0.3rem;
   }
 `;
-const SlideDialogDDS = ({ UID }) => {
+const CloseButtonStyle = styled.img`
+  width: 18px;
+  height: 18px;
+  opacity: 0.5;
+  cursor: pointer;
+  transition: transform 0.3s;
+  &:hover {
+    transform: scale(1.1);
+  }
+  &:active {
+    transform: scale(0.9);
+  }
+`;
+const SlideDialogDDS = ({ UID, onClose }) => {
   const [dds, setDds] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -54,7 +68,10 @@ const SlideDialogDDS = ({ UID }) => {
   };
   return (
     <SlideDialogDDSStyle onClick={(e) => e.stopPropagation()}>
-      <SliderTitle>ДДС</SliderTitle>
+      <SliderTitle>
+        ДДС
+        <CloseButtonStyle src={closeUrl} onClick={onClose} />
+      </SliderTitle>
       {loading ? (
         <Loader />
       ) : (
@@ -62,11 +79,17 @@ const SlideDialogDDS = ({ UID }) => {
           <Table>
             <thead>
               <tr>
-                <th>Дата</th>
-                <th>Статья</th>
+                <th rowSpan={2}>Дата</th>
+                <th rowSpan={2}>Статья</th>
                 <th colSpan={2}>Приход</th>
                 <th colSpan={2}>Расход</th>
-                <th>Примечания</th>
+                <th rowSpan={2}>Примечания</th>
+              </tr>
+              <tr>
+                <th>Нал</th>
+                <th>Безнал</th>
+                <th>Нал</th>
+                <th>Безнал</th>
               </tr>
             </thead>
             <tbody>

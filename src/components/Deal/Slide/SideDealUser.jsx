@@ -11,6 +11,8 @@ import DialogWindow from 'components/Main/DialogWindow';
 import SlideDialogComission from './SlideDialogComission';
 import SlideDialogCalculation from './SlideDialogCalculation';
 import { setNewComission } from '../../../api/dealAPI';
+import { useAsyncValue } from 'react-router-dom';
+import { useGetAvatar } from 'hooks/MakeAvatar';
 
 const SlideParticipantsText = styled(TextSpanStyle)`
   text-overflow: ellipsis;
@@ -23,6 +25,13 @@ const UserStyle = styled.div`
   &:last-child {
     border: none;
   }
+`;
+const Avatar = styled.img`
+  width: 16px;
+  height: 16px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 40px;
 `;
 const SideDealUser = (props) => {
   const { type } = props;
@@ -47,6 +56,7 @@ const UserRealtor = ({
   dealUID,
   changeUserComission,
 }) => {
+  const deal = useAsyncValue();
   const [isEditComission, setIsEditComission] = useState(false);
   const [calculationWindow, setCalculationWindow] = useState(null);
   const toggleEditComission = () => {
@@ -82,16 +92,39 @@ const UserRealtor = ({
       'realtors'
     );
   };
+  const getPersentText = () => {
+    if (!user?.comissionSize || user?.comissionSize <= 0) {
+      return <TextSpanStyle size={10}>0% от общ. комиссии</TextSpanStyle>;
+    }
+    if (!deal?.agencyComission || deal?.agencyComission <= 0) {
+      return <TextSpanStyle size={10}>0% от общ. комиссии</TextSpanStyle>;
+    }
+    const percent = (
+      (parseInt(user?.comissionSize) * 100) /
+      parseInt(deal.agencyComission)
+    ).toFixed(2);
+    return <TextSpanStyle size={10}>{percent}% от общ. комиссии</TextSpanStyle>;
+  };
   return (
     <>
       <UserStyle>
         <Box column ai='flex-start' gap='0'>
-          <SlideParticipantsText size={12} nowrap>
-            {user?.lastName} {user?.firstName} {user?.secondName}
-          </SlideParticipantsText>{' '}
+          <Box>
+            <Avatar
+              src={useGetAvatar({
+                avatar: user?.avatar,
+                firstName: user?.firstName,
+                lastName: user?.lastName,
+              })}
+            />
+            <SlideParticipantsText size={12}>
+              {user?.lastName} {user?.firstName} {user?.secondName}
+            </SlideParticipantsText>{' '}
+          </Box>
           <TextSpanStyle size={10}>
-            Комиссия риелтора: {useNumberTriad(user?.comissionSize || '0')} руб.
+            Зарплата риелтора: {useNumberTriad(user?.comissionSize || '0')} руб.
           </TextSpanStyle>
+          {getPersentText()}
         </Box>
         <Box jc='flex-start'>
           <IconButton onClick={toggleCalculation} color='gold'>
@@ -132,6 +165,7 @@ const UserLawyer = ({
   dealUID,
   changeUserComission,
 }) => {
+  const deal = useAsyncValue();
   const [isEditComission, setIsEditComission] = useState(false);
   const [calculationWindow, setCalculationWindow] = useState(null);
   const toggleEditComission = () => {
@@ -166,19 +200,42 @@ const UserLawyer = ({
       'lawyers'
     );
   };
+  const getPersentText = () => {
+    if (!user?.currentComission || user?.currentComission <= 0) {
+      return <TextSpanStyle size={10}>0% от общ. комиссии</TextSpanStyle>;
+    }
+    if (!deal?.agencyComission || deal?.agencyComission <= 0) {
+      return <TextSpanStyle size={10}>0% от общ. комиссии</TextSpanStyle>;
+    }
+    const percent = (
+      (parseInt(user?.currentComission) * 100) /
+      parseInt(deal.agencyComission)
+    ).toFixed(2);
+    return <TextSpanStyle size={10}>{percent}% от общ. комиссии</TextSpanStyle>;
+  };
   return (
     <>
       <UserStyle>
         <Box column ai='flex-start' gap='0'>
-          <SlideParticipantsText size={12} nowrap>
-            {user?.lastName} {user?.firstName} {user?.secondName}
-          </SlideParticipantsText>
+          <Box>
+            <Avatar
+              src={useGetAvatar({
+                avatar: user?.avatar,
+                firstName: user?.firstName,
+                lastName: user?.lastName,
+              })}
+            />
+            <SlideParticipantsText size={12}>
+              {`${user?.lastName} ${user?.firstName} ${user?.secondName}`}
+            </SlideParticipantsText>
+          </Box>
           <TextSpanStyle size={10}>
-            Оплата юриста: {useNumberTriad(user?.comissionSize || '0')} руб.
+            Зарплата юриста: {useNumberTriad(user?.comissionSize || '0')} руб.
           </TextSpanStyle>
+          {getPersentText()}
         </Box>
         <Box jc='flex-start'>
-          <IconButton onClick={toggleEditComission} color='gold'>
+          <IconButton onClick={toggleCalculation} color='gold'>
             <Coins />
           </IconButton>
           <IconButton onClick={toggleEditComission} color='info'>

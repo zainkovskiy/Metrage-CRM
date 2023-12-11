@@ -15,6 +15,7 @@ import { ReactComponent as Circle } from 'images/circle.svg';
 import { ButtonLink } from 'ui/ButtonLink';
 import DialogWindow from 'components/Main/DialogWindow';
 import SlideDialogDDS from './SlideDialogDDS';
+import { CheckboxUI } from 'ui/CheckboxUI';
 
 const FeatureTitle = styled.div`
   border-bottom: 1px solid #786464;
@@ -92,13 +93,6 @@ const SlideDealInfo = () => {
             </TextSpanStyle>
           </Box>
         </Box>
-        {/* <TextSpanStyle size={12}>
-            Стоимость объекта: {useNumberTriad(deal?.objectCost || '0')} руб.
-          </TextSpanStyle>
-          <TextSpanStyle size={12}>
-            Комиссия агенства: {useNumberTriad(deal?.agencyComission || '0')}{' '}
-            руб.
-          </TextSpanStyle> */}
       </div>
       <SlideDealInfoContent>
         <SlideDealInfoSide>
@@ -160,7 +154,7 @@ const SlideDealInfo = () => {
             render={({ field }) => (
               <InputUI
                 small
-                label='Комиссия агенства, руб'
+                label='Комиссия агентства, руб'
                 labelSize={12}
                 value={field.value ? useNumberTriad(field.value || 0) : ''}
                 onChange={(e) =>
@@ -171,33 +165,67 @@ const SlideDealInfo = () => {
             )}
           />
         </SlideDealInfoSide>
-        <Box jc='flex-start' wrap>
-          <Box gap='0.2rem'>
-            {deal?.agentsCalculated ? <DoneIcon /> : <CircleIcon />}
-            <TextSpanStyle size={12}>Агенты рассчитаны полностью</TextSpanStyle>
-          </Box>
-          <TextSpanStyle size={12} nowrap>
-            {useDateFormat(
-              deal?.agentsCalculatedDate || '2023-12-12',
-              'DD.MM.YYY'
+        <SlideDealInfoSide>
+          <Box jc='flex-start' wrap>
+            <Box gap='0.2rem'>
+              {deal?.agentsCalculated ? <DoneIcon /> : <CircleIcon />}
+              <TextSpanStyle size={12}>
+                Агенты рассчитаны полностью
+              </TextSpanStyle>
+            </Box>
+            <TextSpanStyle size={12} nowrap>
+              {useDateFormat(deal?.agentsCalculatedDate, 'DD.MM.YYY')}
+            </TextSpanStyle>
+          </Box>{' '}
+          <Controller
+            name='alwaysBrand'
+            control={control}
+            render={({ field }) => (
+              <CheckboxUI
+                label='Показать Брэнд-менеджеру'
+                onChange={(e) => {
+                  field.onChange(e.target.checked);
+                }}
+                defaultChecked={field.value || false}
+                id='alwaysBrand'
+                size='small'
+                labelSize={12}
+              />
             )}
-          </TextSpanStyle>
-        </Box>
-        <Box jc='flex-start' wrap>
-          <Box gap='0.2rem'>
-            {deal?.lawyerCalculated ? <DoneIcon /> : <CircleIcon />}
-            <TextSpanStyle size={12}>Юристы рассчитаны полностью</TextSpanStyle>
+          />
+        </SlideDealInfoSide>
+        <SlideDealInfoSide>
+          <Box jc='flex-start' wrap>
+            <Box gap='0.2rem'>
+              {deal?.lawyerCalculated ? <DoneIcon /> : <CircleIcon />}
+              <TextSpanStyle size={12}>
+                Юристы рассчитаны полностью
+              </TextSpanStyle>
+            </Box>
+            <TextSpanStyle size={12} nowrap>
+              {useDateFormat(deal?.lawyerCalculatedDate, 'DD.MM.YYY')}
+            </TextSpanStyle>
           </Box>
-          <TextSpanStyle size={12} nowrap>
-            {useDateFormat(
-              deal?.lawyerCalculatedDate || '2023-12-12',
-              'DD.MM.YYY'
+          <Controller
+            name='alwaysBroker'
+            control={control}
+            render={({ field }) => (
+              <CheckboxUI
+                label='Показать Ипотечному брокеру'
+                onChange={(e) => {
+                  field.onChange(e.target.checked);
+                }}
+                defaultChecked={field.value || false}
+                id='alwaysBroker'
+                size='small'
+                labelSize={12}
+              />
             )}
-          </TextSpanStyle>
-        </Box>
+          />
+        </SlideDealInfoSide>
       </SlideDealInfoContent>
       <DialogWindow open={open} onClose={openDds}>
-        <SlideDialogDDS UID={deal?.UID} />
+        <SlideDialogDDS UID={deal?.UID} onClose={openDds} />
       </DialogWindow>
     </SlideBlockStyle>
   );

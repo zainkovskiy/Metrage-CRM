@@ -74,7 +74,7 @@ const SlideDialogComission = ({ onClose, comission, onChange, type, user }) => {
   };
   return (
     <SlideDialogComissiontStyle onClick={(e) => e.stopPropagation()}>
-      <Title>Оплата</Title>
+      <Title>Зарплата</Title>
       <Box jc='flex-end' gap='0.3rem'>
         <TextSpanStyle size={12}>Специалист:</TextSpanStyle>
         <TextSpanStyle bold size={12}>
@@ -98,7 +98,7 @@ const SlideDialogComission = ({ onClose, comission, onChange, type, user }) => {
         type='number'
         onChange={(e) => setCurrentComission(e.target.value)}
         value={currentComission}
-        label='Сумма оплаты'
+        label='Сумма зарплаты'
         helperText={getHelperText()}
       />
       <SlideDialogComissiontFooter>

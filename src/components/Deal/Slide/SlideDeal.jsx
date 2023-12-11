@@ -38,8 +38,9 @@ const SlideDeal = () => {
     // lawyerCalculated: deal?.lawyerCalculated || false,
     // lawyerCalculatedType: deal?.lawyerCalculatedType || 'cash',
     //new
-    room: deal?.objectParams?.room || '',
-    countRooms: deal?.objectParams?.countRooms || '',
+    TotalArea: deal?.TotalArea || '',
+    Appartment: deal?.Appartment || '',
+    FlatRoomsCount: deal?.FlatRoomsCount ? parseInt(deal?.FlatRoomsCount) : '',
     DDUNumber: deal?.DDUNumber || '',
     DDUDate: deal?.DDUDate || '',
     cashDate: deal?.cashDate || '',
@@ -51,12 +52,15 @@ const SlideDeal = () => {
     ownFunds: deal?.ownFunds || '',
     mortgageFunds: deal?.mortgageFunds || '',
     bank: deal?.bank || '',
-    hasInsurance: deal?.hasInsurance || '',
+    hasInsurance: deal?.hasInsurance || false,
     needInsurance: deal?.needInsurance || false,
     needMortgage: deal?.needMortgage || false,
     depositAmount: deal?.depositAmount || '',
     depositDate: deal?.depositDate || '',
     dealTitle: deal?.dealTitle || '',
+    depositStatus: deal?.depositStatus || '',
+    alwaysBroker: deal?.alwaysBroker || false,
+    alwaysBrand: deal?.alwaysBrand || false,
   });
   const methods = useForm({
     defaultValues: {
@@ -76,8 +80,11 @@ const SlideDeal = () => {
       // lawyerCalculated: deal?.lawyerCalculated || false,
       // lawyerCalculatedType: deal?.lawyerCalculatedType || 'cash',
       //new
-      room: deal?.objectParams?.room || '',
-      countRooms: deal?.objectParams?.countRooms || '',
+      TotalArea: deal?.TotalArea || '',
+      Appartment: deal?.Appartment || '',
+      FlatRoomsCount: deal?.FlatRoomsCount
+        ? parseInt(deal?.FlatRoomsCount)
+        : '',
       DDUNumber: deal?.DDUNumber || '',
       DDUDate: deal?.DDUDate || '',
       cashDate: deal?.cashDate || '',
@@ -89,12 +96,15 @@ const SlideDeal = () => {
       ownFunds: deal?.ownFunds || '',
       mortgageFunds: deal?.mortgageFunds || '',
       bank: deal?.bank || '',
-      hasInsurance: deal?.hasInsurance || '',
+      hasInsurance: deal?.hasInsurance || false,
       needInsurance: deal?.needInsurance || false,
       needMortgage: deal?.needMortgage || false,
       depositAmount: deal?.depositAmount || '',
       depositDate: deal?.depositDate || '',
       dealTitle: deal?.dealTitle || '',
+      depositStatus: deal?.depositStatus || '',
+      alwaysBroker: deal?.alwaysBroker || false,
+      alwaysBrand: deal?.alwaysBrand || false,
     },
   });
   const onSubmit = (data) => {

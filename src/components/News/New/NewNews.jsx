@@ -13,6 +13,7 @@ import { addNewNewsToList } from '../../../store/slices/newsSlice';
 import { createNews, updateNews } from 'api/newsApi';
 import { useAsyncValue } from 'react-router-dom';
 import { device } from 'styles/device';
+import { CheckboxUI } from 'ui/CheckboxUI';
 
 const NewNewsStyle = styled.div`
   background-color: #fff;
@@ -58,6 +59,8 @@ const NewNews = ({ onClose }) => {
   const userId = useSelector((state) => state.user.UID);
   const [url, setUrl] = useState(news?.imageUrl || null);
   const [title, setTitle] = useState(news?.title || '');
+  const [activityDate, setActiveDate] = useState(news?.activityDate || '');
+  const [showOnMain, setShowOnMain] = useState(news?.showOnMain || false);
   const [editorText, setEditorText] = useState(
     getTemplate(news?.template || null)
   );
@@ -66,9 +69,8 @@ const NewNews = ({ onClose }) => {
     setTitle(value);
   };
   const uploadFiles = (file) => {
-    const photo = file[0];
-    if (photo) {
-      setUrl(photo?.downloadUrl || null);
+    if (file) {
+      setUrl(file?.URL || null);
     }
   };
   const handleChangeTextEditor = (value) => {
@@ -78,6 +80,8 @@ const NewNews = ({ onClose }) => {
     const newNews = {
       title: title,
       imageUrl: url,
+      activityDate: activityDate,
+      showOnMain: showOnMain,
       template: JSON.stringify(editorText),
     };
     if (news) {
@@ -108,6 +112,29 @@ const NewNews = ({ onClose }) => {
         small
         label='Название'
       />
+      <Box fullWidth column ai='flex-start' gap='0.3rem'>
+        <TextSpanStyle>Дата публикации</TextSpanStyle>
+        <Box fullWidth>
+          <InputUI
+            value={activityDate}
+            onChange={(e) => {
+              setActiveDate(e.target.value);
+            }}
+            type='date'
+            small
+            fullWidth
+          />
+          <CheckboxUI
+            label='Показывать на главной'
+            id='showOnMain'
+            checked={showOnMain}
+            onChange={(e) => {
+              setShowOnMain(e.target.checked);
+            }}
+            fullWidth
+          />
+        </Box>
+      </Box>
       <Box gap='0.2rem' column ai='normal'>
         <TextSpanStyle>Титульная фотография</TextSpanStyle>
         <Box fullWidth>
@@ -116,6 +143,7 @@ const NewNews = ({ onClose }) => {
             fullWidth
             callback={uploadFiles}
             height='100%'
+            news
           />
           <TitleImage src={url || imgErrorUrl} />
         </Box>

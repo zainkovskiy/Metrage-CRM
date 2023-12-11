@@ -6,7 +6,6 @@ import { IconButton } from 'ui/IconButton';
 import { ReactComponent as Copy } from 'images/copy.svg';
 import { useAsyncValue } from 'react-router-dom';
 import { SliderBlock } from '../../../styles/slider';
-import moment from 'moment';
 import styled from 'styled-components';
 import { useGetAvatar } from 'hooks/MakeAvatar';
 
@@ -33,7 +32,10 @@ const SlideNewsMeta = () => {
           </IconButton>
           <TextSpanStyle size={12}>ID: {news?.UID || ''}</TextSpanStyle>
         </Box>
-        <Box jc='flex-end'>
+        <TextSpanStyle size={12}>
+          Создано: {useDateFormat(news?.created)}
+        </TextSpanStyle>
+        {/* <Box jc='flex-end'>
           <TextSpanStyle size={12}>
             Создано: {useDateFormat(news?.created)}
           </TextSpanStyle>
@@ -47,7 +49,7 @@ const SlideNewsMeta = () => {
           <TextSpanStyle size={12}>
             {news?.authorId?.firstName} {news?.authorId?.lastName}
           </TextSpanStyle>
-        </Box>
+        </Box> */}
       </Box>
     </SliderBlock>
   );

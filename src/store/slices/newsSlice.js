@@ -49,9 +49,9 @@ const newsSlice = createSlice({
   name: 'news',
   initialState,
   reducers: {
-    addNewNews(state, action) {
-      state.news = [...state.news, action.payload];
-    },
+    // addNewNews(state, action) {
+    //   state.news = [action.payload, ...state.news];
+    // },
   },
   extraReducers: (builder) => {
     builder.addCase(getNewsList.fulfilled, (state, action) => {
@@ -59,11 +59,10 @@ const newsSlice = createSlice({
       state.loadingList = false;
     });
     builder.addCase(addNewNewsToList.fulfilled, (state, action) => {
-      state.news = [...state.news, action.payload];
-      // state.news = action.payload;
+      state.news = [action.payload, ...state.news];
     });
   },
 });
 
-export const { addNewNews } = newsSlice.actions;
+export const {} = newsSlice.actions;
 export default newsSlice.reducer;

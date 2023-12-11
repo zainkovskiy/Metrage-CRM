@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 import FilterNews from './FilterNews';
 import News from './News';
 import { getNewsList } from '../../store/slices/newsSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const NewsContentStyle = styled.div`
   flex-grow: 1;
@@ -14,6 +14,7 @@ const NewsContentStyle = styled.div`
 `;
 const NewsContent = () => {
   const dispatch = useDispatch();
+  const isAdmin = useSelector((state) => state.user?.isAdmin || '');
   useEffect(() => {
     getList();
     // return () => {
@@ -25,7 +26,7 @@ const NewsContent = () => {
   };
   return (
     <NewsContentStyle>
-      <FilterNews />
+      {isAdmin === '1' && <FilterNews />}
       <News />
       <Outlet />
     </NewsContentStyle>

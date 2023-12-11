@@ -18,6 +18,23 @@ export const uploadFiles = async (files, raw) => {
   }
   return [];
 };
+export const uploadPhotosNews = async (files, raw) => {
+  const data = new FormData();
+  for (let file of files) {
+    data.append('images[]', file);
+  }
+  for (let key in raw) {
+    data.append(key, raw[key]);
+  }
+  const res = await axios.post(
+    'https://crm.metragegroup.com/API/NewsUpload.php',
+    data
+  );
+  if (res?.statusText === 'OK') {
+    return res?.data || [];
+  }
+  return [];
+};
 export const removeFile = async (UID) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,

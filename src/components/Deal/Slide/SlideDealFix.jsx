@@ -1,11 +1,13 @@
 import React from 'react';
-import { useAsyncValue } from 'react-router-dom';
 import styled from 'styled-components';
 import { SlideBlockStyle } from '../DealStyle';
 import { Box } from 'ui/Box';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import { Controller, useFormContext } from 'react-hook-form';
 import { InputUI } from 'ui/InputUI';
+import RadioButtonGroup from '../../../ui/RadioButtonGroup/RadioButtonGroup';
+import RadioButton from '../../../ui/RadioButton/RadioButton';
+import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 
 const Title = styled.div`
   border-bottom: 1px solid #786464;
@@ -29,7 +31,6 @@ const Line = styled.div`
 `;
 
 const SlideDealFix = () => {
-  const deal = useAsyncValue();
   const { control } = useFormContext();
   return (
     <SlideBlockStyle>
@@ -44,11 +45,10 @@ const SlideDealFix = () => {
                 fullWidth
                 label='Собственные средства, руб'
                 value={field.value}
+                type='number'
                 small
                 labelSize={12}
-                onChange={(e) => {
-                  field.onChange(e.target.value);
-                }}
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
               />
             )}
           />
@@ -60,11 +60,10 @@ const SlideDealFix = () => {
                 fullWidth
                 label='Ипотека, руб'
                 value={field.value}
+                type='number'
                 small
                 labelSize={12}
-                onChange={(e) => {
-                  field.onChange(e.target.value);
-                }}
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
               />
             )}
           />
@@ -104,16 +103,18 @@ const SlideDealFix = () => {
             name='hasInsurance'
             control={control}
             render={({ field }) => (
-              <InputUI
-                fullWidth
+              <SelectUI
+                onChange={(newValue) => {
+                  field.onChange(newValue === 'Y' ? true : false);
+                }}
+                select={field.value ? 'Y' : 'N'}
                 label='Страховка'
-                value={field.value}
                 small
                 labelSize={12}
-                onChange={(e) => {
-                  field.onChange(e.target.value);
-                }}
-              />
+              >
+                <SelectItemUI value='Y'>Да</SelectItemUI>
+                <SelectItemUI value='N'>Нет</SelectItemUI>
+              </SelectUI>
             )}
           />
           <Controller
@@ -143,11 +144,10 @@ const SlideDealFix = () => {
                 fullWidth
                 label='Задаток, руб'
                 value={field.value}
+                type='number'
                 small
                 labelSize={12}
-                onChange={(e) => {
-                  field.onChange(e.target.value);
-                }}
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
               />
             )}
           />
@@ -169,6 +169,21 @@ const SlideDealFix = () => {
             )}
           />
         </InputsField>
+        <Controller
+          name='depositStatus'
+          control={control}
+          render={({ field }) => (
+            <RadioButtonGroup
+              name='depositStatus'
+              value={field.value}
+              onChange={field.onChange}
+            >
+              <RadioButton label='Принят' id='depositAccepted' />
+              <RadioButton label='Принят в другом АН' id='depositDelivered' />
+              <RadioButton label='Выдан на руки' id='depositReturned' />
+            </RadioButtonGroup>
+          )}
+        />
       </Box>
     </SlideBlockStyle>
   );

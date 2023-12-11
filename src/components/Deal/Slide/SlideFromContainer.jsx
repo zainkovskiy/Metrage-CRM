@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import SlideDealMeta from './SlideDealMeta';
 import SlideDealStatus from './SlideDealStatus';
 import SlideDealParticipants from './SlideDealParticipants';
-import SlideDealSide from './SlideDealSide';
 import SlideDealInfo from './SlideDealInfo';
-import SlidePreliminaryAgreement from './SlidePreliminaryAgreement';
 import SliderFiles from './SliderFiles';
 import { useFormState } from 'react-hook-form';
 import { ButtonUI } from 'ui/ButtonUI';
@@ -38,8 +36,6 @@ const SlideFromContainer = ({ clearChangeForm }) => {
       <SlideDealParticipants />
       <DealTypeComponent />
       <SlideDealFix />
-      {/* <SlidePreliminaryAgreement /> */}
-      {/* <SlideDealSide /> */}
       <SliderFiles />
       <AnimatePresence>
         {isDirty && (

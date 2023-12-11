@@ -82,6 +82,7 @@ export const SelectUI = ({
   small,
   name,
   placeholder,
+  labelSize,
 }) => {
   const [open, setOpen] = useState(false);
   const idRef = useRef(uuidv4().split('-')[0]).current;
@@ -127,7 +128,12 @@ export const SelectUI = ({
     return findElem ? findElem.props.children : '';
   };
   return (
-    <LabelStyle fullWidth={fullWidth} ref={selectRef} id={idRef}>
+    <LabelStyle
+      fullWidth={fullWidth}
+      ref={selectRef}
+      id={idRef}
+      labelSize={labelSize}
+    >
       {label}
       <SelectContainer error={error} id={idRef}>
         <SelectInputContainer id={idRef} error={error}>

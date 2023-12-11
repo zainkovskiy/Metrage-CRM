@@ -106,7 +106,7 @@ const SlideDealParticipants = () => {
   };
   return (
     <>
-      <SlideGridWrapper $minWidth={250}>
+      <SlideGridWrapper $minWidth={200}>
         <SlideBlockStyle $column>
           <FeatureTitle>
             <Box>

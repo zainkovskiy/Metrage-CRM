@@ -3,11 +3,10 @@ import { useAsyncValue, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { SlideBlockStyle } from '../DealStyle';
 import { Box } from 'ui/Box';
-import imgErrorUrl from 'images/img-error.svg';
 import { TextSpanStyle } from 'styles/styles';
 import { Controller, useFormContext } from 'react-hook-form';
 import { InputUI } from 'ui/InputUI';
-import { RealtyTypeTranslate } from '../keyTranslate';
+import { CategoryTranslate } from '../keyTranslate';
 
 const Title = styled.div`
   border-bottom: 1px solid #786464;
@@ -17,11 +16,6 @@ const Title = styled.div`
   justify-content: space-between;
   width: 100%;
   align-items: flex-end;
-`;
-const PhotoObject = styled.img`
-  width: 100px;
-  height: 100%;
-  border-radius: 5px;
 `;
 const TextNavigate = styled(Link)`
   font-family: ${({ theme }) => theme.font.family};
@@ -47,37 +41,44 @@ const Line = styled.div`
 const SlideDealSimple = () => {
   const deal = useAsyncValue();
   const { control } = useFormContext();
-
   return (
     <SlideBlockStyle>
       <Box column fullWidth>
         <Title>Основная информация</Title>
-        <Box fullWidth jc='flex-start' ai='normal'>
-          <PhotoObject src={deal?.objectParams?.photo || imgErrorUrl} />
-          <Box column jc='space-between' ai='flex-start'>
-            <TextSpanStyle>{deal?.objectParams?.addrString}</TextSpanStyle>
-            <Box column gap='0' ai='flex-start'>
-              <TextSpanStyle size={12}>Покупатель</TextSpanStyle>
-              <TextNavigate to={`/application/${deal?.bidParams?.UID}`}>
-                {deal?.bidParams?.lastName || ''}{' '}
-                {deal?.bidParams?.firstName || ''}{' '}
-                {deal?.bidParams?.secondName || ''}
-              </TextNavigate>
-            </Box>
+        <Box fullWidth column ai='normal'>
+          <Box gap='0.3rem' jc='flex-start' wrap>
+            <TextSpanStyle size={12} bold>
+              Покупатель:
+            </TextSpanStyle>
+            <TextNavigate to={`/application/${deal?.bidParams?.UID}`}>
+              {deal?.bidParams?.lastName || ''}{' '}
+              {deal?.bidParams?.firstName || ''}{' '}
+              {deal?.bidParams?.secondName || ''}
+            </TextNavigate>
+          </Box>
+          <Box gap='0.3rem' jc='flex-start' wrap>
+            <TextSpanStyle size={12} bold>
+              Объект:
+            </TextSpanStyle>
+            <TextNavigate
+              to={`/objects/${deal?.objectParams?.type}/${deal?.objectParams?.UID}`}
+            >
+              {deal?.objectParams?.addrString}
+            </TextNavigate>
           </Box>
         </Box>
         <InputsField>
           <Box column ai='flex-start' gap='0'>
             <TextSpanStyle size={12}>Тип объекта:</TextSpanStyle>
             <TextSpanStyle size={12}>
-              {deal?.realtyType ? RealtyTypeTranslate[deal.realtyType] : ''}
+              {deal?.objectParams?.Category
+                ? CategoryTranslate[deal.objectParams.Category]
+                : ''}
             </TextSpanStyle>
           </Box>
           <Box column ai='flex-start' gap='0'>
             <TextSpanStyle size={12}>Площадь:</TextSpanStyle>
-            <TextSpanStyle size={12}>
-              {deal?.objectParams?.area || ''}
-            </TextSpanStyle>
+            <TextSpanStyle size={12}>{deal?.TotalArea || ''}</TextSpanStyle>
           </Box>
         </InputsField>
         <Line />

@@ -3,10 +3,10 @@ import { useAsyncValue, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { SlideBlockStyle } from '../DealStyle';
 import { Box } from 'ui/Box';
-import imgErrorUrl from 'images/img-error.svg';
 import { TextSpanStyle } from 'styles/styles';
 import { Controller, useFormContext } from 'react-hook-form';
 import { InputUI } from 'ui/InputUI';
+import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 
 const Title = styled.div`
   border-bottom: 1px solid #786464;
@@ -16,11 +16,6 @@ const Title = styled.div`
   justify-content: space-between;
   width: 100%;
   align-items: flex-end;
-`;
-const PhotoObject = styled.img`
-  width: 100px;
-  height: 100%;
-  border-radius: 5px;
 `;
 const TextNavigate = styled(Link)`
   font-family: ${({ theme }) => theme.font.family};
@@ -46,28 +41,41 @@ const Line = styled.div`
 const SlideDealDeveloper = () => {
   const deal = useAsyncValue();
   const { control } = useFormContext();
-
   return (
     <SlideBlockStyle>
       <Box column fullWidth>
         <Title>Основная информация</Title>
-        <Box fullWidth jc='flex-start' ai='normal'>
-          <PhotoObject src={deal?.objectParams?.photo || imgErrorUrl} />
-          <Box column jc='space-between' ai='flex-start'>
-            <TextSpanStyle>{deal?.objectParams?.addrString}</TextSpanStyle>
-            <Box column gap='0' ai='flex-start'>
-              <TextSpanStyle size={12}>Покупатель</TextSpanStyle>
-              <TextNavigate to={`/application/${deal?.bidParams?.UID}`}>
-                {deal?.bidParams?.lastName || ''}{' '}
-                {deal?.bidParams?.firstName || ''}{' '}
-                {deal?.bidParams?.secondName || ''}
+        <Box fullWidth column ai='normal'>
+          <Box gap='0.3rem' jc='flex-start' wrap>
+            <TextSpanStyle size={12} bold>
+              Покупатель:
+            </TextSpanStyle>
+            <TextNavigate to={`/application/${deal?.bidParams?.UID}`}>
+              {deal?.bidParams?.lastName || ''}{' '}
+              {deal?.bidParams?.firstName || ''}{' '}
+              {deal?.bidParams?.secondName || ''}
+            </TextNavigate>
+          </Box>
+          <Box gap='0.3rem' jc='flex-start' wrap>
+            <TextSpanStyle size={12} bold>
+              Объект:
+            </TextSpanStyle>
+            {deal?.objectParams?.type && deal?.objectParams?.type ? (
+              <TextNavigate
+                to={`/objects/${deal?.objectParams?.type}/${deal?.objectParams?.UID}`}
+              >
+                {deal?.objectParams?.addrString}
               </TextNavigate>
-            </Box>
+            ) : (
+              <TextSpanStyle size={12}>
+                {deal?.objectParams?.addrString}
+              </TextSpanStyle>
+            )}
           </Box>
         </Box>
         <InputsField>
           <Controller
-            name='room'
+            name='Appartment'
             control={control}
             render={({ field }) => (
               <InputUI
@@ -83,35 +91,48 @@ const SlideDealDeveloper = () => {
             )}
           />
           <div />
-          <InputUI
-            fullWidth
-            disabled={true}
-            label='Площадь'
-            value={deal?.objectParams?.area}
-            small
-            labelSize={12}
-          />
           <Controller
-            name='countRooms'
+            name='TotalArea'
             control={control}
             render={({ field }) => (
               <InputUI
                 fullWidth
-                label='Комнатность'
+                label='Площадь'
                 value={field.value}
                 small
                 labelSize={12}
-                onChange={(e) => {
-                  field.onChange(e.target.value);
-                }}
+                onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                type='number'
               />
+            )}
+          />
+          <Controller
+            name='FlatRoomsCount'
+            control={control}
+            render={({ field }) => (
+              <SelectUI
+                onChange={field.onChange}
+                select={field.value}
+                label='Комнатность'
+                small
+                labelSize={12}
+              >
+                <SelectItemUI value={1}>1-комнатная</SelectItemUI>
+                <SelectItemUI value={2}>2-комнатная</SelectItemUI>
+                <SelectItemUI value={3}>3-комнатная</SelectItemUI>
+                <SelectItemUI value={4}>4-комнатная</SelectItemUI>
+                <SelectItemUI value={5}>5-комнатная</SelectItemUI>
+                <SelectItemUI value={6}>6+</SelectItemUI>
+                <SelectItemUI value={7}>Свободная планировка</SelectItemUI>
+                <SelectItemUI value={9}>Студия</SelectItemUI>
+              </SelectUI>
             )}
           />
           <InputUI
             fullWidth
             disabled={true}
             label='Застройщик'
-            value={deal?.objectParams?.developer}
+            value={deal?.newbParams?.devName}
             small
             labelSize={12}
           />
@@ -119,7 +140,7 @@ const SlideDealDeveloper = () => {
             fullWidth
             disabled={true}
             label='ЖК'
-            value={deal?.objectParams?.complex}
+            value={deal?.newbParams?.resdName}
             small
             labelSize={12}
           />
@@ -143,7 +164,7 @@ const SlideDealDeveloper = () => {
             )}
           />
           <Controller
-            name='room'
+            name='DDUDate'
             control={control}
             render={({ field }) => (
               <InputUI
@@ -160,7 +181,7 @@ const SlideDealDeveloper = () => {
             )}
           />
           <Controller
-            name='room'
+            name='cashDate'
             control={control}
             render={({ field }) => (
               <InputUI

@@ -65,7 +65,7 @@ const SlideDialogCalculation = ({ onClose, user, type }) => {
   };
   return (
     <SlideDialogComissiontStyle onClick={(e) => e.stopPropagation()}>
-      <Title>Оплата</Title>
+      <Title>Расчёт</Title>
       <Box column ai='flex-end' gap='0'>
         <Box jc='flex-end' gap='0.3rem'>
           <TextSpanStyle size={12}>Специалист:</TextSpanStyle>
