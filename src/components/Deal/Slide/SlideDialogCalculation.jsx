@@ -48,20 +48,63 @@ const SlideDialogComissiontFooter = styled.div`
   gap: 0.5rem;
 `;
 const SlideDialogCalculation = ({ onClose, user, type }) => {
-  const deal = useAsyncValue();
   const [summ, setSumm] = useState('');
   const [payType, setPayType] = useState('');
+  const [error, setError] = useState({
+    summ: false,
+    pay: false,
+  });
+  const summRef = useRef(null);
+  const payRef = useRef(null);
   const onSubmit = () => {
-    const raw = {
-      UID: deal.UID,
-      agent: user,
-      agentType: type,
-      summ: summ,
-      payType: payType,
-    };
-    calculationAgent(raw).finally(() => {
-      onClose();
-    });
+    if (summ.length === 0) {
+      if (summRef.current) {
+        summRef.current.focus();
+        setError((prevState) => ({
+          ...prevState,
+          summ: true,
+        }));
+      }
+      return;
+    }
+    if (!payType) {
+      if (payRef.current) {
+        payRef.current.focus();
+        setError((prevState) => ({
+          ...prevState,
+          pay: true,
+        }));
+      }
+      return;
+    }
+    // const raw = {
+    //   UID: deal.UID,
+    //   agent: user,
+    //   agentType: type,
+    //   summ: summ,
+    //   payType: payType,
+    // };
+    // calculationAgent(raw).finally(() => {
+    //   onClose();
+    // });
+  };
+  const handleChangeSumm = (e) => {
+    setSumm(e.target.value);
+    if (e.target.value.length > 0 && error.summ) {
+      setError((prevState) => ({
+        ...prevState,
+        summ: false,
+      }));
+    }
+  };
+  const handleChangePay = (newValue) => {
+    setPayType(newValue);
+    if (error.pay) {
+      setError((prevState) => ({
+        ...prevState,
+        pay: false,
+      }));
+    }
   };
   return (
     <SlideDialogComissiontStyle onClick={(e) => e.stopPropagation()}>
@@ -74,22 +117,26 @@ const SlideDialogCalculation = ({ onClose, user, type }) => {
           </TextSpanStyle>
         </Box>
         <TextSpanStyle size={10} color='#ccc'>
-          Полная сумма оплаты: {user?.comissionSize} руб.
+          Полная сумма зарплаты: {user?.comissionSize} руб.
         </TextSpanStyle>
       </Box>
       <InputUI
         AutoComplete
         small
         type='number'
-        onChange={(e) => setSumm(e.target.value)}
+        onChange={handleChangeSumm}
         value={summ}
-        label='Сумма оплаты'
+        label='Сумма зарплаты'
+        ref={summRef}
+        error={error?.summ || ''}
       />
       <SelectUI
-        onChange={(newValue) => setPayType(newValue)}
+        onChange={handleChangePay}
         select={payType}
-        label='Тип оплаты'
+        label='Тип зарплаты'
         small
+        inputRef={payRef}
+        error={error?.pay || false}
       >
         <SelectItemUI value='nal'>Наличные</SelectItemUI>
         <SelectItemUI value='beznal'>Безнал</SelectItemUI>

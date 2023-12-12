@@ -105,7 +105,7 @@ const NewNews = ({ onClose }) => {
   const raw = { entityId: '', entityType: 'news', author: userId };
   return (
     <NewNewsStyle>
-      <SliderTitle>{news ? 'Редакировать' : 'Создать'} новость</SliderTitle>
+      <SliderTitle>{news ? 'Редактировать' : 'Создать'} новость</SliderTitle>
       <InputUI
         value={title}
         onChange={handleChangeTitle}

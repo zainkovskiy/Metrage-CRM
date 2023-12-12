@@ -89,7 +89,7 @@ const DealCard = ({ deal }) => {
     <LinkStyle to={`${deal?.UID}`}>
       <DealCardStyle variants={variants} initial='hidden' animate='visible'>
         <DealHeader $color={getHeaderColor()}>
-          <TextSpanStyle color='#fff' size={10}>
+          <TextSpanStyle color='#fff' size={12} bold>
             Сделка №{deal?.UID}
           </TextSpanStyle>
           <TextSpanStyle color='#fff' size={12}>

@@ -10,6 +10,7 @@ import { useDateFormat } from 'hooks/DateFormat';
 import { getDealListMore, setSortFilterName } from '../../store/dealSlice';
 import * as DealTableStyle from './styles/dealTable';
 import { sortFilter } from './sortFilter';
+import { TextSpanStyle } from 'styles/styles';
 
 const variants = {
   visible: {
@@ -28,7 +29,6 @@ const DealTable = () => {
   const loading = useSelector((state) => state.deal.loadingList);
   const sortName = useSelector((state) => state.deal.sortName);
   const deals = useSelector((state) => state.deal.deals).slice(0);
-  console.log(deals);
 
   const setSortName = (newSortName) => {
     dispatch(setSortFilterName(newSortName));
@@ -171,7 +171,11 @@ const DealTable = () => {
                   initial='hidden'
                   animate='visible'
                 >
-                  <td>{deal.UID}</td>
+                  <td>
+                    <TextSpanStyle size={12} bold>
+                      {deal.UID}
+                    </TextSpanStyle>
+                  </td>
                   <td>{deal.dealTitle}</td>
                   <td>{useDateFormat(deal?.plannedDate, 'DD.MM.YY')}</td>
                   <td>{useDateFormat(deal?.actualDate, 'DD.MM.YY')}</td>

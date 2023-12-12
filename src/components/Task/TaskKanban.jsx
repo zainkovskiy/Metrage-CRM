@@ -160,7 +160,7 @@ const TaskKanban = () => {
 
 const TaskCardStyle = styled(Link)`
   border-radius: 5px;
-  background-color: ${({ theme }) => theme.color.primary};
+  background-color: #c586cf;
   margin-right: 0.5rem;
   text-decoration: none;
   transition: filter 0.3s;

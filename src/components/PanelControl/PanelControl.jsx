@@ -49,7 +49,7 @@ const PanelControl = () => {
         <PanelButton icon='client' path='client' title='Клиенты' />
         <PanelButton icon='users' path='users' title='Пользователи' />
         <PanelButton icon='todo' path='/task' title='Задачи' />
-        <PanelButton icon='news' path='/news' title='News' />
+        <PanelButton icon='news' path='/news' title='Новости' />
         {/* <PanelButton icon='chart' path='/' title='Аналитики' /> */}
         {/* <PanelButton icon='calendar' path='calendar' title='Календарь' />
         <PanelButton icon='home' path='home' title='Объекты' />

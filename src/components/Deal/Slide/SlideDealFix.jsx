@@ -108,7 +108,7 @@ const SlideDealFix = () => {
                   field.onChange(newValue === 'Y' ? true : false);
                 }}
                 select={field.value ? 'Y' : 'N'}
-                label='Страховка'
+                label='Страховка в наличии'
                 small
                 labelSize={12}
               >

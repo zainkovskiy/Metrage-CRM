@@ -80,7 +80,7 @@ const SlideWindow = ({ children, width, onClose, open }) => {
           initial='close'
           animate='open'
           exit='close'
-          onClick={onClose}
+          // onClick={onClose}
         >
           <SlideWindowContainer
             variants={variantsContent}

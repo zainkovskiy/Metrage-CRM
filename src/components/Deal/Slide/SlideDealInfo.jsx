@@ -174,7 +174,7 @@ const SlideDealInfo = () => {
               </TextSpanStyle>
             </Box>
             <TextSpanStyle size={12} nowrap>
-              {useDateFormat(deal?.agentsCalculatedDate, 'DD.MM.YYY')}
+              {useDateFormat(deal?.agentsCalculatedDate, 'DD.MM.YYYY')}
             </TextSpanStyle>
           </Box>{' '}
           <Controller
@@ -203,7 +203,7 @@ const SlideDealInfo = () => {
               </TextSpanStyle>
             </Box>
             <TextSpanStyle size={12} nowrap>
-              {useDateFormat(deal?.lawyerCalculatedDate, 'DD.MM.YYY')}
+              {useDateFormat(deal?.lawyerCalculatedDate, 'DD.MM.YYYY')}
             </TextSpanStyle>
           </Box>
           <Controller
