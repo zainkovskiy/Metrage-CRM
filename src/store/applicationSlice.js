@@ -52,7 +52,7 @@ export const getApplicationFilterList = createAsyncThunk(
 export const getMoreApplication = createAsyncThunk(
   'application/getMoreApplication',
   async (_, { dispatch, getState }) => {
-    const curFilter = filterForm ? filterForm : getState().application.filter;
+    const curFilter = getState().application.filter;
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
       method: 'crm.demand.filter',

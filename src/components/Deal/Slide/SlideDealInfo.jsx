@@ -33,7 +33,8 @@ const SlideDealInfoContent = styled.div`
   gap: 0.5rem;
 `;
 const SlideDealInfoSide = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 0.5rem;
 `;
 const DoneIcon = styled(Done)`

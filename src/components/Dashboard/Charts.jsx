@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import ChartItem from './ChartItem';
+import DashboardNews from './DashboardNews';
 
 const ChartBarStyle = styled.div`
   width: 100%;
@@ -15,6 +16,7 @@ const Charts = () => {
   const dashboard = useSelector((state) => state.dashboard.data);
   return (
     <ChartBarStyle>
+      <DashboardNews news={dashboard?.news || []} />
       <ChartItem chart={dashboard?.clients || null} />
       <ChartItem chart={dashboard?.demands || null} />
       <ChartItem chart={dashboard?.sources || null} />

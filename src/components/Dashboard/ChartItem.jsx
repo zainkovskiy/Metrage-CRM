@@ -17,7 +17,6 @@ const ChartItemStyle = styled.div`
   flex-direction: column;
   gap: 0.5rem;
   padding: 1rem;
-  // width: 300px;
   background-color: #f5f5f5;
   border-radius: 40px 0 40px 0;
 `;

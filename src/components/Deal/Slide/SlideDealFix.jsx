@@ -21,7 +21,7 @@ const Title = styled.div`
 const InputsField = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 0.5rem;
 `;
 const Line = styled.div`
