@@ -77,16 +77,16 @@ const SlideDialogCalculation = ({ onClose, user, type }) => {
       }
       return;
     }
-    // const raw = {
-    //   UID: deal.UID,
-    //   agent: user,
-    //   agentType: type,
-    //   summ: summ,
-    //   payType: payType,
-    // };
-    // calculationAgent(raw).finally(() => {
-    //   onClose();
-    // });
+    const raw = {
+      UID: deal.UID,
+      agent: user,
+      agentType: type,
+      summ: summ,
+      payType: payType,
+    };
+    calculationAgent(raw).finally(() => {
+      onClose();
+    });
   };
   const handleChangeSumm = (e) => {
     setSumm(e.target.value);

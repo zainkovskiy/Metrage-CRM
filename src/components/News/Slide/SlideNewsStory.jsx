@@ -3,7 +3,7 @@ import SliderStory from 'components/Main/SliderStory/SliderStory';
 import { sendHistoryMessage, getHistoryList } from 'api/storyAPI';
 import { useAsyncValue } from 'react-router-dom';
 
-const SlideNewsStory = () => {
+const SlideNewsStory = ({ fullWidth, height }) => {
   const news = useAsyncValue();
   const [history, setHistory] = useState([]);
   const [loader, setLoader] = useState(false);
@@ -35,8 +35,8 @@ const SlideNewsStory = () => {
       onChange={sendMessage}
       source='news'
       sourceId={news?.UID}
-      // fullWidth={fullWidth}
-      // height={height}
+      fullWidth={fullWidth}
+      height={height}
     />
   );
 };

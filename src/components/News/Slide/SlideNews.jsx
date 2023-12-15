@@ -12,6 +12,7 @@ const SlideNews = ({ onCloseSlide }) => {
       <SliderContext>
         <SlideNewsMeta />
         <SlideNewsContent onCloseSlide={onCloseSlide} />
+        {windowSize <= 768 && <SlideNewsStory fullWidth height={500} />}
       </SliderContext>
       {windowSize > 768 && <SlideNewsStory />}
     </SliderStyle>

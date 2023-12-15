@@ -16,7 +16,9 @@ const Charts = () => {
   const dashboard = useSelector((state) => state.dashboard.data);
   return (
     <ChartBarStyle>
-      <DashboardNews news={dashboard?.news || []} />
+      {dashboard?.news?.length > 0 && (
+        <DashboardNews news={dashboard?.news || []} />
+      )}
       <ChartItem chart={dashboard?.clients || null} />
       <ChartItem chart={dashboard?.demands || null} />
       <ChartItem chart={dashboard?.sources || null} />

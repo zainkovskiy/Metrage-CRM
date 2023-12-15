@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import imgErrorUrl from 'images/img-error.svg';
 import { TextSpanStyle } from '../../styles/styles';
-import { Box } from 'ui/Box';
 import { Link } from 'react-router-dom';
 
 const DashboardNewsStyle = styled.div`
@@ -71,7 +70,7 @@ const DashboardNews = ({ news }) => {
       <NewsContainer>
         {news.map((item) => (
           <NewsItem key={item.UID}>
-            <NewsImage src={item?.URL || imgErrorUrl} />
+            <NewsImage src={item?.imageUrl || imgErrorUrl} />
             <NewsWrap>
               <NewsTitle>{item?.title || ''}</NewsTitle>
               <NewsLink to={`/news/${item.UID}`}>Читать</NewsLink>
