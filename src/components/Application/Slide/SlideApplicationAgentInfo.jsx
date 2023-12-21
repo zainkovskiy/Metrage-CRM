@@ -57,7 +57,7 @@ const LinkButtonStyle = styled.a`
 
 const SlideApplicationAgentInfo = ({ responsible, recommender, children }) => {
   const phone = responsible?.contactPhone
-    ? toString(responsible?.contactPhone)
+    ? responsible?.contactPhone.toString()
     : null;
   return (
     <ApplicationBlockStyle $column jc='flex-start'>
@@ -78,6 +78,9 @@ const SlideApplicationAgentInfo = ({ responsible, recommender, children }) => {
             </LinkStyle>
             <TextSpanStyle size={12} color='#ccc'>
               {responsible?.officeName}
+            </TextSpanStyle>
+            <TextSpanStyle size={10}>
+              Был: {responsible?.strActivity}
             </TextSpanStyle>
           </div>
         </Box>

@@ -37,6 +37,15 @@ const SlideApplicationInfo = () => {
       <ApplicationBlockStyle $column jc='flex-start'>
         <SliderTitle>Информация</SliderTitle>
         <Box column gap='0' ai='flex-start' jc='space-between' fullWidth>
+          <Box wrap jc='space-between' gap='0' fullWidth>
+            <TextSpanStyle size={10} color='#8d8d8d'>
+              Создана: {useDateFormat(application?.created, 'DD.MM.YYYY')}
+            </TextSpanStyle>
+            <TextSpanStyle size={10} color='#8d8d8d'>
+              Активность:{' '}
+              {useDateFormat(application?.updated, 'DD.MM.YYYY HH:mm')}
+            </TextSpanStyle>
+          </Box>
           <Box gap='0.3rem'>
             <TextSpanStyle size={12}>
               Всего контактов: {application?.contactCount || 0}
@@ -46,7 +55,7 @@ const SlideApplicationInfo = () => {
             </ButtonLink>
           </Box>
           <Box jc='flex-start' wrap gap='0'>
-            <TextSpanStyle size={12}>Следующий контакт: </TextSpanStyle>
+            <TextSpanStyle size={12}>Следующий контакт: &nbsp;</TextSpanStyle>
             <Box>
               <TextSpanStyle size={12}>
                 {application?.demand?.nextContact
