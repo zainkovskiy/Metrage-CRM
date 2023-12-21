@@ -129,7 +129,7 @@ const SlideObjectDocs = () => {
               />
             </Box>
             <Box column ai='flex-start' gap='0'>
-              <TextSpanStyle>Клиент:</TextSpanStyle>
+              <TextSpanStyle>Собственник:</TextSpanStyle>
               {object?.contact ? (
                 <LinkStyle to={`/client/${object?.contact?.UID}`}>
                   {object?.contact?.secondName || ''}{' '}

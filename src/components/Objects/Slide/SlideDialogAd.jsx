@@ -29,7 +29,7 @@ const OfficeListStyle = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  heigth: 200px;
+  height: 200px;
 `;
 const CloseButtonStyle = styled.img`
   width: 18px;
