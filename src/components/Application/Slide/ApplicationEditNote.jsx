@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
-import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
 import { TextSpanStyle } from 'styles/styles';
-import { LabelStyle } from 'ui/InputUI/InputUIStyled';
-import closeUrl, { ReactComponent as Close } from 'images/close.svg';
+import { ReactComponent as Close } from 'images/close.svg';
 import styled from 'styled-components';
 import { useController, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { setNewContact } from 'store/applicationSlice';
-import moment from 'moment';
 import { useAsyncValue } from 'react-router-dom';
+import { setNewBigComment } from '../../../store/applicationSlice';
 
-const ApplicationNextContactStyle = styled.form`
+const ApplicationEditNoteStyle = styled.form`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -19,8 +16,9 @@ const ApplicationNextContactStyle = styled.form`
   border-radius: 5px;
   padding: 1rem;
   border: 1px solid ${({ theme }) => theme.color.primary};
+  width: 50vw;
 `;
-const ApplicationNextContactHeaderStyle = styled.div`
+const ApplicationEditNoteHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -53,32 +51,29 @@ const TexAreaStyle = styled.textarea`
       ${({ theme, $error }) => ($error ? 'red' : theme.color.primary)};
   }
 `;
-const ApplicationNextContact = ({ onClose }) => {
+const ApplicationEditNote = ({ onClose }) => {
   const application = useAsyncValue();
   const dispatch = useDispatch();
   const {
-    register,
     handleSubmit,
-    setValue,
     control,
     formState: { errors },
   } = useForm();
   const { field } = useController({
-    name: 'comment',
+    name: 'bigComment',
+    defaultValue: application?.bigComment || '',
     control,
     rules: { required: 'Заполните комментарий' },
   });
   const [disabled, setDisabled] = useState(false);
 
   const onSubmit = (data) => {
-    console.log(data);
     setDisabled(true);
-    dispatch(setNewContact({ form: data, UID: application.UID }))
+    dispatch(setNewBigComment({ ...data, UID: application.UID }))
       .unwrap()
       .then(() => {
         if (application) {
-          application.demand.nextContact = data.nextDate;
-          application.demand.comment = data.comment;
+          application.bigComment = data.bigComment;
         }
         onClose();
       })
@@ -87,41 +82,26 @@ const ApplicationNextContact = ({ onClose }) => {
       });
   };
   return (
-    <ApplicationNextContactStyle
+    <ApplicationEditNoteStyle
       onClick={(e) => e.stopPropagation()}
       onSubmit={handleSubmit(onSubmit)}
     >
-      <ApplicationNextContactHeaderStyle>
-        <TextSpanStyle>Следующий контакт</TextSpanStyle>
+      <ApplicationEditNoteHeader>
+        <TextSpanStyle>Редактировать примечание</TextSpanStyle>
         <CloseButtonStyle onClick={onClose} disabled={disabled} />
-      </ApplicationNextContactHeaderStyle>
-      <InputUI
-        register={register('nextDate', {
-          required: 'Выберете дату',
-          validate: {
-            isAfter: (v) => moment().isSameOrBefore(v) || 'Дата не корректна',
-          },
-        })}
-        type='date'
-        width='300px'
-        error={errors.nextDate}
+      </ApplicationEditNoteHeader>
+      <TexAreaStyle
+        {...field}
+        onChange={(e) => field.onChange(e.target.value.trimStart())}
+        $error={errors?.bigComment}
+        rows='8'
         disabled={disabled}
       />
-      <LabelStyle>
-        Комментарий
-        <TexAreaStyle
-          {...field}
-          onChange={(e) => field.onChange(e.target.value.trimStart())}
-          $error={errors?.comment}
-          rows='5'
-          disabled={disabled}
-        />
-        {errors?.comment && (
-          <TextSpanStyle size={12} color='red'>
-            {errors.comment.message}
-          </TextSpanStyle>
-        )}
-      </LabelStyle>
+      {errors?.bigComment && (
+        <TextSpanStyle size={12} color='red'>
+          {errors.bigComment.message}
+        </TextSpanStyle>
+      )}
       <div style={{ display: 'flex', gap: '0.5rem' }}>
         <ButtonUI disabled={disabled} type='submit'>
           Сохранить
@@ -130,8 +110,8 @@ const ApplicationNextContact = ({ onClose }) => {
           Закрыть
         </ButtonUI>
       </div>
-    </ApplicationNextContactStyle>
+    </ApplicationEditNoteStyle>
   );
 };
 
-export default ApplicationNextContact;
+export default ApplicationEditNote;

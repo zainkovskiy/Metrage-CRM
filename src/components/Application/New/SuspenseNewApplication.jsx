@@ -33,7 +33,7 @@ const SuspenseNewApplication = () => {
     if (windowSize < 1024) {
       return '50%';
     }
-    return '30%';
+    return '35%';
   };
   return (
     <SlideWindow open={open} onClose={handleClose} width={getWidth()}>

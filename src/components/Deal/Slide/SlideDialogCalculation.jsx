@@ -7,7 +7,7 @@ import { ButtonUI } from 'ui/ButtonUI';
 import { device } from 'styles/device';
 import { InputUI } from 'ui/InputUI';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
-import { useAsyncValue } from 'react-router-dom';
+import { useAsyncValue, useNavigate } from 'react-router-dom';
 import { calculationAgent } from '../../../api/dealAPI';
 const Title = styled.div`
   border-bottom: 1px solid #786464;
@@ -48,6 +48,8 @@ const SlideDialogComissiontFooter = styled.div`
   gap: 0.5rem;
 `;
 const SlideDialogCalculation = ({ onClose, user, type }) => {
+  const deal = useAsyncValue();
+  const navigate = useNavigate();
   const [summ, setSumm] = useState('');
   const [payType, setPayType] = useState('');
   const [error, setError] = useState({
@@ -85,6 +87,7 @@ const SlideDialogCalculation = ({ onClose, user, type }) => {
       payType: payType,
     };
     calculationAgent(raw).finally(() => {
+      navigate(`/deal/${deal.UID}`, { replace: true });
       onClose();
     });
   };

@@ -31,10 +31,11 @@ export const ButtonUI = ({
 const getButtonVariant = (variant) => {
   switch (variant) {
     case 'fill':
-    default:
       return FillButton;
     case 'outline':
       return OutlineButton;
+    default:
+      return FillButton;
   }
 };
 

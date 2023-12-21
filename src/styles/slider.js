@@ -19,6 +19,7 @@ export const SliderBlock = styled.div`
   padding: 0.5rem;
   background-color: #fff;
   border-radius: 5px;
+  box-sizing: border-box;
 `;
 
 export const SliderTitle = styled.div`

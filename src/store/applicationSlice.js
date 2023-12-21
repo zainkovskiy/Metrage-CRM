@@ -133,6 +133,23 @@ export const setNewContact = createAsyncThunk(
     }
   }
 );
+export const setNewBigComment = createAsyncThunk(
+  'application/setNewContact',
+  async (raw, { rejectWithValue }) => {
+    try {
+      const res = await axios.post(API, {
+        metrage_id: metrage_id || null,
+        method: 'crm.demand.bigComment',
+        fields: raw,
+      });
+      if (res?.statusText !== 'OK') {
+        throw new Error('Server error');
+      }
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
 export const checkApplication = createAsyncThunk(
   'application/updateContact',
   async (raw, { rejectWithValue }) => {
@@ -224,6 +241,7 @@ const getFilter = () => {
 const initialState = {
   loadingList: true,
   loadingMore: false,
+  loadingSave: false,
   applications: [],
   offset: 0,
   loadingNewApplication: false,
@@ -308,6 +326,12 @@ const applicationSlice = createSlice({
       })
       .addCase(getApplicationFilterList.rejected, (state) => {
         state.loadingList = false;
+      })
+      .addCase(changeType.pending, (state) => {
+        state.loadingSave = true;
+      })
+      .addCase(changeType.fulfilled, (state) => {
+        state.loadingSave = false;
       });
   },
 });

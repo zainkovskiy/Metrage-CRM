@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { AnimatePresence } from 'framer-motion';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, FormProvider } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useAsyncValue } from 'react-router-dom';
 import { setNewApplication } from 'store/applicationSlice';
@@ -61,18 +61,12 @@ const NewApplication = ({ slideClose }) => {
   const loadingNewApplication = useSelector(
     (state) => state.application.loadingNewApplication
   );
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    watch,
-    control,
-    formState: { errors },
-  } = useForm({
+  const method = useForm({
     defaultValues: {
-      costStart: '',
-      costEnd: '',
       type: 'sell',
+      addressList: [],
+      cordsList: [],
+      featureList: [],
     },
   });
   const firstMout = useRef(true);
@@ -108,8 +102,8 @@ const NewApplication = ({ slideClose }) => {
     }
     return author[name];
   };
-  const ActiveComponent = getComponent(getValues('type'));
-  watch('type');
+  const ActiveComponent = getComponent(method.getValues('type'));
+  method.watch('type');
   return (
     <>
       {loadingNewApplication ? (
@@ -117,116 +111,118 @@ const NewApplication = ({ slideClose }) => {
           <Loader fill='#fff' />
         </LoaderContainer>
       ) : (
-        <NewApplicationStyle onSubmit={handleSubmit(onSubmit)}>
-          <NewApplicationBlockStyle>
-            <TitleFormStyle>ФИО</TitleFormStyle>
-            <InputUI
-              small
-              label='Фамилия'
-              register={register('lastName')}
-              error={errors?.lastName}
-              defaultValue={getLoacationValue('lastName')}
-            />
-            <InputUI
-              small
-              label='Имя'
-              register={register('firstName', {
-                required: 'Поле обязательное',
-              })}
-              error={errors?.firstName}
-            />
-            <InputUI
-              small
-              label='Отчество'
-              register={register('secondName')}
-              error={errors?.secondName}
-              defaultValue={getLoacationValue('secondName')}
-            />
-          </NewApplicationBlockStyle>
-          <NewApplicationBlockStyle>
-            <TitleFormStyle>Контакты</TitleFormStyle>
-            <InputUI
-              small
-              label='Телефон'
-              type='phone'
-              defaultValue={getResolveValue('phones', detailData)}
-              register={register('phone', {
-                required: 'Поле обязательное',
-                pattern: {
-                  value: /^89\d{9}/,
-                  message: 'Не соответствует формату 8XXXXXXXXXX',
-                },
-              })}
-              error={errors?.phone}
-            />
-            <InputUI
-              small
-              label='Почта'
-              type='email'
-              defaultValue={getResolveValue('mails', detailData)}
-            />
-          </NewApplicationBlockStyle>
-          <NewApplicationBlockStyle>
-            <TitleFormStyle>Купить-продать</TitleFormStyle>
-            <div>
-              <Controller
-                control={control}
-                name='type'
-                rules={{ required: 'Выберет тип' }}
-                render={({ field }) => (
-                  <ButtonToggleGroup>
-                    <ButtonToggleItem
-                      onClick={(e) => field.onChange(e.target.id)}
-                      id='sell'
-                      active={field.value}
-                    >
-                      Продать
-                    </ButtonToggleItem>
-                    <ButtonToggleItem
-                      onClick={(e) => field.onChange(e.target.id)}
-                      id='buy'
-                      active={field.value}
-                    >
-                      Купить
-                    </ButtonToggleItem>
-                    <ButtonToggleItem
-                      onClick={(e) => field.onChange(e.target.id)}
-                      id='rent'
-                      active={field.value}
-                    >
-                      Сдать
-                    </ButtonToggleItem>
-                    <ButtonToggleItem
-                      onClick={(e) => field.onChange(e.target.id)}
-                      id='take'
-                      active={field.value}
-                    >
-                      Снять
-                    </ButtonToggleItem>
-                  </ButtonToggleGroup>
+        <FormProvider {...method}>
+          <NewApplicationStyle onSubmit={method.handleSubmit(onSubmit)}>
+            <NewApplicationBlockStyle>
+              <TitleFormStyle>ФИО</TitleFormStyle>
+              <InputUI
+                small
+                label='Фамилия'
+                register={method.register('lastName')}
+                error={method.formState.errors?.lastName}
+                defaultValue={getLoacationValue('lastName')}
+              />
+              <InputUI
+                small
+                label='Имя'
+                register={method.register('firstName', {
+                  required: 'Поле обязательное',
+                })}
+                error={method.formState.errors?.firstName}
+              />
+              <InputUI
+                small
+                label='Отчество'
+                register={method.register('secondName')}
+                error={method.formState.errors?.secondName}
+                defaultValue={getLoacationValue('secondName')}
+              />
+            </NewApplicationBlockStyle>
+            <NewApplicationBlockStyle>
+              <TitleFormStyle>Контакты</TitleFormStyle>
+              <InputUI
+                small
+                label='Телефон'
+                type='phone'
+                defaultValue={getResolveValue('phones', detailData)}
+                register={method.register('phone', {
+                  required: 'Поле обязательное',
+                  pattern: {
+                    value: /^89\d{9}/,
+                    message: 'Не соответствует формату 8XXXXXXXXXX',
+                  },
+                })}
+                error={method.formState.errors?.phone}
+              />
+              <InputUI
+                small
+                label='Почта'
+                type='email'
+                defaultValue={getResolveValue('mails', detailData)}
+              />
+            </NewApplicationBlockStyle>
+            <NewApplicationBlockStyle>
+              <TitleFormStyle>Купить-продать</TitleFormStyle>
+              <div>
+                <Controller
+                  control={method.control}
+                  name='type'
+                  rules={{ required: 'Выберет тип' }}
+                  render={({ field }) => (
+                    <ButtonToggleGroup>
+                      <ButtonToggleItem
+                        onClick={(e) => field.onChange(e.target.id)}
+                        id='sell'
+                        active={field.value}
+                      >
+                        Продать/Сдать
+                      </ButtonToggleItem>
+                      {/* <ButtonToggleItem
+                onClick={(e) => field.onChange(e.target.id)}
+                id='rent'
+                active={field.value}
+                >
+                Сдать
+              </ButtonToggleItem> */}
+                      <ButtonToggleItem
+                        onClick={(e) => field.onChange(e.target.id)}
+                        id='buy'
+                        active={field.value}
+                      >
+                        Купить
+                      </ButtonToggleItem>
+                      <ButtonToggleItem
+                        onClick={(e) => field.onChange(e.target.id)}
+                        id='take'
+                        active={field.value}
+                      >
+                        Снять
+                      </ButtonToggleItem>
+                    </ButtonToggleGroup>
+                  )}
+                />
+                {method.formState.errors?.type && (
+                  <TextSpanStyle color='red' size={12}>
+                    {method.formState.errors?.type?.message}
+                  </TextSpanStyle>
                 )}
-              />
-              {errors?.type && (
-                <TextSpanStyle color='red' size={12}>
-                  {errors?.type?.message}
-                </TextSpanStyle>
-              )}
-            </div>
-            <AnimatePresence mode='wait'>
-              <ActiveComponent
-                control={control}
-                errors={errors}
-                firstMout={firstMout.current}
-                type={getValues('type')}
-              />
-            </AnimatePresence>
-          </NewApplicationBlockStyle>
-          <NewApplicationBlockStyle>
-            <ButtonUI type='submit' variant='outline'>
-              Создать
-            </ButtonUI>
-          </NewApplicationBlockStyle>
-        </NewApplicationStyle>
+              </div>
+              <AnimatePresence mode='wait'>
+                <ActiveComponent
+                  // control={control}
+                  // errors={errors}
+                  firstMout={firstMout.current}
+                  // type={getValues('type')}
+                />
+              </AnimatePresence>
+            </NewApplicationBlockStyle>
+            <NewApplicationBlockStyle>
+              <ButtonUI type='submit' variant='outline'>
+                Создать
+              </ButtonUI>
+            </NewApplicationBlockStyle>
+          </NewApplicationStyle>
+        </FormProvider>
       )}
     </>
   );

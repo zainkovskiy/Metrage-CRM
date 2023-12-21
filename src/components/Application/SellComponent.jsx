@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext, useFormState } from 'react-hook-form';
 import Dadata from 'components/Main/Dadata';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 const variants = {
@@ -20,7 +20,9 @@ const SellComponentStyle = styled(motion.div)`
   flex-direction: column;
   gap: 0.5rem;
 `;
-const SellComponent = ({ firstMout, control, errors }) => {
+const SellComponent = ({ firstMout }) => {
+  const { control } = useFormContext();
+  const { errors } = useFormState();
   return (
     <SellComponentStyle
       variants={variants}

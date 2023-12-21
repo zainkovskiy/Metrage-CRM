@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const ApplicationBlockStyle = styled.div`
   padding: 0.5rem;
+  box-sizing: border-box;
   background-color: #fff;
   border-radius: 5px;
   display: flex;

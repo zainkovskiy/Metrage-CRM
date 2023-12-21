@@ -5,24 +5,21 @@ import {
   ButtonToggleGroup,
   ButtonToggleItem,
 } from 'ui/ButtonToggle/ButtonToggle';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, FormProvider } from 'react-hook-form';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { ButtonUI } from 'ui/ButtonUI';
 import { AnimatePresence } from 'framer-motion';
 import { changeType } from 'store/applicationSlice';
 import { useAsyncValue } from 'react-router-dom';
-import { SliderTitle } from 'styles/slider';
 import { SliderFormButtonGroup } from '../../../styles/SliderFormButtonGroup';
 
 const BuySellEditFormStyle = styled.form`
-  padding: 0.5rem;
-  background-color: #fff;
-  border-radius: 5px;
   flex-direction: column;
   gap: 0.5rem;
   display: flex;
   flex-grow: 1;
+  overflow: auto;
 `;
 const getComponent = (key) => {
   switch (key) {
@@ -48,28 +45,26 @@ const BuySellEditForm = () => {
       firstMout.current = false;
     }
   }, []);
-  const {
-    control,
-    handleSubmit,
-    watch,
-    getValues,
-    reset,
-    formState: { errors, isDirty },
-  } = useForm({
+  const method = useForm({
     defaultValues: {
       type: demand?.type,
       typePlace: demand?.typePlace,
-      address: demand?.address,
-      cords:
-        demand?.cords?.length === 0
-          ? [[55.030204, 82.92043], 0]
-          : demand?.cords,
+      address: demand?.address || '',
+      addressList: application?.addressList || [],
+      cords: demand?.cords || null,
+      cordsList: application?.cordsList || [],
       costStart: demand?.costStart || '',
       costEnd: demand?.costEnd || '',
       buyType: application?.buyType || '',
+      priceFrom: application?.featureValues?.priceFrom || '',
+      priceTo: application?.featureValues?.priceTo || '',
+      TotalAreaFrom: application?.featureValues?.TotalAreaFrom || '',
+      TotalAreaTo: application?.featureValues?.TotalAreaTo || '',
+      TotalAreaLandFrom: application?.featureValues?.TotalAreaLandFrom || '',
+      TotalAreaLandTo: application?.featureValues?.TotalAreaLandTo || '',
+      featureList: application?.featureList || [],
     },
   });
-
   const onSubmit = (data) => {
     dispatch(
       changeType({
@@ -77,80 +72,76 @@ const BuySellEditForm = () => {
         form: data,
       })
     ).then((res) => {
-      reset(data);
+      method.reset(data);
     });
   };
   const clearAnyChange = () => {
-    reset();
+    method.reset();
   };
-  const ActiveComponent = getComponent(getValues('type'));
-  watch('type');
+  const ActiveComponent = getComponent(method.getValues('type'));
+  method.watch('type');
   return (
-    <BuySellEditFormStyle onSubmit={handleSubmit(onSubmit)}>
-      <SliderTitle>Потребность</SliderTitle>
-      <div>
-        <Controller
-          control={control}
-          name='type'
-          rules={{ required: 'Выберет тип' }}
-          render={({ field }) => (
-            <ButtonToggleGroup>
-              <ButtonToggleItem
-                onClick={(e) => field.onChange(e.target.id)}
-                id='sell'
-                active={field.value}
-              >
-                Продать
-              </ButtonToggleItem>
-              <ButtonToggleItem
-                onClick={(e) => field.onChange(e.target.id)}
-                id='buy'
-                active={field.value}
-              >
-                Купить
-              </ButtonToggleItem>
-              <ButtonToggleItem
+    <FormProvider {...method}>
+      <BuySellEditFormStyle onSubmit={method.handleSubmit(onSubmit)}>
+        <div>
+          <Controller
+            control={method.control}
+            name='type'
+            rules={{ required: 'Выберет тип' }}
+            render={({ field }) => (
+              <ButtonToggleGroup>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='sell'
+                  active={field.value}
+                >
+                  Продать/Сдать
+                </ButtonToggleItem>
+                {/* <ButtonToggleItem
                 onClick={(e) => field.onChange(e.target.id)}
                 id='rent'
                 active={field.value}
-              >
+                >
                 Сдать
-              </ButtonToggleItem>
-              <ButtonToggleItem
-                onClick={(e) => field.onChange(e.target.id)}
-                id='take'
-                active={field.value}
-              >
-                Снять
-              </ButtonToggleItem>
-            </ButtonToggleGroup>
+              </ButtonToggleItem> */}
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='buy'
+                  active={field.value}
+                >
+                  Купить
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='take'
+                  active={field.value}
+                >
+                  Снять
+                </ButtonToggleItem>
+              </ButtonToggleGroup>
+            )}
+          />
+          {method.formState.errors?.type && (
+            <TextSpanStyle color='red' size={12}>
+              {method.formState.errors?.type?.message}
+            </TextSpanStyle>
           )}
-        />
-        {errors?.type && (
-          <TextSpanStyle color='red' size={12}>
-            {errors?.type?.message}
-          </TextSpanStyle>
-        )}
-      </div>
-      <AnimatePresence mode='wait'>
-        <ActiveComponent
-          control={control}
-          errors={errors}
-          firstMout={firstMout.current}
-          type={getValues('type')}
-        />
-      </AnimatePresence>
-      <AnimatePresence>
-        {isDirty && (
-          <SliderFormButtonGroup>
-            <ButtonUI type='submit'>Сохранить</ButtonUI>
-            <ButtonUI variant='outline' onClick={clearAnyChange}>
-              Отменить
-            </ButtonUI>
-          </SliderFormButtonGroup>
-        )}
-      </AnimatePresence>
-    </BuySellEditFormStyle>
+        </div>
+        <AnimatePresence mode='wait'>
+          <ActiveComponent firstMout={firstMout.current} />
+        </AnimatePresence>
+        <AnimatePresence>
+          {method.formState.isDirty && (
+            <SliderFormButtonGroup>
+              <ButtonUI type='submit'>Сохранить</ButtonUI>
+              <ButtonUI variant='outline' onClick={clearAnyChange}>
+                Отменить
+              </ButtonUI>
+            </SliderFormButtonGroup>
+          )}
+        </AnimatePresence>
+      </BuySellEditFormStyle>
+    </FormProvider>
   );
 };
 
