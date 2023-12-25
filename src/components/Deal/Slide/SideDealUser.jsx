@@ -201,14 +201,14 @@ const UserLawyer = ({
     );
   };
   const getPersentText = () => {
-    if (!user?.currentComission || user?.currentComission <= 0) {
+    if (!user?.comissionSize || user?.comissionSize <= 0) {
       return <TextSpanStyle size={10}>0% от общ. комиссии</TextSpanStyle>;
     }
     if (!deal?.agencyComission || deal?.agencyComission <= 0) {
       return <TextSpanStyle size={10}>0% от общ. комиссии</TextSpanStyle>;
     }
     const percent = (
-      (parseInt(user?.currentComission) * 100) /
+      (parseInt(user?.comissionSize) * 100) /
       parseInt(deal.agencyComission)
     ).toFixed(2);
     return <TextSpanStyle size={10}>{percent}% от общ. комиссии</TextSpanStyle>;

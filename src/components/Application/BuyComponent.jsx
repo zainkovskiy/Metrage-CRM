@@ -88,24 +88,26 @@ const BuyComponent = ({ firstMout }) => {
               </SelectUI>
             )}
           />
-          <Controller
-            control={control}
-            name='buyType'
-            rules={{ required: 'Выберете причину' }}
-            render={({ field }) => (
-              <SelectUI
-                small
-                select={field.value || ''}
-                onChange={field.onChange}
-                inputRef={field.ref}
-                label='Причина покупки'
-                error={errors?.buyType}
-              >
-                <SelectItemUI value='forMyself'>Покупает себе</SelectItemUI>
-                <SelectItemUI value='forBusiness'>Для заработка</SelectItemUI>
-              </SelectUI>
-            )}
-          />
+          {getValues('type') === 'buy' && (
+            <Controller
+              control={control}
+              name='buyType'
+              rules={{ required: 'Выберете причину' }}
+              render={({ field }) => (
+                <SelectUI
+                  small
+                  select={field.value || ''}
+                  onChange={field.onChange}
+                  inputRef={field.ref}
+                  label='Причина покупки'
+                  error={errors?.buyType}
+                >
+                  <SelectItemUI value='forMyself'>Покупает себе</SelectItemUI>
+                  <SelectItemUI value='forBusiness'>Для заработка</SelectItemUI>
+                </SelectUI>
+              )}
+            />
+          )}
         </InputsField>
         <SliderTitle ai='flex-end' size={14}>
           Характеристики

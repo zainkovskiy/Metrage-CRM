@@ -18,7 +18,7 @@ const SlideDealStyle = styled.form`
     min-width: 450px;
   }
 `;
-
+//TODO: поправить блоки Общая инф Фин по сделке сделать максимум 2 колонки
 const SlideDeal = () => {
   const deal = useAsyncValue();
   const windowSize = useWindowSize();
