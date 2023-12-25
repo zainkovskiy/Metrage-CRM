@@ -26,6 +26,27 @@ const SelectObjectList = styled(motion.ul)`
   padding: 0 0 0 40px;
   overflow: hidden;
 `;
+const HeaderButton = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  cursor: pointer;
+  align-items: center;
+  &:hover {
+    & > span {
+      color: ${({ theme }) => theme.color.primary};
+    }
+  }
+`;
+const ButtonHeaderLink = styled(Link)`
+  font-family: ${({ theme }) => theme.font.family};
+  color: #ccc;
+  text-decoration: none;
+  font-size: 10px;
+  color: ${({ theme }) => theme.color.primary};
+  &:hover {
+    text-decoration: underline;
+  }
+`;
 const ApplicationSelectionItem = ({ selection }) => {
   const [open, setOpen] = useState(false);
   const handleClick = () => {
@@ -34,10 +55,15 @@ const ApplicationSelectionItem = ({ selection }) => {
   return (
     <div>
       <SelectionItemHeader>
-        <ButtonIcon open={open} onClick={handleClick} />
-        <LinkStyle $size={12} to={`/compilation/${selection.UID}`}>
-          Подборка от {useDateFormat(selection?.created)}
-        </LinkStyle>
+        <HeaderButton onClick={handleClick}>
+          <ButtonIcon open={open} />
+          <TextSpanStyle $size={12}>
+            Подборка от {useDateFormat(selection?.created)}
+          </TextSpanStyle>
+        </HeaderButton>
+        <ButtonHeaderLink to={`/compilation/${selection.UID}`}>
+          Перейти
+        </ButtonHeaderLink>
       </SelectionItemHeader>
       <SelectObjectList
         variants={{
@@ -66,7 +92,7 @@ const ButtonContainer = styled.div`
   display: flex;
   width: 12px;
   height: 12px;
-  cursor: pointer;
+  /* cursor: pointer; */
   & > svg {
     pointer-events: none;
   }

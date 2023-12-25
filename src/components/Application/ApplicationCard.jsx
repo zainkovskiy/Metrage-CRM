@@ -164,6 +164,7 @@ const ApplicationCard = ({ application }) => {
           <TextSpanStyle size={12}>
             {application?.responsible?.title}
           </TextSpanStyle>
+          <TextSpanStyle size={10}>ID: {application?.UID}</TextSpanStyle>
         </ApplicationFooter>
       </ApplicationStyle>
     </LinkStyle>

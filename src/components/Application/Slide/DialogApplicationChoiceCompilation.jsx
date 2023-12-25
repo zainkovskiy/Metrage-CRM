@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { SliderTitle } from '../../../styles/slider';
 import { Box } from 'ui/Box';
 import { ButtonUI } from 'ui/ButtonUI';
+import { useDateFormat } from 'hooks/DateFormat';
 
 const ChoiceCompilation = styled.div`
   padding: 0.5rem;
@@ -65,7 +66,7 @@ const DialogApplicationChoiceCompilation = ({
                 key={selection.UID}
               >
                 <TextSpanStyle size={10}>
-                  Создана: {selection.created}
+                  Создана: {useDateFormat(selection.created, 'DD.MM.YYYY')}
                 </TextSpanStyle>
                 <TextSpanStyle size={12}>
                   Подборка № {selection.UID}

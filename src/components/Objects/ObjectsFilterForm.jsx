@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
 import styled from 'styled-components';
@@ -7,6 +7,7 @@ import {
   SelectMultipleItemUI,
 } from 'ui/SelectMultipleUI/SelectMultipleUI';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
+import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
 import { SelectAutoсompleteMultipleUI } from 'ui/SelectAutoсompleteMultipleUI';
 import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
@@ -15,6 +16,7 @@ import { TextSpanStyle } from 'styles/styles';
 import { setFilter, getObjectList } from 'store/objectSlice';
 import { useNumberTriad } from 'hooks/StringHook';
 import { getUserList } from 'api/search';
+import { getLocalOfficeList } from '../../api/search';
 import Dadata from 'components/Main/Dadata';
 import MapCircle from 'components/Main/MapCircle';
 import {
@@ -58,6 +60,7 @@ const resetFilter = {
   typeRealty: 'live',
   typeObject: [],
   users: [],
+  office: [],
   Address: '',
   TotalArea: [null, null],
   LivingArea: [null, null],
@@ -83,7 +86,9 @@ const resetFilter = {
 const ObjectsFilterForm = ({ onClose }) => {
   const dispatch = useDispatch();
   const [usersLoading, setUsersLoading] = useState(false);
+  const [officeList, setOfficeList] = useState([]);
   const filter = useSelector((state) => state.objects.filter);
+  const officeRequest = useRef(false);
   const {
     control,
     handleSubmit,
@@ -108,6 +113,23 @@ const ObjectsFilterForm = ({ onClose }) => {
       })
       .finally(() => {
         setUsersLoading(false);
+      });
+  };
+  const getOfficeList = (value) => {
+    if (value.length < 2) {
+      setOfficeList([]);
+      return;
+    }
+    if (officeRequest.current) {
+      return;
+    }
+    officeRequest.current = true;
+    getLocalOfficeList(value)
+      .then((data) => {
+        setOfficeList(data);
+      })
+      .finally(() => {
+        officeRequest.current = false;
       });
   };
   const onSubmit = (data) => {
@@ -519,6 +541,22 @@ const ObjectsFilterForm = ({ onClose }) => {
                 isOpenOptions={(open) => !open && setUsers([])}
                 value={field.value || []}
                 label='Ответственный'
+              />
+            )}
+          />
+        )}
+        {getValues('ExternalFindType') === 'our' && (
+          <Controller
+            name='office'
+            control={control}
+            render={({ field }) => (
+              <SelectAutoсompleteUI
+                label='Офис'
+                options={officeList}
+                getOptionsLabel={(options) => options.name}
+                onChange={(option) => field.onChange(option)}
+                value={field.value}
+                inputChange={getOfficeList}
               />
             )}
           />
