@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { TextSpanStyle } from '../../../styles/styles';
 import { ButtonLink } from '../../../ui/ButtonLink/ButtonLink';
-import { Link } from 'react-router-dom';
 import { device } from '../../../styles/device';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToBasket, removeFromBasket } from '../../../store/objectSlice';
@@ -39,7 +38,12 @@ const SliderObjectList = styled.div`
   overflow: auto;
 `;
 
-const SlideMapObjectsList = ({ otherList, cleareOtherList }) => {
+const SlideMapObjectsList = ({
+  otherList,
+  cleareOtherList,
+  callbackGetItem,
+  selectList,
+}) => {
   return (
     <SideObjects
       initial={{ x: 1000 }}
@@ -57,7 +61,12 @@ const SlideMapObjectsList = ({ otherList, cleareOtherList }) => {
       </SlideObjectHeader>
       <SliderObjectList>
         {otherList.map((item) => (
-          <SlideMapObjectItem key={item.objUID} object={item} />
+          <SlideMapObjectItem
+            key={item.objUID}
+            object={item}
+            callbackGetItem={callbackGetItem}
+            selectList={selectList}
+          />
         ))}
       </SliderObjectList>
     </SideObjects>
@@ -70,22 +79,6 @@ const SliderMapObjectItemStyle = styled.div`
   border-radius: 5px;
   display: flex;
   flex-direction: column;
-  // cursor: pointer;
-  // transition: background-color 0.3s;
-  // text-decoration: none;
-  // @media (hover: hover) {
-  //   &:hover {
-  //     background-color: #ededed;
-  //   }
-  //   &:active {
-  //     background-color: #fff;
-  //   }
-  // }
-  // @media (hover: none) {
-  //   &:active {
-  //     background-color: #ededed;
-  //   }
-  // }
 `;
 const AddressLink = styled.a`
   color: #6d6d6d;
@@ -99,12 +92,16 @@ const AddressLink = styled.a`
     }
   }
 `;
-const SlideMapObjectItem = ({ object }) => {
+const SlideMapObjectItem = ({ object, callbackGetItem, selectList }) => {
   const basket = useSelector((state) => state.objects.basket);
   const match = Boolean(basket.find((item) => item.UID === object.objUID));
   const dispatch = useDispatch();
 
   const addObjectToBasket = () => {
+    if (callbackGetItem) {
+      callbackGetItem(object);
+      return;
+    }
     getOneObject(object.objUID, object.objType).then((fullObject) => {
       if (match) {
         dispatch(removeFromBasket(fullObject));
@@ -113,7 +110,13 @@ const SlideMapObjectItem = ({ object }) => {
       dispatch(addToBasket(fullObject));
     });
   };
-
+  const getButtonText = () => {
+    if (selectList) {
+      const find = selectList.find((item) => item.objUID === object.objUID);
+      return Boolean(find) ? 'Удалить из подборки' : 'Добавить в подборку';
+    }
+    return match ? 'Удалить из подборки' : 'Добавить в подборку';
+  };
   return (
     <SliderMapObjectItemStyle>
       <AddressLink
@@ -123,7 +126,7 @@ const SlideMapObjectItem = ({ object }) => {
         {object?.objaddrStr || ''}
       </AddressLink>
       <ButtonLink size={12} color='#6d6d6d' onClick={addObjectToBasket}>
-        {match ? 'Удалить из подборки' : 'Добавить в подборку'}
+        {getButtonText()}
       </ButtonLink>
     </SliderMapObjectItemStyle>
   );

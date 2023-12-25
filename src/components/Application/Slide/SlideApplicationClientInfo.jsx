@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
-// import { useDateFormat } from 'hooks/DateFormat';
 import { ReactComponent as Phone } from 'images/phone2.svg';
 import { ReactComponent as WhatsApp } from 'images/whatsapp.svg';
 import { ReactComponent as Telegram } from 'images/telegram.svg';
-// import { ReactComponent as Celendar } from 'images/calendar2.svg';
 import { ReactComponent as Edit } from 'images/edit.svg';
 import {
   ApplicationBlockStyle,
@@ -14,19 +12,10 @@ import {
 import { Box } from 'ui/Box';
 import { IconButton } from 'ui/IconButton';
 import DialogWindow from 'components/Main/DialogWindow';
-// import ApplicationNextContact from '../ApplicationNextContact';
 import ApplicationEditName from '../ApplicationEditName ';
-// import { CheckboxUI } from 'ui/CheckboxUI';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { checkApplication } from '../../../store/applicationSlice';
 import { SliderTitle } from '../../../styles/slider';
 import { Link } from 'react-router-dom';
 
-const ApplicationSlideClientInfoStyle = styled.div`
-  display: flex;
-  width: 100%;
-  gap: 0.5rem;
-`;
 const TextSpanStyleLink = styled(TextSpanStyle)`
   cursor: pointer;
   transition: color 0.3s, text-decoration 0.3s;
@@ -44,11 +33,8 @@ const ClientLinnk = styled(Link)`
     color: ${({ theme }) => theme.color.primary};
   }
 `;
-const SlideApplicationClientInfo = ({ client, demand, children, UID }) => {
-  // const dispatch = useDispatch();
-  // const isAdmin = useSelector((state) => state.user?.isAdmin || '');
+const SlideApplicationClientInfo = ({ client }) => {
   const [isShowPhone, setIsShowPhone] = useState(false);
-  // const [isShowNextContact, setIsShowNextContact] = useState(false);
   const [isShowEditName, setIsShowEditName] = useState(false);
   const phone = client?.phones[0]?.value
     ? client?.phones[0]?.value.toString()
@@ -66,34 +52,13 @@ const SlideApplicationClientInfo = ({ client, demand, children, UID }) => {
     }
     return <TextSpanStyle>Нет номера</TextSpanStyle>;
   };
-  // const toggleShowNextContact = () => {
-  //   setIsShowNextContact(!isShowNextContact);
-  // };
   const toggleEditName = () => {
     setIsShowEditName(!isShowEditName);
   };
-  // const isCheckedApplication = (e) => {
-  //   dispatch(
-  //     checkApplication({
-  //       position: e.target.checked,
-  //       UID: UID,
-  //     })
-  //   );
-  // };
   return (
     <>
       <ApplicationBlockStyle $column jc='flex-start'>
-        <SliderTitle>
-          Клиент:
-          {/* <CheckboxUI
-            size='small'
-            position='left'
-            label='Проверено'
-            defaultChecked={demand?.isChecked === '1'}
-            onChange={isCheckedApplication}
-            disabled={isAdmin !== '1'}
-          /> */}
-        </SliderTitle>
+        <SliderTitle>Клиент:</SliderTitle>
         <ApplicationSlideSide>
           <Box jc='flex-start'>
             <ClientLinnk to={`/client/${client.UID}`}>
@@ -139,37 +104,8 @@ const SlideApplicationClientInfo = ({ client, demand, children, UID }) => {
               </LinkButtonStyle>
             </Box>
           )}
-          {/* {children} */}
-          {/* <ApplicationSlideSide>
-            <TextSpanStyle nowrap size={12}>
-              Дата сделки: {useDateFormat(demand?.winDate)}
-            </TextSpanStyle>
-            <TextSpanStyle nowrap size={12} color='#ccc'>
-              Последний контакт: {useDateFormat(demand?.lastContact)}
-            </TextSpanStyle>
-            <Box jc='flex-start' wrap gap='0'>
-              <TextSpanStyle nowrap size={12}>
-                Следующий контакт: &nbsp;
-              </TextSpanStyle>
-              <Box>
-                <TextSpanStyle nowrap size={12}>
-                  {useDateFormat(demand?.nextContact)}
-                </TextSpanStyle>
-                <IconButton onClick={toggleShowNextContact}>
-                  <Celendar />
-                </IconButton>
-              </Box>
-            </Box>
-            <SliderTitle size={12} color='#ccc'>
-              Комментарий:
-            </SliderTitle>
-            <TextSpanStyle size={11}>{demand?.comment}</TextSpanStyle>
-          </ApplicationSlideSide> */}
         </ApplicationSlideSide>
       </ApplicationBlockStyle>
-      {/* <DialogWindow open={isShowNextContact} onClose={toggleShowNextContact}>
-        <ApplicationNextContact onClose={toggleShowNextContact} />
-      </DialogWindow> */}
       <DialogWindow open={isShowEditName} onClose={toggleEditName}>
         <ApplicationEditName onClose={toggleEditName} client={client} />
       </DialogWindow>

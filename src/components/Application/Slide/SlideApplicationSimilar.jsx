@@ -19,12 +19,15 @@ const MapContainer = styled.div`
   justify-content: center;
 `;
 
-const SlideApplicationSimilar = () => {
+const SlideApplicationSimilar = ({ moveToNewSelectList, selectList }) => {
   const application = useAsyncValue();
   const office = useSelector((state) => state.user.office);
   const loadingSave = useSelector((state) => state.application.loadingSave);
   const getCords = () => {
     return office === '2' ? [55.75222, 37.61556] : [55.030204, 82.92043];
+  };
+  const getSelect = (select) => {
+    moveToNewSelectList(select);
   };
   return (
     <ApplicationSimilar>
@@ -37,6 +40,8 @@ const SlideApplicationSimilar = () => {
             cords={getCords()}
             height={300}
             apiTemplate={`application_${application?.UID}`}
+            callbackGetItem={getSelect}
+            selectList={selectList}
           />
         )}
       </MapContainer>

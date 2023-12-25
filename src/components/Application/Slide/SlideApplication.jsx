@@ -4,15 +4,13 @@ import { useAsyncValue } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useWindowSize } from 'hooks/windowSize';
 
-// import { ButtonUI } from 'ui/ButtonUI';
 import { ButtonLink } from 'ui/ButtonLink';
 import SlideApplicationMeta from './SlideApplicationMeta';
 import SlideApplicationStatus from './SlideApplicationStatus';
 import SlideApplicationClientInfo from './SlideApplicationClientInfo';
 import SlideApplicationAgentInfo from './SlideApplicationAgentInfo';
+//удалить?
 // import SlideApplicationObjectInfo from './SlideApplicationObjectInfo';
-import BuySellEditForm from './BuySellEditForm';
-import SlideApplicationCalls from './SlideApplicationCalls';
 import SlideApplicationStory from './SlideApplicationStory';
 import DialogApplicationChangeUser from './DialogApplicationChangeUser';
 import DialogApplicationHandOver from './DialogApplicationHandOver';
@@ -22,6 +20,10 @@ import SlideApplicationInfo from './SlideApplicationInfo';
 import SlideApplicationNote from './SlideApplicationNote';
 import SlideApplicationFeature from './SlideApplicationFeature';
 import SlideApplicationSimilar from './SlideApplicationSimilar';
+import SlideApplicationSelection from './SlideApplicationSelection';
+import SlideApplicationNewSelection from './SlideApplicationNewSelection';
+import { AnimatePresence } from 'framer-motion';
+import { addToCompilation, newCompilation } from '../../../api/application';
 
 const SlideApplicationContentStyle = styled.div`
   flex-grow: 1;
@@ -38,12 +40,13 @@ const SlideApplicationgGrid = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(49%, 1fr));
   gap: 0.5rem;
 `;
-
+//TODO: побробывать переделать на useContext
 const SlideApplication = ({ closeSlide }) => {
   const application = useAsyncValue();
   const isExternal = useSelector((state) => state.user.isExternal);
   const [openChange, setOpenChange] = useState(false);
   const [openHandOver, setOpenHandOver] = useState(false);
+  const [newSelectList, setNewSelectList] = useState([]);
   const windowSize = useWindowSize();
   const toggleOpenChange = () => {
     setOpenChange(!openChange);
@@ -51,33 +54,50 @@ const SlideApplication = ({ closeSlide }) => {
   const toggleOpenHandOver = () => {
     setOpenHandOver(!openHandOver);
   };
+  const moveToNewSelectList = (selectItem) => {
+    const find = newSelectList.find(
+      (object) => object.objUID === selectItem.objUID
+    );
+    if (find) {
+      setNewSelectList((prevState) =>
+        prevState.filter((object) => object.objUID !== selectItem.objUID)
+      );
+      return;
+    }
+    setNewSelectList((prevState) => [...prevState, selectItem]);
+  };
+  const setNewCompilation = () => {
+    newCompilation(application.UID, newSelectList).then((newSelect) => {
+      application.selections = [...application.selections, newSelect];
+      setNewSelectList([]);
+    });
+  };
+  const setChangeCompilation = (compilationUid) => {
+    addToCompilation(application.UID, compilationUid, newSelectList).then(
+      (selection) => {
+        console.log(selection);
+        const find = application.selections.find(
+          (item) => item.UID === selection.UID
+        );
+        if (find) {
+          application.selections.splice(
+            application.selections.indexOf(find),
+            1,
+            selection
+          );
+        }
+        setNewSelectList([]);
+      }
+    );
+  };
   return (
     <>
       <SliderStyle>
         <SlideApplicationContentStyle>
-          <SlideApplicationMeta
-            UID={application?.UID}
-            lostDate={application?.demand?.lostDate}
-            demandIsChecked={application?.demand?.isChecked}
-            created={application?.created}
-            updated={application?.updated}
-          />
-          <SlideApplicationStatus
-            status={application?.status?.UID}
-            UID={application?.UID}
-          />
+          <SlideApplicationMeta />
+          <SlideApplicationStatus />
           <SlideApplicationgGrid>
-            <SlideApplicationClientInfo
-              client={application?.client}
-              demand={application?.demand}
-              UID={application?.UID}
-            >
-              {/* {isExternal !== '1' && (
-              <ButtonUI size='small' onClick={toggleOpenHandOver}>
-                Передать клиента
-              </ButtonUI>
-            )} */}
-            </SlideApplicationClientInfo>
+            <SlideApplicationClientInfo client={application?.client} />
             <SlideApplicationAgentInfo
               responsible={application?.responsible}
               recommender={application?.recommender}
@@ -96,13 +116,21 @@ const SlideApplication = ({ closeSlide }) => {
             <SlideApplicationNote />
           </SlideApplicationgGrid>
           <SlideApplicationFeature />
-          <SlideApplicationSimilar />
-          {/* {isExternal === '1' ? (
-          <SlideApplicationObjectInfo />
-          ) : (
-            <BuySellEditForm />
-          )} */}
-          {/* <SlideApplicationCalls calls={application?.calls} /> */}
+          <SlideApplicationSimilar
+            moveToNewSelectList={moveToNewSelectList}
+            selectList={newSelectList}
+          />
+          <AnimatePresence>
+            {newSelectList.length > 0 && (
+              <SlideApplicationNewSelection
+                moveToNewSelectList={moveToNewSelectList}
+                selectList={newSelectList}
+                setNewCompilation={setNewCompilation}
+                setChangeCompilation={setChangeCompilation}
+              />
+            )}
+          </AnimatePresence>
+          {application?.selections?.length > 0 && <SlideApplicationSelection />}
           {windowSize <= 768 && (
             <SlideApplicationStory
               UID={application?.UID}

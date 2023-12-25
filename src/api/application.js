@@ -1,42 +1,44 @@
-import axios from "axios";
+import axios from 'axios';
 const API = 'https://crm.metragegroup.com/API/REST.php';
 
 export const getApplicationsList = async () => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
-    method: "crm.demand.list"
-  })
+    method: 'crm.demand.list',
+  });
   if (res?.statusText === 'OK') {
-    return res?.data?.result?.transwerData || []
+    return res?.data?.result?.transwerData || [];
   }
-  return []
-}
+  return [];
+};
 
 export const getDetailForNewApp = async (chatId) => {
   const res = await axios.post('https://crm.metragegroup.com/API/REST.php', {
     metrage_id: metrage_id,
     method: 'crm.messages.getDetails',
     fields: {
-      chatId: chatId
-    }
-  })
+      chatId: chatId,
+    },
+  });
   if (res?.statusText === 'OK') {
-    return res?.data?.result
+    return res?.data?.result;
   }
-}
+};
 
 export const getApplicationData = async (appId) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
-    method: "crm.demand.get",
+    method: 'crm.demand.get',
     fields: {
-      UID: appId
-    }
-  })
+      UID: appId,
+    },
+  });
   if (res?.statusText === 'OK') {
-    return res?.data?.result?.transwerData?.length > 0 ? res?.data?.result?.transwerData[0] : null;
+    return res?.data?.result?.transwerData?.length > 0
+      ? res?.data?.result?.transwerData[0]
+      : null;
   }
-}
+};
 
 export const getApplicationHistory = async (appId) => {
   const res = await axios.post(API, {
@@ -44,10 +46,39 @@ export const getApplicationHistory = async (appId) => {
     method: 'crm.history.list',
     fields: {
       UID: appId,
-      type: "demands"
-    }
-  })
+      type: 'demands',
+    },
+  });
   if (res?.statusText === 'OK') {
     return res?.data?.result || [];
   }
-}
+};
+
+export const newCompilation = async (demandId, objects) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.compilation.addRoster',
+    fields: {
+      demandId: demandId,
+      objects: objects,
+    },
+  });
+  if (res.statusText === 'OK') {
+    return res?.data?.result?.roster;
+  }
+};
+
+export const addToCompilation = async (demandId, compilationUid, objects) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.compilation.addRosterItems',
+    fields: {
+      UID: compilationUid,
+      demandId: demandId,
+      objects: objects,
+    },
+  });
+  if (res.statusText === 'OK') {
+    return res?.data?.result?.roster;
+  }
+};

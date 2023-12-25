@@ -10,7 +10,14 @@ const SlideMapPlacemarkContainer = styled.div`
   position: relative;
   overflow: hidden;
 `;
-const SlideMapPlacemark = ({ cords, height, apiTemplate, getCountObject }) => {
+const SlideMapPlacemark = ({
+  cords,
+  height,
+  apiTemplate,
+  getCountObject,
+  callbackGetItem,
+  selectList,
+}) => {
   const mapRef = useRef(null);
   const ymapRef = useRef(null);
   const objectManagerRef = useRef(null);
@@ -136,8 +143,10 @@ const SlideMapPlacemark = ({ cords, height, apiTemplate, getCountObject }) => {
       <AnimatePresence>
         {otherObjects.length > 0 && (
           <SlideMapObjectsList
+            callbackGetItem={callbackGetItem}
             cleareOtherList={cleareOtherList}
             otherList={otherObjects}
+            selectList={selectList}
           />
         )}
       </AnimatePresence>

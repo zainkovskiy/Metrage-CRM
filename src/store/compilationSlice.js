@@ -3,6 +3,7 @@ import axios from 'axios';
 const API = process.env.MAIN_API;
 import { clearBasket } from '../store/objectSlice';
 
+//создание новой подборки
 export const createNewCompilation = createAsyncThunk(
   'objects/createNewCompilation',
   async (_, { getState, dispatch }) => {
@@ -18,6 +19,7 @@ export const createNewCompilation = createAsyncThunk(
     }
   }
 );
+//добавть объекты в существующую подборку
 export const addToCompilation = createAsyncThunk(
   'objects/addToCompilation',
   async (id, { getState, dispatch }) => {

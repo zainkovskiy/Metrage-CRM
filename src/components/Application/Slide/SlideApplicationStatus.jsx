@@ -6,6 +6,7 @@ import ApplicationReasonFailure from './ApplicationReasonFailure';
 import styled from 'styled-components';
 import { StatusBar, StatusBarItem } from 'ui/StatusBar/StatusBar';
 import { SliderBlock } from 'styles/slider';
+import { useAsyncValue } from 'react-router-dom';
 
 const ApplicationStatusStyle = styled(SliderBlock)`
   display: flex;
@@ -14,16 +15,19 @@ const ApplicationStatusStyle = styled(SliderBlock)`
   justify-content: flex-end;
 `;
 
-const SlideApplicationStatus = ({ status, UID }) => {
+const SlideApplicationStatus = () => {
+  const application = useAsyncValue();
   const dispatch = useDispatch();
   const isExternal = useSelector((state) => state.user.isExternal);
   const [reason, setReason] = useState(false);
-  const [activeStepper, setActiveStepper] = useState(status - 1 || '');
+  const [activeStepper, setActiveStepper] = useState(
+    application.status.UID - 1 || ''
+  );
   const changeStepper = (idx, fields) => {
     dispatch(
       changeStage({
         stageId: idx + 1,
-        UID: UID,
+        UID: application.UID,
         ...fields,
       })
     );
