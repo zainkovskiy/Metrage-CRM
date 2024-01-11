@@ -46,6 +46,15 @@ import { loaderNewsSlide } from 'components/News/Slide/SuspenseSlideNews';
 import SuspenseNewNews from './components/News/New/SuspenseNewNews';
 import { loaderEditNewsSlide } from './components/News/New/SuspenseNewNews';
 
+import SuspenseResidential from 'components/Residential/SuspenseResidential';
+import SuspenseSlideResidential from './components/Residential/Slide/SuspenseSlideResidential';
+import { loaderResidentialSlide } from './components/Residential/Slide/SuspenseSlideResidential';
+
+import SuspensePlanning from 'components/Planning/SuspensePlanning';
+import SuspenseSlidePlanning from 'components/Planning/Slide/SuspenseSlidePlanning';
+import { loaderPlanSlide } from 'components/Planning/Slide/SuspenseSlidePlanning';
+import SuspenseNewPlunning from './components/Planning/New/SuspenseNewPlunning';
+
 import SuspenceDashboard from 'components/Dashboard/SuspenceDashboard';
 // import SuspenseSlideUser from 'components/User/Slide/SuspenseSlideUser';
 
@@ -167,21 +176,6 @@ export const routers = createBrowserRouter([
         ],
       },
       {
-        path: 'users',
-        element: <SuspenceUser />,
-        children: [
-          // {
-          //   path: 'new',
-          //   element: <SuspenseNewDeal />
-          // },
-          {
-            path: ':id',
-            element: <SuspenseSlideUser />,
-            // loader: loaderDealSlide,
-          },
-        ],
-      },
-      {
         path: 'task',
         element: <SuspenseTask />,
         children: [
@@ -219,6 +213,46 @@ export const routers = createBrowserRouter([
             element: <SuspenseNewNews />,
             loader: loaderEditNewsSlide,
           },
+        ],
+      },
+      {
+        path: 'residential',
+        element: <SuspenseResidential />,
+        children: [
+          // {
+          //   path: 'new',
+          //   element: <SuspenseNewNews />,
+          // },
+          {
+            path: ':id',
+            element: <SuspenseSlideResidential />,
+            loader: loaderResidentialSlide,
+          },
+          // {
+          //   path: 'edit/:id',
+          //   element: <SuspenseNewNews />,
+          //   loader: loaderEditNewsSlide,
+          // },
+        ],
+      },
+      {
+        path: 'planning',
+        element: <SuspensePlanning />,
+        children: [
+          {
+            path: 'new',
+            element: <SuspenseNewPlunning />,
+          },
+          {
+            path: ':id',
+            element: <SuspenseSlidePlanning />,
+            loader: loaderPlanSlide,
+          },
+          // {
+          //   path: 'edit/:id',
+          //   element: <SuspenseNewNews />,
+          //   loader: loaderEditNewsSlide,
+          // },
         ],
       },
       {
