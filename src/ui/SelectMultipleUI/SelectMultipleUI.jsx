@@ -38,6 +38,7 @@ const SelectInputStyle = styled.input`
   white-space: nowrap;
   text-overflow: ellipsis;
   background-color: #fff;
+  ${({ value }) => value === 'Выбрать' && 'color: #757575;'};
 `;
 const ArrowStyle = styled(ArrowDown)`
   width: 12px;
@@ -186,6 +187,9 @@ export const SelectMultipleUI = ({
               $error={error}
               id={idRef}
               name={idRef}
+              onClick={(e) => {
+                e.preventDefault();
+              }}
             >
               {Children.map(
                 children?.type === React.Fragment
@@ -236,7 +240,10 @@ export const SelectMultipleItemUI = ({
     <SelectItemStyle
       value={value}
       $select={select}
-      onClick={handleChange}
+      onClick={(e) => {
+        e.preventDefault();
+        handleChange();
+      }}
       id={id}
     >
       {children}

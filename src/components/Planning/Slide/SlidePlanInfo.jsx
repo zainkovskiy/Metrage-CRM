@@ -47,15 +47,23 @@ const SlidePlanInfo = () => {
     <SliderBlockMeta>
       <Box>
         <TextSpanStyle>Офис:</TextSpanStyle>
-        <ButtonLink id='office' color='#85009e' onClick={openDialogWindow}>
-          {plan?.office || 'Выбрать'}
-        </ButtonLink>
+        {plan?.isManagerAccepted ? (
+          <TextSpanStyle>{plan?.office || 'Выбрать'}</TextSpanStyle>
+        ) : (
+          <ButtonLink id='office' color='#85009e' onClick={openDialogWindow}>
+            {plan?.office || 'Выбрать'}
+          </ButtonLink>
+        )}
       </Box>
       <Box>
         <TextSpanStyle>Отчетный период:</TextSpanStyle>
-        <ButtonLink id='date' color='#85009e' onClick={openDialogWindow}>
-          {plan?.planDate || 'Выбрать'}
-        </ButtonLink>
+        {plan?.isManagerAccepted ? (
+          <TextSpanStyle>{plan?.planDate || 'Выбрать'}</TextSpanStyle>
+        ) : (
+          <ButtonLink id='date' color='#85009e' onClick={openDialogWindow}>
+            {plan?.planDate || 'Выбрать'}
+          </ButtonLink>
+        )}
       </Box>
       <DialogWindow onClose={closeDialogWindow} open={openDialog === 'office'}>
         <div onClick={(e) => e.stopPropagation()}>

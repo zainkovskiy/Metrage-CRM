@@ -21,9 +21,10 @@ const SliderBlockMeta = styled(SliderBlock)`
   justify-content: space-between;
 `;
 
-const SlidePlanMeta = () => {
+//TODO: Одобрено РОП - любой может тыкать. Утверждено - только isAdmin. Соответственно если утверждено, то все органы управления (кроме галки собственно утверждено) лочатся от изменений
+
+const SlidePlanMeta = ({ setChange }) => {
   const plan = useAsyncValue();
-  const [change, setChange] = useState(false);
   // const dispatch = useDispatch();
   const isAdmin = useSelector((state) => state.user?.isAdmin || '');
   const copyID = () => {
@@ -49,7 +50,7 @@ const SlidePlanMeta = () => {
       setChiefDisAccepted(plan.UID);
       plan.dateChiefAccepted = null;
     }
-    setChange(!change);
+    setChange();
   };
 
   const managerResolve = (checked) => {
@@ -60,7 +61,8 @@ const SlidePlanMeta = () => {
       plan.dateManagerAccepted = null;
       setManagerDisAccepted(plan.UID);
     }
-    setChange(!change);
+    plan.isManagerAccepted = checked;
+    setChange();
   };
   return (
     <SliderBlockMeta>
@@ -78,6 +80,7 @@ const SlidePlanMeta = () => {
           defaultChecked={plan?.isChiefAccepted}
           id='isChiefAccepted'
           onChange={handleClick}
+          disabled={plan?.isManagerAccepted}
         />
         <CheckboxUI
           size='small'
@@ -86,6 +89,7 @@ const SlidePlanMeta = () => {
           defaultChecked={plan?.isManagerAccepted}
           id='isManagerAccepted'
           onChange={handleClick}
+          disabled={isAdmin !== '1'}
         />
       </Box>
     </SliderBlockMeta>

@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SliderTitle } from '../../../styles/slider';
 import styled from 'styled-components';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Box } from 'ui/Box';
+import { IconButton } from 'ui/IconButton';
+import { ReactComponent as Plus } from 'images/plus.svg';
+import DialogWindow from 'components/Main/DialogWindow';
+import WindowPlatformLine from './WindowPlatformLine';
+import { useAsyncValue } from 'react-router-dom';
+import InputText from 'ui/InputText/InputText';
+import { useFormContext, Controller } from 'react-hook-form';
+
 const TableStyle = styled.table`
   border-collapse: collapse;
   width: 100%;
@@ -42,14 +51,38 @@ const variants = {
   },
 };
 
-const SlidePlanPlatform = ({ platform }) => {
+const SlidePlanPlatform = ({ platform, setAdvertising, platformIdx }) => {
+  const [windowDialog, setWindowDialog] = useState(null);
+  const plan = useAsyncValue();
+  const { control } = useFormContext();
+
+  const openWindowDialog = (e, region) => {
+    setWindowDialog({
+      platformName: e.target.id,
+      region: region || null,
+    });
+  };
+  const closeWindowDialog = () => {
+    setWindowDialog(null);
+  };
   return (
     <>
       <SliderTitle>{platform.platformName}</SliderTitle>
       <TableStyle style={{ width: '100%' }}>
         <TableHeader>
           <tr>
-            <th>Регион:</th>
+            <th>
+              <Box gap='0.2rem'>
+                Регион:
+                <IconButton
+                  id={platform.platformName}
+                  onClick={openWindowDialog}
+                  disabled={plan.isManagerAccepted}
+                >
+                  <Plus />
+                </IconButton>
+              </Box>
+            </th>
             <th>Категория:</th>
             <th>Сейчас:</th>
             <th>План:</th>
@@ -59,23 +92,34 @@ const SlidePlanPlatform = ({ platform }) => {
         <tbody>
           <AnimatePresence>
             {platform?.data?.length > 0 &&
-              platform.data.map((region, idx) => (
-                <React.Fragment key={idx}>
+              platform.data.map((region, regionIdx) => (
+                <React.Fragment key={regionIdx}>
                   <TableLine
                     variants={variants}
                     initial='hidden'
                     animate='visible'
                   >
                     <td
-                      rowSpan={region?.data ? region.data.length + 1 : 0}
+                      rowSpan={region?.data ? region.data.length + 1 : 1}
                       style={{ verticalAlign: 'top' }}
                     >
-                      {region.regName}
+                      <Box gap='0.2rem'>
+                        {region.regName}
+                        <IconButton
+                          id={platform.platformName}
+                          disabled={plan.isManagerAccepted}
+                          onClick={(e) => {
+                            openWindowDialog(e, region);
+                          }}
+                        >
+                          <Plus />
+                        </IconButton>
+                      </Box>
                     </td>
                   </TableLine>
                   <AnimatePresence>
                     {region?.data?.length > 0 &&
-                      region.data.map((row) => (
+                      region.data.map((row, categoryIdx) => (
                         <TableLine
                           key={row.catName}
                           variants={variants}
@@ -84,7 +128,24 @@ const SlidePlanPlatform = ({ platform }) => {
                         >
                           <td>{row.catName}</td>
                           <td>{row.current}</td>
-                          <td>{row.plan}</td>
+                          <td>
+                            <Controller
+                              name={`advertising[${platformIdx}].data[${regionIdx}].data[${categoryIdx}].plan`}
+                              defaultValue={row.plan || ''}
+                              control={control}
+                              render={({ field }) => {
+                                return (
+                                  <InputText
+                                    value={field.value}
+                                    type='number'
+                                    onChange={(e) =>
+                                      field.onChange(e.target.value)
+                                    }
+                                  />
+                                );
+                              }}
+                            />
+                          </td>
                           <td>{row.fact}</td>
                         </TableLine>
                       ))}
@@ -94,6 +155,14 @@ const SlidePlanPlatform = ({ platform }) => {
           </AnimatePresence>
         </tbody>
       </TableStyle>
+      <DialogWindow onClose={closeWindowDialog} open={Boolean(windowDialog)}>
+        <WindowPlatformLine
+          onClose={closeWindowDialog}
+          setAdvertising={setAdvertising}
+          platform={windowDialog}
+          UID={plan.UID}
+        />
+      </DialogWindow>
     </>
   );
 };

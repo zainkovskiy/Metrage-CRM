@@ -6,6 +6,7 @@ import { Await, useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import { useWindowSize } from 'hooks/windowSize';
 import { getOnePlan } from 'api/planApi';
 import { useDispatch } from 'react-redux';
+import { getPlanMiniCard } from '../../../store/slices/plansSlice';
 const SlidePlan = React.lazy(() =>
   import('components/Planning/Slide/SlidePlan')
 );
@@ -24,9 +25,8 @@ const SuspenseSlidePlanning = () => {
   const windowSize = useWindowSize();
   const { plan } = useLoaderData() || {};
   const handleClose = () => {
-    //TODO: make closeSlide, if not match change mini card
     setTimeout(() => {
-      // dispatch(getSliceUserMiniCard(params.id));
+      dispatch(getPlanMiniCard(params.id));
       navigate('/planning', { replace: true });
     }, 300);
     setOpen(false);

@@ -79,3 +79,25 @@ export const setNewPlanDate = async (raw) => {
     fields: raw,
   });
 };
+export const setAdvLine = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.plans.addAdvPlan',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return res?.data?.result || {};
+  }
+  return {};
+};
+export const setChangePlan = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.plans.editPlan',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No OK';
+};

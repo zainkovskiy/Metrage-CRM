@@ -23,6 +23,22 @@ export const getPlansList = createAsyncThunk(
     return [];
   }
 );
+export const getPlanMiniCard = createAsyncThunk(
+  'plans/getPlanMiniCard',
+  async (id) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.plans.getOne',
+      fields: {
+        UID: id,
+      },
+    });
+    if (res?.statusText === 'OK') {
+      return res?.data?.result || {};
+    }
+    return null;
+  }
+);
 
 const initialState = {
   plans: [],
@@ -38,10 +54,22 @@ const plansSlice = createSlice({
     // },
   },
   extraReducers: (builder) => {
-    builder.addCase(getPlansList.fulfilled, (state, action) => {
-      state.plans = action.payload;
-      state.loadingList = false;
-    });
+    builder
+      .addCase(getPlansList.fulfilled, (state, action) => {
+        state.plans = action.payload;
+        state.loadingList = false;
+      })
+      .addCase(getPlanMiniCard.fulfilled, (state, action) => {
+        const curPlan = action.payload;
+        const findPlan = state.users.find((plan) => plan.UID === curPlan.UID);
+        if (!findPlan) {
+          return;
+        }
+        if (JSON.stringify(curPlan) === JSON.stringify(findPlan)) {
+          return;
+        }
+        state.plans.splice(state.plans.indexOf(findPlan), 1, curPlan);
+      });
   },
 });
 
