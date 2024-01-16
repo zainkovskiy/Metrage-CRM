@@ -7,6 +7,8 @@ const LinkStyle = styled.a`
   font-size: ${({ size }) => size || '14'}px;
   color: ${({ theme }) => theme.color.primary};
   transition: text-decoration 0.3s;
+  cursor: pointer;
+  user-select: none;
   &:hover {
     text-decoration: ${({ td }) => td || 'underline'};
   }

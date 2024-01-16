@@ -159,6 +159,9 @@ const ApplicationFilterForm = ({ onClose }) => {
               <SelectItemUI value='8'>КВИЗ</SelectItemUI>
               <SelectItemUI value='9'>Новостройки НСК</SelectItemUI>
               <SelectItemUI value='10'>Новостройки МСК</SelectItemUI>
+              <SelectItemUI value='11'>ВК Лиды (НСК)</SelectItemUI>
+              <SelectItemUI value='12'>ВК Лиды (МСК)</SelectItemUI>
+              <SelectItemUI value='13'>КВИЗ Кипр</SelectItemUI>
             </SelectUI>
           )}
         />

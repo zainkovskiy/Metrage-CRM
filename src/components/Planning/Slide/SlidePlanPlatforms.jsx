@@ -26,6 +26,7 @@ const SlidePlanPlatforms = ({ setChange }) => {
   const setAdvertising = (advertising) => {
     plan.advertising = advertising;
     setChange();
+    method.reset(plan);
   };
   const onSubmit = (data) => {
     setChangePlan(data).then((answer) => {

@@ -1,29 +1,37 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { Link, useMatch } from 'react-router-dom';
-import todoUrl, { ReactComponent as Todo } from 'images/todo.svg';
-import calendarUrl, { ReactComponent as Calendar } from 'images/calendar.svg';
-import usersUrl, { ReactComponent as Users } from 'images/users.svg';
-import homeUrl, { ReactComponent as Home } from 'images/home3.svg';
-import listUrl, { ReactComponent as List } from 'images/list2.svg';
-import dealUrl, { ReactComponent as Deal } from 'images/deal.svg';
-import mortgageUrl, { ReactComponent as Mortgage } from 'images/mortgage.svg';
-import lawyerUrl, { ReactComponent as Lawyer } from 'images/lawyer.svg';
-import gradeUrl, { ReactComponent as Grade } from 'images/grade.svg';
-import insuranceUrl, {
-  ReactComponent as Insurance,
-} from 'images/insurance3.svg';
-import chartUrl, { ReactComponent as Chart } from 'images/chart.svg';
-import hrUrl, { ReactComponent as Hr } from 'images/hr.svg';
-import studyUrl, { ReactComponent as Study } from 'images/study.svg';
-import phoneUrl, { ReactComponent as Phone } from 'images/phone2.svg';
-import { ReactComponent as Compilation } from 'images/select.svg';
-import headphoneUrl, {
-  ReactComponent as Headphone,
-} from 'images/headphone.svg';
-import { ReactComponent as Mail } from 'images/mail.svg';
-import { ReactComponent as Client } from 'images/client.svg';
-import { ReactComponent as News } from 'images/news.svg';
+// import { ReactComponent as Todo } from 'images/todo.svg';
+import { ReactComponent as Calendar } from 'images/calendar.svg';
+// import { ReactComponent as Users } from 'images/users.svg';
+// import { ReactComponent as Home } from 'images/home3.svg';
+// import { ReactComponent as List } from 'images/list2.svg';
+// import { ReactComponent as Deal } from 'images/deal.svg';
+import { ReactComponent as Mortgage } from 'images/mortgage.svg';
+import { ReactComponent as Lawyer } from 'images/lawyer.svg';
+import { ReactComponent as Grade } from 'images/grade.svg';
+import { ReactComponent as Insurance } from 'images/insurance3.svg';
+import { ReactComponent as Chart } from 'images/chart.svg';
+import { ReactComponent as Hr } from 'images/hr.svg';
+import { ReactComponent as Study } from 'images/study.svg';
+import { ReactComponent as Phone } from 'images/phone2.svg';
+// import { ReactComponent as Compilation } from 'images/select.svg';
+import { ReactComponent as Headphone } from 'images/headphone.svg';
+// import { ReactComponent as Client } from 'images/client.svg';
+// import { ReactComponent as News } from 'images/news.svg';
+
+import { ReactComponent as Application } from 'images/panel/application.svg';
+import { ReactComponent as Objects } from 'images/panel/objects.svg';
+import { ReactComponent as Deal } from 'images/panel/deal.svg';
+import { ReactComponent as Compilation } from 'images/panel/compilation.svg';
+import { ReactComponent as Client } from 'images/panel/client.svg';
+import { ReactComponent as Users } from 'images/panel/users.svg';
+import { ReactComponent as Task } from 'images/panel/task.svg';
+import { ReactComponent as News } from 'images/panel/news.svg';
+import { ReactComponent as Residential } from 'images/panel/residential.svg';
+import { ReactComponent as Plan } from 'images/panel/plan.svg';
+
+import { ReactComponent as Mail } from 'images/panel/mail.svg';
 
 const PanelButtonContainerImgStyle = styled.div`
   padding: 0.5rem;
@@ -103,7 +111,7 @@ const iconStyle = css`
   pointer-events: none;
   transition: fill 0.3s;
 `;
-const TodoStyle = styled(Todo)`
+const TaskStyle = styled(Task)`
   ${iconStyle};
 `;
 const CalendarStyle = styled(Calendar)`
@@ -112,10 +120,10 @@ const CalendarStyle = styled(Calendar)`
 const UsersStyle = styled(Users)`
   ${iconStyle};
 `;
-const HomeStyle = styled(Home)`
+const ObjectsStyle = styled(Objects)`
   ${iconStyle};
 `;
-const ListStyle = styled(List)`
+const ApplicationStyle = styled(Application)`
   ${iconStyle};
 `;
 const DealStyle = styled(Deal)`
@@ -160,13 +168,25 @@ const CompilationStyle = styled(Compilation)`
 const NewsStyle = styled(News)`
   ${iconStyle};
 `;
+const PlanStyle = styled(Plan)`
+  ${iconStyle};
+`;
+const ResidentialStyle = styled(Residential)`
+  ${iconStyle};
+`;
 const iconVariant = {
-  todo: TodoStyle,
-  calendar: CalendarStyle,
-  users: UsersStyle,
-  home: HomeStyle,
-  list: ListStyle,
+  application: ApplicationStyle,
   deal: DealStyle,
+  objects: ObjectsStyle,
+  compilation: CompilationStyle,
+  client: ClientStyle,
+  users: UsersStyle,
+  task: TaskStyle,
+  news: NewsStyle,
+  residential: ResidentialStyle,
+  planning: PlanStyle,
+
+  calendar: CalendarStyle,
   mortgage: MortgageStyle,
   lawyer: LawyerStyle,
   grade: GradeStyle,
@@ -177,7 +197,4 @@ const iconVariant = {
   headphone: HeadphoneStyle,
   phone: PhoneStyle,
   mail: MailStyle,
-  client: ClientStyle,
-  compilation: CompilationStyle,
-  news: NewsStyle,
 };

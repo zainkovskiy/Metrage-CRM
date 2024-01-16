@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 const API = process.env.MAIN_API;
+const user = globalUser ? JSON.parse(globalUser) : null;
 
 export const getTaskList = createAsyncThunk(
   'task/getUsersList',
@@ -9,11 +10,11 @@ export const getTaskList = createAsyncThunk(
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
       method: 'crm.task.filter',
-      // fields: { ...curFilter },
+      fields: { ...curFilter },
     });
-    // if (filterForm) {
-    //   dispatch(setNewFilter(filterForm));
-    // }
+    if (filterForm) {
+      dispatch(setNewFilter(filterForm));
+    }
     if (res?.statusText === 'OK') {
       return res?.data?.result || null;
     }
@@ -61,7 +62,12 @@ export const addNewTaskCard = createAsyncThunk(
     return {};
   }
 );
-export const defaultTaskFilter = {};
+export const defaultTaskFilter = {
+  users: [user],
+  office: '',
+  inWork: false,
+  completed: false,
+};
 const getFilter = () => {
   const filter = localStorage.getItem('filterTask');
   if (filter) {

@@ -61,7 +61,7 @@ const plansSlice = createSlice({
       })
       .addCase(getPlanMiniCard.fulfilled, (state, action) => {
         const curPlan = action.payload;
-        const findPlan = state.users.find((plan) => plan.UID === curPlan.UID);
+        const findPlan = state.plans.find((plan) => plan.UID === curPlan.UID);
         if (!findPlan) {
           return;
         }

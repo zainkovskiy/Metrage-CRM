@@ -79,7 +79,7 @@ const usersSlice = createSlice({
       state.filter = action.payload;
     },
     resetFilter(state) {
-      state.filter = defaultDealFilter;
+      state.filter = defaultUsersFilter;
     },
   },
   extraReducers: (builder) => {

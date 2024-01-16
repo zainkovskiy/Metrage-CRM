@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDateFormat } from 'hooks/DateFormat';
 import { useNavigate } from 'react-router-dom';
+import { ReactComponent as News } from 'images/panel/news.svg';
 
 const PlansStyle = styled.div`
   padding: 0.5rem;

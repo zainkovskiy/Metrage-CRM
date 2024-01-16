@@ -44,14 +44,16 @@ const MenuListIcon = ({ icon }) => {
         return IconSvg.Objects;
       case 'deal':
         return IconSvg.Deal;
+      case 'compilation':
+        return IconSvg.Compilation;
       case 'client':
         return IconSvg.Client;
       case 'users':
         return IconSvg.Users;
       case 'task':
         return IconSvg.Task;
-      case 'compilation':
-        return IconSvg.Compilation;
+      case 'news':
+        return IconSvg.News;
       default:
         return Stub;
     }

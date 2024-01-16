@@ -219,30 +219,6 @@ const MenuList = ({ onClose }) => {
             path='news'
             onClick={onClose}
           />
-          {/* <LinkNav to='/' onClick={onClose}>
-            На главную
-          </LinkNav>
-          <LinkNav to='/application' onClick={onClose}>
-            Заявки
-          </LinkNav>
-          <LinkNav to='/objects' onClick={onClose}>
-            Объекты
-          </LinkNav>
-          <LinkNav to='/deal' onClick={onClose}>
-            Сделки
-          </LinkNav>
-          <LinkNav to='/compilation' onClick={onClose}>
-            Подборки
-          </LinkNav> */}
-          {/* <LinkNav to='/client' onClick={onClose}>
-            Клиенты
-          </LinkNav>
-          <LinkNav to='/users' onClick={onClose}>
-            Пользователи
-          </LinkNav>
-          <LinkNav to='/task' onClick={onClose}>
-            Задачи
-          </LinkNav> */}
         </MenuListTop>
       )}
       <LinkOriginNav

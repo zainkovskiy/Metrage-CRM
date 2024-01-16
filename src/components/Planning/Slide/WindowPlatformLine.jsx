@@ -99,7 +99,9 @@ const WindowPlatformLine = ({ UID, platform, onClose, setAdvertising }) => {
           label='Регион'
         >
           {regionList[platform.platformName].map((region) => (
-            <SelectItemUI value={region}>{region}</SelectItemUI>
+            <SelectItemUI value={region} key={region}>
+              {region}
+            </SelectItemUI>
           ))}
         </SelectUI>
         <SelectMultipleUI
@@ -111,7 +113,7 @@ const WindowPlatformLine = ({ UID, platform, onClose, setAdvertising }) => {
           small
         >
           {categoryList[platform.platformName].map((category) => (
-            <SelectMultipleItemUI value={category}>
+            <SelectMultipleItemUI value={category} key={category}>
               {category}
             </SelectMultipleItemUI>
           ))}

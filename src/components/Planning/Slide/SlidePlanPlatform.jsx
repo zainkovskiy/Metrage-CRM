@@ -138,6 +138,7 @@ const SlidePlanPlatform = ({ platform, setAdvertising, platformIdx }) => {
                                   <InputText
                                     value={field.value}
                                     type='number'
+                                    disabled={plan?.dateManagerAccepted}
                                     onChange={(e) =>
                                       field.onChange(e.target.value)
                                     }

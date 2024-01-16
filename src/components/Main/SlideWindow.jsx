@@ -72,13 +72,14 @@ const variantsContent = {
 
 const SlideWindow = ({ children, width, onClose, open }) => {
   const windowSize = useWindowSize();
-  useEffect(() => {
-    const body = document.body;
-    body.addEventListener('keydown', handleClose);
-    return () => {
-      body.removeEventListener('keydown', handleClose);
-    };
-  }, []);
+  //FIXME: при закрытии слайда открывает фильтр))
+  // useEffect(() => {
+  //   const body = document.body;
+  //   body.addEventListener('keydown', handleClose);
+  //   return () => {
+  //     body.removeEventListener('keydown', handleClose);
+  //   };
+  // }, []);
   const handleClose = (e) => {
     if (e.code === 'Escape') {
       onClose();

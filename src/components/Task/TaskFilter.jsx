@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setReadAll, setViewCard } from '../../store/taskSlice';
 import { device } from 'styles/device';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
+import TaskFilterForm from './TaskFilterForm';
 
 const TaskFilterStyle = styled.div`
   display: flex;
@@ -76,9 +77,6 @@ const TaskFilter = () => {
             Создать
           </ButtonUI>
         </Link>
-        {/* <SlideWindow open={open} onClose={toggleFilter} width={getWidth()}>
-        <UserFilterForm onClose={toggleFilter} />
-      </SlideWindow> */}
       </TaskFilterStyle>
       {windowSize > 768 && (
         <TaskFilterStyle>
@@ -96,6 +94,9 @@ const TaskFilter = () => {
           </BoxInfo>
         </TaskFilterStyle>
       )}
+      <SlideWindow open={open} onClose={toggleFilter} width={getWidth()}>
+        <TaskFilterForm onClose={toggleFilter} />
+      </SlideWindow>
     </>
   );
 };

@@ -74,7 +74,7 @@ const NewPlanning = () => {
                 value={field.value}
                 onChange={field.onChange}
                 small
-                type='date'
+                type='month'
                 label='Дата плана'
               />
             )}

@@ -87,7 +87,7 @@ const UserFilterForm = ({ onClose }) => {
               onChange={(e) => {
                 field.onChange(e.target.checked);
               }}
-              defaultChecked={field.value || false}
+              checked={field.value || false}
               id='fired'
             />
           )}

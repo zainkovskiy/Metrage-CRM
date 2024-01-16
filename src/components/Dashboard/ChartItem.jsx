@@ -8,9 +8,12 @@ import ChartTable from './ChartTable';
 import DefaultChartComponent from './DefaultChartComponent';
 import { TextSpanStyle } from '../../styles/styles';
 import { ButtonLink } from '../../ui/ButtonLink/ButtonLink';
+import { LinkUI } from '../../ui/LinkUI/LinkUI';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useDispatch } from 'react-redux';
 import { setNewRange } from '../../store/dashboardSlice';
+import { SliderTitle } from '../../styles/slider';
+import ChartDoubleRadar from './ChartDoubleRadar';
 
 const ChartItemStyle = styled.div`
   display: flex;
@@ -20,9 +23,9 @@ const ChartItemStyle = styled.div`
   background-color: #f5f5f5;
   border-radius: 40px 0 40px 0;
 `;
-const TextSpanStyleBorder = styled(TextSpanStyle)`
-  border-bottom: 1px solid black;
-`;
+// const TextSpanStyleBorder = styled(TextSpanStyle)`
+//   border-bottom: 1px solid black;
+// `;
 const ButtonContainer = styled.div`
   position: relative;
   width: fit-content;
@@ -80,6 +83,8 @@ const ChartItem = ({ chart }) => {
         return ChartDoublePie;
       case 'rTable':
         return ChartTable;
+      // case 'doubleRadarChart':
+      //   return ChartDoubleRadar;
       default:
         return DefaultChartComponent;
     }
@@ -99,9 +104,14 @@ const ChartItem = ({ chart }) => {
   const ChartComponent = getChartComponent();
   return (
     <ChartItemStyle>
-      <TextSpanStyleBorder align='end'>
+      <SliderTitle>
         {chart?.title || ''}
-      </TextSpanStyleBorder>
+        {chart?.URL && (
+          <LinkUI href={chart.URL} download={true}>
+            Скачать отчет
+          </LinkUI>
+        )}
+      </SliderTitle>
       <ChartComponent
         chart={chart?.data || null}
         header={chart?.header || null}

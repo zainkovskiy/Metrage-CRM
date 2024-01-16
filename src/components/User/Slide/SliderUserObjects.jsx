@@ -12,7 +12,10 @@ const SliderUserObjects = () => {
   return (
     <SliderBlock>
       <Box fullWidth gap='0.5rem' ai='normal' column>
-        <SliderTitle>Объекты</SliderTitle>
+        <SliderTitle>
+          Объекты{' '}
+          {user?.objects?.length > 0 && `кол-во: ${user.objects.length}`}
+        </SliderTitle>
         {user?.objects.map((object) => (
           <UserObjects object={object} key={object.UID} />
         ))}
@@ -27,18 +30,18 @@ const UserObjectsStyle = styled(Link)`
   border-radius: 5px;
   border: 1px solid ${({ theme }) => theme.color.primary};
   box-sizing: border-box;
-  transition: background 0.3s;
+  transition: background-color 0.3s;
   @media (hover: hover) {
     &:hover {
-      background: #eee;
+      background-color: #eee;
     }
     &:active {
-      background: #fff;
+      background-color: #fff;
     }
   }
   @media (hover: none) {
     &:active {
-      background: #eee;
+      background-color: #eee;
     }
   }
 `;
