@@ -21,7 +21,7 @@ const ChartItemStyle = styled.div`
   gap: 0.5rem;
   padding: 1rem;
   background-color: #f5f5f5;
-  border-radius: 40px 0 40px 0;
+  border-radius: 5px;
 `;
 // const TextSpanStyleBorder = styled(TextSpanStyle)`
 //   border-bottom: 1px solid black;

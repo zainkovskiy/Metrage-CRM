@@ -18,13 +18,15 @@ const ApplicationStyle = styled(motion.div)`
   @media (hover: hover) {
     &:hover {
       transform: scale(1.03);
-      box-shadow: 7px 8px 14px -6px rgba(0, 0, 0, 0.75);
+      box-shadow: ${({ $color }) =>
+        `7px 8px 14px -6px ${$color || rgba(0, 0, 0, 0.75)};`};
     }
   }
   @media (hover: none) {
     &:active {
       transform: scale(1.03);
-      box-shadow: 7px 8px 14px -6px rgba(0, 0, 0, 0.75);
+      box-shadow: ${({ $color }) =>
+        `7px 8px 14px -6px ${$color || rgba(0, 0, 0, 0.75)};`};
     }
   }
 `;
@@ -79,7 +81,7 @@ const ApplicationComment = styled(TextSpanStyle)`
   -webkit-box-orient: vertical;
 `;
 const ApplicationFooter = styled.div`
-  background-color: #d9d9d9;
+  background-color: #f5f5f5;
   padding: 0.6rem;
   border-radius: 0 0 40px 0;
 `;
@@ -113,7 +115,12 @@ const variants = {
 const ApplicationCard = ({ application }) => {
   return (
     <LinkStyle to={`${application.UID}`}>
-      <ApplicationStyle variants={variants} initial='hidden' animate='visible'>
+      <ApplicationStyle
+        variants={variants}
+        initial='hidden'
+        animate='visible'
+        $color={application?.color}
+      >
         <ApplicationHeader $color={application?.color}>
           {application?.demand?.events !== 0 ? (
             <ApplicationEvents size={12}>

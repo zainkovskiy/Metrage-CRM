@@ -13,6 +13,8 @@ import DefaultChartComponent from './DefaultChartComponent';
 import { TextSpanStyle } from 'styles/styles';
 import styled from 'styled-components';
 
+const areaColor = ['#01ff3e', '#ffa2a2'];
+
 const ChartArea = ({ chart }) => {
   const [opacity, setOpacity] = useState({ active: 1, failure: 1 });
   if (chart.length === 0) {
@@ -33,37 +35,54 @@ const ChartArea = ({ chart }) => {
       [e.payload.dataValue]: 1,
     }));
   };
+  const getAreaLine = () => {
+    const areaLines = chart.valuesName.map((area, idx) => (
+      <Area
+        key={area}
+        type='monotone'
+        dataKey={area}
+        name={area}
+        stroke={areaColor[idx]}
+        fill={areaColor[idx]}
+        dataValue='active'
+        // opacity={opacity.active}
+      />
+    ));
+    return areaLines;
+  };
   return (
     <ResponsiveContainer width='100%' height={250}>
       <AreaChart
-        layout='vertical'
-        data={chart}
+        data={chart.values}
         margin={{
           top: 10,
           right: 30,
           left: 0,
-          bottom: 0,
+          bottom: 40,
         }}
       >
         <CartesianGrid strokeDasharray='3 3' />
         <XAxis
-          type='number'
-          style={{ fontFamily: 'CeraCY, sans-serif', fontSize: 12 }}
-        />
-        <YAxis
           dataKey='name'
           type='category'
+          style={{ fontFamily: 'CeraCY, sans-serif', fontSize: 12 }}
+          tick={<CustomizedAxisTick />}
+        />
+        <YAxis
+          type='number'
           style={{ fontFamily: 'CeraCY, sans-serif', fontSize: 12 }}
         />
         <Tooltip content={<CustomToolTip />} />
         <Legend
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          // onMouseEnter={handleMouseEnter}
+          // onMouseLeave={handleMouseLeave}
           wrapperStyle={{ fontFamily: 'CeraCY, sans-serif', fontSize: 12 }}
+          verticalAlign='top'
         />
-        <Area
+        {getAreaLine()}
+        {/* <Area
           type='monotone'
-          dataKey='Активные'
+          dataKey='fv'
           stroke='#01ff3e'
           fill='#01ff3e'
           dataValue='active'
@@ -71,12 +90,12 @@ const ChartArea = ({ chart }) => {
         />
         <Area
           type='monotone'
-          dataKey='Срыв'
+          dataKey='sv'
           stroke='#ffa2a2'
           fill='#ffa2a2'
           dataValue='failure'
           opacity={opacity.failure}
-        />
+        /> */}
       </AreaChart>
     </ResponsiveContainer>
   );
@@ -102,5 +121,22 @@ const CustomToolTip = ({ active, payload, label }) => {
 
   return null;
 };
-
+const CustomizedAxisTick = ({ x, y, stroke, payload }) => {
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text
+        x={0}
+        y={0}
+        dy={16}
+        textAnchor='end'
+        fill='#666'
+        transform='rotate(-45)'
+        fontSize={12}
+        fontFamily='CeraCY, sans-serif'
+      >
+        {payload.value}
+      </text>
+    </g>
+  );
+};
 export default ChartArea;

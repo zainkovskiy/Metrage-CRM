@@ -17,6 +17,7 @@ import {
   setObjectExclusive,
   setObjectExclusiveDate,
 } from '../../../api/objectAPI';
+import SlideContactNew from './SlideContactNew';
 
 const ControllWrap = styled.div`
   width: 100%;
@@ -66,8 +67,12 @@ const SlideObjectDocs = () => {
   const [dateValue, setDateValue] = useState(object?.exclusiveDate || '');
   const [open, setOpen] = useState(false);
 
-  const toggleOpen = () => {
-    setOpen(!open);
+  const openWindow = (e) => {
+    const id = e.target.id;
+    setOpen(id);
+  };
+  const closeWindow = () => {
+    setOpen(null);
   };
   const handleCheckbox = (e) => {
     setObjectExclusive({
@@ -92,7 +97,7 @@ const SlideObjectDocs = () => {
       contactId: contact.UID,
     });
     object.contact = contact;
-    toggleOpen();
+    closeWindow();
   };
 
   const uploadFiles = (files) => {
@@ -137,9 +142,24 @@ const SlideObjectDocs = () => {
                   {object?.contact?.lastName || ''}
                 </LinkStyle>
               ) : (
-                <ButtonLink size={12} onClick={toggleOpen} color='#7b7a7a'>
-                  Выбрать
-                </ButtonLink>
+                <Box>
+                  <ButtonLink
+                    size={12}
+                    onClick={openWindow}
+                    color='#7b7a7a'
+                    id='choose'
+                  >
+                    Выбрать
+                  </ButtonLink>
+                  <ButtonLink
+                    size={12}
+                    onClick={openWindow}
+                    color='#7b7a7a'
+                    id='new'
+                  >
+                    Создать
+                  </ButtonLink>
+                </Box>
               )}
             </Box>
           </InputsSide>
@@ -168,8 +188,11 @@ const SlideObjectDocs = () => {
           )}
         </ControllWrap>
       </Box>
-      <DialogWindow onClose={toggleOpen} open={open}>
-        <SlideContacFind addContact={addContact} onClose={toggleOpen} />
+      <DialogWindow onClose={closeWindow} open={open === 'choose'}>
+        <SlideContacFind addContact={addContact} onClose={closeWindow} />
+      </DialogWindow>
+      <DialogWindow onClose={closeWindow} open={open === 'new'}>
+        <SlideContactNew addContact={addContact} onClose={closeWindow} />
       </DialogWindow>
     </SliderBlock>
   );

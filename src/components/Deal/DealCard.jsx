@@ -23,13 +23,15 @@ const DealCardStyle = styled(motion.div)`
   @media (hover: hover) {
     &:hover {
       transform: scale(1.03);
-      box-shadow: 7px 8px 14px -6px rgba(0, 0, 0, 0.75);
+      box-shadow: ${({ $color }) =>
+        `7px 8px 14px -6px ${$color || rgba(0, 0, 0, 0.75)};`};
     }
   }
   @media (hover: none) {
     &:active {
       transform: scale(1.03);
-      box-shadow: 7px 8px 14px -6px rgba(0, 0, 0, 0.75);
+      box-shadow: ${({ $color }) =>
+        `7px 8px 14px -6px ${$color || rgba(0, 0, 0, 0.75)};`};
     }
   }
 `;
@@ -52,7 +54,7 @@ const DealContent = styled.div`
   background-color: #f5f5f5;
 `;
 const DealFooter = styled.div`
-  background-color: #d9d9d9;
+  background-color: #f5f5f5;
   padding: 0.6rem;
   border-radius: 0 0 40px 0;
 `;
@@ -87,7 +89,12 @@ const DealCard = ({ deal }) => {
   };
   return (
     <LinkStyle to={`${deal?.UID}`}>
-      <DealCardStyle variants={variants} initial='hidden' animate='visible'>
+      <DealCardStyle
+        variants={variants}
+        initial='hidden'
+        animate='visible'
+        $color={getHeaderColor()}
+      >
         <DealHeader $color={getHeaderColor()}>
           <TextSpanStyle color='#fff' size={12} bold>
             Сделка №{deal?.UID}

@@ -18,6 +18,7 @@ const MainInfoStyle = styled.div`
   flex-direction: column;
   width: 300px;
   gap: 0.5rem;
+  min-width: 250px;
   @media (${device.tablet}) {
     width: 100%;
   }

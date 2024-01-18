@@ -21,7 +21,7 @@ import chartUrl, { ReactComponent as Chart } from 'images/chart.svg';
 const NavStyle = styled.nav`
   grid-area: nav;
   background-color: ${({ theme }) => theme.color.secondary};
-  padding: 0.8rem;
+  padding: 0.4rem 1rem;
   box-sizing: border-box;
   display: flex;
   gap: 1rem;

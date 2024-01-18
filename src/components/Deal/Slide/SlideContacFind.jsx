@@ -5,6 +5,7 @@ import { ButtonUI } from 'ui/ButtonUI';
 import { Box } from 'ui/Box';
 import { TextSpanStyle } from 'styles/styles';
 import { getСontactList } from 'api/search';
+import { SliderTitle } from '../../../styles/slider';
 
 const SlideContacFindStyle = styled.div`
   width: 40vw;
@@ -72,6 +73,7 @@ const SlideContacFind = ({ addContact, type }) => {
   };
   return (
     <SlideContacFindStyle onClick={(e) => e.stopPropagation()}>
+      <SliderTitle>Выбрать клиента</SliderTitle>
       <InputUI onChange={handleChange} type='search' />
       <FieldFind>
         {contactList.length > 0 &&
