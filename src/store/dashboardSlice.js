@@ -18,7 +18,6 @@ export const getChartList = createAsyncThunk(
 export const changeSource = createAsyncThunk(
   'dashboard/changeSource',
   async (raw) => {
-    console.log(raw);
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
       method:

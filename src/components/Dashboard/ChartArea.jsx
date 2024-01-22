@@ -13,7 +13,7 @@ import DefaultChartComponent from './DefaultChartComponent';
 import { TextSpanStyle } from 'styles/styles';
 import styled from 'styled-components';
 
-const areaColor = ['#01ff3e', '#ffa2a2'];
+const areaColor = ['#82ca9d', '#ffa2a2'];
 
 const ChartArea = ({ chart }) => {
   const [opacity, setOpacity] = useState({ active: 1, failure: 1 });
