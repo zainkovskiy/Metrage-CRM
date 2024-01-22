@@ -14,6 +14,8 @@ import { useDispatch } from 'react-redux';
 import { setNewRange } from '../../store/dashboardSlice';
 import { SliderTitle } from '../../styles/slider';
 import ChartDoubleRadar from './ChartDoubleRadar';
+import ChartBar from './ChartBar';
+import ChartTwoPie from './ChartTwoPie';
 
 const ChartItemStyle = styled.div`
   display: flex;
@@ -77,10 +79,14 @@ const ChartItem = ({ chart }) => {
         return ChartPie;
       case 'SankeyChart':
         return ChartSankey;
+      case 'BarChart':
+        return ChartBar;
       case 'AreaChart':
         return ChartArea;
       case 'doublePieChart':
-        return ChartDoublePie;
+        return ChartTwoPie;
+      // case 'doublePieChart':
+      //   return ChartDoublePie;
       case 'rTable':
         return ChartTable;
       // case 'doubleRadarChart':

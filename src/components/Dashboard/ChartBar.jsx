@@ -9,59 +9,57 @@ import {
   Bar,
   ResponsiveContainer,
 } from 'recharts';
+import styled from 'styled-components';
+import { TextSpanStyle } from 'styles/styles';
+
+const areaColor = ['#82ca9d', '#8884d8'];
 
 const ChartBar = ({ chart }) => {
-  console.log(chart);
+  const getBarLine = () => {
+    const areaLines = chart.valuesName.map((bar, idx) => (
+      <Bar dataKey={bar} fill={areaColor[idx]} key={bar} />
+    ));
+    return areaLines;
+  };
   return (
     <ResponsiveContainer width='100%' height={250}>
-      <BarChart data={data}>
+      <BarChart data={chart.values}>
         <CartesianGrid strokeDasharray='3 3' />
-        <XAxis dataKey='name' />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey='pv' fill='#8884d8' />
-        <Bar dataKey='uv' fill='#82ca9d' />
+        <XAxis
+          dataKey='name'
+          style={{ fontFamily: 'CeraCY, sans-serif', fontSize: 12 }}
+        />
+        <YAxis style={{ fontFamily: 'CeraCY, sans-serif', fontSize: 12 }} />
+        <Tooltip content={<CustomToolTip />} />
+        <Legend
+          wrapperStyle={{ fontFamily: 'CeraCY, sans-serif', fontSize: 12 }}
+        />
+        {getBarLine()}
       </BarChart>
     </ResponsiveContainer>
   );
 };
 
+const CustomToolTipStyle = styled.div`
+  background-color: rgb(255 255 255 / 90%);
+  padding: 0.5rem;
+  border-radius: 5px;
+`;
+const CustomToolTip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    return (
+      <CustomToolTipStyle>
+        <TextSpanStyle color='#727272'>{label}</TextSpanStyle>
+        {payload.map((item) => (
+          <TextSpanStyle key={item.color} color={item.color} size={12}>
+            {item.name}: {item.payload[item.name]}
+          </TextSpanStyle>
+        ))}
+      </CustomToolTipStyle>
+    );
+  }
+
+  return null;
+};
+
 export default ChartBar;
-const data = [
-  {
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-  },
-  {
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-  },
-  {
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-  },
-  {
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-  },
-  {
-    name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-  },
-  {
-    name: 'Page F',
-    uv: 2390,
-    pv: 3800,
-  },
-  {
-    name: 'Page G',
-    uv: 3490,
-    pv: 4300,
-  },
-];

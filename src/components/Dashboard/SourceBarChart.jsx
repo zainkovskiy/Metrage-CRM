@@ -40,7 +40,7 @@ const SourceBarChart = ({ barData, chartName }) => {
               }}
             />
           </Bar>
-          <Bar dataKey='Срыв' barSize={20} fill='#8884d8'>
+          <Bar dataKey='Срыв' barSize={20} fill='red'>
             <LabelList
               dataKey='Срыв'
               position='insideRight'

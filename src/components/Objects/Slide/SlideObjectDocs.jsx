@@ -99,7 +99,10 @@ const SlideObjectDocs = () => {
     object.contact = contact;
     closeWindow();
   };
-
+  const setNewClient = (newContact) => {
+    object.contact = newContact;
+    closeWindow();
+  };
   const uploadFiles = (files) => {
     console.log(files);
   };
@@ -192,7 +195,7 @@ const SlideObjectDocs = () => {
         <SlideContacFind addContact={addContact} onClose={closeWindow} />
       </DialogWindow>
       <DialogWindow onClose={closeWindow} open={open === 'new'}>
-        <SlideContactNew addContact={addContact} onClose={closeWindow} />
+        <SlideContactNew onClose={closeWindow} setNewClient={setNewClient} />
       </DialogWindow>
     </SliderBlock>
   );

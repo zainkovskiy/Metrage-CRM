@@ -241,3 +241,13 @@ export const setObjectContact = async (raw) => {
   }
   return '';
 };
+export const createAndSetContact = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.objects.createAndSetContact',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return res?.data?.result || null;
+  }
+};

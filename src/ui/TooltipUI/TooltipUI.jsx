@@ -17,10 +17,11 @@ const TooltipTitleStyle = styled(motion.div)`
   text-transform: lowercase;
   font-size: 12px;
   font-family: ${({ theme }) => theme.font.family};
-  white-space: nowrap;
   z-index: 99;
   user-select: none;
   pointer-events: none;
+  ${({ $maxWidth }) => $maxWidth && `max-width: ${$maxWidth}px;`};
+  ${({ $maxWidth }) => `white-space: ${$maxWidth ? 'wrap' : 'nowrap'};`};
 `;
 const hoverText = {
   initial: {
@@ -36,7 +37,7 @@ const hoverText = {
     y: '-100%',
   },
 };
-export const TooltipUI = ({ title, children, flex }) => {
+export const TooltipUI = ({ title, children, flex, maxWidth }) => {
   return (
     <TooltipUISttyle
       initial='initial'
@@ -45,6 +46,7 @@ export const TooltipUI = ({ title, children, flex }) => {
       $flex={flex}
     >
       <TooltipTitleStyle
+        $maxWidth={maxWidth}
         variants={hoverText}
         transition={{
           duration: 0.3,

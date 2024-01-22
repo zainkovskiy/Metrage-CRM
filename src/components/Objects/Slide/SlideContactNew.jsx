@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import styled from 'styled-components';
 import { Box } from 'ui/Box';
 import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
 import { SliderTitle } from '../../../styles/slider';
+import { createAndSetContact } from '../../../api/objectAPI';
+import { useAsyncValue } from 'react-router-dom';
+import { TextSpanStyle } from '../../../styles/styles';
 
 const NewClientStyle = styled.form`
   padding: 0.5rem;
@@ -25,24 +28,42 @@ const FormContainer = styled.div`
   flex-grow: 1;
 `;
 
-const SlideContactNew = ({ onClose }) => {
+const SlideContactNew = ({ onClose, setNewClient }) => {
+  const object = useAsyncValue();
   const {
     handleSubmit,
     control,
     formState: { errors },
   } = useForm();
+  const [request, setRequest] = useState(false);
+  const [reason, setReason] = useState(null);
 
   const onSubmit = (data) => {
-    console.log(data);
-    onClose();
-    // newClient(data).then((answer) => {
-    //   if (answer === 'OK') {
-    //     onClose();
-    //   }
-    // });
+    setRequest(true);
+    createAndSetContact({
+      UID: object.UID,
+      type: object.subTypeEstate,
+      ...data,
+    })
+      .then((newClient) => {
+        if (newClient) {
+          setNewClient(newClient);
+          onClose();
+        }
+      })
+      .catch((error) => {
+        error?.response?.data?.result?.reason &&
+          setReason(error?.response?.data?.result?.reason);
+      })
+      .finally(() => {
+        setRequest(false);
+      });
   };
   return (
-    <NewClientStyle onSubmit={handleSubmit(onSubmit)}>
+    <NewClientStyle
+      onSubmit={handleSubmit(onSubmit)}
+      onClick={(e) => e.stopPropagation()}
+    >
       <FormContainer>
         <SliderTitle>Новый клиент</SliderTitle>
         <Controller
@@ -54,6 +75,7 @@ const SlideContactNew = ({ onClose }) => {
               value={field.value || ''}
               onChange={field.onChange}
               label='Фамилия'
+              disabled={request}
             />
           )}
         />
@@ -68,6 +90,7 @@ const SlideContactNew = ({ onClose }) => {
               onChange={field.onChange}
               label='Имя'
               error={errors?.firstName}
+              disabled={request}
             />
           )}
         />
@@ -80,6 +103,7 @@ const SlideContactNew = ({ onClose }) => {
               value={field.value || ''}
               onChange={field.onChange}
               label='Отчество'
+              disabled={request}
             />
           )}
         />
@@ -93,15 +117,24 @@ const SlideContactNew = ({ onClose }) => {
               value={field.value || ''}
               onChange={field.onChange}
               label='Номер телефона'
+              disabled={request}
             />
           )}
         />
+        <TextSpanStyle color='red' size={10}>
+          {reason}
+        </TextSpanStyle>
       </FormContainer>
       <Box fullWidth jc='flex-start'>
-        <ButtonUI size='small' type='submit'>
+        <ButtonUI size='small' type='submit' disabled={request}>
           Сохранить
         </ButtonUI>
-        <ButtonUI size='small' variant='outline' onClick={onClose}>
+        <ButtonUI
+          size='small'
+          variant='outline'
+          onClick={onClose}
+          disabled={request}
+        >
           Закрыть
         </ButtonUI>
       </Box>

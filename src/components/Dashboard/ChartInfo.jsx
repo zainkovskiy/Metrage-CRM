@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { TextSpanStyle } from '../../styles/styles';
 import styled from 'styled-components';
 import { useNumberTriad } from '../../hooks/StringHook';
+import { TooltipUI } from 'ui/TooltipUI';
 
 const ChartInfoStyle = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -42,39 +43,44 @@ const ChartInfo = () => {
   return (
     <ChartInfoStyle>
       <ChartInfoContainer>
-        <TextSpanStyle>Сделки</TextSpanStyle>
+        <TextSpanStyle>Сделки тек. месяц</TextSpanStyle>
         <ChartInfoList>
           {dashboard.dealShort.data.map((item) => (
-            <ChartInfoItem key={item.title}>
-              <TextSpanStyle bold color='#84019e' size={16}>
-                {useNumberTriad(item.cost)}&#8381;
-              </TextSpanStyle>
-              <TextSpanStyle nowrap size={10}>
-                {item.title}
-              </TextSpanStyle>
-            </ChartInfoItem>
+            <TooltipUI title={item.hint || ''} maxWidth={250} key={item.title}>
+              <ChartInfoItem>
+                <TextSpanStyle bold color='#84019e' size={16}>
+                  {useNumberTriad(item.cost)}&#8381;
+                </TextSpanStyle>
+                <TextSpanStyle nowrap size={10}>
+                  {item.title}
+                  {item.count && `: ${item.count}`}
+                </TextSpanStyle>
+              </ChartInfoItem>
+            </TooltipUI>
           ))}
         </ChartInfoList>
       </ChartInfoContainer>
       <ChartInfoContainer>
-        <TextSpanStyle>Заявки</TextSpanStyle>
+        <TextSpanStyle>Заявки тек. месяц</TextSpanStyle>
         <ChartInfoList>
           {dashboard.demandShort.data.map((item) => (
-            <ChartInfoItem key={item.title}>
-              <div style={{ position: 'relative' }}>
-                <TextSpanStyle bold color='#84019e' size={16}>
-                  {item.count}
+            <TooltipUI title={item.hint || ''} maxWidth={250} key={item.title}>
+              <ChartInfoItem>
+                <div style={{ position: 'relative' }}>
+                  <TextSpanStyle bold color='#84019e' size={16}>
+                    {item.count}
+                  </TextSpanStyle>
+                  {item?.miniLabel?.visible && (
+                    <ChartMiniLabel color={item?.miniLabel?.color} size={10}>
+                      {item?.miniLabel?.value}
+                    </ChartMiniLabel>
+                  )}
+                </div>
+                <TextSpanStyle nowrap size={10}>
+                  {item.title}
                 </TextSpanStyle>
-                {item?.miniLabel?.visible && (
-                  <ChartMiniLabel color={item?.miniLabel?.color} size={10}>
-                    {item?.miniLabel?.value}
-                  </ChartMiniLabel>
-                )}
-              </div>
-              <TextSpanStyle nowrap size={10}>
-                {item.title}
-              </TextSpanStyle>
-            </ChartInfoItem>
+              </ChartInfoItem>
+            </TooltipUI>
           ))}
         </ChartInfoList>
       </ChartInfoContainer>

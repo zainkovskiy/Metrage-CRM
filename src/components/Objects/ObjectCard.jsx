@@ -11,6 +11,7 @@ import exclamationUrl from 'images/exclamation.svg';
 import hourglassUrl from 'images/hourglass.svg';
 import avitoUrl from '../../public/logo/avito.svg';
 import cianUrl from '../../public/logo/CIAN.png';
+import userSlash from 'images/user-slash.svg';
 import domclickUrl from '../../public/logo/domclick.svg';
 import { useGetMeterPrice } from './objectHook';
 
@@ -190,6 +191,9 @@ const ObjectCard = ({ object }) => {
               <PlatformIcon src={domclickUrl} $isGrey={object?.advDk === 1} />
             )}
             {getAdIcon()}
+            {object.onAdv && !object.hasContact && (
+              <PlatformIcon src={userSlash} />
+            )}
           </Box>
         </ObjectCardFooter>
       </ObjectCardStyle>
