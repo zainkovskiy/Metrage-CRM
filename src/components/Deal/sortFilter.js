@@ -18,6 +18,8 @@ export const sortFilter = (a, b, sourceFilter) => {
       return lawyerUp(a, b);
     case 'lawyerDown':
       return lawyerDown(a, b);
+    case 'office':
+      return officeUp(a, b);
     default:
       return;
   }
@@ -80,5 +82,10 @@ const lawyerUp = (a, b) => {
 const lawyerDown = (a, b) => {
   const str1 = a.lawyerName;
   const str2 = b.lawyerName;
+  return str2.localeCompare(str1);
+};
+const officeUp = (a, b) => {
+  const str1 = a.office;
+  const str2 = b.office;
   return str2.localeCompare(str1);
 };

@@ -102,10 +102,10 @@ const SlideDialogComission = ({ onClose, comission, onChange, type, user }) => {
         helperText={getHelperText()}
       />
       <SlideDialogComissiontFooter>
-        <ButtonUI size='small' onClick={onClose} fullWidth>
+        <ButtonUI size='small' onClick={onClose} variant='outline' fullWidth>
           Отменить
         </ButtonUI>
-        <ButtonUI size='small' onClick={onSubmit} variant='outline' fullWidth>
+        <ButtonUI size='small' onClick={onSubmit} fullWidth>
           Сохранить
         </ButtonUI>
       </SlideDialogComissiontFooter>

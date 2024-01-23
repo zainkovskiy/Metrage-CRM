@@ -53,7 +53,6 @@ const ChartDoublePie = ({ chart }) => {
           cy='50%'
           outerRadius={60}
           fill='#8884d8'
-          // label
         />
         <Pie
           data={chart?.outCircle || []}

@@ -18,6 +18,7 @@ const NewClientStyle = styled.form`
   flex-direction: column;
   gap: 0.5rem;
   width: 40vw;
+  min-width: 300px;
   height: 40vh;
   overflow: auto;
 `;

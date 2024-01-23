@@ -53,7 +53,7 @@ const ChartInfo = () => {
                 </TextSpanStyle>
                 <TextSpanStyle nowrap size={10}>
                   {item.title}
-                  {item.count || (item.count === 0 && `: ${item.count}`)}
+                  {(item.count || item.count === 0) && `: ${item.count}`}
                 </TextSpanStyle>
               </ChartInfoItem>
             </TooltipUI>

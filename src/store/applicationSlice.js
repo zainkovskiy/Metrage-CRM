@@ -229,6 +229,7 @@ export const defaultAppFilter = {
   source: '',
   createdDateFrom: '',
   createdDateTo: '',
+  isExpired: false,
 };
 
 const getFilter = () => {

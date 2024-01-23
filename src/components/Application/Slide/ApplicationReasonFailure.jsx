@@ -46,6 +46,7 @@ const TexAreaStyle = styled.textarea`
 const ApplicationReasonFailure = ({ setFailure, onClose }) => {
   const [value, setValue] = useState('');
   const [agent, setAgent] = useState(false);
+  const [spam, setSpam] = useState(false);
   const handleChange = (e) => {
     setValue(e.target.value);
   };
@@ -53,20 +54,34 @@ const ApplicationReasonFailure = ({ setFailure, onClose }) => {
     setFailure({
       comment: value.trim(),
       isAgent: agent,
+      isSpam: spam,
     });
   };
   const setIsAgent = (e) => {
     setAgent(e.target.checked);
   };
+  const setIsSpam = (e) => {
+    setSpam(e.target.checked);
+  };
   return (
     <ApplicationReasonFailureStyle>
       <TextSpanStyle color='#7c7777'>Комментарий</TextSpanStyle>
-      <CheckboxUI
-        label='Это агент'
-        onChange={setIsAgent}
-        checked={agent}
-        id='isAgent'
-      />
+      <Box jc='flex-start'>
+        <CheckboxUI
+          label='Это агент'
+          onChange={setIsAgent}
+          checked={agent}
+          id='isAgent'
+          size='small'
+        />
+        <CheckboxUI
+          label='Это спам'
+          onChange={setIsSpam}
+          checked={spam}
+          id='isSpam'
+          size='small'
+        />
+      </Box>
       <TexAreaStyle onChange={handleChange} value={value} rows='5' />
       <Box>
         <ButtonUI fullWidth size='small' onClick={handleClick}>

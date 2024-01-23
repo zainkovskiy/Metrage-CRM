@@ -234,6 +234,18 @@ const ApplicationFilterForm = ({ onClose }) => {
             />
           )}
         />
+        <Controller
+          name='isExpired'
+          control={control}
+          render={({ field }) => (
+            <CheckboxUI
+              label='Просроченные'
+              id='isExpired'
+              checked={field.value || false}
+              onChange={(e) => field.onChange(e.target.checked)}
+            />
+          )}
+        />
       </FilterFields>
     </FilterFormStyle>
   );

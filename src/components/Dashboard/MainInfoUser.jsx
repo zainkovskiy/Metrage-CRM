@@ -66,6 +66,14 @@ const MainInfoUser = ({ user, view, rights, notify }) => {
       },
     });
   };
+  const setAllCompany = () => {
+    selectSource({
+      source: 'user',
+      select: {
+        UID: 6,
+      },
+    });
+  };
   return (
     <MainInfoUserStyle>
       <Box jc='flex-start'>
@@ -104,6 +112,11 @@ const MainInfoUser = ({ user, view, rights, notify }) => {
           }}
         >
           {view?.type === 'office' ? view?.title : 'Офис'}
+        </ButtonLink>
+      )}
+      {rights?.companyView && (
+        <ButtonLink size={12} color='#727272' onClick={setAllCompany}>
+          Вся компания
         </ButtonLink>
       )}
       {notify?.errors && notify?.errors?.length > 0 && (

@@ -27,6 +27,7 @@ const ChartTwoPie = ({ chart }) => {
           outerRadius={80}
           fill='#82ca9d'
           style={{ fontFamily: 'CeraCY, sans-serif', fontSize: 12 }}
+          label
         />
         <Tooltip content={<CustomToolTip />} />
         <Legend content={<CustomLegend />} />

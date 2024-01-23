@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Loader from 'components/Main/Loader';
 import UserCard from './UserCard';
 import { device } from 'styles/device';
+import { SliderTitle } from '../../styles/slider';
 
 const UsersContainer = styled.div`
   overflow: auto;
@@ -28,18 +29,25 @@ const UsersStyle = styled.div`
 
 const Users = () => {
   const loading = useSelector((state) => state.users.loadingList);
-  const users = useSelector((state) => state.users.users);
+  const offices = useSelector((state) => state.users.users);
   if (loading) {
     return <Loader />;
   }
   return (
     <UsersContainer>
-      <UsersStyle>
-        <AnimatePresence>
-          {users.length > 0 &&
-            users.map((user) => <UserCard key={user.UID} user={user} />)}
-        </AnimatePresence>
-      </UsersStyle>
+      <AnimatePresence>
+        {offices.length &&
+          offices.map((office) => (
+            <React.Fragment key={office.officeName}>
+              <SliderTitle>{office.officeName}</SliderTitle>
+              <UsersStyle>
+                {office.users.map((user) => (
+                  <UserCard key={user.UID} user={user} />
+                ))}
+              </UsersStyle>
+            </React.Fragment>
+          ))}
+      </AnimatePresence>
     </UsersContainer>
   );
 };

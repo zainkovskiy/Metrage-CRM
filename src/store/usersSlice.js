@@ -8,7 +8,8 @@ export const getUsersList = createAsyncThunk(
     const curFilter = filterForm ? filterForm : getState().users.filter;
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
-      method: 'crm.users.filter',
+      // method: 'crm.users.filter',
+      method: 'crm.users.filter2',
       fields: { ...curFilter },
     });
     if (filterForm) {
@@ -90,17 +91,36 @@ const usersSlice = createSlice({
       })
       .addCase(getSliceUserMiniCard.fulfilled, (state, action) => {
         const curUser = action.payload;
-        const findUser = state.users.find((user) => user.UID === curUser.UID);
+        const findOffice = state.users.find(
+          (office) => office.officeName === curUser.office
+        );
+        if (!findOffice) {
+          return;
+        }
+        const findUser = findOffice.users.find(
+          (user) => user.UID === curUser.UID
+        );
         if (!findUser) {
           return;
         }
         if (JSON.stringify(curUser) === JSON.stringify(findUser)) {
           return;
         }
-        state.users.splice(state.users.indexOf(findUser), 1, curUser);
+        state.users[state.users.indexOf(findOffice)].users.splice(
+          findOffice.users.indexOf(findUser),
+          1,
+          curUser
+        );
       })
       .addCase(addNewMiniCard.fulfilled, (state, action) => {
-        state.users = [action.payload, ...state.users];
+        const newUser = action.payload;
+        const findOffice = state.users.find(
+          (office) => office.officeName === newUser.office
+        );
+        state.users[state.users.indexOf(findOffice)].users = [
+          newUser,
+          ...findOffice.users,
+        ];
       });
   },
 });

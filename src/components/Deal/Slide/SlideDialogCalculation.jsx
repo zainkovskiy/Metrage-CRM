@@ -145,10 +145,10 @@ const SlideDialogCalculation = ({ onClose, user, type }) => {
         <SelectItemUI value='beznal'>Безнал</SelectItemUI>
       </SelectUI>
       <SlideDialogComissiontFooter>
-        <ButtonUI size='small' onClick={onClose} fullWidth>
+        <ButtonUI size='small' onClick={onClose} variant='outline' fullWidth>
           Отменить
         </ButtonUI>
-        <ButtonUI size='small' onClick={onSubmit} variant='outline' fullWidth>
+        <ButtonUI size='small' onClick={onSubmit} fullWidth>
           Расчитать
         </ButtonUI>
       </SlideDialogComissiontFooter>

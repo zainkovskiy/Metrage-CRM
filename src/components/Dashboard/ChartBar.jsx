@@ -8,6 +8,7 @@ import {
   Legend,
   Bar,
   ResponsiveContainer,
+  LabelList,
 } from 'recharts';
 import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
@@ -17,7 +18,17 @@ const areaColor = ['#82ca9d', '#8884d8'];
 const ChartBar = ({ chart }) => {
   const getBarLine = () => {
     const areaLines = chart.valuesName.map((bar, idx) => (
-      <Bar dataKey={bar} fill={areaColor[idx]} key={bar} />
+      <Bar dataKey={bar} fill={areaColor[idx]} key={bar}>
+        <LabelList
+          dataKey={bar}
+          position='insideTop'
+          style={{
+            fontFamily: 'CeraCYBold, sans-serif',
+            fontSize: 10,
+            fill: '#fff',
+          }}
+        />
+      </Bar>
     ));
     return areaLines;
   };
