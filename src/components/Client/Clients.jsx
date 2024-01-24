@@ -11,7 +11,7 @@ const ClientsStyle = styled.div`
   grid-auto-rows: min-content;
   width: 100%;
   gap: 1rem;
-  padding: 1rem;
+  padding: 0.5rem;
   box-sizing: border-box;
   overflow: auto;
 `;

@@ -13,10 +13,8 @@ const ClientContentStyle = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
-  gap: 0.5rem;
   @media ${device.tablet} {
     padding: 0;
-    gap: 0;
   }
 `;
 

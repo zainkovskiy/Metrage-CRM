@@ -50,6 +50,10 @@ import SuspenseResidential from 'components/Residential/SuspenseResidential';
 import SuspenseSlideResidential from './components/Residential/Slide/SuspenseSlideResidential';
 import { loaderResidentialSlide } from './components/Residential/Slide/SuspenseSlideResidential';
 
+import SuspenceBuilder from 'components/Builder/SuspenceBuilder';
+import SuspenseSlideBuilder from './components/Builder/Slide/SuspenseSlideBuilder';
+import { loaderBuilderSlide } from './components/Builder/Slide/SuspenseSlideBuilder';
+
 import SuspensePlanning from 'components/Planning/SuspensePlanning';
 import SuspenseSlidePlanning from 'components/Planning/Slide/SuspenseSlidePlanning';
 import { loaderPlanSlide } from 'components/Planning/Slide/SuspenseSlidePlanning';
@@ -213,6 +217,26 @@ export const routers = createBrowserRouter([
             element: <SuspenseNewNews />,
             loader: loaderEditNewsSlide,
           },
+        ],
+      },
+      {
+        path: 'builder',
+        element: <SuspenceBuilder />,
+        children: [
+          // {
+          //   path: 'new',
+          //   element: <SuspenseNewNews />,
+          // },
+          {
+            path: ':id',
+            element: <SuspenseSlideBuilder />,
+            loader: loaderBuilderSlide,
+          },
+          // {
+          //   path: 'edit/:id',
+          //   element: <SuspenseNewNews />,
+          //   loader: loaderEditNewsSlide,
+          // },
         ],
       },
       {
