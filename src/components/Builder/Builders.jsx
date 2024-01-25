@@ -18,6 +18,9 @@ const Builders = () => {
   if (loading) {
     return <Loader />;
   }
+  //TODO: переделать в таблицу
+  //TODO: добавить пагинацию
+  //TODO: доделать апи с закрытием слайда и обновление миникарты
   return (
     <BuildersStyle>
       {builders.map((building) => (

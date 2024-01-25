@@ -47,7 +47,7 @@ export const IconButton = ({ children, sp, onClick, color, id, disabled }) => {
     if (disabled) {
       return;
     }
-    onClick(e);
+    onClick && onClick(e);
   };
   return (
     <IconButtonStyle

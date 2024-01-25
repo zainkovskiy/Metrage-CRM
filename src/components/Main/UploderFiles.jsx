@@ -51,6 +51,7 @@ const UploderFiles = ({
   height,
   multiple,
   news,
+  disabled,
 }) => {
   const [uploading, setUploading] = useState(false);
   const handleChange = (e) => {
@@ -112,7 +113,7 @@ const UploderFiles = ({
       onDragLeave={dragLeaveHandler}
       onDragOver={dragOverHandler}
       onDrop={dropHandler}
-      $disabled={uploading}
+      $disabled={uploading || disabled}
       $fullWidth={fullWidth}
       $height={height}
     >

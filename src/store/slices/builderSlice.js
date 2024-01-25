@@ -49,9 +49,9 @@ const builderSlice = createSlice({
   name: 'builder',
   initialState,
   reducers: {
-    // addNewNews(state, action) {
-    //   state.news = [action.payload, ...state.news];
-    // },
+    addNewBuilder(state, action) {
+      state.builders = [action.payload, ...state.builders];
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getBuilderList.fulfilled, (state, action) => {
@@ -72,5 +72,5 @@ const builderSlice = createSlice({
   },
 });
 
-export const {} = builderSlice.actions;
+export const { addNewBuilder } = builderSlice.actions;
 export default builderSlice.reducer;

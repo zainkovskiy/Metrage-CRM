@@ -27,9 +27,6 @@ const SliderManagers = () => {
             ))}
         </Box>
         <Box fullWidth column ai='flex-start' jc='flex-start'>
-          <TextSpanStyle>
-            Процент комиссии: {builder?.comissionSize}%
-          </TextSpanStyle>
           <TextSpanStyle>booking : {builder?.booking}%</TextSpanStyle>
           <TextSpanStyle>notificationи: {builder?.notification}%</TextSpanStyle>
         </Box>

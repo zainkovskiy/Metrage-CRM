@@ -39,6 +39,7 @@ export const TextSpanStyle = styled.span`
   font-weight: ${({ bold }) => (bold ? 700 : 400)};
   white-space: ${({ nowrap }) => nowrap && 'nowrap'};
   text-align: ${({ align }) => align && align};
+  ${({ lHeight }) => lHeight && `line-height: ${lHeight}px`};
   ${({ $fullWidth }) => $fullWidth && 'width: 100%;'};
   // @media(max-width: 748px){
   //   font-size: ${({ size }) => (size || defaultSize) - 4 + 'px'};

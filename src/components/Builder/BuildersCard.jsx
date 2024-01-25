@@ -42,25 +42,29 @@ const BuildersCard = ({ building }) => {
     <Building to={`${building.UID}`}>
       <BuilderLogo src={building?.logo} />
       <Box ai='flex-start' column gap='0'>
-        <TextSpanStyle size={16}>{building?.name}</TextSpanStyle>
+        <TextSpanStyle size={16}>
+          {building?.name || 'Неизвестный'}
+        </TextSpanStyle>
         <TextSpanStyle size={12} color='#787878'>
-          Год основания: {building?.startDate}
+          {`${building?.devType},` || ''} Год основания:{' '}
+          {building?.startDate || ''}
         </TextSpanStyle>
       </Box>
       <Box ai='flex-start' column gap='0'>
         <TextSpanStyle color='#787878'>Сдано</TextSpanStyle>
         <TextSpanStyle size={16} color='#85009e'>
-          {building?.onProcess.houses} домов в {building?.onProcess.JK} ЖК
+          {building?.onProcess?.houses || 0} домов в{' '}
+          {building?.onProcess?.JK || 0} ЖК
         </TextSpanStyle>
       </Box>
       <Box ai='flex-start' column gap='0'>
         <TextSpanStyle color='#787878'>Строится</TextSpanStyle>
         <TextSpanStyle size={16} color='#85009e'>
-          {building?.build.houses} домов в {building?.build.JK} ЖК
+          {building?.build?.houses || 0} домов в {building?.build?.JK || 0} ЖК
         </TextSpanStyle>
       </Box>
       <Box>
-        <ButtonOffer>{building?.countOffers} предложения</ButtonOffer>
+        <ButtonOffer>{building?.countOffers || 0} предложения</ButtonOffer>
       </Box>
     </Building>
   );
