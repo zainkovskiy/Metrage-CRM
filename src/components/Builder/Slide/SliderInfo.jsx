@@ -34,6 +34,9 @@ const ButtonEditContainer = styled(motion.div)`
   top: 0.2rem;
   left: 0.2rem;
 `;
+const TextDescription = styled(TextSpanStyle)`
+  white-space: pre-wrap;
+`;
 const variants = {
   initial: {
     scale: 0,
@@ -97,13 +100,13 @@ const SliderInfo = () => {
           <TextSpanStyle size={20} lHeight={20}>
             Застройщик {builder?.name}
           </TextSpanStyle>
-          <TextSpanStyle size={10} color='#787878'>
-            Коммиссия: {builder?.comissionSize || 0}%
+          <TextSpanStyle size={12} color='#787878'>
+            Коммиссия от: {builder?.comissionSize || 0}%
           </TextSpanStyle>
         </Box>
       </Box>
       {builder.description && (
-        <TextSpanStyle align='start'>{builder.description}</TextSpanStyle>
+        <TextDescription>{builder.description}</TextDescription>
       )}
       <DialogWindow open={open === 'dev'} onClose={closeDialogWindow}>
         <DialogEditBuilder onClose={closeDialogWindow} />

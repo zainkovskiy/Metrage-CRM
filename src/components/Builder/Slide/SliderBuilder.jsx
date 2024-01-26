@@ -1,16 +1,16 @@
 import React from 'react';
 import { SliderContext, SliderStyle } from '../../../styles/slider';
 import SliderInfo from './SliderInfo';
-import SliderManagers from './SliderManagers';
 import SliderResedentions from './SliderResedentions';
+import SliderAddition from './SliderAddition';
 
 const SliderBuilder = () => {
   return (
     <SliderStyle>
       <SliderContext>
         <SliderInfo />
-        <SliderManagers />
-        <SliderResedentions />
+        <SliderAddition />
+        {/* <SliderResedentions /> */}
       </SliderContext>
     </SliderStyle>
   );

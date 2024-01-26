@@ -47,6 +47,10 @@ const Charts = () => {
           <ChartItem chart={dashboard?.dealsOffices || null} />
           <ChartItem chart={dashboard?.objects || null} />
         </ChartItemsWrap>
+        <ChartItemsWrap>
+          <ChartItem chart={dashboard?.RankDeals || null} />
+          <span></span>
+        </ChartItemsWrap>
       </ChartItems>
     </ChartsStyle>
   );

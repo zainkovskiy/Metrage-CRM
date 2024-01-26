@@ -10,17 +10,20 @@ const Building = styled(Link)`
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 10% 30% 1fr 1fr 1fr;
-  border-top: 1px solid #787878;
   text-decoration: none;
   transition: background-color 0.3s;
   cursor: pointer;
   &:hover {
     background-color: #eee;
   }
+`;
+const BuilingLine = styled.tr`
+  border-top: 1px solid #787878;
   &:last-child {
     border-bottom: 1px solid #787878;
   }
 `;
+const BuilingCell = styled.td``;
 const BuilderLogo = styled.img`
   width: 70px;
   height: 70px;
@@ -39,34 +42,47 @@ const ButtonOffer = styled.div`
 `;
 const BuildersCard = ({ building }) => {
   return (
-    <Building to={`${building.UID}`}>
-      <BuilderLogo src={building?.logo} />
-      <Box ai='flex-start' column gap='0'>
-        <TextSpanStyle size={16}>
-          {building?.name || 'Неизвестный'}
-        </TextSpanStyle>
-        <TextSpanStyle size={12} color='#787878'>
-          {`${building?.devType},` || ''} Год основания:{' '}
-          {building?.startDate || ''}
-        </TextSpanStyle>
-      </Box>
-      <Box ai='flex-start' column gap='0'>
-        <TextSpanStyle color='#787878'>Сдано</TextSpanStyle>
-        <TextSpanStyle size={16} color='#85009e'>
-          {building?.onProcess?.houses || 0} домов в{' '}
-          {building?.onProcess?.JK || 0} ЖК
-        </TextSpanStyle>
-      </Box>
-      <Box ai='flex-start' column gap='0'>
-        <TextSpanStyle color='#787878'>Строится</TextSpanStyle>
-        <TextSpanStyle size={16} color='#85009e'>
-          {building?.build?.houses || 0} домов в {building?.build?.JK || 0} ЖК
-        </TextSpanStyle>
-      </Box>
-      <Box>
-        <ButtonOffer>{building?.countOffers || 0} предложения</ButtonOffer>
-      </Box>
-    </Building>
+    <BuilingLine>
+      <Building to={`${building.UID}`}>
+        <BuilingCell>
+          <BuilderLogo src={building?.logo} />
+        </BuilingCell>
+        <BuilingCell>
+          <Box ai='flex-start' column gap='0'>
+            <TextSpanStyle size={16}>
+              {building?.name || 'Неизвестный'}
+            </TextSpanStyle>
+            <TextSpanStyle size={12} color='#787878'>
+              {`${building?.devType},` || ''} Год основания:{' '}
+              {building?.startDate || ''}
+            </TextSpanStyle>
+          </Box>
+        </BuilingCell>
+        <BuilingCell>
+          <Box ai='flex-start' column gap='0'>
+            <TextSpanStyle color='#787878'>Сдано</TextSpanStyle>
+            <TextSpanStyle size={16} color='#85009e'>
+              {building?.onProcess?.houses || 0} домов в{' '}
+              {building?.onProcess?.JK || 0} ЖК
+            </TextSpanStyle>
+          </Box>
+        </BuilingCell>
+        <BuilingCell>
+          <Box ai='flex-start' column gap='0'>
+            <TextSpanStyle color='#787878'>Строится</TextSpanStyle>
+            <TextSpanStyle size={16} color='#85009e'>
+              {building?.build?.houses || 0} домов в {building?.build?.JK || 0}{' '}
+              ЖК
+            </TextSpanStyle>
+          </Box>
+        </BuilingCell>
+        <BuilingCell>
+          <Box>
+            <ButtonOffer>{building?.countOffers || 0} предложения</ButtonOffer>
+          </Box>
+        </BuilingCell>
+      </Building>
+    </BuilingLine>
   );
 };
 

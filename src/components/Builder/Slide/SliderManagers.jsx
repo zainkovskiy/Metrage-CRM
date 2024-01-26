@@ -1,36 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAsyncValue } from 'react-router-dom';
-import { SliderBlock, SliderTitle } from '../../../styles/slider';
 import styled from 'styled-components';
-import { Box } from 'ui/Box';
-import { TextSpanStyle } from 'styles/styles';
+import SliderManager from './SliderManager';
 
-const SliderManagersStyle = styled(SliderBlock)`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+const SliderManagersStyle = styled.div`
+  flex-grow: 1;
+  width: 100%;
 `;
-
-const SliderManagers = () => {
+const SliderManagers = ({ openEditManager }) => {
   const builder = useAsyncValue();
+  const [change, setChange] = useState(false);
+  const isChange = () => {
+    setChange(!change);
+  };
   return (
     <SliderManagersStyle>
-      <SliderTitle>Менеджеры</SliderTitle>
-      <Box>
-        <Box fullWidth column ai='flex-start' jc='flex-start'>
-          {builder?.managers?.length > 0 &&
-            builder.managers.map((manager, idx) => (
-              <Box key={manager.UID + idx} jc='flex-start'>
-                <TextSpanStyle>{manager.name}</TextSpanStyle>
-                <TextSpanStyle>{manager.phone}</TextSpanStyle>
-              </Box>
-            ))}
-        </Box>
-        <Box fullWidth column ai='flex-start' jc='flex-start'>
-          <TextSpanStyle>booking : {builder?.booking}%</TextSpanStyle>
-          <TextSpanStyle>notificationи: {builder?.notification}%</TextSpanStyle>
-        </Box>
-      </Box>
+      {builder?.managers?.length > 0 &&
+        builder.managers.map((manager, idx) => (
+          <SliderManager
+            key={manager.UID + idx}
+            manager={manager}
+            isChange={isChange}
+            openEditManager={openEditManager}
+          />
+        ))}
     </SliderManagersStyle>
   );
 };

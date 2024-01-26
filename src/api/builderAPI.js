@@ -61,3 +61,36 @@ export const setNewValueDeveloper = async (raw) => {
   }
   return 'No OK';
 };
+export const setNewManager = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.developers.addManager',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return res?.data?.result || null;
+  }
+  return null;
+};
+export const updateManager = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.developers.updateManager',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return res?.data?.result || null;
+  }
+  return null;
+};
+export const removeManager = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.developers.delManager',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No OK';
+};

@@ -23,22 +23,22 @@ export const getBuilderList = createAsyncThunk(
     return [];
   }
 );
-// export const getPlanMiniCard = createAsyncThunk(
-//   'plans/getPlanMiniCard',
-//   async (id) => {
-//     const res = await axios.post(API, {
-//       metrage_id: metrage_id || null,
-//       method: 'crm.plans.getOne',
-//       fields: {
-//         UID: id,
-//       },
-//     });
-//     if (res?.statusText === 'OK') {
-//       return res?.data?.result || {};
-//     }
-//     return null;
-//   }
-// );
+export const getBuilderMiniCard = createAsyncThunk(
+  'builder/getBuilderMiniCard',
+  async (id) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.developers.filter',
+      fields: {
+        UID: id,
+      },
+    });
+    if (res?.statusText === 'OK') {
+      return res?.data?.result || {};
+    }
+    return null;
+  }
+);
 
 const initialState = {
   builders: [],
@@ -54,21 +54,36 @@ const builderSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getBuilderList.fulfilled, (state, action) => {
-      state.builders = action.payload;
-      state.loadingList = false;
-    });
-    // .addCase(getPlanMiniCard.fulfilled, (state, action) => {
-    //   const curPlan = action.payload;
-    //   const findPlan = state.plans.find((plan) => plan.UID === curPlan.UID);
-    //   if (!findPlan) {
-    //     return;
-    //   }
-    //   if (JSON.stringify(curPlan) === JSON.stringify(findPlan)) {
-    //     return;
-    //   }
-    //   state.plans.splice(state.plans.indexOf(findPlan), 1, curPlan);
-    // });
+    builder
+      .addCase(getBuilderList.fulfilled, (state, action) => {
+        state.builders = action.payload;
+        state.loadingList = false;
+      })
+      .addCase(getBuilderMiniCard.fulfilled, (state, action) => {
+        const curBuilder = action.payload;
+        if (curBuilder) {
+          state.builders = state.builders.map((item) => {
+            if (item.UID === curBuilder.UID) {
+              return { ...curBuilder };
+            }
+            return item;
+          });
+        }
+        // const findBuilder = state.builders.find(
+        //   (builders) => builders.UID === curBuilder.UID
+        // );
+        // if (!findBuilder) {
+        //   return;
+        // }
+        // if (JSON.stringify(curBuilder) === JSON.stringify(findBuilder)) {
+        //   return;
+        // }
+        // state.builders.splice(
+        //   state.builders.indexOf(findBuilder),
+        //   1,
+        //   curBuilder
+        // );
+      });
   },
 });
 

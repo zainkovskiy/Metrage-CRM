@@ -4,13 +4,14 @@ import { useSelector } from 'react-redux';
 import BuildersCard from './BuildersCard';
 import styled from 'styled-components';
 
-const BuildersStyle = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  overflow: auto;
+const BuildersContainer = styled.div`
   padding: 0.5rem;
   box-sizing: border-box;
+`;
+const BuildersStyle = styled.table`
+  overflow: auto;
+  border-collapse: collapse;
+  width: 100%;
 `;
 const Builders = () => {
   const loading = useSelector((state) => state.builder.loadingList);
@@ -20,13 +21,14 @@ const Builders = () => {
   }
   //TODO: переделать в таблицу
   //TODO: добавить пагинацию
-  //TODO: доделать апи с закрытием слайда и обновление миникарты
   return (
-    <BuildersStyle>
-      {builders.map((building) => (
-        <BuildersCard key={building.UID} building={building} />
-      ))}
-    </BuildersStyle>
+    <BuildersContainer>
+      <BuildersStyle>
+        {builders.map((building) => (
+          <BuildersCard key={building.UID} building={building} />
+        ))}
+      </BuildersStyle>
+    </BuildersContainer>
   );
 };
 
