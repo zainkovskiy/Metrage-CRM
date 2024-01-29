@@ -30,9 +30,12 @@ const DialogEditBuilder = ({ onClose }) => {
     defaultValues: {
       name: builder?.name || '',
       startDate: builder?.startDate || '',
+      site: builder?.site || '',
       devType: builder?.devType || '',
       region: builder?.region || 'Новосибирск',
+      payDate: builder?.payDate || '',
       comissionSize: builder?.comissionSize || null,
+      accreditation: builder?.accreditation || null,
     },
   });
   const onSubmit = (data) => {
@@ -42,10 +45,13 @@ const DialogEditBuilder = ({ onClose }) => {
     }).then(() => {
       builder.name = data.name;
       builder.startDate = data.startDate;
+      builder.site = data.site;
       builder.devType = data.devType;
       builder.region = data.region;
       builder.comissionSize = data.comissionSize;
-      onClose();
+      builder.payDate = data.payDate;
+      builder.accreditation = data.accreditation;
+      onClose('change');
     });
   };
   return (
@@ -80,6 +86,21 @@ const DialogEditBuilder = ({ onClose }) => {
             onChange={field.onChange}
             label='Дата начала работы'
             type='number'
+            // error={errors?.secondName}
+            ref={field.ref}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name='site'
+        // rules={{ required: { value: true, message: 'Поле обязательно' } }}
+        render={({ field }) => (
+          <InputUI
+            small
+            value={field.value || ''}
+            onChange={field.onChange}
+            label='Сайт'
             // error={errors?.secondName}
             ref={field.ref}
           />
@@ -133,6 +154,38 @@ const DialogEditBuilder = ({ onClose }) => {
             value={field.value || ''}
             onChange={field.onChange}
             label='Комиссия'
+            type='number'
+            // error={errors?.secondName}
+            ref={field.ref}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name='payDate'
+        // rules={{ required: { value: true, message: 'Поле обязательно' } }}
+        render={({ field }) => (
+          <InputUI
+            small
+            value={field.value || ''}
+            onChange={field.onChange}
+            label='Срок оплаты'
+            type='number'
+            // error={errors?.secondName}
+            ref={field.ref}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name='accreditation'
+        // rules={{ required: { value: true, message: 'Поле обязательно' } }}
+        render={({ field }) => (
+          <InputUI
+            small
+            value={field.value || ''}
+            onChange={field.onChange}
+            label='Аккредитация'
             type='number'
             // error={errors?.secondName}
             ref={field.ref}

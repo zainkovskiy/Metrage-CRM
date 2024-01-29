@@ -148,6 +148,40 @@ const SlideDealDeveloper = () => {
         <Line />
         <InputsField>
           <Controller
+            name='actDeliveredDate'
+            control={control}
+            render={({ field }) => (
+              <InputUI
+                fullWidth
+                label='Дата акта'
+                value={field.value}
+                small
+                type='date'
+                labelSize={12}
+                onChange={(e) => {
+                  field.onChange(e.target.value);
+                }}
+              />
+            )}
+          />
+          <Controller
+            name='actAcceptedDateы'
+            control={control}
+            render={({ field }) => (
+              <InputUI
+                fullWidth
+                label='Акт принят застройщиком'
+                value={field.value}
+                small
+                type='date'
+                labelSize={12}
+                onChange={(e) => {
+                  field.onChange(e.target.value);
+                }}
+              />
+            )}
+          />
+          <Controller
             name='DDUNumber'
             control={control}
             render={({ field }) => (

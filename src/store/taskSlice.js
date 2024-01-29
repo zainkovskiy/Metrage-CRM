@@ -65,7 +65,7 @@ export const addNewTaskCard = createAsyncThunk(
 export const defaultTaskFilter = {
   users: [user],
   office: '',
-  inWork: false,
+  inWork: true,
   completed: false,
 };
 const getFilter = () => {

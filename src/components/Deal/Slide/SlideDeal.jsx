@@ -18,31 +18,17 @@ const SlideDealStyle = styled.form`
     min-width: 450px;
   }
 `;
-//TODO: поправить блоки Общая инф Фин по сделке сделать максимум 2 колонки
 const SlideDeal = () => {
   const deal = useAsyncValue();
   const windowSize = useWindowSize();
   const resetValues = useRef({
-    // depositAmount: deal?.depositAmount || '',
-    // depositDate: deal?.depositDate || '',
-    // depositAccepted: deal?.depositAccepted || false,
-    // depositDelivered: deal?.depositDelivered || false,
-    // depositReturned: deal?.depositReturned || false,
-    // preAgreementDateStart: deal?.preAgreementDateStart || '',
-    // preAgreementDateEnd: deal?.preAgreementDateEnd || '',
-    // plannedDate: deal?.plannedDate || '',
-    // actualDate: deal?.actualDate || '',
-    // objectCost: deal?.objectCost || '',
-    // agencyComission: deal?.agencyComission || '',
-    // agentsCalculated: deal?.agentsCalculated || false,
-    // lawyerCalculated: deal?.lawyerCalculated || false,
-    // lawyerCalculatedType: deal?.lawyerCalculatedType || 'cash',
-    //new
     TotalArea: deal?.TotalArea || '',
     Appartment: deal?.Appartment || '',
     FlatRoomsCount: deal?.FlatRoomsCount ? parseInt(deal?.FlatRoomsCount) : '',
     DDUNumber: deal?.DDUNumber || '',
     DDUDate: deal?.DDUDate || '',
+    actDeliveredDate: deal?.actDeliveredDate || '',
+    actAcceptedDateы: deal?.actAcceptedDateы || '',
     cashDate: deal?.cashDate || '',
     plannedDate: deal?.plannedDate || '',
     actualDate: deal?.actualDate || '',
@@ -61,25 +47,10 @@ const SlideDeal = () => {
     depositStatus: deal?.depositStatus || '',
     alwaysBroker: deal?.alwaysBroker || false,
     alwaysBrand: deal?.alwaysBrand || false,
+    isRent: deal?.isRent || false,
   });
   const methods = useForm({
     defaultValues: {
-      // depositAmount: deal?.depositAmount || '',
-      // depositAccepted: deal?.depositAccepted || false,
-      // depositDelivered: deal?.depositDelivered || false,
-      // depositReturned: deal?.depositReturned || false,
-      // depositDate: deal?.depositDate || '',
-      // preAgreementDateStart: deal?.preAgreementDateStart || '',
-      // preAgreementDateEnd: deal?.preAgreementDateEnd || '',
-      // plannedDate: deal?.plannedDate || '',
-      // actualDate: deal?.actualDate || '',
-      // objectCost: deal?.objectCost || '',
-      // agencyComission: deal?.agencyComission || '',
-      // dealTitle: deal?.dealTitle || '',
-      // agentsCalculated: deal?.agentsCalculated || false,
-      // lawyerCalculated: deal?.lawyerCalculated || false,
-      // lawyerCalculatedType: deal?.lawyerCalculatedType || 'cash',
-      //new
       TotalArea: deal?.TotalArea || '',
       Appartment: deal?.Appartment || '',
       FlatRoomsCount: deal?.FlatRoomsCount
@@ -87,6 +58,8 @@ const SlideDeal = () => {
         : '',
       DDUNumber: deal?.DDUNumber || '',
       DDUDate: deal?.DDUDate || '',
+      actDeliveredDate: deal?.actDeliveredDate || '',
+      actAcceptedDateы: deal?.actAcceptedDateы || '',
       cashDate: deal?.cashDate || '',
       plannedDate: deal?.plannedDate || '',
       actualDate: deal?.actualDate || '',
@@ -105,6 +78,7 @@ const SlideDeal = () => {
       depositStatus: deal?.depositStatus || '',
       alwaysBroker: deal?.alwaysBroker || false,
       alwaysBrand: deal?.alwaysBrand || false,
+      isRent: deal?.isRent || false,
     },
   });
   const onSubmit = (data) => {

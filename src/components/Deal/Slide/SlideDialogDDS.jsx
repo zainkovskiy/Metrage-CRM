@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { getDds } from '../../../api/dealAPI';
+import { getDds, removeDDSLine } from '../../../api/dealAPI';
 import { SliderTitle } from '../../../styles/slider';
 import Loader from 'components/Main/Loader';
-import closeUrl from 'images/close.svg';
+import closeUrl, { ReactComponent as Close } from 'images/close.svg';
+import { Box } from 'ui/Box';
+import { IconButton } from 'ui/IconButton';
 const SlideDialogDDSStyle = styled.div`
   background-color: #fff;
   border-radius: 5px;
@@ -36,6 +38,9 @@ const Table = styled.table`
     padding: 0.3rem;
   }
 `;
+const TableLine = styled.tr`
+  ${({ $isDeleted }) => $isDeleted && 'text-decoration: line-through;'};
+`;
 const CloseButtonStyle = styled.img`
   width: 18px;
   height: 18px;
@@ -66,6 +71,23 @@ const SlideDialogDDS = ({ UID, onClose }) => {
         setLoading(false);
       });
   };
+  const removeLine = (UID) => {
+    removeDDSLine(UID).then((answer) => {
+      if (answer === 'OK') {
+        setDds(
+          dds.map((item) => {
+            if (item.UID === UID) {
+              return {
+                ...item,
+                isDeleted: true,
+              };
+            }
+            return item;
+          })
+        );
+      }
+    });
+  };
   return (
     <SlideDialogDDSStyle onClick={(e) => e.stopPropagation()}>
       <SliderTitle>
@@ -84,6 +106,7 @@ const SlideDialogDDS = ({ UID, onClose }) => {
                 <th colSpan={2}>Приход</th>
                 <th colSpan={2}>Расход</th>
                 <th rowSpan={2}>Примечания</th>
+                <th rowSpan={2}></th>
               </tr>
               <tr>
                 <th>Нал</th>
@@ -93,8 +116,8 @@ const SlideDialogDDS = ({ UID, onClose }) => {
               </tr>
             </thead>
             <tbody>
-              {dds.map((item, idx) => (
-                <tr key={idx}>
+              {dds.map((item) => (
+                <TableLine key={item.UID} $isDeleted={item?.isDeleted}>
                   <td>{item.date}</td>
                   <td>{item.section}</td>
                   <td>{item.comingNal}</td>
@@ -102,7 +125,18 @@ const SlideDialogDDS = ({ UID, onClose }) => {
                   <td>{item.expenseNal}</td>
                   <td>{item.expenseBeznal}</td>
                   <td>{item.comment}</td>
-                </tr>
+                  <td>
+                    <Box>
+                      <IconButton
+                        disabled={item?.isDeleted}
+                        onClick={() => removeLine(item.UID)}
+                        color='error'
+                      >
+                        <Close />
+                      </IconButton>
+                    </Box>
+                  </td>
+                </TableLine>
               ))}
             </tbody>
           </Table>

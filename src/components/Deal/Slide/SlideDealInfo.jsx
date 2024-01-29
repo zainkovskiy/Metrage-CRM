@@ -34,7 +34,7 @@ const SlideDealInfoContent = styled.div`
 `;
 const SlideDealInfoSide = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 0.5rem;
 `;
 const DoneIcon = styled(Done)`
@@ -187,7 +187,7 @@ const SlideDealInfo = () => {
                 onChange={(e) => {
                   field.onChange(e.target.checked);
                 }}
-                defaultChecked={field.value || false}
+                checked={field.value}
                 id='alwaysBrand'
                 size='small'
                 labelSize={12}
@@ -216,8 +216,24 @@ const SlideDealInfo = () => {
                 onChange={(e) => {
                   field.onChange(e.target.checked);
                 }}
-                defaultChecked={field.value || false}
+                checked={field.value}
                 id='alwaysBroker'
+                size='small'
+                labelSize={12}
+              />
+            )}
+          />
+          <Controller
+            name='isRent'
+            control={control}
+            render={({ field }) => (
+              <CheckboxUI
+                label='Аренда'
+                onChange={(e) => {
+                  field.onChange(e.target.checked);
+                }}
+                checked={field.value}
+                id='isRent'
                 size='small'
                 labelSize={12}
               />

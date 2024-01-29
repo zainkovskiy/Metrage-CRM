@@ -11,6 +11,7 @@ const BuilderContentStyle = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  width: 100%;
 `;
 const BuilderContent = () => {
   const dispatch = useDispatch();

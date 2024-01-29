@@ -3,11 +3,16 @@ import { SliderBlock } from '../../../styles/slider';
 import { useAsyncValue } from 'react-router-dom';
 import SliderResedentionItem from './SliderResedentionItem';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
-const Resedentions = styled(SliderBlock)`
+const Resedentions = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 0.5rem;
+  padding: 0.5rem;
+  background-color: #fff;
+  border-radius: 5px;
+  box-sizing: border-box;
 `;
 
 const SliderResedentions = () => {
@@ -16,7 +21,11 @@ const SliderResedentions = () => {
     return;
   }
   return (
-    <Resedentions>
+    <Resedentions
+      animate={{ scale: 1 }}
+      initial={{ scale: 0 }}
+      exit={{ scale: 0 }}
+    >
       {builder.JK.map((jk) => (
         <SliderResedentionItem key={jk.UID} resedention={jk} />
       ))}

@@ -6,7 +6,7 @@ export const MainContainer = styled.div`
   flex-grow: 1;
   padding-left: ${({ $isExternal }) => ($isExternal ? '0' : '56px')};
   display: flex;
-  max-height: calc(100vh - 61.09px);
+  max-height: calc(100vh - 50.3px);
   @media ${device.tablet} {
     padding: 0;
     height: ${document.documentElement.clientHeight - 42}px;

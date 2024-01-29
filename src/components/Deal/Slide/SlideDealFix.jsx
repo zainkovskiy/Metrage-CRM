@@ -92,7 +92,7 @@ const SlideDealFix = () => {
                 onChange={(e) => {
                   field.onChange(e.target.checked);
                 }}
-                defaultChecked={field.value || false}
+                checked={field.value || false}
                 id='needInsurance'
                 size='small'
                 labelSize={12}
@@ -126,7 +126,7 @@ const SlideDealFix = () => {
                 onChange={(e) => {
                   field.onChange(e.target.checked);
                 }}
-                defaultChecked={field.value || false}
+                checked={field.value || false}
                 id='needMortgage'
                 size='small'
                 labelSize={12}

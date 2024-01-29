@@ -170,3 +170,16 @@ export const calculationAgent = async (raw) => {
   }
   return 'No Ok';
 };
+export const removeDDSLine = async (UID) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.deal.deleteDds',
+    fields: {
+      UID: UID,
+    },
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No Ok';
+};

@@ -45,7 +45,7 @@ const variants = {
     scale: 1,
   },
 };
-const SliderInfo = () => {
+const SliderInfo = ({ toggleChnage }) => {
   const [open, setOpen] = useState(false);
   const builder = useAsyncValue();
   const windowSize = useWindowSize();
@@ -53,8 +53,11 @@ const SliderInfo = () => {
     const id = e.target.id;
     setOpen(id || null);
   };
-  const closeDialogWindow = () => {
+  const closeDialogWindow = (change) => {
     setOpen(null);
+    if (change === 'change') {
+      toggleChnage();
+    }
   };
   return (
     <SliderInfoStyle>

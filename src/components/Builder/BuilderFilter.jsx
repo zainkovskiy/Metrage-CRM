@@ -8,6 +8,7 @@ import { ButtonUI } from 'ui/ButtonUI';
 // import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { setViewCard } from '../../store/dealSlice';
+import BuilderFilterForm from './BuilderFilterForm';
 
 const BuilderFilterStyle = styled.div`
   display: flex;
@@ -61,7 +62,7 @@ const BuilderFilter = () => {
         </ButtonUI>
       </Link>
       <SlideWindow open={open} onClose={toggleFilter} width={getWidth()}>
-        {/* <DealFilterForm onClose={toggleFilter} /> */}
+        <BuilderFilterForm onClose={toggleFilter} />
       </SlideWindow>
     </BuilderFilterStyle>
   );

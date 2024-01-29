@@ -44,9 +44,9 @@ const SliderFeature = () => {
             Материалы застройки:{' '}
             {builder?.passedMaterials.map((materail, idx) => {
               return (
-                <>{`${materail.title}${
+                <React.Fragment key={materail.title}>{`${materail.title}${
                   builder?.passedMaterials.length - 1 !== idx ? ', ' : ''
-                }`}</>
+                }`}</React.Fragment>
               );
             })}
           </TextSpanStyle>

@@ -50,7 +50,7 @@ const SlideDialogComissiontFooter = styled.div`
 const SlideDialogCalculation = ({ onClose, user, type }) => {
   const deal = useAsyncValue();
   const navigate = useNavigate();
-  const [summ, setSumm] = useState('');
+  const [summ, setSumm] = useState(user?.comissionSize || 0);
   const [payType, setPayType] = useState('');
   const [error, setError] = useState({
     summ: false,
@@ -148,7 +148,12 @@ const SlideDialogCalculation = ({ onClose, user, type }) => {
         <ButtonUI size='small' onClick={onClose} variant='outline' fullWidth>
           Отменить
         </ButtonUI>
-        <ButtonUI size='small' onClick={onSubmit} fullWidth>
+        <ButtonUI
+          size='small'
+          onClick={onSubmit}
+          fullWidth
+          disabled={summ > user?.comissionSize}
+        >
           Расчитать
         </ButtonUI>
       </SlideDialogComissiontFooter>
