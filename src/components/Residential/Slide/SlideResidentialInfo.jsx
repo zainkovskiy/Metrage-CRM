@@ -33,11 +33,11 @@ const SlideResidentialInfo = () => {
       </div>
       <ImageGalary
         images={
-          residential?.renderer?.length > 0
-            ? residential?.renderer.map((img) => ({
-                URL: img,
-              }))
-            : []
+          residential?.renderer || [
+            {
+              URL: '',
+            },
+          ]
         }
         height={300}
         status

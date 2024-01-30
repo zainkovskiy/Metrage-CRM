@@ -19,6 +19,7 @@ import taskSlice from './taskSlice';
 import newsSlice from './slices/newsSlice';
 import plansSlice from './slices/plansSlice';
 import builderSlice from './slices/builderSlice';
+import residentialSlice from './slices/residentialSlice';
 
 const reducers = combineReducers({
   user: userSlice,
@@ -36,6 +37,7 @@ const reducers = combineReducers({
   news: newsSlice,
   plans: plansSlice,
   builder: builderSlice,
+  residential: residentialSlice,
 });
 
 export const store = configureStore({

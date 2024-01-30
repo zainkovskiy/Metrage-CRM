@@ -23,7 +23,7 @@ const Manager = styled.div`
   }
 `;
 
-const SliderManager = ({ manager, openEditManager }) => {
+const SliderManager = ({ manager, openEditManager, isChange }) => {
   const builder = useAsyncValue();
   const setRemoveManager = () => {
     removeManager({

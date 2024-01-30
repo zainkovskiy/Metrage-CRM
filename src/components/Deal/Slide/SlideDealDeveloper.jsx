@@ -165,7 +165,7 @@ const SlideDealDeveloper = () => {
             )}
           />
           <Controller
-            name='actAcceptedDateы'
+            name='actAcceptedDate'
             control={control}
             render={({ field }) => (
               <InputUI

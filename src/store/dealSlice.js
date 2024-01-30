@@ -109,6 +109,8 @@ const dealSlice = createSlice({
     clearDeals(state, action) {
       state.deals = [];
       state.offset = 0;
+      state.loadingList = true;
+      state.loadingMore = false;
     },
     setNewFilter(state, action) {
       state.filter = action.payload;

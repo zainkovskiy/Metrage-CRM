@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box } from 'ui/Box';
@@ -6,32 +6,53 @@ import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
+import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
+import { findBuilderList } from '../../api/search';
 import {
   FilterFormStyle,
   FilterTitle,
   FilterFields,
 } from '../../styles/filter';
 import {
-  getBuilderList,
-  defaultBuilderFilter,
+  getResidentialList,
+  defaultResidentialFilter,
   resetFilter,
-} from '../../store/slices/builderSlice';
+} from '../../store/slices/residentialSlice';
 
-const BuilderFilterForm = ({ onClose }) => {
+const ResidentialFilterForm = ({ onClose }) => {
   const dispatch = useDispatch();
-  const filter = useSelector((state) => state.builder.filter);
+  const filter = useSelector((state) => state.residential.filter);
+  const builderRequest = useRef(false);
+  const [builderList, setBuilderList] = useState([]);
   const { control, handleSubmit, reset } = useForm({
     defaultValues: filter,
   });
   const onSubmit = (data) => {
-    dispatch(getBuilderList(data));
-    localStorage.setItem('filterBuilder', JSON.stringify(data));
+    dispatch(getResidentialList(data));
+    localStorage.setItem('filterResidential', JSON.stringify(data));
     onClose();
   };
   const setResetFilter = () => {
-    reset(defaultBuilderFilter);
+    reset(defaultResidentialFilter);
     dispatch(resetFilter());
-    localStorage.removeItem('filterBuilder');
+    localStorage.removeItem('filterResidential');
+  };
+  const getBuilders = (value) => {
+    if (value.length < 2) {
+      setBuilderList([]);
+      return;
+    }
+    if (builderRequest.current) {
+      return;
+    }
+    builderRequest.current = true;
+    findBuilderList(value)
+      .then((data) => {
+        setBuilderList(data);
+      })
+      .finally(() => {
+        builderRequest.current = false;
+      });
   };
   return (
     <FilterFormStyle onSubmit={handleSubmit(onSubmit)}>
@@ -46,57 +67,55 @@ const BuilderFilterForm = ({ onClose }) => {
       <FilterFields>
         <FilterTitle>Фильтр</FilterTitle>
         <Controller
-          name='devType'
+          name='devId'
           control={control}
           render={({ field }) => (
-            <SelectUI
-              onChange={(newValue) => {
-                field.onChange(newValue);
-              }}
-              select={field.value}
-              label='Тип застройщика'
-            >
-              <SelectItemUI value=''>Все</SelectItemUI>
-              <SelectItemUI value='МКД'>МКД</SelectItemUI>
-              <SelectItemUI value='ИЖС'>ИЖС</SelectItemUI>
-            </SelectUI>
-          )}
-        />
-        <Controller
-          name='region'
-          control={control}
-          render={({ field }) => (
-            <SelectUI
-              onChange={(newValue) => {
-                field.onChange(newValue);
-              }}
-              select={field.value}
-              label='Регион'
-            >
-              <SelectItemUI value='Новосибирск'>Новосибирск</SelectItemUI>
-              <SelectItemUI value='Москва'>Москва</SelectItemUI>
-            </SelectUI>
-          )}
-        />
-        <Controller
-          control={control}
-          name='comissionSize'
-          render={({ field }) => (
-            <InputUI
+            <SelectAutoсompleteUI
+              label='Застройщик'
+              options={builderList}
+              getOptionsLabel={(options) => options.devName}
+              onChange={(option) => field.onChange(option)}
               value={field.value}
-              onChange={field.onChange}
-              label='Коммисия от'
-              type='number'
+              inputChange={getBuilders}
             />
           )}
         />
         <Controller
-          name='onProcessHouses'
+          name='JKType'
+          control={control}
+          render={({ field }) => (
+            <SelectUI
+              onChange={(newValue) => {
+                field.onChange(newValue);
+              }}
+              select={field.value}
+              label='Тип'
+            >
+              <SelectItemUI value=''>Все</SelectItemUI>
+              <SelectItemUI value='ЖК'>ЖК</SelectItemUI>
+              <SelectItemUI value='БЦ'>БЦ</SelectItemUI>
+            </SelectUI>
+          )}
+        />
+        <Controller
+          control={control}
+          name='deadLine'
+          render={({ field }) => (
+            <InputUI
+              value={field.value}
+              onChange={field.onChange}
+              label='Сдача до'
+              type='month'
+            />
+          )}
+        />
+        <Controller
+          name='isBuild'
           control={control}
           render={({ field }) => (
             <CheckboxUI
-              label='Есть сданные дома'
-              id='onProcessHouses'
+              label='Дом сдан'
+              id='isBuild'
               checked={field.value || false}
               onChange={(e) => field.onChange(e.target.checked)}
             />
@@ -107,4 +126,4 @@ const BuilderFilterForm = ({ onClose }) => {
   );
 };
 
-export default BuilderFilterForm;
+export default ResidentialFilterForm;

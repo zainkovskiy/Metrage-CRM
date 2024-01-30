@@ -91,6 +91,12 @@ const builderSlice = createSlice({
     setNewFilter(state, action) {
       state.filter = action.payload;
     },
+    cleareBuilders(state, action) {
+      state.builders = [];
+      state.offset = 0;
+      state.loadingList = true;
+      state.loadingMore = false;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -113,20 +119,6 @@ const builderSlice = createSlice({
             return item;
           });
         }
-        // const findBuilder = state.builders.find(
-        //   (builders) => builders.UID === curBuilder.UID
-        // );
-        // if (!findBuilder) {
-        //   return;
-        // }
-        // if (JSON.stringify(curBuilder) === JSON.stringify(findBuilder)) {
-        //   return;
-        // }
-        // state.builders.splice(
-        //   state.builders.indexOf(findBuilder),
-        //   1,
-        //   curBuilder
-        // );
       })
       .addCase(getBuilderListMore.pending, (state, action) => {
         state.loadingMore = true;
@@ -147,5 +139,6 @@ const builderSlice = createSlice({
   },
 });
 
-export const { addNewBuilder, resetFilter } = builderSlice.actions;
+export const { addNewBuilder, resetFilter, setNewFilter, cleareBuilders } =
+  builderSlice.actions;
 export default builderSlice.reducer;

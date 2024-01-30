@@ -10,10 +10,10 @@ const SlideResidential = () => {
     <SliderStyle>
       <SliderContext>
         <SlideResidentialInfo />
-        {residential?.buildings?.length > 0 &&
+        {/* {residential?.buildings?.length > 0 &&
           residential.buildings.map((building) => (
             <SlideResidentialBuilding building={building} key={building.UID} />
-          ))}
+          ))} */}
       </SliderContext>
     </SliderStyle>
   );

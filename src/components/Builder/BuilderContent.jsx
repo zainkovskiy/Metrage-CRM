@@ -3,7 +3,10 @@ import styled from 'styled-components';
 import BuilderFilter from './BuilderFilter';
 import Builders from './Builders';
 import { useDispatch } from 'react-redux';
-import { getBuilderList } from '../../store/slices/builderSlice';
+import {
+  cleareBuilders,
+  getBuilderList,
+} from '../../store/slices/builderSlice';
 import { Outlet } from 'react-router-dom';
 
 const BuilderContentStyle = styled.div`
@@ -17,6 +20,9 @@ const BuilderContent = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     getBuilders();
+    return () => {
+      dispatch(cleareBuilders());
+    };
   }, []);
   const getBuilders = () => {
     dispatch(getBuilderList());

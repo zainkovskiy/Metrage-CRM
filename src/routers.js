@@ -49,6 +49,7 @@ import { loaderEditNewsSlide } from './components/News/New/SuspenseNewNews';
 import SuspenseResidential from 'components/Residential/SuspenseResidential';
 import SuspenseSlideResidential from './components/Residential/Slide/SuspenseSlideResidential';
 import { loaderResidentialSlide } from './components/Residential/Slide/SuspenseSlideResidential';
+import SuspenseNewResidential from './components/Residential/New/SuspenseNewResidential';
 
 import SuspenceBuilder from 'components/Builder/SuspenceBuilder';
 import SuspenseSlideBuilder from './components/Builder/Slide/SuspenseSlideBuilder';
@@ -244,10 +245,10 @@ export const routers = createBrowserRouter([
         path: 'residential',
         element: <SuspenseResidential />,
         children: [
-          // {
-          //   path: 'new',
-          //   element: <SuspenseNewNews />,
-          // },
+          {
+            path: 'new',
+            element: <SuspenseNewResidential />,
+          },
           {
             path: ':id',
             element: <SuspenseSlideResidential />,
