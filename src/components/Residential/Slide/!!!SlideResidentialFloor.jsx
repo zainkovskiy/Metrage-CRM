@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import SlideResidentialFlat from './SlideResidentialFlat';
+import SlideResidentialFlat from './!!!SlideResidentialFlat';
 import { TextSpanStyle } from 'styles/styles';
 
 const ResidentialFloor = styled.div`

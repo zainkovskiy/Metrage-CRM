@@ -14,7 +14,7 @@ const ResedentionImage = styled.img`
   height: 320px;
   object-fit: cover;
 `;
-
+//TODO: добавить Link в ЖК
 const SliderResedentionItem = ({ resedention }) => {
   return (
     <Resedention>

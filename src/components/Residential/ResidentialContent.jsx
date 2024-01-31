@@ -15,6 +15,8 @@ const ResidentialContentStyle = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
+  box-sizing: border-box;
+  width: 100%;
 `;
 const DefaultError = styled.div``;
 

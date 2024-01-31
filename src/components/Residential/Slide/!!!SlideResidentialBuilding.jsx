@@ -1,7 +1,7 @@
 import React from 'react';
 import { SliderBlock } from '../../../styles/slider';
 import { TextSpanStyle } from 'styles/styles';
-import SlideResidentialFloor from './SlideResidentialFloor';
+import SlideResidentialFloor from './!!!SlideResidentialFloor';
 import styled from 'styled-components';
 
 const ResidentialFloors = styled.div`

@@ -28,7 +28,9 @@ const SlideWindowContainer = styled(motion.div)`
   ${({ $mobile }) => $mobile && 'flex-direction: column;'};
   display: flex;
   width: ${({ width }) => width || '100%'};
-  min-width: 350px;
+  @media (min-width: 768px) {
+    min-width: 350px;
+  }
 `;
 const SlideWindowContent = styled.div`
   width: 100%;

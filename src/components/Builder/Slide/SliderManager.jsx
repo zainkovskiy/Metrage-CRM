@@ -41,7 +41,7 @@ const SliderManager = ({ manager, openEditManager, isChange }) => {
   return (
     <Manager>
       <Box column ai='flex-start' gap='0'>
-        <Box>
+        <Box ai='flex-start'>
           <TextSpanStyle>{manager.name}</TextSpanStyle>
           <TextSpanStyle>{manager.phone}</TextSpanStyle>
         </Box>
