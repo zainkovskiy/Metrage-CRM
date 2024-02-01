@@ -15,6 +15,8 @@ const LoaderContainer = styled.div`
   justify-content: center;
   height: 100%;
 `;
+//TODO: Доделать удалялку манагеров
+//TODO: Доделать редактировать корпуса
 
 const SuspenseSlideResidential = () => {
   const navigate = useNavigate();

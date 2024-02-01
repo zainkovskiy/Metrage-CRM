@@ -46,7 +46,7 @@ const MapPlacemark = forwardRef(
         return;
       }
       const cords = event.get('coords');
-      onChange(cords);
+      onChange && onChange(cords);
       if (error?.message) {
         clearErrors('cords');
       }

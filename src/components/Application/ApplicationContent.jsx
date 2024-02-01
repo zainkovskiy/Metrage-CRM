@@ -17,6 +17,8 @@ const ApplicationContentStyle = styled.div`
   flex-direction: column;
   padding: 0.5rem;
   gap: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
   @media ${device.tablet} {
     padding: 0;
     gap: 0;

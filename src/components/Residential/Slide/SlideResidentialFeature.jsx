@@ -6,6 +6,9 @@ import { ReactComponent as ArrowDown } from 'images/arrow-down.svg';
 import { useAsyncValue } from 'react-router-dom';
 import { ButtonLink } from 'ui/ButtonLink';
 import { Box } from 'ui/Box';
+import DialogWindow from 'components/Main/DialogWindow';
+import DialogEditText from './DialogEditText';
+import { TextSpanStyle } from 'styles/styles';
 
 const Accordion = styled.div`
   overflow: hidden;
@@ -55,6 +58,17 @@ const variantsIcon = {
 const SlideResidentialFeature = () => {
   const residential = useAsyncValue();
   const [isActive, setIsActive] = useState([]);
+  const [open, setOpen] = useState();
+
+  const editWindow = (e) => {
+    e.stopPropagation();
+    const id = e.target.id;
+    setOpen(id);
+  };
+
+  const closeWindow = () => {
+    setOpen(null);
+  };
   const onChangeIndex = (index) => {
     setIsActive((currentActiveIndex) => {
       if (currentActiveIndex.includes(index)) {
@@ -62,10 +76,6 @@ const SlideResidentialFeature = () => {
       }
       return currentActiveIndex.concat(index);
     });
-  };
-  const editWindow = (e) => {
-    e.stopPropagation();
-    console.log(e.target.id);
   };
   return (
     <ResidentialFeature>
@@ -105,7 +115,9 @@ const SlideResidentialFeature = () => {
               exit={'close'}
               initial={'close'}
             >
-              {residential?.description || ''}
+              <TextSpanStyle size={12}>
+                {residential?.description || ''}
+              </TextSpanStyle>
             </motion.div>
           )}
         </AnimatePresence>
@@ -146,7 +158,9 @@ const SlideResidentialFeature = () => {
               exit={'close'}
               initial={'close'}
             >
-              {residential?.overestimation || ''}
+              <TextSpanStyle size={12}>
+                {residential?.overestimation || ''}
+              </TextSpanStyle>
             </motion.div>
           )}
         </AnimatePresence>
@@ -187,11 +201,16 @@ const SlideResidentialFeature = () => {
               exit={'close'}
               initial={'close'}
             >
-              {residential?.repair || ''}
+              <TextSpanStyle size={12}>
+                {residential?.repair || ''}
+              </TextSpanStyle>
             </motion.div>
           )}
         </AnimatePresence>
       </Accordion>
+      <DialogWindow onClose={closeWindow} open={Boolean(open)}>
+        <DialogEditText onClose={closeWindow} source={open} />
+      </DialogWindow>
     </ResidentialFeature>
   );
 };

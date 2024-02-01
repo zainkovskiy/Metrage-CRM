@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useAsyncValue } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { ImageGalary } from 'components/Main/ImageGalary';
 import { SliderBlock } from '../../../styles/slider';
 import { TextSpanStyle } from 'styles/styles';
@@ -8,6 +9,12 @@ import { ButtonLink } from 'ui/ButtonLink';
 import { Box } from 'ui/Box';
 import { useDateFormat } from 'hooks/DateFormat';
 import { LinkUI } from 'ui/LinkUI';
+import DialogWindow from 'components/Main/DialogWindow';
+import DialogMap from './DialogMap';
+import DialogEditInfo from './DialogEditInfo';
+import DialogAddPhoto from './DialogAddPhoto';
+import DialogRemovePhoto from './DialogRemovePhoto';
+import { uploadFiles } from '../../../api/uploadAPI';
 
 const SliderBlockCustom = styled(SliderBlock)`
   display: flex;
@@ -46,7 +53,37 @@ const InfoMortage = styled.div`
   font-size: 12px;
 `;
 const SlideResidentialInfo = () => {
+  const userId = useSelector((state) => state.user.UID);
+  const fileRef = useRef(null);
   const residential = useAsyncValue();
+  const [open, setOpen] = useState(null);
+  const [photo, setPhoto] = useState(null);
+  const [removePhoto, setRemovePhoto] = useState(false);
+  const openWindow = (e) => {
+    const id = e.target.id;
+    setOpen(id);
+  };
+  const closeWindow = () => {
+    setOpen(null);
+  };
+  const openFileInput = () => {
+    if (fileRef.current) {
+      fileRef.current.click();
+    }
+  };
+  const uploadPhoto = (e) => {
+    const raw = { entityId: '', entityType: 'developer', author: userId };
+    const files = e.target.files;
+    uploadFiles(files, raw).then((data) => {
+      setPhoto(data[0]);
+    });
+  };
+  const closeWindowPhoto = () => {
+    setPhoto(null);
+  };
+  const toggleRemoveWindow = () => {
+    setRemovePhoto(!removePhoto);
+  };
   return (
     <SliderBlockCustom>
       <InfoButtons>
@@ -58,7 +95,7 @@ const SlideResidentialInfo = () => {
             <InfoMortage>Траншевая ипотека</InfoMortage>
           )}
         </Box>
-        <ButtonLink size={12} color='#787878'>
+        <ButtonLink size={12} color='#787878' id='edit' onClick={openWindow}>
           Редактировать
         </ButtonLink>
       </InfoButtons>
@@ -67,7 +104,7 @@ const SlideResidentialInfo = () => {
           <TextSpanStyle lHeight={20} nowrap size={20} bold>
             {residential.name}
           </TextSpanStyle>
-          <ButtonLink size={12} color='#85009e'>
+          <ButtonLink size={12} color='#85009e' id='map' onClick={openWindow}>
             показать на карте
           </ButtonLink>
         </Box>
@@ -84,10 +121,19 @@ const SlideResidentialInfo = () => {
         height={300}
         status
       />
+      <Box jc='flex-end'>
+        <input type='file' hidden ref={fileRef} onChange={uploadPhoto} />
+        <ButtonLink size={12} color='#787878' onClick={openFileInput}>
+          Загрузить фото
+        </ButtonLink>
+        <ButtonLink size={12} color='#787878' onClick={toggleRemoveWindow}>
+          Удалить фото
+        </ButtonLink>
+      </Box>
       <Box jc='space-between' ai='flex-start'>
         <Box column gap='0' ai='flex-start'>
           <TextSpanStyle size={12}>
-            Застройщик: {residential?.devName || ''}
+            Застройщик: {residential?.devObj?.devName || ''}
           </TextSpanStyle>
           <TextSpanStyle size={12}>
             Дата сдачи:{' '}
@@ -106,6 +152,18 @@ const SlideResidentialInfo = () => {
           )}
         </Box>
       </Box>
+      <DialogWindow onClose={closeWindow} open={open === 'map'}>
+        <DialogMap onClose={closeWindow} />
+      </DialogWindow>
+      <DialogWindow onClose={closeWindow} open={open === 'edit'}>
+        <DialogEditInfo onClose={closeWindow} />
+      </DialogWindow>
+      <DialogWindow onClose={closeWindowPhoto} open={Boolean(photo)}>
+        <DialogAddPhoto onClose={closeWindowPhoto} photo={photo} />
+      </DialogWindow>
+      <DialogWindow onClose={toggleRemoveWindow} open={removePhoto}>
+        <DialogRemovePhoto onClose={toggleRemoveWindow} />
+      </DialogWindow>
     </SliderBlockCustom>
   );
 };
