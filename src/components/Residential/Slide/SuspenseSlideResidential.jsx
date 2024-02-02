@@ -5,7 +5,8 @@ import SlideWindow from 'components/Main/SlideWindow';
 import { Await, useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import { useWindowSize } from 'hooks/windowSize';
 import { getSlideResidential } from 'api/residential';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getResidentialMiniCard } from '../../../store/slices/residentialSlice';
 const SlideResidential = React.lazy(() =>
   import('components/Residential/Slide/SlideResidential')
 );
@@ -15,19 +16,19 @@ const LoaderContainer = styled.div`
   justify-content: center;
   height: 100%;
 `;
-//TODO: Доделать удалялку манагеров
-//TODO: Доделать редактировать корпуса
-
 const SuspenseSlideResidential = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const viewCard = useSelector((state) => state.residential.viewCard);
   const params = useParams();
   const [open, setOpen] = useState(true);
   const windowSize = useWindowSize();
   const { residential } = useLoaderData() || {};
   const handleClose = () => {
     setTimeout(() => {
-      // dispatch(getSliceUserMiniCard(params.id));
+      if (viewCard === 'cards') {
+        dispatch(getResidentialMiniCard(params.id));
+      }
       navigate('/residential', { replace: true });
     }, 300);
     setOpen(false);

@@ -137,6 +137,16 @@ const SearchSuggestionsItem = ({
         </>
       );
     }
+    if (type === 'ЖК') {
+      return (
+        <>
+          <SearchSuggestionsItemText>
+            {suggestion?.name || ''}{' '}
+            {suggestion?.addrStr ? `(${suggestion?.addrStr})` : ''}
+          </SearchSuggestionsItemText>
+        </>
+      );
+    }
     return (
       <>
         <SearchSuggestionsItemText>
@@ -158,6 +168,9 @@ const SearchSuggestionsItem = ({
       return `${path}/${suggestion?.UID}`;
     }
     if (type === 'Пользователи') {
+      return `${path}/${suggestion?.UID}`;
+    }
+    if (type === 'ЖК') {
       return `${path}/${suggestion?.UID}`;
     }
     return '';

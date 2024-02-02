@@ -36,7 +36,7 @@ const ResidentialHeader = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  background-color: #6ecd4c;
+  background-color: ${({ $isBuild }) => ($isBuild ? '#6ecd4c' : '#d9d9d9')};
   width: 100%;
   box-sizing: border-box;
 `;
@@ -51,6 +51,17 @@ const ResidentialFooter = styled.div`
   border-radius: 0 0 40px 0;
   flex-grow: 1;
 `;
+const ResidentialContent = styled.div`
+  position: relative;
+`;
+const ResidentialIsBuild = styled(TextSpanStyle)`
+  position: absolute;
+  padding: 0 0.2rem;
+  border-radius: 5px;
+  background-color: #6ecd4c;
+  top: 0.5rem;
+  left: 0.5rem;
+`;
 const variants = {
   visible: {
     opacity: 1,
@@ -63,16 +74,21 @@ const ResidentialsCard = ({ residential }) => {
   return (
     <LinkStyle to={`${residential?.UID}`}>
       <ResidentialStyle variants={variants} initial='hidden' animate='visible'>
-        <ResidentialHeader>
+        <ResidentialHeader $isBuild={residential.isBuild}>
           <TextSpanStyle size={10}>{residential?.JKType} </TextSpanStyle>
           <TextSpanStyle size={12}>{residential?.name} </TextSpanStyle>
         </ResidentialHeader>
-        <ResidentialImage src={residential?.picture || imgErrorUrl} />
+        <ResidentialContent>
+          <ResidentialImage src={residential?.picture || imgErrorUrl} />
+          {residential?.isBuild && (
+            <ResidentialIsBuild size={10}>Сдан</ResidentialIsBuild>
+          )}
+        </ResidentialContent>
         <ResidentialFooter>
           <TextSpanStyle size={12}>{residential?.addrStr}</TextSpanStyle>
-          {residential?.isBuild && (
-            <TextSpanStyle size={10}>Сдан</TextSpanStyle>
-          )}
+          <TextSpanStyle size={10}>
+            Вариантов: {residential?.countAppartment || 0}
+          </TextSpanStyle>
         </ResidentialFooter>
       </ResidentialStyle>
     </LinkStyle>

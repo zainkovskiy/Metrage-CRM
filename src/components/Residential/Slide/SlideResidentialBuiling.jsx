@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import SlideResidentialAccordeon from './SlideResidentialAccordeon';
 import DialogWindow from 'components/Main/DialogWindow';
 import DialogManager from './DialogManager';
+import DialogEditBuilding from './DialogEditBuilding';
 import SliderResidentialManager from './SliderResidentialManager';
 
 const ResidentialBuiling = styled(SliderBlock)`
@@ -31,6 +32,8 @@ const ManagerSide = styled.div`
 const SlideResidentialBuiling = ({ building }) => {
   const [isActive, setIsActive] = useState([]);
   const [managerOpen, setManagerOpen] = useState(null);
+  const [isChange, setIsChange] = useState(false);
+  const [buildingWindow, setBuildingWindow] = useState(false);
   const openNewManager = () => {
     setManagerOpen('new');
   };
@@ -43,6 +46,12 @@ const SlideResidentialBuiling = ({ building }) => {
   const addNewManager = (newManager) => {
     building.managers = [...building.managers, newManager];
     closeWindowManager();
+  };
+  const removeManager = (manager) => {
+    building.managers = building.managers.filter(
+      (item) => item.UID !== manager.UID
+    );
+    setIsChange(!isChange);
   };
   const updateManager = (manager) => {
     building.managers = building.managers.map((item) => {
@@ -61,6 +70,18 @@ const SlideResidentialBuiling = ({ building }) => {
       return currentActiveIndex.concat(index);
     });
   };
+  const openBuildingWundow = () => {
+    setBuildingWindow(true);
+  };
+  const closeBuildingWundow = () => {
+    setBuildingWindow(false);
+  };
+  const updateBuilding = (newBuilding) => {
+    for (let key in newBuilding) {
+      building[key] = newBuilding[key];
+    }
+    closeBuildingWundow();
+  };
   return (
     <ResidentialBuiling>
       <SliderTitle>
@@ -70,7 +91,7 @@ const SlideResidentialBuiling = ({ building }) => {
             Сдача: {useDateFormat(building?.deadline, 'MMMM YYYY')}
           </TextSpanStyle>
         </Box>
-        <ButtonLink size={12} color='#787878' onClick={() => {}}>
+        <ButtonLink size={12} color='#787878' onClick={openBuildingWundow}>
           Редактировать
         </ButtonLink>
       </SliderTitle>
@@ -89,6 +110,7 @@ const SlideResidentialBuiling = ({ building }) => {
                   manager={item}
                   key={item.UID}
                   openEditManager={openEditManager}
+                  removeManager={removeManager}
                 />
               ))}
             </div>
@@ -134,6 +156,13 @@ const SlideResidentialBuiling = ({ building }) => {
           manager={managerOpen}
           addNewManager={addNewManager}
           updateManager={updateManager}
+        />
+      </DialogWindow>
+      <DialogWindow onClose={closeBuildingWundow} open={buildingWindow}>
+        <DialogEditBuilding
+          onClose={closeBuildingWundow}
+          building={building}
+          updateBuilding={updateBuilding}
         />
       </DialogWindow>
     </ResidentialBuiling>

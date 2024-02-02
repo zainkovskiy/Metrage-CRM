@@ -54,6 +54,23 @@ export const getObjectList = async (value) => {
     return [];
   }
 };
+export const getResidentialList = async (value) => {
+  try {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.jk.getByReq',
+      fields: {
+        request: value,
+      },
+    });
+    if (res.statusText !== 'OK') {
+      throw new Error('Error');
+    }
+    return res?.data?.result || [];
+  } catch (error) {
+    return [];
+  }
+};
 
 export const getOfficeList = async (value) => {
   try {

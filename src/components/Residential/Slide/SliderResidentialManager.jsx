@@ -5,8 +5,7 @@ import { TextSpanStyle } from 'styles/styles';
 import { IconButton } from 'ui/IconButton';
 import { ReactComponent as Close } from 'images/close.svg';
 import { ReactComponent as Edit } from 'images/edit.svg';
-import { removeManager } from '../../../api/builderAPI';
-import { useAsyncValue } from 'react-router-dom';
+import { removeManagerResidential } from '../../../api/residential';
 
 const Manager = styled.div`
   display: flex;
@@ -24,15 +23,15 @@ const Manager = styled.div`
   }
 `;
 
-const SliderResidentialManager = ({ manager, openEditManager }) => {
+const SliderResidentialManager = ({
+  manager,
+  openEditManager,
+  removeManager,
+}) => {
   const setRemoveManager = () => {
-    // removeManager({
-    //   UID: manager.UID,
-    // }).then(() => {
-    //   builder.managers = builder.managers.filter(
-    //     (curManager) => curManager.UID !== manager.UID
-    //   );
-    // });
+    removeManagerResidential(manager?.UID).then(() => {
+      removeManager(manager);
+    });
   };
   const editWindowManager = () => {
     openEditManager(manager);

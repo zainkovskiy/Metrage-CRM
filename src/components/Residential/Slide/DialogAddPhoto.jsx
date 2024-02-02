@@ -10,24 +10,34 @@ import { addNewPhotoResidential } from '../../../api/residential';
 
 const DialogPhoto = styled.form`
   width: 60vw;
-  height: 60vh;
+  /* height: 60vh; */
   background-color: #fff;
   border-radius: 5px;
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
+  flex-wrap: wrap;
   gap: 0.5rem;
   padding: 0.5rem;
   box-sizing: border-box;
   @media ${device.tablet} {
     width: calc(100vw - 1rem);
-    height: 80vh;
+    /* height: 80vh; */
   }
+`;
+const PhotoContainer = styled.div`
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  background-color: #ccc;
 `;
 const DialogImg = styled.img`
   width: 100%;
-  height: 100%;
+  height: 60vh;
   object-fit: contain;
   background-color: #ccc;
+  @media ${device.tablet} {
+    height: 50vh;
+  }
 `;
 
 const DialogAddPhoto = ({ photo, onClose }) => {
@@ -79,7 +89,7 @@ const DialogAddPhoto = ({ photo, onClose }) => {
           </SelectUI>
         )}
       />
-      <Box jc='flex-start'>
+      <Box jc='flex-start' fullWidth>
         <ButtonUI variant='outline' size='small' onClick={onClose}>
           Отменить
         </ButtonUI>

@@ -12,6 +12,7 @@ export const getResidentialList = createAsyncThunk(
       fields: {
         ...curFilter,
         offset: 0,
+        mode: getState().residential.viewCard,
       },
     });
     if (filterForm) {
@@ -40,25 +41,26 @@ export const getResidentialListMore = createAsyncThunk(
     return [];
   }
 );
-// export const getBuilderMiniCard = createAsyncThunk(
-//   'builder/getBuilderMiniCard',
-//   async (id) => {
-//     const res = await axios.post(API, {
-//       metrage_id: metrage_id || null,
-//       method: 'crm.developers.filter',
-//       fields: {
-//         UID: id,
-//       },
-//     });
-//     if (res?.statusText === 'OK') {
-//       return res?.data?.result || {};
-//     }
-//     return null;
-//   }
-// );
+export const getResidentialMiniCard = createAsyncThunk(
+  'residential/getResidentialMiniCard',
+  async (id) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.jk.filter',
+      fields: {
+        UID: id,
+      },
+    });
+    if (res?.statusText === 'OK') {
+      return res?.data?.result || {};
+    }
+    return null;
+  }
+);
 export const defaultResidentialFilter = {
   devId: '',
   isBuild: false,
+  hasVariants: false,
   deadLine: '',
   JKType: '',
 };
@@ -76,7 +78,7 @@ const initialState = {
   buttonMore: false,
   loadingMore: false,
   offset: 0,
-  viewCard: 'cell',
+  viewCard: 'cards',
 };
 
 const residentialSlice = createSlice({
@@ -113,17 +115,17 @@ const residentialSlice = createSlice({
         }
         state.buttonMore = true;
       })
-      // .addCase(getBuilderMiniCard.fulfilled, (state, action) => {
-      //   const curBuilder = action.payload;
-      //   if (curBuilder) {
-      //     state.builders = state.builders.map((item) => {
-      //       if (item.UID === curBuilder.UID) {
-      //         return { ...curBuilder };
-      //       }
-      //       return item;
-      //     });
-      //   }
-      // })
+      .addCase(getResidentialMiniCard.fulfilled, (state, action) => {
+        const curResidential = action.payload;
+        if (curResidential) {
+          state.residentials = state.residentials.map((item) => {
+            if (item.UID === curResidential.UID) {
+              return { ...curResidential };
+            }
+            return item;
+          });
+        }
+      })
       .addCase(getResidentialListMore.pending, (state, action) => {
         state.loadingMore = true;
       })

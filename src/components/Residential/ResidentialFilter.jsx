@@ -6,7 +6,10 @@ import { Box } from 'ui/Box';
 import SlideWindow from 'components/Main/SlideWindow';
 import { useWindowSize } from 'hooks/windowSize';
 import { useSelector, useDispatch } from 'react-redux';
-import { setViewCard } from '../../store/slices/residentialSlice';
+import {
+  getResidentialList,
+  setViewCard,
+} from '../../store/slices/residentialSlice';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import ResidentialFilterForm from './ResidentialFilterForm';
 
@@ -34,6 +37,9 @@ const ResidentialFilter = () => {
   };
   const changeViewCard = (newValue) => {
     dispatch(setViewCard(newValue));
+    if (newValue === 'map') {
+      dispatch(getResidentialList());
+    }
   };
   return (
     <ResidentialFilterStyle>
@@ -43,7 +49,7 @@ const ResidentialFilter = () => {
         </ButtonUI>
         {windowSize > 768 && (
           <SelectUI small onChange={changeViewCard} select={viewCard}>
-            <SelectItemUI value='cell'>Плитка</SelectItemUI>
+            <SelectItemUI value='cards'>Плитка</SelectItemUI>
             <SelectItemUI value='map'>Карта</SelectItemUI>
           </SelectUI>
         )}

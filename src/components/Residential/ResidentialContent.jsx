@@ -34,7 +34,7 @@ const ResidentialContent = () => {
   };
   const getResidentialComponent = () => {
     switch (viewCard) {
-      case 'cell':
+      case 'cards':
         return ResidentialsCards;
       case 'map':
         return ResidentialsMap;

@@ -58,11 +58,13 @@ export const editManagerResidential = async (raw) => {
   }
   return 'No OK';
 };
-export const removeManagerResidential = async (raw) => {
+export const removeManagerResidential = async (uid) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
     method: 'crm.jk.delManager',
-    fields: raw,
+    fields: {
+      UID: uid,
+    },
   });
   if (res?.statusText === 'OK') {
     return 'OK';
@@ -84,6 +86,17 @@ export const removePhotoResidential = async (raw) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
     method: 'crm.jk.delPhoto',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No OK';
+};
+export const setUpdateBuilding = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.jk.updateBuilding',
     fields: raw,
   });
   if (res?.statusText === 'OK') {

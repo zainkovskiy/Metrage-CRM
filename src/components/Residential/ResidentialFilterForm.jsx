@@ -121,6 +121,18 @@ const ResidentialFilterForm = ({ onClose }) => {
             />
           )}
         />
+        <Controller
+          name='hasVariants'
+          control={control}
+          render={({ field }) => (
+            <CheckboxUI
+              label='Объекты в продаже'
+              id='hasVariants'
+              checked={field.value || false}
+              onChange={(e) => field.onChange(e.target.checked)}
+            />
+          )}
+        />
       </FilterFields>
     </FilterFormStyle>
   );

@@ -14,7 +14,8 @@ import DialogMap from './DialogMap';
 import DialogEditInfo from './DialogEditInfo';
 import DialogAddPhoto from './DialogAddPhoto';
 import DialogRemovePhoto from './DialogRemovePhoto';
-import { uploadFiles } from '../../../api/uploadAPI';
+import DialogEditID from './DialogEditID';
+import { uploadPhotosNews } from '../../../api/uploadAPI';
 
 const SliderBlockCustom = styled(SliderBlock)`
   display: flex;
@@ -52,6 +53,11 @@ const InfoMortage = styled.div`
   font-family: ${({ theme }) => theme.font.family};
   font-size: 12px;
 `;
+const GalaryContainer = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+`;
 const SlideResidentialInfo = () => {
   const userId = useSelector((state) => state.user.UID);
   const fileRef = useRef(null);
@@ -74,7 +80,7 @@ const SlideResidentialInfo = () => {
   const uploadPhoto = (e) => {
     const raw = { entityId: '', entityType: 'developer', author: userId };
     const files = e.target.files;
-    uploadFiles(files, raw).then((data) => {
+    uploadPhotosNews(files, raw).then((data) => {
       setPhoto(data[0]);
     });
   };
@@ -95,9 +101,14 @@ const SlideResidentialInfo = () => {
             <InfoMortage>Траншевая ипотека</InfoMortage>
           )}
         </Box>
-        <ButtonLink size={12} color='#787878' id='edit' onClick={openWindow}>
-          Редактировать
-        </ButtonLink>
+        <Box>
+          <ButtonLink size={12} color='#787878' id='edit' onClick={openWindow}>
+            Редактировать
+          </ButtonLink>
+          <ButtonLink size={12} color='#787878' id='id' onClick={openWindow}>
+            ID ЖК
+          </ButtonLink>
+        </Box>
       </InfoButtons>
       <InfoHeader>
         <Box column gap='0' ai='flex-start' jc='flex-start'>
@@ -110,26 +121,43 @@ const SlideResidentialInfo = () => {
         </Box>
         <InfoAddres>{residential.addrStr}</InfoAddres>
       </InfoHeader>
-      <ImageGalary
-        images={
-          residential?.renderer || [
-            {
-              URL: '',
-            },
-          ]
-        }
-        height={300}
-        status
-      />
-      <Box jc='flex-end'>
-        <input type='file' hidden ref={fileRef} onChange={uploadPhoto} />
-        <ButtonLink size={12} color='#787878' onClick={openFileInput}>
-          Загрузить фото
-        </ButtonLink>
-        <ButtonLink size={12} color='#787878' onClick={toggleRemoveWindow}>
-          Удалить фото
-        </ButtonLink>
-      </Box>
+      <div>
+        <GalaryContainer>
+          {residential?.plan && (
+            <ImageGalary
+              images={
+                residential?.plan || [
+                  {
+                    URL: '',
+                  },
+                ]
+              }
+              height={300}
+              status
+            />
+          )}
+          <ImageGalary
+            images={
+              residential?.renderer || [
+                {
+                  URL: '',
+                },
+              ]
+            }
+            height={300}
+            status
+          />
+        </GalaryContainer>
+        <Box jc='flex-end'>
+          <input type='file' hidden ref={fileRef} onChange={uploadPhoto} />
+          <ButtonLink size={12} color='#787878' onClick={openFileInput}>
+            Загрузить фото
+          </ButtonLink>
+          <ButtonLink size={12} color='#787878' onClick={toggleRemoveWindow}>
+            Удалить фото
+          </ButtonLink>
+        </Box>
+      </div>
       <Box jc='space-between' ai='flex-start'>
         <Box column gap='0' ai='flex-start'>
           <TextSpanStyle size={12}>
@@ -157,6 +185,9 @@ const SlideResidentialInfo = () => {
       </DialogWindow>
       <DialogWindow onClose={closeWindow} open={open === 'edit'}>
         <DialogEditInfo onClose={closeWindow} />
+      </DialogWindow>
+      <DialogWindow onClose={closeWindow} open={open === 'id'}>
+        <DialogEditID onClose={closeWindow} />
       </DialogWindow>
       <DialogWindow onClose={closeWindowPhoto} open={Boolean(photo)}>
         <DialogAddPhoto onClose={closeWindowPhoto} photo={photo} />

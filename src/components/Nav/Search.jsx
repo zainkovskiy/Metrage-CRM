@@ -4,6 +4,7 @@ import { InputUI } from 'ui/InputUI';
 import SearchSuggestions from './SearchSuggestions';
 import { getUserList, getСontactList, getObjectList } from 'api/search';
 import { AnimatePresence } from 'framer-motion';
+import { getResidentialList } from '../../api/search';
 
 const SearchStyle = styled.div`
   width: 60%;
@@ -29,8 +30,10 @@ const Search = () => {
       getСontactList(value),
       getUserList(value),
       getObjectList(value),
+      getResidentialList(value),
     ])
       .then((res) => {
+        console.log(res);
         setFindList([
           {
             title: 'Контакты',
@@ -46,6 +49,11 @@ const Search = () => {
             title: 'Объекты',
             path: '/objects',
             list: res[2].status === 'fulfilled' ? res[2].value : [],
+          },
+          {
+            title: 'ЖК',
+            path: '/residential',
+            list: res[3].status === 'fulfilled' ? res[3].value : [],
           },
         ]);
       })
