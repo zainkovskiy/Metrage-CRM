@@ -82,7 +82,7 @@ const SlideResidentialAccordeon = ({
         <TextSpanStyle size={12}>{appartment.area}</TextSpanStyle>
         <TextSpanStyle size={12}>{appartment.priceRange}</TextSpanStyle>
         <TextSpanStyle size={12} color='#85009E'>
-          Предложений: {appartment?.items?.length || 0}
+          Планировок: {appartment?.items?.length || 0}
         </TextSpanStyle>
         <ArrowIcon
           variants={variantsIcon}

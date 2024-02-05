@@ -111,7 +111,7 @@ const SlideDialogCalculation = ({ onClose, user, type }) => {
   };
   return (
     <SlideDialogComissiontStyle onClick={(e) => e.stopPropagation()}>
-      <Title>Расчёт</Title>
+      <Title>Рассчёт</Title>
       <Box column ai='flex-end' gap='0'>
         <Box jc='flex-end' gap='0.3rem'>
           <TextSpanStyle size={12}>Специалист:</TextSpanStyle>
@@ -154,7 +154,7 @@ const SlideDialogCalculation = ({ onClose, user, type }) => {
           fullWidth
           disabled={summ > user?.comissionSize}
         >
-          Расчитать
+          Рассчитать
         </ButtonUI>
       </SlideDialogComissiontFooter>
     </SlideDialogComissiontStyle>

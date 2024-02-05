@@ -6,6 +6,7 @@ import imgErrorUrl from 'images/img-error.svg';
 import { Box } from 'ui/Box';
 import { ButtonUI } from 'ui/ButtonUI';
 import { TextSpanStyle } from 'styles/styles';
+import { CheckboxUI } from 'ui/CheckboxUI';
 import { SlideBlockStyle } from '../ObjectsStyle';
 import SlideObjectResponsible from './SlideObjectResponsible';
 import { ReactComponent as Area } from 'images/arrow-bottom-left.svg';
@@ -113,6 +114,17 @@ const SlideObjectInfo = () => {
           {match ? 'Удалить из подборки' : 'Добавить в подборку'}
         </ButtonUI>
       </ButtonBlock>
+      {object.isEditor && (
+        <Box jc='flex-end' fullWidth>
+          <CheckboxUI
+            label='Фейк'
+            id='isFake'
+            checked={false}
+            size='small'
+            // onChange={(e) => field.onChange(e.target.checked)}
+          />
+        </Box>
+      )}
       <ContentBlock $wrap={windowSize < 1201}>
         <SlideInfoBlock>
           <Box column ai='flex-start'>

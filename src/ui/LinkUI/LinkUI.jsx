@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const LinkStyle = styled.a`
-  font-family: CeraCY, sans-serif;
+  font-family: ${({ theme }) => theme.font.family};
   text-decoration: ${({ td }) => td || 'none'};
   font-size: ${({ size }) => size || '14'}px;
   color: ${({ theme }) => theme.color.primary};

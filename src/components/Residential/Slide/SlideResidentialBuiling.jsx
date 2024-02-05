@@ -116,7 +116,7 @@ const SlideResidentialBuiling = ({ building }) => {
             </div>
           )}
         </ManagerSide>
-        <div>
+        <div style={{ overflow: 'hidden' }}>
           {building?.notificationExp && (
             <TextSpanStyle>
               Действие уведомлений до: {building?.notificationExp} дней

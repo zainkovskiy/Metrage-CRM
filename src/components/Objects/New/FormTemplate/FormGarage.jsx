@@ -32,7 +32,7 @@ const FormGarage = ({ typeDeal }) => {
                   field.onChange(parseInt(e.target.value.split(' ').join('')));
                 }}
                 value={field.value ? useNumberTriad(field.value) : ''}
-                label='Цена'
+                label='Кадастровый номер'
                 fullWidth
               />
             )}

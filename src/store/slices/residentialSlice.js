@@ -60,7 +60,7 @@ export const getResidentialMiniCard = createAsyncThunk(
 export const defaultResidentialFilter = {
   devId: '',
   isBuild: false,
-  hasVariants: false,
+  hasVariants: true,
   deadLine: '',
   JKType: '',
 };

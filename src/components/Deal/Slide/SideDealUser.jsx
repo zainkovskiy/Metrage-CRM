@@ -92,6 +92,13 @@ const UserRealtor = ({
       'realtors'
     );
   };
+  const getPersent = () => {
+    const percent = (
+      (parseInt(user?.comissionSize) * 100) /
+      parseInt(deal.agencyComission)
+    ).toFixed(2);
+    return percent;
+  };
   const getPersentText = () => {
     if (!user?.comissionSize || user?.comissionSize <= 0) {
       return <TextSpanStyle size={10}>0% от общ. комиссии</TextSpanStyle>;
@@ -99,11 +106,9 @@ const UserRealtor = ({
     if (!deal?.agencyComission || deal?.agencyComission <= 0) {
       return <TextSpanStyle size={10}>0% от общ. комиссии</TextSpanStyle>;
     }
-    const percent = (
-      (parseInt(user?.comissionSize) * 100) /
-      parseInt(deal.agencyComission)
-    ).toFixed(2);
-    return <TextSpanStyle size={10}>{percent}% от общ. комиссии</TextSpanStyle>;
+    return (
+      <TextSpanStyle size={10}>{getPersent()}% от общ. комиссии</TextSpanStyle>
+    );
   };
   return (
     <>
@@ -124,10 +129,17 @@ const UserRealtor = ({
           <TextSpanStyle size={10}>
             Зарплата риелтора: {useNumberTriad(user?.comissionSize || '0')} руб.
           </TextSpanStyle>
+          <TextSpanStyle size={10}>
+            Выплачено: {useNumberTriad(user?.expense || '0')} руб.
+          </TextSpanStyle>
           {getPersentText()}
         </Box>
         <Box jc='flex-start'>
-          <IconButton onClick={toggleCalculation} color='gold'>
+          <IconButton
+            onClick={toggleCalculation}
+            color='gold'
+            disabled={user?.comissionSize === 0 || getPersent() === '100.00'}
+          >
             <Coins />
           </IconButton>
           <IconButton onClick={toggleEditComission} color='info'>

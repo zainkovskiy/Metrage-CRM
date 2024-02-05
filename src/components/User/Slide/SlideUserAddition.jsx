@@ -116,7 +116,7 @@ const SlideUserAddition = ({ toggleChangeIsFire }) => {
             </Box>
           )}
         </Box>
-        {isAdmin && (
+        {user?.rights?.rightsDelete && (
           <Box jc='flex-start' fullWidth>
             <ButtonLink color='#85009e' size={12} onClick={toggleShowIsFire}>
               {user?.active ? 'Уволить' : 'Активировать'}

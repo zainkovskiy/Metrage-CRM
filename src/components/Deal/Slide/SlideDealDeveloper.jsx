@@ -7,6 +7,7 @@ import { TextSpanStyle } from 'styles/styles';
 import { Controller, useFormContext } from 'react-hook-form';
 import { InputUI } from 'ui/InputUI';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
+import { LabelStyle } from 'ui/InputUI/InputUIStyled';
 
 const Title = styled.div`
   border-bottom: 1px solid #786464;
@@ -17,9 +18,15 @@ const Title = styled.div`
   width: 100%;
   align-items: flex-end;
 `;
+const TextNavigateContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-grow: 1;
+`;
 const TextNavigate = styled(Link)`
   font-family: ${({ theme }) => theme.font.family};
-  font-size: 12px;
+  font-size: ${({ $size }) => ($size ? `${$size}px` : '12px')};
   text-decoration: none;
   cursor: pointer;
   color: #000;
@@ -136,14 +143,28 @@ const SlideDealDeveloper = () => {
             small
             labelSize={12}
           />
-          <InputUI
-            fullWidth
-            disabled={true}
-            label='ЖК'
-            value={deal?.newbParams?.resdName}
-            small
-            labelSize={12}
-          />
+          {deal?.newbParams.jkId ? (
+            <LabelStyle labelSize={12}>
+              ЖК
+              <TextNavigateContainer>
+                <TextNavigate
+                  $size={14}
+                  to={`/residential/${deal.newbParams.jkId}`}
+                >
+                  {deal?.newbParams?.resdName}
+                </TextNavigate>
+              </TextNavigateContainer>
+            </LabelStyle>
+          ) : (
+            <InputUI
+              fullWidth
+              disabled={true}
+              label='ЖК'
+              value={deal?.newbParams?.resdName}
+              small
+              labelSize={12}
+            />
+          )}
         </InputsField>
         <Line />
         <InputsField>

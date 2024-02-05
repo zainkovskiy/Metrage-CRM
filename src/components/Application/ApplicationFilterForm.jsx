@@ -162,6 +162,7 @@ const ApplicationFilterForm = ({ onClose }) => {
               <SelectItemUI value='11'>ВК Лиды (НСК)</SelectItemUI>
               <SelectItemUI value='12'>ВК Лиды (МСК)</SelectItemUI>
               <SelectItemUI value='13'>КВИЗ Кипр</SelectItemUI>
+              <SelectItemUI value='14'>Авито (Новостройки)</SelectItemUI>
             </SelectUI>
           )}
         />
@@ -239,7 +240,7 @@ const ApplicationFilterForm = ({ onClose }) => {
           control={control}
           render={({ field }) => (
             <CheckboxUI
-              label='Просроченные'
+              label='Только просроченные'
               id='isExpired'
               checked={field.value || false}
               onChange={(e) => field.onChange(e.target.checked)}

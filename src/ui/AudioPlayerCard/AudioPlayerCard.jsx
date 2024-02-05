@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Box } from 'ui/Box';
 import { TextSpanStyle } from 'styles/styles';
 import AudioPlayer from 'components/Main/AudioPlayer';
 import { useDateFormat } from 'hooks/DateFormat';
+import { LinkUI } from '../LinkUI/LinkUI';
 const PlayerStyle = styled.div`
   width: 100%;
   border-radius: 5px;
@@ -37,11 +39,19 @@ const BusyText = styled(TextSpanStyle)`
 `;
 
 const AudioPlayerCard = ({ call }) => {
+  console.log(call);
   return (
     <PlayerStyle>
-      <TextSpanStyle size={10} color='#aea8a8'>
-        {useDateFormat(call?.started, 'DD MMMM YYYY HH:MM')}
-      </TextSpanStyle>
+      <Box jc='space-between'>
+        <TextSpanStyle size={10} color='#aea8a8'>
+          {useDateFormat(call?.started, 'DD MMMM YYYY HH:MM')}
+        </TextSpanStyle>
+        {call?.record && (
+          <LinkUI download href={call.record} size={10} target='_blank'>
+            скачать
+          </LinkUI>
+        )}
+      </Box>
       <TextSpanStyle>
         {call?.direction} звонок на номер: {call?.userPhone}
       </TextSpanStyle>
