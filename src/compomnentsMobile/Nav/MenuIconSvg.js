@@ -25,7 +25,7 @@ import { ReactComponent as Client } from 'images/panel/client.svg';
 import { ReactComponent as Users } from 'images/panel/users.svg';
 import { ReactComponent as Task } from 'images/panel/task.svg';
 import { ReactComponent as News } from 'images/panel/news.svg';
-// import { ReactComponent as Residential } from 'images/panel/residential.svg';
+import { ReactComponent as Residential } from 'images/panel/residential.svg';
 // import { ReactComponent as Plan } from 'images/panel/plan.svg';
 import { ReactComponent as Mail } from 'images/panel/mail.svg';
 
@@ -39,6 +39,7 @@ export {
   Task,
   News,
   Mail,
+  Residential,
   //
   Calendar,
   Mortgage,

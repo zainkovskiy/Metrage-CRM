@@ -54,6 +54,8 @@ const MenuListIcon = ({ icon }) => {
         return IconSvg.Task;
       case 'news':
         return IconSvg.News;
+      case 'residential':
+        return IconSvg.Residential;
       default:
         return Stub;
     }

@@ -219,6 +219,18 @@ const MenuList = ({ onClose }) => {
             path='news'
             onClick={onClose}
           />
+          <MenuListButton
+            title='Застройщики'
+            icon='residential'
+            path='builder'
+            onClick={onClose}
+          />
+          <MenuListButton
+            title='ЖК/БЦ'
+            icon='residential'
+            path='residential'
+            onClick={onClose}
+          />
         </MenuListTop>
       )}
       <LinkOriginNav
