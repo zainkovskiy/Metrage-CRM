@@ -5,7 +5,6 @@ import ChatListItem from './ChatListItem';
 import ChatSearch from './ChatSearch';
 import { device } from 'styles/device';
 
-
 const ChatListStyle = styled.div`
   background-color: #fff;
   min-width: 300px;
@@ -15,34 +14,36 @@ const ChatListStyle = styled.div`
   padding-bottom: 5px;
   overflow: auto;
   width: 300px;
-  @media ${device.tablet}{
+  @media ${device.tablet} {
     min-width: 100%;
     width: 100%;
     flex-grow: 1;
   }
-`
+`;
 const ChatListContainer = styled.div`
   overflow: auto;
   flex-grow: 1;
-`
+`;
 export const ChatList = () => {
   const selectButton = useSelector((state) => state.chat.selectButton);
   const [search, setSearch] = useState('');
   const handleChange = (e) => {
     const searchText = e.target.value;
     setSearch(searchText);
-  }
+  };
   const filterList = (chat) => {
     if (selectButton === 'line') {
       if (chat?.isOpenLines) {
-        return filterSearch(chat)
+        return filterSearch(chat);
       }
-      return
+      return;
     }
-    if (!chat?.isOpenLines){
+    return;
+    // TODO: вернуть для чата, удалить return выше
+    if (!chat?.isOpenLines) {
       return filterSearch(chat);
     }
-  }
+  };
   const filterSearch = (chat) => {
     if (search.length === 0) {
       return chat;
@@ -54,22 +55,19 @@ export const ChatList = () => {
         return chat;
       }
     }
-  }
+  };
   const chatList = useSelector((state) => state.chat.chatList.chats);
   return (
     <ChatListStyle>
       <ChatSearch value={search} onChange={handleChange} />
       <ChatListContainer>
-        {
-          chatList &&
-          chatList.filter(filterList).map((chat) =>
-            <ChatListItem chat={chat} key={chat.chatId} />
-          )
-        }
+        {chatList &&
+          chatList
+            .filter(filterList)
+            .map((chat) => <ChatListItem chat={chat} key={chat.chatId} />)}
       </ChatListContainer>
     </ChatListStyle>
   );
 };
 
 export default ChatList;
-

@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAsyncValue } from 'react-router-dom';
-import MapPlacemark from 'components/Main/MapPlacemark';
 import styled from 'styled-components';
 import closeUrl from 'images/close.svg';
 import { TextSpanStyle } from 'styles/styles';

@@ -4,12 +4,10 @@ import styled from 'styled-components';
 import { SliderTitle } from '../../../styles/slider';
 import { Box } from 'ui/Box';
 import { ButtonUI } from 'ui/ButtonUI';
-import { useAsyncValue } from 'react-router-dom';
 import { InputUI } from 'ui/InputUI';
-import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
-import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
 import { LabelStyle } from '../../../ui/InputUI/InputUIStyled';
 import { setUpdateBuilding } from '../../../api/residential';
+import { CheckboxUI } from 'ui/CheckboxUI';
 
 const EditBuilding = styled.form`
   padding: 0.5rem;
@@ -49,6 +47,8 @@ const DialogEditBuilding = ({ onClose, building, updateBuilding }) => {
       notificationText: building?.notificationText || '',
       reservationExp: building?.reservationExp || '',
       reservationText: building?.reservationText || '',
+      hasSubsidy: building?.hasSubsidy || false,
+      hasTransh: building?.hasTransh || false,
     },
   });
   const onSubmit = (data) => {
@@ -153,6 +153,30 @@ const DialogEditBuilding = ({ onClose, building, updateBuilding }) => {
               rows={5}
             />
           </LabelStyle>
+        )}
+      />
+      <Controller
+        name='hasSubsidy'
+        control={control}
+        render={({ field }) => (
+          <CheckboxUI
+            label='Субсидированная ипотека'
+            id='hasSubsidy'
+            checked={field.value || false}
+            onChange={(e) => field.onChange(e.target.checked)}
+          />
+        )}
+      />
+      <Controller
+        name='hasTransh'
+        control={control}
+        render={({ field }) => (
+          <CheckboxUI
+            label='Траншевая ипотека'
+            id='hasTransh'
+            checked={field.value || false}
+            onChange={(e) => field.onChange(e.target.checked)}
+          />
         )}
       />
       <Box jc='flex-start'>

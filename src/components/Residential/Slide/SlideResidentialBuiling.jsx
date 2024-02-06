@@ -135,6 +135,16 @@ const SlideResidentialBuiling = ({ building }) => {
           {building?.reservationText && (
             <TextSpanStyle size={10}>{building?.reservationText}</TextSpanStyle>
           )}
+          {building?.hasSubsidy && (
+            <TextSpanStyle size={12} bold>
+              Субсидированная ипотека
+            </TextSpanStyle>
+          )}
+          {building?.hasTransh && (
+            <TextSpanStyle size={12} bold>
+              Траншевая ипотека
+            </TextSpanStyle>
+          )}
         </div>
       </Info>
       <TextSpanStyle>

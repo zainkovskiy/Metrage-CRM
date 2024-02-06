@@ -3,7 +3,6 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AnimatePresence } from 'framer-motion';
 import { MainContainer } from 'styles/styles';
-import Loader from 'components/Main/Loader';
 import Chat from 'components/Chat/Chat';
 import ChatMobile from 'mobile/Chat/ChatMobile';
 const Nav = React.lazy(() => import('components/Nav/Nav'));

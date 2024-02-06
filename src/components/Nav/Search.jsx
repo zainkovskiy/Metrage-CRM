@@ -2,9 +2,13 @@ import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { InputUI } from 'ui/InputUI';
 import SearchSuggestions from './SearchSuggestions';
-import { getUserList, getСontactList, getObjectList } from 'api/search';
+import {
+  getUserList,
+  getСontactList,
+  getObjectList,
+  getResidentialList,
+} from 'api/search';
 import { AnimatePresence } from 'framer-motion';
-import { getResidentialList } from '../../api/search';
 
 const SearchStyle = styled.div`
   width: 60%;

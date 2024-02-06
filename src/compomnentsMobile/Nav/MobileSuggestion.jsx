@@ -48,6 +48,16 @@ const MobileSuggestion = ({
         </>
       );
     }
+    if (type === 'ЖК') {
+      return (
+        <>
+          <MobileSuggestionText>
+            {suggestion?.name || ''}{' '}
+            {suggestion?.addrStr ? `(${suggestion?.addrStr})` : ''}
+          </MobileSuggestionText>
+        </>
+      );
+    }
     return (
       <>
         <MobileSuggestionText>
@@ -66,6 +76,9 @@ const MobileSuggestion = ({
       return `${path}/${suggestion?.UID}`;
     }
     if (type === 'Пользователи') {
+      return `${path}/${suggestion?.UID}`;
+    }
+    if (type === 'ЖК') {
       return `${path}/${suggestion?.UID}`;
     }
     return '';

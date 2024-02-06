@@ -61,6 +61,11 @@ import SuspenseSlidePlanning from 'components/Planning/Slide/SuspenseSlidePlanni
 import { loaderPlanSlide } from 'components/Planning/Slide/SuspenseSlidePlanning';
 import SuspenseNewPlunning from './components/Planning/New/SuspenseNewPlunning';
 
+import SuspenseCalendar from 'components/Calendar/SuspenseCalendar';
+// import SuspenseSlidePlanning from 'components/Planning/Slide/SuspenseSlidePlanning';
+// import { loaderPlanSlide } from 'components/Planning/Slide/SuspenseSlidePlanning';
+// import SuspenseNewPlunning from './components/Planning/New/SuspenseNewPlunning';
+
 import SuspenceDashboard from 'components/Dashboard/SuspenceDashboard';
 // import SuspenseSlideUser from 'components/User/Slide/SuspenseSlideUser';
 
@@ -274,6 +279,26 @@ export const routers = createBrowserRouter([
             element: <SuspenseSlidePlanning />,
             loader: loaderPlanSlide,
           },
+          // {
+          //   path: 'edit/:id',
+          //   element: <SuspenseNewNews />,
+          //   loader: loaderEditNewsSlide,
+          // },
+        ],
+      },
+      {
+        path: 'calendar',
+        element: <SuspenseCalendar />,
+        children: [
+          // {
+          //   path: 'new',
+          //   element: <SuspenseNewPlunning />,
+          // },
+          // {
+          //   path: ':id',
+          //   element: <SuspenseSlidePlanning />,
+          //   loader: loaderPlanSlide,
+          // },
           // {
           //   path: 'edit/:id',
           //   element: <SuspenseNewNews />,

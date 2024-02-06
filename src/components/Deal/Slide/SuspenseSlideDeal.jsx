@@ -56,7 +56,7 @@ const SuspenseNewDeal = () => {
 
 export const loaderDealSlide = async ({ request, params }) => {
   const { dealId } = params;
-  return { deal: getOneDeal(868) };
+  return { deal: getOneDeal(dealId) };
 };
 
 export default SuspenseNewDeal;

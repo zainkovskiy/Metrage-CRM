@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { SliderTitle } from '../../../styles/slider';
 import { Box } from 'ui/Box';
 import { ButtonUI } from 'ui/ButtonUI';
-import { useAsyncValue } from 'react-router-dom';
 import { InputUI } from 'ui/InputUI';
 import {
   createNewManagerResidential,

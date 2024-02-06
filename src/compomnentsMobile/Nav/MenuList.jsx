@@ -3,7 +3,12 @@ import { AnimatePresence, motion } from 'framer-motion';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { ReactComponent as Search } from 'images/search.svg';
-import { getUserList, getСontactList, getObjectList } from 'api/search';
+import {
+  getUserList,
+  getСontactList,
+  getObjectList,
+  getResidentialList,
+} from 'api/search';
 import MobileSuggestionList from './MobileSuggestionList';
 import MenuListButton from './MenuListButton';
 const variants = {
@@ -104,6 +109,7 @@ const MenuList = ({ onClose }) => {
       getСontactList(value),
       getUserList(value),
       getObjectList(value),
+      getResidentialList(value),
     ])
       .then((res) => {
         setFindList([
@@ -121,6 +127,11 @@ const MenuList = ({ onClose }) => {
             title: 'Объекты',
             path: '/objects',
             list: res[2].status === 'fulfilled' ? res[2].value : [],
+          },
+          {
+            title: 'ЖК',
+            path: '/residential',
+            list: res[3].status === 'fulfilled' ? res[3].value : [],
           },
         ]);
       })
