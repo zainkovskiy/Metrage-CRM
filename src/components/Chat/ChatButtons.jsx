@@ -23,9 +23,13 @@ const ChatButtons = ({ column, jc }) => {
   const dispatch = useDispatch();
   const chatList = useSelector((state) => state.chat.chatList);
   const notification = useSelector((state) => state.chat.notification);
+  const selectButton = useSelector((state) => state.chat.selectButton);
 
   const handleClick = (e) => {
     const currentButton = e.target.id;
+    if (selectButton === currentButton) {
+      return;
+    }
     dispatch(setSelectButton(currentButton));
     if (currentButton === 'notification') {
       dispatch(getNotification());

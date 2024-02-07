@@ -96,12 +96,13 @@ const ChatListItem = ({ chat }) => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    dispatch(getCurrentChat(chat));
-
-    if (chat?.isOpenLines) {
-      return;
+    if (currentChat) {
+      if (chat.chatId === currentChat.chatId) {
+        return;
+      }
     }
-    dispatch(setSelectButton('chat'));
+    dispatch(getCurrentChat(chat));
+    // dispatch(setSelectButton('chat'));
   };
   const isMatch = () => {
     if (currentChat) {

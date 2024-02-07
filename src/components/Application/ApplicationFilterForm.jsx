@@ -163,6 +163,7 @@ const ApplicationFilterForm = ({ onClose }) => {
               <SelectItemUI value='12'>ВК Лиды (МСК)</SelectItemUI>
               <SelectItemUI value='13'>КВИЗ Кипр</SelectItemUI>
               <SelectItemUI value='14'>Авито (Новостройки)</SelectItemUI>
+              <SelectItemUI value='15'>Аренда</SelectItemUI>
             </SelectUI>
           )}
         />

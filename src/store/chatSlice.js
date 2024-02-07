@@ -1,6 +1,6 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { useFindCurrentChat } from "hooks/ChatHooks";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { useFindCurrentChat } from 'hooks/ChatHooks';
 
 const counter = globalCounter ? JSON.parse(globalCounter) : 0;
 const API = 'https://crm.metragegroup.com/API/REST.php';
@@ -13,13 +13,13 @@ export const getNotification = createAsyncThunk(
       method: 'crm.notifications.get',
       fields: {
         userId: getState().user.UID,
-      }
-    })
+      },
+    });
     if (res?.statusText === 'OK') {
       return res?.data?.result;
     }
   }
-)
+);
 export const getChatList = createAsyncThunk(
   'chat/getChatList',
   async (socket, { getState, dispatch }) => {
@@ -28,13 +28,15 @@ export const getChatList = createAsyncThunk(
     }
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
-      method: 'crm.messages.list',
+      // method: 'crm.messages.list',
+      method: 'crm.messages.listV2',
       fields: {
         userId: getState().user.UID,
-      }
-    })
+        offset: 0,
+      },
+    });
     if (getState().user.windowDevice <= 425 || socket) {
-      return res?.data?.result
+      return res?.data?.result;
     }
     if (res?.statusText === 'OK') {
       const selectButton = getState().chat.selectButton;
@@ -47,7 +49,40 @@ export const getChatList = createAsyncThunk(
       return res?.data?.result;
     }
   }
-)
+);
+export const getChatListMore = createAsyncThunk(
+  'chat/getChatListMore',
+  async (_, { getState }) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      // method: 'crm.messages.list',
+      method: 'crm.messages.listV2',
+      fields: {
+        userId: getState().user.UID,
+        offset: getState().chat.offset + 1,
+      },
+    });
+    if (res?.statusText === 'OK') {
+      return res?.data?.result;
+    }
+  }
+);
+export const getListSearch = createAsyncThunk(
+  'chat/getListSearch',
+  async (value, { getState }) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.messages.getByReq',
+      fields: {
+        userId: getState().user.UID,
+        request: value,
+      },
+    });
+    if (res?.statusText === 'OK') {
+      return res?.data?.result;
+    }
+  }
+);
 export const getCurrentChat = createAsyncThunk(
   'chat/getCurrentChat',
   async (chat, { getState, dispatch }) => {
@@ -57,22 +92,24 @@ export const getCurrentChat = createAsyncThunk(
       fields: {
         userId: getState().user.UID,
         chatId: chat.chatId,
-      }
-    })
+      },
+    });
     if (res?.statusText === 'OK') {
       dispatch(setTargetAuthor(chat.chatWith));
       return res.data.result;
     }
   }
-)
+);
 export const createNewChat = createAsyncThunk(
   'chat/createNewChat',
   async (user, { getState, dispatch }) => {
     try {
-      const findChat = getState().chat.chatList.chats.find((chat) => chat?.chatWith?.UID.toString() === user.UID.toString());
+      const findChat = getState().chat.chatList.chats.find(
+        (chat) => chat?.chatWith?.UID.toString() === user.UID.toString()
+      );
       if (findChat) {
         dispatch(getCurrentChat(findChat));
-        return
+        return;
       }
       const res = await axios.post(API, {
         metrage_id: metrage_id || null,
@@ -80,8 +117,8 @@ export const createNewChat = createAsyncThunk(
         fields: {
           userId: getState().user.UID,
           members: [user.UID],
-        }
-      })
+        },
+      });
       if (res?.statusText === 'OK') {
         dispatch(setTargetAuthor(user));
         dispatch(getChatList());
@@ -93,7 +130,7 @@ export const createNewChat = createAsyncThunk(
       dispatch(setSelectButton('chat'));
     }
   }
-)
+);
 export const setReadAllNotice = createAsyncThunk(
   'chat/setReadAllNotice',
   async (_, { getState }) => {
@@ -102,10 +139,10 @@ export const setReadAllNotice = createAsyncThunk(
       method: 'crm.notifications.readedAll',
       fields: {
         userId: getState().user.UID,
-      }
-    })
+      },
+    });
   }
-)
+);
 export const setReadNotice = createAsyncThunk(
   'chat/setReadNotice',
   async (notice) => {
@@ -113,9 +150,9 @@ export const setReadNotice = createAsyncThunk(
       metrage_id: metrage_id || null,
       method: 'crm.notifications.readed',
       fields: {
-        UID: notice.UID
-      }
-    })
+        UID: notice.UID,
+      },
+    });
     if (res?.statusText === 'OK') {
       const { data } = res;
       if (data?.result?.result === 'OK') {
@@ -123,7 +160,7 @@ export const setReadNotice = createAsyncThunk(
       }
     }
   }
-)
+);
 export const sendChatMessage = createAsyncThunk(
   'chat/sendChatMessage',
   async (message, { getState, dispatch }) => {
@@ -134,14 +171,14 @@ export const sendChatMessage = createAsyncThunk(
         userId: getState().user.UID,
         chatId: getState().chat.currentChat.chatId,
         message: message,
-      }
-    })
+      },
+    });
     if (res?.statusText === 'OK') {
       dispatch(setLastMesssage(res.data.result));
       return res.data.result;
     }
   }
-)
+);
 export const forwardOpenLineChat = createAsyncThunk(
   'chat/forwardChat',
   async (userId, { getState, dispatch }) => {
@@ -151,13 +188,13 @@ export const forwardOpenLineChat = createAsyncThunk(
       fields: {
         userId: userId,
         chatId: getState().chat.currentChat.chatId,
-      }
-    })
+      },
+    });
     if (res?.statusText === 'OK') {
       dispatch(getChatList());
     }
   }
-)
+);
 export const closeOpenLineChat = createAsyncThunk(
   'chat/closeOpenLineChat',
   async (_, { getState, dispatch }) => {
@@ -166,15 +203,17 @@ export const closeOpenLineChat = createAsyncThunk(
       method: 'crm.messages.closeChat',
       fields: {
         chatId: getState().chat.currentChat.chatId,
-      }
-    })
+      },
+    });
     if (res?.statusText === 'OK') {
       dispatch(getChatList());
     }
   }
-)
+);
 
 const initialState = {
+  loadingMore: false,
+  buttonMore: false,
   messageCounter: counter,
   show: false,
   selectButton: 'notification',
@@ -183,6 +222,7 @@ const initialState = {
   currentChat: null,
   chatLoading: false,
   targetAuthor: null,
+  offset: 0,
 };
 
 const userSlice = createSlice({
@@ -192,11 +232,15 @@ const userSlice = createSlice({
     toggleShowChat(state) {
       state.show = !state.show;
       state.currentChat = null;
-      state.targetAuthor = null
-      state.selectButton = 'notification'
+      state.targetAuthor = null;
+      state.selectButton = 'notification';
     },
     setSelectButton(state, action) {
-      state.selectButton = action.payload;
+      const newSelectButton = action.payload;
+      state.selectButton = newSelectButton;
+      if (newSelectButton === 'notification') {
+        state.offset = 0;
+      }
     },
     setCounterMessage(state, action) {
       state.messageCounter = action.payload;
@@ -210,17 +254,29 @@ const userSlice = createSlice({
     },
     setLastMesssage(state, action) {
       const message = action.payload;
-      const findChat = state.chatList.chats.find((chat) => chat?.chatWith?.UID.toString() === state.targetAuthor.UID.toString());
+      const findChat = state.chatList.chats.find(
+        (chat) =>
+          chat?.chatWith?.UID.toString() === state.targetAuthor.UID.toString()
+      );
       findChat.lastMessage = message;
-      state.chatList.chats.splice(state.chatList.chats.indexOf(findChat), 1, findChat);
+      state.chatList.chats.splice(
+        state.chatList.chats.indexOf(findChat),
+        1,
+        findChat
+      );
     },
     addMessage(state, action) {
       const newMessage = action.payload;
       if (state.currentChat && state.currentChat.chatId === newMessage.chatId) {
-        state.currentChat.messages = [...state.currentChat.messages, newMessage.messages];
-        return
+        state.currentChat.messages = [
+          ...state.currentChat.messages,
+          newMessage.messages,
+        ];
+        return;
       }
-      const findChat = state.chatList.chats.find((chat) => chat.chatId === newMessage.chatId);
+      const findChat = state.chatList.chats.find(
+        (chat) => chat.chatId === newMessage.chatId
+      );
       if (findChat) {
         findChat.unread++;
         state.messageCounter++;
@@ -234,6 +290,26 @@ const userSlice = createSlice({
       })
       .addCase(getChatList.fulfilled, (state, action) => {
         state.chatList = action.payload || null;
+        if (action.payload.chats.length === 30) {
+          state.buttonMore = true;
+        }
+      })
+      .addCase(getListSearch.fulfilled, (state, action) => {
+        state.chatList = action.payload || null;
+        state.buttonMore = false;
+      })
+      .addCase(getChatListMore.pending, (state, action) => {
+        state.loadingMore = true;
+      })
+      .addCase(getChatListMore.fulfilled, (state, action) => {
+        const newChatList = action.payload;
+        state.chatList.chats = [...state.chatList.chats, ...newChatList.chats];
+        state.chatList.unreadOpenLinesCount = newChatList.unreadOpenLinesCount;
+        state.loadingMore = false;
+        state.offset = state.offset + 1;
+        if (newChatList.chats.length < 30) {
+          state.buttonMore = false;
+        }
       })
       .addCase(getCurrentChat.pending, (state, action) => {
         state.chatLoading = true;
@@ -242,7 +318,9 @@ const userSlice = createSlice({
         const currentChat = action.payload;
         state.currentChat = currentChat || null;
         state.chatLoading = false;
-        const findChat = state.chatList.chats.find((item) => item.chatId === currentChat.chatId);
+        const findChat = state.chatList.chats.find(
+          (item) => item.chatId === currentChat.chatId
+        );
         if (findChat) {
           const countUnread = findChat.unread;
           findChat.unread = 0;
@@ -261,8 +339,8 @@ const userSlice = createSlice({
         const chatId = action.payload?.result?.chatId;
         state.currentChat = {
           chatId: chatId,
-          messages: []
-        }
+          messages: [],
+        };
       })
       .addCase(setReadNotice.fulfilled, (state, action) => {
         const notice = action.payload;
@@ -273,11 +351,16 @@ const userSlice = createSlice({
         state.messageCounter--;
       })
       .addCase(setReadAllNotice.fulfilled, (state) => {
-        state.notification.notifications = state.notification.notifications.map((notice) => {
-          if (notice.readed) { return notice }
-          return { ...notice, readed: true };
-        });
-        state.messageCounter = state.messageCounter - state.notification.notifyUnread;
+        state.notification.notifications = state.notification.notifications.map(
+          (notice) => {
+            if (notice.readed) {
+              return notice;
+            }
+            return { ...notice, readed: true };
+          }
+        );
+        state.messageCounter =
+          state.messageCounter - state.notification.notifyUnread;
         state.notification.notifyUnread = 0;
       })
       .addCase(closeOpenLineChat.pending, (state) => {
@@ -297,9 +380,16 @@ const userSlice = createSlice({
       })
       .addCase(forwardOpenLineChat.rejected, (state) => {
         state.chatLoading = false;
-      })
-  }
-})
+      });
+  },
+});
 
-export const { toggleShowChat, setSelectButton, setTargetAuthor, setLastMesssage, clearCurrentChat, setCounterMessage } = userSlice.actions;
+export const {
+  toggleShowChat,
+  setSelectButton,
+  setTargetAuthor,
+  setLastMesssage,
+  clearCurrentChat,
+  setCounterMessage,
+} = userSlice.actions;
 export default userSlice.reducer;

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import ChatListItem from './ChatListItem';
 import ChatSearch from './ChatSearch';
 import { device } from 'styles/device';
+import ButtonLoader from 'ui/ButtonLoader/ButtonLoader';
+import { getChatListMore } from '../../store/chatSlice';
 
 const ChatListStyle = styled.div`
   background-color: #fff;
@@ -11,7 +13,6 @@ const ChatListStyle = styled.div`
   border-radius: 5px;
   display: flex;
   flex-direction: column;
-  padding-bottom: 5px;
   overflow: auto;
   width: 300px;
   @media ${device.tablet} {
@@ -24,48 +25,43 @@ const ChatListContainer = styled.div`
   overflow: auto;
   flex-grow: 1;
 `;
+const ButtonContainer = styled.div`
+  padding: 0.5rem;
+  box-sizing: border-box;
+`;
 export const ChatList = () => {
+  const dispatch = useDispatch();
   const selectButton = useSelector((state) => state.chat.selectButton);
-  const [search, setSearch] = useState('');
-  const handleChange = (e) => {
-    const searchText = e.target.value;
-    setSearch(searchText);
-  };
-  const filterList = (chat) => {
-    if (selectButton === 'line') {
-      if (chat?.isOpenLines) {
-        return filterSearch(chat);
-      }
-      return;
-    }
-    return;
-    // TODO: вернуть для чата, удалить return выше
-    if (!chat?.isOpenLines) {
-      return filterSearch(chat);
-    }
-  };
-  const filterSearch = (chat) => {
-    if (search.length === 0) {
-      return chat;
-    }
-    const regExp = new RegExp(search, 'i');
-    const user = chat?.chatWith || null;
-    if (user) {
-      if (regExp.test(user.lastName) || regExp.test(user.firstName)) {
-        return chat;
-      }
-    }
+  const buttonMore = useSelector((state) => state.chat.buttonMore);
+  const loadingMore = useSelector((state) => state.chat.loadingMore);
+  const moreChats = () => {
+    dispatch(getChatListMore());
   };
   const chatList = useSelector((state) => state.chat.chatList.chats);
   return (
     <ChatListStyle>
-      <ChatSearch value={search} onChange={handleChange} />
-      <ChatListContainer>
-        {chatList &&
-          chatList
-            .filter(filterList)
-            .map((chat) => <ChatListItem chat={chat} key={chat.chatId} />)}
-      </ChatListContainer>
+      {selectButton === 'line' && (
+        <>
+          <ChatSearch />
+          <ChatListContainer>
+            {chatList &&
+              chatList.map((chat) => (
+                <ChatListItem chat={chat} key={chat.chatId} />
+              ))}
+            {buttonMore && selectButton === 'line' && (
+              <ButtonContainer>
+                <ButtonLoader
+                  onClick={moreChats}
+                  loading={loadingMore}
+                  fullWidth
+                >
+                  Загрузить еще
+                </ButtonLoader>
+              </ButtonContainer>
+            )}
+          </ChatListContainer>
+        </>
+      )}
     </ChatListStyle>
   );
 };
