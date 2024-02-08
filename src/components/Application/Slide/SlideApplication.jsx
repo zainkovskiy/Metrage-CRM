@@ -97,7 +97,7 @@ const SlideApplication = ({ closeSlide }) => {
           <SlideApplicationMeta />
           <SlideApplicationStatus />
           <SlideApplicationgGrid>
-            <SlideApplicationClientInfo client={application?.client} />
+            <SlideApplicationClientInfo />
             <SlideApplicationAgentInfo
               responsible={application?.responsible}
               recommender={application?.recommender}

@@ -12,12 +12,12 @@ const ChatMobileContent = () => {
   useEffect(() => {
     dispatch(getNotification());
     dispatch(getChatList());
-  }, [])
+  }, []);
   const FieldComponent = getFieldComponent(selectButton);
-  if (chatLoading) { return <Loader fill='#fff' /> }
-  return (
-    <FieldComponent />
-  );
+  if (chatLoading) {
+    return <Loader fill='#fff' />;
+  }
+  return <FieldComponent />;
 };
 const getFieldComponent = (select) => {
   switch (select) {
@@ -28,5 +28,5 @@ const getFieldComponent = (select) => {
     default:
       return FieldMobileNotification;
   }
-}
+};
 export default ChatMobileContent;

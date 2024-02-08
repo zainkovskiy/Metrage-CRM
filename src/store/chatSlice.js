@@ -36,9 +36,15 @@ export const getChatList = createAsyncThunk(
       },
     });
     if (getState().user.windowDevice <= 425 || socket) {
-      return res?.data?.result;
+      if (!getState().chat.route) {
+        return res?.data?.result;
+      }
     }
     if (res?.statusText === 'OK') {
+      if (getState().chat.route) {
+        dispatch(getCurrentChat(getState().chat.route));
+        return res?.data?.result;
+      }
       const selectButton = getState().chat.selectButton;
       if (selectButton !== 'notification') {
         const findChat = useFindCurrentChat(res.data.result, selectButton);
@@ -195,6 +201,18 @@ export const forwardOpenLineChat = createAsyncThunk(
     }
   }
 );
+export const sendVisit = createAsyncThunk('chat/sendVisit', async (chatId) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.messages.sendVisit',
+    fields: {
+      chatId: chatId,
+    },
+  });
+  if (res?.statusText === 'OK') {
+    return res.data.result;
+  }
+});
 export const closeOpenLineChat = createAsyncThunk(
   'chat/closeOpenLineChat',
   async (_, { getState, dispatch }) => {
@@ -223,17 +241,20 @@ const initialState = {
   chatLoading: false,
   targetAuthor: null,
   offset: 0,
+  route: null,
 };
 
 const userSlice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
-    toggleShowChat(state) {
+    toggleShowChat(state, action) {
+      const route = action.payload;
       state.show = !state.show;
       state.currentChat = null;
       state.targetAuthor = null;
-      state.selectButton = 'notification';
+      state.selectButton = route ? 'line' : 'notification';
+      state.route = route || null;
     },
     setSelectButton(state, action) {
       const newSelectButton = action.payload;
@@ -318,6 +339,8 @@ const userSlice = createSlice({
         const currentChat = action.payload;
         state.currentChat = currentChat || null;
         state.chatLoading = false;
+        state.selectButton = 'line';
+        state.route = null;
         const findChat = state.chatList.chats.find(
           (item) => item.chatId === currentChat.chatId
         );
@@ -380,6 +403,15 @@ const userSlice = createSlice({
       })
       .addCase(forwardOpenLineChat.rejected, (state) => {
         state.chatLoading = false;
+      })
+      .addCase(sendVisit.fulfilled, (state, action) => {
+        const newMessage = action.payload;
+        if (state.currentChat) {
+          state.currentChat.messages = [
+            ...state.currentChat.messages,
+            newMessage,
+          ];
+        }
       });
   },
 });

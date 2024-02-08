@@ -10,11 +10,14 @@ import {
   ApplicationSlideSide,
 } from '../applicationStyle';
 import { Box } from 'ui/Box';
+import { ButtonLink } from 'ui/ButtonLink';
 import { IconButton } from 'ui/IconButton';
 import DialogWindow from 'components/Main/DialogWindow';
 import ApplicationEditName from '../ApplicationEditName ';
 import { SliderTitle } from '../../../styles/slider';
-import { Link } from 'react-router-dom';
+import { Link, useAsyncValue } from 'react-router-dom';
+import ApplicationConnectObject from './ApplicationConnectObject';
+import { setDisConnectObject } from '../../../api/application';
 
 const TextSpanStyleLink = styled(TextSpanStyle)`
   cursor: pointer;
@@ -24,7 +27,7 @@ const TextSpanStyleLink = styled(TextSpanStyle)`
     text-decoration: underline;
   }
 `;
-const ClientLinnk = styled(Link)`
+const CustomLink = styled(Link)`
   text-decoration: none;
   & > span {
     transition: color 0.3s;
@@ -33,9 +36,13 @@ const ClientLinnk = styled(Link)`
     color: ${({ theme }) => theme.color.primary};
   }
 `;
-const SlideApplicationClientInfo = ({ client }) => {
+const SlideApplicationClientInfo = () => {
+  const application = useAsyncValue();
+  const client = application?.client;
+  const [change, setChange] = useState(false);
   const [isShowPhone, setIsShowPhone] = useState(false);
   const [isShowEditName, setIsShowEditName] = useState(false);
+  const [isShowConnect, setIsShowConnect] = useState(false);
   const phone = client?.phones[0]?.value
     ? client?.phones[0]?.value.toString()
     : null;
@@ -55,22 +62,57 @@ const SlideApplicationClientInfo = ({ client }) => {
   const toggleEditName = () => {
     setIsShowEditName(!isShowEditName);
   };
+  const toggleConnect = () => {
+    setIsShowConnect(!isShowConnect);
+  };
+  const disConnectObject = () => {
+    setDisConnectObject(application.UID);
+    application.object = null;
+    setChange(!change);
+  };
+  const getPath = () => {
+    const obj = application.object;
+    if (obj.type === 'jk') {
+      return `/residential/${obj.objUID}`;
+    }
+    return `/objects/${obj.type}/${obj.objUID}`;
+  };
   return (
     <>
       <ApplicationBlockStyle $column jc='flex-start'>
         <SliderTitle>Клиент:</SliderTitle>
         <ApplicationSlideSide>
           <Box jc='flex-start'>
-            <ClientLinnk to={`/client/${client.UID}`}>
+            <CustomLink to={`/client/${client.UID}`}>
               <TextSpanStyle size={14}>
                 {client?.lastName} {client?.firstName}
               </TextSpanStyle>
-            </ClientLinnk>
+            </CustomLink>
             <IconButton onClick={toggleEditName}>
               <Edit />
             </IconButton>
           </Box>
           {getPhone()}
+          <Box ai='flex-start' column gap='0'>
+            <Box gap='0.2rem'>
+              <TextSpanStyle size={12}>По объекту:</TextSpanStyle>
+              <ButtonLink color='#84019e' size={12} onClick={toggleConnect}>
+                {application?.object ? 'Изменить' : 'Добавить'}
+              </ButtonLink>
+              {application?.object && (
+                <ButtonLink color='red' size={12} onClick={disConnectObject}>
+                  Удалить
+                </ButtonLink>
+              )}
+            </Box>
+            {application.object && (
+              <CustomLink to={getPath()}>
+                <TextSpanStyle size={10}>
+                  {application.object.title}
+                </TextSpanStyle>
+              </CustomLink>
+            )}
+          </Box>
           {phone && (
             <Box jc='flex-start'>
               <LinkButtonStyle
@@ -108,6 +150,9 @@ const SlideApplicationClientInfo = ({ client }) => {
       </ApplicationBlockStyle>
       <DialogWindow open={isShowEditName} onClose={toggleEditName}>
         <ApplicationEditName onClose={toggleEditName} client={client} />
+      </DialogWindow>
+      <DialogWindow open={isShowConnect} onClose={toggleConnect}>
+        <ApplicationConnectObject onClose={toggleConnect} />
       </DialogWindow>
     </>
   );

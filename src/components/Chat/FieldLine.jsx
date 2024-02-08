@@ -22,6 +22,7 @@ import {
   closeOpenLineChat,
   toggleShowChat,
 } from 'store/chatSlice';
+import { sendVisit } from '../../store/chatSlice';
 
 const FieldLineHeaderStyle = styled.div`
   padding: 1rem;
@@ -98,6 +99,9 @@ const FieldLine = () => {
   const closecChat = () => {
     dispatch(closeOpenLineChat());
   };
+  const handleSendVisit = () => {
+    dispatch(sendVisit(currentChat.chatId));
+  };
   const transferApplication = () => {
     navigate(`/application/new/${currentChat.chatId}`, {
       state: { author: targetAuthor },
@@ -137,6 +141,9 @@ const FieldLine = () => {
             Перенести в заявку
           </ChatMenuItem>
           <ChatMenuItem onClick={closecChat}>Закрыть диалог</ChatMenuItem>
+          <ChatMenuItem onClick={handleSendVisit}>
+            Отправить визитку
+          </ChatMenuItem>
         </ChatMenu>
       </FieldLineHeaderStyle>
       <Field ref={fieldRef}>

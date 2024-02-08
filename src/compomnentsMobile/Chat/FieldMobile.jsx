@@ -5,10 +5,11 @@ import FieldChatMobile from './FieldChatMobile';
 
 const FieldMobile = () => {
   const currentChat = useSelector((state) => state.chat.currentChat);
-  if (currentChat) { return <FieldChatMobile /> }
-  return (
-    <FieldMobileList />
-  );
+  const route = useSelector((state) => state.chat.route);
+  if (currentChat || route) {
+    return <FieldChatMobile />;
+  }
+  return <FieldMobileList />;
 };
 
 export default FieldMobile;

@@ -10,10 +10,10 @@ const NavMobile = React.lazy(() => import('mobile/Nav/NavMobile'));
 const PanelControl = React.lazy(() =>
   import('components/PanelControl/PanelControl')
 );
-import PanelControlDrag from 'components/PanelControl/PanelControlDrag';
-import PanelControlDrag2 from 'components/PanelControl/PanelControlDrag2';
-import DragExample from 'components/PanelControl/PanelControlDrag3';
-import ReorderTest from 'components/PanelControl/ReorderTest';
+// import PanelControlDrag from 'components/PanelControl/PanelControlDrag';
+// import PanelControlDrag2 from 'components/PanelControl/PanelControlDrag2';
+// import DragExample from 'components/PanelControl/PanelControlDrag3';
+// import ReorderTest from 'components/PanelControl/ReorderTest';
 import { useWindowSize } from './hooks/windowSize';
 import { setWindowDevice } from './store/userSlice';
 import axios from 'axios';

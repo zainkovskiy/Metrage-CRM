@@ -21,7 +21,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToBasket, removeFromBasket } from '../../../store/objectSlice';
 import SlideCountView from './SlideCountView';
 import SlideDialogMap from './SlideDialogMap';
+import SlideDialogChats from './SlideDialogChats';
 import DialogWindow from 'components/Main/DialogWindow';
+import { setFake } from '../../../api/objectAPI';
+import { ButtonLink } from '../../../ui/ButtonLink/ButtonLink';
+
 const AreaStyle = styled(Area)`
   width: 36px;
   height: 36px;
@@ -38,7 +42,7 @@ const SlideInfoBlock = styled.div`
   width: 100%;
   gap: 0.5rem;
   @media (min-width: 768px) {
-    height: 300px;
+    ${({ $isGalery }) => $isGalery && 'height: 300px;'};
   }
 `;
 const ButtonBlock = styled.div`
@@ -59,6 +63,7 @@ const SlideObjectInfo = () => {
   const object = useAsyncValue();
   const [match, setMatch] = useState(false);
   const [openMap, setOpenMap] = useState(false);
+  const [openChats, setOpenChats] = useState(false);
   useEffect(() => {
     basket.forEach((element) => {
       if (element.UID === object.UID) {
@@ -104,6 +109,17 @@ const SlideObjectInfo = () => {
   const toggleOpenMap = () => {
     setOpenMap(!openMap);
   };
+  const handleFake = (e) => {
+    const checked = e.target.checked;
+    setFake({
+      UID: object.UID,
+      type: object.subTypeEstate,
+      isFake: checked,
+    });
+  };
+  const handleOpenChats = () => {
+    setOpenChats(!openChats);
+  };
   return (
     <SlideBlockStyle $wrap>
       <ButtonBlock>
@@ -114,15 +130,22 @@ const SlideObjectInfo = () => {
           {match ? 'Удалить из подборки' : 'Добавить в подборку'}
         </ButtonUI>
       </ButtonBlock>
-      {object.isEditor && (
-        <Box jc='flex-end' fullWidth>
-          <CheckboxUI
-            label='Фейк'
-            id='isFake'
-            checked={false}
-            size='small'
-            // onChange={(e) => field.onChange(e.target.checked)}
-          />
+      {(object.isEditor || object.chatsCount) && (
+        <Box jc={object.isEditor ? 'space-between' : 'flex-start'} fullWidth>
+          {object.isEditor && (
+            <CheckboxUI
+              label='Фейк'
+              id='isFake'
+              defaultChecked={object.isFake || false}
+              size='small'
+              onChange={handleFake}
+            />
+          )}
+          {object.chatsCount > 0 && (
+            <ButtonLink color='#84019e' size={12} onClick={handleOpenChats}>
+              Чатов: {object.chatsCount}
+            </ButtonLink>
+          )}
         </Box>
       )}
       <ContentBlock $wrap={windowSize < 1201}>
@@ -211,7 +234,7 @@ const SlideObjectInfo = () => {
             </Box>
           </Box>
         </SlideInfoBlock>
-        <SlideInfoBlock>
+        <SlideInfoBlock $isGalery={true}>
           {/* <img src={object?.photos[0].URL} style={{width: '100%', height: '100%', objectFit: 'cover'}}/> */}
           <ImageGalary
             images={
@@ -226,6 +249,9 @@ const SlideObjectInfo = () => {
       </ContentBlock>
       <DialogWindow open={openMap} onClose={toggleOpenMap}>
         <SlideDialogMap onClose={toggleOpenMap} />
+      </DialogWindow>
+      <DialogWindow open={openChats} onClose={handleOpenChats}>
+        <SlideDialogChats onClose={handleOpenChats} />
       </DialogWindow>
     </SlideBlockStyle>
   );

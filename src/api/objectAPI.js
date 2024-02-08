@@ -251,3 +251,24 @@ export const createAndSetContact = async (raw) => {
     return res?.data?.result || null;
   }
 };
+export const setFake = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.objects.stampFake',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No OK';
+};
+export const getObjectsChatList = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.objects.getMessages',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return res?.data?.result || null;
+  }
+};

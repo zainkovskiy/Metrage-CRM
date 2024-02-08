@@ -82,3 +82,41 @@ export const addToCompilation = async (demandId, compilationUid, objects) => {
     return res?.data?.result?.roster;
   }
 };
+
+export const getObjectsConnectList = async (value) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.demand.getObjectsForConnect',
+    fields: {
+      request: value,
+    },
+  });
+  if (res?.statusText === 'OK') {
+    return res?.data?.result || [];
+  }
+  return [];
+};
+export const setObjectsConnect = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.demand.connectObject',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No OK';
+};
+export const setDisConnectObject = async (UID) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.demand.disconnectObject',
+    fields: {
+      UID: UID,
+    },
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No OK';
+};

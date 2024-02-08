@@ -16,7 +16,7 @@ import TelegramDiscription from 'components/Nav/TelegramDiscription';
 import DialogWindow from 'components/Main/DialogWindow';
 import Search from './Search';
 import { Link } from 'react-router-dom';
-import chartUrl, { ReactComponent as Chart } from 'images/chart.svg';
+import { ReactComponent as Chart } from 'images/chart.svg';
 
 const NavStyle = styled.nav`
   grid-area: nav;

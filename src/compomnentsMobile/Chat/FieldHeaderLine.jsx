@@ -41,7 +41,6 @@ const FieldHeaderLine = () => {
   const navigate = useNavigate();
   const targetAuthor = useSelector((state) => state.chat.targetAuthor);
   const currentChat = useSelector((state) => state.chat.currentChat);
-  console.log(currentChat);
   const [open, setOpen] = useState(false);
   const backToList = () => {
     dispatch(clearCurrentChat());
