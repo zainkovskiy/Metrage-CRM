@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { SliderBlock } from '../../../styles/slider';
 import styled from 'styled-components';
 import closeUrl from 'images/close.svg';
@@ -6,12 +6,16 @@ import { Box } from '../../../ui/Box';
 import { InputUI } from '../../../ui/InputUI';
 import { ButtonUI } from '../../../ui/ButtonUI/ButtonUI';
 import { TextSpanStyle } from '../../../styles/styles';
-import { useRef } from 'react';
+import {
+  ButtonToggleGroup,
+  ButtonToggleItem,
+} from 'ui/ButtonToggle/ButtonToggle';
 import {
   getObjectsConnectList,
   setObjectsConnect,
 } from '../../../api/application';
 import { useAsyncValue } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const ConnectObject = styled(SliderBlock)`
   display: flex;
@@ -33,7 +37,7 @@ const ObjectsContainer = styled.div`
   flex-direction: column;
   gap: 0.5rem;
 `;
-const ConnectObjectItem = styled.div`
+const ConnectObjectItem = styled(motion.div)`
   padding: 0.5rem;
   box-sizing: border-box;
   border: 1px solid #ccc;
@@ -74,6 +78,7 @@ const ApplicationConnectObject = ({ onClose }) => {
   const inputRef = useRef(null);
   const [value, setValue] = useState('');
   const [list, setList] = useState([]);
+  const [selectType, setSelectType] = useState('object');
   const [selectObject, setSelectObject] = useState(null);
   useEffect(() => {
     if (inputRef.current) {
@@ -83,7 +88,7 @@ const ApplicationConnectObject = ({ onClose }) => {
   const getConnectList = (value) => {
     if (reqRef.current) {
       reqRef.current = false;
-      getObjectsConnectList(value)
+      getObjectsConnectList(value, selectType)
         .then((data) => {
           setList(data);
         })
@@ -109,9 +114,14 @@ const ApplicationConnectObject = ({ onClose }) => {
       UID: application.UID,
       objUID: selectObject.objUID,
       type: selectObject.type,
+    }).then((object) => {
+      application.object = object;
+      onClose('new');
     });
-    application.object = selectObject;
-    onClose();
+  };
+  const handlerType = (e) => {
+    const newType = e.target.id;
+    setSelectType(newType);
   };
   return (
     <ConnectObject onClick={(e) => e.stopPropagation()}>
@@ -120,25 +130,44 @@ const ApplicationConnectObject = ({ onClose }) => {
         <CloseButtonStyle src={closeUrl} alt='close' onClick={onClose} />
       </Box>
       <ConnectObjectContent>
+        <ButtonToggleGroup fullWidth>
+          <ButtonToggleItem
+            onClick={handlerType}
+            id='object'
+            active={selectType}
+          >
+            Объект
+          </ButtonToggleItem>
+          <ButtonToggleItem onClick={handlerType} id='jk' active={selectType}>
+            ЖК
+          </ButtonToggleItem>
+        </ButtonToggleGroup>
         <InputUI value={value} onChange={handleChange} small ref={inputRef} />
         <ObjectsContainer>
-          {list.map((object, idx) => (
-            <ConnectObjectItem
-              key={`${object.objUID} + ${idx}`}
-              $select={
-                selectObject?.objUID === object.objUID &&
-                selectObject?.type === object.type
-              }
-              onClick={() => choiseObject(object)}
-            >
-              <TextSpanStyle size={10}>{object.type}</TextSpanStyle>
-              <TextSpanStyle size={12}>{object.title}</TextSpanStyle>
-            </ConnectObjectItem>
-          ))}
+          <AnimatePresence>
+            {list.map((object, idx) => (
+              <ConnectObjectItem
+                key={`${object.objUID} + ${idx}`}
+                $select={
+                  selectObject?.objUID === object.objUID &&
+                  selectObject?.type === object.type
+                }
+                onClick={() => choiseObject(object)}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0 }}
+              >
+                <TextSpanStyle size={10}>
+                  {typeTranslate[object.type]}
+                </TextSpanStyle>
+                <TextSpanStyle size={12}>{object.title}</TextSpanStyle>
+              </ConnectObjectItem>
+            ))}
+          </AnimatePresence>
         </ObjectsContainer>
       </ConnectObjectContent>
       <Box jc='flex-start'>
-        <ButtonUI size='small' variant='outline' onClose={onClose}>
+        <ButtonUI size='small' variant='outline' onClick={onClose}>
           Закрыть
         </ButtonUI>
         <ButtonUI size='small' disabled={!selectObject} onClick={setConnect}>
@@ -147,6 +176,12 @@ const ApplicationConnectObject = ({ onClose }) => {
       </Box>
     </ConnectObject>
   );
+};
+
+const typeTranslate = {
+  live: 'Жилая',
+  business: 'Коммерческаяя',
+  jk: 'ЖК',
 };
 
 export default ApplicationConnectObject;

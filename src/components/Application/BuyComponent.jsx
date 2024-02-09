@@ -11,6 +11,8 @@ import DialogAddFeature from './Slide/DialogAddFeature';
 import DialogAddPlace from './Slide/DialogAddPlace';
 import { TextSpanStyle } from 'styles/styles';
 import { Box } from 'ui/Box';
+import { useNumberTriad } from 'hooks/StringHook';
+
 const variants = {
   initial: {
     x: '-100%',
@@ -32,6 +34,7 @@ const InputsField = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 0.5rem;
 `;
+
 const BuyComponent = ({ firstMout }) => {
   const { control, setValue, getValues, watch } = useFormContext();
   const { errors } = useFormState();
@@ -49,6 +52,24 @@ const BuyComponent = ({ firstMout }) => {
     setValue(source, array, {
       shouldDirty: true,
     });
+  };
+  const getCorrectValue = (field) => {
+    if (field.name === 'priceFrom' || field.name === 'priceTo') {
+      return field.value ? useNumberTriad(field.value) : '';
+    }
+    return field.value || '';
+  };
+  const correctOnChangeField = (e, field) => {
+    if (field.name === 'priceFrom' || field.name === 'priceTo') {
+      return field.onChange(parseInt(e.target.value.split(' ').join('')));
+    }
+    return field.onChange(e.target.value);
+  };
+  const getTypeInput = (name) => {
+    if (name === 'priceFrom' || name === 'priceTo') {
+      return 'text';
+    }
+    return 'number';
   };
   watch('cordsList');
   watch('addressList');
@@ -124,10 +145,13 @@ const BuyComponent = ({ firstMout }) => {
               render={({ field }) => (
                 <InputUI
                   small
-                  value={field.value || ''}
-                  onChange={field.onChange}
+                  value={getCorrectValue(field)}
+                  onChange={(e) => {
+                    correctOnChangeField(e, field);
+                  }}
                   inputRef={field.ref}
                   label={featureInputList[input].label}
+                  type={getTypeInput(field.name)}
                 />
               )}
             />

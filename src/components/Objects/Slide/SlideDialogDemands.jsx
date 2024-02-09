@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useAsyncValue } from 'react-router-dom';
 import { SliderBlock } from '../../../styles/slider';
-import { getObjectsChatList } from '../../../api/objectAPI';
+import { getObjectDemandsList } from '../../../api/objectAPI';
 import closeUrl from 'images/close.svg';
 import { Box } from '../../../ui/Box';
 import { ButtonUI } from '../../../ui/ButtonUI/ButtonUI';
 import { TextSpanStyle } from '../../../styles/styles';
-import SlideDialogChatItem from './SlideDialogChatItem';
+import SlideDialogDemandItem from './SlideDialogDemandItem';
 import { AnimatePresence, motion } from 'framer-motion';
 
-const DialogChats = styled(SliderBlock)`
+const DialogDemands = styled(SliderBlock)`
   width: 300px;
   height: 60vh;
   display: flex;
@@ -30,7 +30,7 @@ const CloseButtonStyle = styled.img`
     transform: scale(0.9);
   }
 `;
-const DialogChatsContent = styled(motion.div)`
+const DialogDemandsContent = styled(motion.div)`
   flex-grow: 1;
   overflow-y: auto;
   overflow-x: hidden;
@@ -100,51 +100,55 @@ const SpinerContainer = styled(motion.div)`
   height: 100%;
 `;
 
-const SlideDialogChats = ({ onClose }) => {
+const SlideDialogDemands = ({ onClose }) => {
   const object = useAsyncValue();
-  const [chats, setChats] = useState([]);
+  const [demands, setDemands] = useState([]);
   const [loading, setLoding] = useState(true);
   useEffect(() => {
-    getChatList();
+    getDemandsList();
   }, []);
-  const getChatList = () => {
-    getObjectsChatList({
+  const getDemandsList = () => {
+    getObjectDemandsList({
       UID: object.UID,
       type: object.subTypeEstate,
     })
-      .then((reqChats) => {
-        setChats(reqChats);
+      .then((reqDemands) => {
+        setDemands(reqDemands);
       })
       .finally(() => {
         setLoding(false);
       });
   };
   return (
-    <DialogChats onClick={(e) => e.stopPropagation()}>
+    <DialogDemands onClick={(e) => e.stopPropagation()}>
       <Box jc='space-between'>
-        <TextSpanStyle>Чаты</TextSpanStyle>
+        <TextSpanStyle>Заявки</TextSpanStyle>
         <CloseButtonStyle src={closeUrl} alt='close' onClick={onClose} />
       </Box>
-      <DialogChatsContent>
+      <DialogDemandsContent>
         {loading ? (
           <SpinerContainer>
             <Spiner />
           </SpinerContainer>
         ) : (
           <AnimatePresence>
-            {chats.map((chat, idx) => (
-              <SlideDialogChatItem curChat={chat} key={chat.chatId} idx={idx} />
+            {demands.map((demand, idx) => (
+              <SlideDialogDemandItem
+                curDemand={demand}
+                key={demand.UID}
+                idx={idx}
+              />
             ))}
           </AnimatePresence>
         )}
-      </DialogChatsContent>
+      </DialogDemandsContent>
       <Box jc='flex-end'>
         <ButtonUI size='small' onClick={onClose}>
           Закрыть
         </ButtonUI>
       </Box>
-    </DialogChats>
+    </DialogDemands>
   );
 };
 
-export default SlideDialogChats;
+export default SlideDialogDemands;

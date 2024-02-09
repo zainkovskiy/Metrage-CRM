@@ -36,7 +36,7 @@ const CustomLink = styled(Link)`
     color: ${({ theme }) => theme.color.primary};
   }
 `;
-const SlideApplicationClientInfo = () => {
+const SlideApplicationClientInfo = ({ globalSlideChange }) => {
   const application = useAsyncValue();
   const client = application?.client;
   const [change, setChange] = useState(false);
@@ -62,7 +62,10 @@ const SlideApplicationClientInfo = () => {
   const toggleEditName = () => {
     setIsShowEditName(!isShowEditName);
   };
-  const toggleConnect = () => {
+  const toggleConnect = (source) => {
+    if (source === 'new') {
+      globalSlideChange();
+    }
     setIsShowConnect(!isShowConnect);
   };
   const disConnectObject = () => {
@@ -73,14 +76,19 @@ const SlideApplicationClientInfo = () => {
   const getPath = () => {
     const obj = application.object;
     if (obj.type === 'jk') {
-      return `/residential/${obj.objUID}`;
+      return `/residential/${obj.UID}`;
     }
-    return `/objects/${obj.type}/${obj.objUID}`;
+    return `/objects/${obj.type}/${obj.UID}`;
   };
   return (
     <>
       <ApplicationBlockStyle $column jc='flex-start'>
-        <SliderTitle>Клиент:</SliderTitle>
+        <SliderTitle>
+          Клиент:
+          <TextSpanStyle size={12}>
+            Источник: {application?.source?.name || ''}
+          </TextSpanStyle>
+        </SliderTitle>
         <ApplicationSlideSide>
           <Box jc='flex-start'>
             <CustomLink to={`/client/${client.UID}`}>
@@ -108,7 +116,7 @@ const SlideApplicationClientInfo = () => {
             {application.object && (
               <CustomLink to={getPath()}>
                 <TextSpanStyle size={10}>
-                  {application.object.title}
+                  {application.object.addrString}
                 </TextSpanStyle>
               </CustomLink>
             )}

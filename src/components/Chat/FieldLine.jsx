@@ -152,7 +152,7 @@ const FieldLine = () => {
             <MessageItem
               key={idx}
               message={message}
-              target={message?.author?.UID === targetAuthor?.UID}
+              target={message?.author?.isOpenLines || false}
               last={idx === currentChat?.messages?.length - 1}
               scrollField={scrollField}
               firstUpdate={firstUpdate.current}

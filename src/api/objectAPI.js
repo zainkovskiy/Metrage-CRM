@@ -272,3 +272,13 @@ export const getObjectsChatList = async (raw) => {
     return res?.data?.result || null;
   }
 };
+export const getObjectDemandsList = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.objects.getDemands',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return res?.data?.result || null;
+  }
+};

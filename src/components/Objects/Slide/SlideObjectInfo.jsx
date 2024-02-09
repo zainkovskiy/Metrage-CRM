@@ -22,6 +22,7 @@ import { addToBasket, removeFromBasket } from '../../../store/objectSlice';
 import SlideCountView from './SlideCountView';
 import SlideDialogMap from './SlideDialogMap';
 import SlideDialogChats from './SlideDialogChats';
+import SlideDialogDemands from './SlideDialogDemands';
 import DialogWindow from 'components/Main/DialogWindow';
 import { setFake } from '../../../api/objectAPI';
 import { ButtonLink } from '../../../ui/ButtonLink/ButtonLink';
@@ -64,6 +65,7 @@ const SlideObjectInfo = () => {
   const [match, setMatch] = useState(false);
   const [openMap, setOpenMap] = useState(false);
   const [openChats, setOpenChats] = useState(false);
+  const [openDemands, setOpenDemands] = useState(false);
   useEffect(() => {
     basket.forEach((element) => {
       if (element.UID === object.UID) {
@@ -120,6 +122,9 @@ const SlideObjectInfo = () => {
   const handleOpenChats = () => {
     setOpenChats(!openChats);
   };
+  const handleOpenDemands = () => {
+    setOpenDemands(!openDemands);
+  };
   return (
     <SlideBlockStyle $wrap>
       <ButtonBlock>
@@ -130,7 +135,7 @@ const SlideObjectInfo = () => {
           {match ? 'Удалить из подборки' : 'Добавить в подборку'}
         </ButtonUI>
       </ButtonBlock>
-      {(object.isEditor || object.chatsCount) && (
+      {(object.isEditor || object.chatsCount || object.demandsCount) && (
         <Box jc={object.isEditor ? 'space-between' : 'flex-start'} fullWidth>
           {object.isEditor && (
             <CheckboxUI
@@ -141,11 +146,18 @@ const SlideObjectInfo = () => {
               onChange={handleFake}
             />
           )}
-          {object.chatsCount > 0 && (
-            <ButtonLink color='#84019e' size={12} onClick={handleOpenChats}>
-              Чатов: {object.chatsCount}
-            </ButtonLink>
-          )}
+          <Box column gap='0' ai='flex-end'>
+            {object?.chatsCount > 0 && (
+              <ButtonLink color='#84019e' size={12} onClick={handleOpenChats}>
+                Чатов: {object.chatsCount}
+              </ButtonLink>
+            )}
+            {object?.demandsCount > 0 && (
+              <ButtonLink color='#84019e' size={12} onClick={handleOpenDemands}>
+                Заявок: {object.demandsCount}
+              </ButtonLink>
+            )}
+          </Box>
         </Box>
       )}
       <ContentBlock $wrap={windowSize < 1201}>
@@ -252,6 +264,9 @@ const SlideObjectInfo = () => {
       </DialogWindow>
       <DialogWindow open={openChats} onClose={handleOpenChats}>
         <SlideDialogChats onClose={handleOpenChats} />
+      </DialogWindow>
+      <DialogWindow open={openDemands} onClose={handleOpenDemands}>
+        <SlideDialogDemands onClose={handleOpenDemands} />
       </DialogWindow>
     </SlideBlockStyle>
   );

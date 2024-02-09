@@ -24,6 +24,9 @@ const SlideApplicationSimilar = ({ moveToNewSelectList, selectList }) => {
   const office = useSelector((state) => state.user.office);
   const loadingSave = useSelector((state) => state.application.loadingSave);
   const getCords = () => {
+    if (application?.object?.lat && application?.object?.lng) {
+      return [application.object.lat, application.object.lng];
+    }
     return office === '2' ? [55.75222, 37.61556] : [55.030204, 82.92043];
   };
   const getSelect = (select) => {

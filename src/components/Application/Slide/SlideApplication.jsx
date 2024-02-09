@@ -44,6 +44,7 @@ const SlideApplicationgGrid = styled.div`
 const SlideApplication = ({ closeSlide }) => {
   const application = useAsyncValue();
   const isExternal = useSelector((state) => state.user.isExternal);
+  const [slideChange, setSlideChange] = useState(false);
   const [openChange, setOpenChange] = useState(false);
   const [openHandOver, setOpenHandOver] = useState(false);
   const [newSelectList, setNewSelectList] = useState([]);
@@ -90,6 +91,9 @@ const SlideApplication = ({ closeSlide }) => {
       }
     );
   };
+  const globalSlideChange = () => {
+    setSlideChange(!slideChange);
+  };
   return (
     <>
       <SliderStyle>
@@ -97,7 +101,7 @@ const SlideApplication = ({ closeSlide }) => {
           <SlideApplicationMeta />
           <SlideApplicationStatus />
           <SlideApplicationgGrid>
-            <SlideApplicationClientInfo />
+            <SlideApplicationClientInfo globalSlideChange={globalSlideChange} />
             <SlideApplicationAgentInfo
               responsible={application?.responsible}
               recommender={application?.recommender}

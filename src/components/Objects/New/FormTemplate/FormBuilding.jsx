@@ -6,7 +6,6 @@ import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
 import { Box } from 'ui/Box/Box';
 import { ButtonToggleGroup, ButtonToggleItem } from 'ui/ButtonToggle';
 import { InputUI } from 'ui/InputUI';
-import { ButtonUI } from 'ui/ButtonUI';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import { TextSpanStyle } from 'styles/styles';
 import { getBusinessBuildingTypes } from 'api/objectAPI';

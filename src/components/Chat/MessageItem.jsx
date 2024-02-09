@@ -36,7 +36,7 @@ const MessageItem = ({ message, target, last, firstUpdate, scrollField }) => {
   }, []);
   return (
     <MessageItemStyle
-      // $target={target}
+      $target={target}
       ref={messageRef}
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}

@@ -6,6 +6,7 @@ import DialogWindow from 'components/Main/DialogWindow';
 import SlideDialogAd from './SlideDialogAd';
 import SlideDialogVideo from './SlideDialogVideo';
 import SlideDialogPhoto from './SlideDialogPhoto';
+import SlideAttention from './SlideAttention';
 import { useAsyncValue, useNavigate } from 'react-router-dom';
 
 const ObjectSlideButton = styled.div`
@@ -74,11 +75,15 @@ const SlideObjectNav = ({ onCloseSlide, changePhoto }) => {
         />
       </DialogWindow>
       <DialogWindow open={ad} onClose={isShowAd}>
-        <SlideDialogAd
-          onClose={isShowAd}
-          UID={object.UID}
-          estate={object.typeEstate}
-        />
+        {object?.isFake || object.contact ? (
+          <SlideDialogAd
+            onClose={isShowAd}
+            UID={object.UID}
+            estate={object.typeEstate}
+          />
+        ) : (
+          <SlideAttention onClose={isShowAd} />
+        )}
       </DialogWindow>
     </SlideBlockStyle>
   );
