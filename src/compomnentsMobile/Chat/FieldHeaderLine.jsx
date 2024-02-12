@@ -16,6 +16,7 @@ import {
 import UserFinder from 'components/Main/UserFinder';
 import DialogWindow from 'components/Main/DialogWindow';
 import { LinkUI } from 'ui/LinkUI/LinkUI';
+import { sendVisit } from '../../store/chatSlice';
 
 const FieldHeaderChatStyle = styled.div`
   padding: 0.5rem;
@@ -71,6 +72,9 @@ const FieldHeaderLine = () => {
     dispatch(forwardOpenLineChat(user.UID));
     openUserFinder();
   };
+  const handleSendVisit = () => {
+    dispatch(sendVisit(currentChat.chatId));
+  };
   return (
     <>
       <FieldHeaderChatStyle>
@@ -90,6 +94,9 @@ const FieldHeaderLine = () => {
             </ChatMenuItem>
             <ChatMenuItem onClick={transferApplication}>
               Перенести в заявку
+            </ChatMenuItem>
+            <ChatMenuItem onClick={handleSendVisit}>
+              Отправить визитку
             </ChatMenuItem>
             <ChatMenuItem onClick={closecChat}>Закрыть диалог</ChatMenuItem>
           </ChatMenu>

@@ -14,7 +14,7 @@ const SlideDialogMapStyle = styled.div`
   border-radius: 5px;
   background: #fff;
   @media (${device.tablet}) {
-    width: 100vw;
+    width: calc(100vw - 1rem);
   }
 `;
 const CloseButtonStyle = styled.img`
@@ -38,6 +38,9 @@ const DialogMapHeader = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  @media (${device.tablet}) {
+    padding: 0.5rem 0.5rem 0 0.5rem;
+  }
 `;
 const DialogMapContext = styled.div`
   padding: 1rem;
@@ -45,6 +48,9 @@ const DialogMapContext = styled.div`
   border-radius: 5px;
   background: #fff;
   height: 100%;
+  @media (${device.tablet}) {
+    padding: 0.5rem;
+  }
 `;
 
 const SlideDialogMap = ({ onClose }) => {

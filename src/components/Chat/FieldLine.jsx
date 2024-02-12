@@ -117,16 +117,11 @@ const FieldLine = () => {
         <Box fullWidth jc='flex-start'>
           <ChatAvatar src={getAvatar()} alt='avatar' />
           <Box fullWidth column ai='flex-start'>
-            <Box jc='space-between' fullWidth>
-              <Box>
-                <TextSpanStyle size={16}>
-                  {targetAuthor?.lastName} {targetAuthor?.firstName}
-                </TextSpanStyle>
-                {currentChat?.itemSource && <SourceImg src={getSource()} />}
-              </Box>
-              <ButtonLink size={12} onClick={openUserFinder}>
-                Переадресовать
-              </ButtonLink>
+            <Box>
+              <TextSpanStyle size={16}>
+                {targetAuthor?.lastName} {targetAuthor?.firstName}
+              </TextSpanStyle>
+              {currentChat?.itemSource && <SourceImg src={getSource()} />}
             </Box>
             <TextSpanStyle size={12}>
               По объекту:{' '}
@@ -144,6 +139,7 @@ const FieldLine = () => {
           <ChatMenuItem onClick={handleSendVisit}>
             Отправить визитку
           </ChatMenuItem>
+          <ChatMenuItem onClick={openUserFinder}>Переадресовать</ChatMenuItem>
         </ChatMenu>
       </FieldLineHeaderStyle>
       <Field ref={fieldRef}>

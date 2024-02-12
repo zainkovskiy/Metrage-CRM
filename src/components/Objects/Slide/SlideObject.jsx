@@ -32,9 +32,13 @@ const SlideObject = ({ onCloseSlide }) => {
   const object = useAsyncValue();
   const windowSize = useWindowSize();
   const [change, setChange] = useState(false);
+
+  const toggleChange = () => {
+    setChange(!change);
+  };
   const changePhoto = (photos) => {
     object.photos = photos;
-    setChange(!change);
+    toggleChange();
   };
   if (JSON.stringify(object) === '{}') {
     return;
@@ -50,7 +54,7 @@ const SlideObject = ({ onCloseSlide }) => {
             changePhoto={changePhoto}
           />
         )}
-        <SlideObjectInfo />
+        <SlideObjectInfo toggleChange={toggleChange} />
         {object?.subTypeEstate === 'liveExternal' ||
         object?.subTypeEstate === 'businessExternal' ? (
           <SlideToMyObject />

@@ -99,7 +99,7 @@ const SlideObjectInfo = () => {
       </Box>
     );
   };
-  const addObjectToBasket = () => {
+  const addObjectToBasket = ({ toggleChange }) => {
     if (match) {
       dispatch(removeFromBasket(object));
       setMatch(false);
@@ -117,6 +117,9 @@ const SlideObjectInfo = () => {
       UID: object.UID,
       type: object.subTypeEstate,
       isFake: checked,
+    }).then(() => {
+      object.isFake = checked;
+      toggleChange();
     });
   };
   const handleOpenChats = () => {

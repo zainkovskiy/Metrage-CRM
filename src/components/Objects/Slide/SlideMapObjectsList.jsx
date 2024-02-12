@@ -2,11 +2,14 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { TextSpanStyle } from '../../../styles/styles';
+import { Box } from '../../../ui/Box';
 import { ButtonLink } from '../../../ui/ButtonLink/ButtonLink';
 import { device } from '../../../styles/device';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToBasket, removeFromBasket } from '../../../store/objectSlice';
 import { getOneObject } from '../../../api/objectAPI';
+import imgErrorUrl from 'images/img-error.svg';
+import { useNumberTriad } from 'hooks/StringHook';
 
 const SideObjects = styled(motion.div)`
   position: absolute;
@@ -15,13 +18,14 @@ const SideObjects = styled(motion.div)`
   bottom: 0;
   right: 0;
   background-color: #fff;
-  padding: 0.5rem;
+  padding: 0.5rem 0 0.5rem 0.5rem;
   box-sizing: border-box;
   min-width: 300px;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   @media (${device.tablet}) {
+    padding: 0;
     width: 100%;
   }
 `;
@@ -44,6 +48,7 @@ const SlideMapObjectsList = ({
   callbackGetItem,
   selectList,
 }) => {
+  console.log(otherList);
   return (
     <SideObjects
       initial={{ x: 1000 }}
@@ -79,6 +84,7 @@ const SliderMapObjectItemStyle = styled.div`
   border-radius: 5px;
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
 `;
 const AddressLink = styled.a`
   color: #6d6d6d;
@@ -91,6 +97,11 @@ const AddressLink = styled.a`
       color: #85009e;
     }
   }
+`;
+const ObjectImage = styled.img`
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
 `;
 const SlideMapObjectItem = ({ object, callbackGetItem, selectList }) => {
   const basket = useSelector((state) => state.objects.basket);
@@ -119,15 +130,23 @@ const SlideMapObjectItem = ({ object, callbackGetItem, selectList }) => {
   };
   return (
     <SliderMapObjectItemStyle>
-      <AddressLink
-        target='_blank'
-        href={`https://crm.metragegroup.com/objects/${object.objType}/${object.objUID}`}
-      >
-        {object?.objaddrStr || ''}
-      </AddressLink>
-      <ButtonLink size={12} color='#6d6d6d' onClick={addObjectToBasket}>
-        {getButtonText()}
-      </ButtonLink>
+      <ObjectImage src={object?.objImage || imgErrorUrl} />
+      <Box column ai='flex-start' gap='0'>
+        <AddressLink
+          target='_blank'
+          href={`https://crm.metragegroup.com/objects/${object.objType}/${object.objUID}`}
+        >
+          {object?.objaddrStr || ''}
+        </AddressLink>
+        {object?.price && (
+          <TextSpanStyle size={12}>
+            Цена: {useNumberTriad(object.price || 0)}руб.
+          </TextSpanStyle>
+        )}
+        <ButtonLink size={12} color='#85009e' onClick={addObjectToBasket}>
+          {getButtonText()}
+        </ButtonLink>
+      </Box>
     </SliderMapObjectItemStyle>
   );
 };
