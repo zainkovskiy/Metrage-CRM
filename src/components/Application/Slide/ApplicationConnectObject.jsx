@@ -180,7 +180,7 @@ const ApplicationConnectObject = ({ onClose }) => {
 
 const typeTranslate = {
   live: 'Жилая',
-  business: 'Коммерческаяя',
+  business: 'Коммерческая',
   jk: 'ЖК',
 };
 

@@ -138,26 +138,24 @@ const SlideObjectInfo = () => {
           {match ? 'Удалить из подборки' : 'Добавить в подборку'}
         </ButtonUI>
       </ButtonBlock>
-      {(object.isEditor || object.chatsCount || object.demandsCount) && (
-        <Box jc={object.isEditor ? 'space-between' : 'flex-start'} fullWidth>
-          {object.isEditor && (
-            <CheckboxUI
-              label='Фейк'
-              id='isFake'
-              defaultChecked={object.isFake || false}
-              size='small'
-              onChange={handleFake}
-            />
-          )}
+      {object?.isEditor && (
+        <Box jc={'space-between'} fullWidth>
+          <CheckboxUI
+            label='Фейк'
+            id='isFake'
+            defaultChecked={object.isFake || false}
+            size='small'
+            onChange={handleFake}
+          />
           <Box column gap='0' ai='flex-end'>
             {object?.chatsCount > 0 && (
               <ButtonLink color='#84019e' size={12} onClick={handleOpenChats}>
-                Чатов: {object.chatsCount}
+                Чатов: {object.chatsCount || 0}
               </ButtonLink>
             )}
             {object?.demandsCount > 0 && (
               <ButtonLink color='#84019e' size={12} onClick={handleOpenDemands}>
-                Заявок: {object.demandsCount}
+                Заявок: {object.demandsCount || 0}
               </ButtonLink>
             )}
           </Box>
