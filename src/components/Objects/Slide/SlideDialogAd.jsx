@@ -1,36 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { FormProvider, useForm } from 'react-hook-form';
+import { useAsyncValue } from 'react-router-dom';
+import {
+  setAdAccepted,
+  setAdDeclined,
+  getPublication,
+} from '../../../api/objectAPI';
+
 import closeUrl from 'images/close.svg';
 import { ButtonUI } from 'ui/ButtonUI';
-import { InputUI } from 'ui/InputUI';
 import { Box } from 'ui/Box';
-import { CheckboxUI } from 'ui/CheckboxUI';
 import { TextSpanStyle } from 'styles/styles';
-import SlideDialogAdSkeleton from './SlideDialogAdSkeleton';
-import { getPublication, setPublication } from 'api/objectAPI';
+import SlideDialogAdPlatform from './SlideDialogAdPlatform';
 
-const SlideDialogAdStyle = styled.div`
+const SlideDialogAdStyle = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
   background-color: #fff;
   border-radius: 5px;
-  padding: 1rem;
-  border: 1px solid ${({ theme }) => theme.color.primary};
-  min-width: 300px;
+  width: 300px;
+  height: 60vh;
 `;
-const SlideDialogAdHeaderStyle = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-const OfficeListStyle = styled.div`
-  // overflow: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-`;
-const CloseButtonStyle = styled.img`
+const CloseButton = styled.img`
   width: 18px;
   height: 18px;
   opacity: 0.5;
@@ -43,212 +35,115 @@ const CloseButtonStyle = styled.img`
     transform: scale(0.9);
   }
 `;
-const Line = styled.span`
-  height: 1px;
-  background-color: #ccc;
+const AddButtonContainer = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  background-color: #dcdcdc;
+`;
+const PlatformContainer = styled.div`
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0 0.5rem;
+  box-sizing: border-box;
+`;
+const SliderHeader = styled.div`
+  padding: 0.5rem;
+  box-sizing: border-box;
+  border-bottom: 1px solid;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+`;
+const SliderFooter = styled.div`
+  padding: 0.5rem;
+  box-sizing: border-box;
+  border-top: 1px solid;
+  display: flex;
+  gap: 0.5rem;
 `;
 
-const SlideDialogAd = ({ onClose, UID, estate }) => {
-  const [loading, setLoading] = useState(true);
-  const [ad, setAd] = useState(null);
-  const [checkboxExpired, setCheckboxExpired] = useState({});
-  useEffect(() => {
-    getAdList();
-  }, []);
-  const getAdList = async () => {
-    try {
-      const res = await getPublication(UID, estate);
-      setAd(res);
-      setCheckboxExpired({
-        avito: res?.avitoPromo?.expired ? true : false,
-        cian: res?.cianPromo?.expired ? true : false,
-      });
-    } catch (err) {
-    } finally {
-      setLoading(false);
-    }
+const SlideDialogAd = ({ onClose }) => {
+  const object = useAsyncValue();
+  const method = useForm({
+    defaultValues: async () =>
+      await getPublication({
+        UID: object?.UID,
+        type: object?.subTypeEstate,
+      }),
+  });
+  const onSubmit = (data) => {
+    console.log(data);
   };
-  const handleChange = (e) => {
-    const id = e.target.id;
-    const type = e.target.type;
-    const value = type === 'checkbox' ? e.target.checked : e.target.value;
-    setAd((prevState) => ({
-      ...prevState,
-      [id]: value,
-    }));
+  const handelAccept = () => {
+    setAdAccepted(method.getValues());
   };
-  const setExpired = (e, key) => {
-    const id = e.target.id;
-    const value = e.target.value;
-
-    setAd((prevState) => ({
-      ...prevState,
-      [id]: { ...prevState[id], expired: value },
-    }));
-  };
-  const isCheckboxExpired = (e) => {
-    const id = e.target.id;
-    const checked = e.target.checked;
-
-    setCheckboxExpired((prevState) => ({
-      ...prevState,
-      [id]: checked,
-    }));
-    if (!checked) {
-      const promo = id === 'cian' ? 'cianPromo' : 'avitoPromo';
-      setAd((prevState) => ({
-        ...prevState,
-        [promo]: { ...prevState[promo], expired: '' },
-      }));
-    }
-  };
-  const saveAd = () => {
-    setPublication(UID, estate, ad).then((res) => {
-      res === 'OK' && onClose();
-    });
+  const handelDeclined = () => {
+    setAdDeclined(method.getValues());
   };
   return (
-    <SlideDialogAdStyle onClick={(e) => e.stopPropagation()}>
-      <SlideDialogAdHeaderStyle>
-        <TextSpanStyle bold>Реклама до:</TextSpanStyle>
-        <CloseButtonStyle src={closeUrl} onClick={onClose} />
-      </SlideDialogAdHeaderStyle>
-      {loading ? (
-        <SlideDialogAdSkeleton />
-      ) : (
-        <OfficeListStyle>
-          <Box jc='space-between'>
-            <CheckboxUI
-              id='onCian'
-              label='ЦИАН'
-              defaultChecked={ad?.onCian}
-              onChange={handleChange}
-            />
-            <InputUI
-              id='cianDate'
-              type='date'
-              disabled={true}
-              small
-              hidden
-              value={ad?.cianDate || ''}
-            />
-          </Box>
-          <Box jc='space-between'>
-            <CheckboxUI
-              id='cian'
-              label='Продвижение до'
-              defaultChecked={checkboxExpired.cian}
-              onChange={isCheckboxExpired}
-              disabled={!(ad?.cianPromo?.active && ad?.onCian)}
-            />
-            <InputUI
-              id='cianPromo'
-              type='date'
-              disabled={
-                !(ad?.cianPromo?.active && checkboxExpired.cian && ad?.onCian)
-              }
-              small
-              value={ad?.cianPromo?.expired || ''}
-              onChange={setExpired}
-            />
-          </Box>
-          <Line />
-          <Box jc='space-between'>
-            <CheckboxUI
-              id='onAvito'
-              label='Авито'
-              defaultChecked={ad?.onAvito}
-              onChange={handleChange}
-            />
-            <InputUI
-              id='avitoDate'
-              type='date'
-              disabled={!ad?.onAvito}
-              small
-              value={ad?.avitoDate || ''}
-              onChange={handleChange}
-            />
-          </Box>
-          <Box jc='space-between'>
-            <CheckboxUI
-              id='avito'
-              label='Продвижение до'
-              defaultChecked={checkboxExpired.avito}
-              onChange={isCheckboxExpired}
-              disabled={!(ad?.avitoPromo?.active && ad?.onAvito)}
-            />
-            <InputUI
-              id='avitoPromo'
-              type='date'
-              disabled={
-                !(
-                  ad?.avitoPromo?.active &&
-                  checkboxExpired.avito &&
-                  ad?.onAvito
-                )
-              }
-              small
-              value={ad?.avitoPromo?.expired || ''}
-              onChange={setExpired}
-            />
-          </Box>
-          <Line />
-          <Box jc='space-between'>
-            <CheckboxUI
-              id='onDomclick'
-              label='Домклик'
-              defaultChecked={ad?.onDomclick}
-              onChange={handleChange}
-            />
-            {/* <InputUI
-              id='domclickDate'
-              type='date'
-              disabled={true}
-              small
-              value={ad?.domclickDate || ''}
-            /> */}
-          </Box>
-          <Line />
-          <Box jc='space-between'>
-            <CheckboxUI
-              id='onYandex'
-              label='Яндекс'
-              defaultChecked={ad?.onYandex}
-              onChange={handleChange}
-            />
-            {/* <InputUI
-              id='yandexDate'
-              type='date'
-              disabled={true}
-              small
-              value={ad?.yandexDate || ''}
-            /> */}
-          </Box>
-          <Line />
-          <Box jc='space-between'>
-            <CheckboxUI
-              id='onOther'
-              label='Остальные'
-              defaultChecked={ad?.onOther}
-              onChange={handleChange}
-            />
-            {/* <InputUI
-              id='otherDate'
-              type='date'
-              disabled={true}
-              small
-              value={ad?.otherDate || ''}
-            /> */}
-          </Box>
-        </OfficeListStyle>
-      )}
-      <Box jc='flex-start'>
-        <ButtonUI onClick={onClose} variant='outline'>
-          Отменить
-        </ButtonUI>
-        <ButtonUI onClick={saveAd}>Сохранить</ButtonUI>
-      </Box>
-    </SlideDialogAdStyle>
+    <FormProvider {...method}>
+      <SlideDialogAdStyle
+        onClick={(e) => e.stopPropagation()}
+        onSubmit={method.handleSubmit(onSubmit)}
+      >
+        <SliderHeader>
+          <TextSpanStyle bold>Реклама до:</TextSpanStyle>
+          <CloseButton src={closeUrl} onClick={onClose} />
+        </SliderHeader>
+        {!method.formState.isLoading && (
+          <>
+            <AddButtonContainer>
+              <Box fullWidth>
+                <ButtonUI
+                  fullWidth
+                  size='small'
+                  color='accept'
+                  disabled={!method.getValues('rights.approver')}
+                  onClick={handelAccept}
+                >
+                  {method.getValues('agreemend.agreeTitle')}
+                </ButtonUI>
+                <ButtonUI
+                  fullWidth
+                  size='small'
+                  color='error'
+                  disabled={!method.getValues('rights.approver')}
+                  onClick={handelDeclined}
+                >
+                  Снять
+                </ButtonUI>
+              </Box>
+              <TextSpanStyle size={12}>
+                {method.getValues('agreemend.agreeSubTitle')}
+              </TextSpanStyle>
+            </AddButtonContainer>
+            <PlatformContainer>
+              {method.getValues('platforms').map((platform, idx) => (
+                <SlideDialogAdPlatform
+                  key={platform.platform}
+                  platform={platform}
+                  idx={idx}
+                />
+              ))}
+            </PlatformContainer>
+            <SliderFooter>
+              <ButtonUI size='small' onClick={onClose} variant='outline'>
+                Отменить
+              </ButtonUI>
+              <ButtonUI size='small' type='submit'>
+                Сохранить
+              </ButtonUI>
+            </SliderFooter>
+          </>
+        )}
+      </SlideDialogAdStyle>
+    </FormProvider>
   );
 };
 

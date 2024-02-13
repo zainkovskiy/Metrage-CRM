@@ -57,10 +57,14 @@ const buttonStyle = css`
 
 const colors = {
   primary: '#85009e',
+  error: '#df5b5b',
+  accept: '#31d233',
 };
 
 const hoverColors = {
   primary: '#ffffff',
+  error: '#ffffff',
+  accept: '#ffffff',
 };
 
 const FillButton = styled.button`

@@ -43,6 +43,20 @@ const SlideObject = ({ onCloseSlide }) => {
   if (JSON.stringify(object) === '{}') {
     return;
   }
+  const getTypeEstateComponent = () => {
+    switch (object?.subTypeEstate) {
+      case 'liveExternal':
+        return <SlideToMyObject />;
+      case 'businessExternal':
+        return <SlideToMyObject />;
+      case 'live':
+        return <SlideObjectAd />;
+      case 'business':
+        return <SlideObjectAd />;
+      default:
+        break;
+    }
+  };
   return (
     <SlideObjectStyle>
       <SlideObjectContext>
@@ -55,12 +69,7 @@ const SlideObject = ({ onCloseSlide }) => {
           />
         )}
         <SlideObjectInfo toggleChange={toggleChange} />
-        {object?.subTypeEstate === 'liveExternal' ||
-        object?.subTypeEstate === 'businessExternal' ? (
-          <SlideToMyObject />
-        ) : (
-          <SlideObjectAd />
-        )}
+        {getTypeEstateComponent()}
         <SlideObjectFeature />
         {windowSize <= 768 && object?.isEditor && (
           <SlideObjectStory

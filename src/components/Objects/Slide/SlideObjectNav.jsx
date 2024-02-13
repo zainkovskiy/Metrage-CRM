@@ -36,6 +36,7 @@ const SlideObjectNav = ({ onCloseSlide, changePhoto }) => {
   const [ad, setAd] = useState(false);
   const [photo, setPhoto] = useState(false);
   const [video, setVideo] = useState(false);
+  //TODO: переделать или удалить SlideDialogAdSkeleton
   const isShowAd = () => {
     setAd(!ad);
   };
@@ -69,18 +70,11 @@ const SlideObjectNav = ({ onCloseSlide, changePhoto }) => {
         <SlideDialogPhoto onClose={isShowPhoto} changePhoto={changePhoto} />
       </DialogWindow>
       <DialogWindow open={video} onClose={isShowVideo}>
-        <SlideDialogVideo
-          onClose={isShowVideo}
-          // changePhoto={changePhoto}
-        />
+        <SlideDialogVideo onClose={isShowVideo} />
       </DialogWindow>
       <DialogWindow open={ad} onClose={isShowAd}>
         {object?.isFake || object.contact ? (
-          <SlideDialogAd
-            onClose={isShowAd}
-            UID={object.UID}
-            estate={object.typeEstate}
-          />
+          <SlideDialogAd onClose={isShowAd} />
         ) : (
           <SlideAttention onClose={isShowAd} />
         )}

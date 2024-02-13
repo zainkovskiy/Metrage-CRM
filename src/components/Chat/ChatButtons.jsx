@@ -39,12 +39,6 @@ const ChatButtons = ({ column, jc }) => {
   };
   return (
     <ChatButtonsStyle $column={column} $jc={jc}>
-      {/* TODO: вернуть для чата */}
-      {/* <BadgeUI back='#0095a0' badgeContent={chatList?.unreadCount || 0}>
-        <ChatIconButton onClick={handleClick} id='chat'>
-          <Message />
-        </ChatIconButton>
-      </BadgeUI> */}
       <BadgeUI back='#0095a0' badgeContent={notification?.notifyUnread || 0}>
         <ChatIconButton onClick={handleClick} id='notification'>
           <Bell />

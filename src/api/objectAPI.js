@@ -39,19 +39,6 @@ export const getBusinessСenters = async (value) => {
   }
   return [];
 };
-// export const createNewObject = async (object) => {
-//   const res = await axios.post(API, {
-//     metrage_id: metrage_id || null,
-//     method:
-//       object?.typeEstate === 'commercial'
-//         ? 'crm.objects.addBusiness'
-//         : 'crm.objects.add',
-//     fields: object,
-//   });
-//   if (res?.statusText === 'OK') {
-//     return 'OK';
-//   }
-// };
 export const getOneObject = async (id, category, forUpdate) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
@@ -70,64 +57,41 @@ export const getOneObject = async (id, category, forUpdate) => {
   }
   return {};
 };
-export const getPublication = async (id, estate) => {
+
+export const getPublication = async (raw) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
-    method: 'crm.objects.getPublication',
-    fields: {
-      UID: id,
-      type: estate,
-    },
+    method: 'crm.objects.getAdvertising',
+    fields: raw,
   });
   if (res?.statusText === 'OK') {
     return res?.data?.result || {};
   }
   return {};
 };
-export const setPublication = async (id, estate, date) => {
+export const setAdAccepted = async (raw) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
-    method: 'crm.objects.setPublication',
-    fields: {
-      UID: id,
-      type: estate,
-      date: date,
-    },
+    method: 'crm.objects.setAccepted',
+    fields: raw,
   });
   if (res?.statusText === 'OK') {
     return 'OK';
   }
-  return 'NO OK';
+  return 'No OK';
 };
-// export const getPhotoListAPI = async (UID, estate) => {
-//   const res = await axios.post(API, {
-//     metrage_id: metrage_id || null,
-//     method: 'crm.objects.getPhoto',
-//     fields: {
-//       UID: UID,
-//       type: estate,
-//     },
-//   });
-//   if (res?.statusText === 'OK') {
-//     return res?.data?.result || [];
-//   }
-//   return [];
-// };
-// export const setChangePhotoListAPI = async (UID, estate, newArr) => {
-//   const res = await axios.post(API, {
-//     metrage_id: metrage_id || null,
-//     method: 'crm.objects.finishPhoto',
-//     fields: {
-//       UID: UID,
-//       type: estate,
-//       photos: newArr,
-//     },
-//   });
-//   if (res?.statusText === 'OK') {
-//     return 'OK';
-//   }
-//   return '';
-// };
+export const setAdDeclined = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.objects.setDeclined',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No OK';
+};
+
 export const uploadPhoto = async (files, UID) => {
   const data = new FormData();
   for (let file of files) {
