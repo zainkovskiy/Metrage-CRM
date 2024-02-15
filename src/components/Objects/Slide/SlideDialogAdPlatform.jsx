@@ -4,6 +4,10 @@ import { TextSpanStyle } from 'styles/styles';
 import { Box } from 'ui/Box';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
+import {
+  SelectLaag,
+  SelectLaagItemUI,
+} from '../../../ui/SelectLaag/SelectLaag';
 import { InputUI } from 'ui/InputUI';
 import { Controller, useFormContext, useFormState } from 'react-hook-form';
 
@@ -60,7 +64,7 @@ const SlideDialogAdPlatform = ({ platform, idx }) => {
         name={`platforms[${idx}].exponation`}
         control={control}
         render={({ field }) => (
-          <SelectUI
+          <SelectLaag
             small
             select={field.value}
             onChange={(newValue) => {
@@ -69,11 +73,11 @@ const SlideDialogAdPlatform = ({ platform, idx }) => {
             disabled={!getValues(`platforms[${idx}].isChecked`)}
           >
             {platform.exponationList.map((item) => (
-              <SelectItemUI value={item} key={item}>
+              <SelectLaagItemUI value={item} key={item}>
                 {item}
-              </SelectItemUI>
+              </SelectLaagItemUI>
             ))}
-          </SelectUI>
+          </SelectLaag>
         )}
       />
       {platform?.promotion?.isVisible && (

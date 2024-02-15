@@ -143,42 +143,59 @@ const ChartItem = ({ chart }) => {
                 exit={{ opacity: 0 }}
                 initial={{ opacity: 0 }}
               >
-                <ButtonListItem
-                  size='12'
-                  color='#727272'
-                  id={chart?.APIName}
-                  onClick={setRange}
-                  data-name='currentMonth'
-                >
-                  Текущий месяц
-                </ButtonListItem>
-                <ButtonListItem
-                  size='12'
-                  color='#727272'
-                  id={chart?.APIName}
-                  onClick={setRange}
-                  data-name='currentWeek'
-                >
-                  Текущая неделя
-                </ButtonListItem>
-                <ButtonListItem
-                  size='12'
-                  color='#727272'
-                  id={chart?.APIName}
-                  onClick={setRange}
-                  data-name='lastMonth'
-                >
-                  Прошлый месяц
-                </ButtonListItem>
-                <ButtonListItem
-                  size='12'
-                  color='#727272'
-                  id={chart?.APIName}
-                  onClick={setRange}
-                  data-name='lastWeek'
-                >
-                  Прошлая неделя
-                </ButtonListItem>
+                {chart?.listIndex ? (
+                  chart.listIndex.map((button) => (
+                    <ButtonListItem
+                      key={button.nameApi}
+                      size='12'
+                      color='#727272'
+                      id={button.nameApi}
+                      onClick={setRange}
+                      data-name={button.title}
+                    >
+                      {button.title}
+                    </ButtonListItem>
+                  ))
+                ) : (
+                  <>
+                    <ButtonListItem
+                      size='12'
+                      color='#727272'
+                      id={chart?.APIName}
+                      onClick={setRange}
+                      data-name='currentMonth'
+                    >
+                      Текущий месяц
+                    </ButtonListItem>
+                    <ButtonListItem
+                      size='12'
+                      color='#727272'
+                      id={chart?.APIName}
+                      onClick={setRange}
+                      data-name='currentWeek'
+                    >
+                      Текущая неделя
+                    </ButtonListItem>
+                    <ButtonListItem
+                      size='12'
+                      color='#727272'
+                      id={chart?.APIName}
+                      onClick={setRange}
+                      data-name='lastMonth'
+                    >
+                      Прошлый месяц
+                    </ButtonListItem>
+                    <ButtonListItem
+                      size='12'
+                      color='#727272'
+                      id={chart?.APIName}
+                      onClick={setRange}
+                      data-name='lastWeek'
+                    >
+                      Прошлая неделя
+                    </ButtonListItem>
+                  </>
+                )}
               </ButtonList>
             )}
           </AnimatePresence>

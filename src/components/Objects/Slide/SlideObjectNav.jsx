@@ -37,6 +37,7 @@ const SlideObjectNav = ({ onCloseSlide, changePhoto }) => {
   const [photo, setPhoto] = useState(false);
   const [video, setVideo] = useState(false);
   //TODO: переделать или удалить SlideDialogAdSkeleton
+  //TODO: сделать лоадер при запуске и сохранении
   const isShowAd = () => {
     setAd(!ad);
   };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useAsyncValue } from 'react-router-dom';
@@ -6,6 +6,7 @@ import {
   setAdAccepted,
   setAdDeclined,
   getPublication,
+  setPublication,
 } from '../../../api/objectAPI';
 
 import closeUrl from 'images/close.svg';
@@ -13,6 +14,7 @@ import { ButtonUI } from 'ui/ButtonUI';
 import { Box } from 'ui/Box';
 import { TextSpanStyle } from 'styles/styles';
 import SlideDialogAdPlatform from './SlideDialogAdPlatform';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const SlideDialogAdStyle = styled.form`
   display: flex;
@@ -21,6 +23,7 @@ const SlideDialogAdStyle = styled.form`
   border-radius: 5px;
   width: 300px;
   height: 60vh;
+  position: relative;
 `;
 const CloseButton = styled.img`
   width: 18px;
@@ -50,6 +53,7 @@ const PlatformContainer = styled.div`
   gap: 0.5rem;
   padding: 0 0.5rem;
   box-sizing: border-box;
+  position: relative;
 `;
 const SliderHeader = styled.div`
   padding: 0.5rem;
@@ -67,8 +71,13 @@ const SliderFooter = styled.div`
   display: flex;
   gap: 0.5rem;
 `;
-
+const ErrorContainer = styled(motion.div)`
+  padding: 0.5rem;
+  box-sizing: border-box;
+  background-color: #dcdcdc;
+`;
 const SlideDialogAd = ({ onClose }) => {
+  const [error, setError] = useState(null);
   const object = useAsyncValue();
   const method = useForm({
     defaultValues: async () =>
@@ -78,13 +87,31 @@ const SlideDialogAd = ({ onClose }) => {
       }),
   });
   const onSubmit = (data) => {
-    console.log(data);
+    setPublication(data).then(({ result, message }) => {
+      if (result === 'error') {
+        setError(message);
+        return;
+      }
+      onClose();
+    });
   };
   const handelAccept = () => {
-    setAdAccepted(method.getValues());
+    setAdAccepted(method.getValues()).then(({ result, message }) => {
+      if (result === 'error') {
+        setError(message);
+        return;
+      }
+      onClose();
+    });
   };
   const handelDeclined = () => {
-    setAdDeclined(method.getValues());
+    setAdDeclined(method.getValues()).then(({ result, message }) => {
+      if (result === 'error') {
+        setError(message);
+        return;
+      }
+      onClose();
+    });
   };
   return (
     <FormProvider {...method}>
@@ -93,32 +120,38 @@ const SlideDialogAd = ({ onClose }) => {
         onSubmit={method.handleSubmit(onSubmit)}
       >
         <SliderHeader>
-          <TextSpanStyle bold>Реклама до:</TextSpanStyle>
+          <TextSpanStyle bold>Реклама</TextSpanStyle>
           <CloseButton src={closeUrl} onClick={onClose} />
         </SliderHeader>
         {!method.formState.isLoading && (
           <>
             <AddButtonContainer>
-              <Box fullWidth>
-                <ButtonUI
-                  fullWidth
-                  size='small'
-                  color='accept'
-                  disabled={!method.getValues('rights.approver')}
-                  onClick={handelAccept}
-                >
-                  {method.getValues('agreemend.agreeTitle')}
-                </ButtonUI>
-                <ButtonUI
-                  fullWidth
-                  size='small'
-                  color='error'
-                  disabled={!method.getValues('rights.approver')}
-                  onClick={handelDeclined}
-                >
-                  Снять
-                </ButtonUI>
-              </Box>
+              {method.getValues('agreemend.isVisible') && (
+                <Box fullWidth>
+                  <ButtonUI
+                    fullWidth
+                    size='small'
+                    color='accept'
+                    disabled={
+                      !method.getValues('rights.approver') || Boolean(error)
+                    }
+                    onClick={handelAccept}
+                  >
+                    {method.getValues('agreemend.agreeTitle')}
+                  </ButtonUI>
+                  <ButtonUI
+                    fullWidth
+                    size='small'
+                    color='error'
+                    disabled={
+                      !method.getValues('rights.approver') || Boolean(error)
+                    }
+                    onClick={handelDeclined}
+                  >
+                    Отказать
+                  </ButtonUI>
+                </Box>
+              )}
               <TextSpanStyle size={12}>
                 {method.getValues('agreemend.agreeSubTitle')}
               </TextSpanStyle>
@@ -132,11 +165,23 @@ const SlideDialogAd = ({ onClose }) => {
                 />
               ))}
             </PlatformContainer>
+            <AnimatePresence>
+              {Boolean(error) && (
+                <ErrorContainer
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                >
+                  <TextSpanStyle size={12} color='red'>
+                    {error}
+                  </TextSpanStyle>
+                </ErrorContainer>
+              )}
+            </AnimatePresence>
             <SliderFooter>
               <ButtonUI size='small' onClick={onClose} variant='outline'>
                 Отменить
               </ButtonUI>
-              <ButtonUI size='small' type='submit'>
+              <ButtonUI size='small' type='submit' disabled={Boolean(error)}>
                 Сохранить
               </ButtonUI>
             </SliderFooter>

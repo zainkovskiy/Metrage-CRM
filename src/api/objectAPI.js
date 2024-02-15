@@ -57,7 +57,6 @@ export const getOneObject = async (id, category, forUpdate) => {
   }
   return {};
 };
-
 export const getPublication = async (raw) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
@@ -69,6 +68,17 @@ export const getPublication = async (raw) => {
   }
   return {};
 };
+export const setPublication = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.objects.setAdvertising',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return res?.data?.result;
+  }
+  return { result: 'error', message: 'Ошибка' };
+};
 export const setAdAccepted = async (raw) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
@@ -76,9 +86,9 @@ export const setAdAccepted = async (raw) => {
     fields: raw,
   });
   if (res?.statusText === 'OK') {
-    return 'OK';
+    return res?.data?.result;
   }
-  return 'No OK';
+  return { result: 'error', message: 'Ошибка' };
 };
 export const setAdDeclined = async (raw) => {
   const res = await axios.post(API, {
@@ -87,11 +97,10 @@ export const setAdDeclined = async (raw) => {
     fields: raw,
   });
   if (res?.statusText === 'OK') {
-    return 'OK';
+    return res?.data?.result;
   }
-  return 'No OK';
+  return { result: 'error', message: 'Ошибка' };
 };
-
 export const uploadPhoto = async (files, UID) => {
   const data = new FormData();
   for (let file of files) {

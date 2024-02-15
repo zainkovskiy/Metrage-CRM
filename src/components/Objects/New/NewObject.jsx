@@ -32,7 +32,7 @@ const NewObject = ({ onClose }) => {
   });
 
   const onSubmit = (data) => {
-    dispatch(createObject(data))
+    return dispatch(createObject(data))
       .unwrap()
       .then((answer) => {
         if (answer?.status === 'OK') {
@@ -70,7 +70,9 @@ const NewObject = ({ onClose }) => {
             exit={{ scale: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <ButtonUI type='submit'>Сохранить</ButtonUI>
+            <ButtonUI type='submit' disabled={methods.formState.isSubmitting}>
+              Сохранить
+            </ButtonUI>
           </ObjectSliderBox>
         )}
       </NewObjectStyle>
