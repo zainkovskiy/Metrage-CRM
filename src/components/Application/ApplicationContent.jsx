@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Applications from './Applications';
 import ApplicationsTable from './ApplicationsTable';
@@ -28,6 +28,7 @@ const DefaultError = styled.div``;
 
 const ApplicationContent = () => {
   const viewCard = useSelector((state) => state.application.viewCard);
+  const location = useLocation();
   const dispatch = useDispatch();
   useEffect(() => {
     getList();
@@ -36,7 +37,7 @@ const ApplicationContent = () => {
     };
   }, []);
   const getList = () => {
-    dispatch(getApplicationFilterList());
+    dispatch(getApplicationFilterList(location?.state));
   };
   const getApplicationComponent = () => {
     switch (viewCard) {
@@ -53,7 +54,6 @@ const ApplicationContent = () => {
     <ApplicationContentStyle>
       <ApplicationFilter />
       <ApplicationComponent />
-      {/* <Applications /> */}
       <Outlet />
     </ApplicationContentStyle>
   );

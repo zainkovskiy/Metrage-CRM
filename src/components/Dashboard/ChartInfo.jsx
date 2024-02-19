@@ -4,6 +4,7 @@ import { TextSpanStyle } from '../../styles/styles';
 import styled from 'styled-components';
 import { useNumberTriad } from '../../hooks/StringHook';
 import { TooltipUI } from 'ui/TooltipUI';
+import { useNavigate } from 'react-router-dom';
 
 const ChartInfoStyle = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -31,6 +32,14 @@ const ChartInfoItem = styled.div`
   flex-direction: column;
   align-items: center;
   flex-grow: 1;
+  ${({ $isButton }) => $isButton && 'cursor: pointer'};
+  transition: transform 0.3s;
+  &:hover {
+    ${({ $isButton }) => $isButton && 'transform: scale(1.1)'};
+  }
+  &:active {
+    ${({ $isButton }) => $isButton && 'transform: scale(0.9)'};
+  }
 `;
 const ChartMiniLabel = styled(TextSpanStyle)`
   position: absolute;
@@ -40,6 +49,10 @@ const ChartMiniLabel = styled(TextSpanStyle)`
 `;
 const ChartInfo = () => {
   const dashboard = useSelector((state) => state.dashboard.data);
+  const navigate = useNavigate();
+  const handleClickDemand = (filter) => {
+    navigate('/application', { state: { ...filter } });
+  };
   return (
     <ChartInfoStyle>
       <ChartInfoContainer>
@@ -65,7 +78,12 @@ const ChartInfo = () => {
         <ChartInfoList>
           {dashboard.demandShort.data.map((item) => (
             <TooltipUI title={item.hint || ''} maxWidth={250} key={item.title}>
-              <ChartInfoItem>
+              <ChartInfoItem
+                onClick={() => {
+                  handleClickDemand(item.filter);
+                }}
+                $isButton={Boolean(item?.filter)}
+              >
                 <div style={{ position: 'relative' }}>
                   <TextSpanStyle bold color='#84019e' size={16}>
                     {item.count}

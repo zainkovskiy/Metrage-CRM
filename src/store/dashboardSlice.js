@@ -15,6 +15,22 @@ export const getChartList = createAsyncThunk(
     return {};
   }
 );
+export const changeDashboardMode = createAsyncThunk(
+  'dashboard/changeDashboardMode',
+  async (type) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.dashboard.setMode',
+      fields: {
+        mode: type,
+      },
+    });
+    if (res?.statusText === 'OK') {
+      return res?.data?.result || {};
+    }
+    return {};
+  }
+);
 export const changeSource = createAsyncThunk(
   'dashboard/changeSource',
   async (raw) => {
@@ -78,6 +94,9 @@ const dashboardSlice = createSlice({
       })
       .addCase(setNewRange.fulfilled, (state, action) => {
         state.data[action.payload.APIName] = action.payload;
+      })
+      .addCase(changeDashboardMode.fulfilled, (state, action) => {
+        state.data = action.payload;
       });
   },
 });

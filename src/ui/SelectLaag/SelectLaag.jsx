@@ -5,6 +5,9 @@ import styled from 'styled-components';
 import { LabelStyle } from 'ui/InputUI/InputUIStyled';
 import { ReactComponent as ArrowDown } from 'images/arrow-down.svg';
 
+//TODO: довести до ума, перебор children только те что внутри
+//TODO: поменять все селеккты на этот компонент
+
 const SelectContainer = styled.div``;
 const SelectInputContainer = styled.div`
   border: 1px solid transparent;

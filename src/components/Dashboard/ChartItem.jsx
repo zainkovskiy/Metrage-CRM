@@ -26,9 +26,6 @@ const ChartItemStyle = styled.div`
   background-color: #f5f5f5;
   border-radius: 5px;
 `;
-// const TextSpanStyleBorder = styled(TextSpanStyle)`
-//   border-bottom: 1px solid black;
-// `;
 const ButtonContainer = styled.div`
   position: relative;
   width: fit-content;

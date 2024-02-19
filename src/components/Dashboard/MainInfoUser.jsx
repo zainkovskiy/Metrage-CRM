@@ -6,11 +6,13 @@ import { TextSpanStyle } from 'styles/styles';
 import { ButtonLink } from '../../ui/ButtonLink/ButtonLink';
 import DialogWindow from 'components/Main/DialogWindow';
 import MainSelectList from './MainSelectList';
-import { useDispatch } from 'react-redux';
-import { changeSource } from '../../store/dashboardSlice';
-import warningUrl, { ReactComponent as Warning } from 'images/warning.svg';
-import alertUrl, { ReactComponent as Alert } from 'images/alert.svg';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeDashboardMode, changeSource } from '../../store/dashboardSlice';
+import warningUrl from 'images/warning.svg';
+import alertUrl from 'images/alert.svg';
 import { Link } from 'react-router-dom';
+import { toggleShowChat } from '../../store/chatSlice';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const Avatar = styled.img`
   width: 48px;
@@ -19,7 +21,6 @@ const Avatar = styled.img`
   object-fit: cover;
   object-position: top;
 `;
-
 const MainInfoUserStyle = styled.div`
   display: flex;
   flex-direction: column;
@@ -39,6 +40,16 @@ const ErrorTitle = styled.div`
   gap: 0.5rem;
   justify-content: space-between;
   align-items: center;
+  ${({ $isButton }) => $isButton && `cursor: pointer`};
+  & > span {
+    transition: color 0.3s;
+  }
+  &:hover > span {
+    ${({ $isButton, theme }) => $isButton && `color: ${theme.color.primary}`};
+  }
+  &:active > span {
+    ${({ $isButton }) => $isButton && `color: #727272`};
+  }
 `;
 const LinkStyle = styled(Link)`
   text-decoration: none;
@@ -46,9 +57,46 @@ const LinkStyle = styled(Link)`
     text-decoration: underline;
   }
 `;
-const MainInfoUser = ({ user, view, rights, notify }) => {
+const ChartMiniLabel = styled(TextSpanStyle)`
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(100%, -35%);
+`;
+const ButtonContainer = styled.div`
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+`;
+const ButtonList = styled(motion.div)`
+  z-index: 99;
+  position: absolute;
+  background-color: rgb(245, 245, 245);
+  top: 15px;
+  left: 1.3rem;
+  transform: translate(calc(100% + 0.5rem), 0);
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid rgb(204, 204, 204);
+  width: max-content;
+`;
+const ButtonListItem = styled(TextSpanStyle)`
+  cursor: pointer;
+  transition: transform 0.3s;
+  &:hover {
+    transform: scale(1.1);
+  }
+  &:active {
+    transform: scale(0.9);
+  }
+`;
+
+const MainInfoUser = ({ user, view, rights, notify, rank }) => {
+  const dashboardMode = useSelector((state) => state.dashboard.data?.mode);
   const dispatch = useDispatch();
   const [openSelect, setOpenSelect] = useState(null);
+  const [open, setOpen] = useState(false);
   const openSelectList = (source) => {
     setOpenSelect(source);
   };
@@ -74,9 +122,53 @@ const MainInfoUser = ({ user, view, rights, notify }) => {
       },
     });
   };
+  const handleClickError = (title) => {
+    if (title === 'Новых чатов:') {
+      dispatch(toggleShowChat());
+    }
+  };
+  const openTypeMenu = () => {
+    setOpen(!open);
+  };
+  const handleClickTypeMenu = (e) => {
+    const id = e.target.id;
+    dispatch(changeDashboardMode(id));
+    setOpen(false);
+  };
   return (
     <MainInfoUserStyle>
-      <Box jc='flex-start'>
+      <ButtonContainer>
+        <ButtonLink size={12} color='#727272' onClick={openTypeMenu}>
+          {dashboardMode === 'default' ? 'По умолчанию' : 'Реклама'}
+        </ButtonLink>
+        <AnimatePresence>
+          {open && (
+            <ButtonList
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }}
+            >
+              <ButtonListItem
+                size='12'
+                color='#727272'
+                id='default'
+                onClick={handleClickTypeMenu}
+              >
+                По умолчанию
+              </ButtonListItem>
+              <ButtonListItem
+                size='12'
+                color='#727272'
+                id='adv'
+                onClick={handleClickTypeMenu}
+              >
+                Реклама
+              </ButtonListItem>
+            </ButtonList>
+          )}
+        </AnimatePresence>
+      </ButtonContainer>
+      <Box jc='space-between'>
         <Avatar src={useGetAvatar(user)} />
         <LinkStyle to={`/users/${user.UID}`}>
           <Box column ai='flex-start' gap='0'>
@@ -87,6 +179,21 @@ const MainInfoUser = ({ user, view, rights, notify }) => {
             <TextSpanStyle size={12}>{user?.secondName || ''}</TextSpanStyle>
           </Box>
         </LinkStyle>
+        {rank?.visible && (
+          <Box column gap='0' sp={{ alignSelf: 'flex-start' }}>
+            <TextSpanStyle size={12} bold>
+              Рейтинг
+            </TextSpanStyle>
+            <div style={{ position: 'relative' }}>
+              <TextSpanStyle size={16}>{rank?.position || 0}</TextSpanStyle>
+              {rank?.directionStr && (
+                <ChartMiniLabel size={12} color={rank?.color}>
+                  {rank?.directionStr || 0}
+                </ChartMiniLabel>
+              )}
+            </div>
+          </Box>
+        )}
       </Box>
       <TextSpanStyle>{user?.officeName || ''}</TextSpanStyle>
       <Line />
@@ -128,7 +235,11 @@ const MainInfoUser = ({ user, view, rights, notify }) => {
             <IconError src={alertUrl} />
           </ErrorTitle>
           {notify.errors.map((error, idx) => (
-            <ErrorTitle key={`error${idx}`}>
+            <ErrorTitle
+              key={`error${idx}`}
+              onClick={() => handleClickError(error.title)}
+              $isButton={error.title === 'Новых чатов:'}
+            >
               <TextSpanStyle size={12} color='#727272'>
                 {error?.title}
               </TextSpanStyle>
