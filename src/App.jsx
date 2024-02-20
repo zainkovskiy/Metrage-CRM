@@ -7,6 +7,9 @@ import Chat from 'components/Chat/Chat';
 import ChatMobile from 'mobile/Chat/ChatMobile';
 const Nav = React.lazy(() => import('components/Nav/Nav'));
 const NavMobile = React.lazy(() => import('mobile/Nav/NavMobile'));
+const NoticePopover = React.lazy(() =>
+  import('components/NoticePopover/NoticePopover')
+);
 const PanelControl = React.lazy(() =>
   import('components/PanelControl/PanelControl')
 );
@@ -90,6 +93,7 @@ const App = () => {
           </>
         )}
       </AnimatePresence>
+      {windowSize > 768 && <NoticePopover />}
     </>
   );
 };

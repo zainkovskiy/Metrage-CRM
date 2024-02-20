@@ -53,6 +53,8 @@ const SlideObject = ({ onCloseSlide }) => {
         return <SlideObjectAd />;
       case 'business':
         return <SlideObjectAd />;
+      case 'Business':
+        return <SlideObjectAd />;
       default:
         break;
     }

@@ -74,7 +74,10 @@ export const setPublication = async (raw) => {
     method: 'crm.objects.setAdvertising',
     fields: raw,
   });
-  if (res?.statusText === 'OK') {
+  if (res?.status === 200) {
+    return;
+  }
+  if (res?.status === 201) {
     return res?.data?.result;
   }
   return { result: 'error', message: 'Ошибка' };
@@ -85,7 +88,10 @@ export const setAdAccepted = async (raw) => {
     method: 'crm.objects.setAccepted',
     fields: raw,
   });
-  if (res?.statusText === 'OK') {
+  if (res?.status === 200) {
+    return;
+  }
+  if (res?.status === 201) {
     return res?.data?.result;
   }
   return { result: 'error', message: 'Ошибка' };
