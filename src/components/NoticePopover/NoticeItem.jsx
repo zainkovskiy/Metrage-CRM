@@ -12,7 +12,7 @@ const NoticeItem = ({ notice }) => {
   const removeSelf = () => {
     setTimeout(() => {
       dispatch(removeNotice(notice.UID));
-    }, 2000);
+    }, 4000);
   };
   return (
     <S.NoticeItem
