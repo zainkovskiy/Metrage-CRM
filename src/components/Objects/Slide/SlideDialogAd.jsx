@@ -87,27 +87,27 @@ const SlideDialogAd = ({ onClose }) => {
       }),
   });
   const onSubmit = (data) => {
-    setPublication(data).then(({ result, message }) => {
-      if (result === 'error') {
-        setError(message);
+    setPublication(data).then((res) => {
+      if (res?.result === 'error') {
+        setError(res?.message);
         return;
       }
       onClose();
     });
   };
   const handelAccept = () => {
-    setAdAccepted(method.getValues()).then(({ result, message }) => {
-      if (result === 'error') {
-        setError(message);
+    setAdAccepted(method.getValues()).then((res) => {
+      if (res?.result === 'error') {
+        setError(res?.message);
         return;
       }
       onClose();
     });
   };
   const handelDeclined = () => {
-    setAdDeclined(method.getValues()).then(({ result, message }) => {
-      if (result === 'error') {
-        setError(message);
+    setAdDeclined(method.getValues()).then((res) => {
+      if (res?.result === 'error') {
+        setError(res?.message);
         return;
       }
       onClose();

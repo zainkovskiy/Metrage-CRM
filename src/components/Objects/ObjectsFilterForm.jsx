@@ -56,6 +56,7 @@ const deafaultFilter = {
   agentType: 'all',
   onAdv: 'pofig',
   ExternalFindType: 'our',
+  forModeration: false,
 };
 const resetFilter = {
   typeRealty: 'live',
@@ -83,6 +84,7 @@ const resetFilter = {
   ExternalFindType: 'our',
   curPlatform: '',
   platform: '',
+  forModeration: false,
 };
 const ObjectsFilterForm = ({ onClose }) => {
   const dispatch = useDispatch();
