@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeDashboardMode, changeSource } from '../../store/dashboardSlice';
 import warningUrl from 'images/warning.svg';
 import alertUrl from 'images/alert.svg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toggleShowChat } from '../../store/chatSlice';
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -94,6 +94,7 @@ const ButtonListItem = styled(TextSpanStyle)`
 
 const MainInfoUser = ({ user, view, rights, notify, rank }) => {
   const dashboardMode = useSelector((state) => state.dashboard.data?.mode);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [openSelect, setOpenSelect] = useState(null);
   const [open, setOpen] = useState(false);
@@ -122,9 +123,16 @@ const MainInfoUser = ({ user, view, rights, notify, rank }) => {
       },
     });
   };
-  const handleClickError = (title) => {
-    if (title === 'Новых чатов:') {
-      dispatch(toggleShowChat());
+  const handleClickError = (error) => {
+    switch (error.source) {
+      case 'chat':
+        dispatch(toggleShowChat());
+        break;
+      case 'objects':
+        navigate('/objects', { state: error.filter });
+        break;
+      default:
+        break;
     }
   };
   const openTypeMenu = () => {
@@ -237,8 +245,8 @@ const MainInfoUser = ({ user, view, rights, notify, rank }) => {
           {notify.errors.map((error, idx) => (
             <ErrorTitle
               key={`error${idx}`}
-              onClick={() => handleClickError(error.title)}
-              $isButton={error.title === 'Новых чатов:'}
+              onClick={() => handleClickError(error)}
+              $isButton={error?.isButton}
             >
               <TextSpanStyle size={12} color='#727272'>
                 {error?.title}

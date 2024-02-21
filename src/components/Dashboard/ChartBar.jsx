@@ -24,8 +24,8 @@ const ChartBar = ({ chart }) => {
           position='insideTop'
           style={{
             fontFamily: 'CeraCYBold, sans-serif',
-            fontSize: 10,
-            fill: '#fff',
+            fontSize: 8,
+            fill: '#000',
           }}
         />
       </Bar>

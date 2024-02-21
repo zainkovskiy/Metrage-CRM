@@ -13,6 +13,7 @@ import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
 import { Box } from 'ui/Box';
 import { TextSpanStyle } from 'styles/styles';
+import { CheckboxUI } from 'ui/CheckboxUI';
 import { setFilter, getObjectList } from 'store/objectSlice';
 import { useNumberTriad } from 'hooks/StringHook';
 import { getUserList } from 'api/search';
@@ -912,6 +913,18 @@ const ObjectsFilterForm = ({ onClose }) => {
               onChange={field.onChange}
               error={errors?.cords}
               ref={field.ref}
+            />
+          )}
+        />
+        <Controller
+          name='forModeration'
+          control={control}
+          render={({ field }) => (
+            <CheckboxUI
+              label='Ждут подтверждения'
+              id='forModeration'
+              checked={field.value || false}
+              onChange={(e) => field.onChange(e.target.checked)}
             />
           )}
         />

@@ -26,7 +26,7 @@ export const createObject = createAsyncThunk(
 );
 export const getObjectList = createAsyncThunk(
   'objects/getObjectList',
-  async (chartFilter, { getState }) => {
+  async (chartFilter, { getState, dispatch }) => {
     const getCurrentFilter = () => {
       if (chartFilter) {
         return chartFilter;
@@ -42,6 +42,9 @@ export const getObjectList = createAsyncThunk(
       },
     });
     if (res?.statusText === 'OK') {
+      if (chartFilter) {
+        dispatch(setFilter(chartFilter));
+      }
       return res?.data?.result || {};
     }
     return {};
