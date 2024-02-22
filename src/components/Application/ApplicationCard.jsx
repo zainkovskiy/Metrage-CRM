@@ -5,8 +5,9 @@ import { TextSpanStyle } from 'styles/styles';
 import { useDateFormat } from 'hooks/DateFormat';
 import { motion } from 'framer-motion';
 import { Box } from 'ui/Box';
-import logoUrl, { ReactComponent as Logo } from 'images/logo_small.svg';
-import doneUrl, { ReactComponent as Done } from 'images/done2.svg';
+import logoUrl from 'images/logo_small.svg';
+import { ReactComponent as Done } from 'images/done2.svg';
+import moment from 'moment';
 
 const ApplicationStyle = styled(motion.div)`
   border-radius: 40px 0 40px 0;
@@ -159,7 +160,17 @@ const ApplicationCard = ({ application }) => {
             Потребность: <span>{application?.demand?.title}</span>
           </TextListStyle>
           <TextListStyle>
-            Тип: <span>{application?.demand?.typePlace}</span>
+            План:{' '}
+            <TextSpanStyle
+              size={10}
+              color={
+                moment().isSameOrAfter(application?.demand?.nextContact)
+                  ? 'red'
+                  : ''
+              }
+            >
+              {useDateFormat(application?.demand?.nextContact)}
+            </TextSpanStyle>
           </TextListStyle>
           <TextListStyle>Примечание:</TextListStyle>
           <ApplicationComment size={10}>

@@ -16,35 +16,35 @@ const FieldNotificationHeaderStyle = styled.div`
   justify-content: space-between;
   background-color: #fff;
   border-radius: 5px;
-`
+`;
 const Field = styled.div`
   overflow: auto;
   flex-grow: 1;
   border-radius: 5px;
-`
+`;
 const FieldMobileNotification = () => {
   const dispatch = useDispatch();
-  const notifications = useSelector((state) => state.chat.notification.notifications);
+  const notifications = useSelector(
+    (state) => state.chat.notification.notifications
+  );
   const readAll = () => {
     dispatch(setReadAllNotice());
-  }
+  };
   return (
     <>
       <FieldNotificationHeaderStyle>
         <Box>
-          <TextSpanStyle size={16}>Уведомление</TextSpanStyle>
+          <TextSpanStyle size={16}>Уведомления</TextSpanStyle>
         </Box>
         <ChatMenu>
           <ChatMenuItem onClick={readAll}>Прочитать все</ChatMenuItem>
         </ChatMenu>
       </FieldNotificationHeaderStyle>
       <Field>
-        {
-          notifications &&
+        {notifications &&
           notifications.map((notice, idx) => {
-            return <NotificationItem notice={notice} key={notice.UID} />
-          })
-        }
+            return <NotificationItem notice={notice} key={notice.UID} />;
+          })}
       </Field>
     </>
   );

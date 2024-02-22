@@ -37,7 +37,7 @@ export const getApplicationFilterList = createAsyncThunk(
           );
         });
       if (res?.statusText === 'OK') {
-        return res?.data?.result?.transwerData || [];
+        return res?.data?.result || {};
       }
     } catch (error) {
       console.log(error);
@@ -248,6 +248,7 @@ const initialState = {
   loadingNewApplication: false,
   filter: getFilter(),
   viewCard: 'cell',
+  sourceSchema: [],
 };
 
 const applicationSlice = createSlice({
@@ -323,7 +324,8 @@ const applicationSlice = createSlice({
       })
       .addCase(getApplicationFilterList.fulfilled, (state, action) => {
         state.loadingList = false;
-        state.applications = action.payload;
+        state.applications = action.payload?.transwerData || [];
+        state.sourceSchema = action.payload?.sourceSchema || [];
       })
       .addCase(getApplicationFilterList.rejected, (state) => {
         state.loadingList = false;

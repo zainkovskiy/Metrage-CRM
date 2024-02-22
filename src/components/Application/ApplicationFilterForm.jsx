@@ -22,6 +22,7 @@ import { defaultAppFilter } from '../../store/applicationSlice';
 const ApplicationFilterForm = ({ onClose }) => {
   const dispatch = useDispatch();
   const filter = useSelector((state) => state.application.filter);
+  const sourceSchema = useSelector((state) => state.application.sourceSchema);
   const [users, setUsers] = useState([]);
   const [usersLoading, setUsersLoading] = useState(false);
   const [officeList, setOfficeList] = useState([]);
@@ -148,22 +149,11 @@ const ApplicationFilterForm = ({ onClose }) => {
               label='Источник'
             >
               <SelectItemUI value=''>Выбрать</SelectItemUI>
-              <SelectItemUI value='0'>Ручной ввод</SelectItemUI>
-              <SelectItemUI value='1'>ЦИАН</SelectItemUI>
-              <SelectItemUI value='2'>Авито</SelectItemUI>
-              <SelectItemUI value='3'>Мегафон</SelectItemUI>
-              <SelectItemUI value='4'>Яндекс</SelectItemUI>
-              <SelectItemUI value='5'>Сайт (НСК)</SelectItemUI>
-              <SelectItemUI value='6'>Сайт (Москва)</SelectItemUI>
-              <SelectItemUI value='7'>Звонки 8800</SelectItemUI>
-              <SelectItemUI value='8'>КВИЗ</SelectItemUI>
-              <SelectItemUI value='9'>Новостройки НСК</SelectItemUI>
-              <SelectItemUI value='10'>Новостройки МСК</SelectItemUI>
-              <SelectItemUI value='11'>ВК Лиды (НСК)</SelectItemUI>
-              <SelectItemUI value='12'>ВК Лиды (МСК)</SelectItemUI>
-              <SelectItemUI value='13'>КВИЗ Кипр</SelectItemUI>
-              <SelectItemUI value='14'>Авито (Новостройки)</SelectItemUI>
-              <SelectItemUI value='15'>Аренда</SelectItemUI>
+              {sourceSchema.map((source) => (
+                <SelectItemUI value={source.UID} key={source.UID}>
+                  {source.name}
+                </SelectItemUI>
+              ))}
             </SelectUI>
           )}
         />
