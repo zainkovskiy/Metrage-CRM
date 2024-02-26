@@ -24,6 +24,8 @@ const SlideWindowPasswordStyle = styled.div`
 
 const WindowPhoneAdd = ({ UID, onClose, addPhoneToList }) => {
   const [phone, setPhone] = useState('');
+  const [loginWhats, setLoginWhats] = useState('');
+  const [idSIM, setIdSIM] = useState('');
   const [phoneType, setPhoneType] = useState('');
   const [loading, setLoading] = useState(false);
   const inputRef = useRef(null);
@@ -44,6 +46,8 @@ const WindowPhoneAdd = ({ UID, onClose, addPhoneToList }) => {
       UID: UID,
       phone: phone,
       phoneType: phoneType,
+      megafonPhoneId: loginWhats,
+      idSIM: idSIM,
     })
       .then((newPhone) => {
         addPhoneToList(newPhone);
@@ -53,8 +57,20 @@ const WindowPhoneAdd = ({ UID, onClose, addPhoneToList }) => {
       });
   };
   const handleChange = (e) => {
+    const id = e.target.id;
     const value = e.target.value;
-    setPhone(value);
+    if (id === 'phone') {
+      setPhone(value);
+      return;
+    }
+    if (id === 'megafonPhoneId') {
+      setLoginWhats(value);
+      return;
+    }
+    if (id === 'idSIM') {
+      setIdSIM(value);
+      return;
+    }
   };
   const setType = (type) => {
     setPhoneType(type);
@@ -70,6 +86,8 @@ const WindowPhoneAdd = ({ UID, onClose, addPhoneToList }) => {
           label='Номер телефона'
           type='number'
           ref={inputRef}
+          id='phone'
+          small
         />
         <TextSpanStyle size={10}>Пример: 8ХХХХХХХХХХ</TextSpanStyle>
       </Box>
@@ -78,10 +96,30 @@ const WindowPhoneAdd = ({ UID, onClose, addPhoneToList }) => {
         onChange={setType}
         label='Тип'
         disabled={loading}
+        small
       >
         <SelectItemUI value='domclick'>Домклик</SelectItemUI>
         <SelectItemUI value='other'>Дополнительный</SelectItemUI>
       </SelectUI>
+      <InputUI
+        value={loginWhats}
+        onChange={handleChange}
+        fullWidth
+        disabled={loading}
+        label='Логин ВАТС'
+        id='megafonPhoneId'
+        small
+      />
+      <InputUI
+        value={idSIM}
+        onChange={handleChange}
+        fullWidth
+        disabled={loading}
+        label='ID СИМ-Карты'
+        type='number'
+        id='idSIM'
+        small
+      />
       <Box jc='flex-start'>
         <ButtonUI
           variant='outline'

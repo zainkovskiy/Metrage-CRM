@@ -45,6 +45,8 @@ const Charts = () => {
           <ChartItem chart={dashboard?.dealsOffices || null} />
           <ChartItem chart={dashboard?.objects || null} />
           <ChartItem chart={dashboard?.RankDeals || null} />
+          <ChartItem chart={dashboard?.AdvExponation || null} />
+          <ChartItem chart={dashboard?.AdvStruct || null} />
         </ChartItemsWrap>
       </ChartItems>
     </ChartsStyle>

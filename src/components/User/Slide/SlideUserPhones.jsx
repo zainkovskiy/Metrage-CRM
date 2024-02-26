@@ -99,6 +99,26 @@ const PhoneItem = ({ phone, isAdmin, removeCurPhone, setPhoneForEdit }) => {
         </TextSpanStyle>
         <TextSpanStyle>{phone?.phone || ''}</TextSpanStyle>
       </Box>
+      <Box jc='space-between'>
+        {phone?.megafonPhoneId ? (
+          <Box column gap='0' ai='flex-start'>
+            <TextSpanStyle size={10}>Логин ВАТС</TextSpanStyle>
+            <TextSpanStyle size={12}>
+              {phone?.megafonPhoneId || ''}
+            </TextSpanStyle>
+          </Box>
+        ) : (
+          <div></div>
+        )}
+        {phone?.idSIM ? (
+          <Box column gap='0' ai='flex-end'>
+            <TextSpanStyle size={10}>ID СИМ-Карты</TextSpanStyle>
+            <TextSpanStyle size={12}>{phone?.idSIM || ''}</TextSpanStyle>
+          </Box>
+        ) : (
+          <div></div>
+        )}
+      </Box>
       {isAdmin && (
         <Box jc='flex-end'>
           <ButtonLink

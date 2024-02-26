@@ -23,7 +23,10 @@ const SlideWindowPasswordStyle = styled.div`
 `;
 
 const WindowPhoneEdit = ({ UID, onClose, curPhone, updateEditPhone }) => {
-  const [phone, setPhone] = useState(curPhone.phone || '');
+  const [phone, setPhone] = useState(curPhone?.phone || '');
+  const [loginWhats, setLoginWhats] = useState(curPhone?.megafonPhoneId || '');
+  const [idSIM, setIdSIM] = useState(curPhone?.idSIM || '');
+
   const [loading, setLoading] = useState(false);
   const curPhoneRef = useRef(curPhone.phone);
   const inputRef = useRef(null);
@@ -36,19 +39,20 @@ const WindowPhoneEdit = ({ UID, onClose, curPhone, updateEditPhone }) => {
     if (phone.length < 11) {
       return;
     }
-    if (curPhoneRef.current === phone) {
-      return;
-    }
     setLoading(true);
     updatePhone({
       UID: UID,
       phone: phone,
       phoneId: curPhone.UID,
+      megafonPhoneId: loginWhats,
+      idSIM: idSIM,
     })
       .then(() => {
         updateEditPhone({
           ...curPhone,
           phone: phone,
+          megafonPhoneId: loginWhats,
+          idSIM: idSIM,
         });
       })
       .finally(() => {
@@ -56,8 +60,20 @@ const WindowPhoneEdit = ({ UID, onClose, curPhone, updateEditPhone }) => {
       });
   };
   const handleChange = (e) => {
+    const id = e.target.id;
     const value = e.target.value;
-    setPhone(value);
+    if (id === 'phone') {
+      setPhone(value);
+      return;
+    }
+    if (id === 'megafonPhoneId') {
+      setLoginWhats(value);
+      return;
+    }
+    if (id === 'idSIM') {
+      setIdSIM(value);
+      return;
+    }
   };
   return (
     <SlideWindowPasswordStyle onClick={(e) => e.stopPropagation()}>
@@ -69,10 +85,30 @@ const WindowPhoneEdit = ({ UID, onClose, curPhone, updateEditPhone }) => {
           disabled={loading}
           label='Номер телефона'
           type='number'
+          id='phone'
           ref={inputRef}
         />
         <TextSpanStyle size={10}>Пример: 8ХХХХХХХХХХ</TextSpanStyle>
       </Box>
+      <InputUI
+        value={loginWhats}
+        onChange={handleChange}
+        fullWidth
+        disabled={loading}
+        label='Логин ВАТС'
+        id='megafonPhoneId'
+        small
+      />
+      <InputUI
+        value={idSIM}
+        onChange={handleChange}
+        fullWidth
+        disabled={loading}
+        label='ID СИМ-Карты'
+        type='number'
+        id='idSIM'
+        small
+      />
       <Box jc='flex-start'>
         <ButtonUI
           variant='outline'

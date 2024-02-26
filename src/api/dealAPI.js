@@ -1,13 +1,11 @@
 import axios from 'axios';
 const API = 'https://crm.metragegroup.com/API/REST.php';
 
-export const getNewBuilderList = async (value) => {
+export const getNewBuilderList = async (raw) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
     method: 'crm.deal.getNewborn',
-    fields: {
-      request: value,
-    },
+    fields: raw,
   });
   if (res?.statusText === 'OK') {
     return res?.data?.result || [];

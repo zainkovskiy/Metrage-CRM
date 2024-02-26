@@ -38,12 +38,12 @@ const ChartArea = ({ chart }) => {
   const getAreaLine = () => {
     const areaLines = chart.valuesName.map((area, idx) => (
       <Area
-        key={area}
+        key={area.name}
         type='monotone'
-        dataKey={area}
-        name={area}
-        stroke={areaColor[idx]}
-        fill={areaColor[idx]}
+        dataKey={area.name}
+        name={area.name}
+        stroke={area.color}
+        fill={area.color}
         dataValue='active'
         // opacity={opacity.active}
       />

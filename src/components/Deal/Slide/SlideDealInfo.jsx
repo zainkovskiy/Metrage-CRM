@@ -95,6 +95,22 @@ const SlideDealInfo = () => {
           </Box>
         </Box>
       </div>
+      <Controller
+        name='isSuburban'
+        control={control}
+        render={({ field }) => (
+          <CheckboxUI
+            label='Коттеджный поселок'
+            onChange={(e) => {
+              field.onChange(e.target.checked);
+            }}
+            checked={field.value}
+            id='isSuburban'
+            size='small'
+            labelSize={12}
+          />
+        )}
+      />
       <SlideDealInfoContent>
         <SlideDealInfoSide>
           <Controller

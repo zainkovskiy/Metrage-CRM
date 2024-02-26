@@ -62,6 +62,7 @@ const NewDeal = ({ onClose }) => {
     defaultValues: {
       dealType: 'simple',
       realtyType: 'live',
+      isSuburban: false,
     },
   });
   const dispatch = useDispatch();
@@ -81,7 +82,10 @@ const NewDeal = ({ onClose }) => {
       return;
     }
     setNewBuilderLoading(true);
-    getNewBuilderList(value)
+    getNewBuilderList({
+      requet: value,
+      isSuburban: getValues('isSuburban'),
+    })
       .then((data) => {
         setNewBuilderList(data);
       })
@@ -173,6 +177,34 @@ const NewDeal = ({ onClose }) => {
                       active={field.value}
                     >
                       Коммерческая
+                    </ButtonToggleItem>
+                  </ButtonToggleGroup>
+                )}
+              />
+            </Box>
+          )}
+          {getValues('dealType') === 'developer' && (
+            <Box column fullWidth gap='0.2rem' ai='flex-start'>
+              <TextSpanStyle></TextSpanStyle>
+              <Controller
+                control={control}
+                name='isSuburban'
+                // rules={{ required: true }}
+                render={({ field }) => (
+                  <ButtonToggleGroup fullWidth>
+                    <ButtonToggleItem
+                      onClick={(e) => field.onChange(false)}
+                      id='false'
+                      active={field.value.toString()}
+                    >
+                      Объект в ЖК
+                    </ButtonToggleItem>
+                    <ButtonToggleItem
+                      onClick={(e) => field.onChange(true)}
+                      id='true'
+                      active={field.value.toString()}
+                    >
+                      Объект в КП
                     </ButtonToggleItem>
                   </ButtonToggleGroup>
                 )}
@@ -296,6 +328,22 @@ const NewDeal = ({ onClose }) => {
                 )}
               />
             </>
+          )}
+          {getValues('dealType') === 'simple' && (
+            <Controller
+              control={control}
+              name='isRent'
+              render={({ field }) => (
+                <CheckboxUI
+                  label='Аренда'
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
+                  defaultChecked={field.value || false}
+                  id='isRent'
+                />
+              )}
+            />
           )}
           {getValues('dealType') === 'developer' && (
             <>

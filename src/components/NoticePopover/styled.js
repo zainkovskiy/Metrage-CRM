@@ -10,6 +10,7 @@ export const NoticePopoverContainer = styled.div`
   max-width: 300px;
   right: 0.5rem;
   top: 0.5rem;
+  z-index: 999;
 `;
 export const NoticeItem = styled(motion.div)`
   background: rgb(0 0 0 / 80%);
