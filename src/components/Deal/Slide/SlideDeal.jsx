@@ -70,6 +70,8 @@ const SlideDeal = () => {
       mortgageFunds: deal?.mortgageFunds || '',
       bank: deal?.bank || '',
       hasInsurance: deal?.hasInsurance || false,
+      isSuburban: deal?.isSuburban || false,
+      isRent: deal?.isRent || false,
       needInsurance: deal?.needInsurance || false,
       needMortgage: deal?.needMortgage || false,
       depositAmount: deal?.depositAmount || '',
