@@ -58,8 +58,8 @@ const SlideApplicationInfo = () => {
             <TextSpanStyle size={12}>Следующий контакт: &nbsp;</TextSpanStyle>
             <Box>
               <TextSpanStyle size={12}>
-                {application?.demand?.nextContact
-                  ? useDateFormat(application?.demand?.nextContact)
+                {application?.demand?.nextContactStr
+                  ? application?.demand?.nextContactStr
                   : 'установить'}
               </TextSpanStyle>
               <IconButton onClick={toggleShowNextContact}>

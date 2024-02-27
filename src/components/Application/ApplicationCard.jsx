@@ -160,16 +160,12 @@ const ApplicationCard = ({ application }) => {
             Потребность: <span>{application?.demand?.title}</span>
           </TextListStyle>
           <TextListStyle>
-            План:{' '}
+            Контакт:{' '}
             <TextSpanStyle
               size={10}
-              color={
-                moment().isSameOrAfter(application?.demand?.nextContact)
-                  ? 'red'
-                  : ''
-              }
+              color={application?.demand?.nextContactColor || '#000'}
             >
-              {useDateFormat(application?.demand?.nextContact)}
+              {application?.demand?.nextContactStr}
             </TextSpanStyle>
           </TextListStyle>
           <TextListStyle>Примечание:</TextListStyle>

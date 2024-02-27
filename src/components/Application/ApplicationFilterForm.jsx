@@ -144,12 +144,12 @@ const ApplicationFilterForm = ({ onClose }) => {
           control={control}
           render={({ field }) => (
             <SelectUI
-              onChange={(newValue) => field.onChange(newValue)}
+              onChange={(newValue) => field.onChange(newValue.toString())}
               select={field.value || ''}
               label='Источник'
             >
               {sourceSchema.map((source) => (
-                <SelectItemUI value={source.value} key={source.UID}>
+                <SelectItemUI value={source.value.toString()} key={source.UID}>
                   {source.name}
                 </SelectItemUI>
               ))}

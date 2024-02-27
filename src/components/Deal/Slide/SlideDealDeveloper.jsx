@@ -64,7 +64,7 @@ const SlideDealDeveloper = () => {
     developerRequest.current = true;
     getDeveloperlList(value)
       .then((data) => {
-        setOfficeList(data);
+        setDeveloperList(data);
       })
       .finally(() => {
         developerRequest.current = false;

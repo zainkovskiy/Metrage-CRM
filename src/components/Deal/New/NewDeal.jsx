@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import styled from 'styled-components';
 import { ButtonToggleGroup, ButtonToggleItem } from 'ui/ButtonToggle';
@@ -19,6 +19,7 @@ import {
 import { useNumberTriad } from 'hooks/StringHook';
 import { useDispatch } from 'react-redux';
 import { addNewDeal } from '../../../store/dealSlice';
+import { getDeveloperlList } from '../../../api/search';
 
 const NewDealStyle = styled.form`
   padding: 0.5rem;
@@ -52,6 +53,8 @@ const NewDeal = ({ onClose }) => {
   const [bidLoading, setBidLoading] = useState(false);
   const [objectList, setObjectList] = useState([]);
   const [objectListLoading, setObjectListLoading] = useState(false);
+  const [developerList, setDeveloperList] = useState([]);
+  const developerRequest = useRef(false);
   const {
     handleSubmit,
     control,
@@ -125,8 +128,26 @@ const NewDeal = ({ onClose }) => {
         setObjectListLoading(false);
       });
   };
+  const getDevelopers = (value) => {
+    if (value.length < 2) {
+      setDeveloperList([]);
+      return;
+    }
+    if (developerRequest.current) {
+      return;
+    }
+    developerRequest.current = true;
+    getDeveloperlList(value)
+      .then((data) => {
+        setDeveloperList(data);
+      })
+      .finally(() => {
+        developerRequest.current = false;
+      });
+  };
   watch('dealType');
   watch('advertising');
+  watch('isSuburban');
   return (
     <NewDealStyle onSubmit={handleSubmit(onSubmit)}>
       <FormContainer>
@@ -459,6 +480,23 @@ const NewDeal = ({ onClose }) => {
                   />
                 )}
               />
+              {getValues('isSuburban') && (
+                <Controller
+                  name='developer'
+                  control={control}
+                  render={({ field }) => (
+                    <SelectAutoсompleteUI
+                      label='Застройщик'
+                      options={developerList}
+                      getOptionsLabel={(options) => options.devName}
+                      onChange={(option) => field.onChange(option)}
+                      value={field.value || ''}
+                      inputChange={getDevelopers}
+                      small
+                    />
+                  )}
+                />
+              )}
             </>
           )}
         </FormGridStyle>
