@@ -71,7 +71,6 @@ const ApplicationNextContact = ({ onClose }) => {
   const [disabled, setDisabled] = useState(false);
 
   const onSubmit = (data) => {
-    console.log(data);
     setDisabled(true);
     dispatch(setNewContact({ form: data, UID: application.UID }))
       .unwrap()
@@ -105,6 +104,12 @@ const ApplicationNextContact = ({ onClose }) => {
         type='date'
         width='300px'
         error={errors.nextDate}
+        disabled={disabled}
+      />
+      <InputUI
+        register={register('nextTime')}
+        type='time'
+        width='300px'
         disabled={disabled}
       />
       <LabelStyle>

@@ -148,9 +148,8 @@ const ApplicationFilterForm = ({ onClose }) => {
               select={field.value || ''}
               label='Источник'
             >
-              <SelectItemUI value=''>Выбрать</SelectItemUI>
               {sourceSchema.map((source) => (
-                <SelectItemUI value={source.UID} key={source.UID}>
+                <SelectItemUI value={source.value} key={source.UID}>
                   {source.name}
                 </SelectItemUI>
               ))}

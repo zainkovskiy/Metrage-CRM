@@ -121,7 +121,6 @@ const SlideDealInfo = () => {
             onChange={(e) => {
               field.onChange(e.target.checked);
             }}
-            // defaultChecked={field.value}
             checked={field.value}
             id='isRent'
             size='small'
@@ -252,22 +251,6 @@ const SlideDealInfo = () => {
                 }}
                 checked={field.value}
                 id='alwaysBroker'
-                size='small'
-                labelSize={12}
-              />
-            )}
-          />
-          <Controller
-            name='isRent'
-            control={control}
-            render={({ field }) => (
-              <CheckboxUI
-                label='Аренда'
-                onChange={(e) => {
-                  field.onChange(e.target.checked);
-                }}
-                checked={field.value}
-                id='isRent'
                 size='small'
                 labelSize={12}
               />

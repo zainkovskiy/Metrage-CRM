@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { useAsyncValue, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { SlideBlockStyle } from '../DealStyle';
@@ -7,7 +7,9 @@ import { TextSpanStyle } from 'styles/styles';
 import { Controller, useFormContext } from 'react-hook-form';
 import { InputUI } from 'ui/InputUI';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
+import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
 import { LabelStyle } from 'ui/InputUI/InputUIStyled';
+import { getDeveloperlList } from '../../../api/search';
 
 const Title = styled.div`
   border-bottom: 1px solid #786464;
@@ -37,7 +39,7 @@ const TextNavigate = styled(Link)`
 const InputsField = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 0.5rem;
 `;
 const Line = styled.div`
@@ -48,6 +50,26 @@ const Line = styled.div`
 const SlideDealDeveloper = () => {
   const deal = useAsyncValue();
   const { control } = useFormContext();
+  const [developerList, setDeveloperList] = useState([]);
+  const developerRequest = useRef(false);
+
+  const getDevelopers = (value) => {
+    if (value.length < 2) {
+      setDeveloperList([]);
+      return;
+    }
+    if (developerRequest.current) {
+      return;
+    }
+    developerRequest.current = true;
+    getDeveloperlList(value)
+      .then((data) => {
+        setOfficeList(data);
+      })
+      .finally(() => {
+        developerRequest.current = false;
+      });
+  };
   return (
     <SlideBlockStyle>
       <Box column fullWidth>
@@ -88,7 +110,7 @@ const SlideDealDeveloper = () => {
               <InputUI
                 fullWidth
                 label='Номер квартиры'
-                value={field.value}
+                value={field.value || ''}
                 small
                 labelSize={12}
                 onChange={(e) => {
@@ -105,7 +127,7 @@ const SlideDealDeveloper = () => {
               <InputUI
                 fullWidth
                 label='Площадь'
-                value={field.value}
+                value={field.value || ''}
                 small
                 labelSize={12}
                 onChange={(e) => field.onChange(parseFloat(e.target.value))}
@@ -119,7 +141,7 @@ const SlideDealDeveloper = () => {
             render={({ field }) => (
               <SelectUI
                 onChange={field.onChange}
-                select={field.value}
+                select={field.value || ''}
                 label='Комнатность'
                 small
                 labelSize={12}
@@ -135,14 +157,32 @@ const SlideDealDeveloper = () => {
               </SelectUI>
             )}
           />
-          <InputUI
-            fullWidth
-            disabled={true}
-            label='Застройщик'
-            value={deal?.newbParams?.devName}
-            small
-            labelSize={12}
-          />
+          {deal?.isSuburban ? (
+            <Controller
+              name='devName'
+              control={control}
+              render={({ field }) => (
+                <SelectAutoсompleteUI
+                  label='Застройщик'
+                  options={developerList}
+                  getOptionsLabel={(options) => options.devName}
+                  onChange={(option) => field.onChange(option)}
+                  value={field.value || ''}
+                  inputChange={getDevelopers}
+                  small
+                />
+              )}
+            />
+          ) : (
+            <InputUI
+              fullWidth
+              disabled={true}
+              label='Застройщик'
+              value={deal?.newbParams?.devName || ''}
+              small
+              labelSize={12}
+            />
+          )}
           {deal?.newbParams.jkId ? (
             <LabelStyle labelSize={12}>
               ЖК
@@ -159,8 +199,8 @@ const SlideDealDeveloper = () => {
             <InputUI
               fullWidth
               disabled={true}
-              label='ЖК'
-              value={deal?.newbParams?.resdName}
+              label={deal?.isSuburban ? 'Коттеджный поселок' : 'ЖК'}
+              value={deal?.newbParams?.resdName || ''}
               small
               labelSize={12}
             />
@@ -175,7 +215,7 @@ const SlideDealDeveloper = () => {
               <InputUI
                 fullWidth
                 label='Дата акта'
-                value={field.value}
+                value={field.value || ''}
                 small
                 type='date'
                 labelSize={12}
@@ -192,7 +232,7 @@ const SlideDealDeveloper = () => {
               <InputUI
                 fullWidth
                 label='Акт принят застройщиком'
-                value={field.value}
+                value={field.value || ''}
                 small
                 type='date'
                 labelSize={12}
@@ -209,7 +249,7 @@ const SlideDealDeveloper = () => {
               <InputUI
                 fullWidth
                 label='Номер ДДУ'
-                value={field.value}
+                value={field.value || ''}
                 small
                 labelSize={12}
                 onChange={(e) => {
@@ -225,7 +265,7 @@ const SlideDealDeveloper = () => {
               <InputUI
                 fullWidth
                 label='Дата ДДУ'
-                value={field.value}
+                value={field.value || ''}
                 small
                 type='date'
                 labelSize={12}
@@ -243,7 +283,7 @@ const SlideDealDeveloper = () => {
                 fullWidth
                 label='Дата поступления ДС'
                 type='date'
-                value={field.value}
+                value={field.value || ''}
                 small
                 labelSize={12}
                 onChange={(e) => {

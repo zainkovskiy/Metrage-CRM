@@ -48,6 +48,8 @@ const SlideDeal = () => {
     alwaysBroker: deal?.alwaysBroker || false,
     alwaysBrand: deal?.alwaysBrand || false,
     isRent: deal?.isRent || false,
+    isSuburban: deal?.isSuburban || false,
+    devName: deal?.newbParams || '',
   });
   const methods = useForm({
     defaultValues: {
@@ -70,8 +72,6 @@ const SlideDeal = () => {
       mortgageFunds: deal?.mortgageFunds || '',
       bank: deal?.bank || '',
       hasInsurance: deal?.hasInsurance || false,
-      isSuburban: deal?.isSuburban || false,
-      isRent: deal?.isRent || false,
       needInsurance: deal?.needInsurance || false,
       needMortgage: deal?.needMortgage || false,
       depositAmount: deal?.depositAmount || '',
@@ -80,7 +80,9 @@ const SlideDeal = () => {
       depositStatus: deal?.depositStatus || '',
       alwaysBroker: deal?.alwaysBroker || false,
       alwaysBrand: deal?.alwaysBrand || false,
+      isSuburban: deal?.isSuburban || false,
       isRent: deal?.isRent || false,
+      devName: deal?.newbParams || '',
     },
   });
   const onSubmit = (data) => {
@@ -91,6 +93,7 @@ const SlideDeal = () => {
       if (answer === 'OK') {
         methods.reset(data);
         resetValues.current = data;
+        deal.isSuburban = data.isSuburban;
       }
     });
   };
