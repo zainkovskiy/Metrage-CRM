@@ -260,9 +260,11 @@ const NewDeal = ({ onClose }) => {
             }}
             render={({ field }) => (
               <SelectAutoсompleteUI
-                label={`Объект ${
-                  getValues('dealType') === 'simple' ? '*' : ''
-                }`}
+                label={
+                  getValues('dealType') === 'simple'
+                    ? 'Объект *'
+                    : 'Объект (Не обязательно)'
+                }
                 inputChange={getObjects}
                 options={objectList}
                 loading={objectListLoading}
@@ -376,7 +378,11 @@ const NewDeal = ({ onClose }) => {
                 }}
                 render={({ field }) => (
                   <SelectAutoсompleteUI
-                    label='Новостройка *'
+                    label={
+                      getValues('isSuburban')
+                        ? 'Коттеджный посёлок *'
+                        : 'Новостройка *'
+                    }
                     inputChange={getNewBuilder}
                     options={newBuilderList}
                     loading={newBuilderLoading}
@@ -400,7 +406,7 @@ const NewDeal = ({ onClose }) => {
                     small
                     value={field.value || ''}
                     onChange={(e) => field.onChange(parseInt(e.target.value))}
-                    label='Номер квартиры *'
+                    label='Номер квартиры/дома *'
                     error={errors?.Appartment}
                     type='number'
                   />

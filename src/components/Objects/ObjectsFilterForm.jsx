@@ -57,6 +57,7 @@ const deafaultFilter = {
   onAdv: 'pofig',
   ExternalFindType: 'our',
   forModeration: false,
+  expirationAdv: '',
 };
 const resetFilter = {
   typeRealty: 'live',
@@ -85,6 +86,7 @@ const resetFilter = {
   curPlatform: '',
   platform: '',
   forModeration: false,
+  expirationAdv: '',
 };
 const ObjectsFilterForm = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -136,7 +138,6 @@ const ObjectsFilterForm = ({ onClose }) => {
       });
   };
   const onSubmit = (data) => {
-    // console.log(data);
     dispatch(setFilter(data));
     dispatch(getObjectList());
     onClose();
@@ -918,6 +919,20 @@ const ObjectsFilterForm = ({ onClose }) => {
             />
           )}
         />
+        {getValues('ExternalFindType') === 'our' && (
+          <Controller
+            name='expirationAdv'
+            control={control}
+            render={({ field }) => (
+              <InputUI
+                label='Конец размещения'
+                value={field.value || ''}
+                onChange={field.onChange}
+                type='date'
+              />
+            )}
+          />
+        )}
         <Controller
           name='forModeration'
           control={control}

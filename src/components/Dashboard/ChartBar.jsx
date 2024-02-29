@@ -62,7 +62,11 @@ const CustomToolTip = ({ active, payload, label }) => {
       <CustomToolTipStyle>
         <TextSpanStyle color='#727272'>{label}</TextSpanStyle>
         {payload.map((item) => (
-          <TextSpanStyle key={item.color} color={item.color} size={12}>
+          <TextSpanStyle
+            key={`${item.name}+${item.color}`}
+            color={item.color}
+            size={12}
+          >
             {item.name}: {item.payload[item.name]}
           </TextSpanStyle>
         ))}

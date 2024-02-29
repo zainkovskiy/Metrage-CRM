@@ -12,8 +12,7 @@ import {
 import DefaultChartComponent from './DefaultChartComponent';
 import { TextSpanStyle } from 'styles/styles';
 import styled from 'styled-components';
-
-const areaColor = ['#82ca9d', '#ffa2a2'];
+import { useNavigate } from 'react-router-dom';
 
 const ChartArea = ({ chart }) => {
   const [opacity, setOpacity] = useState({ active: 1, failure: 1 });
@@ -66,7 +65,7 @@ const ChartArea = ({ chart }) => {
           dataKey='name'
           type='category'
           style={{ fontFamily: 'CeraCY, sans-serif', fontSize: 12 }}
-          tick={<CustomizedAxisTick />}
+          tick={<CustomizedAxisTick chart={chart?.values || []} />}
         />
         <YAxis
           type='number'
@@ -80,22 +79,6 @@ const ChartArea = ({ chart }) => {
           verticalAlign='top'
         />
         {getAreaLine()}
-        {/* <Area
-          type='monotone'
-          dataKey='fv'
-          stroke='#01ff3e'
-          fill='#01ff3e'
-          dataValue='active'
-          opacity={opacity.active}
-        />
-        <Area
-          type='monotone'
-          dataKey='sv'
-          stroke='#ffa2a2'
-          fill='#ffa2a2'
-          dataValue='failure'
-          opacity={opacity.failure}
-        /> */}
       </AreaChart>
     </ResponsiveContainer>
   );
@@ -121,9 +104,44 @@ const CustomToolTip = ({ active, payload, label }) => {
 
   return null;
 };
-const CustomizedAxisTick = ({ x, y, stroke, payload }) => {
+
+const AxisTick = styled.g`
+  ${({ $isButton }) => $isButton && 'cursor: pointer;'};
+  transition: opacity 0.3s;
+  @media (hover: hover) {
+    &:hover {
+      ${({ $isButton }) => $isButton && 'opacity: 0.5;'};
+    }
+    &:active {
+      ${({ $isButton }) => $isButton && 'opacity: 1;'};
+    }
+  }
+`;
+const CustomizedAxisTick = ({ x, y, chart, payload }) => {
+  const navigate = useNavigate();
+
+  const getIsFilter = () => {
+    const find = isFind();
+    if (find && find?.filter) {
+      return true;
+    }
+    return false;
+  };
+  const isFind = () => {
+    return chart.find((item) => item.name === payload.value);
+  };
+  const handleClick = () => {
+    const find = isFind();
+    if (find && find?.filter) {
+      navigate('/objects', { state: { ...find.filter } });
+    }
+  };
   return (
-    <g transform={`translate(${x},${y})`}>
+    <AxisTick
+      transform={`translate(${x},${y})`}
+      $isButton={getIsFilter()}
+      onClick={handleClick}
+    >
       <text
         x={0}
         y={0}
@@ -136,7 +154,7 @@ const CustomizedAxisTick = ({ x, y, stroke, payload }) => {
       >
         {payload.value}
       </text>
-    </g>
+    </AxisTick>
   );
 };
 export default ChartArea;

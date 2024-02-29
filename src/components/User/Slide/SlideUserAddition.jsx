@@ -19,7 +19,7 @@ const SlideUserAddition = ({ toggleChangeIsFire }) => {
   const [showIsFire, setShowIsFire] = useState(false);
   const isAdmin = user?.rights?.admin || false;
   const toggleShowPosition = () => {
-    setShowPostion(!showIsFire);
+    setShowPostion(!showPosition);
   };
   const toggleShowIsFire = () => {
     setShowIsFire(!showIsFire);
