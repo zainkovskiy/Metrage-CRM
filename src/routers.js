@@ -62,12 +62,10 @@ import { loaderPlanSlide } from 'components/Planning/Slide/SuspenseSlidePlanning
 import SuspenseNewPlunning from './components/Planning/New/SuspenseNewPlunning';
 
 import SuspenseCalendar from 'components/Calendar/SuspenseCalendar';
-// import SuspenseSlidePlanning from 'components/Planning/Slide/SuspenseSlidePlanning';
-// import { loaderPlanSlide } from 'components/Planning/Slide/SuspenseSlidePlanning';
-// import SuspenseNewPlunning from './components/Planning/New/SuspenseNewPlunning';
+import SuspenseNewEvent from './components/Calendar/New/SuspenseNewEvent';
 
 import SuspenceDashboard from 'components/Dashboard/SuspenceDashboard';
-// import SuspenseSlideUser from 'components/User/Slide/SuspenseSlideUser';
+// import SuspenseNewEvent from 'components/User/Slide/SuspenseSlideUser';
 
 export const routers = createBrowserRouter([
   {
@@ -290,10 +288,10 @@ export const routers = createBrowserRouter([
         path: 'calendar',
         element: <SuspenseCalendar />,
         children: [
-          // {
-          //   path: 'new',
-          //   element: <SuspenseNewPlunning />,
-          // },
+          {
+            path: 'new',
+            element: <SuspenseNewEvent />,
+          },
           // {
           //   path: ':id',
           //   element: <SuspenseSlidePlanning />,
