@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 // import { getPhotoListAPI, setChangePhotoListAPI } from 'api/objectAPI';
 import closeUrl, { ReactComponent as Close } from 'images/close.svg';
 import { TextSpanStyle } from 'styles/styles';
 import { ButtonUI } from 'ui/ButtonUI';
+import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import SlideDialogPhotoSceleton from './SlideDialogPhotoSceleton';
 import SlideDialogPhotoUploader from './SlideDialogPhotoUploader';
 import SlideDialogEditPhoto from './SlideDialogEditPhoto';
@@ -17,6 +18,7 @@ import {
   saveChangeList,
 } from '../../../store/photoSlice';
 import { useAsyncValue } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 const SlideDialogPhotoStyle = styled.div`
   width: 80vw;
@@ -67,6 +69,12 @@ const ButtonWrap = styled.div`
   padding: 0 0.5rem;
   margin-bottom: 0.5rem;
 `;
+const InfoBox = styled(motion.div)`
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem 0.5rem 0;
+  box-sizing: border-box;
+`;
 const SlideDialogPhoto = ({ onClose, changePhoto }) => {
   const object = useAsyncValue();
   const dispatch = useDispatch();
@@ -75,6 +83,11 @@ const SlideDialogPhoto = ({ onClose, changePhoto }) => {
   const photosOrigin = useSelector((state) => state.photo.photosOrigin);
   const targetPhoto = useSelector((state) => state.photo.targetPhoto);
   const dragPhotoRef = React.useRef(null);
+  const rightsRef = React.useRef(null);
+  const [right, setRight] = useState({
+    value: '',
+    error: false,
+  });
 
   useEffect(() => {
     dispatch(
@@ -91,6 +104,14 @@ const SlideDialogPhoto = ({ onClose, changePhoto }) => {
     dispatch(setWebAllPhotos());
   };
   const saveChange = async () => {
+    if (photos?.length > 0 && !Boolean(right.value)) {
+      setRight((prevState) => ({
+        ...prevState,
+        error: true,
+      }));
+      rightsRef?.current && rightsRef.current.focus();
+      return;
+    }
     if (JSON.stringify(photos) === JSON.stringify(photosOrigin)) {
       onClose();
       return;
@@ -100,6 +121,7 @@ const SlideDialogPhoto = ({ onClose, changePhoto }) => {
         UID: object.UID,
         type: object.typeEstate,
         photos: photos,
+        photoRights: right.value,
       })
     )
       .unwrap()
@@ -127,12 +149,47 @@ const SlideDialogPhoto = ({ onClose, changePhoto }) => {
   if (targetPhoto) {
     return <SlideDialogEditPhoto />;
   }
+  const handleSelect = useCallback(
+    (newValue) => {
+      setRight({
+        value: newValue,
+        error: false,
+      });
+    },
+    [right]
+  );
   return (
     <SlideDialogPhotoStyle onClick={(e) => e.stopPropagation()}>
       <SlideDialogPhotoHeaderStyle>
         <TextSpanStyle>Фото {photos.length}</TextSpanStyle>
         <CloseButtonStyle src={closeUrl} onClick={onClose} />
       </SlideDialogPhotoHeaderStyle>
+      {photos.length > 0 && (
+        <InfoBox
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          exit={{ scale: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <TextSpanStyle color='red' align='center'>
+            Не допускаются к размещению фотографии, взятые с объявлений
+            сторонних агентств, а так же содержащие логотипы
+          </TextSpanStyle>
+          <SelectUI
+            small
+            onChange={handleSelect}
+            select={right.value}
+            error={right.error}
+            inputRef={rightsRef}
+            width={'350px'}
+          >
+            <SelectItemUI value='Делал(а) сам(а)'>Делал(а) сам(а)</SelectItemUI>
+            <SelectItemUI value='Наш фотограф'>Наш фотограф</SelectItemUI>
+            <SelectItemUI value='От собственника'>От собственника</SelectItemUI>
+            <SelectItemUI value='С интернета'>С интернета</SelectItemUI>
+          </SelectUI>
+        </InfoBox>
+      )}
       <SlideDialogPhotoUploader />
       {photos.length > 0 && (
         <ButtonWrap>

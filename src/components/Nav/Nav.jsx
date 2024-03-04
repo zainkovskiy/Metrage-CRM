@@ -16,7 +16,7 @@ import TelegramDiscription from 'components/Nav/TelegramDiscription';
 import DialogWindow from 'components/Main/DialogWindow';
 import Search from './Search';
 import { Link } from 'react-router-dom';
-import { ReactComponent as Chart } from 'images/chart.svg';
+import { ReactComponent as Calendar } from 'images/calendar-simple.svg';
 
 const NavStyle = styled.nav`
   grid-area: nav;
@@ -33,12 +33,12 @@ const NavStyle = styled.nav`
 `;
 const LogoDash = styled.div`
   display: flex;
-  align-item: center;
+  align-items: center;
   gap: 0.5rem;
 `;
-const DashboardButton = styled(Link)`
-  width: 20px;
-  height: 20px;
+const CalendardButton = styled(Link)`
+  width: 26px;
+  height: 26px;
   cursor: pointer;
   transition: transform 0.3s;
   &:hover {
@@ -48,7 +48,7 @@ const DashboardButton = styled(Link)`
     transform: scale(0.9);
   }
   & > svg {
-    fill: ${({ theme }) => theme.color.primary};
+    stroke: ${({ theme }) => theme.color.primary};
   }
 `;
 const Nav = () => {
@@ -73,9 +73,9 @@ const Nav = () => {
     <NavStyle>
       <LogoDash>
         <LogoComponent />
-        <DashboardButton to='/'>
-          <Chart />
-        </DashboardButton>
+        <CalendardButton to='/calendar'>
+          <Calendar />
+        </CalendardButton>
       </LogoDash>
       <Search />
       <div style={{ display: 'flex', gap: '1rem', position: 'relative' }}>

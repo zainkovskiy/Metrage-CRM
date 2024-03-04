@@ -47,7 +47,6 @@ const SelectItemsContainer = styled(motion.div)`
   height: 100px;
   background-color: #fff;
   position: absolute;
-  height: 100px;
   background-color: rgb(255, 255, 255);
   border-radius: 5px;
   border: 1px solid ${({ theme }) => theme.color.primary};
@@ -76,6 +75,7 @@ export const SelectUI = ({
   children,
   label,
   fullWidth,
+  width,
   inputRef,
   error,
   disabled,
@@ -130,6 +130,7 @@ export const SelectUI = ({
   return (
     <LabelStyle
       fullWidth={fullWidth}
+      width={width}
       ref={selectRef}
       id={idRef}
       labelSize={labelSize}

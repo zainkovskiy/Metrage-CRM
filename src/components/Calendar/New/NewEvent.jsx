@@ -6,9 +6,13 @@ import { ButtonUI } from 'ui/ButtonUI';
 import { InputUI } from 'ui/InputUI';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import { LabelStyle } from 'ui/InputUI/InputUIStyled';
-import { useDispatch } from 'react-redux';
-import { createNewEvent } from '../../../store/slices/calendarSlice';
-import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  createNewEvent,
+  updateEvent,
+} from '../../../store/slices/calendarSlice';
+import { useAsyncValue } from 'react-router-dom';
+import RadioButtonGroup from 'ui/RadioButtonGroup/RadioButtonGroup';
 
 const NewEventForm = styled.form`
   display: flex;
@@ -40,22 +44,48 @@ const TexArea = styled.textarea`
       ${({ theme, $error }) => ($error ? 'red' : theme.color.primary)};
   }
 `;
+const ColorButton = styled.input.attrs({ type: 'radio' })`
+  appearance: none;
+  width: 100%;
+  height: 48px;
+  cursor: pointer;
+  background-color: ${({ id }) => id || '#ccc'};
+  ${({ active, id }) => active === id && 'transform: scale(1.1)'};
+  transition: transform 0.3s;
+  border-radius: 5px;
+`;
 const NewEvent = ({ onClose }) => {
+  const isAdmin = useSelector((state) => state.user?.isAdmin || '') === '1';
   const dispatch = useDispatch();
-  // const location = useLocation();
-  // console.log(location);
+  const event = useAsyncValue();
   const [send, setSend] = useState(false);
   const {
     handleSubmit,
     control,
-    watch,
     formState: { errors },
   } = useForm({
-    defaultValues: {},
+    defaultValues: event || {},
   });
   const onSubmit = (data) => {
     setSend(true);
-    dispatch(createNewEvent(data))
+    if (event) {
+      updateCurEvent(data);
+      return;
+    }
+    makeNewEvent(data);
+  };
+  const makeNewEvent = (event) => {
+    dispatch(createNewEvent(event))
+      .unwrap()
+      .then(() => {
+        onClose();
+      })
+      .finally(() => {
+        setSend(false);
+      });
+  };
+  const updateCurEvent = (event) => {
+    dispatch(updateEvent(event))
       .unwrap()
       .then(() => {
         onClose();
@@ -101,6 +131,41 @@ const NewEvent = ({ onClose }) => {
             </LabelStyle>
           )}
         />
+        <Controller
+          name='color'
+          control={control}
+          render={({ field }) => (
+            <LabelStyle>
+              Цвет
+              <RadioButtonGroup
+                disabled={send}
+                value={field.value || false}
+                onChange={field.onChange}
+                name='color'
+                gap='0.5rem'
+              >
+                <ColorButton type='radio' id='#3b3bbd' />
+                <ColorButton type='radio' id='#e55353' />
+                <ColorButton type='radio' id='#259725' />
+              </RadioButtonGroup>
+            </LabelStyle>
+          )}
+        />
+        {isAdmin && (
+          <Controller
+            name='toAll'
+            control={control}
+            render={({ field }) => (
+              <CheckboxUI
+                label='Для всех пользователей'
+                id='toAll'
+                disabled={send}
+                checked={field.value || false}
+                onChange={(e) => field.onChange(e.target.checked)}
+              />
+            )}
+          />
+        )}
         <Controller
           name='toTelegram'
           control={control}

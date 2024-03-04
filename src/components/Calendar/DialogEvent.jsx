@@ -5,7 +5,7 @@ import { ButtonUI } from 'ui/ButtonUI';
 import { TextSpanStyle } from 'styles/styles';
 import { useDateFormat } from 'hooks/DateFormat';
 import { ButtonLink } from 'ui/ButtonLink';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { removeEvent } from '../../store/slices/calendarSlice';
 import { useNavigate } from 'react-router-dom';
 
@@ -35,6 +35,7 @@ const DialogEventFooter = styled.div`
 `;
 
 const DialogEvent = ({ event, onClose }) => {
+  const isAdmin = useSelector((state) => state.user?.isAdmin || '') === '1';
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const remove = () => {
@@ -46,7 +47,7 @@ const DialogEvent = ({ event, onClose }) => {
   };
   const edit = () => {
     onClose();
-    navigate('new', { state: { ...event } });
+    navigate(`edit/${event.UID}`);
   };
   return (
     <DialogEventStyle onClick={(e) => e.stopPropagation()}>
@@ -58,9 +59,11 @@ const DialogEvent = ({ event, onClose }) => {
       </SliderTitle>
       <DialogEventContent>
         <TextSpanStyle>{event.title}</TextSpanStyle>
-        <ButtonLink size={12} color='red' onClick={remove}>
-          Удалить напоминание
-        </ButtonLink>
+        {(!event?.toAll || (event?.toAll && isAdmin)) && (
+          <ButtonLink size={12} color='red' onClick={remove}>
+            Удалить напоминание
+          </ButtonLink>
+        )}
       </DialogEventContent>
       <DialogEventFooter>
         <ButtonUI size='small' variant='outline' onClick={edit}>

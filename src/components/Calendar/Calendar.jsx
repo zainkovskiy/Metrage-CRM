@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import React, { useState } from 'react';
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import DialogWindow from 'components/Main/DialogWindow';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -10,79 +10,19 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import DialogEvent from './DialogEvent';
-
-const CalendarStyle = styled.div`
-  flex-grow: 1;
-  padding: 0.5rem;
-  box-sizing: border-box;
-`;
+import { messages } from './core/messages';
 
 const localizer = momentLocalizer(moment);
-
-const myEventsList = [
-  {
-    start: moment().toDate(),
-    end: moment().add(1, 'days').toDate(),
-    title: 'Some title',
-  },
-];
-const myEvent = [
-  {
-    id: 1,
-    title: 'Long Event',
-    start: new Date(2015, 3, 7),
-    end: new Date(2015, 3, 10),
-  },
-
-  {
-    id: 2,
-    title: 'DTS STARTS',
-    start: new Date(2016, 2, 13, 0, 0, 0),
-    end: new Date(2016, 2, 20, 0, 0, 0),
-  },
-
-  {
-    id: 3,
-    title: 'DTS ENDS',
-    start: new Date(2016, 10, 6, 0, 0, 0),
-    end: new Date(2016, 10, 13, 0, 0, 0),
-  },
-];
-const eventApi = [
-  {
-    title: 'Позвонить по заявке',
-    start: moment('2024-03-02 00:00:00').toDate(),
-    end: moment('2024-03-02 00:00:00').toDate(),
-    color: 'red',
-    isRouting: true,
-    type: 'application',
-    UID: 9077,
-  },
-  // {
-  //   title: 'Выполнить задачу',
-  //   color: 'blue',
-  //   start: moment('2024-02-29 00:00:00').toDate(),
-  //   end: moment('2024-03-03 00:00:00').toDate(),
-  //   isRouting: true,
-  //   type: 'task',
-  //   UID: 81,
-  // },
-  // {
-  //   title: 'Открыть карточку в календаре',
-  //   color: 'blue',
-  //   start: moment('2024-02-29 04:00:00').toDate(),
-  //   end: moment('2024-02-29 04:30:00').toDate(),
-  //   isRouting: false,
-  //   type: 'innerItem',
-  //   UID: 81,
-  // },
-];
 
 const CustomEvent = styled.div`
   border-radius: 5px;
   padding: 0.2rem 0.5rem;
   box-sizing: border-box;
   cursor: pointer;
+`;
+const TextEllipsis = styled(TextSpanStyle)`
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 const MyEvent = (props) => {
   const getClick = () => {
@@ -99,7 +39,9 @@ const MyEvent = (props) => {
       style={{ backgroundColor: ` ${props?.event?.color || 'grey'}` }}
       onClick={getClick}
     >
-      <TextSpanStyle color='#fff'>{props.event.title}</TextSpanStyle>
+      <TextEllipsis nowrap color='#fff'>
+        {props.event.title}
+      </TextEllipsis>
     </CustomEvent>
   );
 };
@@ -130,7 +72,7 @@ const CalendarComponent = () => {
   };
 
   return (
-    <CalendarStyle>
+    <>
       <Calendar
         components={{
           eventWrapper: MyEvent,
@@ -145,16 +87,8 @@ const CalendarComponent = () => {
         onSelectEvent={handleSelectEvent}
         // onSelectSlot={handleSelectSlot}
         selectable
-        messages={{
-          next: 'Вперед',
-          previous: 'Назад',
-          today: 'Сегодня',
-          month: 'Месяц',
-          week: 'Неделя',
-          day: 'День',
-          agenda: 'Список',
-          showMore: (total) => `+${total} еще`,
-        }}
+        popup
+        messages={messages}
         startAccessor={(event) => {
           return moment(event.start).toDate();
         }}
@@ -165,12 +99,13 @@ const CalendarComponent = () => {
           height: '100%',
           width: '100%',
           fontFamily: 'CeraCY, sans-serif',
+          overflow: 'auto',
         }}
       />
       <DialogWindow open={Boolean(curEvent)} onClose={cleareCurEvent}>
         <DialogEvent onClose={cleareCurEvent} event={curEvent} />
       </DialogWindow>
-    </CalendarStyle>
+    </>
   );
 };
 

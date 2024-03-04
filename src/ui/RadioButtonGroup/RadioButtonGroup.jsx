@@ -4,17 +4,26 @@ import styled from 'styled-components';
 const RadioButtonGroupStyle = styled.div`
   width: 100%;
   display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
+  ${({ $gap }) => $gap && `gap: ${$gap}`};
+  ${({ $wrap }) => $wrap && 'flex-wrap: wrap;'};
+  ${({ $disabled }) => $disabled && 'pointer-events: none;'};
 `;
 
-const RadioButtonGroup = ({ name, onChange, value, children }) => {
+const RadioButtonGroup = ({
+  name,
+  onChange,
+  value,
+  children,
+  disabled,
+  wrap,
+  gap,
+}) => {
   const handleChange = (e) => {
     const value = e.target.id;
     onChange(value);
   };
   return (
-    <RadioButtonGroupStyle>
+    <RadioButtonGroupStyle $disabled={disabled} $wrap={wrap} $gap={gap}>
       {Children.map(children, (child) => {
         return React.cloneElement(child, {
           ...child.props,

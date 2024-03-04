@@ -36,6 +36,20 @@ export const createNewEvent = createAsyncThunk(
     return {};
   }
 );
+export const updateEvent = createAsyncThunk(
+  'calendar/updateEvent',
+  async (event) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.calendar.updNotify',
+      fields: event,
+    });
+    if (res?.statusText === 'OK') {
+      return res?.data?.result || {};
+    }
+    return {};
+  }
+);
 export const removeEvent = createAsyncThunk(
   'calendar/removeEvent',
   async (UID) => {
@@ -47,7 +61,7 @@ export const removeEvent = createAsyncThunk(
       },
     });
     if (res?.statusText === 'OK') {
-      return 'OK';
+      return UID;
     }
     return 'No OK';
   }
@@ -86,14 +100,24 @@ const calendarSlice = createSlice({
       state.loadingList = false;
     }),
       builder.addCase(createNewEvent.fulfilled, (state, action) => {
-        // state.events = action.payload;
-        // state.loadingList = false;
+        state.events.data = [...state.events.data, action.payload];
       }),
       builder.addCase(removeEvent.fulfilled, (state, action) => {
-        // const eventUID = action.meta.arg;
-        // state.events.data = state.events.data.filter(
-        //   (event) => event.UID !== eventUID
-        // );
+        const eventUID = action.payload;
+        state.events.data = state.events.data.filter(
+          (event) => event.UID !== eventUID
+        );
+      }),
+      builder.addCase(updateEvent.fulfilled, (state, action) => {
+        const curEvent = action.payload;
+        if (curEvent) {
+          state.events.data = state.events.data.map((item) => {
+            if (item.UID === curEvent.UID) {
+              return curEvent;
+            }
+            return item;
+          });
+        }
       });
   },
 });
