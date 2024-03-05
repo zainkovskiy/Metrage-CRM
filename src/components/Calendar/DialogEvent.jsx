@@ -7,7 +7,7 @@ import { useDateFormat } from 'hooks/DateFormat';
 import { ButtonLink } from 'ui/ButtonLink';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeEvent } from '../../store/slices/calendarSlice';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const DialogEventStyle = styled.div`
   padding: 0.5rem;
@@ -37,17 +37,12 @@ const DialogEventFooter = styled.div`
 const DialogEvent = ({ event, onClose }) => {
   const isAdmin = useSelector((state) => state.user?.isAdmin || '') === '1';
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const remove = () => {
     dispatch(removeEvent(event.UID))
       .unwrap()
       .then(() => {
         onClose();
       });
-  };
-  const edit = () => {
-    onClose();
-    navigate(`edit/${event.UID}`);
   };
   return (
     <DialogEventStyle onClick={(e) => e.stopPropagation()}>
@@ -59,16 +54,38 @@ const DialogEvent = ({ event, onClose }) => {
       </SliderTitle>
       <DialogEventContent>
         <TextSpanStyle>{event.title}</TextSpanStyle>
-        {(!event?.toAll || (event?.toAll && isAdmin)) && (
-          <ButtonLink size={12} color='red' onClick={remove}>
-            Удалить напоминание
-          </ButtonLink>
+        {event?.type === 'notify' && (
+          <>
+            {(!event?.toAll || (event?.toAll && isAdmin)) && (
+              <ButtonLink size={12} color='red' onClick={remove}>
+                Удалить напоминание
+              </ButtonLink>
+            )}
+          </>
         )}
       </DialogEventContent>
       <DialogEventFooter>
-        <ButtonUI size='small' variant='outline' onClick={edit}>
-          Редактировать
-        </ButtonUI>
+        {event?.type === 'notify' && (
+          <ButtonUI
+            size='small'
+            variant='outline'
+            onClick={onClose}
+            as={Link}
+            to={`edit/${event.UID}`}
+          >
+            Редактировать
+          </ButtonUI>
+        )}
+        {event?.isRouting && (
+          <ButtonUI
+            size='small'
+            variant='outline'
+            as={Link}
+            to={`/${event.type}/${event.UID}`}
+          >
+            Перейти к событию
+          </ButtonUI>
+        )}
         <ButtonUI size='small' onClick={onClose}>
           Закрыть
         </ButtonUI>

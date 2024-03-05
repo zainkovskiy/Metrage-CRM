@@ -11,6 +11,8 @@ export const ButtonUI = ({
   onClick,
   size,
   id,
+  as,
+  to,
 }) => {
   const ButtonComponent = getButtonVariant(variant);
   return (
@@ -22,6 +24,8 @@ export const ButtonUI = ({
       onClick={onClick}
       size={size}
       id={id}
+      as={as}
+      to={to}
     >
       {children}
     </ButtonComponent>
@@ -49,6 +53,7 @@ const buttonStyle = css`
   width: ${({ fullWidth }) => fullWidth && '100%'};
   transition: color 0.3s, background-color 0.3s, border 0.3s;
   white-space: nowrap;
+  text-decoration: none;
   &:disabled {
     opacity: 0.3;
     pointer-events: none;

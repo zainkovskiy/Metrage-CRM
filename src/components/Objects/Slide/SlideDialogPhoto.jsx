@@ -74,6 +74,8 @@ const InfoBox = styled(motion.div)`
   gap: 0.5rem;
   padding: 0.5rem 0.5rem 0;
   box-sizing: border-box;
+  flex-direction: column;
+  align-items: center;
 `;
 const SlideDialogPhoto = ({ onClose, changePhoto }) => {
   const object = useAsyncValue();
@@ -173,7 +175,7 @@ const SlideDialogPhoto = ({ onClose, changePhoto }) => {
         >
           <TextSpanStyle color='red' align='center'>
             Не допускаются к размещению фотографии, взятые с объявлений
-            сторонних агентств, а так же содержащие логотипы
+            сторонних агентств, а так же содержащие логотипы.
           </TextSpanStyle>
           <SelectUI
             small
@@ -181,7 +183,7 @@ const SlideDialogPhoto = ({ onClose, changePhoto }) => {
             select={right.value}
             error={right.error}
             inputRef={rightsRef}
-            width={'350px'}
+            label='Укажите источник фотографий'
           >
             <SelectItemUI value='Делал(а) сам(а)'>Делал(а) сам(а)</SelectItemUI>
             <SelectItemUI value='Наш фотограф'>Наш фотограф</SelectItemUI>

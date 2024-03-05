@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
-import playUrl, { ReactComponent as Play } from 'images/play.svg';
-import pauseUrl, { ReactComponent as Pause } from 'images/pause.svg';
+import { ReactComponent as Play } from 'images/play.svg';
+import { ReactComponent as Pause } from 'images/pause.svg';
 import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
 
@@ -22,7 +22,7 @@ const PlayButton = styled.div`
 `;
 const RageStyle = styled.input`
   cursor: pointer;
-  -webkit-appearance: none;
+  appearance: none;
   width: 100%;
   height: 7px;
   background: #ccc;
@@ -38,29 +38,29 @@ const RageStyle = styled.input`
     background: #ff4500;
     cursor: ew-resize;
     box-shadow: 0 0 2px 0 #555;
-    transition: background 0.3s ease-in-out;
+    transition: background-color 0.3s ease-in-out;
   }
 
   &::-moz-range-thumb {
-    -webkit-appearance: none;
+    appearance: none;
     height: 20px;
     width: 20px;
     border-radius: 50%;
     background: #ff4500;
     cursor: ew-resize;
     box-shadow: 0 0 2px 0 #555;
-    transition: background 0.3s ease-in-out;
+    transition: background-color 0.3s ease-in-out;
   }
 
   &::-ms-thumb {
-    -webkit-appearance: none;
+    appearance: none;
     height: 20px;
     width: 20px;
     border-radius: 50%;
     background: #ff4500;
     cursor: ew-resize;
     box-shadow: 0 0 2px 0 #555;
-    transition: background 0.3s ease-in-out;
+    transition: background-color 0.3s ease-in-out;
   }
 
   &::-webkit-slider-thumb:hover {
@@ -75,21 +75,21 @@ const RageStyle = styled.input`
   }
 
   &::-webkit-slider-runnable-track {
-    -webkit-appearance: none;
+    appearance: none;
     box-shadow: none;
     border: none;
     background: transparent;
   }
 
   &::-moz-range-track {
-    -webkit-appearance: none;
+    appearance: none;
     box-shadow: none;
     border: none;
     background: transparent;
   }
 
   &::-ms-track {
-    -webkit-appearance: none;
+    appearance: none;
     box-shadow: none;
     border: none;
     background: transparent;

@@ -172,9 +172,7 @@ const DealTable = () => {
                   animate='visible'
                 >
                   <td>
-                    <TextSpanStyle size={12} bold>
-                      {deal.UID}
-                    </TextSpanStyle>
+                    <TextSpanStyle size={12}>{deal.UID}</TextSpanStyle>
                   </td>
                   <td>{deal.dealTitle}</td>
                   <td>{useDateFormat(deal?.plannedDate, 'DD.MM.YY')}</td>

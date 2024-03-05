@@ -39,7 +39,6 @@ const BusyText = styled(TextSpanStyle)`
 `;
 
 const AudioPlayerCard = ({ call }) => {
-  console.log(call);
   return (
     <PlayerStyle>
       <Box jc='space-between'>

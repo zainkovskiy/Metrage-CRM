@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { setNewContact } from 'store/applicationSlice';
 import moment from 'moment';
 import { useAsyncValue } from 'react-router-dom';
+import { useDateFormat } from 'hooks/DateFormat';
 
 const ApplicationNextContactStyle = styled.form`
   display: flex;
@@ -76,7 +77,8 @@ const ApplicationNextContact = ({ onClose }) => {
       .unwrap()
       .then(() => {
         if (application) {
-          application.demand.nextContact = data.nextDate;
+          application.demand.nextContactStr =
+            useDateFormat(data.nextDate, 'DD.MM.YYYY') + ' ' + data.nextTime;
           application.demand.comment = data.comment;
         }
         onClose();

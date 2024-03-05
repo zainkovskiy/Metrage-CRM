@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Outlet } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { device } from 'styles/device';
 import ClientFilter from './ClientFilter';
-import Clients from './Clients';
 import { getClientsList } from '../../store/clientsSlice';
+import ClientsTable from './ClientsTable';
 
 const ClientContentStyle = styled.div`
   flex-grow: 1;
@@ -29,8 +28,7 @@ const ClientContent = () => {
   return (
     <ClientContentStyle>
       <ClientFilter />
-      <Clients />
-      {/* <Link to='3'>client slider</Link> */}
+      <ClientsTable />
       <Outlet />
     </ClientContentStyle>
   );

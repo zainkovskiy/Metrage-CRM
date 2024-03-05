@@ -134,6 +134,8 @@ const photoSlice = createSlice({
     },
     removePhoto(state, action) {
       const photo = action.payload;
+      console.log(action);
+      console.log(state.photos);
       state.photos = state.photos.filter((item) => item.UID !== photo.UID);
     },
     setWeb(state, action) {

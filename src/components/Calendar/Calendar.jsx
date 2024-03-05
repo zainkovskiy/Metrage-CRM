@@ -8,7 +8,6 @@ import 'moment/locale/ru';
 import { TextSpanStyle } from 'styles/styles';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import DialogEvent from './DialogEvent';
 import { messages } from './core/messages';
 
@@ -47,7 +46,6 @@ const MyEvent = (props) => {
 };
 
 const CalendarComponent = () => {
-  const navigate = useNavigate();
   const [curEvent, setCurEvent] = useState(null);
   const events = useSelector((state) => state.calendar.events);
   const loadingList = useSelector((state) => state.calendar.loadingList);
@@ -56,12 +54,7 @@ const CalendarComponent = () => {
   }
 
   const handleSelectEvent = (event) => {
-    if (event?.isRouting) {
-      navigate(`/${event?.type}/${event?.UID}`);
-    }
-    if (event?.UID) {
-      setCurEvent(event);
-    }
+    setCurEvent(event);
   };
   const handleSelectSlot = (e) => {
     console.log(e);
@@ -100,6 +93,8 @@ const CalendarComponent = () => {
           width: '100%',
           fontFamily: 'CeraCY, sans-serif',
           overflow: 'auto',
+          padding: '0.5rem',
+          boxSizing: 'border-box',
         }}
       />
       <DialogWindow open={Boolean(curEvent)} onClose={cleareCurEvent}>
