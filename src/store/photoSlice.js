@@ -8,7 +8,7 @@ export const getPhotoList = createAsyncThunk(
   async (raw) => {
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
-      method: 'crm.objects.getPhoto',
+      method: 'crm.objects.getPhotoWithRights',
       fields: raw,
     });
     if (res?.statusText === 'OK') {
@@ -128,6 +128,7 @@ const photoSlice = createSlice({
     clearPhotos(state, action) {
       state.photos = [];
       state.photosOrigin = [];
+      state.photosRights = null;
       state.loading = true;
       state.targetPhoto = null;
       state.targetUID = null;
@@ -194,8 +195,9 @@ const photoSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getPhotoList.fulfilled, (state, action) => {
-        state.photos = action.payload;
-        state.photosOrigin = action.payload;
+        state.photos = action.payload.photos;
+        state.photosOrigin = action.payload.photos;
+        state.photosRights = action.payload.photoRights;
         state.loading = false;
       })
       .addCase(saveChangeList.pending, (state) => {

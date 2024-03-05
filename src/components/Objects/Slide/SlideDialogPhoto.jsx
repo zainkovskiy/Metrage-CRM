@@ -82,6 +82,7 @@ const SlideDialogPhoto = ({ onClose, changePhoto }) => {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.photo.loading);
   const photos = useSelector((state) => state.photo.photos);
+  const photosRights = useSelector((state) => state.photo.photosRights);
   const photosOrigin = useSelector((state) => state.photo.photosOrigin);
   const targetPhoto = useSelector((state) => state.photo.targetPhoto);
   const dragPhotoRef = React.useRef(null);
@@ -102,6 +103,12 @@ const SlideDialogPhoto = ({ onClose, changePhoto }) => {
       dispatch(clearPhotos());
     };
   }, []);
+  useEffect(() => {
+    setRight((prevState) => ({
+      ...prevState,
+      value: photosRights,
+    }));
+  }, [photosRights]);
   const setWebAll = () => {
     dispatch(setWebAllPhotos());
   };
