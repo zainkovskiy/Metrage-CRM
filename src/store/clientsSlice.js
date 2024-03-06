@@ -9,7 +9,9 @@ export const getClientsList = createAsyncThunk(
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
       method: 'crm.contact.list',
-      offset: 0,
+      fields: {
+        offset: 0,
+      },
     });
     if (res?.statusText === 'OK') {
       return res?.data?.result?.transwerData || [];
@@ -23,7 +25,9 @@ export const getMoreClientsList = createAsyncThunk(
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
       method: 'crm.contact.list',
-      offset: getState().clients.offset + 1,
+      fields: {
+        offset: getState().clients.offset + 1,
+      },
     });
     if (res?.statusText === 'OK') {
       return res?.data?.result?.transwerData || [];
