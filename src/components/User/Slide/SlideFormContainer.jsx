@@ -8,6 +8,7 @@ import { SliderFormButtonGroup } from '../../../styles/SliderFormButtonGroup';
 import SlideUserAddition from './SlideUserAddition';
 import { setNewUserValue } from '../../../api/usersApi';
 import { AnimatePresence } from 'framer-motion';
+import SlideUserSpeciality from './SlideUserSpeciality';
 
 const SlideFormContainerStyle = styled.form`
   display: flex;
@@ -29,6 +30,7 @@ const SlideFormContainer = () => {
   return (
     <SlideFormContainerStyle onSubmit={handleSubmit(onSubmit)}>
       <SlideUserMain />
+      <SlideUserSpeciality />
       <SlideUserAddition toggleChangeIsFire={toggleChangeIsFire} />
       <AnimatePresence>
         {isDirty && (

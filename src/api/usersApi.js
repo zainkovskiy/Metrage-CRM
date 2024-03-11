@@ -121,3 +121,27 @@ export const changeActiveStage = async (UID) => {
   }
   return 'No OK';
 };
+export const updateAvatar = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.users.setAvatar',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No OK';
+};
+export const removeAvatar = async (UID) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.users.delAvatar',
+    fields: {
+      UID: UID,
+    },
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No OK';
+};

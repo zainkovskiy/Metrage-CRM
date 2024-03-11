@@ -12,6 +12,7 @@ import { Controller } from 'react-hook-form';
 import { ButtonLink } from '../../../ui/ButtonLink/ButtonLink';
 import DialogWindow from 'components/Main/DialogWindow';
 import WindowPassword from './WindowPassword';
+import WindowAvatarEdit from './WindowAvatarEdit';
 import OfficeFinder from '../../Main/OfficeFinder';
 import { setNewUserValue } from '../../../api/usersApi';
 
@@ -26,6 +27,7 @@ const AvatarContainer = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+  flex-direction: column;
 `;
 const UserBlock = styled.div`
   flex-grow: 1;
@@ -36,6 +38,7 @@ const UserLine = styled.div`
   justify-content: space-between;
   gap: 0.5rem;
   height: ${({ $height }) => $height && $height};
+  width: 100%;
 `;
 const InfoText = styled(TextSpanStyle)`
   padding: 0 0.5rem;
@@ -52,6 +55,7 @@ const SlideUserMain = () => {
   const { control } = useFormContext();
   const [showPass, setShowPass] = useState(false);
   const [showOffice, setShowOffice] = useState(false);
+  const [showAvatar, setShowAvatar] = useState(false);
   const isAdmin = user?.rights?.admin || false;
   const editMain = user?.rights?.editMain || false;
   const toggleShowPass = () => {
@@ -66,6 +70,9 @@ const SlideUserMain = () => {
       UID: user.UID,
       office: office,
     });
+  };
+  const toggleAvatarEdit = () => {
+    setShowAvatar(!showAvatar);
   };
   return (
     <SliderBlock>
@@ -145,6 +152,43 @@ const SlideUserMain = () => {
               />
             </UserLine>
             <UserLine>
+              <TextSpanStyle>VK:</TextSpanStyle>
+              <Controller
+                control={control}
+                name='vkURL'
+                render={({ field }) => (
+                  <InputText
+                    disabled={!isAdmin}
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e.target.value);
+                    }}
+                  />
+                )}
+              />
+            </UserLine>
+            <Box gap='0' column ai='flex-start' fullWidth>
+              <UserLine>
+                <TextSpanStyle>Instagram:</TextSpanStyle>
+                <Controller
+                  control={control}
+                  name='instagramId'
+                  render={({ field }) => (
+                    <InputText
+                      disabled={!isAdmin}
+                      value={field.value}
+                      onChange={(e) => {
+                        field.onChange(e.target.value);
+                      }}
+                    />
+                  )}
+                />
+              </UserLine>
+              <TextSpanStyle size={10}>
+                *иностранный владелец ресурса нарушает закон РФ
+              </TextSpanStyle>
+            </Box>
+            <UserLine>
               <TextSpanStyle nowrap>Дата рождения:</TextSpanStyle>
               {editMain ? (
                 <Controller
@@ -194,9 +238,15 @@ const SlideUserMain = () => {
                 lastName: user?.lastName,
               })}
             />
+            <ButtonLink onClick={toggleAvatarEdit} color='#7d7d7d' size={10}>
+              редактировать
+            </ButtonLink>
           </AvatarContainer>
         </Box>
       </Box>
+      <DialogWindow open={showAvatar} onClose={toggleAvatarEdit}>
+        <WindowAvatarEdit onClose={toggleAvatarEdit} />
+      </DialogWindow>
       <DialogWindow open={showPass} onClose={toggleShowPass}>
         <WindowPassword UID={user?.UID} onClose={toggleShowPass} />
       </DialogWindow>

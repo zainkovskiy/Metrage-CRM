@@ -20,10 +20,13 @@ const SlideUser = () => {
       firstName: user?.firstName || '',
       secondName: user?.secondName || '',
       email: user?.email || '',
+      vkURL: user?.vkURL || '',
+      instagramId: user?.instagramId || '',
       birthDate: user?.birthDate || '',
       sex: user?.sex || '',
       isAdmin: user?.isAdmin || false,
       isСashier: user?.isСashier || false,
+      speciality: user?.speciality.current || [],
     },
   });
   return (
