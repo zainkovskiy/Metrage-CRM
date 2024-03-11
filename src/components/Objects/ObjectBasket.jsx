@@ -126,7 +126,7 @@ const CompilationList = ({
 }) => {
   return (
     <ObjectBasketStyle id='basket'>
-      <TextSpanStyle>Выберете подборку</TextSpanStyle>
+      <TextSpanStyle>Выберите подборку</TextSpanStyle>
       <ObjectBasketItems id='basket'>
         {compilationList.map((item) => (
           <ObjectCompilationItem

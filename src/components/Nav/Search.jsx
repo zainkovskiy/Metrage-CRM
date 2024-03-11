@@ -37,7 +37,6 @@ const Search = () => {
       getResidentialList(value),
     ])
       .then((res) => {
-        console.log(res);
         setFindList([
           {
             title: 'Контакты',

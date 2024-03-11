@@ -50,13 +50,16 @@ const WindowAvatarEdit = ({ onClose }) => {
     setNewAvatar(avatar);
   };
   const saveAvatar = () => {
+    console.log(newAvatar);
     if (newAvatar) {
       updateAvatar({
         UID: user.UID,
         URL: newAvatar.URL,
       }).then(() => {
         user.avatar = newAvatar.URL;
+        onClose();
       });
+      return;
     }
     onClose();
   };

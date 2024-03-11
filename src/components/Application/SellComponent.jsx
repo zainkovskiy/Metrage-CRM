@@ -34,7 +34,7 @@ const SellComponent = ({ firstMout }) => {
       <Controller
         control={control}
         name='typePlace'
-        rules={{ required: 'Выберете тип' }}
+        rules={{ required: 'Выберите тип' }}
         render={({ field }) => (
           <SelectUI
             small

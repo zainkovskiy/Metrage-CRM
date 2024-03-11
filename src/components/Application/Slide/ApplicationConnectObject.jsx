@@ -126,7 +126,7 @@ const ApplicationConnectObject = ({ onClose }) => {
   return (
     <ConnectObject onClick={(e) => e.stopPropagation()}>
       <Box jc='space-between'>
-        <TextSpanStyle>Выберете объект</TextSpanStyle>
+        <TextSpanStyle>Выберите объект</TextSpanStyle>
         <CloseButtonStyle src={closeUrl} alt='close' onClick={onClose} />
       </Box>
       <ConnectObjectContent>

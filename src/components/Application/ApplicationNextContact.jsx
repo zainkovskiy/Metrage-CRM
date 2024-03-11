@@ -98,7 +98,7 @@ const ApplicationNextContact = ({ onClose }) => {
       </ApplicationNextContactHeaderStyle>
       <InputUI
         register={register('nextDate', {
-          required: 'Выберете дату',
+          required: 'Выберите дату',
           validate: {
             isAfter: (v) => moment().isSameOrBefore(v) || 'Дата не корректна',
           },

@@ -124,7 +124,7 @@ const OfficeFinder = ({ onClose, onChange }) => {
   return (
     <OfficeFinderStyle onClick={(e) => e.stopPropagation()}>
       <Header onClick={() => {}}>
-        <TextSpanStyle>Выберете офис</TextSpanStyle>
+        <TextSpanStyle>Выберите офис</TextSpanStyle>
         <CloseButtonStyle src={closeUrl} alt='close' onClick={onClose} />
       </Header>
       <InputUI value={value} onChange={handleChange} ref={inputRef} fullWidth />

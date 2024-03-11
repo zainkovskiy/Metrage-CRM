@@ -86,7 +86,7 @@ const BuyComponent = ({ firstMout }) => {
           <Controller
             control={control}
             name='typePlace'
-            rules={{ required: 'Выберете тип' }}
+            rules={{ required: 'Выберите тип' }}
             render={({ field }) => (
               <SelectUI
                 small
@@ -113,7 +113,7 @@ const BuyComponent = ({ firstMout }) => {
             <Controller
               control={control}
               name='buyType'
-              rules={{ required: 'Выберете причину' }}
+              rules={{ required: 'Выберите причину' }}
               render={({ field }) => (
                 <SelectUI
                   small

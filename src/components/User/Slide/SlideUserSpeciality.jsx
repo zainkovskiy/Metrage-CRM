@@ -18,6 +18,14 @@ const SlideUserSpeciality = () => {
     <SliderBlock>
       <Box column>
         <SliderTitle>Специализация</SliderTitle>
+        <Box wrap jc='flex-start' fullWidth>
+          <TextSpanStyle bold>
+            Рейтинг по Валу (Год): {user?.rank?.year || ''}
+          </TextSpanStyle>
+          <TextSpanStyle bold>
+            Рейтинг по Валу (Текущий месяц): {user?.rank?.month || ''}
+          </TextSpanStyle>
+        </Box>
         <Controller
           name='speciality'
           control={control}
@@ -39,12 +47,6 @@ const SlideUserSpeciality = () => {
             </SelectMultipleUI>
           )}
         />
-        <TextSpanStyle $fullWidth>
-          Рейтинг по Валу (Год): {user?.rank?.year || ''}
-        </TextSpanStyle>
-        <TextSpanStyle $fullWidth>
-          Рейтинг по Валу (Текущий месяц): {user?.rank?.month || ''}
-        </TextSpanStyle>
         {user.rewards.map((reward) => (
           <SlideUserReward key={reward.UID} reward={reward} />
         ))}

@@ -84,7 +84,7 @@ const WindowChangePosition = ({ onClose, onChange }) => {
   return (
     <WindowChangePositionStyle onClick={(e) => e.stopPropagation()}>
       <Header>
-        <TextSpanStyle>Выберете должность</TextSpanStyle>
+        <TextSpanStyle>Выберите должность</TextSpanStyle>
         <CloseButtonStyle src={closeUrl} alt='close' onClick={onClose} />
       </Header>
       <PositionList

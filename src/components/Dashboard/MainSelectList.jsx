@@ -132,7 +132,7 @@ const MainSelectList = ({ source, onClose, onChange }) => {
     <MainSelectStyle onClick={(e) => e.stopPropagation()}>
       <Header onClick={() => {}}>
         <TextSpanStyle>
-          Выберете {source === 'user' ? 'пользователя' : 'офис'}
+          Выберите {source === 'user' ? 'пользователя' : 'офис'}
         </TextSpanStyle>
         <CloseButtonStyle src={closeUrl} alt='close' onClick={onClose} />
       </Header>
