@@ -8,10 +8,10 @@ const Reward = styled.div`
   gap: 0.5rem;
   align-items: center;
   width: 100%;
+  cursor: pointer;
 `;
 const RewardImg = styled.img`
   height: 48px;
-  cursor: pointer;
 `;
 const RewardFullWidth = styled.img`
   max-width: 80vw;
@@ -26,8 +26,8 @@ const SlideUserReward = ({ reward }) => {
 
   return (
     <>
-      <Reward>
-        <RewardImg src={reward.imageURL} onClick={toggleOpenReward} />
+      <Reward onClick={toggleOpenReward}>
+        <RewardImg src={reward.imageURL} />
         <TextSpanStyle>{reward.rewardName}</TextSpanStyle>
       </Reward>
       <DialogWindow open={open} onClose={toggleOpenReward}>

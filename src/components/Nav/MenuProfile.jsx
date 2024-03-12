@@ -55,9 +55,10 @@ const MenuProfile = ({ id, toggleDialog }) => {
     dispatch(logOutAPI());
   };
   const clickReview = () => {
-    navigator.clipboard.writeText(
-      `http://crm.metragegroup.com/reviews/?userId=${user.UID}`
-    );
+    window.open(`http://crm.metragegroup.com/reviews/?userId=${user.UID}`);
+    // navigator.clipboard.writeText(
+    //   `http://crm.metragegroup.com/reviews/?userId=${user.UID}`
+    // );
   };
   return (
     <>

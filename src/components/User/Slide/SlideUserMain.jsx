@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { SliderBlock, SliderTitle } from '../../../styles/slider';
 import { Box } from 'ui/Box';
 import styled from 'styled-components';
@@ -49,15 +49,38 @@ const InfoText = styled(TextSpanStyle)`
   left: 50%;
   transform: translate(-50%, 0);
 `;
-
+const CustomTextArea = styled.textarea`
+  resize: none;
+  width: 100%;
+  border: none;
+  font-family: ${({ theme }) => theme.font.family};
+  font-size: 12px;
+  border: none;
+  outline: none;
+  ${({ disabled }) =>
+    disabled ? 'background-color: #fff;' : 'background-color: #eee;'};
+`;
 const SlideUserMain = () => {
   const user = useAsyncValue();
+  const textareaRef = useRef(null);
   const { control } = useFormContext();
   const [showPass, setShowPass] = useState(false);
   const [showOffice, setShowOffice] = useState(false);
   const [showAvatar, setShowAvatar] = useState(false);
+  const [editAbout, setEditAbout] = useState(false);
   const isAdmin = user?.rights?.admin || false;
   const editMain = user?.rights?.editMain || false;
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, []);
+  useEffect(() => {
+    if (textareaRef.current && editAbout) {
+      textareaRef.current.focus();
+      textareaRef.current.selectionStart = textareaRef.current.value.length;
+    }
+  }, [editAbout]);
   const toggleShowPass = () => {
     setShowPass(!showPass);
   };
@@ -73,6 +96,12 @@ const SlideUserMain = () => {
   };
   const toggleAvatarEdit = () => {
     setShowAvatar(!showAvatar);
+  };
+  const toggleEditAbout = () => {
+    setEditAbout(!editAbout);
+  };
+  const growTextArea = () => {
+    textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
   };
   return (
     <SliderBlock>
@@ -169,7 +198,7 @@ const SlideUserMain = () => {
             </UserLine>
             <Box gap='0' column ai='flex-start' fullWidth>
               <UserLine>
-                <TextSpanStyle>Instagram:</TextSpanStyle>
+                <TextSpanStyle>Instagram*:</TextSpanStyle>
                 <Controller
                   control={control}
                   name='instagramId'
@@ -228,6 +257,35 @@ const SlideUserMain = () => {
                 )}
               </Box>
             </UserLine>
+            <Box column gap='0' ai='flex-start'>
+              <Box jc='flex-start'>
+                <TextSpanStyle>О себе:</TextSpanStyle>
+                {isAdmin && (
+                  <ButtonLink
+                    size={12}
+                    color='#7d7d7d'
+                    onClick={toggleEditAbout}
+                  >
+                    {editAbout ? 'сохранить' : 'редактировать'}
+                  </ButtonLink>
+                )}
+              </Box>
+              <Controller
+                control={control}
+                name='aboutMe'
+                render={({ field }) => (
+                  <CustomTextArea
+                    ref={textareaRef}
+                    onInput={growTextArea}
+                    disabled={!editAbout}
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e.target.value);
+                    }}
+                  />
+                )}
+              />
+            </Box>
           </UserBlock>
           <AvatarContainer style={{ position: 'relative' }}>
             {!user?.active && <InfoText size={12}>Уволен</InfoText>}

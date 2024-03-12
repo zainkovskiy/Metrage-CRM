@@ -8,7 +8,8 @@ import { TextSpanStyle } from 'styles/styles';
 import DialogWindow from 'components/Main/DialogWindow';
 import WindowPhoneAdd from './WindowPhoneAdd';
 import WindowPhoneEdit from './WindowPhoneEdit';
-import { removePhone } from '../../../api/usersApi';
+import { CheckboxUI } from 'ui/CheckboxUI';
+import { removePhone, setPosition } from '../../../api/usersApi';
 
 const SlideUserPhones = () => {
   const user = useAsyncValue();
@@ -42,6 +43,13 @@ const SlideUserPhones = () => {
     const find = user.phones.find((item) => item.UID === editPhone.UID);
     user.phones.splice(user.phones.indexOf(find), 1, editPhone);
   };
+  const handlePosition = (e) => {
+    const checked = e.target.checked;
+    setPosition({
+      UID: user.UID,
+      position: checked,
+    });
+  };
   return (
     <SliderBlock>
       <Box fullWidth gap='0.5rem' ai='normal' column>
@@ -53,6 +61,14 @@ const SlideUserPhones = () => {
             </ButtonLink>
           )}
         </SliderTitle>
+        <CheckboxUI
+          label={user?.attendant?.checkTitle || ''}
+          size='small'
+          onChange={handlePosition}
+          defaultChecked={user?.attendant?.checkPosition || false}
+          disabled={user?.attendant?.isBlocked || true}
+          id='checkPosition'
+        />
         {Array.isArray(user?.phones) &&
           user?.phones.map((phone) => (
             <PhoneItem

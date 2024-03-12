@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useWindowSize } from 'hooks/windowSize';
 import { SliderStyle, SliderContext } from '../../../styles/slider';
 import SlideUserMeta from './SlideUserMeta';
 import SlideFormContainer from './SlideFormContainer';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useAsyncValue, useNavigation } from 'react-router-dom';
+import { useAsyncValue } from 'react-router-dom';
 import SlideUserPhones from './SlideUserPhones';
-import SliderUserObjects from './SliderUserObjects';
+import SliderUserStatistics from './SliderUserStatistics';
 import SlideUsersStory from './SlideUsersStory';
 
 const SlideUser = () => {
@@ -28,6 +28,7 @@ const SlideUser = () => {
         isAdmin: user?.isAdmin || false,
         isСashier: user?.isСashier || false,
         speciality: user?.speciality.current || [],
+        aboutMe: user?.aboutMe || '',
       });
     }
   }, [user]);
@@ -45,6 +46,7 @@ const SlideUser = () => {
       isAdmin: user?.isAdmin || false,
       isСashier: user?.isСashier || false,
       speciality: user?.speciality.current || [],
+      aboutMe: user?.aboutMe || '',
     },
   });
   return (
@@ -55,7 +57,7 @@ const SlideUser = () => {
           <SlideFormContainer />
         </FormProvider>
         <SlideUserPhones />
-        <SliderUserObjects />
+        <SliderUserStatistics />
       </SliderContext>
       {isAdmin && windowSize > 768 && <SlideUsersStory />}
     </SliderStyle>

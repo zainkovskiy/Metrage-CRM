@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { device } from 'styles/device';
 import styled from 'styled-components';
 import DealFilter from './DealFilter';
@@ -24,6 +24,8 @@ const DefaultError = styled.div``;
 const DealContent = () => {
   const dispatch = useDispatch();
   const viewCard = useSelector((state) => state.deal.viewCard);
+  const location = useLocation();
+  console.log(location);
 
   useEffect(() => {
     getDeals();
@@ -33,7 +35,7 @@ const DealContent = () => {
   }, []);
 
   const getDeals = () => {
-    dispatch(getDealList());
+    dispatch(getDealList(location?.state));
   };
   const getDealComponent = () => {
     switch (viewCard) {
