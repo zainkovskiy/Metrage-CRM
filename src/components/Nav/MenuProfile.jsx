@@ -60,6 +60,9 @@ const MenuProfile = ({ id, toggleDialog }) => {
     //   `http://crm.metragegroup.com/reviews/?userId=${user.UID}`
     // );
   };
+  const clickOffer = () => {
+    window.open(`http://crm.metragegroup.com/offer`);
+  };
   return (
     <>
       <MenuProfileStyle id={id}>
@@ -89,6 +92,9 @@ const MenuProfile = ({ id, toggleDialog }) => {
         </ProfileMenuButtonStyle>
         <ProfileMenuButtonStyle onClick={clickReview}>
           <TextSpanStyle>Ссылка на отзывы</TextSpanStyle>
+        </ProfileMenuButtonStyle>
+        <ProfileMenuButtonStyle onClick={clickOffer}>
+          <TextSpanStyle>Статусы в соц.сетях</TextSpanStyle>
         </ProfileMenuButtonStyle>
         <div style={{ display: 'flex', gap: '1rem' }}>
           {/* <ProfileMenuButtonStyle>

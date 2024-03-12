@@ -66,7 +66,7 @@ const SlideUserPhones = () => {
           size='small'
           onChange={handlePosition}
           defaultChecked={user?.attendant?.checkPosition || false}
-          disabled={user?.attendant?.isBlocked || true}
+          disabled={user?.attendant?.isBlocked}
           id='checkPosition'
         />
         {Array.isArray(user?.phones) &&

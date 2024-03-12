@@ -17,7 +17,7 @@ const SliderUserStatistics = () => {
   return (
     <SliderBlock>
       <Box fullWidth gap='0.5rem' ai='normal' column>
-        <SliderTitle>Дополнительно</SliderTitle>
+        <SliderTitle>Статистика</SliderTitle>
         <StatisticGridContainer>
           <Box jc='flex-start'>
             <TextSpanStyle size={12} bold>
@@ -62,8 +62,8 @@ const SliderUserStatistics = () => {
           />
           <SlideUserTable
             header={user?.statistics?.demandsLines || []}
-            body={user?.statistics?.application || []}
-            path='/demands'
+            body={user?.statistics?.demands || []}
+            path='/application'
           />
           <SlideUserTable
             header={user?.statistics?.dealLines || []}
