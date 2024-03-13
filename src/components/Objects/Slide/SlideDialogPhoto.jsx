@@ -91,7 +91,6 @@ const SlideDialogPhoto = ({ onClose, changePhoto }) => {
     value: '',
     error: false,
   });
-
   useEffect(() => {
     dispatch(
       getPhotoList({
@@ -155,9 +154,6 @@ const SlideDialogPhoto = ({ onClose, changePhoto }) => {
       })
     );
   };
-  if (targetPhoto) {
-    return <SlideDialogEditPhoto />;
-  }
   const handleSelect = useCallback(
     (newValue) => {
       setRight({
@@ -167,6 +163,9 @@ const SlideDialogPhoto = ({ onClose, changePhoto }) => {
     },
     [right]
   );
+  if (targetPhoto) {
+    return <SlideDialogEditPhoto />;
+  }
   return (
     <SlideDialogPhotoStyle onClick={(e) => e.stopPropagation()}>
       <SlideDialogPhotoHeaderStyle>

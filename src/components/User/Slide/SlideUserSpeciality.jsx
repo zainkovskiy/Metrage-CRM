@@ -22,9 +22,9 @@ const SlideUserSpeciality = () => {
           <TextSpanStyle bold>
             Рейтинг по Валу (Год): {user?.rank?.year || ''}
           </TextSpanStyle>
-          <TextSpanStyle bold>
+          {/* <TextSpanStyle bold>
             Рейтинг по Валу (Текущий месяц): {user?.rank?.month || ''}
-          </TextSpanStyle>
+          </TextSpanStyle> */}
         </Box>
         <Controller
           name='speciality'

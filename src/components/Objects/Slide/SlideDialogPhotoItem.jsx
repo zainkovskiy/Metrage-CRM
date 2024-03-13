@@ -153,7 +153,7 @@ const SlideDialogPhotoItem = ({
     </SliderPhotoContainer>
   );
 };
-
+const SliderPhotoSContainer = styled.div``;
 const PhotoNotAllowContext = styled.div`
   display: flex;
   justify-content: center;
