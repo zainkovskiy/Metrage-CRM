@@ -13,7 +13,7 @@ import SlideUserReward from './SlideUserReward';
 const SlideUserSpeciality = () => {
   const user = useAsyncValue();
   const { control } = useFormContext();
-  const isAdmin = user?.rights?.admin || false;
+  const editMain = user?.rights?.editMain || false;
   return (
     <SliderBlock>
       <Box column>
@@ -35,7 +35,7 @@ const SlideUserSpeciality = () => {
               value={field.value}
               multiple
               fullWidth
-              disabled={!isAdmin}
+              disabled={!editMain}
               small
               // label='Тип объекта'
             >

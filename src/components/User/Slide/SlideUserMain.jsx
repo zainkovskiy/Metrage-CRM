@@ -123,7 +123,7 @@ const SlideUserMain = () => {
                 name='lastName'
                 render={({ field }) => (
                   <InputText
-                    disabled={!isAdmin}
+                    disabled={!editMain}
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e.target.value);
@@ -139,7 +139,7 @@ const SlideUserMain = () => {
                 name='firstName'
                 render={({ field }) => (
                   <InputText
-                    disabled={!isAdmin}
+                    disabled={!editMain}
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e.target.value);
@@ -155,7 +155,7 @@ const SlideUserMain = () => {
                 name='secondName'
                 render={({ field }) => (
                   <InputText
-                    disabled={!isAdmin}
+                    disabled={!editMain}
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e.target.value);
@@ -171,7 +171,7 @@ const SlideUserMain = () => {
                 name='email'
                 render={({ field }) => (
                   <InputText
-                    disabled={!isAdmin}
+                    disabled={!editMain}
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e.target.value);
@@ -187,7 +187,7 @@ const SlideUserMain = () => {
                 name='vkURL'
                 render={({ field }) => (
                   <InputText
-                    disabled={!isAdmin}
+                    disabled={!editMain}
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e.target.value);
@@ -204,7 +204,7 @@ const SlideUserMain = () => {
                   name='instagramId'
                   render={({ field }) => (
                     <InputText
-                      disabled={!isAdmin}
+                      disabled={!editMain}
                       value={field.value}
                       onChange={(e) => {
                         field.onChange(e.target.value);
@@ -226,7 +226,7 @@ const SlideUserMain = () => {
                   render={({ field }) => (
                     <InputText
                       type='date'
-                      disabled={!isAdmin}
+                      disabled={!editMain}
                       value={field.value}
                       onChange={(e) => {
                         field.onChange(e.target.value);
@@ -260,7 +260,7 @@ const SlideUserMain = () => {
             <Box column gap='0' ai='flex-start'>
               <Box jc='flex-start'>
                 <TextSpanStyle>О себе:</TextSpanStyle>
-                {isAdmin && (
+                {editMain && (
                   <ButtonLink
                     size={12}
                     color='#7d7d7d'
