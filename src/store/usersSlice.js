@@ -54,6 +54,7 @@ export const addNewMiniCard = createAsyncThunk(
 export const defaultUsersFilter = {
   office: '',
   fired: false,
+  withMegafon: 'all',
 };
 const getFilter = () => {
   const filter = localStorage.getItem('filterUsers');

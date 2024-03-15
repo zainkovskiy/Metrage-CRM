@@ -28,13 +28,6 @@ const TitleStage = styled.div`
   position: relative;
   border-radius: 3px;
   &:after {
-    /* content: '';
-    width: 0px;
-    height: 0px;
-    border-style: solid;
-    border-width: 75px 50px 75px 0;
-    border-color: transparent #ff4532 transparent transparent;
-    transform: rotate(0deg); */
     content: '';
     position: absolute;
     display: block;

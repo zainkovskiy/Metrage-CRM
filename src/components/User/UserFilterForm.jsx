@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Box } from 'ui/Box';
 import { ButtonUI } from 'ui/ButtonUI';
 import { CheckboxUI } from 'ui/CheckboxUI';
+import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
 import {
   FilterFormStyle,
@@ -76,6 +77,23 @@ const UserFilterForm = ({ onClose }) => {
               value={field.value}
               inputChange={getOfficeList}
             />
+          )}
+        />
+        <Controller
+          name='withMegafon'
+          control={control}
+          render={({ field }) => (
+            <SelectUI
+              onChange={(newValue) => {
+                field.onChange(newValue);
+              }}
+              select={field.value || 'all'}
+              label='Наличие корп.связи'
+            >
+              <SelectItemUI value='all'>Любое</SelectItemUI>
+              <SelectItemUI value='with'>Есть</SelectItemUI>
+              <SelectItemUI value='without'>Отсутствует</SelectItemUI>
+            </SelectUI>
           )}
         />
         <Controller

@@ -3,7 +3,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserList } from 'api/search';
 import { Box } from 'ui/Box';
-import { TextSpanStyle } from 'styles/styles';
+import { CheckboxUI } from 'ui/CheckboxUI';
 import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
@@ -249,6 +249,18 @@ const DealFilterForm = ({ onClose }) => {
             )}
           />
         </Box>
+        <Controller
+          name='isFromExternal'
+          control={control}
+          render={({ field }) => (
+            <CheckboxUI
+              label='Сделка по лидам'
+              id='isFromExternal'
+              checked={field.value || false}
+              onChange={(e) => field.onChange(e.target.checked)}
+            />
+          )}
+        />
       </FilterFields>
     </FilterFormStyle>
   );

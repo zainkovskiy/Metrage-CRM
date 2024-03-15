@@ -5,6 +5,7 @@ import { useDateFormat } from '../../hooks/DateFormat';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useGetAvatar } from 'hooks/MakeAvatar';
+import megafonUrl from 'images/MegaFon.png';
 
 const LinkStyle = styled(Link)`
   text-decoration: none;
@@ -61,6 +62,14 @@ const AvatarContainer = styled.div`
   align-items: center;
   margin-bottom: 0.5rem;
 `;
+const MegafonIcon = styled.img`
+  width: 20px;
+  height: 20px;
+`;
+const ContentContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 const UserCard = ({ user }) => {
   return (
     <LinkStyle to={user?.UID}>
@@ -71,21 +80,24 @@ const UserCard = ({ user }) => {
           </TextSpanStyle>
         </UserCardHeader>
         <UserCardContent>
-          <AvatarContainer>
-            <UserCardAvatar
-              src={useGetAvatar({
-                avatar: user?.avatar,
-                firstName: user?.firstName,
-                lastName: user?.lastName,
-              })}
-            />
-            <div>
-              <TextSpanStyle size={12}>
-                {user?.firstName || ''} {user?.secondName || ''}
-              </TextSpanStyle>
-              <TextSpanStyle size={12}>{user?.lastName || ''}</TextSpanStyle>
-            </div>
-          </AvatarContainer>
+          <ContentContainer>
+            <AvatarContainer>
+              <UserCardAvatar
+                src={useGetAvatar({
+                  avatar: user?.avatar,
+                  firstName: user?.firstName,
+                  lastName: user?.lastName,
+                })}
+              />
+              <div>
+                <TextSpanStyle size={12}>
+                  {user?.firstName || ''} {user?.secondName || ''}
+                </TextSpanStyle>
+                <TextSpanStyle size={12}>{user?.lastName || ''}</TextSpanStyle>
+              </div>
+            </AvatarContainer>
+            {user?.megCount !== '0' && <MegafonIcon src={megafonUrl} />}
+          </ContentContainer>
           <TextSpanStyle size={12}>e-mail: {user?.email || ''}</TextSpanStyle>
           <TextSpanStyle size={12}>Офис: {user?.office || ''}</TextSpanStyle>
         </UserCardContent>

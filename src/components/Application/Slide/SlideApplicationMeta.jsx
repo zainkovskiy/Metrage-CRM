@@ -2,17 +2,15 @@ import React from 'react';
 import { ApplicationBlockStyle } from '../applicationStyle';
 import { TextSpanStyle } from 'styles/styles';
 import { Box } from 'ui/Box';
-// import { useDateFormat } from 'hooks/DateFormat';
 import { IconButton } from 'ui/IconButton';
 import { ReactComponent as Copy } from 'images/copy.svg';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import { checkApplication } from '../../../store/applicationSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useAsyncValue } from 'react-router-dom';
 const SlideApplicationMeta = () => {
   const application = useAsyncValue();
   const dispatch = useDispatch();
-  const isAdmin = useSelector((state) => state.user?.isAdmin || '');
   const copyID = () => {
     navigator.clipboard.writeText(
       `http://crm.metragegroup.com?application=${application.UID}`
@@ -41,7 +39,7 @@ const SlideApplicationMeta = () => {
         labelSize={12}
         defaultChecked={application?.demand?.isChecked === '1'}
         onChange={isCheckedApplication}
-        disabled={isAdmin !== '1'}
+        disabled={!application?.rightMakeVerified}
       />
       {/* <TextSpanStyle size={12}>
         Дата срыва: {useDateFormat(lostDate, 'DD.MM.YY')}

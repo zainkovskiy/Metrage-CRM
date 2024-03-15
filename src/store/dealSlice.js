@@ -83,6 +83,7 @@ export const defaultDealFilter = {
   lawyer: '',
   sortName: null,
   agentsCalculated: 'all',
+  isFromExternal: false,
 };
 
 const getFilter = () => {

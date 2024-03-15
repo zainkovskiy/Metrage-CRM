@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { TextSpanStyle } from 'styles/styles';
 import { useDateFormat } from 'hooks/DateFormat';
-import doneUrl, { ReactComponent as Done } from 'images/done2.svg';
+import { ReactComponent as Done } from 'images/done2.svg';
 import { Box } from 'ui/Box';
 import { statusVarinants } from './DealStatus';
 import { useNumberTriad } from '../../hooks/StringHook';
@@ -54,6 +54,8 @@ const DealContent = styled.div`
   background-color: #f5f5f5;
 `;
 const DealFooter = styled.div`
+  display: flex;
+  justify-content: space-between;
   background-color: #f5f5f5;
   padding: 0.6rem;
   border-radius: 0 0 40px 0;
@@ -64,6 +66,11 @@ const DoneIcon = styled(Done)`
   fill: green;
   right: 0.5rem;
   top: 0.5rem;
+`;
+const IconSource = styled.img`
+  width: 16px;
+  height: 16px;
+  margin-right: 1rem;
 `;
 const variants = {
   visible: {
@@ -87,6 +94,7 @@ const DealCard = ({ deal }) => {
         return '#2ba400';
     }
   };
+  console.log(deal.bidSource);
   return (
     <LinkStyle to={`${deal?.UID}`}>
       <DealCardStyle
@@ -130,6 +138,7 @@ const DealCard = ({ deal }) => {
         </DealContent>
         <DealFooter>
           <TextSpanStyle size={10}>{deal?.realtor || ''}</TextSpanStyle>
+          {deal?.bidSource && <IconSource src={deal.bidSource} />}
         </DealFooter>
       </DealCardStyle>
     </LinkStyle>
