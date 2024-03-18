@@ -81,9 +81,9 @@ const DialogMap = ({ onClose }) => {
           >
             <Placemark
               geometry={center}
-              options={{
-                iconColor: residential?.JKType === 'КП' ? '#058002' : '#1e98ff',
-              }}
+              // options={{
+              //   iconColor: residential?.JKType === 'КП' ? '#058002' : '#1e98ff',
+              // }}
             />
           </Map>
         </YMaps>

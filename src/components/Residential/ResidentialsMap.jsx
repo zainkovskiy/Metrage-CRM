@@ -33,6 +33,7 @@ const ResidentialsMap = () => {
       residential?.isBuild && '<span style="font-size: 10px;">ЖК сдан</span>'
     }</div>`;
   };
+  console.log(residentials);
   return (
     <ResidentialsMapContainer>
       <YMaps
@@ -50,6 +51,9 @@ const ResidentialsMap = () => {
                   onClick={() => openSlide(item)}
                   properties={{ hintContent: hintLayout(item) }}
                   modules={['geoObject.addon.balloon', 'geoObject.addon.hint']}
+                  options={{
+                    iconColor: item?.JKType === 'КП' ? '#058002' : '#1e98ff',
+                  }}
                 />
               );
             }
