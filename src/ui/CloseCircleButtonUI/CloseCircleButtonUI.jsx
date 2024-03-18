@@ -1,13 +1,14 @@
 import React from 'react';
-import closeUrl, { ReactComponent as Close } from 'images/close.svg';
+import { ReactComponent as Close } from 'images/close.svg';
 import styled from 'styled-components';
 import { useWindowSize } from 'hooks/windowSize';
 
 const CloseButtonStyle = styled.div`
   background-color: ${({ theme }) => theme.color.primary};
   align-self: flex-start;
-  ${({$notMobile}) => $notMobile && 'padding: 0.5rem; border-radius: 20px 0 0 20px;'};
-`
+  ${({ $notMobile }) =>
+    $notMobile && 'padding: 0.5rem; border-radius: 20px 0 0 20px;'};
+`;
 
 const CloseButtonCircle = styled.div`
   padding: 0.5rem;
@@ -15,21 +16,21 @@ const CloseButtonCircle = styled.div`
   border-radius: 40px;
   display: flex;
   cursor: pointer;
-  transition: border .3s, transform .3s;
+  transition: border 0.3s, transform 0.3s;
 
-  &:hover{
+  &:hover {
     border: 1px solid #fff;
   }
-  &:active{
+  &:active {
     transform: scale(0.9);
   }
-`
+`;
 
 const CloseButtonIcon = styled(Close)`
   fill: #fff;
   width: 20px;
   height: 20px;
-`
+`;
 const CloseCircleButtonUI = ({ onClose }) => {
   const windowSize = useWindowSize();
   return (

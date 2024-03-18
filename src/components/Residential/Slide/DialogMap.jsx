@@ -53,6 +53,7 @@ const ButtonClose = styled.img`
 
 const DialogMap = ({ onClose }) => {
   const residential = useAsyncValue();
+  console.log(residential);
   const getCentar = () => {
     if (residential?.lat && residential?.lng) {
       return [residential?.lat, residential?.lng];
@@ -60,6 +61,7 @@ const DialogMap = ({ onClose }) => {
     return [55.030204, 82.92043];
   };
   const center = getCentar();
+  console.log(residential);
   return (
     <DialogMapStyle onClick={(e) => e.stopPropagation()}>
       <DialogMapHeader>
@@ -77,7 +79,12 @@ const DialogMap = ({ onClose }) => {
             width={'100%'}
             height={'100%'}
           >
-            <Placemark geometry={center} />
+            <Placemark
+              geometry={center}
+              options={{
+                iconColor: residential?.JKType === 'КП' ? '#058002' : '#1e98ff',
+              }}
+            />
           </Map>
         </YMaps>
       </DialogMapContent>

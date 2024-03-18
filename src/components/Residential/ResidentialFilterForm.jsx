@@ -94,6 +94,7 @@ const ResidentialFilterForm = ({ onClose }) => {
               <SelectItemUI value=''>Все</SelectItemUI>
               <SelectItemUI value='ЖК'>ЖК</SelectItemUI>
               <SelectItemUI value='БЦ'>БЦ</SelectItemUI>
+              <SelectItemUI value='КП'>КП</SelectItemUI>
             </SelectUI>
           )}
         />

@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense } from 'react';
 import styled from 'styled-components';
 const CloseCircleButtonUI = React.lazy(() =>
   import('ui/CloseCircleButtonUI/CloseCircleButtonUI')
