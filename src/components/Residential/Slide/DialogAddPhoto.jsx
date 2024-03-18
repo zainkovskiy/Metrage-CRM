@@ -54,7 +54,7 @@ const DialogAddPhoto = ({ photo, onClose }) => {
   const onSubmit = (data) => {
     addNewPhotoResidential({
       photoType: data.photoType,
-      URL: photo.downloadUrl,
+      URL: photo.URL,
       JKId: residential.UID,
     }).then((newPhoto) => {
       if (newPhoto) {
@@ -71,7 +71,7 @@ const DialogAddPhoto = ({ photo, onClose }) => {
       onSubmit={handleSubmit(onSubmit)}
       onClick={(e) => e.stopPropagation()}
     >
-      <DialogImg src={photo.downloadUrl} />
+      <DialogImg src={photo.URL} />
       <Controller
         name='photoType'
         control={control}

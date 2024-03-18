@@ -81,7 +81,7 @@ const SlideResidentialInfo = () => {
     const raw = { entityId: '', entityType: 'developer', author: userId };
     const files = e.target.files;
     uploadPhotosNews(files, raw).then((data) => {
-      setPhoto(data[0]);
+      setPhoto(data);
     });
   };
   const closeWindowPhoto = () => {
@@ -175,7 +175,7 @@ const SlideResidentialInfo = () => {
           </TextSpanStyle>
           {residential?.site && (
             <LinkUI href={residential?.site} target='_blank'>
-              Ссыль на сайт
+              Ссылка на сайт
             </LinkUI>
           )}
         </Box>
