@@ -85,6 +85,9 @@ const ApplicationFooter = styled.div`
   background-color: #f5f5f5;
   padding: 0.6rem;
   border-radius: 0 0 40px 0;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
 `;
 const LinkStyle = styled(Link)`
   text-decoration: none;
@@ -104,6 +107,11 @@ const TextSpanEllipsis = styled(TextSpanStyle)`
 const TextHeaderContainer = styled.div`
   width: 50%;
   flex-grow: 1;
+`;
+const NoCallImg = styled.img`
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
 `;
 const variants = {
   visible: {
@@ -174,11 +182,19 @@ const ApplicationCard = ({ application }) => {
           </ApplicationComment>
         </ApplicationContent>
         <ApplicationFooter>
-          {/* <TextSpanStyle size={10}>Агент:</TextSpanStyle> */}
-          <TextSpanStyle size={12}>
-            {application?.responsible?.title}
-          </TextSpanStyle>
-          <TextSpanStyle size={10}>ID: {application?.UID}</TextSpanStyle>
+          <div>
+            <TextSpanStyle size={12}>
+              {application?.responsible?.title}
+            </TextSpanStyle>
+            <TextSpanStyle size={10}>ID: {application?.UID}</TextSpanStyle>
+          </div>
+          {!application.hasCall && (
+            <NoCallImg
+              src={
+                'https://crm.metragegroup.com/uploads/contents/demands/no-phone.png'
+              }
+            />
+          )}
         </ApplicationFooter>
       </ApplicationStyle>
     </LinkStyle>

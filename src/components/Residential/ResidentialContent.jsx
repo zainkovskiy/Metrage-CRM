@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Outlet } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,10 +21,18 @@ const ResidentialContentStyle = styled.div`
 const DefaultError = styled.div``;
 
 const ResidentialContent = () => {
-  const viewCard = useSelector((state) => state.residential.viewCard);
+  const firstMount = useRef(true);
+  const { viewCard, modelFilter } = useSelector((state) => state.residential);
   const dispatch = useDispatch();
   useEffect(() => {
+    if (firstMount.current) {
+      return;
+    }
     getList();
+  }, [modelFilter]);
+  useEffect(() => {
+    getList();
+    firstMount.current = false;
     return () => {
       dispatch(clearResidentials());
     };

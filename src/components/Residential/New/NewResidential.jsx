@@ -6,7 +6,7 @@ import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
 import { findBuilderList } from 'api/search';
 
@@ -34,11 +34,11 @@ const NewResidential = ({ onClose }) => {
   const dispatch = useDispatch();
   const builderRequest = useRef(false);
   const [builderList, setBuilderList] = useState([]);
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm();
+  const { handleSubmit, control, watch, getValues } = useForm({
+    defaultValues: {
+      JKType: 'БЦ',
+    },
+  });
   const onSubmit = (data) => {
     createNewResidential(data).then((res) => {
       dispatch(addNewResidential(res));
@@ -62,10 +62,29 @@ const NewResidential = ({ onClose }) => {
         builderRequest.current = false;
       });
   };
+  watch('JKType');
   return (
     <NewResidentialForm onSubmit={handleSubmit(onSubmit)}>
       <FormContainer>
         <SliderTitle>Новый ЖК</SliderTitle>
+        <Controller
+          name='JKType'
+          control={control}
+          render={({ field }) => (
+            <SelectUI
+              onChange={(newValue) => {
+                field.onChange(newValue);
+              }}
+              select={field.value}
+              label='Тип'
+              small
+            >
+              <SelectItemUI value='ЖК'>ЖК</SelectItemUI>
+              <SelectItemUI value='БЦ'>БЦ</SelectItemUI>
+              <SelectItemUI value='КП'>КП</SelectItemUI>
+            </SelectUI>
+          )}
+        />
         <Controller
           control={control}
           name='name'
@@ -81,38 +100,23 @@ const NewResidential = ({ onClose }) => {
             />
           )}
         />
-        <Controller
-          name='devId'
-          control={control}
-          render={({ field }) => (
-            <SelectAutoсompleteUI
-              label='Застройщик'
-              options={builderList}
-              getOptionsLabel={(options) => options.devName}
-              onChange={(option) => field.onChange(option)}
-              value={field.value}
-              inputChange={getBuilders}
-              small
-            />
-          )}
-        />
-        <Controller
-          name='JKType'
-          control={control}
-          render={({ field }) => (
-            <SelectUI
-              onChange={(newValue) => {
-                field.onChange(newValue);
-              }}
-              select={field.value}
-              label='Тип'
-              small
-            >
-              <SelectItemUI value='ЖК'>ЖК</SelectItemUI>
-              <SelectItemUI value='БЦ'>БЦ</SelectItemUI>
-            </SelectUI>
-          )}
-        />
+        {getValues('JKType') !== 'КП' && (
+          <Controller
+            name='devId'
+            control={control}
+            render={({ field }) => (
+              <SelectAutoсompleteUI
+                label='Застройщик'
+                options={builderList}
+                getOptionsLabel={(options) => options.devName}
+                onChange={(option) => field.onChange(option)}
+                value={field.value}
+                inputChange={getBuilders}
+                small
+              />
+            )}
+          />
+        )}
         <Controller
           control={control}
           name='lat'
@@ -145,31 +149,35 @@ const NewResidential = ({ onClose }) => {
             />
           )}
         />
-        <Controller
-          control={control}
-          name='deadLine'
-          render={({ field }) => (
-            <InputUI
-              small
-              value={field.value || ''}
-              onChange={field.onChange}
-              label='Срок сдачи'
-              type='month'
+        {getValues('JKType') !== 'КП' && (
+          <>
+            <Controller
+              control={control}
+              name='deadLine'
+              render={({ field }) => (
+                <InputUI
+                  small
+                  value={field.value || ''}
+                  onChange={field.onChange}
+                  label='Срок сдачи'
+                  type='month'
+                />
+              )}
             />
-          )}
-        />
-        <Controller
-          name='isBuild'
-          control={control}
-          render={({ field }) => (
-            <CheckboxUI
-              label='ЖК Построен'
-              id='isBuild'
-              checked={field.value || false}
-              onChange={(e) => field.onChange(e.target.checked)}
+            <Controller
+              name='isBuild'
+              control={control}
+              render={({ field }) => (
+                <CheckboxUI
+                  label='ЖК Построен'
+                  id='isBuild'
+                  checked={field.value || false}
+                  onChange={(e) => field.onChange(e.target.checked)}
+                />
+              )}
             />
-          )}
-        />
+          </>
+        )}
       </FormContainer>
       <ButtonUI type='submit'>Сохранить</ButtonUI>
     </NewResidentialForm>

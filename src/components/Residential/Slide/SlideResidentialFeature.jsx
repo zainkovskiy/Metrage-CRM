@@ -57,7 +57,7 @@ const variantsIcon = {
 //https://codesandbox.io/p/sandbox/framer-motion-accordion-yhixfe?file=%2Fsrc%2FApp.jsx%3A14%2C5-14%2C19
 const SlideResidentialFeature = () => {
   const residential = useAsyncValue();
-  const [isActive, setIsActive] = useState([]);
+  const [isActive, setIsActive] = useState(residential?.description ? [1] : []);
   const [open, setOpen] = useState();
 
   const editWindow = (e) => {

@@ -30,7 +30,8 @@ const ResidentialsMap = () => {
     return `<div><div style="font-size: 14px;"><b>${
       residential?.name || ''
     }</b><div>${
-      residential?.isBuild && '<span style="font-size: 10px;">ЖК сдан</span>'
+      residential?.picture &&
+      `<img src='${residential.picture}' style="height: 150px; margin-top: 0.2rem"/>`
     }</div>`;
   };
   console.log(residentials);

@@ -54,13 +54,18 @@ const ResidentialFooter = styled.div`
 const ResidentialContent = styled.div`
   position: relative;
 `;
-const ResidentialIsBuild = styled(TextSpanStyle)`
+const ResidentialChipContainer = styled.div`
   position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+`;
+const ResidentialChip = styled(TextSpanStyle)`
   padding: 0 0.2rem;
   border-radius: 5px;
   background-color: #6ecd4c;
-  top: 0.5rem;
-  left: 0.5rem;
 `;
 const variants = {
   visible: {
@@ -80,15 +85,25 @@ const ResidentialsCard = ({ residential }) => {
         </ResidentialHeader>
         <ResidentialContent>
           <ResidentialImage src={residential?.picture || imgErrorUrl} />
-          {residential?.isBuild && (
-            <ResidentialIsBuild size={10}>Сдан</ResidentialIsBuild>
-          )}
+          <ResidentialChipContainer>
+            {residential?.JKType !== 'КП' && residential?.isBuild && (
+              <ResidentialChip size={10}>Сдан</ResidentialChip>
+            )}
+            {residential?.JKType === 'КП' && residential?.hasLands && (
+              <ResidentialChip size={10}>Участки</ResidentialChip>
+            )}
+            {residential?.JKType === 'КП' && residential?.hasHouses && (
+              <ResidentialChip size={10}>Дома</ResidentialChip>
+            )}
+          </ResidentialChipContainer>
         </ResidentialContent>
         <ResidentialFooter>
           <TextSpanStyle size={12}>{residential?.addrStr}</TextSpanStyle>
-          <TextSpanStyle size={10}>
-            Вариантов: {residential?.countAppartment || 0}
-          </TextSpanStyle>
+          {residential?.JKType !== 'КП' && (
+            <TextSpanStyle size={10}>
+              Вариантов: {residential?.countAppartment || 0}
+            </TextSpanStyle>
+          )}
         </ResidentialFooter>
       </ResidentialStyle>
     </LinkStyle>

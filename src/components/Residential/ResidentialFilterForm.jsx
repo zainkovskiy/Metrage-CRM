@@ -9,6 +9,10 @@ import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
 import { findBuilderList } from '../../api/search';
 import {
+  SelectMultipleUI,
+  SelectMultipleItemUI,
+} from 'ui/SelectMultipleUI/SelectMultipleUI';
+import {
   FilterFormStyle,
   FilterTitle,
   FilterFields,
@@ -21,7 +25,9 @@ import {
 
 const ResidentialFilterForm = ({ onClose }) => {
   const dispatch = useDispatch();
-  const filter = useSelector((state) => state.residential.filter);
+  const { modelFilter, schema, filter } = useSelector(
+    (state) => state.residential
+  );
   const builderRequest = useRef(false);
   const [builderList, setBuilderList] = useState([]);
   const { control, handleSubmit, reset } = useForm({
@@ -66,74 +72,189 @@ const ResidentialFilterForm = ({ onClose }) => {
       </Box>
       <FilterFields>
         <FilterTitle>Фильтр</FilterTitle>
-        <Controller
-          name='devId'
-          control={control}
-          render={({ field }) => (
-            <SelectAutoсompleteUI
-              label='Застройщик'
-              options={builderList}
-              getOptionsLabel={(options) => options.devName}
-              onChange={(option) => field.onChange(option)}
-              value={field.value}
-              inputChange={getBuilders}
+        {modelFilter === 'ЖК-БЦ' && (
+          <>
+            <Controller
+              name='JKType'
+              control={control}
+              render={({ field }) => (
+                <SelectUI
+                  onChange={(newValue) => {
+                    field.onChange(newValue);
+                  }}
+                  select={field.value}
+                  label='Тип'
+                >
+                  <SelectItemUI value=''>Все</SelectItemUI>
+                  <SelectItemUI value='ЖК'>ЖК</SelectItemUI>
+                  <SelectItemUI value='БЦ'>БЦ</SelectItemUI>
+                </SelectUI>
+              )}
             />
-          )}
-        />
-        <Controller
-          name='JKType'
-          control={control}
-          render={({ field }) => (
-            <SelectUI
-              onChange={(newValue) => {
-                field.onChange(newValue);
-              }}
-              select={field.value}
-              label='Тип'
-            >
-              <SelectItemUI value=''>Все</SelectItemUI>
-              <SelectItemUI value='ЖК'>ЖК</SelectItemUI>
-              <SelectItemUI value='БЦ'>БЦ</SelectItemUI>
-              <SelectItemUI value='КП'>КП</SelectItemUI>
-            </SelectUI>
-          )}
-        />
-        <Controller
-          control={control}
-          name='deadLine'
-          render={({ field }) => (
-            <InputUI
-              value={field.value}
-              onChange={field.onChange}
-              label='Сдача до'
-              type='month'
+            <Controller
+              name='devId'
+              control={control}
+              render={({ field }) => (
+                <SelectAutoсompleteUI
+                  label='Застройщик'
+                  options={builderList}
+                  getOptionsLabel={(options) => options.devName}
+                  onChange={(option) => field.onChange(option)}
+                  value={field.value}
+                  inputChange={getBuilders}
+                />
+              )}
             />
-          )}
-        />
-        <Controller
-          name='isBuild'
-          control={control}
-          render={({ field }) => (
-            <CheckboxUI
-              label='Дом сдан'
-              id='isBuild'
-              checked={field.value || false}
-              onChange={(e) => field.onChange(e.target.checked)}
+            <Controller
+              control={control}
+              name='deadLine'
+              render={({ field }) => (
+                <InputUI
+                  value={field.value}
+                  onChange={field.onChange}
+                  label='Сдача до'
+                  type='month'
+                />
+              )}
             />
-          )}
-        />
-        <Controller
-          name='hasVariants'
-          control={control}
-          render={({ field }) => (
-            <CheckboxUI
-              label='Объекты в продаже'
-              id='hasVariants'
-              checked={field.value || false}
-              onChange={(e) => field.onChange(e.target.checked)}
+            <Controller
+              name='isBuild'
+              control={control}
+              render={({ field }) => (
+                <CheckboxUI
+                  label='Дом сдан'
+                  id='isBuild'
+                  checked={field.value || false}
+                  onChange={(e) => field.onChange(e.target.checked)}
+                />
+              )}
             />
-          )}
-        />
+            <Controller
+              name='hasVariants'
+              control={control}
+              render={({ field }) => (
+                <CheckboxUI
+                  label='Объекты в продаже'
+                  id='hasVariants'
+                  checked={field.value || false}
+                  onChange={(e) => field.onChange(e.target.checked)}
+                />
+              )}
+            />
+            <Controller
+              name='hasComission'
+              control={control}
+              render={({ field }) => (
+                <CheckboxUI
+                  label='Платят комиссию'
+                  id='hasComission'
+                  checked={field.value || false}
+                  onChange={(e) => field.onChange(e.target.checked)}
+                />
+              )}
+            />
+          </>
+        )}
+        {modelFilter === 'КП' && (
+          <>
+            {schema?.bankSchema && (
+              <Controller
+                name='hasAccreditation'
+                control={control}
+                render={({ field }) => (
+                  <SelectMultipleUI
+                    onChange={(newValue) => field.onChange(newValue)}
+                    value={field.value || []}
+                    multiple
+                    fullWidth
+                    label='Аккредитация'
+                  >
+                    {schema.bankSchema.map((bank) => (
+                      <SelectMultipleItemUI
+                        key={bank.UID}
+                        value={bank.bankName}
+                      >
+                        {bank.bankName}
+                      </SelectMultipleItemUI>
+                    ))}
+                  </SelectMultipleUI>
+                )}
+              />
+            )}
+            <Controller
+              name='hasHouse'
+              control={control}
+              render={({ field }) => (
+                <CheckboxUI
+                  label='Есть дома'
+                  id='hasHouse'
+                  checked={field.value || false}
+                  onChange={(e) => field.onChange(e.target.checked)}
+                />
+              )}
+            />
+            <Controller
+              name='hasLand'
+              control={control}
+              render={({ field }) => (
+                <CheckboxUI
+                  label='Есть участки'
+                  id='hasLand'
+                  checked={field.value || false}
+                  onChange={(e) => field.onChange(e.target.checked)}
+                />
+              )}
+            />
+            <Controller
+              name='hasWater'
+              control={control}
+              render={({ field }) => (
+                <CheckboxUI
+                  label='Есть вода'
+                  id='hasWater'
+                  checked={field.value || false}
+                  onChange={(e) => field.onChange(e.target.checked)}
+                />
+              )}
+            />
+            <Controller
+              name='hasElectricity'
+              control={control}
+              render={({ field }) => (
+                <CheckboxUI
+                  label='Есть электричество'
+                  id='hasElectricity'
+                  checked={field.value || false}
+                  onChange={(e) => field.onChange(e.target.checked)}
+                />
+              )}
+            />
+            <Controller
+              name='hasGas'
+              control={control}
+              render={({ field }) => (
+                <CheckboxUI
+                  label='Есть газ'
+                  id='hasGas'
+                  checked={field.value || false}
+                  onChange={(e) => field.onChange(e.target.checked)}
+                />
+              )}
+            />
+            <Controller
+              name='hasComission'
+              control={control}
+              render={({ field }) => (
+                <CheckboxUI
+                  label='Платят комиссию'
+                  id='hasComission'
+                  checked={field.value || false}
+                  onChange={(e) => field.onChange(e.target.checked)}
+                />
+              )}
+            />
+          </>
+        )}
       </FilterFields>
     </FilterFormStyle>
   );

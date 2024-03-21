@@ -7,11 +7,13 @@ import SlideWindow from 'components/Main/SlideWindow';
 import { useWindowSize } from 'hooks/windowSize';
 import { useSelector, useDispatch } from 'react-redux';
 import {
+  changeModelFilter,
   getResidentialList,
   setViewCard,
 } from '../../store/slices/residentialSlice';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import ResidentialFilterForm from './ResidentialFilterForm';
+import { ButtonToggleGroup, ButtonToggleItem } from 'ui/ButtonToggle';
 
 const ResidentialFilterStyle = styled.div`
   display: flex;
@@ -24,7 +26,9 @@ const ResidentialFilterStyle = styled.div`
 const ResidentialFilter = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const viewCard = useSelector((state) => state.residential.viewCard);
+  const { viewCard, modelFilter, schema } = useSelector(
+    (state) => state.residential
+  );
   const windowSize = useWindowSize();
   const getWidth = () => {
     if (windowSize <= 768) {
@@ -41,12 +45,28 @@ const ResidentialFilter = () => {
       dispatch(getResidentialList());
     }
   };
+  const changeModel = (e) => {
+    const newValue = e.target.id;
+    dispatch(changeModelFilter(newValue));
+  };
   return (
     <ResidentialFilterStyle>
       <Box>
         <ButtonUI size='small' onClick={toggleFilter}>
           Фильтр
         </ButtonUI>
+        <ButtonToggleGroup fullWidth>
+          <ButtonToggleItem
+            id='ЖК-БЦ'
+            onClick={changeModel}
+            active={modelFilter}
+          >
+            ЖК/БЦ {schema?.countHouses || 0}
+          </ButtonToggleItem>
+          <ButtonToggleItem onClick={changeModel} id='КП' active={modelFilter}>
+            КП {schema?.countLands || 0}
+          </ButtonToggleItem>
+        </ButtonToggleGroup>
         {windowSize > 768 && (
           <SelectUI small onChange={changeViewCard} select={viewCard}>
             <SelectItemUI value='cards'>Плитка</SelectItemUI>

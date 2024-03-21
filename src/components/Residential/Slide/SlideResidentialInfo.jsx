@@ -160,19 +160,25 @@ const SlideResidentialInfo = () => {
       </div>
       <Box jc='space-between' ai='flex-start'>
         <Box column gap='0' ai='flex-start'>
-          <TextSpanStyle size={12}>
-            Застройщик: {residential?.devObj?.devName || ''}
-          </TextSpanStyle>
-          <TextSpanStyle size={12}>
-            Дата сдачи:{' '}
-            {residential?.deadLine &&
-              useDateFormat(residential?.deadLine, 'MMMM YYYY')}
-          </TextSpanStyle>
+          {residential?.JKType !== 'КП' && (
+            <>
+              <TextSpanStyle size={12}>
+                Застройщик: {residential?.devObj?.devName || ''}
+              </TextSpanStyle>
+              <TextSpanStyle size={12}>
+                Дата сдачи:{' '}
+                {residential?.deadLine &&
+                  useDateFormat(residential?.deadLine, 'MMMM YYYY')}
+              </TextSpanStyle>
+            </>
+          )}
         </Box>
         <Box column gap='0' ai='flex-end'>
-          <TextSpanStyle size={12}>
-            Тип: {residential?.JKType || ''}
-          </TextSpanStyle>
+          {residential?.JKType !== 'КП' && (
+            <TextSpanStyle size={12}>
+              Тип: {residential?.JKType || ''}
+            </TextSpanStyle>
+          )}
           {residential?.site && (
             <LinkUI href={residential?.site} target='_blank'>
               Ссылка на сайт

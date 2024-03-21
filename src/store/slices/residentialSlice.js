@@ -8,11 +8,12 @@ export const getResidentialList = createAsyncThunk(
     const curFilter = filterForm ? filterForm : getState().residential.filter;
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
-      method: 'crm.jk.filter',
+      method: 'crm.jk.filter2',
       fields: {
         ...curFilter,
         offset: 0,
         mode: getState().residential.viewCard,
+        model: getState().residential.modelFilter,
       },
     });
     if (filterForm) {
@@ -63,6 +64,14 @@ export const defaultResidentialFilter = {
   hasVariants: true,
   deadLine: '',
   JKType: '',
+  hasComission: false,
+  hasHouse: false,
+  hasLand: false,
+  hasWater: false,
+  hasElectricity: false,
+  hasGas: false,
+  hasAccreditation: [],
+  hasComission: false,
 };
 const getFilter = () => {
   const filter = localStorage.getItem('filterResidential');
@@ -73,12 +82,14 @@ const getFilter = () => {
 };
 const initialState = {
   residentials: [],
+  schema: {},
   loadingList: true,
   filter: getFilter(),
   buttonMore: false,
   loadingMore: false,
   offset: 0,
-  viewCard: 'cards',
+  viewCard: 'map',
+  modelFilter: 'ЖК-БЦ',
 };
 
 const residentialSlice = createSlice({
@@ -103,12 +114,17 @@ const residentialSlice = createSlice({
     setViewCard(state, action) {
       state.viewCard = action.payload;
     },
+    changeModelFilter(state, action) {
+      state.modelFilter = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(getResidentialList.fulfilled, (state, action) => {
-        state.residentials = action.payload;
+        state.residentials = action.payload.data;
+        state.schema = action.payload.schema;
         state.loadingList = false;
+        state.offset = 0;
         if (action.payload.length < 54) {
           state.buttonMore = false;
           return;
@@ -131,7 +147,7 @@ const residentialSlice = createSlice({
       })
       .addCase(getResidentialListMore.fulfilled, (state, action) => {
         state.loadingMore = false;
-        state.residentials = [...state.residentials, ...action.payload];
+        state.residentials = [...state.residentials, ...action.payload.data];
         state.offset = state.offset + 1;
         if (action.payload.length < 54) {
           state.buttonMore = false;
@@ -151,5 +167,6 @@ export const {
   resetFilter,
   setNewFilter,
   addNewResidential,
+  changeModelFilter,
 } = residentialSlice.actions;
 export default residentialSlice.reducer;
