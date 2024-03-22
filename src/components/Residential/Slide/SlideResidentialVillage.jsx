@@ -160,7 +160,7 @@ const SlideResidentialVillage = ({ building }) => {
         )}
         {building?.suburbanParams?.excludeAccreditation?.length > 0 && (
           <Box jc='flex-start' wrap gap='0.3rem'>
-            <TextSpanStyle bold>Аккредитация: </TextSpanStyle>
+            <TextSpanStyle bold>Аккредитация (кроме): </TextSpanStyle>
             {building.suburbanParams.excludeAccreditation.map((item, idx) => {
               const length =
                 building.suburbanParams.excludeAccreditation.length - 1;

@@ -137,12 +137,21 @@ const SearchSuggestionsItem = ({
         </>
       );
     }
-    if (type === 'ЖК') {
+    if (type === 'ЖК и Кот. посёлки') {
       return (
         <>
           <SearchSuggestionsItemText>
             {suggestion?.name || ''}{' '}
             {suggestion?.addrStr ? `(${suggestion?.addrStr})` : ''}
+          </SearchSuggestionsItemText>
+        </>
+      );
+    }
+    if (type === 'Застройщик') {
+      return (
+        <>
+          <SearchSuggestionsItemText>
+            ({suggestion?.devType || ''}) {suggestion?.devName || ''}
           </SearchSuggestionsItemText>
         </>
       );
@@ -164,16 +173,7 @@ const SearchSuggestionsItem = ({
     if (type === 'Объекты') {
       return `${path}/${suggestion?.type}/${suggestion?.UID}`;
     }
-    if (type === 'Контакты') {
-      return `${path}/${suggestion?.UID}`;
-    }
-    if (type === 'Пользователи') {
-      return `${path}/${suggestion?.UID}`;
-    }
-    if (type === 'ЖК') {
-      return `${path}/${suggestion?.UID}`;
-    }
-    return '';
+    return `${path || ''}/${suggestion?.UID}`;
   };
   return (
     <SearchSuggestionsItemStyle

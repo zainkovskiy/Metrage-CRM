@@ -30,10 +30,12 @@ export const getResidentialListMore = createAsyncThunk(
   async (_, { getState, dispatch }) => {
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
-      method: 'crm.jk.filter',
+      method: 'crm.jk.filter2',
       fields: {
         ...getState().residential.filter,
         offset: getState().residential.offset + 1,
+        mode: getState().residential.viewCard,
+        model: getState().residential.modelFilter,
       },
     });
     if (res?.statusText === 'OK') {
@@ -125,7 +127,7 @@ const residentialSlice = createSlice({
         state.schema = action.payload.schema;
         state.loadingList = false;
         state.offset = 0;
-        if (action.payload.length < 54) {
+        if (action.payload.data.length < 54) {
           state.buttonMore = false;
           return;
         }
@@ -148,8 +150,9 @@ const residentialSlice = createSlice({
       .addCase(getResidentialListMore.fulfilled, (state, action) => {
         state.loadingMore = false;
         state.residentials = [...state.residentials, ...action.payload.data];
+        state.schema = action.payload.schema;
         state.offset = state.offset + 1;
-        if (action.payload.length < 54) {
+        if (action.payload.data?.length < 54) {
           state.buttonMore = false;
           return;
         }

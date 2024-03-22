@@ -126,11 +126,13 @@ const SlideResidentialInfo = () => {
           {residential?.plan && (
             <ImageGalary
               images={
-                residential?.plan || [
-                  {
-                    URL: '',
-                  },
-                ]
+                residential?.plan?.length > 0
+                  ? residential.plan
+                  : [
+                      {
+                        URL: '',
+                      },
+                    ]
               }
               height={300}
               status
@@ -138,11 +140,13 @@ const SlideResidentialInfo = () => {
           )}
           <ImageGalary
             images={
-              residential?.renderer || [
-                {
-                  URL: '',
-                },
-              ]
+              residential?.renderer?.length
+                ? residential.renderer
+                : [
+                    {
+                      URL: '',
+                    },
+                  ]
             }
             height={300}
             status

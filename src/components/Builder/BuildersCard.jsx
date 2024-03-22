@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
 import { Box } from 'ui/Box';
+import { useNumberTriad } from '../../hooks/StringHook';
 
 const BuilingLine = styled.tr`
   border-top: 1px solid #787878;
@@ -69,25 +70,50 @@ const BuildersCard = ({ building }) => {
         </Box>
       </BuilingCell>
       <BuilingCell>
-        <Box ai='flex-start' column gap='0'>
-          <TextSpanStyle color='#787878'>Сдано</TextSpanStyle>
-          <TextSpanStyle nowrap size={16} color='#85009e'>
-            {building?.onProcess?.houses || 0} домов в{' '}
-            {building?.onProcess?.JK || 0} ЖК
-          </TextSpanStyle>
-        </Box>
+        {building.devType === 'ИЖС' ? (
+          <Box ai='flex-start' column gap='0'>
+            <TextSpanStyle color='#787878'>Цена</TextSpanStyle>
+            <TextSpanStyle nowrap size={16} color='#85009e'>
+              от {useNumberTriad(building?.priceFrom || 0)} за м2
+            </TextSpanStyle>
+          </Box>
+        ) : (
+          <Box ai='flex-start' column gap='0'>
+            <TextSpanStyle color='#787878'>Сдано</TextSpanStyle>
+            <TextSpanStyle nowrap size={16} color='#85009e'>
+              {building?.onProcess?.houses || 0} домов в{' '}
+              {building?.onProcess?.JK || 0} ЖК
+            </TextSpanStyle>
+          </Box>
+        )}
       </BuilingCell>
       <BuilingCell>
-        <Box ai='flex-start' column gap='0'>
-          <TextSpanStyle color='#787878'>Строится</TextSpanStyle>
-          <TextSpanStyle nowrap size={16} color='#85009e'>
-            {building?.build?.houses || 0} домов в {building?.build?.JK || 0} ЖК
-          </TextSpanStyle>
-        </Box>
+        {building.devType === 'ИЖС' ? (
+          <Box ai='flex-start' column gap='0'>
+            <TextSpanStyle color='#787878'>Материалы</TextSpanStyle>
+            <TextSpanStyle nowrap size={16} color='#85009e'>
+              {building?.materials || ''}
+            </TextSpanStyle>
+          </Box>
+        ) : (
+          <Box ai='flex-start' column gap='0'>
+            <TextSpanStyle color='#787878'>Строится</TextSpanStyle>
+            <TextSpanStyle nowrap size={16} color='#85009e'>
+              {building?.build?.houses || 0} домов в {building?.build?.JK || 0}{' '}
+              ЖК
+            </TextSpanStyle>
+          </Box>
+        )}
       </BuilingCell>
       <BuilingCell>
         <Box>
-          <ButtonOffer>{building?.countOffers || 0} предложения</ButtonOffer>
+          {building.devType === 'ИЖС' ? (
+            <ButtonOffer>
+              Комиссия от {building?.comissionSize || 0}
+            </ButtonOffer>
+          ) : (
+            <ButtonOffer>{building?.countOffers || 0} предложения</ButtonOffer>
+          )}
         </Box>
       </BuilingCell>
       {/* </Building> */}

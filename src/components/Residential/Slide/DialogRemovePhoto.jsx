@@ -82,6 +82,7 @@ const DialogRemovePhoto = ({ onClose }) => {
   };
   const savePhotoArray = () => {
     removePhotoResidential({
+      UID: residential.UID,
       photos: photos,
     }).then(() => {
       residential.renderer = photos;

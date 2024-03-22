@@ -7,6 +7,7 @@ import {
   getСontactList,
   getObjectList,
   getResidentialList,
+  getBuildersList,
 } from 'api/search';
 import { AnimatePresence } from 'framer-motion';
 
@@ -35,6 +36,7 @@ const Search = () => {
       getUserList(value),
       getObjectList(value),
       getResidentialList(value),
+      getBuildersList(value),
     ])
       .then((res) => {
         setFindList([
@@ -54,9 +56,14 @@ const Search = () => {
             list: res[2].status === 'fulfilled' ? res[2].value : [],
           },
           {
-            title: 'ЖК',
+            title: 'ЖК и Кот. посёлки',
             path: '/residential',
             list: res[3].status === 'fulfilled' ? res[3].value : [],
+          },
+          {
+            title: 'Застройщик',
+            path: '/builder',
+            list: res[4].status === 'fulfilled' ? res[4].value : [],
           },
         ]);
       })

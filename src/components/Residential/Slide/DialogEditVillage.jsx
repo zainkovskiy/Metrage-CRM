@@ -11,6 +11,7 @@ import {
   SelectMultipleUI,
   SelectMultipleItemUI,
 } from 'ui/SelectMultipleUI/SelectMultipleUI';
+import { setUpdateBuilding } from '../../../api/residential';
 import { useAsyncValue } from 'react-router-dom';
 
 const EditBuilding = styled.form`
