@@ -120,7 +120,7 @@ const getFilter = () => {
   return {
     typeRealty: 'live',
     stage: 1,
-    users: [user],
+    users: user?.isAdmin === '1' ? [] : [user],
     onAdv: 'pofig',
     ExternalFindType: 'our',
   };

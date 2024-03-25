@@ -220,7 +220,7 @@ export const setUpdateApplication = createAsyncThunk(
 );
 
 export const defaultAppFilter = {
-  users: [user],
+  users: user?.isAdmin === '1' ? [] : [user],
   status: 'all',
   type: 'all',
   isFailure: false,
@@ -230,6 +230,7 @@ export const defaultAppFilter = {
   createdDateFrom: '',
   createdDateTo: '',
   isExpired: false,
+  isExclusive: false,
 };
 
 const getFilter = () => {

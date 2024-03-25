@@ -51,7 +51,7 @@ const user = globalUser ? JSON.parse(globalUser) : null;
 const deafaultFilter = {
   typeRealty: 'live',
   stage: 1,
-  users: [user],
+  users: user?.isAdmin === '1' ? [] : [user],
   cords: null,
   agentType: 'all',
   onAdv: 'pofig',
@@ -62,7 +62,7 @@ const deafaultFilter = {
 const resetFilter = {
   typeRealty: 'live',
   typeObject: [],
-  users: [],
+  users: user?.isAdmin === '1' ? [] : [user],
   office: [],
   Address: '',
   TotalArea: [null, null],
@@ -76,7 +76,6 @@ const resetFilter = {
   objectUID: '',
   SaleType: '',
   stage: 1,
-  users: [user],
   cords: null,
   dealType: '',
   platform: '',

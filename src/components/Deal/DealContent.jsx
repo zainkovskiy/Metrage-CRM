@@ -25,7 +25,6 @@ const DealContent = () => {
   const dispatch = useDispatch();
   const viewCard = useSelector((state) => state.deal.viewCard);
   const location = useLocation();
-  console.log(location);
 
   useEffect(() => {
     getDeals();

@@ -237,6 +237,18 @@ const ApplicationFilterForm = ({ onClose }) => {
             />
           )}
         />
+        <Controller
+          name='isExclusive'
+          control={control}
+          render={({ field }) => (
+            <CheckboxUI
+              label='Эксклюзив'
+              id='isExclusive'
+              checked={field.value || false}
+              onChange={(e) => field.onChange(e.target.checked)}
+            />
+          )}
+        />
       </FilterFields>
     </FilterFormStyle>
   );

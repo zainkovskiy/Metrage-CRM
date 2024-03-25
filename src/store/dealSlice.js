@@ -72,7 +72,7 @@ export const getSliceMiniCard = createAsyncThunk(
   }
 );
 export const defaultDealFilter = {
-  users: [user],
+  users: user?.isAdmin === '1' ? [] : [user],
   office: '',
   dealType: 'all',
   status: 'all',

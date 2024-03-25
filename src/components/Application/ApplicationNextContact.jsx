@@ -100,7 +100,8 @@ const ApplicationNextContact = ({ onClose }) => {
         register={register('nextDate', {
           required: 'Выберите дату',
           validate: {
-            isAfter: (v) => moment().isSameOrBefore(v) || 'Дата не корректна',
+            isAfter: (v) =>
+              moment().isSameOrBefore(v, 'day') || 'Дата не корректна',
           },
         })}
         type='date'

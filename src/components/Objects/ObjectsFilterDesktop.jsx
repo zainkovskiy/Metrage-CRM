@@ -15,7 +15,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import ObjectBasket from './ObjectBasket';
 import { setViewCard } from '../../store/objectSlice';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
-import { SelectLaag, SelectLaagItemUI } from '../../ui/SelectLaag/SelectLaag';
 const ObjectsFilterStyle = styled.div`
   display: flex;
   justify-content: space-between;
