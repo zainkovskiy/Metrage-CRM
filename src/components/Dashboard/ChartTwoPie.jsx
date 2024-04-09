@@ -1,8 +1,35 @@
 import React from 'react';
-import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer } from 'recharts';
+import {
+  PieChart,
+  Pie,
+  Legend,
+  Tooltip,
+  ResponsiveContainer,
+  Sector,
+} from 'recharts';
 import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
 
+const RADIAN = Math.PI / 180;
+const renderCustomizedLabel = (props) => {
+  const { cx, cy, midAngle, innerRadius, outerRadius, name, value } = props;
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+  return (
+    <text
+      x={x}
+      y={y}
+      // fill='white'
+      textAnchor={x > cx ? 'start' : 'end'}
+      dominantBaseline='central'
+      fontSize='12px'
+      fontFamily='CeraCY, sans-serif'
+    >
+      {`${name} ${value}`}
+    </text>
+  );
+};
 const ChartTwoPie = ({ chart }) => {
   return (
     <ResponsiveContainer width='100%' height={250}>
@@ -10,12 +37,13 @@ const ChartTwoPie = ({ chart }) => {
         <Pie
           dataKey='value'
           data={chart.inCircle}
-          cx='35%'
+          cx='25%'
           cy='60%'
           innerRadius={40}
           outerRadius={80}
           fill='#8884d8'
-          label
+          label={renderCustomizedLabel}
+          labelLine={false}
           style={{ fontFamily: 'CeraCY, sans-serif', fontSize: 12 }}
         />
         <Pie
@@ -27,7 +55,8 @@ const ChartTwoPie = ({ chart }) => {
           outerRadius={80}
           fill='#82ca9d'
           style={{ fontFamily: 'CeraCY, sans-serif', fontSize: 12 }}
-          label
+          label={renderCustomizedLabel}
+          labelLine={false}
         />
         <Tooltip content={<CustomToolTip />} />
         <Legend content={<CustomLegend />} />

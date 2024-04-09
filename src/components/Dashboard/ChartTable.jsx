@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useNumberTriad } from 'hooks/StringHook';
 import { useNavigate } from 'react-router-dom';
 
 const TableContainer = styled.div`

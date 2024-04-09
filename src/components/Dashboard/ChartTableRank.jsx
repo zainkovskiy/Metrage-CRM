@@ -47,6 +47,11 @@ const Medal = styled.div`
     width: 24px;
   }
 `;
+const Square = styled.div`
+  width: 16px;
+  height: 16px;
+  background-color: ${({ $color }) => $color && $color};
+`;
 const ChartTableRank = ({ chart }) => {
   const getMedal = (idx) => {
     if (idx === 0) {
@@ -94,6 +99,7 @@ const ChartTableRank = ({ chart }) => {
                   <Box jc='flex-start'>
                     <Avatar src={line?.avatar || defaultAvatar} />
                     {line.rName}
+                    {line?.color && <Square $color={line.color} />}
                   </Box>
                 </td>
               </TableLine>

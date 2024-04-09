@@ -51,7 +51,7 @@ const ButtonListItem = styled(TextSpanStyle)`
     transform: scale(0.9);
   }
 `;
-const ChartItem = ({ chart }) => {
+const ChartItem = ({ chart, filter }) => {
   if (!chart || !chart?.visible) {
     return;
   }
@@ -118,6 +118,7 @@ const ChartItem = ({ chart }) => {
           </LinkUI>
         )}
       </SliderTitle>
+      {filter && filter}
       <ChartComponent
         chart={chart?.data || null}
         header={chart?.header || null}

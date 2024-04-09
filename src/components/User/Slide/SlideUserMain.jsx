@@ -171,7 +171,7 @@ const SlideUserMain = () => {
                 name='email'
                 render={({ field }) => (
                   <InputText
-                    disabled={!editMain}
+                    disabled={!isAdmin}
                     value={field.value}
                     onChange={(e) => {
                       field.onChange(e.target.value);

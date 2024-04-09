@@ -105,6 +105,11 @@ const UploderFiles = ({
         setUploading(false);
       });
   };
+  const getText = () => {
+    // if (uploading) return 'Загружается ...';
+    if (label) return label;
+    return `Загрузка ${multiple ? 'файлов' : 'файла'}`;
+  };
   return (
     <UploaderStyle
       htmlFor='uploader'
@@ -125,10 +130,7 @@ const UploderFiles = ({
         hidden
         onChange={handleChange}
       />
-      <TextSpanStyle align='center'>
-        Загрузка {multiple ? 'файлов' : 'файла'}
-        {/* {uploading ? 'Загружается ...' : `${label || 'Загрузка файлов'}`} */}
-      </TextSpanStyle>
+      <TextSpanStyle align='center'>{getText()}</TextSpanStyle>
     </UploaderStyle>
   );
 };

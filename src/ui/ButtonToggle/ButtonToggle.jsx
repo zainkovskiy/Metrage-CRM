@@ -70,10 +70,10 @@ const ButtonToggleItemStyle = styled.div`
     css`
       border-radius: 0;
       border-right: none;
-      &: first-child {
+      &:first-child {
         border-radius: 5px 0 0 5px;
       }
-      &: last-child {
+      &:last-child {
         border-radius: 0 5px 5px 0;
         border-right: 1px solid ${theme.color.primary};
       }

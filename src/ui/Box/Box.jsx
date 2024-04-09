@@ -10,7 +10,7 @@ const BoxStyle = styled.div`
   ${({ $column }) => $column && 'flex-direction: column'};
   ${({ $fullWidth }) => $fullWidth && 'width: 100%'};
   ${({ $sp }) => $sp && { ...$sp }};
-  row-gap: 0;
+  /* row-gap: 0; */
 `;
 export const Box = ({
   children,

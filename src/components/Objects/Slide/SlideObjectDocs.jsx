@@ -66,6 +66,7 @@ const SlideObjectDocs = () => {
   );
   const [dateValue, setDateValue] = useState(object?.exclusiveDate || '');
   const [open, setOpen] = useState(false);
+  const [change, setChange] = useState(false);
 
   const openWindow = (e) => {
     const id = e.target.id;
@@ -104,7 +105,8 @@ const SlideObjectDocs = () => {
     closeWindow();
   };
   const uploadFiles = (files) => {
-    console.log(files);
+    object.files = [...object.files, ...files];
+    setChange(!change);
   };
   const raw = {
     entityId: object.UID,
@@ -167,7 +169,13 @@ const SlideObjectDocs = () => {
             </Box>
           </InputsSide>
           <FilesSide>
-            <UploderFiles raw={raw} callback={uploadFiles} fullWidth multiple />
+            <UploderFiles
+              raw={raw}
+              callback={uploadFiles}
+              fullWidth
+              multiple
+              label='Загрузка документов, а не фото'
+            />
           </FilesSide>
           {object?.files?.length > 0 && (
             <Box fullWidth column>

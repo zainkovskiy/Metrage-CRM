@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import ChartItem from './ChartItem';
 import DashboardNews from './DashboardNews';
 import ChartInfo from './ChartInfo';
+import ChartObjectFilter from './ChartObjectFilter';
 
 const ChartsStyle = styled.div`
   display: flex;
@@ -42,7 +43,12 @@ const Charts = () => {
           {/* <ChartItem chart={dashboard?.dealsProfit || null} /> */}
           <ChartItem chart={dashboard?.dealDinamics || null} />
           <ChartItem chart={dashboard?.demandDinamics || null} />
-          <ChartItem chart={dashboard?.dealsOffices || null} />
+          <ChartItem
+            chart={dashboard?.dealsOffices || null}
+            filter={
+              <ChartObjectFilter chartName={dashboard?.dealsOffices?.APIName} />
+            }
+          />
           <ChartItem chart={dashboard?.objects || null} />
           <ChartItem chart={dashboard?.RankDeals || null} />
           <ChartItem chart={dashboard?.AdvExponation || null} />

@@ -57,6 +57,7 @@ const deafaultFilter = {
   onAdv: 'pofig',
   ExternalFindType: 'our',
   forModeration: false,
+  isExclusive: false,
   expirationAdv: '',
 };
 const resetFilter = {
@@ -85,6 +86,7 @@ const resetFilter = {
   curPlatform: '',
   platform: '',
   forModeration: false,
+  isExclusive: false,
   expirationAdv: '',
 };
 const ObjectsFilterForm = ({ onClose }) => {
@@ -939,6 +941,18 @@ const ObjectsFilterForm = ({ onClose }) => {
             <CheckboxUI
               label='Ждут подтверждения'
               id='forModeration'
+              checked={field.value || false}
+              onChange={(e) => field.onChange(e.target.checked)}
+            />
+          )}
+        />
+        <Controller
+          name='isExclusive'
+          control={control}
+          render={({ field }) => (
+            <CheckboxUI
+              label='Эксклюзив'
+              id='isExclusive'
               checked={field.value || false}
               onChange={(e) => field.onChange(e.target.checked)}
             />

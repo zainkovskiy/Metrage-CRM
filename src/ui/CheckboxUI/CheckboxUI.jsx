@@ -14,7 +14,7 @@ const LabelStyle = styled.label`
 const InputTemplate = styled.span`
   width: ${({ $size }) => ($size === 'small' ? '12px' : '16px')};
   height: ${({ $size }) => ($size === 'small' ? '12px' : '16px')};
-  border: 1px solid ${({ theme }) => theme.color.primary}};
+  border: 1px solid ${({ theme }) => theme.color.primary};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,7 +25,7 @@ const InputTemplate = styled.span`
 const InputStyle = styled.input`
   display: none;
   &:checked + ${InputTemplate} {
-    background-color: ${({ theme }) => theme.color.primary}};
+    background-color: ${({ theme }) => theme.color.primary};
   }
 `;
 
