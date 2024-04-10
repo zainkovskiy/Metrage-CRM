@@ -261,3 +261,23 @@ export const getObjectDemandsList = async (raw) => {
     return res?.data?.result || null;
   }
 };
+export const sendPhotoToTg = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.objects.sendPhotoToTg',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return res?.data?.result || null;
+  }
+};
+export const copyObjects = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.objects.copyObjects',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return res?.data?.result || null;
+  }
+};

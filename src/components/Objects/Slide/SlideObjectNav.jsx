@@ -30,8 +30,7 @@ const ObjectNavDivide = styled.span`
   background-color: #ccc;
 `;
 
-const SlideObjectNav = ({ onCloseSlide, changePhoto }) => {
-  const navigate = useNavigate();
+const SlideObjectNav = ({ changePhoto }) => {
   const object = useAsyncValue();
   const [ad, setAd] = useState(false);
   const [photo, setPhoto] = useState(false);
@@ -47,25 +46,14 @@ const SlideObjectNav = ({ onCloseSlide, changePhoto }) => {
   const isShowVideo = () => {
     setVideo(!video);
   };
-  const clickEdit = () => {
-    setTimeout(() => {
-      navigate(`/objects/edit/${object?.typeEstate}/${object?.UID}`, {
-        replace: true,
-      });
-    }, 300);
-    onCloseSlide();
-  };
   return (
     <SlideBlockStyle>
-      <Box jc='space-between' fullWidth>
-        <Box ai='normal'>
-          <ObjectSlideButton onClick={isShowPhoto}>Фото</ObjectSlideButton>
-          <ObjectNavDivide />
-          <ObjectSlideButton onClick={isShowVideo}>Видео</ObjectSlideButton>
-          <ObjectNavDivide />
-          <ObjectSlideButton onClick={isShowAd}>Реклама</ObjectSlideButton>
-        </Box>
-        <ObjectSlideButton onClick={clickEdit}>Редактировать</ObjectSlideButton>
+      <Box jc='flex-start' ai='normal' fullWidth>
+        <ObjectSlideButton onClick={isShowPhoto}>Фото</ObjectSlideButton>
+        <ObjectNavDivide />
+        <ObjectSlideButton onClick={isShowVideo}>Видео</ObjectSlideButton>
+        <ObjectNavDivide />
+        <ObjectSlideButton onClick={isShowAd}>Реклама</ObjectSlideButton>
       </Box>
       <DialogWindow open={photo} onClose={isShowPhoto}>
         <SlideDialogPhoto onClose={isShowPhoto} changePhoto={changePhoto} />

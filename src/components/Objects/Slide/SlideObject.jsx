@@ -11,6 +11,7 @@ import { useWindowSize } from 'hooks/windowSize';
 import SlideObjectStatus from './SlideObjectStatus';
 import SlideToMyObject from './SlideToMyObject';
 import SlideObjectDocs from './SlideObjectDocs';
+import SlideObjectButtons from './SlideObjectButtons';
 
 const SlideObjectStyle = styled.div`
   height: 100%;
@@ -64,12 +65,8 @@ const SlideObject = ({ onCloseSlide }) => {
       <SlideObjectContext>
         <SlideObjectMeta />
         <SlideObjectStatus />
-        {object?.isEditor && (
-          <SlideObjectNav
-            onCloseSlide={onCloseSlide}
-            changePhoto={changePhoto}
-          />
-        )}
+        {object?.isEditor && <SlideObjectNav changePhoto={changePhoto} />}
+        {object?.isEditor && <SlideObjectButtons onCloseSlide={onCloseSlide} />}
         <SlideObjectInfo toggleChange={toggleChange} />
         {getTypeEstateComponent()}
         <SlideObjectFeature />

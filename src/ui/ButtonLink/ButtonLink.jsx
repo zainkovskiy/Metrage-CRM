@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const ButtonLinkStyle = styled.span`
   color: ${({ $color }) => ($color ? $color : '#F32222')};
@@ -10,6 +10,12 @@ const ButtonLinkStyle = styled.span`
   &:hover {
     ${({ $borderNone }) => !$borderNone && 'text-decoration: underline;'}
   }
+  ${({ $disabled }) =>
+    $disabled &&
+    css`
+      color: #a1a1a1;
+      pointer-events: none;
+    `}
 `;
 export const ButtonLink = ({
   children,
@@ -18,6 +24,7 @@ export const ButtonLink = ({
   color,
   id,
   borderNone,
+  disabled,
 }) => {
   return (
     <ButtonLinkStyle
@@ -26,6 +33,7 @@ export const ButtonLink = ({
       $color={color}
       id={id}
       $borderNone={borderNone}
+      $disabled={disabled}
     >
       {children}
     </ButtonLinkStyle>
