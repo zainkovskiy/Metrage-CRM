@@ -79,10 +79,11 @@ const Nav = () => {
       </LogoDash>
       <Search />
       <div style={{ display: 'flex', gap: '1rem', position: 'relative' }}>
-        <TooltipUI title='пользователи'>
+        {/* <TooltipUI title='пользователи'> */}
+        <TooltipUI title='ПОЕХАЛИ!!!'>
           {/* <IconButtonSimple id='user' icon='user' onClick={handlerHiddenBox} /> */}
           <IconButtonSimple
-            id='gagarin'
+            id='user'
             icon='gagarin'
             onClick={handlerHiddenBox}
           />

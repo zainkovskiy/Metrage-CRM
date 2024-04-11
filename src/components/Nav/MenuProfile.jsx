@@ -61,7 +61,7 @@ const MenuProfile = ({ id, toggleDialog }) => {
     // );
   };
   const clickOffer = () => {
-    window.open(`http://crm.metragegroup.com/offer`);
+    window.open(`https://crm.metragegroup.com/offer`);
   };
   return (
     <>

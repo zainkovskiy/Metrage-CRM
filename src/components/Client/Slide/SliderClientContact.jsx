@@ -10,7 +10,31 @@ import { SliderBlock, SliderTitle } from '../../../styles/slider';
 import { saveChangeContact } from '../../../store/clientsSlice';
 import { useDispatch } from 'react-redux';
 import { SliderFormButtonGroup } from '../../../styles/SliderFormButtonGroup';
+import phoneUrl, { ReactComponent as Phone } from 'images/phone2.svg';
 
+const PhoneIcon = styled.a`
+  background-image: url(${phoneUrl});
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 80%;
+  width: 20px;
+  min-width: 20px;
+  height: 20px;
+  background-color: #ccc;
+  border-radius: 100%;
+  transition: background-size 0.3s, background-color 0.3s;
+  cursor: pointer;
+  @media (hover: hover) {
+    &:hover {
+      background-size: 90%;
+      background-color: rgb(243 185 255);
+    }
+    &:active {
+      background-size: 70%;
+      background-color: #fff;
+    }
+  }
+`;
 const ContactLine = styled.div`
   display: flex;
   align-items: center;
@@ -36,6 +60,8 @@ const SliderClientContact = () => {
     handleSubmit,
     control,
     formState: { isDirty },
+    getValues,
+    watch,
   } = useForm();
   const onSubmit = (data) => {
     dispatch(
@@ -46,6 +72,8 @@ const SliderClientContact = () => {
     );
     reset(data);
   };
+  watch('phone[0]');
+  watch('phone[1]');
   return (
     <SliderBlock onSubmit={handleSubmit(onSubmit)}>
       <SliderClientContactStyle>
@@ -138,6 +166,9 @@ const SliderClientContact = () => {
           <div>
             <ContactLine>
               <TextSpanStyle>Телефон:</TextSpanStyle>
+              {getValues('phone[0]') && (
+                <PhoneIcon href={`tel:${getValues('phone[0]')}`} />
+              )}
               <Controller
                 name='phone[0]'
                 defaultValue={client?.phone[0]?.value || ''}
@@ -154,6 +185,9 @@ const SliderClientContact = () => {
             </ContactLine>
             <ContactLine>
               <TextSpanStyle nowrap>Телефон 2:</TextSpanStyle>
+              {getValues('phone[1]') && (
+                <PhoneIcon href={`tel:${getValues('phone[1]')}`} />
+              )}
               <Controller
                 name='phone[1]'
                 defaultValue={client?.phone[1]?.value || ''}
