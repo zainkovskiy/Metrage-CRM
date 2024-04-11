@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
-import userUrl, { ReactComponent as User } from 'images/user.svg';
+import userUrl from 'images/user.svg';
 import editUrl, { ReactComponent as Edit } from 'images/edit.svg';
 import logoutUrl, { ReactComponent as Logout } from 'images/logout.svg';
 import telegramUrl, { ReactComponent as Telegram } from 'images/telegram.svg';

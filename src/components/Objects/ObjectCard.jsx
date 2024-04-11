@@ -75,6 +75,17 @@ const PlatformIcon = styled.img`
   object-fit: contain;
   ${({ $isGrey }) => $isGrey && 'filter: grayscale(1);'};
 `;
+const ObjectImageContainer = styled.div`
+  position: relative;
+`;
+const ResidentialChip = styled(TextSpanStyle)`
+  padding: 0 0.2rem;
+  border-radius: 5px;
+  background-color: #6ecd4c;
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+`;
 const variants = {
   visible: {
     opacity: 1,
@@ -128,7 +139,12 @@ const ObjectCard = ({ object }) => {
             {object?.AddressStreet || 'Нет адреса'}
           </TextSpanStyle>
         </ObjectHeader>
-        <ObjectImage src={object?.Photo || imgErrorUrl} />
+        <ObjectImageContainer>
+          <ObjectImage src={object?.Photo || imgErrorUrl} />
+          {object?.isExclusive && (
+            <ResidentialChip size={10}>Эксклюзив</ResidentialChip>
+          )}
+        </ObjectImageContainer>
         <ObjectCardContent>
           <Box column>
             <Box jc='space-between' fullWidth>

@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { useAsyncValue } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
-import { Box } from 'ui/Box';
 import { ButtonUI } from 'ui/ButtonUI';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import { TextSpanStyle } from 'styles/styles';
@@ -12,9 +11,6 @@ import { saveChangeContact } from '../../../store/clientsSlice';
 import { useDispatch } from 'react-redux';
 import { SliderFormButtonGroup } from '../../../styles/SliderFormButtonGroup';
 
-const ContactBlock = styled.div`
-  flex-grow: 1;
-`;
 const ContactLine = styled.div`
   display: flex;
   align-items: center;
@@ -25,6 +21,12 @@ const SliderClientContactStyle = styled.form`
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+`;
+const InputsContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  width: 100%;
+  column-gap: 0.5rem;
 `;
 const SliderClientContact = () => {
   const client = useAsyncValue();
@@ -65,8 +67,8 @@ const SliderClientContact = () => {
             )}
           />
         </SliderTitle>
-        <Box fullWidth gap='2rem' ai='flex-start'>
-          <ContactBlock>
+        <InputsContainer>
+          <div>
             <ContactLine>
               <TextSpanStyle>Фамилия:</TextSpanStyle>
               <Controller
@@ -115,8 +117,25 @@ const SliderClientContact = () => {
                 }}
               />
             </ContactLine>
-          </ContactBlock>
-          <ContactBlock>
+            <ContactLine>
+              <TextSpanStyle nowrap>Дата рождения:</TextSpanStyle>
+              <Controller
+                name='birhdayDate'
+                defaultValue={client?.birhdayDate || ''}
+                control={control}
+                render={({ field }) => {
+                  return (
+                    <InputText
+                      type='date'
+                      value={field.value}
+                      onChange={(e) => field.onChange(e.target.value)}
+                    />
+                  );
+                }}
+              />
+            </ContactLine>
+          </div>
+          <div>
             <ContactLine>
               <TextSpanStyle>Телефон:</TextSpanStyle>
               <Controller
@@ -165,8 +184,8 @@ const SliderClientContact = () => {
                 }}
               />
             </ContactLine>
-          </ContactBlock>
-        </Box>
+          </div>
+        </InputsContainer>
         {isDirty && (
           <SliderFormButtonGroup>
             <TextSpanStyle>Сохранить изменения?</TextSpanStyle>

@@ -34,7 +34,6 @@ const ResidentialsMap = () => {
       `<img src='${residential.picture}' style="height: 150px; margin-top: 0.2rem"/>`
     }</div>`;
   };
-  console.log(residentials);
   return (
     <ResidentialsMapContainer>
       <YMaps

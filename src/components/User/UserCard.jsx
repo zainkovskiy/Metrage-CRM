@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useGetAvatar } from 'hooks/MakeAvatar';
 import megafonUrl from 'images/MegaFon.png';
+import telegramUrl from 'images/telegram.svg';
 
 const LinkStyle = styled(Link)`
   text-decoration: none;
@@ -62,7 +63,11 @@ const AvatarContainer = styled.div`
   align-items: center;
   margin-bottom: 0.5rem;
 `;
-const MegafonIcon = styled.img`
+const IconsContainer = styled.div`
+  display: flex;
+  gap: 0.5rem;
+`;
+const Icon = styled.img`
   width: 20px;
   height: 20px;
 `;
@@ -96,7 +101,10 @@ const UserCard = ({ user }) => {
                 <TextSpanStyle size={12}>{user?.lastName || ''}</TextSpanStyle>
               </div>
             </AvatarContainer>
-            {user?.megCount !== '0' && <MegafonIcon src={megafonUrl} />}
+            <IconsContainer>
+              {user?.hasTelegram !== '0' && <Icon src={telegramUrl} />}
+              {user?.megCount !== '0' && <Icon src={megafonUrl} />}
+            </IconsContainer>
           </ContentContainer>
           <TextSpanStyle size={12}>e-mail: {user?.email || ''}</TextSpanStyle>
           <TextSpanStyle size={12}>Офис: {user?.office || ''}</TextSpanStyle>

@@ -18,6 +18,7 @@ const SlideClient = () => {
         <SliderClientResponsible />
         <SliderClientAplications />
         <SliderClientCalls />
+        {windowSize < 768 && <SlideClientStory fullWidth height={500} />}
       </SliderContext>
       {windowSize > 768 && <SlideClientStory />}
     </SliderStyle>

@@ -80,7 +80,12 @@ const Nav = () => {
       <Search />
       <div style={{ display: 'flex', gap: '1rem', position: 'relative' }}>
         <TooltipUI title='пользователи'>
-          <IconButtonSimple id='user' icon='user' onClick={handlerHiddenBox} />
+          {/* <IconButtonSimple id='user' icon='user' onClick={handlerHiddenBox} /> */}
+          <IconButtonSimple
+            id='gagarin'
+            icon='gagarin'
+            onClick={handlerHiddenBox}
+          />
         </TooltipUI>
         {}
         {/* <TooltipUI title='база знаний'>

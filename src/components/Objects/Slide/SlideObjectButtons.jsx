@@ -4,10 +4,13 @@ import { ButtonLink } from 'ui/ButtonLink';
 import { useAsyncValue, useNavigate } from 'react-router-dom';
 import { SlideBlockStyle } from '../ObjectsStyle';
 import { copyObjects, sendPhotoToTg } from '../../../api/objectAPI';
+import DialogWindow from 'components/Main/DialogWindow';
+import SlideDialogCopy from './SlideDialogCopy';
 
 const SlideObjectButtons = ({ onCloseSlide }) => {
   const object = useAsyncValue();
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
   const [disPhoto, setDisPhoto] = useState(false);
   const [disCopy, setDisCopy] = useState(false);
   const clickEdit = () => {
@@ -26,11 +29,15 @@ const SlideObjectButtons = ({ onCloseSlide }) => {
     });
   };
   const copyObj = () => {
+    setOpen(false);
     setDisCopy(true);
     copyObjects({
       UID: object.UID,
       type: object.subTypeEstate,
     });
+  };
+  const toggleDialog = () => {
+    setOpen(!open);
   };
   return (
     <SlideBlockStyle>
@@ -39,26 +46,22 @@ const SlideObjectButtons = ({ onCloseSlide }) => {
           {(object?.subTypeEstate === 'live' ||
             object?.subTypeEstate === 'Business') && (
             <>
-              {object?.isExclusive && (
-                <>
-                  <ButtonLink
-                    size={12}
-                    color='#000'
-                    onClick={getPhoto}
-                    disabled={disPhoto}
-                  >
-                    Получить фото
-                  </ButtonLink>
-                  <ButtonLink
-                    size={12}
-                    color='#000'
-                    onClick={copyObj}
-                    disabled={disCopy}
-                  >
-                    Копировать
-                  </ButtonLink>
-                </>
-              )}
+              <ButtonLink
+                size={12}
+                color='#000'
+                onClick={getPhoto}
+                disabled={disPhoto}
+              >
+                Получить фото
+              </ButtonLink>
+              <ButtonLink
+                size={12}
+                color='#000'
+                onClick={toggleDialog}
+                disabled={disCopy}
+              >
+                Копировать объект
+              </ButtonLink>
             </>
           )}
         </Box>
@@ -66,6 +69,9 @@ const SlideObjectButtons = ({ onCloseSlide }) => {
           Редактировать
         </ButtonLink>
       </Box>
+      <DialogWindow open={open} onClose={toggleDialog}>
+        <SlideDialogCopy onClose={toggleDialog} copyObj={copyObj} />
+      </DialogWindow>
     </SlideBlockStyle>
   );
 };

@@ -11,6 +11,7 @@ import { ReactComponent as ArrowBack } from 'images/arrow-around-left.svg';
 import { ReactComponent as ArrowRepeat } from 'images/arrow-around-right.svg';
 import { ReactComponent as Stamp } from 'images/stamp.svg';
 import { ReactComponent as Brush } from 'images/brush.svg';
+import { ReactComponent as Gagarin } from 'images/gagarin.svg';
 import styled, { css } from 'styled-components';
 
 const IconButtonSimpleStyle = styled.div`
@@ -76,6 +77,9 @@ const BrushStyle = styled(Brush)`
 const StampStyle = styled(Stamp)`
   ${iconStyle};
 `;
+const GagarinStyle = styled(Gagarin)`
+  ${iconStyle};
+`;
 
 export const IconButtonSimple = (props) => {
   const { icon } = props;
@@ -103,4 +107,5 @@ const iconVariant = {
   repeat: ArrowRepeatStyle,
   brush: BrushStyle,
   stamp: StampStyle,
+  gagarin: GagarinStyle,
 };
