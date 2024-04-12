@@ -79,14 +79,8 @@ const Nav = () => {
       </LogoDash>
       <Search />
       <div style={{ display: 'flex', gap: '1rem', position: 'relative' }}>
-        {/* <TooltipUI title='пользователи'> */}
-        <TooltipUI title='ПОЕХАЛИ!!!'>
-          {/* <IconButtonSimple id='user' icon='user' onClick={handlerHiddenBox} /> */}
-          <IconButtonSimple
-            id='user'
-            icon='gagarin'
-            onClick={handlerHiddenBox}
-          />
+        <TooltipUI title='пользователи'>
+          <IconButtonSimple id='user' icon='user' onClick={handlerHiddenBox} />
         </TooltipUI>
         {}
         {/* <TooltipUI title='база знаний'>

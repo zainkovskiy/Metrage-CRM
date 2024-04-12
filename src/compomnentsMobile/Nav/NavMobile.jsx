@@ -54,8 +54,7 @@ const NavMobile = () => {
       </motion.div>
       <LogoComponent />
       <div style={{ display: 'flex', gap: '0.5rem', position: 'relative' }}>
-        {/* <IconButtonSimple id='user' icon='user' onClick={handlerHiddenBox} /> */}
-        <IconButtonSimple id='user' icon='gagarin' onClick={handlerHiddenBox} />
+        <IconButtonSimple id='user' icon='user' onClick={handlerHiddenBox} />
         {/* <IconButtonSimple icon='heart' /> */}
         <BadgeUI badgeContent={Number(messageCounter)}>
           <IconButtonSimple icon='chat' onClick={handlerShowChat} />
