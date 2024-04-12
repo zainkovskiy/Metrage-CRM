@@ -27,7 +27,7 @@ const ApplicationContentStyle = styled.div`
 const DefaultError = styled.div``;
 
 const ApplicationContent = () => {
-  const viewCard = useSelector((state) => state.application.viewCard);
+  const { viewCard } = useSelector((state) => state.application);
   const location = useLocation();
   const dispatch = useDispatch();
   useEffect(() => {

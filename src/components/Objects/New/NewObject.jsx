@@ -28,6 +28,7 @@ const NewObject = ({ onClose }) => {
   const methods = useForm({
     defaultValues: {
       ...object,
+      isControlArea: true,
     },
   });
 

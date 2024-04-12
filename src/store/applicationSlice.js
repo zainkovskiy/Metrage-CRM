@@ -249,6 +249,7 @@ const initialState = {
   filter: getFilter(),
   viewCard: 'cell',
   sourceSchema: [],
+  hopper: [],
 };
 
 const applicationSlice = createSlice({
@@ -257,6 +258,8 @@ const applicationSlice = createSlice({
   reducers: {
     clearApplication(state, action) {
       state.applications = [];
+      state.sourceSchema = [];
+      state.hopper = [];
       state.offset = 0;
       state.loadingList = true;
     },
@@ -326,6 +329,7 @@ const applicationSlice = createSlice({
         state.loadingList = false;
         state.applications = action.payload?.transwerData || [];
         state.sourceSchema = action.payload?.sourceSchema || [];
+        state.hopper = action.payload?.hopper || [];
       })
       .addCase(getApplicationFilterList.rejected, (state) => {
         state.loadingList = false;

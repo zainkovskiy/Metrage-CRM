@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { useGetAvatar } from 'hooks/MakeAvatar';
 import megafonUrl from 'images/MegaFon.png';
 import telegramUrl from 'images/telegram.svg';
+import { Box } from 'ui/Box';
 
 const LinkStyle = styled(Link)`
   text-decoration: none;
@@ -75,6 +76,10 @@ const ContentContainer = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+const WarningIcon = styled.img`
+  height: 24px;
+  margin-right: 0.5rem;
+`;
 const UserCard = ({ user }) => {
   return (
     <LinkStyle to={user?.UID}>
@@ -106,8 +111,17 @@ const UserCard = ({ user }) => {
               {user?.megCount !== '0' && <Icon src={megafonUrl} />}
             </IconsContainer>
           </ContentContainer>
-          <TextSpanStyle size={12}>e-mail: {user?.email || ''}</TextSpanStyle>
-          <TextSpanStyle size={12}>Офис: {user?.office || ''}</TextSpanStyle>
+          <Box jc='space-between'>
+            <Box column ai='flex-start' gap='0'>
+              <TextSpanStyle size={12}>
+                e-mail: {user?.email || ''}
+              </TextSpanStyle>
+              <TextSpanStyle size={12}>
+                Офис: {user?.office || ''}
+              </TextSpanStyle>
+            </Box>
+            {user?.warnings && <WarningIcon src={user.warnings} />}
+          </Box>
         </UserCardContent>
       </UserCardStyle>
     </LinkStyle>

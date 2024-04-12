@@ -13,6 +13,7 @@ const RadioButtonInput = styled.input.attrs({ type: 'radio' })`
   appearance: none;
   border: 1px solid ${({ theme }) => theme.color.primary};
   width: 14px;
+  min-width: 14px;
   height: 14px;
   border-radius: 40px;
   cursor: pointer;

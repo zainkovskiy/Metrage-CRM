@@ -5,14 +5,16 @@ import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { Box } from 'ui/Box/Box';
 import { ButtonToggleGroup, ButtonToggleItem } from 'ui/ButtonToggle';
 import { InputUI } from 'ui/InputUI';
-import { ButtonUI } from 'ui/ButtonUI';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import { TextSpanStyle } from 'styles/styles';
 import { useNumberTriad } from 'hooks/StringHook';
+import { useAsyncValue } from 'react-router-dom';
 
 const FormFlat = ({ typeDeal }) => {
-  const { control } = useFormContext();
+  const obj = useAsyncValue();
+  const { control, getValues, watch, clearErrors } = useFormContext();
   const { errors } = useFormState();
+  watch('isControlArea');
   return (
     <>
       <ObjectSliderBox
@@ -109,6 +111,23 @@ const FormFlat = ({ typeDeal }) => {
             )}
           />
         </FormWrapper>
+        {obj && (
+          <Controller
+            control={control}
+            name='isControlArea'
+            render={({ field }) => (
+              <CheckboxUI
+                label='Контроль площадей'
+                onChange={(e) => {
+                  field.onChange(e.target.checked);
+                  clearErrors();
+                }}
+                defaultChecked={field.value}
+                id='isControlArea'
+              />
+            )}
+          />
+        )}
         <FormWrapper>
           <Controller
             name='FlatRoomsCount'
@@ -133,7 +152,7 @@ const FormFlat = ({ typeDeal }) => {
           <Controller
             name='TotalArea'
             control={control}
-            rules={{ required: 'Поле обязательное' }}
+            rules={{ required: getValues('isControlArea') }}
             render={({ field }) => (
               <InputUI
                 onChange={(e) => field.onChange(parseFloat(e.target.value))}
@@ -148,16 +167,18 @@ const FormFlat = ({ typeDeal }) => {
           <Controller
             name='LivingArea'
             control={control}
-            rules={{
-              required: {
-                value: true,
-                message: 'Поле обязательное',
-              },
-              min: {
-                value: 5,
-                message: 'Минимальное знаение: 5',
-              },
-            }}
+            rules={
+              getValues('isControlArea') && {
+                required: {
+                  value: true,
+                  message: 'Поле обязательное',
+                },
+                min: {
+                  value: 5,
+                  message: 'Минимальное знаение: 5',
+                },
+              }
+            }
             render={({ field }) => (
               <InputUI
                 onChange={(e) => field.onChange(parseFloat(e.target.value))}
@@ -172,16 +193,18 @@ const FormFlat = ({ typeDeal }) => {
           <Controller
             name='KitchenArea'
             control={control}
-            rules={{
-              required: {
-                value: true,
-                message: 'Поле обязательное',
-              },
-              min: {
-                value: 2,
-                message: 'Минимальное знаение: 2',
-              },
-            }}
+            rules={
+              getValues('isControlArea') && {
+                required: {
+                  value: true,
+                  message: 'Поле обязательное',
+                },
+                min: {
+                  value: 2,
+                  message: 'Минимальное знаение: 2',
+                },
+              }
+            }
             render={({ field }) => (
               <InputUI
                 onChange={(e) => field.onChange(parseFloat(e.target.value))}

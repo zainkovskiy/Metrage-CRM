@@ -3,6 +3,7 @@ import { Controller, useFormContext, useFormState } from 'react-hook-form';
 import { ObjectSliderBox, FormWrapper } from '../../ObjectsStyle';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
+import { SelectAutoсompleteMultipleUI } from 'ui/SelectAutoсompleteMultipleUI';
 import { Box } from 'ui/Box/Box';
 import { ButtonToggleGroup, ButtonToggleItem } from 'ui/ButtonToggle';
 import { InputUI } from 'ui/InputUI';
@@ -186,7 +187,7 @@ const FormFreeAppointmentObject = () => {
             name='SpecialtyTypes'
             control={control}
             render={({ field }) => (
-              <SelectAutoсompleteUI
+              <SelectAutoсompleteMultipleUI
                 label='Возможное назначение'
                 options={specialityTypes}
                 getOptionsLabel={(options) => options.specialtyType}

@@ -9,18 +9,23 @@ import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { Link } from 'react-router-dom';
 import { useWindowSize } from 'hooks/windowSize';
 import ApplicationFilterForm from './ApplicationFilterForm';
+import ApplicationHopper from './ApplicationHopper';
 
 const ApplicationFilterStyle = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.5rem;
+  flex-direction: column;
+  gap: 1rem;
   padding: 0.5rem 0.5rem;
+`;
+const MainFilter = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 `;
 const ApplicationFilter = () => {
   const windowSize = useWindowSize();
   const dispatch = useDispatch();
-  const viewCard = useSelector((state) => state.application.viewCard);
+  const { viewCard } = useSelector((state) => state.application);
   const [open, setOpen] = useState(false);
   const toggleFilter = () => {
     setOpen(!open);
@@ -36,22 +41,25 @@ const ApplicationFilter = () => {
   };
   return (
     <ApplicationFilterStyle>
-      <Box>
-        <ButtonUI size='small' onClick={toggleFilter}>
-          Фильтр
-        </ButtonUI>
-        {windowSize > 768 && (
-          <SelectUI small onChange={changeViewCard} select={viewCard}>
-            <SelectItemUI value='cell'>Плитка</SelectItemUI>
-            <SelectItemUI value='table'>Таблица</SelectItemUI>
-          </SelectUI>
-        )}
-      </Box>
-      <Link to='new'>
-        <ButtonUI size='small' variant='outline'>
-          Создать
-        </ButtonUI>
-      </Link>
+      <MainFilter>
+        <Box>
+          <ButtonUI size='small' onClick={toggleFilter}>
+            Фильтр
+          </ButtonUI>
+          {windowSize > 768 && (
+            <SelectUI small onChange={changeViewCard} select={viewCard}>
+              <SelectItemUI value='cell'>Плитка</SelectItemUI>
+              <SelectItemUI value='table'>Таблица</SelectItemUI>
+            </SelectUI>
+          )}
+        </Box>
+        <Link to='new'>
+          <ButtonUI size='small' variant='outline'>
+            Создать
+          </ButtonUI>
+        </Link>
+      </MainFilter>
+      {windowSize > 768 && <ApplicationHopper />}
       <SlideWindow open={open} onClose={toggleFilter} width={getWidth()}>
         <ApplicationFilterForm onClose={toggleFilter} />
       </SlideWindow>

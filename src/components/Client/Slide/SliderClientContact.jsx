@@ -166,7 +166,7 @@ const SliderClientContact = () => {
           <div>
             <ContactLine>
               <TextSpanStyle>Телефон:</TextSpanStyle>
-              {getValues('phone[0]') && (
+              {(client?.phone[0]?.value || getValues('phone[0]')) && (
                 <PhoneIcon href={`tel:${getValues('phone[0]')}`} />
               )}
               <Controller
@@ -185,7 +185,7 @@ const SliderClientContact = () => {
             </ContactLine>
             <ContactLine>
               <TextSpanStyle nowrap>Телефон 2:</TextSpanStyle>
-              {getValues('phone[1]') && (
+              {(client?.phone[1]?.value || getValues('phone[1]')) && (
                 <PhoneIcon href={`tel:${getValues('phone[1]')}`} />
               )}
               <Controller
