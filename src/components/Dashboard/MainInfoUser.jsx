@@ -124,12 +124,16 @@ const MainInfoUser = ({ user, view, rights, notify, rank }) => {
     });
   };
   const handleClickError = (error) => {
+    console.log(error);
     switch (error.source) {
       case 'chat':
         dispatch(toggleShowChat());
         break;
       case 'objects':
         navigate('/objects', { state: error.filter });
+        break;
+      case 'quize':
+        location = 'https://crm.metragegroup.com/quize';
         break;
       default:
         break;
@@ -267,7 +271,11 @@ const MainInfoUser = ({ user, view, rights, notify, rank }) => {
             <IconError src={warningUrl} />
           </ErrorTitle>
           {notify.warnings.map((warning, idx) => (
-            <ErrorTitle key={`warning${idx}`}>
+            <ErrorTitle
+              key={`warning${idx}`}
+              onClick={() => handleClickError(warning)}
+              $isButton={warning?.isButton}
+            >
               <TextSpanStyle size={12} color='#727272'>
                 {warning?.title}
               </TextSpanStyle>

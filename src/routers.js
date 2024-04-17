@@ -65,6 +65,10 @@ import SuspenseCalendar from 'components/Calendar/SuspenseCalendar';
 import SuspenseNewEvent from 'components/Calendar/New/SuspenseNewEvent';
 import { loaderCalendarSlide } from 'components/Calendar/New/SuspenseNewEvent';
 
+import SuspenseMortage from 'components/Mortage/SuspenseMortage';
+import SuspenseSlideMortage from 'components/Mortage/Slide/SuspenseSlideMortage';
+import { loaderMortageSlide } from 'components/Mortage/Slide/SuspenseSlideMortage';
+
 import SuspenceDashboard from 'components/Dashboard/SuspenceDashboard';
 // import SuspenseNewEvent from 'components/User/Slide/SuspenseSlideUser';
 
@@ -283,6 +287,21 @@ export const routers = createBrowserRouter([
           //   element: <SuspenseNewNews />,
           //   loader: loaderEditNewsSlide,
           // },
+        ],
+      },
+      {
+        path: 'mortage',
+        element: <SuspenseMortage />,
+        children: [
+          // {
+          //   path: 'new',
+          //   element: <SuspenseNewPlunning />,
+          // },
+          {
+            path: ':id',
+            element: <SuspenseSlideMortage />,
+            loader: loaderMortageSlide,
+          },
         ],
       },
       {

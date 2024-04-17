@@ -19,6 +19,7 @@ import { ReactComponent as Phone } from 'images/phone2.svg';
 import { ReactComponent as Headphone } from 'images/headphone.svg';
 // import { ReactComponent as Client } from 'images/client.svg';
 // import { ReactComponent as News } from 'images/news.svg';
+import { ReactComponent as Close } from 'images/close.svg';
 
 import { ReactComponent as Application } from 'images/panel/application.svg';
 import { ReactComponent as Objects } from 'images/panel/objects.svg';
@@ -174,6 +175,9 @@ const PlanStyle = styled(Plan)`
 const ResidentialStyle = styled(Residential)`
   ${iconStyle};
 `;
+const CloseStyle = styled(Close)`
+  ${iconStyle};
+`;
 const iconVariant = {
   application: ApplicationStyle,
   deal: DealStyle,
@@ -185,6 +189,7 @@ const iconVariant = {
   news: NewsStyle,
   residential: ResidentialStyle,
   planning: PlanStyle,
+  close: CloseStyle,
 
   calendar: CalendarStyle,
   mortgage: MortgageStyle,
