@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-// import { getPhotoListAPI, setChangePhotoListAPI } from 'api/objectAPI';
-import closeUrl, { ReactComponent as Close } from 'images/close.svg';
+import closeUrl from 'images/close.svg';
 import { TextSpanStyle } from 'styles/styles';
 import { ButtonUI } from 'ui/ButtonUI';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';

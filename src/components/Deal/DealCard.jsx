@@ -94,7 +94,6 @@ const DealCard = ({ deal }) => {
         return '#2ba400';
     }
   };
-  console.log(deal.bidSource);
   return (
     <LinkStyle to={`${deal?.UID}`}>
       <DealCardStyle

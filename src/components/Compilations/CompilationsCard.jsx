@@ -43,6 +43,11 @@ const CompilationsContent = styled.div`
   flex-grow: 1;
   background-color: #f5f5f5;
 `;
+const CompilationsCardImage = styled.img`
+  object-fit: cover;
+  height: 100px;
+  border-radius: 5px;
+`;
 const CompilationsFooter = styled.div`
   background-color: #d9d9d9;
   padding: 0.6rem;
@@ -74,6 +79,7 @@ const CompilationsCard = ({ compilation }) => {
           </TextSpanStyle>
         </CompilationsHeader>
         <CompilationsContent>
+          <CompilationsCardImage src={compilation.compilationImage} />
           <TextSpanStyle size={12}>
             Объектов в подборке: {compilation?.countItems || 0}
           </TextSpanStyle>

@@ -33,12 +33,12 @@ const SliderCompilationLink = () => {
   const compilation = useAsyncValue();
   const copyLink = () => {
     if (compilation?.objects?.length === 1) {
-      navigator.clipboard.writeText(
-        `http://crm.metragegroup.com/select-one?id=${compilation.UID}`
+      window.open(
+        `https://crm.metragegroup.com/one-compilation/${compilation.UID}`
       );
       return;
     }
-    navigator.clipboard.writeText(
+    window.open(
       `http://crm.metragegroup.com/select-list?id=${compilation.UID}`
     );
   };

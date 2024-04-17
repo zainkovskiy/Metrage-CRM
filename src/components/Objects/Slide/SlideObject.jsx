@@ -50,6 +50,8 @@ const SlideObject = ({ onCloseSlide }) => {
         return <SlideToMyObject />;
       case 'businessExternal':
         return <SlideToMyObject />;
+      case 'trand':
+        return <SlideToMyObject />;
       case 'live':
         return <SlideObjectAd />;
       case 'business':
@@ -60,13 +62,29 @@ const SlideObject = ({ onCloseSlide }) => {
         break;
     }
   };
+  const getButtons = () => {
+    if (object?.isEditor) {
+      if (
+        object?.subTypeEstate === 'live' ||
+        object?.subTypeEstate === 'Business'
+      ) {
+        return <SlideObjectButtons />;
+      }
+    }
+    return;
+  };
   return (
     <SlideObjectStyle>
       <SlideObjectContext>
         <SlideObjectMeta />
         <SlideObjectStatus />
-        {object?.isEditor && <SlideObjectNav changePhoto={changePhoto} />}
-        {object?.isEditor && <SlideObjectButtons onCloseSlide={onCloseSlide} />}
+        {object?.isEditor && (
+          <SlideObjectNav
+            changePhoto={changePhoto}
+            onCloseSlide={onCloseSlide}
+          />
+        )}
+        {getButtons()}
         <SlideObjectInfo toggleChange={toggleChange} />
         {getTypeEstateComponent()}
         <SlideObjectFeature />

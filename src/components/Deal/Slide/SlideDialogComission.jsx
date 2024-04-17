@@ -46,16 +46,28 @@ const SlideDialogComissiontFooter = styled.div`
   display: flex;
   gap: 0.5rem;
 `;
-const SlideDialogComission = ({ onClose, comission, onChange, type, user }) => {
+const SlideDialogComission = ({
+  onClose,
+  comission,
+  agentVal,
+  onChange,
+  type,
+  user,
+}) => {
   const deal = useAsyncValue();
   const [currentSide, setCurrentSide] = useState(user?.side || '');
   const [currentComission, setCurrentComission] = useState(comission || '');
+  const [newAgentVal, setNewAgentVal] = useState(agentVal || '');
   const onSubmit = () => {
     let changeObject = {
       comissionSize: currentComission,
     };
     if (type === 'realtor') {
-      changeObject = { ...changeObject, side: currentSide };
+      changeObject = {
+        ...changeObject,
+        side: currentSide,
+        agentVal: newAgentVal,
+      };
     }
     onChange(changeObject);
   };
@@ -90,7 +102,20 @@ const SlideDialogComission = ({ onClose, comission, onChange, type, user }) => {
         >
           <SelectItemUI value='seller'>Продавец</SelectItemUI>
           <SelectItemUI value='buyer'>Покупатель</SelectItemUI>
+          <SelectItemUI value='sellerAndBuyer'>
+            Продавец и Покупатель
+          </SelectItemUI>
         </SelectUI>
+      )}
+      {type === 'realtor' && (
+        <InputUI
+          AutoComplete
+          small
+          type='number'
+          onChange={(e) => setNewAgentVal(e.target.value)}
+          value={newAgentVal}
+          label='Вал агента'
+        />
       )}
       <InputUI
         AutoComplete

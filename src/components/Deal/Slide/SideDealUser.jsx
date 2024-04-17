@@ -156,6 +156,7 @@ const UserRealtor = ({
           comission={user.comissionSize}
           onChange={changeNewComission}
           side={user.side}
+          agentVal={user.agentVal}
           user={user}
           type={type}
         />

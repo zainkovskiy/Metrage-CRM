@@ -30,13 +30,22 @@ const ObjectNavDivide = styled.span`
   background-color: #ccc;
 `;
 
-const SlideObjectNav = ({ changePhoto }) => {
+const SlideObjectNav = ({ changePhoto, onCloseSlide }) => {
   const object = useAsyncValue();
+  const navigate = useNavigate();
   const [ad, setAd] = useState(false);
   const [photo, setPhoto] = useState(false);
   const [video, setVideo] = useState(false);
   //TODO: переделать или удалить SlideDialogAdSkeleton
   //TODO: сделать лоадер при запуске и сохранении
+  const clickEdit = () => {
+    setTimeout(() => {
+      navigate(`/objects/edit/${object?.typeEstate}/${object?.UID}`, {
+        replace: true,
+      });
+    }, 300);
+    onCloseSlide();
+  };
   const isShowAd = () => {
     setAd(!ad);
   };
@@ -47,14 +56,15 @@ const SlideObjectNav = ({ changePhoto }) => {
     setVideo(!video);
   };
   return (
-    <SlideBlockStyle>
-      <Box jc='flex-start' ai='normal' fullWidth>
+    <SlideBlockStyle $wrap jc='space-between'>
+      <Box jc='flex-start' ai='normal'>
         <ObjectSlideButton onClick={isShowPhoto}>Фото</ObjectSlideButton>
         <ObjectNavDivide />
         <ObjectSlideButton onClick={isShowVideo}>Видео</ObjectSlideButton>
         <ObjectNavDivide />
         <ObjectSlideButton onClick={isShowAd}>Реклама</ObjectSlideButton>
       </Box>
+      <ObjectSlideButton onClick={clickEdit}>Редактировать</ObjectSlideButton>
       <DialogWindow open={photo} onClose={isShowPhoto}>
         <SlideDialogPhoto onClose={isShowPhoto} changePhoto={changePhoto} />
       </DialogWindow>
