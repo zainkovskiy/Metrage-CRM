@@ -88,7 +88,7 @@ const SlideDialogOffer = ({ onClose }) => {
   return (
     <DialogOffer onClick={(e) => e.stopPropagation()}>
       <DialogOfferHeader>
-        <TextSpanStyle>Какой то текст</TextSpanStyle>
+        <TextSpanStyle>Укажите шаблон</TextSpanStyle>
         <CloseButtonStyle src={closeUrl} onClick={onClose} />
       </DialogOfferHeader>
       <DialogOfferContext>
@@ -98,14 +98,6 @@ const SlideDialogOffer = ({ onClose }) => {
         <OfferImg src={offer4Url} id='4' onClick={save} />
         <OfferImg src={offer5Url} id='5' onClick={save} />
       </DialogOfferContext>
-      {/* <DialogOfferFooter>
-        <ButtonUI size='small' onClick={onClose}>
-          Отменить
-        </ButtonUI>
-        <ButtonUI size='small' onClick={save} variant='outline'>
-          Сохранить
-        </ButtonUI>
-      </DialogOfferFooter> */}
     </DialogOffer>
   );
 };

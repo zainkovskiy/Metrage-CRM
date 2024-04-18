@@ -52,13 +52,14 @@ const deafaultFilter = {
   typeRealty: 'live',
   stage: 1,
   users: user?.isAdmin === '1' ? [] : [user],
-  cords: null,
+  // cords: null,
   agentType: 'all',
   onAdv: 'pofig',
   ExternalFindType: 'our',
   forModeration: false,
   isExclusive: false,
   expirationAdv: '',
+  advStructCalls: 'Не важно',
 };
 const resetFilter = {
   typeRealty: 'live',
@@ -88,6 +89,7 @@ const resetFilter = {
   forModeration: false,
   isExclusive: false,
   expirationAdv: '',
+  advStructCalls: 'Не важно',
 };
 const ObjectsFilterForm = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -908,7 +910,7 @@ const ObjectsFilterForm = ({ onClose }) => {
             />
           </>
         )}
-        <Controller
+        {/* <Controller
           control={control}
           name='cords'
           render={({ field }) => (
@@ -919,7 +921,7 @@ const ObjectsFilterForm = ({ onClose }) => {
               ref={field.ref}
             />
           )}
-        />
+        /> */}
         {getValues('ExternalFindType') === 'our' && (
           <Controller
             name='expirationAdv'
@@ -931,6 +933,26 @@ const ObjectsFilterForm = ({ onClose }) => {
                 onChange={field.onChange}
                 type='date'
               />
+            )}
+          />
+        )}
+        {getValues('ExternalFindType') === 'our' && (
+          <Controller
+            name='advStructCalls'
+            control={control}
+            render={({ field }) => (
+              <SelectUI
+                onChange={(newValue) => {
+                  field.onChange(newValue);
+                }}
+                select={field.value}
+                multiple
+                label='Без звонков месяц'
+              >
+                <SelectItemUI value='Не важно'>Не важно</SelectItemUI>
+                <SelectItemUI value='Avito'>Avito</SelectItemUI>
+                <SelectItemUI value='Cian'>Cian</SelectItemUI>
+              </SelectUI>
             )}
           />
         )}
