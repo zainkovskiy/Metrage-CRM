@@ -1,34 +1,38 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { Link, Outlet } from 'react-router-dom';
-// import FilterNews from './FilterNews';
-// import News from './News';
-// import { getNewsList } from '../../store/slices/newsSlice';
-// import { useDispatch, useSelector } from 'react-redux';
+import { Outlet } from 'react-router-dom';
+import { getMortageList, clearMortage } from '../../store/slices/mortageSlice';
+import MortageCards from './MortageCards';
+import { useDispatch } from 'react-redux';
+import { device } from 'styles/device';
+import MortageFilter from './MortageFilter';
 
 const NewsContentStyle = styled.div`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  @media ${device.tablet} {
+    padding: 0;
+  }
 `;
 const NewsContent = () => {
-  // const dispatch = useDispatch();
-  // const isAdmin = useSelector((state) => state.user?.isAdmin || '');
+  const dispatch = useDispatch();
   useEffect(() => {
-    // getList();
-    // return () => {
-    //   dispatch(clearDeals());
-    // };
+    getList();
+    return () => {
+      dispatch(clearMortage());
+    };
   }, []);
   const getList = () => {
-    // dispatch(getNewsList());
+    dispatch(getMortageList());
   };
   return (
     <NewsContentStyle>
-      <Link to='1'>slide</Link>
-      {/* {isAdmin === '1' && <FilterNews />} */}
-      {/* <News /> */}
+      <MortageFilter />
+      <MortageCards />
       <Outlet />
     </NewsContentStyle>
   );

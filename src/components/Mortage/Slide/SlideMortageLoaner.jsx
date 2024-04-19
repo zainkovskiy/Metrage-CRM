@@ -105,7 +105,12 @@ const SlideMortageLoaner = ({ loaner }) => {
             </Box>
             {loaner?.children?.length > 0 &&
               loaner?.children.map((child) => (
-                <Box fullWidth jc='space-between' ai='flex-start'>
+                <Box
+                  fullWidth
+                  jc='space-between'
+                  ai='flex-start'
+                  key={child.UID}
+                >
                   <TextSpanStyle size={12}>
                     {child.fullName}{' '}
                     {useDateFormat(child.bornDate, 'DD.MM.YYYY')}

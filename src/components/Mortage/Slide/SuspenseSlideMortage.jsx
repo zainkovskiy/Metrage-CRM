@@ -4,7 +4,6 @@ import Loader from 'components/Main/Loader';
 import SlideWindow from 'components/Main/SlideWindow';
 import { Await, useLoaderData, useNavigate } from 'react-router-dom';
 import { useWindowSize } from 'hooks/windowSize';
-import { getOneClient } from '../../../api/clientAPI';
 import { getOneMortage } from '../../../api/mortageAPI';
 const SlideMortage = React.lazy(() =>
   import('components/Mortage/Slide/SlideMortage')

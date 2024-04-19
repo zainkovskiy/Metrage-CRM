@@ -14,8 +14,6 @@ import { ButtonUI } from 'ui/ButtonUI';
 import { TextSpanStyle } from 'styles/styles';
 import { SliderFormButtonGroup } from '../../../styles/SliderFormButtonGroup';
 
-//TODO: добавить детей и кнопку сохранить
-
 const SliderMortageForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -29,6 +27,7 @@ const SlideMortage = () => {
     defaultValues: mortage,
   });
   const onSubmit = (data) => {
+    //TODO need save slide plus checkOneMortage()
     console.log(data);
   };
   return (

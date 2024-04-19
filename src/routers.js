@@ -67,6 +67,7 @@ import { loaderCalendarSlide } from 'components/Calendar/New/SuspenseNewEvent';
 
 import SuspenseMortage from 'components/Mortage/SuspenseMortage';
 import SuspenseSlideMortage from 'components/Mortage/Slide/SuspenseSlideMortage';
+import SuspenseNewMortage from 'components/Mortage/New/SuspenseNewMortage';
 import { loaderMortageSlide } from 'components/Mortage/Slide/SuspenseSlideMortage';
 
 import SuspenceDashboard from 'components/Dashboard/SuspenceDashboard';
@@ -293,10 +294,10 @@ export const routers = createBrowserRouter([
         path: 'mortage',
         element: <SuspenseMortage />,
         children: [
-          // {
-          //   path: 'new',
-          //   element: <SuspenseNewPlunning />,
-          // },
+          {
+            path: 'new',
+            element: <SuspenseNewMortage />,
+          },
           {
             path: ':id',
             element: <SuspenseSlideMortage />,
