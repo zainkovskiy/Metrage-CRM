@@ -15,7 +15,7 @@ import TelegramConect from 'components/Nav/TelegramConect';
 import TelegramDiscription from 'components/Nav/TelegramDiscription';
 import DialogWindow from 'components/Main/DialogWindow';
 import Search from './Search';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as Calendar } from 'images/calendar-simple.svg';
 
 const NavStyle = styled.nav`
@@ -61,9 +61,15 @@ const AniversaryImage = styled.img`
   height: 36px;
   position: absolute;
   top: -50%;
+  cursor: pointer;
+  transition: transform 0.3s;
+  &:active {
+    transform: scale(0.9);
+  }
 `;
 const Nav = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [openBox, setOpenBox] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const isTelegram = useSelector((state) => state.user.telegramChatId);
@@ -89,7 +95,10 @@ const Nav = () => {
         </CalendardButton> */}
         <TooltipUI title='СРМ - 1год'>
           <AniversaryImageContaoner>
-            <AniversaryImage src='https://crm.metragegroup.com/1year.svg' />
+            <AniversaryImage
+              onClick={() => navigate('/calendar')}
+              src='https://crm.metragegroup.com/1year.svg'
+            />
           </AniversaryImageContaoner>
         </TooltipUI>
       </LogoDash>
