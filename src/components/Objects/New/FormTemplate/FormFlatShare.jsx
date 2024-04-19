@@ -9,8 +9,10 @@ import { ButtonUI } from 'ui/ButtonUI';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import { TextSpanStyle } from 'styles/styles';
 import { useNumberTriad } from 'hooks/StringHook';
+import { useAsyncValue } from 'react-router-dom';
 
 const FormFlatShare = ({ typeDeal }) => {
+  const object = useAsyncValue();
   const { control } = useFormContext();
   const { errors } = useFormState();
   return (
@@ -381,6 +383,38 @@ const FormFlatShare = ({ typeDeal }) => {
               />
             )}
           />
+          {object && (
+            <Controller
+              control={control}
+              name='HasOwnershipRight'
+              render={({ field }) => (
+                <CheckboxUI
+                  label='Есть право собственности'
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
+                  defaultChecked={field.value || false}
+                  id='HasOwnershipRight'
+                />
+              )}
+            />
+          )}
+          {object && (
+            <Controller
+              control={control}
+              name='IsLayoutApproved'
+              render={({ field }) => (
+                <CheckboxUI
+                  label='Планировка узаконена'
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
+                  defaultChecked={field.value || false}
+                  id='IsLayoutApproved'
+                />
+              )}
+            />
+          )}
         </Box>
         <FormWrapper>
           <Controller

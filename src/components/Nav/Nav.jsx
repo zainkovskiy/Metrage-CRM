@@ -51,6 +51,17 @@ const CalendardButton = styled(Link)`
     stroke: ${({ theme }) => theme.color.primary};
   }
 `;
+const AniversaryImageContaoner = styled.div`
+  height: 18px;
+  position: relative;
+  width: 36px;
+`;
+const AniversaryImage = styled.img`
+  width: 36px;
+  height: 36px;
+  position: absolute;
+  top: -50%;
+`;
 const Nav = () => {
   const dispatch = useDispatch();
   const [openBox, setOpenBox] = React.useState(false);
@@ -73,9 +84,14 @@ const Nav = () => {
     <NavStyle>
       <LogoDash>
         <LogoComponent />
-        <CalendardButton to='/calendar'>
+        {/* <CalendardButton to='/calendar'>
           <Calendar />
-        </CalendardButton>
+        </CalendardButton> */}
+        <TooltipUI title='СРМ - 1год'>
+          <AniversaryImageContaoner>
+            <AniversaryImage src='https://crm.metragegroup.com/1year.svg' />
+          </AniversaryImageContaoner>
+        </TooltipUI>
       </LogoDash>
       <Search />
       <div style={{ display: 'flex', gap: '1rem', position: 'relative' }}>
