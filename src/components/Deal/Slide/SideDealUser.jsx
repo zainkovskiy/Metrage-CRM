@@ -66,6 +66,7 @@ const UserRealtor = ({
     setCalculationWindow(!calculationWindow);
   };
   const changeNewComission = (data) => {
+    console.log(data);
     setNewComission({
       UID: dealUID,
       userId: user.UID,
@@ -74,6 +75,7 @@ const UserRealtor = ({
       if (answer === 'OK') {
         user.comissionSize = data.comissionSize;
         user.size = data.size;
+        user.side = data.side;
         changeUserComission({
           userId: user.UID,
           comissionSize: data.comissionSize,

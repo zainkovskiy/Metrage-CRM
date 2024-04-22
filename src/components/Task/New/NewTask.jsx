@@ -138,8 +138,6 @@ const NewTask = ({ onClose }) => {
             <Box column ai='flex-start' gap='0.2rem'>
               <TextSpanStyle>Описание</TextSpanStyle>
               <TextAreaStyle
-                type='date'
-                small
                 value={field.value || ''}
                 onChange={field.onChange}
                 rows={8}

@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
+import { Box } from 'ui/Box';
+import { ButtonLink } from 'ui/ButtonLink';
 
 const AvatarImage = styled.img`
   height: 48px;
@@ -20,10 +22,21 @@ const AvatarWrapper = styled.div`
   box-sizing: border-box;
 `;
 
-const SliderAvatar = ({ role, avatarData, keySubtitle }) => {
+const SliderAvatar = ({ role, avatarData, keySubtitle, isChangeButton }) => {
   return (
     <div>
-      <TextSpanStyle>{role}</TextSpanStyle>
+      <Box jc='space-between'>
+        <TextSpanStyle>{role}</TextSpanStyle>
+        {isChangeButton && (
+          <ButtonLink
+            size={12}
+            color='rgb(133, 0, 158)'
+            onClick={isChangeButton}
+          >
+            Изменить
+          </ButtonLink>
+        )}
+      </Box>
       <AvatarWrapper>
         <AvatarImage src={avatarData.avatar} />
         <div>

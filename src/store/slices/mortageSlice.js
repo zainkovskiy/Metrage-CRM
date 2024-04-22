@@ -39,6 +39,45 @@ export const checkOneMortage = createAsyncThunk(
     return {};
   }
 );
+export const changeMortageStage = createAsyncThunk(
+  'mortage/changeMortageStage',
+  async (raw, { dispatch }) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.mortgage.setStage',
+      fields: raw,
+    });
+    if (res.statusText === 'OK') {
+      dispatch(checkOneMortage(raw.UID));
+    }
+  }
+);
+export const changeMortageUser = createAsyncThunk(
+  'mortage/changeMortageUser',
+  async (raw, { dispatch }) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.mortgage.setResponsible',
+      fields: raw,
+    });
+    if (res.statusText === 'OK') {
+      dispatch(checkOneMortage(raw.UID));
+    }
+  }
+);
+export const saveMortageSlide = createAsyncThunk(
+  'mortage/saveMortageSlide',
+  async (raw, { dispatch }) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.mortgage.update',
+      fields: raw,
+    });
+    if (res.statusText === 'OK') {
+      dispatch(checkOneMortage(raw.UID));
+    }
+  }
+);
 // export const getBuilderListMore = createAsyncThunk(
 //   'builder/getBuilderListMore',
 //   async (_, { getState, dispatch }) => {

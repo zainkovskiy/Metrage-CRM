@@ -1,8 +1,10 @@
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import styled from 'styled-components';
+import { Box } from 'ui/Box';
 import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
+import { TextSpanStyle } from 'styles/styles';
 import { SliderTitle } from '../../../styles/slider';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { createNewMortage } from 'api/mortageAPI';
@@ -25,6 +27,20 @@ const FormContainer = styled.div`
   flex-direction: column;
   gap: 0.5rem;
   flex-grow: 1;
+`;
+const TextAreaStyle = styled.textarea`
+  border-radius: 5px;
+  padding: 0.3rem;
+  resize: none;
+  font-family: ${({ theme }) => theme.font.family};
+  border: 1px solid ${({ theme }) => theme.color.primary};
+  width: 100%;
+  box-sizing: border-box;
+  outline: 1px solid transparent;
+  transition: outline 0.3s;
+  &:focus {
+    outline: 1px solid ${({ theme }) => theme.color.primary};
+  }
 `;
 const NewMortage = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -158,6 +174,20 @@ const NewMortage = ({ onClose }) => {
                   </SelectItemUI>
                 ))}
             </SelectUI>
+          )}
+        />
+        <Controller
+          control={control}
+          name='description'
+          render={({ field }) => (
+            <Box column ai='flex-start' gap='0.2rem'>
+              <TextSpanStyle>Описание</TextSpanStyle>
+              <TextAreaStyle
+                value={field.value || ''}
+                onChange={field.onChange}
+                rows={8}
+              />
+            </Box>
           )}
         />
       </FormContainer>

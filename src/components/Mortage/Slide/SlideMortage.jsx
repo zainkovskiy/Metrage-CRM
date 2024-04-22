@@ -13,6 +13,7 @@ import SlideMortageLoaners from './SlideMortageLoaners';
 import { ButtonUI } from 'ui/ButtonUI';
 import { TextSpanStyle } from 'styles/styles';
 import { SliderFormButtonGroup } from '../../../styles/SliderFormButtonGroup';
+import { useDispatch } from 'react-redux';
 
 const SliderMortageForm = styled.form`
   display: flex;
@@ -22,13 +23,13 @@ const SliderMortageForm = styled.form`
 
 const SlideMortage = () => {
   const windowSize = useWindowSize();
+  const dispatch = useDispatch();
   const mortage = useAsyncValue();
   const method = useForm({
     defaultValues: mortage,
   });
   const onSubmit = (data) => {
-    //TODO need save slide plus checkOneMortage()
-    console.log(data);
+    dispatch(data);
   };
   return (
     <SliderStyle>

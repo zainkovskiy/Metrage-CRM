@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import { device } from 'styles/device';
 import Task from './Task';
 import TaskFilter from './TaskFilter';
-import { clearTasks, getTaskList } from '../../store/taskSlice';
+import { clearTasks, getTaskList, setViewCard } from '../../store/taskSlice';
+import { useWindowSize } from 'hooks/windowSize';
 
 const TaskContentStyle = styled.div`
   width: 100%;
@@ -20,6 +21,7 @@ const TaskContentStyle = styled.div`
 `;
 const TaskContent = () => {
   const dispatch = useDispatch();
+  const windowSize = useWindowSize();
 
   useEffect(() => {
     getTasks();
@@ -29,6 +31,7 @@ const TaskContent = () => {
   }, []);
 
   const getTasks = () => {
+    windowSize > 1024 && dispatch(setViewCard('kanban'));
     dispatch(getTaskList());
   };
   return (
