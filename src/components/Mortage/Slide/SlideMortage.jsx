@@ -14,6 +14,7 @@ import { ButtonUI } from 'ui/ButtonUI';
 import { TextSpanStyle } from 'styles/styles';
 import { SliderFormButtonGroup } from '../../../styles/SliderFormButtonGroup';
 import { useDispatch } from 'react-redux';
+import { saveMortageSlide } from '../../../store/slices/mortageSlice';
 
 const SliderMortageForm = styled.form`
   display: flex;
@@ -29,7 +30,8 @@ const SlideMortage = () => {
     defaultValues: mortage,
   });
   const onSubmit = (data) => {
-    dispatch(data);
+    dispatch(saveMortageSlide(data));
+    method.reset(data);
   };
   return (
     <SliderStyle>
