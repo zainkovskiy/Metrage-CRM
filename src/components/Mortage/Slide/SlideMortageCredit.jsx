@@ -27,9 +27,12 @@ const CreditField = styled.div`
   display: flex;
   align-items: center;
 `;
-const SlideMortageCredit = () => {
+const SlideMortageCredit = ({ openWindowBid }) => {
   const { credit } = useAsyncValue();
   const { control } = useFormContext();
+  const openWindowBidNew = () => {
+    openWindowBid('new');
+  };
   return (
     <MortageCredit>
       <SliderTitle>Кредит</SliderTitle>
@@ -46,7 +49,7 @@ const SlideMortageCredit = () => {
                 return (
                   <InputText
                     size={12}
-                    value={field.value}
+                    value={field.value || ''}
                     onChange={field.onChange}
                   />
                 );
@@ -64,7 +67,7 @@ const SlideMortageCredit = () => {
                 return (
                   <InputText
                     size={12}
-                    value={field.value}
+                    value={field.value || ''}
                     onChange={field.onChange}
                   />
                 );
@@ -84,7 +87,7 @@ const SlideMortageCredit = () => {
                 return (
                   <InputText
                     size={12}
-                    value={field.value}
+                    value={field.value || ''}
                     onChange={field.onChange}
                   />
                 );
@@ -102,7 +105,7 @@ const SlideMortageCredit = () => {
                 return (
                   <InputText
                     size={12}
-                    value={field.value}
+                    value={field.value || ''}
                     onChange={field.onChange}
                   />
                 );
@@ -154,7 +157,6 @@ const SlideMortageCredit = () => {
         <Controller
           control={control}
           name='credit.whoHasOriginal'
-          rules={{ required: 'Выберет тип' }}
           render={({ field }) => (
             <ButtonToggleGroup fullWidth>
               <ButtonToggleItem
@@ -234,12 +236,20 @@ const SlideMortageCredit = () => {
       </CreditField>
       <SliderTitle>
         Заявки
-        <ButtonLink size={12} color='rgb(133, 0, 158)'>
+        <ButtonLink
+          size={12}
+          color='rgb(133, 0, 158)'
+          onClick={openWindowBidNew}
+        >
           Добавить
         </ButtonLink>
       </SliderTitle>
       {credit?.bids.map((bid) => (
-        <SlideMortageBid bid={bid} key={bid.UID} />
+        <SlideMortageBid
+          bid={bid}
+          key={bid.UID}
+          openWindowBid={openWindowBid}
+        />
       ))}
     </MortageCredit>
   );

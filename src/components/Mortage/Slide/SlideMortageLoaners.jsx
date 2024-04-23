@@ -12,20 +12,27 @@ const MortageLoaners = styled(SliderBlock)`
   gap: 0.5rem;
 `;
 
-const SlideMortageLoaners = () => {
+const SlideMortageLoaners = ({ openWindowLoaner }) => {
   const { loaners } = useAsyncValue();
   const { watch } = useFormContext();
   watch('loaners');
+  const openNewLoaner = () => {
+    openWindowLoaner('new');
+  };
   return (
     <MortageLoaners>
       <SliderTitle>
         Заемщики/Созаемщики
-        <ButtonLink size={12} color='rgb(133, 0, 158)'>
+        <ButtonLink size={12} color='rgb(133, 0, 158)' onClick={openNewLoaner}>
           Добавить
         </ButtonLink>
       </SliderTitle>
       {loaners.map((loaner) => (
-        <SlideMortageLoaner key={loaner.UID} loaner={loaner} />
+        <SlideMortageLoaner
+          key={loaner.UID}
+          loaner={loaner}
+          openWindowLoaner={openWindowLoaner}
+        />
       ))}
     </MortageLoaners>
   );

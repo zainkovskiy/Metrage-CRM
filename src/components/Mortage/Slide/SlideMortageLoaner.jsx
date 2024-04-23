@@ -29,25 +29,27 @@ const Line = styled.div`
   background-color: #000;
 `;
 
-const SlideMortageLoaner = ({ loaner }) => {
+const SlideMortageLoaner = ({ loaner, openWindowLoaner }) => {
   const mortage = useAsyncValue();
-  const { setValue, getValues } = useFormContext();
+  const { setValue } = useFormContext();
   const removeLaoner = () => {
     mortage.loaners = mortage.loaners.filter((item) => item.UID !== loaner.UID);
-    setValue(
-      'loaners',
-      getValues('loaners').filter((item) => item.UID !== loaner.UID),
-      { shouldDirty: true }
-    );
+    setValue('loaners', mortage.loaners, { shouldDirty: true });
+  };
+  const openEditLoaner = () => {
+    openWindowLoaner(loaner);
   };
   return (
     <MortageLoaner>
-      <Box jc='space-between'>
-        <TextSpanStyle bold>{loaner.loanerType}</TextSpanStyle>
+      <Box jc='flex-end'>
+        <ButtonLink size={12} color='rgb(28 155 248)' onClick={openEditLoaner}>
+          Редактировать
+        </ButtonLink>
         <ButtonLink size={12} onClick={removeLaoner}>
           Удалить
         </ButtonLink>
       </Box>
+      <TextSpanStyle bold>{loaner.loanerType}</TextSpanStyle>
       <MortageLoanerGrid>
         <Box column jc='flex-start'>
           <Box jc='space-between' fullWidth>

@@ -19,10 +19,13 @@ const MortageBidWrap = styled.div`
   gap: 0.2rem;
 `;
 
-const SlideMortageBid = ({ bid }) => {
+const SlideMortageBid = ({ bid, openWindowBid }) => {
+  const openEditBid = () => {
+    openWindowBid(bid);
+  };
   return (
     <MortageBid>
-      <ButtonLink size={12} color='rgb(28 155 248)'>
+      <ButtonLink size={12} color='rgb(28 155 248)' onClick={openEditBid}>
         Редактировать
       </ButtonLink>
       <MortageBidWrap>

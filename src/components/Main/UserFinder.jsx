@@ -13,43 +13,44 @@ const UserFinderStyle = styled.div`
   background-color: #fff;
   border-radius: 5px;
   padding: 1rem;
-  border: 1px solid ${({ theme }) => theme.color.primary};  
-`
+  border: 1px solid ${({ theme }) => theme.color.primary};
+`;
 const UserFindeHeaderStyle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`
+`;
 const UserFinderListStyle = styled.div`
   border: 1px solid ${({ theme }) => theme.color.primary};
   border-radius: 5px;
   height: 250px;
   overflow: auto;
   padding: 0.5rem 0;
-`
+`;
 const UserFinderItemStyle = styled.div`
   padding: 0.5rem;
   font-size: 14px;
   font-family: CeraCY, sans-serif;
   cursor: pointer;
-  background-color: ${({ $select }) => $select ? '#84019e4a' : '#fff'};
-  &:hover{
-    background-color: ${({ $select }) => $select ? 'rgb(132 1 158 / 43%)' : 'rgb(249 245 245)'};
+  background-color: ${({ $select }) => ($select ? '#84019e4a' : '#fff')};
+  &:hover {
+    background-color: ${({ $select }) =>
+      $select ? 'rgb(132 1 158 / 43%)' : 'rgb(249 245 245)'};
   }
-`
+`;
 const CloseButtonStyle = styled.img`
   width: 18px;
   height: 18px;
-  opacity: .5;
+  opacity: 0.5;
   cursor: pointer;
-  transition: transform .3s;
-  &:hover{
+  transition: transform 0.3s;
+  &:hover {
     transform: scale(1.1);
   }
-  &:active{
+  &:active {
     transform: scale(0.9);
   }
-`
+`;
 const UserFinder = ({ onClose, onChange, title }) => {
   const [value, setValue] = useState('');
   const [userList, setUserList] = useState([]);
@@ -57,13 +58,19 @@ const UserFinder = ({ onClose, onChange, title }) => {
   const inputRef = useRef(null);
   const sendRequest = useRef(false);
   useEffect(() => {
-    if(inputRef.current){inputRef.current.focus()};
-  }, [])
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
   useEffect(() => {
-    if (!selectUser) { return }
-    if (userList.find(user => user.UID === selectUser.UID)) { return }
+    if (!selectUser) {
+      return;
+    }
+    if (userList.find((user) => user.UID === selectUser.UID)) {
+      return;
+    }
     clearSelectUser(null);
-  }, [userList])
+  }, [userList]);
   const handleChange = (e) => {
     const value = e.target.value;
     setValue(value);
@@ -72,49 +79,63 @@ const UserFinder = ({ onClose, onChange, title }) => {
         return;
       }
       sendRequest.current = true;
-      getUserList(value).then((res) => {
-        setUserList(res);
-      }).finally(() => {
-        sendRequest.current = false;
-      });
-      return
+      getUserList(value)
+        .then((res) => {
+          setUserList(res);
+        })
+        .finally(() => {
+          sendRequest.current = false;
+        });
+      return;
     }
 
     setUserList([]);
-  }
+  };
   const changeUser = (user) => {
     setSelectUser(user);
-  }
+  };
   const clearSelectUser = () => {
     setSelectUser(null);
-  }
+  };
   const handleSelect = () => {
-    if (selectUser) { onChange(selectUser); }
-  }
+    if (selectUser) {
+      onChange(selectUser);
+    }
+  };
   return (
     <UserFinderStyle>
-      <UserFindeHeaderStyle onClick={onClose}>
+      <UserFindeHeaderStyle>
         <TextSpanStyle>{title}</TextSpanStyle>
-        <CloseButtonStyle src={closeUrl} alt="close" />
+        <CloseButtonStyle src={closeUrl} alt='close' onClick={onClose} />
       </UserFindeHeaderStyle>
-      <InputUI value={value} onChange={handleChange} width='300px' ref={inputRef}/>
+      <InputUI
+        value={value}
+        onChange={handleChange}
+        width='300px'
+        ref={inputRef}
+      />
       <UserFinderListStyle>
-        {
-          userList.length > 0 ?
-            userList.map((user) =>
-              <UserFinderItemStyle
-                $select={user === selectUser}
-                key={user.UID}
-                onClick={() => changeUser(user)}
-              >{user.lastName} {user.firstName}
-              </UserFinderItemStyle>
-            ) :
-            <UserFinderItemStyle><em>Нет совпадений</em></UserFinderItemStyle>
-        }
+        {userList.length > 0 ? (
+          userList.map((user) => (
+            <UserFinderItemStyle
+              $select={user === selectUser}
+              key={user.UID}
+              onClick={() => changeUser(user)}
+            >
+              {user.lastName} {user.firstName}
+            </UserFinderItemStyle>
+          ))
+        ) : (
+          <UserFinderItemStyle>
+            <em>Нет совпадений</em>
+          </UserFinderItemStyle>
+        )}
       </UserFinderListStyle>
       <div style={{ display: 'flex', gap: '0.5rem' }}>
         <ButtonUI onClick={handleSelect}>Выбрать</ButtonUI>
-        <ButtonUI onClick={clearSelectUser} variant='outline'>Отменить</ButtonUI>
+        <ButtonUI onClick={clearSelectUser} variant='outline'>
+          Отменить
+        </ButtonUI>
       </div>
     </UserFinderStyle>
   );
