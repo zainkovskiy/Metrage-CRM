@@ -90,17 +90,9 @@ const Nav = () => {
     <NavStyle>
       <LogoDash>
         <LogoComponent />
-        {/* <CalendardButton to='/calendar'>
+        <CalendardButton to='/calendar'>
           <Calendar />
-        </CalendardButton> */}
-        <TooltipUI title='СРМ - 1год'>
-          <AniversaryImageContaoner>
-            <AniversaryImage
-              onClick={() => navigate('/calendar')}
-              src='https://crm.metragegroup.com/1year.svg'
-            />
-          </AniversaryImageContaoner>
-        </TooltipUI>
+        </CalendardButton>
       </LogoDash>
       <Search />
       <div style={{ display: 'flex', gap: '1rem', position: 'relative' }}>

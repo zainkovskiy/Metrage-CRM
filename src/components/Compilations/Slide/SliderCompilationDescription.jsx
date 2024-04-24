@@ -3,7 +3,10 @@ import styled from 'styled-components';
 import { SliderTitle, SliderBlock } from '../../../styles/slider';
 import { useAsyncValue } from 'react-router-dom';
 import { ButtonUI } from 'ui/ButtonUI';
+import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { setNewComment } from '../../../api/compilationAPI';
+import { getObjectsConnectList } from '../../../api/application';
+import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
 
 const SliderBlockContainer = styled.div`
   display: flex;
@@ -35,7 +38,11 @@ const TextAreaStyle = styled.textarea`
 
 const SliderCompilationDescription = () => {
   const compilation = useAsyncValue();
+  const reqRef = useRef(false);
   const [comment, setComment] = useState(compilation?.description || '');
+  const [type, setType] = useState(compilation?.presType || 'Обычный');
+  const [jk, setJK] = useState(null);
+  const [listJK, setListJK] = useState([]);
   const [disabled, setDisabled] = useState(true);
   const AreaRef = useRef(null);
   useEffect(() => {
@@ -50,16 +57,70 @@ const SliderCompilationDescription = () => {
   const handleChange = (e) => {
     setComment(e.target.value);
   };
+  const handleChangeType = (newValue) => {
+    setType(newValue);
+    //TODO: не срабатывает хз почему
+    // if (newValue === 'Обычный' && jk) {
+    //   setJK(null);
+    //   setListJK([]);
+    // }
+  };
+  const handleJK = (newJK) => {
+    setJK(newJK);
+  };
+  const getConnectList = (value) => {
+    if (value.length < 2) {
+      setListJK([]);
+      return;
+    }
+    if (reqRef.current) {
+      return;
+    }
+    reqRef.current = true;
+    getObjectsConnectList(value, 'jk')
+      .then((data) => {
+        setListJK(data);
+        console.log(data);
+      })
+      .finally(() => {
+        reqRef.current = false;
+      });
+  };
   const handleClick = () => {
     if (!disabled) {
-      setNewComment(compilation.UID, comment);
+      setNewComment({
+        UID: compilation.UID,
+        comment: comment,
+        presType: type,
+        buildingId: jk,
+      });
     }
     setDisabled(!disabled);
   };
   return (
     <SliderBlock>
       <SliderBlockContainer>
-        <SliderTitle>Комментарий</SliderTitle>
+        <SliderTitle>Параметры</SliderTitle>
+        <SelectUI
+          small
+          onChange={handleChangeType}
+          select={type}
+          label='Тип презентации'
+          disabled={disabled}
+        >
+          <SelectItemUI value='Обычный'>Обычный</SelectItemUI>
+          <SelectItemUI value='ЖК/БЦ'>ЖК/БЦ</SelectItemUI>
+        </SelectUI>
+        <SelectAutoсompleteUI
+          small
+          label='ЖК/БЦ'
+          options={listJK}
+          getOptionsLabel={(options) => options.title}
+          onChange={handleJK}
+          value={jk}
+          inputChange={getConnectList}
+          disabled={type !== 'ЖК/БЦ' || disabled}
+        />
         <TextAreaContainer>
           <TextAreaStyle
             disabled={disabled}
