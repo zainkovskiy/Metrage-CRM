@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box } from 'ui/Box';
 import { ButtonLink } from 'ui/ButtonLink';
 import { IconButton } from 'ui/IconButton';
 import { ReactComponent as Close } from 'images/close.svg';
+import { ReactComponent as Edit } from 'images/edit.svg';
 import { TextSpanStyle } from 'styles/styles';
 import styled from 'styled-components';
 import { useFormContext } from 'react-hook-form';
 import { useAsyncValue } from 'react-router-dom';
 import { useDateFormat } from 'hooks/DateFormat';
+import { removeChild } from '../../../api/mortageAPI';
 
 const MortageLoaner = styled.div`
   border-radius: 5px;
@@ -29,15 +31,35 @@ const Line = styled.div`
   background-color: #000;
 `;
 
-const SlideMortageLoaner = ({ loaner, openWindowLoaner }) => {
+const SlideMortageLoaner = ({
+  loaner,
+  openWindowLoaner,
+  openWindowChild,
+  idx,
+}) => {
   const mortage = useAsyncValue();
   const { setValue } = useFormContext();
+  const [change, setChange] = useState(false);
   const removeLaoner = () => {
     mortage.loaners = mortage.loaners.filter((item) => item.UID !== loaner.UID);
     setValue('loaners', mortage.loaners, { shouldDirty: true });
   };
   const openEditLoaner = () => {
     openWindowLoaner(loaner);
+  };
+  const openChild = (child) => {
+    openWindowChild({
+      idx: idx,
+      child: child,
+    });
+  };
+  const deleteChild = (child) => {
+    removeChild({ UID: child.UID }).then(() => {
+      mortage.loaners[idx].children = mortage.loaners[idx].children.filter(
+        (curChild) => curChild.UID !== child.UID
+      );
+      setChange(!change);
+    });
   };
   return (
     <MortageLoaner>
@@ -101,7 +123,11 @@ const SlideMortageLoaner = ({ loaner, openWindowLoaner }) => {
               <TextSpanStyle size={12} bold>
                 Дети
               </TextSpanStyle>
-              <ButtonLink size={12} color='rgb(133, 0, 158)'>
+              <ButtonLink
+                size={12}
+                color='rgb(133, 0, 158)'
+                onClick={() => openChild('new')}
+              >
                 Добавить
               </ButtonLink>
             </Box>
@@ -117,9 +143,17 @@ const SlideMortageLoaner = ({ loaner, openWindowLoaner }) => {
                     {child.fullName}{' '}
                     {useDateFormat(child.bornDate, 'DD.MM.YYYY')}
                   </TextSpanStyle>
-                  <IconButton color='error'>
-                    <Close />
-                  </IconButton>
+                  <Box>
+                    <IconButton color='info' onClick={() => openChild(child)}>
+                      <Edit />
+                    </IconButton>
+                    <IconButton
+                      color='error'
+                      onClick={() => deleteChild(child)}
+                    >
+                      <Close />
+                    </IconButton>
+                  </Box>
                 </Box>
               ))}
           </Box>

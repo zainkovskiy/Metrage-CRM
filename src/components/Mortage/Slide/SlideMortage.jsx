@@ -18,6 +18,7 @@ import { saveMortageSlide } from '../../../store/slices/mortageSlice';
 import DialogWindow from 'components/Main/DialogWindow';
 import SlideMortageWindowBid from './SlideMortageWindowBid';
 import SlideMortageWindowLoaner from './SlideMortageWindowLoaner';
+import SlideMortageWindowChild from './SlideMortageWindowChild';
 
 const SliderMortageForm = styled.form`
   display: flex;
@@ -36,9 +37,8 @@ const SlideMortage = () => {
     defaultValues: mortage,
   });
   const onSubmit = (data) => {
-    console.log(data);
-    // dispatch(saveMortageSlide(data));
-    // method.reset(data);
+    dispatch(saveMortageSlide(data));
+    method.reset(data);
   };
   const openWindowBid = (bid) => {
     setOpenBid(bid);
@@ -64,8 +64,8 @@ const SlideMortage = () => {
     });
     closeWindowLoaner();
   };
-  const openWindowChild = () => {
-    setOpenChild(null);
+  const openWindowChild = (child) => {
+    setOpenChild(child);
   };
   const closeWindowChild = () => {
     setOpenChild(null);
@@ -78,7 +78,10 @@ const SlideMortage = () => {
         <SlideMortageMain />
         <FormProvider {...method}>
           <SliderMortageForm onSubmit={method.handleSubmit(onSubmit)}>
-            <SlideMortageLoaners openWindowLoaner={openWindowLoaner} />
+            <SlideMortageLoaners
+              openWindowLoaner={openWindowLoaner}
+              openWindowChild={openWindowChild}
+            />
             <SlideMortageCredit openWindowBid={openWindowBid} />
             {method.formState.isDirty && (
               <SliderFormButtonGroup>
@@ -100,12 +103,15 @@ const SlideMortage = () => {
           setBid={setBid}
         />
       </DialogWindow>
-      <DialogWindow open={openLoaner} onClose={closeWindowLoaner}>
+      <DialogWindow open={openLoaner} onClose={closeWindowLoaner} disabledClose>
         <SlideMortageWindowLoaner
           onClose={closeWindowLoaner}
           loaner={openLoaner}
           setLoaner={setLoaner}
         />
+      </DialogWindow>
+      <DialogWindow open={openChild} onClose={closeWindowChild}>
+        <SlideMortageWindowChild onClose={closeWindowChild} child={openChild} />
       </DialogWindow>
     </SliderStyle>
   );

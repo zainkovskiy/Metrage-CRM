@@ -12,7 +12,7 @@ const MortageLoaners = styled(SliderBlock)`
   gap: 0.5rem;
 `;
 
-const SlideMortageLoaners = ({ openWindowLoaner }) => {
+const SlideMortageLoaners = ({ openWindowLoaner, openWindowChild }) => {
   const { loaners } = useAsyncValue();
   const { watch } = useFormContext();
   watch('loaners');
@@ -27,11 +27,13 @@ const SlideMortageLoaners = ({ openWindowLoaner }) => {
           Добавить
         </ButtonLink>
       </SliderTitle>
-      {loaners.map((loaner) => (
+      {loaners.map((loaner, idx) => (
         <SlideMortageLoaner
           key={loaner.UID}
           loaner={loaner}
           openWindowLoaner={openWindowLoaner}
+          openWindowChild={openWindowChild}
+          idx={idx}
         />
       ))}
     </MortageLoaners>

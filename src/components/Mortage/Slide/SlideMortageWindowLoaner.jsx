@@ -7,6 +7,7 @@ import { ButtonUI } from 'ui/ButtonUI';
 import { InputUI } from 'ui/InputUI';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { useAsyncValue } from 'react-router-dom';
+import { LabelStyle } from '../../../ui/InputUI/InputUIStyled';
 import { v4 as uuidv4 } from 'uuid';
 
 const WindowLoaner = styled.form`
@@ -38,6 +39,19 @@ const FieldsContainer = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 0.5rem;
 `;
+const FormTextArea = styled.textarea`
+  width: 100%;
+  border: 1px solid ${({ theme }) => theme.color.primary};
+  resize: none;
+  font-family: ${({ theme }) => theme.font.family};
+  font-size: 12px;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  border-radius: 5px;
+  &:focus {
+    outline: 1px solid ${({ theme }) => theme.color.primary};
+  }
+`;
 const SlideMortageWindowLoaner = ({ onClose, loaner, setLoaner }) => {
   const mortage = useAsyncValue();
   const {
@@ -63,10 +77,19 @@ const SlideMortageWindowLoaner = ({ onClose, loaner, setLoaner }) => {
     }
     onClose();
   };
+  const handleKeyDown = (e) => {
+    if (e.target.tagName === 'TEXTAREA') {
+      return;
+    }
+    if (e.code === 'Enter') {
+      e.preventDefault();
+    }
+  };
   return (
     <WindowLoaner
       onClick={(e) => e.stopPropagation()}
       onSubmit={handleSubmit(onSubmit)}
+      onKeyDown={handleKeyDown}
     >
       <SliderTitle>Добавить заемщика/созаемщика</SliderTitle>
       <WindowLoanerContent>
@@ -180,30 +203,36 @@ const SlideMortageWindowLoaner = ({ onClose, loaner, setLoaner }) => {
             )}
           />
           <Controller
-            name='address'
             control={control}
+            name='address'
             render={({ field }) => (
-              <InputUI
-                onChange={field.onChange}
-                value={field.value || ''}
-                label='Адрес факт. Проживания'
-                small
-              />
+              <LabelStyle>
+                Адрес факт. Проживания
+                <FormTextArea
+                  value={field.value || ''}
+                  onChange={field.onChange}
+                  ref={field.ref}
+                  rows={2}
+                />
+              </LabelStyle>
             )}
           />
         </FieldsContainer>
         <Line />
         <FieldsContainer>
           <Controller
-            name='work.nameAndAddress'
             control={control}
+            name='work.nameAndAddress'
             render={({ field }) => (
-              <InputUI
-                onChange={field.onChange}
-                value={field.value || ''}
-                label='Основное место работы'
-                small
-              />
+              <LabelStyle>
+                Основное место работы
+                <FormTextArea
+                  value={field.value || ''}
+                  onChange={field.onChange}
+                  ref={field.ref}
+                  rows={2}
+                />
+              </LabelStyle>
             )}
           />
           <Controller
@@ -328,15 +357,18 @@ const SlideMortageWindowLoaner = ({ onClose, loaner, setLoaner }) => {
         </FieldsContainer>
         <FieldsContainer>
           <Controller
-            name='aboutJobStatus.hasCreditInfo'
             control={control}
+            name='aboutJobStatus.hasCreditInfo'
             render={({ field }) => (
-              <InputUI
-                onChange={field.onChange}
-                value={field.value || ''}
-                label='Имющиеся кредиты'
-                small
-              />
+              <LabelStyle>
+                Имющиеся кредиты
+                <FormTextArea
+                  value={field.value || ''}
+                  onChange={field.onChange}
+                  ref={field.ref}
+                  rows={2}
+                />
+              </LabelStyle>
             )}
           />
           <Controller
@@ -374,16 +406,20 @@ const SlideMortageWindowLoaner = ({ onClose, loaner, setLoaner }) => {
               />
             )}
           />
+
           <Controller
-            name='aboutJobStatus.fsspAbout'
             control={control}
+            name='aboutJobStatus.fsspAbout'
             render={({ field }) => (
-              <InputUI
-                onChange={field.onChange}
-                value={field.value || ''}
-                label='ФССП'
-                small
-              />
+              <LabelStyle>
+                ФССП
+                <FormTextArea
+                  value={field.value || ''}
+                  onChange={field.onChange}
+                  ref={field.ref}
+                  rows={2}
+                />
+              </LabelStyle>
             )}
           />
         </FieldsContainer>
