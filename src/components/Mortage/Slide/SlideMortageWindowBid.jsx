@@ -87,12 +87,14 @@ const SlideMortageWindowBid = ({ onClose, bid, setBid }) => {
           >
             <SelectItemUI value='Новая'>Новая</SelectItemUI>
             <SelectItemUI value='Отправлена'>Отправлена</SelectItemUI>
-            <SelectItemUI value='meet'>Клиент одобрен</SelectItemUI>
-            <SelectItemUI value='show'>Согласование объекта</SelectItemUI>
-            <SelectItemUI value='catch'>Объект одобрен</SelectItemUI>
-            <SelectItemUI value='success'>КД - подписан</SelectItemUI>
-            <SelectItemUI value='Новая'>Кредит выда</SelectItemUI>
-            <SelectItemUI value='Новая'>Срыв</SelectItemUI>
+            <SelectItemUI value='Клиент одобрен'>Клиент одобрен</SelectItemUI>
+            <SelectItemUI value='Согласование объекта'>
+              Согласование объекта
+            </SelectItemUI>
+            <SelectItemUI value='Объект одобрен'>Объект одобрен</SelectItemUI>
+            <SelectItemUI value='КД - подписан'>КД - подписан</SelectItemUI>
+            <SelectItemUI value='Кредит выдан'>Кредит выдан</SelectItemUI>
+            <SelectItemUI value='Срыв'>Срыв</SelectItemUI>
           </SelectUI>
         )}
       />

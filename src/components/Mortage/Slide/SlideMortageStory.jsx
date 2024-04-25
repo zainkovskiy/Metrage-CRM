@@ -4,26 +4,26 @@ import { sendHistoryMessage, getHistoryList } from 'api/storyAPI';
 import { useAsyncValue } from 'react-router-dom';
 
 const SlideMortageStory = ({ height, fullWidth }) => {
-  // const client = useAsyncValue();
+  const mortage = useAsyncValue();
   const [history, setHistory] = useState([]);
   const [loader, setLoader] = useState(false);
   useEffect(() => {
     getHistory();
   }, []);
   const getHistory = () => {
-    // setLoader(true);
-    // getHistoryList(client.UID, 'contact')
-    //   .then((data) => {
-    //     setHistory(data || []);
-    //   })
-    //   .finally(() => {
-    //     setLoader(false);
-    //   });
+    setLoader(true);
+    getHistoryList(mortage.UID, 'mortgage')
+      .then((data) => {
+        setHistory(data || []);
+      })
+      .finally(() => {
+        setLoader(false);
+      });
   };
   const sendMessage = (messageObj) => {
     messageObj.message = messageObj.message.trim();
     if (messageObj.message) {
-      sendHistoryMessage('contact', client.UID, messageObj).then((data) => {
+      sendHistoryMessage('mortgage', mortage.UID, messageObj).then((data) => {
         setHistory([...history, data]);
       });
     }
@@ -32,9 +32,9 @@ const SlideMortageStory = ({ height, fullWidth }) => {
     <SliderStory
       loader={loader}
       history={history}
-      // onChange={sendMessage}
+      onChange={sendMessage}
       source='client'
-      // sourceId={client.UID}
+      sourceId={mortage.UID}
       fullWidth={fullWidth}
       height={height}
     />

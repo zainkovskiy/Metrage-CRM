@@ -11,7 +11,7 @@ const SlideMortageStatus = () => {
   const dispatch = useDispatch();
   const mortage = useAsyncValue();
   const [activeStepper, setActiveStepper] = useState(
-    parseInt(mortage?.StageId) || 0
+    parseInt(mortage?.stageId) || 0
   );
   const changeStepper = (idx) => {
     dispatch(

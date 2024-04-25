@@ -41,7 +41,7 @@ const SliderCompilationDescription = () => {
   const reqRef = useRef(false);
   const [comment, setComment] = useState(compilation?.description || '');
   const [type, setType] = useState(compilation?.presType || 'Обычный');
-  const [jk, setJK] = useState(null);
+  const [jk, setJK] = useState(compilation?.buildingId || null);
   const [listJK, setListJK] = useState([]);
   const [disabled, setDisabled] = useState(true);
   const AreaRef = useRef(null);
