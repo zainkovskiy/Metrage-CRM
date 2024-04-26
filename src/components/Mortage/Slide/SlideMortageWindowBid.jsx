@@ -74,7 +74,7 @@ const SlideMortageWindowBid = ({ onClose, bid, setBid }) => {
         )}
       />
       <Controller
-        name='status'
+        name='stage'
         control={control}
         render={({ field }) => (
           <SelectUI

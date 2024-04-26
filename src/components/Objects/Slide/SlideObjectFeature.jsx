@@ -914,7 +914,11 @@ const SlideObjectFeature = () => {
           </FeatureBlock>
         </FeatureBlock>
       </FeatureContainer>
-      <DialogWindow open={isEditComment} onClose={toggleEditComment}>
+      <DialogWindow
+        open={isEditComment}
+        onClose={toggleEditComment}
+        disabledClose
+      >
         <SlideDialogComment
           onClose={toggleEditComment}
           comment={object?.Description}

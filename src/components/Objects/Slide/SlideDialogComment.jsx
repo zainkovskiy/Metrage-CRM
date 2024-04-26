@@ -80,7 +80,7 @@ const SlideDialogComment = ({ onClose, comment, setNewDescription }) => {
       onClick={(e) => e.stopPropagation()}
     >
       <SlideDialogCommentHeaderStyle>
-        <TextSpanStyle>Комментарий</TextSpanStyle>
+        <TextSpanStyle>Описание</TextSpanStyle>
         <CloseButtonStyle src={closeUrl} onClick={onClose} />
       </SlideDialogCommentHeaderStyle>
       <SlideDialogCommentContent>
