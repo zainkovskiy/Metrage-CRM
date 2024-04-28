@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import { Box } from 'ui/Box';
 import logoUrl from 'images/logo_small.svg';
 import { ReactComponent as Done } from 'images/done2.svg';
-import moment from 'moment';
+import { ReactComponent as Flag } from 'images/demands-flag.svg';
 
 const ApplicationStyle = styled(motion.div)`
   border-radius: 40px 0 40px 0;
@@ -93,6 +93,11 @@ const LinkStyle = styled(Link)`
   text-decoration: none;
   color: black;
 `;
+const FlagIcon = styled(Flag)`
+  width: 24px;
+  height: 24px;
+  fill: ${({ $flagColour }) => $flagColour && $flagColour};
+`;
 const DoneIcon = styled(Done)`
   width: 24px;
   height: 24px;
@@ -156,7 +161,12 @@ const ApplicationCard = ({ application }) => {
               src={application?.source?.picture || logoUrl}
               alt='logo'
             />
-            {application?.demand?.isChecked === '1' && <DoneIcon />}
+            <Box>
+              {application?.demand?.flagColour && (
+                <FlagIcon $flagColour={application?.demand?.flagColour} />
+              )}
+              {application?.demand?.isChecked === '1' && <DoneIcon />}
+            </Box>
           </Box>
           <TextListStyle>
             Источник: <span>{application?.source?.name}</span>
