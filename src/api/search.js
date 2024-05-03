@@ -18,6 +18,23 @@ export const getUserList = async (value) => {
     return [];
   }
 };
+export const getDealList = async (value) => {
+  try {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.dds.getDeals',
+      fields: {
+        request: value,
+      },
+    });
+    if (res.statusText !== 'OK') {
+      throw new Error('Error');
+    }
+    return res?.data?.result || [];
+  } catch (error) {
+    return [];
+  }
+};
 
 export const getСontactList = async (value) => {
   try {
@@ -141,6 +158,40 @@ export const findBuilderList = async (reqValue) => {
     const res = await axios.post(process.env.MAIN_API, {
       metrage_id: metrage_id || null,
       method: 'crm.jk.getDevelopers',
+      fields: {
+        req: reqValue,
+      },
+    });
+    if (res.statusText !== 'OK') {
+      throw new Error('Error');
+    }
+    return res?.data?.result || [];
+  } catch (error) {
+    return [];
+  }
+};
+export const getLegalList = async (reqValue) => {
+  try {
+    const res = await axios.post(process.env.MAIN_API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.dds.listLegal',
+      fields: {
+        req: reqValue,
+      },
+    });
+    if (res.statusText !== 'OK') {
+      throw new Error('Error');
+    }
+    return res?.data?.result || [];
+  } catch (error) {
+    return [];
+  }
+};
+export const getBankList = async (reqValue) => {
+  try {
+    const res = await axios.post(process.env.MAIN_API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.dds.listBank',
       fields: {
         req: reqValue,
       },

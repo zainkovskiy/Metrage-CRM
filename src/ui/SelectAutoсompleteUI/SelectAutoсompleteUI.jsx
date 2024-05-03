@@ -146,7 +146,6 @@ export const SelectAutoсompleteUI = (props) => {
   const [inputValue, setInputValue] = useState(
     value ? setOptionsLabel(value) : ''
   ); //текст внутри инпута
-  console.log(inputValue);
   useEffect(() => {
     if (JSON.stringify(select) === JSON.stringify(value)) {
       return;

@@ -15,7 +15,7 @@ export const ContainerIcon = styled.div`
   position: relative;
   border-radius: 6px;
   border: 1px solid transparent;
-  &:has(input:focus) {
+  &:has(input:focus:not(:read-only)) {
     border: 1px solid
       ${({ theme, error }) => (error ? 'red' : theme.color.primary)};
   }
