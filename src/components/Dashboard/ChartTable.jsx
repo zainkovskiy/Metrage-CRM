@@ -11,7 +11,7 @@ const TableStyle = styled.table`
   width: 100%;
   border-collapse: collapse;
   font-family: ${({ theme }) => theme.font.family};
-  font-size: 12px;
+  font-size: 10px;
 `;
 const TableHader = styled.thead`
   position: sticky;
@@ -21,7 +21,7 @@ const TableHead = styled.tr`
   background-color: #ccc;
   & > th {
     font-family: ${({ theme }) => theme.font.familyBold};
-    padding: 0.3rem;
+    padding: 0.15rem;
   }
 `;
 const TableLine = styled.tr`
@@ -30,8 +30,7 @@ const TableLine = styled.tr`
   transition: background-color 0.3s;
   @media (hover: hover) {
     &:hover {
-      ${({ $isButton }) =>
-        $isButton && 'background-color: rgb(240, 219, 245);'};
+      background-color: rgb(240, 219, 245);
     }
     &:active {
       ${({ $isButton }) =>
@@ -46,7 +45,7 @@ const TableLine = styled.tr`
   }
 
   & > td {
-    padding: 0.3rem;
+    padding: 0.15rem;
   }
 `;
 const ChartTable = ({ chart, header }) => {
