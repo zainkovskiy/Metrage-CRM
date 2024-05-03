@@ -27,6 +27,8 @@ const SlideUser = () => {
         sex: user?.sex || '',
         isAdmin: user?.isAdmin || false,
         isСashier: user?.isСashier || false,
+        ddsRights: user?.ddsRights || false,
+        mortgageCreate: user?.mortgageCreate || false,
         speciality: user?.speciality.current || [],
         aboutMe: user?.aboutMe || '',
       });
@@ -45,6 +47,8 @@ const SlideUser = () => {
       sex: user?.sex || '',
       isAdmin: user?.isAdmin || false,
       isСashier: user?.isСashier || false,
+      ddsRights: user?.ddsRights || false,
+      mortgageCreate: user?.mortgageCreate || false,
       speciality: user?.speciality.current || [],
       aboutMe: user?.aboutMe || '',
     },

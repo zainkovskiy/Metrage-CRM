@@ -16,12 +16,14 @@ import {
   getUsersList,
   resetFilter,
 } from '../../store/usersSlice';
-import { getLocalOfficeList } from '../../api/search';
+import { getLocalOfficeList, getUserList } from '../../api/search';
 
 const UserFilterForm = ({ onClose }) => {
   const dispatch = useDispatch();
   const [officeList, setOfficeList] = useState([]);
+  const [users, setUsers] = useState([]);
   const officeRequest = useRef(false);
+  const userRequest = useRef(false);
   const filter = useSelector((state) => state.users.filter);
   const { control, handleSubmit, reset } = useForm({
     defaultValues: filter,
@@ -53,6 +55,23 @@ const UserFilterForm = ({ onClose }) => {
         officeRequest.current = false;
       });
   };
+  const getUsers = (value) => {
+    if (value.length < 2) {
+      setUsers([]);
+      return;
+    }
+    if (userRequest.current) {
+      return;
+    }
+    userRequest.current = true;
+    getUserList(value)
+      .then((data) => {
+        setUsers(data);
+      })
+      .finally(() => {
+        userRequest.current = false;
+      });
+  };
   return (
     <FilterFormStyle onSubmit={handleSubmit(onSubmit)}>
       <Box>
@@ -65,6 +84,24 @@ const UserFilterForm = ({ onClose }) => {
       </Box>
       <FilterFields>
         <FilterTitle>Фильтр</FilterTitle>
+        <Controller
+          name='user'
+          control={control}
+          render={({ field }) => (
+            <SelectAutoсompleteUI
+              label='Пользователь'
+              options={users}
+              getOptionsLabel={(options) =>
+                `${options.lastName || ''} ${options.firstName || ''} ${
+                  options.secondName || ''
+                }`
+              }
+              onChange={(user) => field.onChange(user)}
+              value={field.value}
+              inputChange={getUsers}
+            />
+          )}
+        />
         <Controller
           name='office'
           control={control}

@@ -53,6 +53,7 @@ export const addNewMiniCard = createAsyncThunk(
 );
 export const defaultUsersFilter = {
   office: '',
+  user: '',
   fired: false,
   withMegafon: 'all',
 };

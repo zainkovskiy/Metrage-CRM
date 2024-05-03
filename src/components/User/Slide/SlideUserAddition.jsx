@@ -79,9 +79,9 @@ const SlideUserAddition = ({ toggleChangeIsFire }) => {
             )}
           </Box>
           {isAdmin && (
-            <Box jc='space-between' fullWidth>
+            <Box jc='space-between' fullWidth ai='flex-start'>
               <TextSpanStyle>Права</TextSpanStyle>
-              <Box>
+              <Box wrap jc='flex-end'>
                 <Controller
                   control={control}
                   name='isAdmin'
@@ -109,6 +109,36 @@ const SlideUserAddition = ({ toggleChangeIsFire }) => {
                       }}
                       checked={field.value || false}
                       id='isСashier'
+                    />
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name='ddsRights'
+                  render={({ field }) => (
+                    <CheckboxUI
+                      label='ДДС'
+                      size='small'
+                      onChange={(e) => {
+                        field.onChange(e.target.checked);
+                      }}
+                      checked={field.value || false}
+                      id='ddsRights'
+                    />
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name='mortgageCreate'
+                  render={({ field }) => (
+                    <CheckboxUI
+                      label='Ипотека'
+                      size='small'
+                      onChange={(e) => {
+                        field.onChange(e.target.checked);
+                      }}
+                      checked={field.value || false}
+                      id='mortgageCreate'
                     />
                   )}
                 />

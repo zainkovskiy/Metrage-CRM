@@ -89,7 +89,7 @@ const CompilationsCard = ({ compilation }) => {
         </CompilationsContent>
         <CompilationsFooter>
           <TextSpanStyle size={10}>
-            {compilation?.responsibleId?.title || ''}
+            {compilation?.clientName || ''} &nbsp;
           </TextSpanStyle>
         </CompilationsFooter>
       </CompilationsCardStyle>
