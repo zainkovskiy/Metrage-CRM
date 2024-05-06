@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { PanelButton } from 'ui/PanelButton';
 import { motion } from 'framer-motion';
+import { useSelector } from 'react-redux';
 
 export const PanelControlStyle = styled(motion.aside)`
   background-color: ${({ theme }) => theme.color.secondary};
@@ -34,6 +35,7 @@ const LineStyle = styled.span`
 `;
 
 const PanelControl = () => {
+  const { ddsRights } = useSelector((state) => state.user);
   return (
     <PanelControlStyle
       whileHover={{
@@ -54,7 +56,7 @@ const PanelControl = () => {
         <PanelButton icon='residential' path='residential' title='ЖК/БЦ' />
         <PanelButton icon='planning' path='planning' title='План' />
         <PanelButton icon='mortgage' path='mortage' title='Ипотека' />
-        <PanelButton icon='close' path='dds' title='ДДС' />
+        {ddsRights && <PanelButton icon='close' path='dds' title='ДДС' />}
         {/* <PanelButton icon='planning' path='calendar' title='Calendar' /> */}
         {/* <PanelButton icon='chart' path='/' title='Аналитики' /> */}
         {/* <PanelButton icon='calendar' path='calendar' title='Календарь' />

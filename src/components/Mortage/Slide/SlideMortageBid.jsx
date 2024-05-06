@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { TextSpanStyle } from 'styles/styles';
 import { useDateFormat } from 'hooks/DateFormat';
 import styled from 'styled-components';
@@ -20,14 +21,17 @@ const MortageBidWrap = styled.div`
 `;
 
 const SlideMortageBid = ({ bid, openWindowBid }) => {
+  const { mortgageCreate } = useSelector((state) => state.user);
   const openEditBid = () => {
     openWindowBid(bid);
   };
   return (
     <MortageBid>
-      <ButtonLink size={12} color='rgb(28 155 248)' onClick={openEditBid}>
-        Редактировать
-      </ButtonLink>
+      {mortgageCreate && (
+        <ButtonLink size={12} color='rgb(28 155 248)' onClick={openEditBid}>
+          Редактировать
+        </ButtonLink>
+      )}
       <MortageBidWrap>
         <TextSpanStyle size={12}>Банк: {bid.bank}</TextSpanStyle>
         <TextSpanStyle size={12}>

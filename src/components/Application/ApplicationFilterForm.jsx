@@ -237,6 +237,18 @@ const ApplicationFilterForm = ({ onClose }) => {
             />
           )}
         />
+        <Controller
+          name='onlyPrivate'
+          control={control}
+          render={({ field }) => (
+            <CheckboxUI
+              label='Только частники'
+              id='onlyPrivate'
+              checked={field.value || false}
+              onChange={(e) => field.onChange(e.target.checked)}
+            />
+          )}
+        />
       </FilterFields>
     </FilterFormStyle>
   );

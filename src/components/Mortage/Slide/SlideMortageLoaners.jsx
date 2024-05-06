@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAsyncValue } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { SliderBlock, SliderTitle } from '../../../styles/slider';
 import { ButtonLink } from 'ui/ButtonLink';
 import SlideMortageLoaner from './SlideMortageLoaner';
@@ -14,6 +15,7 @@ const MortageLoaners = styled(SliderBlock)`
 
 const SlideMortageLoaners = ({ openWindowLoaner, openWindowChild }) => {
   const { loaners } = useAsyncValue();
+  const { mortgageCreate } = useSelector((state) => state.user);
   const { watch } = useFormContext();
   watch('loaners');
   const openNewLoaner = () => {
@@ -23,9 +25,15 @@ const SlideMortageLoaners = ({ openWindowLoaner, openWindowChild }) => {
     <MortageLoaners>
       <SliderTitle>
         Заемщики/Созаемщики
-        <ButtonLink size={12} color='rgb(133, 0, 158)' onClick={openNewLoaner}>
-          Добавить
-        </ButtonLink>
+        {mortgageCreate && (
+          <ButtonLink
+            size={12}
+            color='rgb(133, 0, 158)'
+            onClick={openNewLoaner}
+          >
+            Добавить
+          </ButtonLink>
+        )}
       </SliderTitle>
       {loaners.map((loaner, idx) => (
         <SlideMortageLoaner

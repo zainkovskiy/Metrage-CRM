@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAsyncValue } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ButtonLink } from 'ui/ButtonLink';
 import { Box } from 'ui/Box';
 import { StatusBar, StatusBarItem } from '../../../ui/StatusBar/StatusBar';
@@ -10,6 +10,7 @@ import { changeMortageStage } from '../../../store/slices/mortageSlice';
 const SlideMortageStatus = () => {
   const dispatch = useDispatch();
   const mortage = useAsyncValue();
+  const { mortgageCreate } = useSelector((state) => state.user);
   const [activeStepper, setActiveStepper] = useState(
     parseInt(mortage?.stageId) || 0
   );
@@ -34,7 +35,7 @@ const SlideMortageStatus = () => {
       <Box fullWidth column ai='flex-end'>
         <StatusBar
           activeStep={activeStepper}
-          disabled={activeStepper === 7}
+          disabled={!mortgageCreate || activeStepper === 7}
           wrap
           fullWidth
         >
@@ -47,9 +48,11 @@ const SlideMortageStatus = () => {
           <StatusBarItem title='Выдан' onClick={changeStepper} />
           <StatusBarItem title='Срыв' onClick={changeStepper} />
         </StatusBar>
-        <ButtonLink onClick={setFailure} size={12}>
-          {activeStepper === 7 ? 'Вернуть из срыва' : 'Отправить в Срыв'}
-        </ButtonLink>
+        {mortgageCreate && (
+          <ButtonLink onClick={setFailure} size={12}>
+            {activeStepper === 7 ? 'Вернуть из срыва' : 'Отправить в Срыв'}
+          </ButtonLink>
+        )}
       </Box>
     </SliderBlock>
   );

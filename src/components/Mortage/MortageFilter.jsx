@@ -33,13 +33,11 @@ const MortageFilter = () => {
       <ButtonUI size='small' onClick={toggleFilter}>
         Фильтр
       </ButtonUI>
-      {isAdmin === '1' && (
-        <Link to='new'>
-          <ButtonUI size='small' variant='outline'>
-            Создать
-          </ButtonUI>
-        </Link>
-      )}
+      <Link to='new'>
+        <ButtonUI size='small' variant='outline'>
+          Создать
+        </ButtonUI>
+      </Link>
       <SlideWindow open={open} onClose={toggleFilter} width={getWidth()}>
         <MortageFilterForm onClose={toggleFilter} />
       </SlideWindow>

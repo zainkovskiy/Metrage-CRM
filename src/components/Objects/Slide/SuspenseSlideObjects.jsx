@@ -63,7 +63,6 @@ const SuspenseNewObjects = () => {
 
 export const loaderObjectSlide = async ({ request, params }) => {
   const { objectId, category } = params;
-  // 435
   return { object: getOneObject(objectId, category) };
 };
 

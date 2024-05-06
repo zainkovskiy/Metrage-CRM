@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { TextSpanStyle } from 'styles/styles';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import InputText from '../../../ui/InputText/InputText';
@@ -28,6 +29,7 @@ const CreditField = styled.div`
   align-items: center;
 `;
 const SlideMortageCredit = ({ openWindowBid }) => {
+  const { mortgageCreate } = useSelector((state) => state.user);
   const { credit } = useAsyncValue();
   const { control } = useFormContext();
   const openWindowBidNew = () => {
@@ -51,6 +53,7 @@ const SlideMortageCredit = ({ openWindowBid }) => {
                     size={12}
                     value={field.value || ''}
                     onChange={field.onChange}
+                    disabled={!mortgageCreate}
                   />
                 );
               }}
@@ -69,6 +72,7 @@ const SlideMortageCredit = ({ openWindowBid }) => {
                     size={12}
                     value={field.value || ''}
                     onChange={field.onChange}
+                    disabled={!mortgageCreate}
                   />
                 );
               }}
@@ -89,6 +93,7 @@ const SlideMortageCredit = ({ openWindowBid }) => {
                     size={12}
                     value={field.value || ''}
                     onChange={field.onChange}
+                    disabled={!mortgageCreate}
                   />
                 );
               }}
@@ -107,6 +112,7 @@ const SlideMortageCredit = ({ openWindowBid }) => {
                     size={12}
                     value={field.value || ''}
                     onChange={field.onChange}
+                    disabled={!mortgageCreate}
                   />
                 );
               }}
@@ -127,6 +133,7 @@ const SlideMortageCredit = ({ openWindowBid }) => {
                     size={12}
                     value={field.value}
                     onChange={field.onChange}
+                    disabled={!mortgageCreate}
                   />
                 );
               }}
@@ -145,6 +152,7 @@ const SlideMortageCredit = ({ openWindowBid }) => {
                     size={12}
                     value={field.value}
                     onChange={field.onChange}
+                    disabled={!mortgageCreate}
                   />
                 );
               }}
@@ -158,7 +166,7 @@ const SlideMortageCredit = ({ openWindowBid }) => {
           control={control}
           name='credit.whoHasOriginal'
           render={({ field }) => (
-            <ButtonToggleGroup fullWidth>
+            <ButtonToggleGroup fullWidth disabled={!mortgageCreate}>
               <ButtonToggleItem
                 onClick={(e) => field.onChange(e.target.id)}
                 id='Агент'
@@ -196,6 +204,7 @@ const SlideMortageCredit = ({ openWindowBid }) => {
                 checked={field.value}
                 onChange={field.onChange}
                 label='Комплект док-ов полный:'
+                disabled={!mortgageCreate}
               />
             );
           }}
@@ -211,6 +220,7 @@ const SlideMortageCredit = ({ openWindowBid }) => {
                 checked={field.value}
                 onChange={field.onChange}
                 label='Аккредитация оплачена:'
+                disabled={!mortgageCreate}
               />
             );
           }}
@@ -229,6 +239,7 @@ const SlideMortageCredit = ({ openWindowBid }) => {
                 size={12}
                 value={field.value}
                 onChange={field.onChange}
+                disabled={!mortgageCreate}
               />
             );
           }}
@@ -236,13 +247,15 @@ const SlideMortageCredit = ({ openWindowBid }) => {
       </CreditField>
       <SliderTitle>
         Заявки
-        <ButtonLink
-          size={12}
-          color='rgb(133, 0, 158)'
-          onClick={openWindowBidNew}
-        >
-          Добавить
-        </ButtonLink>
+        {mortgageCreate && (
+          <ButtonLink
+            size={12}
+            color='rgb(133, 0, 158)'
+            onClick={openWindowBidNew}
+          >
+            Добавить
+          </ButtonLink>
+        )}
       </SliderTitle>
       {credit?.bids.map((bid) => (
         <SlideMortageBid

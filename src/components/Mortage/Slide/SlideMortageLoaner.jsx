@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useAsyncValue } from 'react-router-dom';
+import { useFormContext } from 'react-hook-form';
 import { Box } from 'ui/Box';
 import { ButtonLink } from 'ui/ButtonLink';
 import { IconButton } from 'ui/IconButton';
@@ -6,8 +9,6 @@ import { ReactComponent as Close } from 'images/close.svg';
 import { ReactComponent as Edit } from 'images/edit.svg';
 import { TextSpanStyle } from 'styles/styles';
 import styled from 'styled-components';
-import { useFormContext } from 'react-hook-form';
-import { useAsyncValue } from 'react-router-dom';
 import { useDateFormat } from 'hooks/DateFormat';
 import { removeChild } from '../../../api/mortageAPI';
 
@@ -38,6 +39,7 @@ const SlideMortageLoaner = ({
   idx,
 }) => {
   const mortage = useAsyncValue();
+  const { mortgageCreate } = useSelector((state) => state.user);
   const { setValue } = useFormContext();
   const [change, setChange] = useState(false);
   const removeLaoner = () => {
@@ -63,14 +65,20 @@ const SlideMortageLoaner = ({
   };
   return (
     <MortageLoaner>
-      <Box jc='flex-end'>
-        <ButtonLink size={12} color='rgb(28 155 248)' onClick={openEditLoaner}>
-          Редактировать
-        </ButtonLink>
-        <ButtonLink size={12} onClick={removeLaoner}>
-          Удалить
-        </ButtonLink>
-      </Box>
+      {mortgageCreate && (
+        <Box jc='flex-end'>
+          <ButtonLink
+            size={12}
+            color='rgb(28 155 248)'
+            onClick={openEditLoaner}
+          >
+            Редактировать
+          </ButtonLink>
+          <ButtonLink size={12} onClick={removeLaoner}>
+            Удалить
+          </ButtonLink>
+        </Box>
+      )}
       <TextSpanStyle bold>{loaner.loanerType}</TextSpanStyle>
       <MortageLoanerGrid>
         <Box column jc='flex-start'>
@@ -123,13 +131,15 @@ const SlideMortageLoaner = ({
               <TextSpanStyle size={12} bold>
                 Дети
               </TextSpanStyle>
-              <ButtonLink
-                size={12}
-                color='rgb(133, 0, 158)'
-                onClick={() => openChild('new')}
-              >
-                Добавить
-              </ButtonLink>
+              {mortgageCreate && (
+                <ButtonLink
+                  size={12}
+                  color='rgb(133, 0, 158)'
+                  onClick={() => openChild('new')}
+                >
+                  Добавить
+                </ButtonLink>
+              )}
             </Box>
             {loaner?.children?.length > 0 &&
               loaner?.children.map((child) => (
@@ -143,17 +153,19 @@ const SlideMortageLoaner = ({
                     {child.fullName}{' '}
                     {useDateFormat(child.bornDate, 'DD.MM.YYYY')}
                   </TextSpanStyle>
-                  <Box>
-                    <IconButton color='info' onClick={() => openChild(child)}>
-                      <Edit />
-                    </IconButton>
-                    <IconButton
-                      color='error'
-                      onClick={() => deleteChild(child)}
-                    >
-                      <Close />
-                    </IconButton>
-                  </Box>
+                  {mortgageCreate && (
+                    <Box>
+                      <IconButton color='info' onClick={() => openChild(child)}>
+                        <Edit />
+                      </IconButton>
+                      <IconButton
+                        color='error'
+                        onClick={() => deleteChild(child)}
+                      >
+                        <Close />
+                      </IconButton>
+                    </Box>
+                  )}
                 </Box>
               ))}
           </Box>

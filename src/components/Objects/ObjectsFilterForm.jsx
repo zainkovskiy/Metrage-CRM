@@ -30,7 +30,6 @@ const ObjectsFilterFormStyle = styled.form`
   flex-direction: column;
   gap: 1rem;
   height: 100%;
-  justify-content: space-between;
   overflow: auto;
   padding: 0.5rem;
   background-color: #fff;

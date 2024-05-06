@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAsyncValue } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { useDateFormat } from 'hooks/DateFormat';
 import DialogWindow from 'components/Main/DialogWindow';
 import UserFinder from 'components/Main/UserFinder';
@@ -21,6 +22,7 @@ const MortageMainTextField = styled.div`
 `;
 
 const SlideMortageMain = () => {
+  const { mortgageCreate } = useSelector((state) => state.user);
   const mortage = useAsyncValue();
   const dispatch = useDispatch();
   const [target, setTarget] = useState(null);
@@ -72,17 +74,13 @@ const SlideMortageMain = () => {
       <MortageMain>
         <SliderAvatar
           role='Агент'
-          isChangeButton={() => {
-            setTarget('realtor');
-          }}
+          isChangeButton={mortgageCreate ? () => setTarget('realtor') : false}
           avatarData={mortage.realtor}
           keySubtitle='office'
         />
         <SliderAvatar
           role='Брокер'
-          isChangeButton={() => {
-            setTarget('broker');
-          }}
+          isChangeButton={mortgageCreate ? () => setTarget('broker') : false}
           avatarData={mortage.broker}
           keySubtitle='office'
         />
