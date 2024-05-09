@@ -3,7 +3,11 @@ import { Box } from 'ui/Box';
 import { ButtonLink } from 'ui/ButtonLink';
 import { useAsyncValue } from 'react-router-dom';
 import { SlideBlockStyle } from '../ObjectsStyle';
-import { copyObjects, sendPhotoToTg } from '../../../api/objectAPI';
+import {
+  copyObjects,
+  getPrintLink,
+  sendPhotoToTg,
+} from '../../../api/objectAPI';
 import DialogWindow from 'components/Main/DialogWindow';
 import SlideDialogCopy from './SlideDialogCopy';
 import SlideDialogOffer from './SlideDialogOffer';
@@ -35,6 +39,16 @@ const SlideObjectButtons = () => {
   const toggleOffer = () => {
     setOpenOffer(!openOffer);
   };
+  const getLink = () => {
+    getPrintLink({
+      UID: object.UID,
+      type: object.subTypeEstate,
+    }).then((url) => {
+      if (url) {
+        window.open(url);
+      }
+    });
+  };
   return (
     <SlideBlockStyle jc='flex-start' $wrap>
       <ButtonLink
@@ -55,6 +69,9 @@ const SlideObjectButtons = () => {
       </ButtonLink>
       <ButtonLink size={12} color='rgb(133, 0, 158)' onClick={toggleOffer}>
         Для соц сетей
+      </ButtonLink>
+      <ButtonLink size={12} color='rgb(133, 0, 158)' onClick={getLink}>
+        Для печати
       </ButtonLink>
       <DialogWindow open={open} onClose={toggleDialog}>
         <SlideDialogCopy onClose={toggleDialog} copyObj={copyObj} />
