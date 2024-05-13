@@ -204,7 +204,6 @@ const SlideMortageCredit = ({ openWindowBid }) => {
                 checked={field.value}
                 onChange={field.onChange}
                 label='Комплект док-ов полный:'
-                disabled={!mortgageCreate}
               />
             );
           }}

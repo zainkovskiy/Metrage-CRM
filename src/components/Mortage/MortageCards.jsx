@@ -38,7 +38,6 @@ const MortageCards = () => {
           <MortageCard key={card.UID} mortage={card} />
         ))}
       </MortageCardsStyle>
-      <span>here button more</span>
     </MortageCardsContainer>
   );
 };

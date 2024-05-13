@@ -6,7 +6,6 @@
 // import { ReactComponent as Users } from 'images/users.svg';
 // import { ReactComponent as Task } from 'images/todo.svg';
 import { ReactComponent as Calendar } from 'images/calendar.svg';
-import { ReactComponent as Mortgage } from 'images/mortgage.svg';
 import { ReactComponent as Lawyer } from 'images/lawyer.svg';
 import { ReactComponent as Grade } from 'images/grade.svg';
 import { ReactComponent as Insurance } from 'images/insurance3.svg';
@@ -26,6 +25,7 @@ import { ReactComponent as Users } from 'images/panel/users.svg';
 import { ReactComponent as Task } from 'images/panel/task.svg';
 import { ReactComponent as News } from 'images/panel/news.svg';
 import { ReactComponent as Residential } from 'images/panel/residential.svg';
+import { ReactComponent as Mortgage } from 'images/mortgage.svg';
 // import { ReactComponent as Plan } from 'images/panel/plan.svg';
 import { ReactComponent as Mail } from 'images/panel/mail.svg';
 
@@ -40,9 +40,9 @@ export {
   News,
   Mail,
   Residential,
+  Mortgage,
   //
   Calendar,
-  Mortgage,
   Lawyer,
   Grade,
   Insurance,

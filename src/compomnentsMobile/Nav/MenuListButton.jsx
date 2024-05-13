@@ -56,6 +56,8 @@ const MenuListIcon = ({ icon }) => {
         return IconSvg.News;
       case 'residential':
         return IconSvg.Residential;
+      case 'mortgage':
+        return IconSvg.Mortgage;
       default:
         return Stub;
     }
