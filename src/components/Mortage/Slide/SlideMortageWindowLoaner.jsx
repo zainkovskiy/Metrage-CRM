@@ -346,7 +346,6 @@ const SlideMortageWindowLoaner = ({ onClose, loaner, setLoaner }) => {
             control={control}
             render={({ field }) => (
               <InputUI
-                type='number'
                 onChange={field.onChange}
                 value={field.value || ''}
                 label='Стаж на последнем месте работы (Мес)'

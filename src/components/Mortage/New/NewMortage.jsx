@@ -6,6 +6,7 @@ import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
 import { TextSpanStyle } from 'styles/styles';
 import { SliderTitle } from '../../../styles/slider';
+import { CheckboxUI } from 'ui/CheckboxUI';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { createNewMortage } from 'api/mortageAPI';
 import { useDispatch } from 'react-redux';
@@ -188,6 +189,18 @@ const NewMortage = ({ onClose }) => {
                 rows={8}
               />
             </Box>
+          )}
+        />
+        <Controller
+          name='isConsultation'
+          control={control}
+          render={({ field }) => (
+            <CheckboxUI
+              label='Для консультации со специалистом'
+              id='isConsultation'
+              checked={field.value || false}
+              onChange={(e) => field.onChange(e.target.checked)}
+            />
           )}
         />
       </FormContainer>

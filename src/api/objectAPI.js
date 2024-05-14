@@ -306,3 +306,18 @@ export const getPrintLink = async (raw) => {
   }
   return null;
 };
+export const getReportLink = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.objects.getReportLink',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    const result = res.data.result;
+    if (result.result === 'OK') {
+      return result.URL;
+    }
+    return null;
+  }
+  return null;
+};

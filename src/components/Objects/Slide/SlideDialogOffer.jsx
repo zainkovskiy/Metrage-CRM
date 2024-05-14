@@ -32,14 +32,6 @@ const DialogOfferContext = styled.div`
   justify-content: space-evenly;
   overflow: auto;
 `;
-const DialogOfferFooter = styled.div`
-  position: sticky;
-  bottom: 0px;
-  border-top: 1px solid rgb(204, 204, 204);
-  padding: 0.5rem;
-  display: flex;
-  gap: 0.5rem;
-`;
 const CloseButtonStyle = styled.img`
   width: 18px;
   height: 18px;

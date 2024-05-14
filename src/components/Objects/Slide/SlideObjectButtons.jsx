@@ -3,19 +3,17 @@ import { Box } from 'ui/Box';
 import { ButtonLink } from 'ui/ButtonLink';
 import { useAsyncValue } from 'react-router-dom';
 import { SlideBlockStyle } from '../ObjectsStyle';
-import {
-  copyObjects,
-  getPrintLink,
-  sendPhotoToTg,
-} from '../../../api/objectAPI';
+import { copyObjects, sendPhotoToTg } from '../../../api/objectAPI';
 import DialogWindow from 'components/Main/DialogWindow';
 import SlideDialogCopy from './SlideDialogCopy';
 import SlideDialogOffer from './SlideDialogOffer';
+import SlideDialogReview from './SlideDialogReview';
 
 const SlideObjectButtons = () => {
   const object = useAsyncValue();
   const [open, setOpen] = useState(false);
   const [openOffer, setOpenOffer] = useState(false);
+  const [openReview, setOpenReview] = useState(false);
   const [disPhoto, setDisPhoto] = useState(false);
   const [disCopy, setDisCopy] = useState(false);
   const getPhoto = () => {
@@ -39,15 +37,8 @@ const SlideObjectButtons = () => {
   const toggleOffer = () => {
     setOpenOffer(!openOffer);
   };
-  const getLink = () => {
-    getPrintLink({
-      UID: object.UID,
-      type: object.subTypeEstate,
-    }).then((url) => {
-      if (url) {
-        window.open(url);
-      }
-    });
+  const toggleReview = () => {
+    setOpenReview(!openReview);
   };
   return (
     <SlideBlockStyle jc='flex-start' $wrap>
@@ -70,14 +61,17 @@ const SlideObjectButtons = () => {
       <ButtonLink size={12} color='rgb(133, 0, 158)' onClick={toggleOffer}>
         Для соц сетей
       </ButtonLink>
-      <ButtonLink size={12} color='rgb(133, 0, 158)' onClick={getLink}>
-        Для печати
+      <ButtonLink size={12} color='rgb(133, 0, 158)' onClick={toggleReview}>
+        Отчёты
       </ButtonLink>
       <DialogWindow open={open} onClose={toggleDialog}>
         <SlideDialogCopy onClose={toggleDialog} copyObj={copyObj} />
       </DialogWindow>
       <DialogWindow open={openOffer} onClose={toggleOffer}>
         <SlideDialogOffer onClose={toggleOffer} />
+      </DialogWindow>
+      <DialogWindow open={openReview} onClose={toggleReview}>
+        <SlideDialogReview onClose={toggleReview} />
       </DialogWindow>
     </SlideBlockStyle>
   );
