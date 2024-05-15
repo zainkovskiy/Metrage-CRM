@@ -360,7 +360,7 @@ const SlideMortageWindowLoaner = ({ onClose, loaner, setLoaner }) => {
             name='aboutJobStatus.hasCreditInfo'
             render={({ field }) => (
               <LabelStyle>
-                Имющиеся кредиты
+                Имеющиеся кредиты
                 <FormTextArea
                   value={field.value || ''}
                   onChange={field.onChange}

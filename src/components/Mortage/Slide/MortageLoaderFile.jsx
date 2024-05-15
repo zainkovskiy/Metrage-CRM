@@ -5,6 +5,7 @@ import { LinkUI } from 'ui/LinkUI';
 import { IconButton } from 'ui/IconButton';
 import { TextSpanStyle } from 'styles/styles';
 import { ReactComponent as Close } from 'images/close.svg';
+import { removeMortgageFile } from '../../../api/mortageAPI';
 
 const FileText = styled(TextSpanStyle)`
   text-overflow: ellipsis;
@@ -13,6 +14,7 @@ const FileText = styled(TextSpanStyle)`
 
 const MortageLoaderFile = ({ file, deleteFile }) => {
   const handleRemove = () => {
+    removeMortgageFile(file.UID);
     deleteFile(file);
   };
   return (

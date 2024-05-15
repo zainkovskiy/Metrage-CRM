@@ -19,6 +19,7 @@ import DialogWindow from 'components/Main/DialogWindow';
 import SlideMortageWindowBid from './SlideMortageWindowBid';
 import SlideMortageWindowLoaner from './SlideMortageWindowLoaner';
 import SlideMortageWindowChild from './SlideMortageWindowChild';
+import MortageControl from './MortageControl';
 
 const SliderMortageForm = styled.form`
   display: flex;
@@ -78,6 +79,7 @@ const SlideMortage = () => {
         <SlideMortageMain />
         <FormProvider {...method}>
           <SliderMortageForm onSubmit={method.handleSubmit(onSubmit)}>
+            <MortageControl />
             <SlideMortageLoaners
               openWindowLoaner={openWindowLoaner}
               openWindowChild={openWindowChild}

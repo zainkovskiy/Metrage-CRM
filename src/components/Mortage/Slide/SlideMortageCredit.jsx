@@ -28,6 +28,7 @@ const CreditLine = styled.div`
 const CreditField = styled.div`
   display: flex;
   align-items: center;
+  gap: 0.5rem;
 `;
 const SlideMortageCredit = ({ openWindowBid }) => {
   const [change, setChange] = useState(false);
@@ -205,58 +206,6 @@ const SlideMortageCredit = ({ openWindowBid }) => {
           )}
         />
       </LabelStyle>
-      <CreditLine>
-        <Controller
-          name='credit.isFullDoc'
-          control={control}
-          render={({ field }) => {
-            return (
-              <CheckboxUI
-                size='small'
-                labelSize={12}
-                checked={field.value}
-                onChange={field.onChange}
-                label='Комплект док-ов полный:'
-                disabled={!mortgageCreate}
-              />
-            );
-          }}
-        />
-        <Controller
-          name='credit.accreditationPaid'
-          control={control}
-          render={({ field }) => {
-            return (
-              <CheckboxUI
-                size='small'
-                labelSize={12}
-                checked={field.value}
-                onChange={field.onChange}
-                label='Аккредитация оплачена:'
-              />
-            );
-          }}
-        />
-      </CreditLine>
-      <CreditField>
-        <TextSpanStyle size={12} nowrap>
-          Выручка за услугу (Аккредитация)
-        </TextSpanStyle>
-        <Controller
-          name='credit.accreditationSum'
-          control={control}
-          render={({ field }) => {
-            return (
-              <InputText
-                size={12}
-                value={field.value}
-                onChange={field.onChange}
-                disabled={!mortgageCreate}
-              />
-            );
-          }}
-        />
-      </CreditField>
       <MortageLoader
         files={credit?.documents || []}
         raw={{

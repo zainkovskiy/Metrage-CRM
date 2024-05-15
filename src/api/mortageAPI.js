@@ -58,3 +58,16 @@ export const removeChild = async (raw) => {
   }
   return 'No OK';
 };
+export const removeMortgageFile = async (uid) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.mortgage.deleteFiles',
+    fields: {
+      UID: uid,
+    },
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No OK';
+};

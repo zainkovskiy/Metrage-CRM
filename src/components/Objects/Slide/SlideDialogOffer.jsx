@@ -6,7 +6,6 @@ import offer2Url from 'images/offer/offer2.jpg';
 import offer3Url from 'images/offer/offer3.jpg';
 import offer4Url from 'images/offer/offer4.jpg';
 import offer5Url from 'images/offer/offer5.jpg';
-import { ButtonUI } from 'ui/ButtonUI';
 import { TextSpanStyle } from 'styles/styles';
 import { getImageOffer } from '../../../api/objectAPI';
 import { useAsyncValue } from 'react-router-dom';
@@ -25,9 +24,9 @@ const DialogOfferHeader = styled.div`
   border-bottom: 1px solid #ccc;
 `;
 const DialogOfferContext = styled.div`
-  padding: 0.5rem;
+  padding: 1rem;
   display: flex;
-  gap: 0.5rem;
+  gap: 1rem;
   flex-wrap: wrap;
   justify-content: space-evenly;
   overflow: auto;

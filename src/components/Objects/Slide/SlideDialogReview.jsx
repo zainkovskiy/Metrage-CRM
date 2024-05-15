@@ -90,7 +90,7 @@ const SlideDialogReview = ({ onClose }) => {
   return (
     <DialogReview onClick={(e) => e.stopPropagation()}>
       <DialogReviewHeader>
-        <TextSpanStyle>Выберете отчет</TextSpanStyle>
+        <TextSpanStyle>Выбор отчета</TextSpanStyle>
         <CloseButtonStyle src={closeUrl} onClick={onClose} />
       </DialogReviewHeader>
       <DialogReviewContext>
