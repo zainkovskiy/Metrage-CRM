@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { TextSpanStyle } from 'styles/styles';
 import { CheckboxUI } from 'ui/CheckboxUI';
@@ -14,6 +14,7 @@ import {
 import styled from 'styled-components';
 import SlideMortageBid from './SlideMortageBid';
 import { useAsyncValue } from 'react-router-dom';
+import MortageLoader from './MortageLoader';
 
 const MortageCredit = styled(SliderBlock)`
   display: flex;
@@ -29,11 +30,23 @@ const CreditField = styled.div`
   align-items: center;
 `;
 const SlideMortageCredit = ({ openWindowBid }) => {
+  const [change, setChange] = useState(false);
   const { mortgageCreate } = useSelector((state) => state.user);
-  const { credit } = useAsyncValue();
+  const mortage = useAsyncValue();
+  const { credit } = mortage;
   const { control } = useFormContext();
   const openWindowBidNew = () => {
     openWindowBid('new');
+  };
+  const addFile = (file) => {
+    mortage.credit.documents = [...mortage.credit.documents, ...file];
+    setChange(!change);
+  };
+  const deleteFile = (file) => {
+    mortage.credit.documents = mortage.credit.documents.filter(
+      (curFile) => curFile.UID !== file.UID
+    );
+    setChange(!change);
   };
   return (
     <MortageCredit>
@@ -204,6 +217,7 @@ const SlideMortageCredit = ({ openWindowBid }) => {
                 checked={field.value}
                 onChange={field.onChange}
                 label='Комплект док-ов полный:'
+                disabled={!mortgageCreate}
               />
             );
           }}
@@ -219,7 +233,6 @@ const SlideMortageCredit = ({ openWindowBid }) => {
                 checked={field.value}
                 onChange={field.onChange}
                 label='Аккредитация оплачена:'
-                disabled={!mortgageCreate}
               />
             );
           }}
@@ -244,6 +257,15 @@ const SlideMortageCredit = ({ openWindowBid }) => {
           }}
         />
       </CreditField>
+      <MortageLoader
+        files={credit?.documents || []}
+        raw={{
+          entityId: mortage.UID,
+          entityType: 'mortgage',
+        }}
+        deleteFile={deleteFile}
+        addFile={addFile}
+      />
       <SliderTitle>
         Заявки
         {mortgageCreate && (

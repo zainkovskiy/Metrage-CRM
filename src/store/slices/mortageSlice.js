@@ -132,6 +132,7 @@ const getFilter = () => {
   return defaultMortageFilter;
 };
 const initialState = {
+  hopper: [],
   stageList: [],
   mortageList: [],
   loadingList: true,
@@ -152,6 +153,7 @@ const mortageSlice = createSlice({
       state.filter = action.payload;
     },
     clearMortage(state, action) {
+      state.hopper = [];
       state.stageList = [];
       state.mortageList = [];
       state.loadingList = true;
@@ -162,6 +164,7 @@ const mortageSlice = createSlice({
     builder.addCase(getMortageList.fulfilled, (state, action) => {
       state.mortageList = action.payload.data;
       state.stageList = action.payload.stages;
+      state.hopper = action.payload.hopper;
       state.loadingList = false;
       // if (action.payload.length < 100) {
       //   state.buttonMore = false;

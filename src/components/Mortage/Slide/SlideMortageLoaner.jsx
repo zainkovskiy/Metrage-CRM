@@ -11,6 +11,7 @@ import { TextSpanStyle } from 'styles/styles';
 import styled from 'styled-components';
 import { useDateFormat } from 'hooks/DateFormat';
 import { removeChild } from '../../../api/mortageAPI';
+import MortageLoader from './MortageLoader';
 
 const MortageLoaner = styled.div`
   border-radius: 5px;
@@ -62,6 +63,19 @@ const SlideMortageLoaner = ({
       );
       setChange(!change);
     });
+  };
+  const addFile = (file) => {
+    mortage.loaners[idx].documents = [
+      ...mortage.loaners[idx].documents,
+      ...file,
+    ];
+    setChange(!change);
+  };
+  const deleteFile = (file) => {
+    mortage.loaners[idx].documents = mortage.loaners[idx].documents.filter(
+      (curFile) => curFile.UID !== file.UID
+    );
+    setChange(!change);
   };
   return (
     <MortageLoaner>
@@ -265,6 +279,15 @@ const SlideMortageLoaner = ({
           </Box>
         </Box>
       </MortageLoanerGrid>
+      <MortageLoader
+        files={loaner?.documents || []}
+        raw={{
+          entityId: loaner.UID,
+          entityType: 'mortgageLoaner',
+        }}
+        deleteFile={deleteFile}
+        addFile={addFile}
+      />
     </MortageLoaner>
   );
 };

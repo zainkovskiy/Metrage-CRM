@@ -74,7 +74,7 @@ const SlideMortageMain = () => {
       <MortageMain>
         <SliderAvatar
           role='Агент'
-          isChangeButton={mortgageCreate ? () => setTarget('realtor') : false}
+          isChangeButton={() => setTarget('realtor')}
           avatarData={mortage.realtor}
           keySubtitle='office'
         />
