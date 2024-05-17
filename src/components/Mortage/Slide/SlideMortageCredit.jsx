@@ -173,6 +173,24 @@ const SlideMortageCredit = ({ openWindowBid }) => {
             />
           </CreditField>
         </CreditLine>
+        <CreditLine>
+          <Controller
+            name='credit.isFullDoc'
+            control={control}
+            render={({ field }) => {
+              return (
+                <CheckboxUI
+                  disabled={!mortgageCreate}
+                  size='small'
+                  labelSize={12}
+                  checked={field.value}
+                  onChange={field.onChange}
+                  label='Комплект док-ов полный:'
+                />
+              );
+            }}
+          />
+        </CreditLine>
       </div>
       <LabelStyle labelSize={12}>
         У кого оригиналы док-ов

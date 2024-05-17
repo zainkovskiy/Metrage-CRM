@@ -9,7 +9,7 @@ import ChartTableRank from './ChartTableRank';
 import DefaultChartComponent from './DefaultChartComponent';
 import { TextSpanStyle } from '../../styles/styles';
 import { ButtonLink } from '../../ui/ButtonLink/ButtonLink';
-import { LinkUI } from '../../ui/LinkUI/LinkUI';
+import { Box } from 'ui/Box';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useDispatch } from 'react-redux';
 import { setNewRange } from '../../store/dashboardSlice';
@@ -17,14 +17,24 @@ import { SliderTitle } from '../../styles/slider';
 import ChartDoubleRadar from './ChartDoubleRadar';
 import ChartBar from './ChartBar';
 import ChartTwoPie from './ChartTwoPie';
+import { getChartIconComponent } from './ChartIcons';
 
 const ChartItemStyle = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   padding: 1rem;
-  background-color: #f5f5f5;
+  background-color: rgb(202 235 239 / 45%);
+  box-shadow: -8px 12px 57px -9px rgba(187, 44, 212, 0.13);
   border-radius: 5px;
+`;
+const ChartItemHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  border-bottom: 1px solid rgb(120, 100, 100);
+  box-sizing: border-box;
 `;
 const ButtonContainer = styled.div`
   position: relative;
@@ -108,16 +118,22 @@ const ChartItem = ({ chart, filter }) => {
     setOpen(false);
   };
   const ChartComponent = getChartComponent();
+  const ChartIconComponent = getChartIconComponent(chart.APIName);
   return (
     <ChartItemStyle>
-      <SliderTitle>
-        {chart?.title || ''}
-        {chart?.URL && (
-          <LinkUI href={chart.URL} download={true}>
+      <ChartItemHeader>
+        <ChartIconComponent />
+        <Box fullWidth jc='flex-end'>
+          <TextSpanStyle size={16} color='rgb(120, 100, 100)'>
+            {chart?.title || ''}
+          </TextSpanStyle>
+          {/* {chart?.URL && (
+            <LinkUI href={chart.URL} download={true}>
             Скачать отчет
-          </LinkUI>
-        )}
-      </SliderTitle>
+            </LinkUI>
+          )} */}
+        </Box>
+      </ChartItemHeader>
       {filter && filter}
       <ChartComponent
         chart={chart?.data || null}

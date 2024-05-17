@@ -17,6 +17,7 @@ const ChartInfoContainer = styled.div`
   align-items: center;
   flex-grow: 1;
   background-color: rgb(239, 219, 245);
+  box-shadow: -2px -11px 8px -7px rgba(97, 179, 189, 0.2);
   padding: 0.5rem;
   box-sizing: border-box;
   border-radius: 5px;

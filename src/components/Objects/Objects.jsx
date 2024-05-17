@@ -28,13 +28,13 @@ const ObjectStyle = styled.div`
     gap: 0.5rem;
   }
 `;
-const Objects = ({ firstMount }) => {
+const Objects = () => {
   const dispatch = useDispatch();
   const [isButtonMore, setIsButtonMore] = useState(true);
   const loading = useSelector((state) => state.objects.loadingList);
   const loadingMore = useSelector((state) => state.objects.loadingMore);
   const objects = useSelector((state) => state.objects.objects);
-  if (firstMount && loading) {
+  if (loading) {
     return <Loader />;
   }
   const more = () => {

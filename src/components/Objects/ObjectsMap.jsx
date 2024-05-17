@@ -74,7 +74,13 @@ const ObjectsMap = () => {
               clusterDisableClickZoom: true,
               clusterGroupByCoordinates: false,
             }}
-            clusters={{}}
+            clusters={{
+              preset: 'islands#invertedVioletClusterIcons',
+            }}
+            objects={{
+              preset: 'islands#violetCircleDotIconWithCaption',
+              // iconColor: '#85009e',
+            }}
             features={objects.map((object, idx) => ({
               type: 'Feature',
               id: object.UID,

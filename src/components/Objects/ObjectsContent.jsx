@@ -33,6 +33,13 @@ const ObjectsContent = () => {
       dispatch(clearObjects());
     };
   }, []);
+  useEffect(() => {
+    if (firstMount.current) {
+      firstMount.current = false;
+      return;
+    }
+    getList();
+  }, [viewCard]);
   const getList = () => {
     dispatch(getObjectList(location?.state))
       .unwrap()

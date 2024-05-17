@@ -18,6 +18,7 @@ const SourceChartStyle = styled.div`
   flex-direction: column;
   width: 300px;
   min-width: 250px;
+  box-shadow: 17px -11px 8px -9px rgba(97, 179, 189, 0.2);
 `;
 const SourceCharts = styled.div`
   display: flex;

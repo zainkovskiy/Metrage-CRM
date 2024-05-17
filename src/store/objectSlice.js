@@ -39,6 +39,7 @@ export const getObjectList = createAsyncThunk(
       fields: {
         ...getCurrentFilter(),
         offset: 0,
+        viewCard: getState().objects.viewCard,
       },
     });
     if (res?.statusText === 'OK') {
@@ -174,13 +175,9 @@ const objectSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // .addCase(getObjectList.pending, (state, action) => {
-      //   // const source = action.meta.arg;
-      //   // if (source) {
-      //   //   return;
-      //   // }
-      //   // state.loadingList = true;
-      // })
+      .addCase(getObjectList.pending, (state, action) => {
+        state.loadingList = true;
+      })
       .addCase(getObjectList.fulfilled, (state, action) => {
         state.loadingList = false;
         state.objects = action.payload?.objects || [];

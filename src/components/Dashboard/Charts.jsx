@@ -50,6 +50,7 @@ const Charts = () => {
             }
           />
           <ChartItem chart={dashboard?.objects || null} />
+          <ChartItem chart={dashboard?.mortgage || null} />
           <ChartItem chart={dashboard?.RankDeals || null} />
           <ChartItem chart={dashboard?.AdvExponation || null} />
           <ChartItem chart={dashboard?.AdvStruct || null} />

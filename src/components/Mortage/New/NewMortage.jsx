@@ -51,7 +51,7 @@ const NewMortage = ({ onClose }) => {
     getValues,
     setValue,
     watch,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
       typeRealty: 'Вторичка',
@@ -60,7 +60,7 @@ const NewMortage = ({ onClose }) => {
   });
 
   const onSubmit = (data) => {
-    createNewMortage(data)
+    return createNewMortage(data)
       .then((newUID) => {
         if (newUID) {
           dispatch(checkOneMortage(newUID));
@@ -71,6 +71,7 @@ const NewMortage = ({ onClose }) => {
       });
   };
   watch('typeRealty');
+  console.log(isSubmitting);
   return (
     <NewClientStyle onSubmit={handleSubmit(onSubmit)}>
       <FormContainer>
@@ -204,7 +205,9 @@ const NewMortage = ({ onClose }) => {
           )}
         />
       </FormContainer>
-      <ButtonUI type='submit'>Сохранить</ButtonUI>
+      <ButtonUI type='submit' disabled={isSubmitting}>
+        Сохранить
+      </ButtonUI>
     </NewClientStyle>
   );
 };

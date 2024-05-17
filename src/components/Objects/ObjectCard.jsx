@@ -78,13 +78,20 @@ const PlatformIcon = styled.img`
 const ObjectImageContainer = styled.div`
   position: relative;
 `;
-const ResidentialChip = styled(TextSpanStyle)`
-  padding: 0 0.2rem;
-  border-radius: 5px;
-  background-color: #6ecd4c;
+const ObjectChipContainer = styled.div`
   position: absolute;
   top: 0.5rem;
   left: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+`;
+const ObjectChip = styled(TextSpanStyle)`
+  padding: 0 0.2rem;
+  border-radius: 5px;
+  background-color: ${({ $color }) => $color || '#6ecd4c'};
+  width: fit-content;
+  /* text-align: center; */
 `;
 const variants = {
   visible: {
@@ -141,9 +148,16 @@ const ObjectCard = ({ object }) => {
         </ObjectHeader>
         <ObjectImageContainer>
           <ObjectImage src={object?.Photo || imgErrorUrl} />
-          {object?.isExclusive && (
-            <ResidentialChip size={10}>Эксклюзив</ResidentialChip>
-          )}
+          <ObjectChipContainer>
+            {object?.isNew && (
+              <ObjectChip size={10} $color='#81d8f8'>
+                Новый
+              </ObjectChip>
+            )}
+            {object?.isExclusive && (
+              <ObjectChip size={10}>Эксклюзив</ObjectChip>
+            )}
+          </ObjectChipContainer>
         </ObjectImageContainer>
         <ObjectCardContent>
           <Box column>

@@ -19,6 +19,7 @@ const MainInfoStyle = styled.div`
   width: 300px;
   gap: 0.5rem;
   min-width: 250px;
+  box-shadow: -6px -6px 8px 0px rgba(97, 179, 189, 0.2);
   @media (${device.tablet}) {
     width: 100%;
   }
