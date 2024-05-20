@@ -9,6 +9,7 @@ import ChartTableRank from './ChartTableRank';
 import DefaultChartComponent from './DefaultChartComponent';
 import { TextSpanStyle } from '../../styles/styles';
 import { ButtonLink } from '../../ui/ButtonLink/ButtonLink';
+import { LinkUI } from 'ui/LinkUI';
 import { Box } from 'ui/Box';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useDispatch } from 'react-redux';
@@ -127,11 +128,6 @@ const ChartItem = ({ chart, filter }) => {
           <TextSpanStyle size={16} color='rgb(120, 100, 100)'>
             {chart?.title || ''}
           </TextSpanStyle>
-          {/* {chart?.URL && (
-            <LinkUI href={chart.URL} download={true}>
-            Скачать отчет
-            </LinkUI>
-          )} */}
         </Box>
       </ChartItemHeader>
       {filter && filter}
@@ -139,82 +135,89 @@ const ChartItem = ({ chart, filter }) => {
         chart={chart?.data || null}
         header={chart?.header || null}
       />
-      {chart?.rangeTitle && (
-        <ButtonContainer id={chart?.APIName}>
-          <ButtonLink
-            size={12}
-            color='#727272'
-            onClick={toggleOpenList}
-            id={chart?.APIName}
-          >
-            {chart?.rangeTitle || ''}
-          </ButtonLink>
-          <AnimatePresence>
-            {open && (
-              <ButtonList
-                id={chart?.APIName}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                initial={{ opacity: 0 }}
-              >
-                {chart?.listIndex ? (
-                  chart.listIndex.map((button) => (
-                    <ButtonListItem
-                      key={button.nameApi}
-                      size='12'
-                      color='#727272'
-                      id={button.nameApi}
-                      onClick={setRange}
-                      data-name={button.title}
-                    >
-                      {button.title}
-                    </ButtonListItem>
-                  ))
-                ) : (
-                  <>
-                    <ButtonListItem
-                      size='12'
-                      color='#727272'
-                      id={chart?.APIName}
-                      onClick={setRange}
-                      data-name='currentMonth'
-                    >
-                      Текущий месяц
-                    </ButtonListItem>
-                    <ButtonListItem
-                      size='12'
-                      color='#727272'
-                      id={chart?.APIName}
-                      onClick={setRange}
-                      data-name='currentWeek'
-                    >
-                      Текущая неделя
-                    </ButtonListItem>
-                    <ButtonListItem
-                      size='12'
-                      color='#727272'
-                      id={chart?.APIName}
-                      onClick={setRange}
-                      data-name='lastMonth'
-                    >
-                      Прошлый месяц
-                    </ButtonListItem>
-                    <ButtonListItem
-                      size='12'
-                      color='#727272'
-                      id={chart?.APIName}
-                      onClick={setRange}
-                      data-name='lastWeek'
-                    >
-                      Прошлая неделя
-                    </ButtonListItem>
-                  </>
-                )}
-              </ButtonList>
-            )}
-          </AnimatePresence>
-        </ButtonContainer>
-      )}
+      <Box jc='space-between'>
+        {chart?.rangeTitle && (
+          <ButtonContainer id={chart?.APIName}>
+            <ButtonLink
+              size={12}
+              color='#727272'
+              onClick={toggleOpenList}
+              id={chart?.APIName}
+            >
+              {chart?.rangeTitle || ''}
+            </ButtonLink>
+            <AnimatePresence>
+              {open && (
+                <ButtonList
+                  id={chart?.APIName}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  initial={{ opacity: 0 }}
+                >
+                  {chart?.listIndex ? (
+                    chart.listIndex.map((button) => (
+                      <ButtonListItem
+                        key={button.nameApi}
+                        size='12'
+                        color='#727272'
+                        id={button.nameApi}
+                        onClick={setRange}
+                        data-name={button.title}
+                      >
+                        {button.title}
+                      </ButtonListItem>
+                    ))
+                  ) : (
+                    <>
+                      <ButtonListItem
+                        size='12'
+                        color='#727272'
+                        id={chart?.APIName}
+                        onClick={setRange}
+                        data-name='currentMonth'
+                      >
+                        Текущий месяц
+                      </ButtonListItem>
+                      <ButtonListItem
+                        size='12'
+                        color='#727272'
+                        id={chart?.APIName}
+                        onClick={setRange}
+                        data-name='currentWeek'
+                      >
+                        Текущая неделя
+                      </ButtonListItem>
+                      <ButtonListItem
+                        size='12'
+                        color='#727272'
+                        id={chart?.APIName}
+                        onClick={setRange}
+                        data-name='lastMonth'
+                      >
+                        Прошлый месяц
+                      </ButtonListItem>
+                      <ButtonListItem
+                        size='12'
+                        color='#727272'
+                        id={chart?.APIName}
+                        onClick={setRange}
+                        data-name='lastWeek'
+                      >
+                        Прошлая неделя
+                      </ButtonListItem>
+                    </>
+                  )}
+                </ButtonList>
+              )}
+            </AnimatePresence>
+          </ButtonContainer>
+        )}
+        {chart?.URL && (
+          <LinkUI href={chart.URL} download={true} size={12}>
+            Скачать отчет
+          </LinkUI>
+        )}
+      </Box>
     </ChartItemStyle>
   );
 };
