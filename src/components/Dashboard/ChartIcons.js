@@ -7,12 +7,11 @@ import { ReactComponent as DealsOffices } from 'images/charts_icon/dealsOffices.
 import { ReactComponent as RankDeals } from 'images/charts_icon/rankDeals.svg';
 import { ReactComponent as AdvExponation } from 'images/charts_icon/advExponation.svg';
 import { ReactComponent as Objects } from 'images/charts_icon/objects.svg';
-import { ReactComponent as AdvStruct } from 'images/panel/objects.svg';
 
 const iconStyle = css`
   fill: #84019e;
-  width: 24px;
-  height: 24px;
+  width: 16px;
+  height: 16px;
 `;
 const IconObject = styled(Objects)`
   ${iconStyle}
@@ -35,14 +34,10 @@ const IconRankDeals = styled(RankDeals)`
 const IconAdvExponation = styled(AdvExponation)`
   ${iconStyle}
 `;
-const IconAdvStruct = styled(AdvStruct)`
-  ${iconStyle}
-`;
 const DefaultIcon = () => {
   return <React.Fragment />;
 };
 export const getChartIconComponent = (chartName) => {
-  console.log(chartName);
   switch (chartName) {
     case 'dealDinamics':
       return IconDealDinamics;
@@ -59,7 +54,7 @@ export const getChartIconComponent = (chartName) => {
     case 'AdvExponation':
       return IconAdvExponation;
     case 'AdvStruct':
-      return IconAdvStruct;
+      return IconObject;
 
     default:
       return DefaultIcon;
