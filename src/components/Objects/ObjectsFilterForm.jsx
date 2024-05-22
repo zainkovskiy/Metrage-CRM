@@ -347,9 +347,6 @@ const ObjectsFilterForm = ({ onClose }) => {
     if (getValues('typeObject').includes('townhouseSale')) {
       return true;
     }
-    if (getValues('typeObject').includes('landSale')) {
-      return true;
-    }
     if (getValues('typeObject').includes('officeSale')) {
       return true;
     }
@@ -580,26 +577,27 @@ const ObjectsFilterForm = ({ onClose }) => {
             />
           )}
         />
-        {getValues('ExternalFindType') === 'outer' && (
-          <Controller
-            name='newbId'
-            control={control}
-            render={({ field }) => (
-              <SelectAutoсompleteUI
-                label='ЖК'
-                inputChange={getNewBuilder}
-                options={newBuilderList}
-                loading={newBuilderLoading}
-                getOptionsLabel={(options) => options.resName}
-                getOptionsSubtitle={(options) => options.addrString}
-                onChange={(option) => field.onChange(option)}
-                value={field.value}
-                small
-                error={errors?.newbId}
-              />
-            )}
-          />
-        )}
+        {getValues('typeObject') &&
+          getValues('typeObject').includes('newBuildingFlatSale') && (
+            <Controller
+              name='newbId'
+              control={control}
+              render={({ field }) => (
+                <SelectAutoсompleteUI
+                  label='ЖК'
+                  inputChange={getNewBuilder}
+                  options={newBuilderList}
+                  loading={newBuilderLoading}
+                  getOptionsLabel={(options) => options.resName}
+                  getOptionsSubtitle={(options) => options.addrString}
+                  onChange={(option) => field.onChange(option)}
+                  value={field.value}
+                  small
+                  error={errors?.newbId}
+                />
+              )}
+            />
+          )}
         <Box column ai='flex-start' gap='0.2rem'>
           <TextSpanStyle>Цена</TextSpanStyle>
           <Box>
@@ -633,37 +631,43 @@ const ObjectsFilterForm = ({ onClose }) => {
             />
           </Box>
         </Box>
-        {getValues('typeObject') &&
-          getValues('typeObject').includes('newBuildingFlatSale') && (
-            <Controller
-              name='SaleType'
-              control={control}
-              render={({ field }) => (
-                <SelectUI
-                  onChange={(newValue) => {
-                    field.onChange(newValue);
-                  }}
-                  select={field.value}
-                  multiple
-                  label='Тип продажи'
-                  small
-                >
-                  <SelectItemUI value='dupt'>
-                    Договор уступки права требования
-                  </SelectItemUI>
-                  <SelectItemUI value='dzhsk'>Договор ЖСК</SelectItemUI>
-                  <SelectItemUI value='free'>Свободная продажа</SelectItemUI>
-                  <SelectItemUI value='fz214'>214-ФЗ</SelectItemUI>
-                  <SelectItemUI value='investment'>
-                    Договор инвестирования
-                  </SelectItemUI>
-                  <SelectItemUI value='pdkp'>
-                    Предварительный договор купли-продажи
-                  </SelectItemUI>
-                </SelectUI>
+        {getValues('ExternalFindType') === 'our' && (
+          <>
+            {getValues('typeObject') &&
+              getValues('typeObject').includes('newBuildingFlatSale') && (
+                <Controller
+                  name='SaleType'
+                  control={control}
+                  render={({ field }) => (
+                    <SelectUI
+                      onChange={(newValue) => {
+                        field.onChange(newValue);
+                      }}
+                      select={field.value}
+                      multiple
+                      label='Тип продажи'
+                      small
+                    >
+                      <SelectItemUI value='dupt'>
+                        Договор уступки права требования
+                      </SelectItemUI>
+                      <SelectItemUI value='dzhsk'>Договор ЖСК</SelectItemUI>
+                      <SelectItemUI value='free'>
+                        Свободная продажа
+                      </SelectItemUI>
+                      <SelectItemUI value='fz214'>214-ФЗ</SelectItemUI>
+                      <SelectItemUI value='investment'>
+                        Договор инвестирования
+                      </SelectItemUI>
+                      <SelectItemUI value='pdkp'>
+                        Предварительный договор купли-продажи
+                      </SelectItemUI>
+                    </SelectUI>
+                  )}
+                />
               )}
-            />
-          )}
+          </>
+        )}
         {getTotalArea() && (
           <Box column ai='flex-start' gap='0.2rem'>
             <TextSpanStyle>Площадь общая</TextSpanStyle>
@@ -894,126 +898,126 @@ const ObjectsFilterForm = ({ onClose }) => {
             />
           </>
         )}
-        <Accordeon title='Дополнительно'>
-          <Box column ai='normal'>
-            {getValues('ExternalFindType') === 'our' && (
-              <>
-                <Controller
-                  name='stage'
-                  control={control}
-                  render={({ field }) => (
-                    <SelectUI
-                      onChange={(newValue) => field.onChange(newValue)}
-                      select={field.value || ''}
-                      multiple
-                      label='Стадия'
-                      small
-                    >
-                      <SelectItemUI value=''>Выбрать</SelectItemUI>
-                      <SelectItemUI value='0'>Черновик</SelectItemUI>
-                      <SelectItemUI value='1'>Активный</SelectItemUI>
-                      <SelectItemUI value='2'>Закрепление</SelectItemUI>
-                      <SelectItemUI value='3'>Продано</SelectItemUI>
-                      <SelectItemUI value='4'>Срыв</SelectItemUI>
-                    </SelectUI>
-                  )}
-                />
-                <Controller
-                  name='onAdv'
-                  control={control}
-                  render={({ field }) => (
-                    <SelectUI
-                      onChange={(newValue) => field.onChange(newValue)}
-                      select={field.value || 'pofig'}
-                      multiple
-                      label='В рекламе'
-                      small
-                    >
-                      <SelectItemUI value='yes'>Да</SelectItemUI>
-                      <SelectItemUI value='no'>Нет</SelectItemUI>
-                      <SelectItemUI value='pofig'>Не важно</SelectItemUI>
-                    </SelectUI>
-                  )}
-                />
-                <Controller
-                  name='curPlatform'
-                  control={control}
-                  render={({ field }) => (
-                    <SelectUI
-                      onChange={(newValue) => {
-                        field.onChange(newValue);
-                      }}
-                      select={field.value || ''}
-                      label='Площадка'
-                      small
-                    >
-                      <SelectItemUI value='avito'>Авито</SelectItemUI>
-                      <SelectItemUI value='cian'>ЦИАН</SelectItemUI>
-                      <SelectItemUI value='yandex'>Яндекс</SelectItemUI>
-                      <SelectItemUI value='domclick'>Домклик</SelectItemUI>
-                    </SelectUI>
-                  )}
-                />
-                <Controller
-                  name='expirationAdv'
-                  control={control}
-                  render={({ field }) => (
-                    <InputUI
-                      small
-                      label='Конец размещения'
-                      value={field.value || ''}
-                      onChange={field.onChange}
-                      type='date'
-                    />
-                  )}
-                />
-                <Controller
-                  name='advStructCalls'
-                  control={control}
-                  render={({ field }) => (
-                    <SelectUI
-                      onChange={(newValue) => {
-                        field.onChange(newValue);
-                      }}
-                      select={field.value}
-                      multiple
-                      label='Без звонков месяц'
-                      small
-                    >
-                      <SelectItemUI value='Не важно'>Не важно</SelectItemUI>
-                      <SelectItemUI value='Avito'>Avito</SelectItemUI>
-                      <SelectItemUI value='Cian'>Cian</SelectItemUI>
-                    </SelectUI>
-                  )}
-                />
-              </>
-            )}
-            <Controller
-              name='forModeration'
-              control={control}
-              render={({ field }) => (
-                <CheckboxUI
-                  label='Ждут подтверждения'
-                  id='forModeration'
-                  checked={field.value || false}
-                  onChange={(e) => field.onChange(e.target.checked)}
-                />
-              )}
-            />
-            <Controller
-              name='isExclusive'
-              control={control}
-              render={({ field }) => (
-                <CheckboxUI
-                  label='Эксклюзив'
-                  id='isExclusive'
-                  checked={field.value || false}
-                  onChange={(e) => field.onChange(e.target.checked)}
-                />
-              )}
-            />
-          </Box>
-        </Accordeon>
+        {getValues('ExternalFindType') === 'our' && (
+          <Accordeon title='Дополнительно'>
+            <Box column ai='normal'>
+              <Controller
+                name='stage'
+                control={control}
+                render={({ field }) => (
+                  <SelectUI
+                    onChange={(newValue) => field.onChange(newValue)}
+                    select={field.value || ''}
+                    multiple
+                    label='Стадия'
+                    small
+                  >
+                    <SelectItemUI value=''>Выбрать</SelectItemUI>
+                    <SelectItemUI value='0'>Черновик</SelectItemUI>
+                    <SelectItemUI value='1'>Активный</SelectItemUI>
+                    <SelectItemUI value='2'>Закрепление</SelectItemUI>
+                    <SelectItemUI value='3'>Продано</SelectItemUI>
+                    <SelectItemUI value='4'>Срыв</SelectItemUI>
+                  </SelectUI>
+                )}
+              />
+              <Controller
+                name='onAdv'
+                control={control}
+                render={({ field }) => (
+                  <SelectUI
+                    onChange={(newValue) => field.onChange(newValue)}
+                    select={field.value || 'pofig'}
+                    multiple
+                    label='В рекламе'
+                    small
+                  >
+                    <SelectItemUI value='yes'>Да</SelectItemUI>
+                    <SelectItemUI value='no'>Нет</SelectItemUI>
+                    <SelectItemUI value='pofig'>Не важно</SelectItemUI>
+                  </SelectUI>
+                )}
+              />
+              <Controller
+                name='curPlatform'
+                control={control}
+                render={({ field }) => (
+                  <SelectUI
+                    onChange={(newValue) => {
+                      field.onChange(newValue);
+                    }}
+                    select={field.value || ''}
+                    label='Площадка'
+                    small
+                  >
+                    <SelectItemUI value='avito'>Авито</SelectItemUI>
+                    <SelectItemUI value='cian'>ЦИАН</SelectItemUI>
+                    <SelectItemUI value='yandex'>Яндекс</SelectItemUI>
+                    <SelectItemUI value='domclick'>Домклик</SelectItemUI>
+                  </SelectUI>
+                )}
+              />
+              <Controller
+                name='expirationAdv'
+                control={control}
+                render={({ field }) => (
+                  <InputUI
+                    small
+                    label='Конец размещения'
+                    value={field.value || ''}
+                    onChange={field.onChange}
+                    type='date'
+                  />
+                )}
+              />
+              <Controller
+                name='advStructCalls'
+                control={control}
+                render={({ field }) => (
+                  <SelectUI
+                    onChange={(newValue) => {
+                      field.onChange(newValue);
+                    }}
+                    select={field.value}
+                    multiple
+                    label='Без звонков месяц'
+                    small
+                  >
+                    <SelectItemUI value='Не важно'>Не важно</SelectItemUI>
+                    <SelectItemUI value='Avito'>Avito</SelectItemUI>
+                    <SelectItemUI value='Cian'>Cian</SelectItemUI>
+                  </SelectUI>
+                )}
+              />
+              <Controller
+                name='forModeration'
+                control={control}
+                render={({ field }) => (
+                  <CheckboxUI
+                    label='Ждут подтверждения'
+                    id='forModeration'
+                    checked={field.value || false}
+                    onChange={(e) => field.onChange(e.target.checked)}
+                    size='small'
+                  />
+                )}
+              />
+              <Controller
+                name='isExclusive'
+                control={control}
+                render={({ field }) => (
+                  <CheckboxUI
+                    label='Эксклюзив'
+                    id='isExclusive'
+                    size='small'
+                    checked={field.value || false}
+                    onChange={(e) => field.onChange(e.target.checked)}
+                  />
+                )}
+              />
+            </Box>
+          </Accordeon>
+        )}
       </FormTop>
     </ObjectsFilterFormStyle>
   );
