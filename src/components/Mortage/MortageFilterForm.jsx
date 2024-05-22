@@ -9,6 +9,7 @@ import {
 import { Box } from 'ui/Box';
 import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
+import { CheckboxUI } from 'ui/CheckboxUI';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
 import { getUserList } from 'api/search';
@@ -139,6 +140,18 @@ const MortageFilterForm = ({ onClose }) => {
               <SelectItemUI value='Новостройка'>Новостройка</SelectItemUI>
               <SelectItemUI value='ИЖС'>ИЖС</SelectItemUI>
             </SelectUI>
+          )}
+        />
+        <Controller
+          name='isConsultation'
+          control={control}
+          render={({ field }) => (
+            <CheckboxUI
+              label='Консультация проведена'
+              id='isConsultation'
+              checked={field.value || false}
+              onChange={(e) => field.onChange(e.target.checked)}
+            />
           )}
         />
       </FilterFields>

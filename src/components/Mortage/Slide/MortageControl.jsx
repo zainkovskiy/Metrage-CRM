@@ -32,7 +32,7 @@ const MortageControl = () => {
               labelSize={12}
               checked={field.value}
               onChange={field.onChange}
-              label='Аккредитация оплачена:'
+              label='Аккредитация оплачена'
             />
           );
         }}

@@ -123,6 +123,7 @@ export const defaultMortageFilter = {
   createdTo: '',
   broker: '',
   typeRealty: '',
+  isConsultation: false,
 };
 const getFilter = () => {
   const filter = localStorage.getItem('filterMortage');

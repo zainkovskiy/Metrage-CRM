@@ -6,6 +6,8 @@ import { Box } from 'ui/Box';
 import { StatusBar, StatusBarItem } from '../../../ui/StatusBar/StatusBar';
 import { SliderBlock } from '../../../styles/slider';
 import { changeMortageStage } from '../../../store/slices/mortageSlice';
+import { CheckboxUI } from 'ui/CheckboxUI';
+import { setConsultation } from '../../../api/mortageAPI';
 
 const SlideMortageStatus = () => {
   const dispatch = useDispatch();
@@ -30,9 +32,13 @@ const SlideMortageStatus = () => {
     }
     changeStepper(7);
   };
+  const handleConsultation = (e) => {
+    const checked = e.target.checked;
+    setConsultation(checked);
+  };
   return (
     <SliderBlock>
-      <Box fullWidth column ai='flex-end'>
+      <Box fullWidth column>
         <StatusBar
           activeStep={activeStepper}
           disabled={!mortgageCreate || activeStepper === 7}
@@ -48,11 +54,20 @@ const SlideMortageStatus = () => {
           <StatusBarItem title='Выдан' onClick={changeStepper} />
           <StatusBarItem title='Срыв' onClick={changeStepper} />
         </StatusBar>
-        {mortgageCreate && (
-          <ButtonLink onClick={setFailure} size={12}>
-            {activeStepper === 7 ? 'Вернуть из срыва' : 'Отправить в Срыв'}
-          </ButtonLink>
-        )}
+        <Box jc='space-between' fullWidth>
+          <CheckboxUI
+            size='small'
+            labelSize={12}
+            defaultChecked={mortage?.isConsultation || false}
+            onChange={handleConsultation}
+            label='Консультация проведена'
+          />
+          {mortgageCreate && (
+            <ButtonLink onClick={setFailure} size={12}>
+              {activeStepper === 7 ? 'Вернуть из срыва' : 'Отправить в Срыв'}
+            </ButtonLink>
+          )}
+        </Box>
       </Box>
     </SliderBlock>
   );

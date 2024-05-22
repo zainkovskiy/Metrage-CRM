@@ -71,3 +71,16 @@ export const removeMortgageFile = async (uid) => {
   }
   return 'No OK';
 };
+export const setConsultation = async (value) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.mortgage.setConsultation',
+    fields: {
+      mode: value,
+    },
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No OK';
+};
