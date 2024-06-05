@@ -27,9 +27,9 @@ const ObjectsFilterDesktop = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [openBox, setOpenBox] = useState(false);
-  const viewCard = useSelector((state) => state.objects.viewCard);
-  const basket = useSelector((state) => state.objects.basket);
-  const objectItems = useSelector((state) => state.objects.objectItems);
+  const { viewCard, objectItems, basket, loadingList } = useSelector(
+    (state) => state.objects
+  );
   const windowSize = useWindowSize();
   const handlerHiddenBox = () => {
     setOpenBox(!openBox);
@@ -63,7 +63,9 @@ const ObjectsFilterDesktop = () => {
           </SelectUI>
         )}
         {windowSize > 768 && (
-          <TextSpanStyle>Всего: {objectItems}</TextSpanStyle>
+          <TextSpanStyle>
+            {loadingList ? 'Загрузка...' : `Всего: ${objectItems}`}
+          </TextSpanStyle>
         )}
       </Box>
       <Box>
