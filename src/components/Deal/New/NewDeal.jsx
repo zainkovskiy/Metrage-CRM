@@ -283,7 +283,7 @@ const NewDeal = ({ onClose }) => {
             control={control}
             rules={{
               required: {
-                value: getValues('dealType') === 'simple',
+                value: true,
                 message: 'Поле обязательно',
               },
             }}

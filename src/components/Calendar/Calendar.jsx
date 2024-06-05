@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import DialogEvent from './DialogEvent';
 import { messages } from './core/messages';
+import { useNavigate } from 'react-router-dom';
 
 const localizer = momentLocalizer(moment);
 
@@ -46,6 +47,7 @@ const MyEvent = (props) => {
 };
 
 const CalendarComponent = () => {
+  const navigate = useNavigate();
   const [curEvent, setCurEvent] = useState(null);
   const events = useSelector((state) => state.calendar.events);
   const loadingList = useSelector((state) => state.calendar.loadingList);
@@ -57,7 +59,8 @@ const CalendarComponent = () => {
     setCurEvent(event);
   };
   const handleSelectSlot = (e) => {
-    console.log(e);
+    const currentDate = moment(e.start).format('YYYY-MM-DDTHH:mm');
+    navigate('new', { state: currentDate });
   };
 
   const cleareCurEvent = () => {
@@ -78,7 +81,7 @@ const CalendarComponent = () => {
         events={events?.data || []}
         culture='ru'
         onSelectEvent={handleSelectEvent}
-        // onSelectSlot={handleSelectSlot}
+        onSelectSlot={handleSelectSlot}
         selectable
         popup
         messages={messages}

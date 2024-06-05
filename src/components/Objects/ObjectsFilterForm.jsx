@@ -410,48 +410,46 @@ const ObjectsFilterForm = ({ onClose }) => {
           )}
         />
         {getValues('ExternalFindType') === 'our' && (
-          <Accordeon title='Ответственный'>
-            <Box column ai='normal'>
-              <Controller
-                name='users'
-                control={control}
-                render={({ field }) => (
-                  <SelectAutoсompleteMultipleUI
-                    small
-                    options={users}
-                    placeholder='Ответственный'
-                    inputChange={getUsers}
-                    loading={usersLoading}
-                    defaultValue={[]}
-                    getOptionsLabel={(options) =>
-                      `${options.lastName || ''} ${options.firstName || ''} ${
-                        options.secondName || ''
-                      }`
-                    }
-                    onChange={(user) => field.onChange(user)}
-                    isOpenOptions={(open) => !open && setUsers([])}
-                    value={field.value || []}
-                    label='Ответственный'
-                  />
-                )}
-              />
-              <Controller
-                name='office'
-                control={control}
-                render={({ field }) => (
-                  <SelectAutoсompleteUI
-                    small
-                    label='Офис'
-                    options={officeList}
-                    getOptionsLabel={(options) => options.name}
-                    onChange={(option) => field.onChange(option)}
-                    value={field.value}
-                    inputChange={getOfficeList}
-                  />
-                )}
-              />
-            </Box>
-          </Accordeon>
+          <>
+            <Controller
+              name='users'
+              control={control}
+              render={({ field }) => (
+                <SelectAutoсompleteMultipleUI
+                  small
+                  options={users}
+                  placeholder='Ответственный'
+                  inputChange={getUsers}
+                  loading={usersLoading}
+                  defaultValue={[]}
+                  getOptionsLabel={(options) =>
+                    `${options.lastName || ''} ${options.firstName || ''} ${
+                      options.secondName || ''
+                    }`
+                  }
+                  onChange={(user) => field.onChange(user)}
+                  isOpenOptions={(open) => !open && setUsers([])}
+                  value={field.value || []}
+                  label='Ответственный'
+                />
+              )}
+            />
+            <Controller
+              name='office'
+              control={control}
+              render={({ field }) => (
+                <SelectAutoсompleteUI
+                  small
+                  label='Офис'
+                  options={officeList}
+                  getOptionsLabel={(options) => options.name}
+                  onChange={(option) => field.onChange(option)}
+                  value={field.value}
+                  inputChange={getOfficeList}
+                />
+              )}
+            />
+          </>
         )}
         <Controller
           name='dealType'

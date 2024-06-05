@@ -84,6 +84,7 @@ export const defaultDealFilter = {
   sortName: null,
   agentsCalculated: 'all',
   isFromExternal: false,
+  isRent: false,
 };
 
 const getFilter = () => {

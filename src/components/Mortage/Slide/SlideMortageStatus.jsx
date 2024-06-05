@@ -34,7 +34,7 @@ const SlideMortageStatus = () => {
   };
   const handleConsultation = (e) => {
     const checked = e.target.checked;
-    setConsultation(checked);
+    setConsultation(checked, mortage.UID);
   };
   return (
     <SliderBlock>

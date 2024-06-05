@@ -18,7 +18,7 @@ export const ButtonUI = ({
   return (
     <ButtonComponent
       type={type}
-      fullWidth={fullWidth || false}
+      $fullWidth={fullWidth || false}
       color={color}
       disabled={disabled}
       onClick={onClick}
@@ -50,7 +50,7 @@ const buttonStyle = css`
   font-size: 14px;
   cursor: pointer;
   outline: none;
-  width: ${({ fullWidth }) => fullWidth && '100%'};
+  width: ${({ $fullWidth }) => $fullWidth && '100%'};
   transition: color 0.3s, background-color 0.3s, border 0.3s;
   white-space: nowrap;
   text-decoration: none;

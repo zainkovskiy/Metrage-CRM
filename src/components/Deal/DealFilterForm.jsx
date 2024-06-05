@@ -261,6 +261,18 @@ const DealFilterForm = ({ onClose }) => {
             />
           )}
         />
+        <Controller
+          name='isRent'
+          control={control}
+          render={({ field }) => (
+            <CheckboxUI
+              label='Аренда'
+              id='isRent'
+              checked={field.value || false}
+              onChange={(e) => field.onChange(e.target.checked)}
+            />
+          )}
+        />
       </FilterFields>
     </FilterFormStyle>
   );

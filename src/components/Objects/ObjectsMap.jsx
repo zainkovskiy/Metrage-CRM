@@ -1,16 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import { useSelector } from 'react-redux';
-import {
-  YMaps,
-  Map,
-  Placemark,
-  ZoomControl,
-  Clusterer,
-  ObjectManager,
-} from 'react-yandex-maps';
+import { useDispatch, useSelector } from 'react-redux';
+import { YMaps, Map, ZoomControl, ObjectManager } from 'react-yandex-maps';
 import styled from 'styled-components';
 import ObjectsMapSide from './ObjectsMapSide';
+import { getObjectList, setNewBounds } from '../../store/objectSlice';
 const ObjectsMapStyle = styled.div`
   width: 100%;
   height: 100%;
@@ -20,9 +14,12 @@ const ObjectsMapStyle = styled.div`
 `;
 const ObjectsMap = () => {
   const mapRef = useRef(null);
+  const firstMount = useRef(true);
+  const firstRequest = useRef(true);
+  const dispatch = useDispatch();
   const objectManagerRef = useRef(null);
   const office = useSelector((state) => state.user.office);
-  const objects = useSelector((state) => state.objects.objects);
+  const { objects, mapBounds } = useSelector((state) => state.objects);
   const [targetObjects, setTargetObjects] = useState([]);
   const [center, setCenter] = React.useState(
     office === '2' ? [55.75222, 37.61556] : [55.030204, 82.92043]
@@ -32,8 +29,19 @@ const ObjectsMap = () => {
       return;
     }
     const cordFirstObjects = [objects[0]?.AddressLat, objects[0]?.AddressLng];
-    setCenter(cordFirstObjects);
+    if (firstRequest.current) {
+      setCenter(cordFirstObjects);
+    }
   }, [objects]);
+  useEffect(() => {
+    if (mapBounds.length > 0) {
+      dispatch(getObjectList())
+        .unwrap()
+        .finally(() => {
+          firstRequest.current = false;
+        });
+    }
+  }, [mapBounds]);
 
   const handleleClickObjectManager = (e) => {
     const regExp = new RegExp(/cluster/, 'g');
@@ -46,6 +54,12 @@ const ObjectsMap = () => {
   };
   const cleareTargetObjects = () => {
     setTargetObjects([]);
+  };
+  const handlerBounds = () => {
+    dispatch(setNewBounds(mapRef.current.getBounds()));
+    mapRef.current.events.add('boundschange', (e) => {
+      dispatch(setNewBounds(e.originalEvent.newBounds));
+    });
   };
   return (
     <ObjectsMapStyle>
@@ -60,9 +74,10 @@ const ObjectsMap = () => {
           height={'100%'}
           onClick={cleareTargetObjects}
           instanceRef={(yaMap) => {
-            if (yaMap) {
+            if (yaMap && firstMount.current) {
               mapRef.current = yaMap;
-              // scrollOff();
+              firstMount.current = false;
+              handlerBounds();
             }
           }}
         >

@@ -95,6 +95,7 @@ const SlideMortageWindowBid = ({ onClose, bid, setBid }) => {
             <SelectItemUI value='КД - подписан'>КД - подписан</SelectItemUI>
             <SelectItemUI value='Кредит выдан'>Кредит выдан</SelectItemUI>
             <SelectItemUI value='Срыв'>Срыв</SelectItemUI>
+            <SelectItemUI value='Отказ банка'>Отказ банка</SelectItemUI>
           </SelectUI>
         )}
       />

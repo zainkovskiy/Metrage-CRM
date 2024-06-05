@@ -40,6 +40,7 @@ export const getObjectList = createAsyncThunk(
         ...getCurrentFilter(),
         offset: 0,
         viewCard: getState().objects.viewCard,
+        mapBounds: getState().objects.mapBounds,
       },
     });
     if (res?.statusText === 'OK') {
@@ -135,6 +136,7 @@ const initialState = {
   filter: getFilter(),
   offset: 1,
   viewCard: 'cell',
+  mapBounds: [],
 };
 
 const objectSlice = createSlice({
@@ -170,7 +172,16 @@ const objectSlice = createSlice({
       state.loadingList = true;
     },
     setViewCard(state, action) {
-      state.viewCard = action.payload;
+      const newViewCard = action.payload;
+      state.viewCard = newViewCard;
+      if (newViewCard === 'map') {
+        state.objects = [];
+        return;
+      }
+      state.mapBounds = [];
+    },
+    setNewBounds(state, action) {
+      state.mapBounds = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -220,5 +231,6 @@ export const {
   removeFromBasket,
   clearBasket,
   setViewCard,
+  setNewBounds,
 } = objectSlice.actions;
 export default objectSlice.reducer;

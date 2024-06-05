@@ -11,7 +11,7 @@ import {
   createNewEvent,
   updateEvent,
 } from '../../../store/slices/calendarSlice';
-import { useAsyncValue } from 'react-router-dom';
+import { useAsyncValue, useLocation } from 'react-router-dom';
 import RadioButtonGroup from 'ui/RadioButtonGroup/RadioButtonGroup';
 
 const NewEventForm = styled.form`
@@ -56,6 +56,7 @@ const ColorButton = styled.input.attrs({ type: 'radio' })`
 `;
 const NewEvent = ({ onClose }) => {
   const isAdmin = useSelector((state) => state.user?.isAdmin || '') === '1';
+  const location = useLocation();
   const dispatch = useDispatch();
   const event = useAsyncValue();
   const [send, setSend] = useState(false);
@@ -64,7 +65,9 @@ const NewEvent = ({ onClose }) => {
     control,
     formState: { errors },
   } = useForm({
-    defaultValues: event || {},
+    defaultValues: event || {
+      dueDate: location.state || '',
+    },
   });
   const onSubmit = (data) => {
     setSend(true);

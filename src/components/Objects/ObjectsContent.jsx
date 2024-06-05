@@ -38,6 +38,9 @@ const ObjectsContent = () => {
       firstMount.current = false;
       return;
     }
+    if (viewCard === 'map') {
+      return;
+    }
     getList();
   }, [viewCard]);
   const getList = () => {
