@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { SliderBlock } from '../../../styles/slider';
 import { InputUI } from 'ui/InputUI';
+import { Box } from 'ui/Box';
+import { TextSpanStyle } from 'styles/styles';
 import { Controller, useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 import SliderAvatar from './SliderAvatar';
@@ -8,6 +10,7 @@ import { useAsyncValue } from 'react-router-dom';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import DialogWindow from 'components/Main/DialogWindow';
 import UserFinder from 'components/Main/UserFinder';
+import { LabelStyle } from '../../../ui/InputUI/InputUIStyled';
 
 const FieldsLine = styled.div`
   display: grid;
@@ -15,6 +18,20 @@ const FieldsLine = styled.div`
   gap: 0.5rem;
   margin-top: 0.5rem;
   ${({ $notGapRow }) => $notGapRow && 'row-gap: 0;'};
+`;
+const TextAreaStyle = styled.textarea`
+  border-radius: 5px;
+  padding: 0.3rem;
+  resize: none;
+  font-family: ${({ theme }) => theme.font.family};
+  border: 1px solid ${({ theme }) => theme.color.primary};
+  width: 100%;
+  box-sizing: border-box;
+  outline: 1px solid transparent;
+  transition: outline 0.3s;
+  &:focus {
+    outline: 1px solid ${({ theme }) => theme.color.primary};
+  }
 `;
 
 const SlideDDSInfo = () => {
@@ -73,14 +90,43 @@ const SlideDDSInfo = () => {
             </SelectUI>
           )}
         />
-        <InputUI
-          value={dds.onCash}
-          label='В кассе, руб'
-          fullWidth
-          small
-          readOnly
+        <Controller
+          name='subCategory'
+          control={control}
+          render={({ field }) => (
+            <SelectUI
+              onChange={(newValue) => {
+                field.onChange(newValue);
+              }}
+              select={field.value || 'all'}
+              label='Подкатегория'
+              small
+            >
+              {dds.subCategoryList.map((item) => (
+                <SelectItemUI key={item} value={item}>
+                  {item}
+                </SelectItemUI>
+              ))}
+            </SelectUI>
+          )}
         />
       </FieldsLine>
+      <div style={{ marginTop: '0.5rem' }}>
+        <Controller
+          control={control}
+          name='comment'
+          render={({ field }) => (
+            <LabelStyle>
+              Описание
+              <TextAreaStyle
+                value={field.value || ''}
+                onChange={field.onChange}
+                rows={6}
+              />
+            </LabelStyle>
+          )}
+        />
+      </div>
       <FieldsLine $notGapRow>
         <SliderAvatar
           role='Получатель (для выплат ЗП):'
@@ -88,7 +134,13 @@ const SlideDDSInfo = () => {
           keySubtitle='office'
           isChangeButton={openChangeWindow}
         />
-        <div></div>
+        <InputUI
+          value={dds.onCash}
+          label='В кассе, руб'
+          fullWidth
+          small
+          readOnly
+        />
       </FieldsLine>
       <DialogWindow open={open} onClose={closeChangeWindow}>
         <div onClick={(e) => e.stopPropagation()}>

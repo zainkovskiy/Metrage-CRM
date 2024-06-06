@@ -5,6 +5,8 @@ import { useWindowSize } from 'hooks/windowSize';
 import SlideWindow from 'components/Main/SlideWindow';
 import { ButtonUI } from 'ui/ButtonUI';
 import DDSFilterForm from './DDSFilterForm';
+import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
+import { Box } from 'ui/Box';
 
 const DDSFilterStyle = styled.div`
   display: flex;
@@ -32,9 +34,16 @@ const DDSFilter = () => {
   };
   return (
     <DDSFilterStyle>
-      <ButtonUI size='small' onClick={toggleFilter}>
-        Фильтр
-      </ButtonUI>
+      <Box>
+        <ButtonUI size='small' onClick={toggleFilter}>
+          Фильтр
+        </ButtonUI>
+        <SelectUI small onChange={() => {}} select={'dds'}>
+          <SelectItemUI value='dds'>ДДС</SelectItemUI>
+          <SelectItemUI value='projects'>Проекты</SelectItemUI>
+          <SelectItemUI value='company'>Организации</SelectItemUI>
+        </SelectUI>
+      </Box>
       <Link to='new'>
         <ButtonUI size='small' variant='outline'>
           Создать

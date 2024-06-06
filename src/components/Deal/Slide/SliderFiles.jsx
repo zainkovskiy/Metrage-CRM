@@ -24,7 +24,11 @@ const SliderText = styled(TextSpanStyle)`
   text-overflow: ellipsis;
   overflow: hidden;
 `;
-
+const FileContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr min-content;
+  gap: 0.5rem;
+`;
 const SliderFiles = () => {
   const deal = useAsyncValue();
   const userId = useSelector((state) => state.user.UID);
@@ -53,7 +57,7 @@ const SliderFiles = () => {
       <SlideGridWrapper $fullWidth>
         {deal.files.map((file) => {
           return (
-            <Box jc='space-between' key={file.UID} fullWidth>
+            <FileContainer key={file.UID}>
               <SliderText size={12} nowrap>
                 {file?.name || `неизвестный файл`}
               </SliderText>
@@ -75,7 +79,7 @@ const SliderFiles = () => {
                   <Close />
                 </IconButton>
               </Box>
-            </Box>
+            </FileContainer>
           );
         })}
       </SlideGridWrapper>
