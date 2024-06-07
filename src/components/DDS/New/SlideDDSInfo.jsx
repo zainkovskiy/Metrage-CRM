@@ -10,6 +10,7 @@ import { ButtonToggleGroup, ButtonToggleItem } from 'ui/ButtonToggle';
 import DialogWindow from 'components/Main/DialogWindow';
 import UserFinder from 'components/Main/UserFinder';
 import { LabelStyle } from '../../../ui/InputUI/InputUIStyled';
+import { ButtonLink } from 'ui/ButtonLink';
 
 const FieldsLine = styled.div`
   display: grid;
@@ -160,7 +161,13 @@ const SlideDDSInfo = () => {
             isChangeButton={openChangeWindow}
           />
         ) : (
-          <div />
+          <ButtonLink
+            size={12}
+            color='rgb(133, 0, 158)'
+            onClick={openChangeWindow}
+          >
+            Получатель (для выплат ЗП)
+          </ButtonLink>
         )}
         <InputUI
           value={dds.onCash}

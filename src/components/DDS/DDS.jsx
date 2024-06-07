@@ -6,6 +6,7 @@ import DDSInfo from './DDSInfo';
 import DDSDinamyc from './DDSDinamyc';
 import { TextSpanStyle } from 'styles/styles';
 import { useDateFormat } from 'hooks/DateFormat';
+import DDSTable from './DDSTable';
 
 const DDSContainer = styled.div`
   overflow: auto;
@@ -28,7 +29,8 @@ const DDS = () => {
         {useDateFormat(ddsData.periodTo, 'DD.MM.YYYY')}
       </TextSpanStyle>
       <DDSInfo />
-      <DDSDinamyc />
+      <DDSTable />
+      {/* <DDSDinamyc /> */}
     </DDSContainer>
   );
 };
