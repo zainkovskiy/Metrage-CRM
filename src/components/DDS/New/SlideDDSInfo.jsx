@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { SliderBlock } from '../../../styles/slider';
 import { InputUI } from 'ui/InputUI';
-import { Box } from 'ui/Box';
-import { TextSpanStyle } from 'styles/styles';
 import { Controller, useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 import SliderAvatar from './SliderAvatar';
 import { useAsyncValue } from 'react-router-dom';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
+import { ButtonToggleGroup, ButtonToggleItem } from 'ui/ButtonToggle';
 import DialogWindow from 'components/Main/DialogWindow';
 import UserFinder from 'components/Main/UserFinder';
 import { LabelStyle } from '../../../ui/InputUI/InputUIStyled';
@@ -53,6 +52,31 @@ const SlideDDSInfo = () => {
   };
   return (
     <SliderBlock>
+      <FieldsLine>
+        <Controller
+          control={control}
+          name='ddsType'
+          rules={{ required: true }}
+          render={({ field }) => (
+            <ButtonToggleGroup fullWidth>
+              <ButtonToggleItem
+                onClick={(e) => field.onChange(e.target.id)}
+                id='0'
+                active={field.value}
+              >
+                Нал
+              </ButtonToggleItem>
+              <ButtonToggleItem
+                onClick={(e) => field.onChange(e.target.id)}
+                id='1'
+                active={field.value}
+              >
+                Безнал
+              </ButtonToggleItem>
+            </ButtonToggleGroup>
+          )}
+        />
+      </FieldsLine>
       <FieldsLine>
         <Controller
           name='coming'
@@ -128,12 +152,16 @@ const SlideDDSInfo = () => {
         />
       </div>
       <FieldsLine $notGapRow>
-        <SliderAvatar
-          role='Получатель (для выплат ЗП):'
-          avatarData={dds.salaryResipient}
-          keySubtitle='office'
-          isChangeButton={openChangeWindow}
-        />
+        {dds?.salaryResipient ? (
+          <SliderAvatar
+            role='Получатель (для выплат ЗП):'
+            avatarData={dds.salaryResipient}
+            keySubtitle='office'
+            isChangeButton={openChangeWindow}
+          />
+        ) : (
+          <div />
+        )}
         <InputUI
           value={dds.onCash}
           label='В кассе, руб'

@@ -24,3 +24,16 @@ export const getSlidetDDS = async (id) => {
   }
   return {};
 };
+export const setIsDelete = async (id) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.dds.delete',
+    fields: {
+      UID: id,
+    },
+  });
+  if (res?.statusText === 'OK') {
+    return res?.data?.result || {};
+  }
+  return {};
+};

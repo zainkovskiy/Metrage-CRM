@@ -69,7 +69,7 @@ const DDSTable = () => {
           {ddsData?.records?.length > 0 &&
             ddsData?.records.map((line, idx) => (
               <TableLine
-                key={line.UID}
+                key={`${line.UID}${idx}`}
                 idx={idx}
                 onClick={() => handleClick(line)}
               >

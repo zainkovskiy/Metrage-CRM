@@ -22,12 +22,25 @@ export const getDDSData = createAsyncThunk(
     return null;
   }
 );
+export const actionDds = createAsyncThunk('dds/actionDds', async (dds) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.dds.set',
+    fields: dds,
+  });
+
+  if (res?.statusText === 'OK') {
+    return res?.data?.result || null;
+  }
+  return null;
+});
 
 export const defaultDDSFilter = {
   periodFrom: '',
   periodTo: '',
   bank: '',
   legal: '',
+  isDeleted: false,
 };
 const getFilter = () => {
   const filter = localStorage.getItem('filterDDS');
@@ -61,6 +74,27 @@ const ddsSlice = createSlice({
     builder.addCase(getDDSData.fulfilled, (state, action) => {
       state.ddsData = action.payload;
       state.loadingList = false;
+    });
+    builder.addCase(actionDds.fulfilled, (state, action) => {
+      const newDds = action.payload;
+      if (!newDds) {
+        return;
+      }
+      const findDds = state.ddsData.records.find(
+        (item) => item.UID === newDds.UID
+      );
+      if (!findDds) {
+        state.ddsData.records = [...state.ddsData.records, newDds];
+        return;
+      }
+      if (JSON.stringify(newDds) === JSON.stringify(findDds)) {
+        return;
+      }
+      state.ddsData.records.splice(
+        state.ddsData.records.indexOf(findDds),
+        1,
+        newDds
+      );
     });
   },
 });

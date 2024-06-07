@@ -48,14 +48,8 @@ const ArrowIcon = styled(motion.div)`
 `;
 const ContentContainer = styled(motion.div)`
   overflow: hidden;
-  display: flex;
-  gap: 0.5rem;
 `;
-const ChartSkelet = styled.div`
-  background-color: #ccc;
-  height: 300px;
-  width: 100%;
-`;
+
 const DDSDinamyc = () => {
   const [isActive, setActive] = useState(false);
   return (
@@ -86,7 +80,6 @@ const DDSDinamyc = () => {
             exit={'close'}
             initial={'close'}
           >
-            <ChartSkelet />
             <DDSTable />
           </ContentContainer>
         )}

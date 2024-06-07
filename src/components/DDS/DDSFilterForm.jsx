@@ -9,6 +9,7 @@ import {
 import { Box } from 'ui/Box';
 import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
+import { CheckboxUI } from 'ui/CheckboxUI';
 import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
 import { getBankList, getLegalList } from '../../api/search';
 import {
@@ -135,6 +136,18 @@ const DDSFilterForm = ({ onClose }) => {
               onChange={(option) => field.onChange(option)}
               value={field.value}
               inputChange={reqBankList}
+            />
+          )}
+        />
+        <Controller
+          name='isDeleted'
+          control={control}
+          render={({ field }) => (
+            <CheckboxUI
+              label='Включая удалённые'
+              id='isDeleted'
+              checked={field.value || false}
+              onChange={(e) => field.onChange(e.target.checked)}
             />
           )}
         />

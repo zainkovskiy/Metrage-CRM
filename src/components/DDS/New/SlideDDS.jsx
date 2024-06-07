@@ -9,6 +9,8 @@ import { TextSpanStyle } from 'styles/styles';
 import { SliderFormButtonGroup } from '../../../styles/SliderFormButtonGroup';
 import styled from 'styled-components';
 import SlideDDSInfo from './SlideDDSInfo';
+import { useDispatch } from 'react-redux';
+import { actionDds } from '../../../store/slices/ddsSlice';
 
 const SliderForm = styled.form`
   display: flex;
@@ -18,11 +20,16 @@ const SliderForm = styled.form`
 
 const SlideDDS = ({ onClose }) => {
   const dds = useAsyncValue();
+  const dispatch = useDispatch();
   const method = useForm({
     defaultValues: dds,
   });
   const onSubmit = (data) => {
-    console.log(data);
+    dispatch(actionDds(data))
+      .unwrap()
+      .finally(() => {
+        onClose();
+      });
   };
   return (
     <SliderStyle>
