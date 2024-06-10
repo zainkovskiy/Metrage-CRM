@@ -11,6 +11,7 @@ import DialogWindow from 'components/Main/DialogWindow';
 import UserFinder from 'components/Main/UserFinder';
 import { LabelStyle } from '../../../ui/InputUI/InputUIStyled';
 import { ButtonLink } from 'ui/ButtonLink';
+import { getSubCategory } from '../../../api/ddsApi';
 
 const FieldsLine = styled.div`
   display: grid;
@@ -38,6 +39,7 @@ const SlideDDSInfo = () => {
   const dds = useAsyncValue();
   const { control, setValue } = useFormContext();
   const [open, setOpen] = useState(false);
+  const [subCategory, setSubCategory] = useState(dds?.subCatList || []);
   const openChangeWindow = () => {
     setOpen(true);
   };
@@ -50,6 +52,13 @@ const SlideDDSInfo = () => {
       shouldDirty: true,
     });
     closeChangeWindow();
+  };
+  const getSubCategoryList = (value) => {
+    getSubCategory(value).then((subList) => {
+      if (Array.isArray(subList) && subList.length > 0) {
+        setSubCategory(subList);
+      }
+    });
   };
   return (
     <SliderBlock>
@@ -101,6 +110,7 @@ const SlideDDSInfo = () => {
           render={({ field }) => (
             <SelectUI
               onChange={(newValue) => {
+                getSubCategoryList(newValue);
                 field.onChange(newValue);
               }}
               select={field.value || 'all'}
@@ -125,9 +135,10 @@ const SlideDDSInfo = () => {
               }}
               select={field.value || 'all'}
               label='Подкатегория'
+              disabled={subCategory.length === 0}
               small
             >
-              {dds.subCategoryList.map((item) => (
+              {subCategory.map((item) => (
                 <SelectItemUI key={item} value={item}>
                   {item}
                 </SelectItemUI>

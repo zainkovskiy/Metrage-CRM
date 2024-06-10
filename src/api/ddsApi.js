@@ -37,3 +37,16 @@ export const setIsDelete = async (id) => {
   }
   return {};
 };
+export const getSubCategory = async (category) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.dds.listSubCat',
+    fields: {
+      request: category,
+    },
+  });
+  if (res?.statusText === 'OK') {
+    return res?.data?.result || [];
+  }
+  return [];
+};
