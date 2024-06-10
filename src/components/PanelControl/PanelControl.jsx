@@ -56,7 +56,7 @@ const PanelControl = () => {
         <PanelButton icon='residential' path='residential' title='ЖК/БЦ' />
         <PanelButton icon='planning' path='planning' title='План' />
         <PanelButton icon='mortgage' path='mortage' title='Ипотека' />
-        {ddsRights && <PanelButton icon='close' path='dds' title='ДДС' />}
+        {ddsRights && <PanelButton icon='dds' path='dds' title='ДДС' />}
         {/* <PanelButton icon='planning' path='calendar' title='Calendar' /> */}
         {/* <PanelButton icon='chart' path='/' title='Аналитики' /> */}
         {/* <PanelButton icon='calendar' path='calendar' title='Календарь' />

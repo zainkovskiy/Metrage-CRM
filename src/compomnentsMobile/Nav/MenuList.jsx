@@ -11,6 +11,7 @@ import {
 } from 'api/search';
 import MobileSuggestionList from './MobileSuggestionList';
 import MenuListButton from './MenuListButton';
+import { useSelector } from 'react-redux';
 const variants = {
   open: {},
   closed: {},
@@ -83,6 +84,7 @@ const MenuList = ({ onClose }) => {
   const sendReponse = useRef(false);
   const [findList, setFindList] = useState([]);
   const [openSearch, setOpenSearch] = useState(false);
+  const { ddsRights } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (openSearch && inputRef.current) {
@@ -248,6 +250,14 @@ const MenuList = ({ onClose }) => {
             path='mortage'
             onClick={onClose}
           />
+          {ddsRights && (
+            <MenuListButton
+              title='ДДС'
+              icon='dds'
+              path='dds'
+              onClick={onClose}
+            />
+          )}
         </MenuListTop>
       )}
       <LinkOriginNav

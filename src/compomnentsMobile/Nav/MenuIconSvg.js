@@ -28,6 +28,7 @@ import { ReactComponent as Residential } from 'images/panel/residential.svg';
 import { ReactComponent as Mortgage } from 'images/mortgage.svg';
 // import { ReactComponent as Plan } from 'images/panel/plan.svg';
 import { ReactComponent as Mail } from 'images/panel/mail.svg';
+import { ReactComponent as DDS } from 'images/panel/dds.svg';
 
 export {
   Application,
@@ -51,4 +52,5 @@ export {
   Study,
   Phone,
   Headphone,
+  DDS,
 };

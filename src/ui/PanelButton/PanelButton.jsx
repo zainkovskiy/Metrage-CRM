@@ -31,6 +31,7 @@ import { ReactComponent as Task } from 'images/panel/task.svg';
 import { ReactComponent as News } from 'images/panel/news.svg';
 import { ReactComponent as Residential } from 'images/panel/residential.svg';
 import { ReactComponent as Plan } from 'images/panel/plan.svg';
+import { ReactComponent as DDS } from 'images/panel/dds.svg';
 
 import { ReactComponent as Mail } from 'images/panel/mail.svg';
 
@@ -175,6 +176,9 @@ const PlanStyle = styled(Plan)`
 const ResidentialStyle = styled(Residential)`
   ${iconStyle};
 `;
+const DDSStyle = styled(DDS)`
+  ${iconStyle};
+`;
 const CloseStyle = styled(Close)`
   ${iconStyle};
 `;
@@ -189,6 +193,7 @@ const iconVariant = {
   news: NewsStyle,
   residential: ResidentialStyle,
   planning: PlanStyle,
+  dds: DDSStyle,
   close: CloseStyle,
 
   calendar: CalendarStyle,

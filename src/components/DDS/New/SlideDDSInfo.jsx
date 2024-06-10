@@ -55,10 +55,11 @@ const SlideDDSInfo = () => {
   };
   const getSubCategoryList = (value) => {
     getSubCategory(value).then((subList) => {
-      if (Array.isArray(subList) && subList.length > 0) {
+      if (Array.isArray(subList)) {
         setSubCategory(subList);
       }
     });
+    setValue('subCategory', null);
   };
   return (
     <SliderBlock>
