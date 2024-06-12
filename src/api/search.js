@@ -204,3 +204,20 @@ export const getBankList = async (reqValue) => {
     return [];
   }
 };
+export const getMetroList = async (reqValue) => {
+  try {
+    const res = await axios.post(process.env.MAIN_API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.demand.getMetro',
+      fields: {
+        req: reqValue,
+      },
+    });
+    if (res.statusText !== 'OK') {
+      throw new Error('Error');
+    }
+    return res?.data?.result || [];
+  } catch (error) {
+    return [];
+  }
+};

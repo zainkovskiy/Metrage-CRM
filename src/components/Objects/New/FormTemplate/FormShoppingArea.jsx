@@ -12,8 +12,10 @@ import { CheckboxUI } from 'ui/CheckboxUI';
 import { TextSpanStyle } from 'styles/styles';
 import { getBusinessBuildingTypes, getSpecialityTypes } from 'api/objectAPI';
 import { useNumberTriad } from 'hooks/StringHook';
+import { useAsyncValue } from 'react-router-dom';
 
 const FormShoppingArea = () => {
+  const obj = useAsyncValue();
   const { control, getValues } = useFormContext();
   const { errors } = useFormState();
   const [buildingTypes, setBuildingTypes] = useState([]);
@@ -177,6 +179,21 @@ const FormShoppingArea = () => {
               />
             )}
           />
+          {obj && (
+            <Controller
+              name='ceilingHeight'
+              control={control}
+              render={({ field }) => (
+                <InputUI
+                  onChange={(e) => field.onChange(e.target.value)}
+                  value={field.value || ''}
+                  label='Высота потолков'
+                  fullWidth
+                  type='number'
+                />
+              )}
+            />
+          )}
           <Controller
             name='AvailableFrom'
             control={control}

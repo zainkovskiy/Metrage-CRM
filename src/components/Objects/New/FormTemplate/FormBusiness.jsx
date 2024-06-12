@@ -11,8 +11,10 @@ import { CheckboxUI } from 'ui/CheckboxUI';
 import { TextSpanStyle } from 'styles/styles';
 import { getSpecialityTypes } from 'api/objectAPI';
 import { useNumberTriad } from 'hooks/StringHook';
+import { useAsyncValue } from 'react-router-dom';
 
 const FormBusiness = () => {
+  const obj = useAsyncValue();
   const { control, setValue } = useFormContext();
   const { errors } = useFormState();
   const [specialityTypes, setSpecialityTypes] = useState([]);
@@ -144,6 +146,21 @@ const FormBusiness = () => {
               />
             )}
           />
+          {obj && (
+            <Controller
+              name='ceilingHeight'
+              control={control}
+              render={({ field }) => (
+                <InputUI
+                  onChange={(e) => field.onChange(e.target.value)}
+                  value={field.value || ''}
+                  label='Высота потолков'
+                  fullWidth
+                  type='number'
+                />
+              )}
+            />
+          )}
           <Controller
             name='MonthlyIncome'
             control={control}

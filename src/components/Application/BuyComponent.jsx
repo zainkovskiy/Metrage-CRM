@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
-import { Controller, get, useFormContext, useFormState } from 'react-hook-form';
+import { Controller, useFormContext, useFormState } from 'react-hook-form';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { SliderTitle } from '../../styles/slider';
 import { ButtonLink } from 'ui/ButtonLink';
@@ -34,6 +34,12 @@ const InputsField = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 0.5rem;
 `;
+const MetroCircle = styled.div`
+  background-color: ${({ $color }) => `#${$color}` || '#ccc'};
+  width: 15px;
+  height: 15px;
+  border-radius: 40px;
+`;
 
 const BuyComponent = ({ firstMout }) => {
   const { control, setValue, getValues, watch } = useFormContext();
@@ -65,14 +71,11 @@ const BuyComponent = ({ firstMout }) => {
     }
     return field.onChange(e.target.value);
   };
-  const getTypeInput = (name) => {
-    if (name === 'priceFrom' || name === 'priceTo') {
-      return 'text';
-    }
-    return 'number';
-  };
   watch('cordsList');
   watch('addressList');
+  watch('metroList');
+  watch('typePlace');
+  watch('featureList');
   return (
     <>
       <SellComponentStyle
@@ -110,21 +113,57 @@ const BuyComponent = ({ firstMout }) => {
             )}
           />
           {getValues('type') === 'buy' && (
+            <>
+              {getValues('typePlace') !== 'Коммерческая недвижимость' && (
+                <Controller
+                  control={control}
+                  name='buyType'
+                  render={({ field }) => (
+                    <SelectUI
+                      small
+                      select={field.value || ''}
+                      onChange={field.onChange}
+                      inputRef={field.ref}
+                      label='Причина покупки'
+                      error={errors?.buyType}
+                    >
+                      <SelectItemUI value='forMyself'>
+                        Покупает себе
+                      </SelectItemUI>
+                      <SelectItemUI value='forBusiness'>
+                        Для заработка
+                      </SelectItemUI>
+                    </SelectUI>
+                  )}
+                />
+              )}
+            </>
+          )}
+          {getValues('typePlace') === 'Коммерческая недвижимость' && (
             <Controller
               control={control}
-              name='buyType'
-              rules={{ required: 'Выберите причину' }}
+              name='subtypePlace'
               render={({ field }) => (
                 <SelectUI
                   small
                   select={field.value || ''}
                   onChange={field.onChange}
                   inputRef={field.ref}
-                  label='Причина покупки'
+                  label='Категория'
                   error={errors?.buyType}
                 >
-                  <SelectItemUI value='forMyself'>Покупает себе</SelectItemUI>
-                  <SelectItemUI value='forBusiness'>Для заработка</SelectItemUI>
+                  <SelectItemUI value='freeAppointmentObject'>
+                    Пом. Св. Назначения
+                  </SelectItemUI>
+                  <SelectItemUI value='office'>Офис</SelectItemUI>
+                  <SelectItemUI value='industry'>Производство</SelectItemUI>
+                  <SelectItemUI value='shoppingArea'>
+                    Торг. Площадь
+                  </SelectItemUI>
+                  <SelectItemUI value='business'>Гот. Бизнес</SelectItemUI>
+                  <SelectItemUI value='building'>Здания</SelectItemUI>
+                  <SelectItemUI value='warehouse'>Склад</SelectItemUI>
+                  <SelectItemUI value='commercialLand'>Земля</SelectItemUI>
                 </SelectUI>
               )}
             />
@@ -137,25 +176,51 @@ const BuyComponent = ({ firstMout }) => {
           </ButtonLink>
         </SliderTitle>
         <InputsField>
-          {getValues('featureList').map((input) => (
-            <Controller
-              key={input}
-              control={control}
-              name={input}
-              render={({ field }) => (
-                <InputUI
-                  small
-                  value={getCorrectValue(field)}
-                  onChange={(e) => {
-                    correctOnChangeField(e, field);
-                  }}
-                  inputRef={field.ref}
-                  label={featureInputList[input].label}
-                  type={getTypeInput(field.name)}
+          {getValues('featureList').map((input) => {
+            if (featureInputList[input].field === 'select') {
+              return (
+                <Controller
+                  key={input}
+                  control={control}
+                  name={input}
+                  render={({ field }) => (
+                    <SelectUI
+                      small
+                      select={field.value || ''}
+                      onChange={field.onChange}
+                      inputRef={field.ref}
+                      label={featureInputList[input].label}
+                    >
+                      {featureInputList[input].options.map((options) => (
+                        <SelectItemUI key={options.value} value={options.value}>
+                          {options.name}
+                        </SelectItemUI>
+                      ))}
+                    </SelectUI>
+                  )}
                 />
-              )}
-            />
-          ))}
+              );
+            }
+            return (
+              <Controller
+                key={input}
+                control={control}
+                name={input}
+                render={({ field }) => (
+                  <InputUI
+                    small
+                    value={getCorrectValue(field)}
+                    onChange={(e) => {
+                      correctOnChangeField(e, field);
+                    }}
+                    inputRef={field.ref}
+                    label={featureInputList[input].label}
+                    type={featureInputList[input].type}
+                  />
+                )}
+              />
+            );
+          })}
         </InputsField>
         <SliderTitle ai='flex-end' size={14}>
           Местоположение
@@ -163,7 +228,7 @@ const BuyComponent = ({ firstMout }) => {
             Добавить
           </ButtonLink>
         </SliderTitle>
-        <div>
+        <Box column ai='normal'>
           {getValues('cordsList').map((cords, idx) => (
             <Box jc='space-between' key={idx}>
               <TextSpanStyle size={12}>Область на карте</TextSpanStyle>
@@ -190,7 +255,24 @@ const BuyComponent = ({ firstMout }) => {
               </ButtonLink>
             </Box>
           ))}
-        </div>
+          {getValues('metroList').map((metro, idx) => (
+            <Box jc='space-between' key={idx}>
+              <Box>
+                <MetroCircle $color={metro.metroColor} />
+                <TextSpanStyle size={12}>
+                  {`(${metro.metroLine}) ${metro.metroName}`}
+                </TextSpanStyle>
+              </Box>
+              <ButtonLink
+                size={10}
+                color='#ef4242'
+                onClick={() => removePlace('metroList', idx)}
+              >
+                Удалить
+              </ButtonLink>
+            </Box>
+          ))}
+        </Box>
       </SellComponentStyle>
       <DialogWindow open={addFeature} onClose={toggleFeature}>
         <DialogAddFeature onClose={toggleFeature} />
@@ -206,26 +288,106 @@ const featureInputList = {
   priceFrom: {
     name: 'priceFrom',
     label: 'Цена, от',
+    field: 'input',
+    type: 'text',
   },
   priceTo: {
     name: 'priceTo',
     label: 'Цена, до',
+    field: 'input',
+    type: 'text',
   },
   TotalAreaFrom: {
     name: 'TotalAreaFrom',
     label: 'Площадь общая, от',
+    field: 'input',
+    type: 'number',
   },
   TotalAreaTo: {
     name: 'TotalAreaTo',
     label: 'Площадь общая, до',
+    field: 'input',
+    type: 'number',
   },
   TotalAreaLandFrom: {
     name: 'TotalAreaLand',
     label: 'Площадь участка, от',
+    field: 'input',
+    type: 'number',
   },
   TotalAreaLandTo: {
-    name: 'TotalAreaLand',
+    name: 'TotalAreaLandTo',
     label: 'Площадь участка, до',
+    field: 'input',
+    type: 'number',
+  },
+  AvailableFrom: {
+    name: 'AvailableFrom',
+    label: 'Доступно с',
+    field: 'input',
+    type: 'date',
+  },
+  ClassType: {
+    name: 'ClassType',
+    label: 'Класс здания',
+    field: 'select',
+    options: [
+      {
+        name: 'A',
+        value: 'a',
+      },
+      {
+        name: 'A+',
+        value: 'aPlus',
+      },
+      {
+        name: 'B',
+        value: 'b',
+      },
+      {
+        name: 'B-',
+        value: 'bMinus',
+      },
+      {
+        name: 'B+',
+        value: 'bPlus',
+      },
+      {
+        name: 'C',
+        value: 'c',
+      },
+    ],
+  },
+  VatType: {
+    name: 'VatType',
+    label: 'Тип НДС',
+    field: 'select',
+    options: [
+      {
+        name: 'Включено',
+        value: 'included',
+      },
+      {
+        name: 'Не включено',
+        value: 'notIncluded',
+      },
+      {
+        name: 'УСН',
+        value: 'usn',
+      },
+    ],
+  },
+  ceilingHeight: {
+    name: 'ceilingHeight',
+    label: 'Высота потолков',
+    field: 'input',
+    type: 'number',
+  },
+  WaterPipesCount: {
+    name: 'WaterPipesCount',
+    label: 'Кол-во мокрых точек',
+    field: 'input',
+    type: 'number',
   },
 };
 

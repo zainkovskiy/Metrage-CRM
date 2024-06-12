@@ -89,7 +89,7 @@ const FormRent = () => {
           render={({ field }) => (
             <InputUI
               onChange={(e) => field.onChange(parseInt(e.target.value))}
-              value={field.value}
+              value={field.value || ''}
               label='Cумма за другие ЖКУ'
               fullWidth
               type='number'

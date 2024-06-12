@@ -21,8 +21,9 @@ const SellComponentStyle = styled(motion.div)`
   gap: 0.5rem;
 `;
 const SellComponent = ({ firstMout }) => {
-  const { control } = useFormContext();
+  const { control, getValues, watch } = useFormContext();
   const { errors } = useFormState();
+  watch('typePlace');
   return (
     <SellComponentStyle
       variants={variants}
@@ -57,6 +58,33 @@ const SellComponent = ({ firstMout }) => {
           </SelectUI>
         )}
       />
+      {getValues('typePlace') === 'Коммерческая недвижимость' && (
+        <Controller
+          control={control}
+          name='subtypePlace'
+          render={({ field }) => (
+            <SelectUI
+              small
+              select={field.value || ''}
+              onChange={field.onChange}
+              inputRef={field.ref}
+              label='Категория'
+              error={errors?.buyType}
+            >
+              <SelectItemUI value='freeAppointmentObject'>
+                Пом. Св. Назначения
+              </SelectItemUI>
+              <SelectItemUI value='office'>Офис</SelectItemUI>
+              <SelectItemUI value='industry'>Производство</SelectItemUI>
+              <SelectItemUI value='shoppingArea'>Торг. Площадь</SelectItemUI>
+              <SelectItemUI value='business'>Гот. Бизнес</SelectItemUI>
+              <SelectItemUI value='building'>Здания</SelectItemUI>
+              <SelectItemUI value='warehouse'>Склад</SelectItemUI>
+              <SelectItemUI value='commercialLand'>Земля</SelectItemUI>
+            </SelectUI>
+          )}
+        />
+      )}
       <Controller
         control={control}
         name='address'

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m, motion } from 'framer-motion';
 import { Controller, useFormContext, useFormState } from 'react-hook-form';
 import styled from 'styled-components';
 import Dadata from 'components/Main/Dadata';
@@ -11,6 +11,7 @@ import {
   ButtonToggleGroup,
   ButtonToggleItem,
 } from 'ui/ButtonToggle/ButtonToggle';
+import DialogAddPlaceMetro from './DialogAddPlaceMetro';
 
 const DialogAddPlaceStyle = styled(motion.div)`
   background-color: #fff;
@@ -24,11 +25,12 @@ const DialogAddPlaceStyle = styled(motion.div)`
   gap: 0.5rem;
 `;
 
-const DialogAddPlace = ({ onClose, startPlace }) => {
-  const { control, setValue, getValues } = useFormContext();
+const DialogAddPlace = ({ onClose }) => {
+  const { setValue, getValues } = useFormContext();
   const [show, setShow] = useState('address');
   const [address, setAddress] = useState(null);
   const [cords, setCords] = useState(null);
+  const [metro, setMetro] = useState(null);
   useEffect(() => {
     if (show === 'map') {
       if (address) {
@@ -38,6 +40,11 @@ const DialogAddPlace = ({ onClose, startPlace }) => {
     if (show === 'address') {
       if (cords) {
         setCords(null);
+      }
+    }
+    if (show === 'metro') {
+      if (metro) {
+        setMetro(null);
       }
     }
   }, [show]);
@@ -51,6 +58,9 @@ const DialogAddPlace = ({ onClose, startPlace }) => {
   const handleSetCords = (newCords) => {
     setCords(newCords);
   };
+  const handleSetMetro = (newMetro) => {
+    setMetro(newMetro);
+  };
   const savePlace = () => {
     if (address) {
       setValue('addressList', [...getValues('addressList'), address], {
@@ -62,6 +72,11 @@ const DialogAddPlace = ({ onClose, startPlace }) => {
         shouldDirty: true,
       });
     }
+    if (metro) {
+      setValue('metroList', [...getValues('metroList'), ...metro], {
+        shouldDirty: true,
+      });
+    }
     onClose();
   };
   return (
@@ -70,6 +85,9 @@ const DialogAddPlace = ({ onClose, startPlace }) => {
       <ButtonToggleGroup>
         <ButtonToggleItem onClick={handleShow} id='address' active={show}>
           По адресу
+        </ButtonToggleItem>
+        <ButtonToggleItem onClick={handleShow} id='metro' active={show}>
+          По метро
         </ButtonToggleItem>
         <ButtonToggleItem onClick={handleShow} id='map' active={show}>
           По карте
@@ -89,6 +107,11 @@ const DialogAddPlace = ({ onClose, startPlace }) => {
         <AnimatePresence>
           {show === 'map' && (
             <MapCircle circle={cords} onChange={handleSetCords} />
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {show === 'metro' && (
+            <DialogAddPlaceMetro metro={metro} handleChange={handleSetMetro} />
           )}
         </AnimatePresence>
       </motion.div>

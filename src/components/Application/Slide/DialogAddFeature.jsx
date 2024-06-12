@@ -113,6 +113,61 @@ const DialogAddFeature = ({ onClose }) => {
             {isMatch('TotalAreaLandTo') ? 'Удалить' : 'Добавить'}
           </ButtonLink>
         </Box>
+        <Box jc='space-between' fullWidth>
+          <TextSpanStyle>Доступно с</TextSpanStyle>
+          <ButtonLink
+            size={12}
+            color='#84019e'
+            onClick={handleClick}
+            id='AvailableFrom'
+          >
+            {isMatch('AvailableFrom') ? 'Удалить' : 'Добавить'}
+          </ButtonLink>
+        </Box>
+        <Box jc='space-between' fullWidth>
+          <TextSpanStyle>Класс здания</TextSpanStyle>
+          <ButtonLink
+            size={12}
+            color='#84019e'
+            onClick={handleClick}
+            id='ClassType'
+          >
+            {isMatch('ClassType') ? 'Удалить' : 'Добавить'}
+          </ButtonLink>
+        </Box>
+        <Box jc='space-between' fullWidth>
+          <TextSpanStyle>Тип НДС</TextSpanStyle>
+          <ButtonLink
+            size={12}
+            color='#84019e'
+            onClick={handleClick}
+            id='VatType'
+          >
+            {isMatch('VatType') ? 'Удалить' : 'Добавить'}
+          </ButtonLink>
+        </Box>
+        <Box jc='space-between' fullWidth>
+          <TextSpanStyle>Высота потолков</TextSpanStyle>
+          <ButtonLink
+            size={12}
+            color='#84019e'
+            onClick={handleClick}
+            id='ceilingHeight'
+          >
+            {isMatch('ceilingHeight') ? 'Удалить' : 'Добавить'}
+          </ButtonLink>
+        </Box>
+        <Box jc='space-between' fullWidth>
+          <TextSpanStyle>Кол-во мокрых точек</TextSpanStyle>
+          <ButtonLink
+            size={12}
+            color='#84019e'
+            onClick={handleClick}
+            id='WaterPipesCount'
+          >
+            {isMatch('WaterPipesCount') ? 'Удалить' : 'Добавить'}
+          </ButtonLink>
+        </Box>
       </DialogAddFeatureContent>
       <ButtonUI size='small' onClick={onClose}>
         Закрыть

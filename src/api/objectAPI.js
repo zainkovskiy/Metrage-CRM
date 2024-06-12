@@ -2,7 +2,6 @@ import axios from 'axios';
 const API = 'https://crm.metragegroup.com/API/REST.php';
 
 export const getSpecialityTypes = async (category) => {
-  console.log(category);
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
     method: 'crm.objects.getSpecialityTypes',
@@ -11,7 +10,6 @@ export const getSpecialityTypes = async (category) => {
     },
   });
   if (res?.statusText === 'OK') {
-    console.log(res);
     return res?.data?.result || [];
   }
   return [];

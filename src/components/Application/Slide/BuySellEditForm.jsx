@@ -53,6 +53,7 @@ const BuySellEditForm = () => {
       addressList: application?.addressList || [],
       cords: demand?.cords || null,
       cordsList: application?.cordsList || [],
+      metroList: application?.metroList || [],
       costStart: demand?.costStart || '',
       costEnd: demand?.costEnd || '',
       buyType: application?.buyType || '',
@@ -63,6 +64,7 @@ const BuySellEditForm = () => {
       TotalAreaLandFrom: application?.featureValues?.TotalAreaLandFrom || '',
       TotalAreaLandTo: application?.featureValues?.TotalAreaLandTo || '',
       featureList: application?.featureList || [],
+      subtypePlace: application?.subtypePlace || [],
     },
   });
   const onSubmit = (data) => {
