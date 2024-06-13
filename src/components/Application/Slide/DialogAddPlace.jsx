@@ -27,7 +27,7 @@ const DialogAddPlaceStyle = styled(motion.div)`
 
 const DialogAddPlace = ({ onClose }) => {
   const { setValue, getValues } = useFormContext();
-  const [show, setShow] = useState('address');
+  const [show, setShow] = useState('metro');
   const [address, setAddress] = useState(null);
   const [cords, setCords] = useState(null);
   const [metro, setMetro] = useState(null);
@@ -83,11 +83,11 @@ const DialogAddPlace = ({ onClose }) => {
     <DialogAddPlaceStyle onClick={(e) => e.stopPropagation()} layout>
       <SliderTitle>Местоположение</SliderTitle>
       <ButtonToggleGroup>
-        <ButtonToggleItem onClick={handleShow} id='address' active={show}>
-          По адресу
-        </ButtonToggleItem>
         <ButtonToggleItem onClick={handleShow} id='metro' active={show}>
           По метро
+        </ButtonToggleItem>
+        <ButtonToggleItem onClick={handleShow} id='address' active={show}>
+          По адресу
         </ButtonToggleItem>
         <ButtonToggleItem onClick={handleShow} id='map' active={show}>
           По карте

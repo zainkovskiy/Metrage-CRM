@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { Controller, useFormContext, useFormState } from 'react-hook-form';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
+import { SelectLaag, SelectLaagItemUI } from 'ui/SelectLaag/SelectLaag';
 import { SliderTitle } from '../../styles/slider';
 import { ButtonLink } from 'ui/ButtonLink';
 import { InputUI } from 'ui/InputUI';
@@ -179,24 +180,48 @@ const BuyComponent = ({ firstMout }) => {
           {getValues('featureList').map((input) => {
             if (featureInputList[input].field === 'select') {
               return (
+                // <Controller
+                //   key={input}
+                //   control={control}
+                //   name={input}
+                //   render={({ field }) => (
+                //     <SelectUI
+                //       small
+                //       select={field.value || ''}
+                //       onChange={field.onChange}
+                //       inputRef={field.ref}
+                //       label={featureInputList[input].label}
+                //     >
+                //       {featureInputList[input].options.map((options) => (
+                //         <SelectItemUI key={options.value} value={options.value}>
+                //           {options.name}
+                //         </SelectItemUI>
+                //       ))}
+                //     </SelectUI>
+                //   )}
+                // />
                 <Controller
                   key={input}
                   control={control}
                   name={input}
                   render={({ field }) => (
-                    <SelectUI
+                    <SelectLaag
                       small
                       select={field.value || ''}
                       onChange={field.onChange}
                       inputRef={field.ref}
                       label={featureInputList[input].label}
+                      overflowContainer
                     >
                       {featureInputList[input].options.map((options) => (
-                        <SelectItemUI key={options.value} value={options.value}>
+                        <SelectLaagItemUI
+                          key={options.value}
+                          value={options.value}
+                        >
                           {options.name}
-                        </SelectItemUI>
+                        </SelectLaagItemUI>
                       ))}
-                    </SelectUI>
+                    </SelectLaag>
                   )}
                 />
               );

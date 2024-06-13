@@ -10,12 +10,15 @@ import { useFormContext } from 'react-hook-form';
 const DialogAddFeatureStyle = styled.div`
   background-color: #fff;
   border-radius: 5px;
-  width: 30vw;
   padding: 0.5rem;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  min-width: 300px;
   gap: 0.5rem;
+  @media (max-width: 480px) {
+    width: 90vw;
+  }
 `;
 const DialogAddFeatureContent = styled.div`
   display: flex;

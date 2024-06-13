@@ -75,13 +75,14 @@ export const SelectLaag = ({
   small,
   placeholder,
   labelSize,
+  overflowContainer,
 }) => {
   const [open, setOpen] = useState(false);
   const { renderLayer, layerProps, triggerProps, triggerBounds } = useLayer({
     isOpen: open,
     onOutsideClick: () => closeMenu(),
     onDisappear: () => closeMenu(),
-    overflowContainer: false,
+    overflowContainer: overflowContainer || false,
     auto: true,
     placement: 'bottom-start',
     possiblePlacements: ['top-start', 'bottom-start'],
