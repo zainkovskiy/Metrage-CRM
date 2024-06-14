@@ -20,8 +20,17 @@ const SlideMapPlacemark = ({
 }) => {
   const mapRef = useRef(null);
   const ymapRef = useRef(null);
+  const firstMount = useRef(true);
   const objectManagerRef = useRef(null);
   const [otherObjects, setOtherObjects] = useState([]);
+
+  useEffect(() => {
+    if (firstMount.current) {
+      firstMount.current = false;
+      return;
+    }
+    init();
+  }, [apiTemplate]);
 
   const scrollOff = () => {
     mapRef.current.behaviors.disable('scrollZoom');

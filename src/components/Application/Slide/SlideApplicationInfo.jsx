@@ -35,13 +35,17 @@ const SlideApplicationInfo = () => {
   return (
     <>
       <ApplicationBlockStyle $column jc='flex-start'>
-        <SliderTitle>Информация</SliderTitle>
-        <Box column gap='0' ai='flex-start' jc='space-between' fullWidth>
-          <Box wrap jc='space-between' gap='0' fullWidth>
+        <SliderTitle>
+          Информация{' '}
+          <Box>
             <TextSpanStyle size={10} color='#8d8d8d'>
               Создана: {useDateFormat(application?.created, 'DD.MM.YYYY')}
             </TextSpanStyle>
-            <TextSpanStyle size={10} color='#8d8d8d'>
+          </Box>
+        </SliderTitle>
+        <Box column gap='0' ai='flex-start' jc='space-between' fullWidth>
+          <Box wrap jc='space-between' gap='0' fullWidth>
+            <TextSpanStyle size={12}>
               Активность:{' '}
               {useDateFormat(application?.updated, 'DD.MM.YYYY HH:mm')}
             </TextSpanStyle>
@@ -55,16 +59,24 @@ const SlideApplicationInfo = () => {
             </ButtonLink>
           </Box>
           <Box jc='flex-start' wrap gap='0'>
-            <TextSpanStyle size={12}>Следующий контакт: &nbsp;</TextSpanStyle>
+            <TextSpanStyle size={12}>Следующий: &nbsp;</TextSpanStyle>
             <Box>
-              <TextSpanStyle size={12}>
-                {application?.demand?.nextContactStr
-                  ? application?.demand?.nextContactStr
-                  : 'установить'}
+              <TextSpanStyle
+                size={12}
+                color={application?.demand?.nextContactColor || ''}
+              >
+                {application?.demand?.nextContactStr || ''}
               </TextSpanStyle>
-              <IconButton onClick={toggleShowNextContact}>
+              <ButtonLink
+                size={12}
+                color='#84019e'
+                onClick={toggleShowNextContact}
+              >
+                Указать
+              </ButtonLink>
+              {/* <IconButton onClick={toggleShowNextContact}>
                 <Celendar />
-              </IconButton>
+              </IconButton> */}
             </Box>
           </Box>
         </Box>

@@ -4,6 +4,7 @@ import { SliderBlock, SliderTitle } from '../../../styles/slider';
 import styled from 'styled-components';
 import { ReactComponent as ArrowDown } from 'images/arrow-down.svg';
 import BuySellEditForm from './BuySellEditForm';
+import { TextSpanStyle } from '../../../styles/styles';
 
 const variants = {
   open: {
@@ -54,7 +55,10 @@ const SlideApplicationFeature = () => {
       >
         <SliderTitle>
           Потребность
-          <ArrowIcon
+          <TextSpanStyle size={12} color='#85009e'>
+            {isActive ? 'свернуть' : 'открыть '}
+          </TextSpanStyle>
+          {/* <ArrowIcon
             variants={variantsIcon}
             animate={isActive ? 'open' : 'close'}
             exit={'close'}
@@ -62,7 +66,7 @@ const SlideApplicationFeature = () => {
             transition={{ duration: 0.2 }}
           >
             <ArrowDown />
-          </ArrowIcon>
+          </ArrowIcon> */}
         </SliderTitle>
       </Header>
       <AnimatePresence>

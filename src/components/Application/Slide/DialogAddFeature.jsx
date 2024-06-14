@@ -150,7 +150,7 @@ const DialogAddFeature = ({ onClose }) => {
           </ButtonLink>
         </Box>
         <Box jc='space-between' fullWidth>
-          <TextSpanStyle>Высота потолков</TextSpanStyle>
+          <TextSpanStyle>Высота потолков, от</TextSpanStyle>
           <ButtonLink
             size={12}
             color='#84019e'

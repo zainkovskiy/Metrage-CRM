@@ -8,6 +8,7 @@ import { Box } from 'ui/Box';
 import logoUrl from 'images/logo_small.svg';
 import { ReactComponent as Done } from 'images/done2.svg';
 import { ReactComponent as Flag } from 'images/demands-flag.svg';
+import { TooltipUI } from '../../ui/TooltipUI/TooltipUI';
 
 const ApplicationStyle = styled(motion.div)`
   border-radius: 40px 0 40px 0;
@@ -157,10 +158,12 @@ const ApplicationCard = ({ application }) => {
             Создано: {useDateFormat(application?.created)}
           </TextSpanStyle>
           <Box jc='space-between' ai='flex-start'>
-            <ApplicationSourceStyle
-              src={application?.source?.picture || logoUrl}
-              alt='logo'
-            />
+            <TooltipUI title={`${application?.source?.name}`} position='right'>
+              <ApplicationSourceStyle
+                src={application?.source?.picture || logoUrl}
+                alt='logo'
+              />
+            </TooltipUI>
             <Box>
               {application?.demand?.flagColour && (
                 <FlagIcon $flagColour={application?.demand?.flagColour} />
@@ -169,7 +172,7 @@ const ApplicationCard = ({ application }) => {
             </Box>
           </Box>
           <TextListStyle>
-            Источник: <span>{application?.source?.name}</span>
+            Объект: <span>{application?.demand?.typePlace}</span>
           </TextListStyle>
           <TextListStyle>
             Статус: <span>{application?.status?.title}</span>

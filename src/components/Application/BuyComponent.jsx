@@ -32,7 +32,7 @@ const SellComponentStyle = styled(motion.div)`
 `;
 const InputsField = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 0.5rem;
 `;
 const MetroCircle = styled.div`
@@ -404,7 +404,7 @@ const featureInputList = {
   },
   ceilingHeight: {
     name: 'ceilingHeight',
-    label: 'Высота потолков',
+    label: 'Высота потолков, от',
     field: 'input',
     type: 'number',
   },

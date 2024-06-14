@@ -23,7 +23,7 @@ const TooltipTitleStyle = styled(motion.div)`
   ${({ $maxWidth }) => $maxWidth && `max-width: ${$maxWidth}px;`};
   ${({ $maxWidth }) => `white-space: ${$maxWidth ? 'wrap' : 'nowrap'};`};
 `;
-const hoverText = {
+const hoverTextLeft = {
   initial: {
     scale: 0,
     opacity: 0,
@@ -37,7 +37,27 @@ const hoverText = {
     y: '-100%',
   },
 };
-export const TooltipUI = ({ title, children, flex, maxWidth }) => {
+const hoverTextRight = {
+  initial: {
+    scale: 0,
+    opacity: 0,
+    x: '0',
+    y: '-100%',
+  },
+  animate: {
+    scale: 1,
+    opacity: 1,
+    x: '0',
+    y: '-100%',
+  },
+};
+export const TooltipUI = ({
+  title,
+  children,
+  flex,
+  maxWidth,
+  position = 'left',
+}) => {
   return (
     <TooltipUISttyle
       initial='initial'
@@ -47,7 +67,8 @@ export const TooltipUI = ({ title, children, flex, maxWidth }) => {
     >
       <TooltipTitleStyle
         $maxWidth={maxWidth}
-        variants={hoverText}
+        $position={position}
+        variants={position === 'left' ? hoverTextLeft : hoverTextRight}
         transition={{
           duration: 0.3,
         }}

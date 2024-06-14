@@ -75,7 +75,7 @@ const CalendarComponent = () => {
         }}
         localizer={localizer}
         defaultDate={new Date()}
-        defaultView='month'
+        defaultView='week'
         // defaultView={events?.mode || 'month'}
         // defaultView={Views.MONTH}
         events={events?.data || []}

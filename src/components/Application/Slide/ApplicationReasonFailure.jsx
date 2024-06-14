@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
 import { Box } from 'ui/Box';
@@ -33,24 +33,36 @@ const ApplicationReasonFailureStyle = styled.div`
 `;
 const TexAreaStyle = styled.textarea`
   width: 100%;
-  border: 1px solid ${({ theme }) => theme.color.primary};
+  border: 1px solid
+    ${({ theme, $error }) => ($error ? 'red' : theme.color.primary)};
   font-family: ${({ theme }) => theme.font.family};
   resize: none;
   border-radius: 5px;
   padding: 0.2rem;
   box-sizing: border-box;
   &:focus {
-    outline: 1px solid ${({ theme }) => theme.color.primary};
+    outline: 1px solid
+      ${({ theme, $error }) => ($error ? 'red' : theme.color.primary)};
   }
 `;
 const ApplicationReasonFailure = ({ setFailure, onClose }) => {
+  const refArea = useRef(null);
   const [value, setValue] = useState('');
+  const [areaError, setAreaError] = useState(false);
   const [agent, setAgent] = useState(false);
   const [spam, setSpam] = useState(false);
   const handleChange = (e) => {
     setValue(e.target.value);
+    if (areaError) {
+      setAreaError(false);
+    }
   };
   const handleClick = () => {
+    if (value.length === 0) {
+      setAreaError(true);
+      refArea.current.focus();
+      return;
+    }
     setFailure({
       comment: value.trim(),
       isAgent: agent,
@@ -82,7 +94,13 @@ const ApplicationReasonFailure = ({ setFailure, onClose }) => {
           size='small'
         />
       </Box>
-      <TexAreaStyle onChange={handleChange} value={value} rows='5' />
+      <TexAreaStyle
+        ref={refArea}
+        onChange={handleChange}
+        value={value}
+        rows='5'
+        $error={areaError}
+      />
       <Box>
         <ButtonUI fullWidth size='small' onClick={handleClick}>
           В срыв
