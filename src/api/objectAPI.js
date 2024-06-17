@@ -319,3 +319,18 @@ export const getReportLink = async (raw) => {
   }
   return null;
 };
+export const setRelevant = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.objects.setActual',
+    fields: raw,
+  });
+  // if (res?.statusText === 'OK') {
+  //   const result = res.data.result;
+  //   if (result.result === 'OK') {
+  //     return result.URL;
+  //   }
+  //   return null;
+  // }
+  // return null;
+};

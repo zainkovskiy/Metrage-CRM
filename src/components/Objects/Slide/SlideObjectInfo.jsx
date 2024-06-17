@@ -24,8 +24,12 @@ import SlideDialogMap from './SlideDialogMap';
 import SlideDialogChats from './SlideDialogChats';
 import SlideDialogDemands from './SlideDialogDemands';
 import DialogWindow from 'components/Main/DialogWindow';
-import { setFake } from '../../../api/objectAPI';
+import { setFake, setRelevant } from '../../../api/objectAPI';
 import { ButtonLink } from '../../../ui/ButtonLink/ButtonLink';
+import { IconButton } from 'ui/IconButton';
+import { ReactComponent as Actual } from 'images/phone-add.svg';
+import { useDateFormat } from 'hooks/DateFormat';
+import moment from 'moment';
 
 const AreaStyle = styled(Area)`
   width: 36px;
@@ -66,6 +70,7 @@ const SlideObjectInfo = () => {
   const [openMap, setOpenMap] = useState(false);
   const [openChats, setOpenChats] = useState(false);
   const [openDemands, setOpenDemands] = useState(false);
+  const [actualDate, setActualDate] = useState(object?.actualDate || null);
   useEffect(() => {
     basket.forEach((element) => {
       if (element.UID === object.UID) {
@@ -128,6 +133,13 @@ const SlideObjectInfo = () => {
   const handleOpenDemands = () => {
     setOpenDemands(!openDemands);
   };
+  const handleActual = () => {
+    setRelevant({
+      UID: object.UID,
+      type: object.subTypeEstate,
+    });
+    setActualDate(moment().format('YYYY-MM-DD'));
+  };
   return (
     <SlideBlockStyle $wrap>
       <ButtonBlock>
@@ -159,6 +171,19 @@ const SlideObjectInfo = () => {
               </ButtonLink>
             )}
           </Box>
+        </Box>
+      )}
+      {(object.subTypeEstate === 'live' ||
+        object.subTypeEstate === 'business') && (
+        <Box jc='flex-start' fullWidth>
+          <IconButton onClick={handleActual}>
+            <Actual />
+          </IconButton>
+          {actualDate && (
+            <TextSpanStyle size={12}>
+              Актуально: {useDateFormat(actualDate, 'DD.MM.YYYY')}{' '}
+            </TextSpanStyle>
+          )}
         </Box>
       )}
       <ContentBlock $wrap={windowSize < 1201}>

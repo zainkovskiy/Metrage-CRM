@@ -496,6 +496,13 @@ const FormOffice = () => {
               <ButtonToggleGroup type='apart'>
                 <ButtonToggleItem
                   onClick={(e) => field.onChange(e.target.id)}
+                  id='no'
+                  active={field.value}
+                >
+                  Нет
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
                   id='cargo'
                   active={field.value}
                 >
@@ -565,6 +572,33 @@ const FormOffice = () => {
             )}
           />
         </Box>
+        {obj && (
+          <Box column ai='flex-start'>
+            <TextSpanStyle>Стиль "Лофт"</TextSpanStyle>
+            <Controller
+              control={control}
+              name='isLoft'
+              render={({ field }) => (
+                <ButtonToggleGroup type='apart'>
+                  <ButtonToggleItem
+                    onClick={(e) => field.onChange(e.target.id)}
+                    id='yes'
+                    active={field.value}
+                  >
+                    Да
+                  </ButtonToggleItem>
+                  <ButtonToggleItem
+                    onClick={(e) => field.onChange(e.target.id)}
+                    id='no'
+                    active={field.value}
+                  >
+                    Нет
+                  </ButtonToggleItem>
+                </ButtonToggleGroup>
+              )}
+            />
+          </Box>
+        )}
         <TextSpanStyle bold color='#575757'>
           Инфраструктура рядом
         </TextSpanStyle>

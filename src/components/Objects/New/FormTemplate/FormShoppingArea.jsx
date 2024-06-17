@@ -465,6 +465,13 @@ const FormShoppingArea = () => {
               <ButtonToggleGroup type='apart'>
                 <ButtonToggleItem
                   onClick={(e) => field.onChange(e.target.id)}
+                  id='no'
+                  active={field.value}
+                >
+                  Нет
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
                   id='cargo'
                   active={field.value}
                 >
