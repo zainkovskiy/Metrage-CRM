@@ -174,7 +174,7 @@ const SlideObjectInfo = () => {
         </Box>
       )}
       {(object.subTypeEstate === 'live' ||
-        object.subTypeEstate === 'business') && (
+        object.subTypeEstate === 'Business') && (
         <Box jc='flex-start' fullWidth>
           <IconButton onClick={handleActual}>
             <Actual />

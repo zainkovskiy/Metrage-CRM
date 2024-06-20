@@ -35,11 +35,12 @@ const BusinessObject = styled.div`
 `;
 const Image = styled.img`
   width: 100%;
-  height: 100%;
+  height: 100px;
   object-fit: cover;
 `;
 const ImageContainer = styled(Link)`
   width: 50%;
+  display: flex;
   transition: opacity 0.3s;
   @media (hover: hover) {
     &:hover {

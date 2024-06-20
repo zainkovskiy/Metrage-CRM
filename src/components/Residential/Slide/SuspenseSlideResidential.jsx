@@ -57,7 +57,8 @@ const SuspenseSlideResidential = () => {
 };
 
 export const loaderResidentialSlide = async ({ request, params }) => {
-  const { id } = params;
+  // const { id } = params;
+  const id = 164;
   return { residential: getSlideResidential(id) };
 };
 

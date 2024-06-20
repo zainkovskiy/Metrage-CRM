@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import userUrl, { ReactComponents as User } from 'images/user.svg';
 import fileUrl, { ReactComponent as File } from 'images/file.svg';
+import { ReactComponent as Pin } from 'images/pin.svg';
 import { TextSpanStyle } from 'styles/styles';
 import { LinkUI } from 'ui/LinkUI';
 import { useDateFormat } from 'hooks/DateFormat';
@@ -10,6 +11,8 @@ import { motion } from 'framer-motion';
 const StoryItemStyle = styled(motion.div)`
   display: flex;
   gap: 0.5rem;
+  position: relative;
+  transition: background 0.3s;
 `;
 const StoryItemStyleContainer = styled.div`
   display: flex;
@@ -51,6 +54,14 @@ const IconFile = styled.div`
     height: 14px;
   }
 `;
+const PinIcon = styled(Pin)`
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  top: 0.2rem;
+  right: 0.2rem;
+  fill: ${({ theme }) => theme.color.primary};
+`;
 const SlideStoryItem = ({ story, last, scrollField, firstUpdate }) => {
   const messageRef = useRef(null);
   useEffect(() => {
@@ -82,7 +93,9 @@ const SlideStoryItem = ({ story, last, scrollField, firstUpdate }) => {
       ref={messageRef}
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
+      id={story.UID}
     >
+      {story.isPinned && <PinIcon />}
       <StoryItemAvatarStyle src={author?.avatar || userUrl} alt='avatar' />
       <StoryItemStyleContainer>
         <TextSpanStyle color='#84019e' weight={700} size={14}>

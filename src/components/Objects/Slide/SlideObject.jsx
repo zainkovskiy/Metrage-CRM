@@ -89,12 +89,7 @@ const SlideObject = ({ onCloseSlide }) => {
         {getTypeEstateComponent()}
         <SlideObjectFeature />
         {windowSize <= 768 && object?.isEditor && (
-          <SlideObjectStory
-            type={object?.typeEstate}
-            id={object?.UID}
-            fullWidth
-            height={500}
-          />
+          <SlideObjectStory type={object?.typeEstate} fullWidth height={500} />
         )}
         {object?.isEditor && <SlideObjectDocs />}
       </SlideObjectContext>

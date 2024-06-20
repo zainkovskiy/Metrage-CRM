@@ -112,7 +112,6 @@ const DialogEditBusiness = ({ onClose, building, updateBusiness }) => {
             value={field.value || ''}
             onChange={field.onChange}
             label='Срок договора'
-            type='date'
           />
         )}
       />

@@ -335,6 +335,20 @@ const FormShoppingArea = () => {
                 >
                   Офисная отделка
                 </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='design'
+                  active={field.value}
+                >
+                  Дизайнерский ремонт
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='typical'
+                  active={field.value}
+                >
+                  Типовой ремонт
+                </ButtonToggleItem>
               </ButtonToggleGroup>
             )}
           />
