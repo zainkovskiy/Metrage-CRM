@@ -67,6 +67,7 @@ const NewApplication = ({ slideClose }) => {
       addressList: [],
       cordsList: [],
       featureList: [],
+      metroList: [],
     },
   });
   const firstMout = useRef(true);

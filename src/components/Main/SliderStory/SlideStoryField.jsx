@@ -39,8 +39,7 @@ const SlidePinnedBlock = styled(motion.div)`
   position: sticky;
   top: 0px;
   background-color: rgb(114 114 114);
-  min-height: 80px;
-  max-height: 80px;
+  max-height: 74px;
   z-index: 999;
   border-radius: 5px;
   border-radius: 5px 5px 0 0;
