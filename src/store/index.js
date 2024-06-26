@@ -24,6 +24,7 @@ import noticeSlice from './slices/noticeSlice';
 import calendarSlice from './slices/calendarSlice';
 import mortageSlice from './slices/mortageSlice';
 import ddsSlice from './slices/ddsSlice';
+import fixationSlice from './slices/fixationSlice';
 
 const reducers = combineReducers({
   user: userSlice,
@@ -46,6 +47,7 @@ const reducers = combineReducers({
   calendar: calendarSlice,
   mortage: mortageSlice,
   dds: ddsSlice,
+  fixation: fixationSlice,
 });
 
 export const store = configureStore({

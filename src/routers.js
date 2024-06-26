@@ -70,6 +70,11 @@ import SuspenseSlideMortage from 'components/Mortage/Slide/SuspenseSlideMortage'
 import SuspenseNewMortage from 'components/Mortage/New/SuspenseNewMortage';
 import { loaderMortageSlide } from 'components/Mortage/Slide/SuspenseSlideMortage';
 
+import SuspenseFixation from 'components/Fixation/SuspenseFixation';
+import SuspenseNewFixation from 'components/Fixation/New/SuspenseNewFixation';
+import SuspenseSlideFixation from 'components/Fixation/Slide/SuspenseSlideFixation';
+import { loaderFixationSlide } from 'components/Fixation/Slide/SuspenseSlideFixation';
+
 import SuspenseDDS from 'components/DDS/SuspenseDDS';
 import SuspenseNewDDS from 'components/DDS/New/SuspenseNewDDS';
 import { loaderDDSSlide } from 'components/DDS/New/SuspenseNewDDS';
@@ -306,6 +311,21 @@ export const routers = createBrowserRouter([
             path: ':id',
             element: <SuspenseSlideMortage />,
             loader: loaderMortageSlide,
+          },
+        ],
+      },
+      {
+        path: 'clientFixation',
+        element: <SuspenseFixation />,
+        children: [
+          {
+            path: 'new',
+            element: <SuspenseNewFixation />,
+          },
+          {
+            path: ':id',
+            element: <SuspenseSlideFixation />,
+            loader: loaderFixationSlide,
           },
         ],
       },

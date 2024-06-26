@@ -78,45 +78,6 @@ export const saveMortageSlide = createAsyncThunk(
     }
   }
 );
-// export const getBuilderListMore = createAsyncThunk(
-//   'builder/getBuilderListMore',
-//   async (_, { getState, dispatch }) => {
-//     const res = await axios.post(API, {
-//       metrage_id: metrage_id || null,
-//       method: 'crm.developers.filter',
-//       fields: {
-//         ...getState().builder.filter,
-//         offset: getState().builder.offset + 1,
-//       },
-//     });
-//     if (res?.statusText === 'OK') {
-//       return res?.data?.result || [];
-//     }
-//     return [];
-//   }
-// );
-// export const getBuilderMiniCard = createAsyncThunk(
-//   'builder/getBuilderMiniCard',
-//   async (id) => {
-//     const res = await axios.post(API, {
-//       metrage_id: metrage_id || null,
-//       method: 'crm.developers.filter',
-//       fields: {
-//         UID: id,
-//       },
-//     });
-//     if (res?.statusText === 'OK') {
-//       return res?.data?.result || {};
-//     }
-//     return null;
-//   }
-// );
-// export const defaultBuilderFilter = {
-//   devType: '',
-//   region: '',
-//   comissionSize: '',
-//   onProcessHouses: false,
-// };
 export const defaultMortageFilter = {
   stageId: '',
   createdFrom: '',

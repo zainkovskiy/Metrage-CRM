@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { device } from 'styles/device';
 import MortageFilter from './MortageFilter';
 
-const NewsContentStyle = styled.div`
+const MortageContentStyle = styled.div`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -18,7 +18,7 @@ const NewsContentStyle = styled.div`
     padding: 0;
   }
 `;
-const NewsContent = () => {
+const MortageContent = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     getList();
@@ -30,12 +30,12 @@ const NewsContent = () => {
     dispatch(getMortageList());
   };
   return (
-    <NewsContentStyle>
+    <MortageContentStyle>
       <MortageFilter />
       <MortageCards />
       <Outlet />
-    </NewsContentStyle>
+    </MortageContentStyle>
   );
 };
 
-export default NewsContent;
+export default MortageContent;

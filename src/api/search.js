@@ -221,3 +221,37 @@ export const getMetroList = async (reqValue) => {
     return [];
   }
 };
+export const getJKByReq = async (reqValue) => {
+  try {
+    const res = await axios.post(process.env.MAIN_API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.clientfixation.getJKByReq',
+      fields: {
+        request: reqValue,
+      },
+    });
+    if (res.statusText !== 'OK') {
+      throw new Error('Error');
+    }
+    return res?.data?.result || [];
+  } catch (error) {
+    return [];
+  }
+};
+export const getDeveloperByReq = async (reqValue) => {
+  try {
+    const res = await axios.post(process.env.MAIN_API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.clientfixation.getDeveloperByReq',
+      fields: {
+        request: reqValue,
+      },
+    });
+    if (res.statusText !== 'OK') {
+      throw new Error('Error');
+    }
+    return res?.data?.result || [];
+  } catch (error) {
+    return [];
+  }
+};
