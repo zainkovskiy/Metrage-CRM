@@ -14,9 +14,10 @@ import BuildFinder from './BuildFinder';
 import { useSelector } from 'react-redux';
 
 const SlideFixationSuburban = () => {
-  const isNotAdmin = useSelector((state) => state.user?.isAdmin || '') === '0';
+  const { UID } = useSelector((state) => state.user);
   const fixation = useAsyncValue();
-  const { setValue } = useFormContext();
+  const isNotAdmin = UID !== fixation?.broker?.UID;
+  const { setValue, getValues, watch } = useFormContext();
   const { control } = useFormState();
   const [target, setTarget] = useState(null);
   const openTarget = (newTarget) => {
@@ -30,6 +31,7 @@ const SlideFixationSuburban = () => {
     setValue(target, newBuild, { shouldDirty: true });
     closeTarget();
   };
+  watch('suburbanType');
   return (
     <S.FixationBlock>
       <SliderTitle>
@@ -55,25 +57,29 @@ const SlideFixationSuburban = () => {
           </SelectUI>
         )}
       />
-      {fixation?.jk && fixation?.jk?.UID !== 0 ? (
-        <SlideFixationJK
-          title='КП'
-          jk={fixation?.jk}
-          onClick={() => {
-            openTarget('jk');
-          }}
-          showButton={!isNotAdmin}
-        />
-      ) : (
-        <SlideFixationEmpty
-          title='ЖК/КП'
-          label='Комплекс отсутствует в БД'
-          keyName='corpus'
-          onClick={() => {
-            openTarget('jk');
-          }}
-          showButton={!isNotAdmin}
-        />
+      {getValues('suburbanType') !== '3' && (
+        <>
+          {fixation?.jk && fixation?.jk?.UID !== 0 ? (
+            <SlideFixationJK
+              title='КП'
+              jk={fixation?.jk}
+              onClick={() => {
+                openTarget('jk');
+              }}
+              showButton={!isNotAdmin}
+            />
+          ) : (
+            <SlideFixationEmpty
+              title='ЖК/КП'
+              label='Комплекс отсутствует в БД'
+              keyName='corpus'
+              onClick={() => {
+                openTarget('jk');
+              }}
+              showButton={!isNotAdmin}
+            />
+          )}
+        </>
       )}
       <Controller
         control={control}
@@ -101,24 +107,28 @@ const SlideFixationSuburban = () => {
           />
         )}
       />
-      {fixation?.developer && fixation?.developer?.UID !== 0 ? (
-        <SlideFixationDeveloper
-          developer={fixation?.developer}
-          onClick={() => {
-            openTarget('developer');
-          }}
-          showButton={!isNotAdmin}
-        />
-      ) : (
-        <SlideFixationEmpty
-          title='Подрядчик'
-          label='Подрядчик отсутствует в БД'
-          keyName='developerName'
-          onClick={() => {
-            openTarget('developer');
-          }}
-          showButton={!isNotAdmin}
-        />
+      {getValues('suburbanType') !== '2' && (
+        <>
+          {fixation?.developer && fixation?.developer?.UID !== 0 ? (
+            <SlideFixationDeveloper
+              developer={fixation?.developer}
+              onClick={() => {
+                openTarget('developer');
+              }}
+              showButton={!isNotAdmin}
+            />
+          ) : (
+            <SlideFixationEmpty
+              title='Подрядчик'
+              label='Подрядчик отсутствует в БД'
+              keyName='developerName'
+              onClick={() => {
+                openTarget('developer');
+              }}
+              showButton={!isNotAdmin}
+            />
+          )}
+        </>
       )}
       <DialogWindow open={Boolean(target)} onClose={closeTarget}>
         <div onClick={(e) => e.stopPropagation()}>

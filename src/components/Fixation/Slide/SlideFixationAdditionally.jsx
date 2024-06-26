@@ -9,8 +9,9 @@ import { LabelStyle } from '../../../ui/InputUI/InputUIStyled';
 import { useSelector } from 'react-redux';
 
 const SlideFixationAdditionally = () => {
-  const isNotAdmin = useSelector((state) => state.user?.isAdmin || '') === '0';
+  const { UID } = useSelector((state) => state.user);
   const fixation = useAsyncValue();
+  const isNotAdmin = UID !== fixation?.broker?.UID;
   const { control } = useFormState();
   return (
     <S.FixationBlock>

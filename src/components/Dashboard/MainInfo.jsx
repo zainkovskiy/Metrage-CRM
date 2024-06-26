@@ -6,6 +6,7 @@ import MainInfoCalendar from './MainInfoCalendar';
 import MainInfoDeals from './MainInfoDeals';
 import styled from 'styled-components';
 import { device } from '../../styles/device';
+import crownUrl from 'images/crown.svg';
 
 const MainInfoStyle = styled.div`
   height: 100%;
@@ -20,6 +21,11 @@ const MainInfoStyle = styled.div`
   gap: 0.5rem;
   min-width: 250px;
   box-shadow: -6px -6px 8px 0px rgba(97, 179, 189, 0.2);
+  //TODO: видимо будет по условию
+  /* background-image: url(${crownUrl});
+  background-position: 2rem 0.5rem;
+  background-size: 35%;
+  background-repeat: no-repeat; */
   @media (${device.tablet}) {
     width: 100%;
   }

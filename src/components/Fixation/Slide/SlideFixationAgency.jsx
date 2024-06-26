@@ -10,8 +10,9 @@ import { useFormContext } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
 const SlideFixationAgency = () => {
+  const { UID } = useSelector((state) => state.user);
   const fixation = useAsyncValue();
-  const isNotAdmin = useSelector((state) => state.user?.isAdmin || '') === '0';
+  const isNotAdmin = UID !== fixation?.broker?.UID;
   const { setValue } = useFormContext();
   const [target, setTarget] = useState(null);
   const closeChangeWindow = () => {

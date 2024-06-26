@@ -12,8 +12,9 @@ import BuildFinder from './BuildFinder';
 import { useSelector } from 'react-redux';
 
 const SlideFixationBuilder = () => {
-  const isNotAdmin = useSelector((state) => state.user?.isAdmin || '') === '0';
+  const { UID } = useSelector((state) => state.user);
   const fixation = useAsyncValue();
+  const isNotAdmin = UID !== fixation?.broker?.UID;
   const { setValue } = useFormContext();
   const { control } = useFormState();
   const [open, setOpen] = useState(false);

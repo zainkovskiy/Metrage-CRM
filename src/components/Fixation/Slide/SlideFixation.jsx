@@ -24,7 +24,6 @@ const SlideFixation = () => {
   const method = useForm({
     defaultValues: fixation,
   });
-  console.log(fixation);
   const onSubmit = (data) => {
     console.log(data);
     // dispatch(saveMortageSlide(data));

@@ -4,9 +4,12 @@ import { SliderTitle } from '../../../styles/slider';
 import { InputUI } from 'ui/InputUI';
 import * as S from './slideSlide';
 import { useSelector } from 'react-redux';
+import { useAsyncValue } from 'react-router-dom';
 
 const SlideFixationClient = () => {
-  const isNotAdmin = useSelector((state) => state.user?.isAdmin || '') === '0';
+  const { UID } = useSelector((state) => state.user);
+  const fixation = useAsyncValue();
+  const isNotAdmin = UID !== fixation?.broker?.UID;
   const { control } = useFormState();
   return (
     <S.FixationBlock>

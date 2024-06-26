@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import * as S from './slideSlide';
-
+import moment from 'moment';
 import { Box } from 'ui/Box';
 import { ButtonUI } from 'ui/ButtonUI';
 import { InputUI } from 'ui/InputUI';
@@ -8,7 +8,7 @@ import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { TextSpanStyle } from 'styles/styles';
 
 const SlideFixationStatusSend = ({ onClose, setSendStatus }) => {
-  const [sendet, setSendet] = useState('');
+  const [sendet, setSendet] = useState(moment().format('YYYY-MM-DD'));
   const [sendetAt, setSendetAt] = useState('');
   const [error, setError] = useState({
     sendet: false,
@@ -66,8 +66,11 @@ const SlideFixationStatusSend = ({ onClose, setSendStatus }) => {
         name='sendetAt'
         error={error.sendetAt}
       >
-        <SelectItemUI value='1'>Хер знает</SelectItemUI>
-        <SelectItemUI value='2'>Что должно быть</SelectItemUI>
+        <SelectItemUI value='Tranagent'>Tranagent</SelectItemUI>
+        <SelectItemUI value='N-market'>N-market</SelectItemUI>
+        <SelectItemUI value='Эл. почта'>Эл. почта</SelectItemUI>
+        <SelectItemUI value='Мессенджеры'>Мессенджеры</SelectItemUI>
+        <SelectItemUI value='Другое'>Другое</SelectItemUI>
       </SelectUI>
 
       <Box>

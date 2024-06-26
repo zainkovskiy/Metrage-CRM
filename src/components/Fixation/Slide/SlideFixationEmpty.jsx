@@ -19,6 +19,9 @@ const SlideFixationEmpty = ({ title, label, keyName, onClick, showButton }) => {
           </ButtonLink>
         )}
       </Box>
+      <TextSpanStyle color='red' size='12' align='end'>
+        {label}
+      </TextSpanStyle>
       <Controller
         control={control}
         name={keyName}
@@ -27,7 +30,7 @@ const SlideFixationEmpty = ({ title, label, keyName, onClick, showButton }) => {
             small
             value={field.value || ''}
             onChange={field.onChange}
-            label={label}
+            label='Информация от риелтора:'
           />
         )}
       />
