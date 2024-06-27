@@ -17,7 +17,7 @@ const SlideFixationDeveloper = ({ developer, onClick, showButton }) => {
           </ButtonLink>
         )}
       </Box>
-      <TextSpanStyle>{developer.devName}</TextSpanStyle>
+      <S.LinkTo to={`/builder/${developer.UID}`}>{developer.devName}</S.LinkTo>
     </S.SlideFixationDeveloper>
   );
 };

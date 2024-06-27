@@ -129,6 +129,7 @@ export const SelectAutoсompleteUI = (props) => {
     disabled,
     small,
     placeholder,
+    ignoreRegExp,
   } = props;
   const [open, setOpen] = useState(false); //если true показывает список options
   const firstOpen = useRef(true); //при первом открытии списка окрывает полный
@@ -214,6 +215,9 @@ export const SelectAutoсompleteUI = (props) => {
       return option;
     }
     if (inputValue.length === 0) {
+      return option;
+    }
+    if (ignoreRegExp) {
       return option;
     }
     const regExp = new RegExp(inputValue, 'i');

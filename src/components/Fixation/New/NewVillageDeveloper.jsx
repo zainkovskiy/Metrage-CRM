@@ -42,6 +42,7 @@ const NewVillageDeveloper = () => {
             value={field.value}
             inputChange={reqDevList}
             helperText='* при отсутствии укажите “Нет в списке”'
+            ignoreRegExp={true}
           />
         )}
       />

@@ -17,16 +17,18 @@ import SlideFixationSuburban from './SlideFixationSuburban';
 import SlideFixationBuilder from './SlideFixationBuilder';
 import SlideFixationAdditionally from './SlideFixationAdditionally';
 import SlideFixationStory from './SlideFixationStory';
+import { updateFixation } from '../../../store/slices/fixationSlice';
+import { useDispatch } from 'react-redux';
 
 const SlideFixation = () => {
   const fixation = useAsyncValue();
+  const dispatch = useDispatch();
   const windowSize = useWindowSize();
   const method = useForm({
     defaultValues: fixation,
   });
   const onSubmit = (data) => {
-    console.log(data);
-    // dispatch(saveMortageSlide(data));
+    dispatch(updateFixation(data));
     method.reset(data);
   };
   return (

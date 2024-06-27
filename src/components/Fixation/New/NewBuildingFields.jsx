@@ -46,6 +46,7 @@ const NewBuildingFields = () => {
             value={field.value}
             inputChange={reqJKList}
             helperText='* при отсутствии укажите “Нет в списке”'
+            ignoreRegExp={true}
           />
         )}
       />

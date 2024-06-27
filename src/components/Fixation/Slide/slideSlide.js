@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { SliderBlock } from '../../../styles/slider';
-import { device } from 'styles/device';
+import { Link } from 'react-router-dom';
 
 export const SliderFixationForm = styled.form`
   display: grid;
@@ -64,7 +64,6 @@ export const Line = styled.div`
   height: 1px;
   background-color: #85009e;
 `;
-
 export const SlideFixationDeveloper = styled.div`
   border: 1px solid ${({ theme }) => theme.color.primary};
   border-radius: 5px;
@@ -77,4 +76,14 @@ export const SlideFixationJKImage = styled.img`
   object-fit: cover;
   height: 60px;
   max-width: 100px;
+`;
+export const LinkTo = styled(Link)`
+  font-family: 'CeraCY', sans-serif;
+  font-size: 12px;
+  text-decoration: none;
+  color: #000;
+  /* color: ${({ theme }) => theme.color.primary}; */
+  &:hover {
+    text-decoration: underline;
+  }
 `;

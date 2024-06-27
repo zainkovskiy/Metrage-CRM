@@ -9,8 +9,8 @@ const SlideFixationStory = ({ height, fullWidth }) => {
     <SliderStory
       fullWidth={fullWidth}
       height={height}
-      source='clientFixation'
-      type='clientFixation'
+      source='client_fixation'
+      type='client_fixation'
       sourceId={fixation.UID}
     />
   );

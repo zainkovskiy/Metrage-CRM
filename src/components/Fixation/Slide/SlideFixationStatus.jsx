@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAsyncValue } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ButtonLink } from 'ui/ButtonLink';
 import { Box } from 'ui/Box';
 import { StatusBar, StatusBarItem } from '../../../ui/StatusBar/StatusBar';
@@ -22,7 +22,9 @@ const StatusBarContainer = (props) => {
 
 const SlideFixationStatus = () => {
   const dispatch = useDispatch();
+  const { UID } = useSelector((state) => state.user);
   const fixation = useAsyncValue();
+  const isNotAdmin = UID !== fixation?.broker?.UID;
   const [openSend, setOpenSend] = useState(false);
   const [activeStepper, setActiveStepper] = useState(
     parseInt(fixation?.stageId) || 0
@@ -65,7 +67,7 @@ const SlideFixationStatus = () => {
       <Box fullWidth column>
         <StatusBar
           activeStep={activeStepper}
-          disabled={activeStepper === 5}
+          disabled={isNotAdmin || activeStepper === 5}
           wrap
           fullWidth
         >

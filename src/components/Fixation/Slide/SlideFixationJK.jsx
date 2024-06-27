@@ -20,7 +20,7 @@ const SlideFixationJK = ({ jk, title, onClick, showButton }) => {
       <div style={{ display: 'flex', gap: '0.5rem' }}>
         <S.SlideFixationJKImage src={jk?.picture} />
         <Box column jc='flex-start' gap='0' ai='flex-start'>
-          <TextSpanStyle size={12}>{jk?.name}</TextSpanStyle>
+          <S.LinkTo to={`/residential/${jk.UID}`}>{jk?.name}</S.LinkTo>
           <TextSpanStyle size={10} color='#BAB2B2'>
             {jk?.addrStr}
           </TextSpanStyle>
@@ -29,5 +29,4 @@ const SlideFixationJK = ({ jk, title, onClick, showButton }) => {
     </S.SlideFixationDeveloper>
   );
 };
-
 export default SlideFixationJK;

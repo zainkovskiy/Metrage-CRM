@@ -58,6 +58,23 @@ export const createFixation = createAsyncThunk(
     }
   }
 );
+export const updateFixation = createAsyncThunk(
+  'fixation/updateFixation',
+  async (updateFixation, { dispatch }) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.clientfixation.create',
+      fields: updateFixation,
+    });
+    if (res?.statusText === 'OK') {
+      const data = res.data;
+      if (data?.result?.UID) {
+        const updateID = data?.result?.UID;
+        dispatch(getFixationOne(updateID));
+      }
+    }
+  }
+);
 export const changeFixationStage = createAsyncThunk(
   'mortage/changeFixationStage',
   async (raw, { dispatch }) => {
@@ -72,12 +89,14 @@ export const changeFixationStage = createAsyncThunk(
   }
 );
 export const defaultFixationFilter = {
-  // stageId: '',
-  // createdFrom: '',
-  // createdTo: '',
-  // broker: '',
-  // typeRealty: '',
-  // isConsultation: false,
+  fixationType: '',
+  typeObject: '',
+  suburbanType: '',
+  realtor: '',
+  office: '',
+  stageId: '',
+  jk: '',
+  developer: '',
 };
 const getFilter = () => {
   const filter = localStorage.getItem('clientFixation');

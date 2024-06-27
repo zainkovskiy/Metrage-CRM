@@ -14,12 +14,19 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toggleShowChat } from '../../store/chatSlice';
 import { AnimatePresence, motion } from 'framer-motion';
 
+import crownUrl from 'images/crown.svg';
+import crownFamaleUrl from 'images/crown_famale.svg';
+
 const Avatar = styled.img`
   width: 48px;
   height: 48px;
   border-radius: 50px;
   object-fit: cover;
   object-position: top;
+`;
+const AvatarContainer = styled.div`
+  display: flex;
+  position: relative;
 `;
 const MainInfoUserStyle = styled.div`
   display: flex;
@@ -91,6 +98,14 @@ const ButtonListItem = styled(TextSpanStyle)`
     transform: scale(0.9);
   }
 `;
+const CrownIcon = styled.img`
+  position: absolute;
+  top: -1.5rem;
+  left: -0.5rem;
+  transform: rotate(331deg);
+  width: 35px;
+  height: 35px;
+`;
 
 const MainInfoUser = ({ user, view, rights, notify, rank }) => {
   const dashboardMode = useSelector((state) => state.dashboard.data?.mode);
@@ -124,7 +139,6 @@ const MainInfoUser = ({ user, view, rights, notify, rank }) => {
     });
   };
   const handleClickError = (error) => {
-    console.log(error);
     switch (error.source) {
       case 'chat':
         dispatch(toggleShowChat());
@@ -181,7 +195,12 @@ const MainInfoUser = ({ user, view, rights, notify, rank }) => {
         </AnimatePresence>
       </ButtonContainer>
       <Box jc='space-between'>
-        <Avatar src={useGetAvatar(user)} />
+        <AvatarContainer>
+          <Avatar src={useGetAvatar(user)} />
+          {user?.hasCrown && (
+            <CrownIcon src={user?.sex === 'male' ? crownUrl : crownFamaleUrl} />
+          )}
+        </AvatarContainer>
         <LinkStyle to={`/users/${user.UID}`}>
           <Box column ai='flex-start' gap='0'>
             <TextSpanStyle size='10'>{user?.position || ''}</TextSpanStyle>

@@ -6,6 +6,7 @@ import SlideWindow from 'components/Main/SlideWindow';
 import { useWindowSize } from 'hooks/windowSize';
 // import MortageFilterForm from './MortageFilterForm';
 import FixationHopper from './FixationHopper';
+import FixationFilterForm from './FixationFilterForm';
 
 const FixationFilterStyle = styled.div`
   display: flex;
@@ -43,9 +44,9 @@ const FixationFilter = () => {
         </Link>
       </MainFilter>
       {windowSize > 768 && <FixationHopper />}
-      {/* <SlideWindow open={open} onClose={toggleFilter} width={getWidth()}>
-        <MortageFilterForm onClose={toggleFilter} />
-      </SlideWindow> */}
+      <SlideWindow open={open} onClose={toggleFilter} width={getWidth()}>
+        <FixationFilterForm onClose={toggleFilter} />
+      </SlideWindow>
     </FixationFilterStyle>
   );
 };

@@ -23,6 +23,12 @@ const SlideFixationMeta = () => {
           </IconButton>
           <TextSpanStyle size={12}>ID: {fixation.UID}</TextSpanStyle>
         </Box>
+
+        {fixation?.fixationTitle && (
+          <TextSpanStyle size={12} color='rgb(133, 0, 158)'>
+            {fixation.fixationTitle}
+          </TextSpanStyle>
+        )}
         <TextSpanStyle size={12}>
           Создано: {useDateFormat(fixation.created, 'DD.MM.YYYY')}
         </TextSpanStyle>

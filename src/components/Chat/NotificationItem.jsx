@@ -45,7 +45,7 @@ const NotificationItem = ({ notice }) => {
     <NotificationItemStyle $readed={notice?.readed}>
       <NotificationItemHeaderStyle>
         <TextSpanStyle color='#a5a5a5' size={10}>
-          {useDateFormat(notice?.created)}
+          {useDateFormat(notice?.created, 'DD MMMM YYYY HH:MM')}
         </TextSpanStyle>
         <ReadButton onClick={setRead} $readed={notice?.readed}>
           Прочитать
