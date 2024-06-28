@@ -17,12 +17,11 @@ const NewFixation = ({ onClose }) => {
     defaultValues: { fixationType: '0', typeObject: '0', suburbanType: '1' },
   });
   const onSubmit = (data) => {
-    console.log(data);
-    // return dispatch(createFixation(data))
-    //   .unwrap()
-    //   .then(() => {
-    //     onClose();
-    //   });
+    return dispatch(createFixation(data))
+      .unwrap()
+      .then(() => {
+        onClose();
+      });
   };
   const isCheckedPhone = () => {
     checkedPhone(method.getValues('phone')).then((data) => {

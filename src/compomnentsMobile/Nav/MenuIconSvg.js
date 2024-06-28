@@ -29,6 +29,7 @@ import { ReactComponent as Mortgage } from 'images/mortgage.svg';
 // import { ReactComponent as Plan } from 'images/panel/plan.svg';
 import { ReactComponent as Mail } from 'images/panel/mail.svg';
 import { ReactComponent as DDS } from 'images/panel/dds.svg';
+import { ReactComponent as Fixation } from 'images/panel/fixation.svg';
 
 export {
   Application,
@@ -53,4 +54,5 @@ export {
   Phone,
   Headphone,
   DDS,
+  Fixation,
 };

@@ -34,10 +34,14 @@ const MenuListStyle = styled(motion.div)`
 `;
 const MenuListTop = styled.div`
   flex-grow: 1;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  overflow: auto;
+  /* display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: center; */
 `;
 const LinkNav = styled(Link)`
   text-decoration: none;
@@ -182,83 +186,85 @@ const MenuList = ({ onClose }) => {
           clickSuggestion={clickSuggestion}
         />
       ) : (
-        <MenuListTop>
+        <>
           <MenuListButton title='На главную' path='/' onClick={onClose} />
-          <MenuListButton
-            title='Заявки'
-            icon='application'
-            path='application'
-            onClick={onClose}
-          />
-          <MenuListButton
-            title='Объекты'
-            icon='objects'
-            path='objects'
-            onClick={onClose}
-          />
-          <MenuListButton
-            title='Сделки'
-            icon='deal'
-            path='deal'
-            onClick={onClose}
-          />
-          <MenuListButton
-            title='Подборки'
-            icon='compilation'
-            path='compilation'
-            onClick={onClose}
-          />
-          <MenuListButton
-            title='Клиенты'
-            icon='client'
-            path='client'
-            onClick={onClose}
-          />
-          <MenuListButton
-            title='Пользователи'
-            icon='users'
-            path='users'
-            onClick={onClose}
-          />
-          <MenuListButton
-            title='Задачи'
-            icon='task'
-            path='task'
-            onClick={onClose}
-          />
-          <MenuListButton
-            title='Новости'
-            icon='news'
-            path='news'
-            onClick={onClose}
-          />
-          <MenuListButton
-            title='Застройщики'
-            icon='residential'
-            path='builder'
-            onClick={onClose}
-          />
-          <MenuListButton
-            title='ЖК/БЦ'
-            icon='residential'
-            path='residential'
-            onClick={onClose}
-          />
-          <MenuListButton
-            title='Ипотека'
-            icon='mortgage'
-            path='mortage'
-            onClick={onClose}
-          />
-          {ddsRights && (
+          <MenuListTop>
             <MenuListButton
-              title='ДДС'
-              icon='dds'
-              path='dds'
+              title='Заявки'
+              icon='application'
+              path='application'
               onClick={onClose}
             />
-          )}
-        </MenuListTop>
+            <MenuListButton
+              title='Объекты'
+              icon='objects'
+              path='objects'
+              onClick={onClose}
+            />
+            <MenuListButton
+              title='Сделки'
+              icon='deal'
+              path='deal'
+              onClick={onClose}
+            />
+            <MenuListButton
+              title='Подборки'
+              icon='compilation'
+              path='compilation'
+              onClick={onClose}
+            />
+            <MenuListButton
+              title='Клиенты'
+              icon='client'
+              path='client'
+              onClick={onClose}
+            />
+            <MenuListButton
+              title='Пользователи'
+              icon='users'
+              path='users'
+              onClick={onClose}
+            />
+            <MenuListButton
+              title='Задачи'
+              icon='task'
+              path='task'
+              onClick={onClose}
+            />
+            <MenuListButton
+              title='Фиксации'
+              icon='fixation'
+              path='clientFixation'
+              onClick={onClose}
+            />
+            <MenuListButton
+              title='Застройщики'
+              icon='residential'
+              path='builder'
+              onClick={onClose}
+            />
+            <MenuListButton
+              title='ЖК/БЦ'
+              icon='residential'
+              path='residential'
+              onClick={onClose}
+            />
+            <MenuListButton
+              title='Ипотека'
+              icon='mortgage'
+              path='mortage'
+              onClick={onClose}
+            />
+            {ddsRights && (
+              <MenuListButton
+                title='ДДС'
+                icon='dds'
+                path='dds'
+                onClick={onClose}
+              />
+            )}
+          </MenuListTop>
+        </>
       )}
       <LinkOriginNav
         target='_href'

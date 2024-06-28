@@ -9,10 +9,12 @@ const MenuListButtonStyle = styled(Link)`
   font-family: ${({ theme }) => theme.font.family};
   ${({ $match }) => $match && 'background: #a86ab4;'};
   display: flex;
-  gap: 0.5rem;
+  flex-direction: column;
+  /* gap: 0.5rem; */
   align-items: center;
+  justify-content: center;
   padding: 0.3rem 0.5rem;
-  border-radius: 40px;
+  border-radius: 20px;
 `;
 const MenuListButton = ({ title, icon, path, onClick }) => {
   const match = useMatch(path || '');
@@ -24,11 +26,11 @@ const MenuListButton = ({ title, icon, path, onClick }) => {
   );
 };
 const MenuListIconStyle = styled.div`
-  height: 20px;
-  width: 20px;
+  /* height: 20px;
+  width: 20px; */
   & > svg {
-    height: 20px;
-    width: 20px;
+    height: 40px;
+    width: 40px;
     fill: #fff;
   }
 `;
@@ -58,6 +60,8 @@ const MenuListIcon = ({ icon }) => {
         return IconSvg.Residential;
       case 'mortgage':
         return IconSvg.Mortgage;
+      case 'fixation':
+        return IconSvg.Fixation;
       case 'dds':
         return IconSvg.DDS;
       default:
