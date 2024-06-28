@@ -63,7 +63,7 @@ export const updateFixation = createAsyncThunk(
   async (updateFixation, { dispatch }) => {
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
-      method: 'crm.clientfixation.create',
+      method: 'crm.clientfixation.update',
       fields: updateFixation,
     });
     if (res?.statusText === 'OK') {
