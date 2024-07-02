@@ -134,6 +134,30 @@ const UserFilterForm = ({ onClose }) => {
           )}
         />
         <Controller
+          name='Профессия'
+          control={control}
+          render={({ field }) => (
+            <SelectUI
+              onChange={(newValue) => {
+                field.onChange(newValue);
+              }}
+              select={field.value || 'all'}
+              label='Профессия'
+            >
+              <SelectItemUI value='1'>Риелтор</SelectItemUI>
+              <SelectItemUI value='2'>Стажер</SelectItemUI>
+              <SelectItemUI value='3'>Юрист</SelectItemUI>
+              <SelectItemUI value='5'>Администратор</SelectItemUI>
+              <SelectItemUI value='6'>Страховой брокер</SelectItemUI>
+              <SelectItemUI value='7'>РОП</SelectItemUI>
+              <SelectItemUI value='8'>Директор</SelectItemUI>
+              <SelectItemUI value='11'>Экономист</SelectItemUI>
+              <SelectItemUI value='12'>Маркетолог</SelectItemUI>
+              <SelectItemUI value='13'>Ипотечный брокер</SelectItemUI>
+            </SelectUI>
+          )}
+        />
+        <Controller
           control={control}
           name='fired'
           render={({ field }) => (

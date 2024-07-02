@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import DialogWindow from 'components/Main/DialogWindow';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -49,12 +49,15 @@ const MyEvent = (props) => {
 const CalendarComponent = () => {
   const navigate = useNavigate();
   const [curEvent, setCurEvent] = useState(null);
+  const [view, setView] = useState(Views.WEEK);
   const events = useSelector((state) => state.calendar.events);
   const loadingList = useSelector((state) => state.calendar.loadingList);
   if (loadingList) {
     return <Loader />;
   }
-
+  const setNewView = (newView) => {
+    setView(newView);
+  };
   const handleSelectEvent = (event) => {
     setCurEvent(event);
   };
@@ -75,9 +78,7 @@ const CalendarComponent = () => {
         }}
         localizer={localizer}
         defaultDate={new Date()}
-        defaultView='week'
-        // defaultView={events?.mode || 'month'}
-        // defaultView={Views.MONTH}
+        view={view}
         events={events?.data || []}
         culture='ru'
         onSelectEvent={handleSelectEvent}
@@ -91,6 +92,11 @@ const CalendarComponent = () => {
         endAccessor={(event) => {
           return moment(event.end).toDate();
         }}
+        //TODO: вот это то что надо для Вани
+        onNavigate={(e) => {
+          console.log(e);
+        }}
+        onView={setNewView}
         style={{
           height: '100%',
           width: '100%',

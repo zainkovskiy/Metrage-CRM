@@ -255,3 +255,21 @@ export const getDeveloperByReq = async (reqValue) => {
     return [];
   }
 };
+export const universalFinder = async (reqValue, line) => {
+  try {
+    const res = await axios.post(process.env.MAIN_API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.finder.get',
+      fields: {
+        request: reqValue,
+        type: line,
+      },
+    });
+    if (res.statusText !== 'OK') {
+      throw new Error('Error');
+    }
+    return res?.data?.result || null;
+  } catch (error) {
+    return null;
+  }
+};

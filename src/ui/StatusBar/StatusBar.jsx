@@ -81,7 +81,7 @@ export const StatusBarItem = ({ title, active, onClick, idx, fullWidth }) => {
     onClick(idx);
   };
   return (
-    <StatusBarItemStyle onClick={handleClick} $fullWidth={fullWidth}>
+    <StatusBarItemStyle onDoubleClick={handleClick} $fullWidth={fullWidth}>
       <CircleIcon active={active} />
       <TextSpanStyle size={12} nowrap={true}>
         {title}

@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import closeUrl, { ReactComponent as Close } from 'images/close.svg';
+import { ReactComponent as Close } from 'images/close.svg';
 import { motion } from 'framer-motion';
-import { useNumberTriad } from '../../hooks/StringHook';
 import { Link } from 'react-router-dom';
+import { Box } from 'ui/Box';
+import imgErrorUrl from 'images/img-error.svg';
 
 const SearchSuggestionsStyle = styled(motion.div)`
   position: absolute;
@@ -21,16 +22,15 @@ const SearchSuggestionsStyle = styled(motion.div)`
   z-index: 9999;
   transform: translate(0, calc(100% + 0.5rem));
 `;
-const SearchSuggestionsTitle = styled.p`
+const SearchSuggestionsTitle = styled.div`
   border-bottom: 1px solid #786464;
   font-family: ${({ theme }) => theme.font.family};
   font-size: ${({ size }) => (size ? size + 'px' : '14px')};
   width: 100%;
   color: ${({ color }) => color && color};
-`;
-const CloseContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
 `;
 const CloseButton = styled.span`
   cursor: pointer;
@@ -60,33 +60,24 @@ const SearchSuggestions = ({ suggestions, clearSuggestions }) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <CloseContainer>
+      <SearchSuggestionsTitle color='#786464'>
+        {suggestions?.searchTitle}
         <CloseButton onClick={handleClose}>
           <Close />
         </CloseButton>
-      </CloseContainer>
-      {suggestions.map((suggestion, idx) => (
-        <React.Fragment key={idx}>
-          <SearchSuggestionsTitle color='#786464'>
-            {suggestion?.title}
-          </SearchSuggestionsTitle>
-          {suggestion?.list?.length > 0 ? (
-            <>
-              {suggestion.list.map((item, idx) => (
-                <SearchSuggestionsItem
-                  key={`suggestion${item.UID}${idx}`}
-                  suggestion={item}
-                  type={suggestion?.title}
-                  path={suggestion?.path}
-                  clearSuggestions={clearSuggestions}
-                />
-              ))}
-            </>
-          ) : (
-            <SearchSuggestionsItem notFound />
-          )}
-        </React.Fragment>
-      ))}
+      </SearchSuggestionsTitle>
+      {suggestions?.hasItems ? (
+        suggestions.items.map((suggestion, idx) => (
+          <SearchSuggestionsItem
+            key={`suggestion${suggestion.UID}${idx}`}
+            suggestion={suggestion}
+            clearSuggestions={clearSuggestions}
+            withImages={suggestions.withImages}
+          />
+        ))
+      ) : (
+        <SearchSuggestionsItem notFound />
+      )}
     </SearchSuggestionsStyle>
   );
 };
@@ -108,80 +99,49 @@ const SearchSuggestionsItemStyle = styled(Link)`
 `;
 const SearchSuggestionsItemText = styled.span`
   font-family: 'CeraCY', sans-serif;
-  font-size: 12px;
+  font-size: ${({ $size }) => ($size ? `${$size}px` : '12px')};
   white-space: ${({ $nowrap }) => $nowrap && 'nowrap'};
+`;
+const SearchSuggestionsItemImage = styled.img`
+  min-width: 80px;
+  max-width: 80px;
+  height: 50px;
+  object-fit: cover;
 `;
 const SearchSuggestionsItem = ({
   suggestion,
   notFound,
-  type,
-  path,
   clearSuggestions,
+  withImages,
 }) => {
-  const getChildText = () => {
-    if (notFound) {
-      return (
-        <SearchSuggestionsItemText>Не найдено...</SearchSuggestionsItemText>
-      );
-    }
-    if (type === 'Объекты') {
-      return (
-        <>
-          <SearchSuggestionsItemText>
-            {suggestion?.Category || ''} {suggestion?.addrString || ''}
-          </SearchSuggestionsItemText>
-          <SearchSuggestionsItemText $nowrap>
-            {' '}
-            {useNumberTriad(suggestion?.Price || 0)} руб.
-          </SearchSuggestionsItemText>
-        </>
-      );
-    }
-    if (type === 'ЖК и Кот. посёлки') {
-      return (
-        <>
-          <SearchSuggestionsItemText>
-            {suggestion?.name || ''}{' '}
-            {suggestion?.addrStr ? `(${suggestion?.addrStr})` : ''}
-          </SearchSuggestionsItemText>
-        </>
-      );
-    }
-    if (type === 'Застройщик') {
-      return (
-        <>
-          <SearchSuggestionsItemText>
-            ({suggestion?.devType || ''}) {suggestion?.devName || ''}
-          </SearchSuggestionsItemText>
-        </>
-      );
-    }
-    return (
-      <>
-        <SearchSuggestionsItemText>
-          {suggestion?.lastName || ''} {suggestion?.firstName || ''}{' '}
-          {suggestion?.secondName || ''}
-        </SearchSuggestionsItemText>
-        <SearchSuggestionsItemText>
-          {' '}
-          {suggestion?.phone || ''}
-        </SearchSuggestionsItemText>
-      </>
-    );
-  };
-  const getPath = () => {
-    if (type === 'Объекты') {
-      return `${path}/${suggestion?.type}/${suggestion?.UID}`;
-    }
-    return `${path || ''}/${suggestion?.UID}`;
-  };
   return (
     <SearchSuggestionsItemStyle
       $notFound={notFound}
-      to={getPath()}
+      to={`${suggestion.routingType}/${suggestion.UID}`}
       onClick={clearSuggestions}
     >
-      {getChildText()}
+      <Box ai='flex-start'>
+        {withImages && (
+          <SearchSuggestionsItemImage
+            src={suggestion?.picture || imgErrorUrl}
+          />
+        )}
+        <Box column ai='flex-start' gap='0'>
+          <SearchSuggestionsItemText>
+            {suggestion.firstLine}
+          </SearchSuggestionsItemText>
+          {suggestion?.secondLine && (
+            <SearchSuggestionsItemText $size={10}>
+              {suggestion.secondLine}
+            </SearchSuggestionsItemText>
+          )}
+        </Box>
+      </Box>
+      {suggestion?.secondColumn && (
+        <SearchSuggestionsItemText $nowrap>
+          {suggestion.secondColumn}
+        </SearchSuggestionsItemText>
+      )}
     </SearchSuggestionsItemStyle>
   );
 };

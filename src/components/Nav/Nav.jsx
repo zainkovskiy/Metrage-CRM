@@ -37,8 +37,8 @@ const LogoDash = styled.div`
   gap: 0.5rem;
 `;
 const CalendardButton = styled(Link)`
-  width: 26px;
-  height: 26px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
   transition: transform 0.3s;
   &:hover {
@@ -49,22 +49,6 @@ const CalendardButton = styled(Link)`
   }
   & > svg {
     stroke: ${({ theme }) => theme.color.primary};
-  }
-`;
-const AniversaryImageContaoner = styled.div`
-  height: 18px;
-  position: relative;
-  width: 36px;
-`;
-const AniversaryImage = styled.img`
-  width: 36px;
-  height: 36px;
-  position: absolute;
-  top: -50%;
-  cursor: pointer;
-  transition: transform 0.3s;
-  &:active {
-    transform: scale(0.9);
   }
 `;
 const Nav = () => {
@@ -89,23 +73,16 @@ const Nav = () => {
   return (
     <NavStyle>
       <LogoDash>
-        <LogoComponent />
         <CalendardButton to='/calendar'>
           <Calendar />
         </CalendardButton>
+        <LogoComponent />
       </LogoDash>
       <Search />
       <div style={{ display: 'flex', gap: '1rem', position: 'relative' }}>
         <TooltipUI title='пользователи'>
           <IconButtonSimple id='user' icon='user' onClick={handlerHiddenBox} />
         </TooltipUI>
-        {}
-        {/* <TooltipUI title='база знаний'>
-          <IconButtonSimple icon='book' />
-        </TooltipUI>
-        <TooltipUI title='избранное'>
-          <IconButtonSimple icon='heart' />
-        </TooltipUI> */}
         <TooltipUI title='чат'>
           <BadgeUI badgeContent={Number(messageCounter)}>
             <IconButtonSimple icon='chat' onClick={handlerShowChat} />

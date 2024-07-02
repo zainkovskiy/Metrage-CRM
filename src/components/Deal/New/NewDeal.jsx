@@ -271,6 +271,9 @@ const NewDeal = ({ onClose }) => {
                 getOptionsLabel={(options) =>
                   `${options.street || ''} ${options.house || ''}`
                 }
+                getOptionsSubtitle={(subOptions) =>
+                  `${subOptions.Category} (${useNumberTriad(subOptions.Price)})`
+                }
                 onChange={(option) => field.onChange(option)}
                 value={field.value}
                 small

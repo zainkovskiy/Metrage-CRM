@@ -12,6 +12,8 @@ import { findBuilderList } from 'api/search';
 
 import { addNewResidential } from '../../../store/slices/residentialSlice';
 import { createNewResidential } from '../../../api/residential';
+import Dadata from 'components/Main/Dadata';
+import MapPlacemark from 'components/Main/MapPlacemark';
 
 const NewResidentialForm = styled.form`
   padding: 0.5rem;
@@ -34,7 +36,7 @@ const NewResidential = ({ onClose }) => {
   const dispatch = useDispatch();
   const builderRequest = useRef(false);
   const [builderList, setBuilderList] = useState([]);
-  const { handleSubmit, control, watch, getValues } = useForm({
+  const { handleSubmit, control, watch, getValues, setValue } = useForm({
     defaultValues: {
       JKType: 'БЦ',
     },
@@ -61,6 +63,13 @@ const NewResidential = ({ onClose }) => {
       .finally(() => {
         builderRequest.current = false;
       });
+  };
+  const setCords = (e) => {
+    const addressValue = e?.data;
+    if (addressValue?.geo_lat && addressValue?.geo_lon) {
+      setValue('cords', [addressValue.geo_lat, addressValue.geo_lon]);
+      return;
+    }
   };
   watch('JKType');
   return (
@@ -100,6 +109,27 @@ const NewResidential = ({ onClose }) => {
             />
           )}
         />
+        <Controller
+          name='addressId'
+          control={control}
+          render={({ field }) => (
+            <Dadata
+              label='Адрес'
+              small
+              onChange={(e) => {
+                field.onChange(e), setCords(e);
+              }}
+              inputRef={field.ref}
+            />
+          )}
+        />
+        <Controller
+          name='cords'
+          control={control}
+          render={({ field }) => (
+            <MapPlacemark onChange={field.onChange} cords={field.value} />
+          )}
+        />
         {getValues('JKType') !== 'КП' && (
           <Controller
             name='devId'
@@ -117,38 +147,6 @@ const NewResidential = ({ onClose }) => {
             )}
           />
         )}
-        <Controller
-          control={control}
-          name='lat'
-          // rules={{ required: { value: true, message: 'Поле обязательно' } }}
-          render={({ field }) => (
-            <InputUI
-              small
-              value={field.value || ''}
-              onChange={field.onChange}
-              label='Широта'
-              // error={errors?.secondName}
-              ref={field.ref}
-              type='number'
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name='lng'
-          // rules={{ required: { value: true, message: 'Поле обязательно' } }}
-          render={({ field }) => (
-            <InputUI
-              small
-              value={field.value || ''}
-              onChange={field.onChange}
-              label='Долгота'
-              // error={errors?.secondName}
-              ref={field.ref}
-              type='number'
-            />
-          )}
-        />
         {getValues('JKType') !== 'КП' && (
           <>
             <Controller

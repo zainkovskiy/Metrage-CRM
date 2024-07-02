@@ -15,6 +15,14 @@ const FormCords = () => {
     const addressValue = e?.data;
     if (addressValue?.geo_lat && addressValue?.geo_lon) {
       setValue('cords', [addressValue.geo_lat, addressValue.geo_lon]);
+      if (e.data.qc_geo !== '0') {
+        setError('cords', {
+          type: 'custom',
+          message:
+            'Точные координаты объекта - не найдены! Проверьте местоположение точки на карте и, при необходимости, щелкните на верном местоположении',
+        });
+        return;
+      }
       clearErrors('cords');
       return;
     }
