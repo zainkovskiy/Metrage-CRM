@@ -39,46 +39,6 @@ const Search = () => {
       .finally(() => {
         sendReponse.current = false;
       });
-
-    // Promise.allSettled([
-    //   getСontactList(value),
-    //   getUserList(value),
-    //   getObjectList(value),
-    //   getResidentialList(value),
-    //   getBuildersList(value),
-    // ])
-    //   .then((res) => {
-    //     setFindList([
-    //       {
-    //         title: 'Контакты',
-    //         path: '/client',
-    //         list: res[0].status === 'fulfilled' ? res[0].value : [],
-    //       },
-    //       {
-    //         title: 'Пользователи',
-    //         path: '/users',
-    //         list: res[1].status === 'fulfilled' ? res[1].value : [],
-    //       },
-    //       {
-    //         title: 'Объекты',
-    //         path: '/objects',
-    //         list: res[2].status === 'fulfilled' ? res[2].value : [],
-    //       },
-    //       {
-    //         title: 'ЖК и Кот. посёлки',
-    //         path: '/residential',
-    //         list: res[3].status === 'fulfilled' ? res[3].value : [],
-    //       },
-    //       {
-    //         title: 'Застройщик',
-    //         path: '/builder',
-    //         list: res[4].status === 'fulfilled' ? res[4].value : [],
-    //       },
-    //     ]);
-    //   })
-    //   .finally(() => {
-    //     sendReponse.current = false;
-    //   });
   };
   const clearSuggestions = () => {
     setFindList(null);

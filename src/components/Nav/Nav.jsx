@@ -15,7 +15,7 @@ import TelegramConect from 'components/Nav/TelegramConect';
 import TelegramDiscription from 'components/Nav/TelegramDiscription';
 import DialogWindow from 'components/Main/DialogWindow';
 import Search from './Search';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ReactComponent as Calendar } from 'images/calendar-simple.svg';
 
 const NavStyle = styled.nav`
@@ -53,7 +53,6 @@ const CalendardButton = styled(Link)`
 `;
 const Nav = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [openBox, setOpenBox] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const isTelegram = useSelector((state) => state.user.telegramChatId);

@@ -51,6 +51,7 @@ const CloseButton = styled.span`
   }
 `;
 const SearchSuggestions = ({ suggestions, clearSuggestions }) => {
+  console.log(suggestions);
   const handleClose = () => {
     clearSuggestions();
   };
@@ -114,9 +115,15 @@ const SearchSuggestionsItem = ({
   clearSuggestions,
   withImages,
 }) => {
+  if (notFound) {
+    return (
+      <SearchSuggestionsItemStyle $notFound={notFound}>
+        <SearchSuggestionsItemText>Не найдено...</SearchSuggestionsItemText>
+      </SearchSuggestionsItemStyle>
+    );
+  }
   return (
     <SearchSuggestionsItemStyle
-      $notFound={notFound}
       to={`${suggestion.routingType}/${suggestion.UID}`}
       onClick={clearSuggestions}
     >
