@@ -25,7 +25,7 @@ const SuspenseNewResidential = () => {
     if (windowSize <= 768) {
       return '100%';
     }
-    return '30%';
+    return '50%';
   };
   return (
     <SlideWindow open={open} onClose={handleClose} width={getWidth()}>

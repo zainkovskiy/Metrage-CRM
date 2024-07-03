@@ -68,6 +68,7 @@ const FormCords = () => {
             onChange={field.onChange}
             cords={field.value}
             error={errors?.cords || ''}
+            isErrorTextBold
             clearErrors={clearErrors}
           />
         )}

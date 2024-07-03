@@ -2,15 +2,17 @@ import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { InputUI } from 'ui/InputUI';
 import SearchSuggestions from './SearchSuggestions';
-import {
-  getUserList,
-  getСontactList,
-  getObjectList,
-  getResidentialList,
-  getBuildersList,
-} from 'api/search';
 import { AnimatePresence } from 'framer-motion';
 import { universalFinder } from '../../api/search';
+import { ReactComponent as SVGSearch } from 'images/input_search.svg';
+
+const IconSearch = styled(SVGSearch)`
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translate(0, -50%);
+  cursor: pointer;
+`;
 
 const SearchStyle = styled.div`
   width: 60%;
@@ -18,13 +20,14 @@ const SearchStyle = styled.div`
 `;
 const Search = () => {
   const sendReponse = useRef(false);
+  const searchRef = useRef(null);
   const [findList, setFindList] = useState(null);
   const handleSearch = (e) => {
     if (sendReponse.current) {
       return;
     }
     const value = e.target.value.trimStart();
-    if (value?.length < 3) {
+    if (value?.length < 2) {
       setFindList(null);
       return;
     }
@@ -42,6 +45,7 @@ const Search = () => {
   };
   const clearSuggestions = () => {
     setFindList(null);
+    searchRef.current.value = '';
   };
   return (
     <SearchStyle>
@@ -51,6 +55,9 @@ const Search = () => {
         onChange={handleSearch}
         onFocus={handleSearch}
         placeholder='Поиск'
+        cleareApperance
+        customIcon={<IconSearch onClick={clearSuggestions} />}
+        ref={searchRef}
       />
       <AnimatePresence>
         {findList && (

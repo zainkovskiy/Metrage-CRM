@@ -19,6 +19,7 @@ import SlideFixationAdditionally from './SlideFixationAdditionally';
 import SlideFixationStory from './SlideFixationStory';
 import { updateFixation } from '../../../store/slices/fixationSlice';
 import { useDispatch } from 'react-redux';
+import SlideFixationOptionally from './SlideFixationOptionally';
 
 const SlideFixation = () => {
   const fixation = useAsyncValue();
@@ -28,8 +29,9 @@ const SlideFixation = () => {
     defaultValues: fixation,
   });
   const onSubmit = (data) => {
-    dispatch(updateFixation(data));
-    method.reset(data);
+    console.log(data);
+    // dispatch(updateFixation(data));
+    // method.reset(data);
   };
   return (
     <SliderStyle>
@@ -43,6 +45,7 @@ const SlideFixation = () => {
             {fixation.typeObject === 'suburban' && <SlideFixationSuburban />}
             {fixation.typeObject === 'newbuilding' && <SlideFixationBuilder />}
             <SlideFixationAdditionally />
+            {fixation?.suburbanType !== '3' && <SlideFixationOptionally />}
             {method.formState.isDirty && (
               <SliderFormButtonGroup>
                 <TextSpanStyle>Сохранить изменения?</TextSpanStyle>

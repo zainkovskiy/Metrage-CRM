@@ -3,8 +3,9 @@ import * as S from './slideSlide';
 import { Box } from 'ui/Box';
 import { TextSpanStyle } from '../../../styles/styles';
 import { ButtonLink } from '../../../ui/ButtonLink/ButtonLink';
+import imgErrorUrl from 'images/img-error.svg';
 
-const SlideFixationJK = ({ jk, title, onClick, showButton }) => {
+const SlideFixationJK = ({ jk, title, onClick, showButton, buttonTitle }) => {
   return (
     <S.SlideFixationDeveloper>
       <Box jc='space-between' fullWidth>
@@ -13,12 +14,12 @@ const SlideFixationJK = ({ jk, title, onClick, showButton }) => {
         </TextSpanStyle>
         {showButton && (
           <ButtonLink size={12} color='rgb(133, 0, 158)' onClick={onClick}>
-            Сменить
+            {buttonTitle || 'Сменить'}
           </ButtonLink>
         )}
       </Box>
       <div style={{ display: 'flex', gap: '0.5rem' }}>
-        <S.SlideFixationJKImage src={jk?.picture} />
+        <S.SlideFixationJKImage src={jk?.picture || imgErrorUrl} />
         <Box column jc='flex-start' gap='0' ai='flex-start'>
           <S.LinkTo to={`/residential/${jk.UID}`}>{jk?.name}</S.LinkTo>
           <TextSpanStyle size={10} color='#BAB2B2'>

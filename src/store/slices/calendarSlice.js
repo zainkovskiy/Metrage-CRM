@@ -4,18 +4,12 @@ const API = process.env.MAIN_API;
 
 export const getEventList = createAsyncThunk(
   'calendar/getEventList',
-  async (filterForm, { getState, dispatch }) => {
-    // const curFilter = filterForm ? filterForm : getState().residential.filter;
+  async (raw, { getState, dispatch }) => {
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
       method: 'crm.calendar.get',
-      fields: {
-        // ...curFilter,
-      },
+      fields: raw,
     });
-    // if (filterForm) {
-    //   dispatch(setNewFilter(filterForm));
-    // }
     if (res?.statusText === 'OK') {
       return res?.data?.result || {};
     }

@@ -17,31 +17,24 @@ const MobileSuggestionTitle = styled.span`
   color: #fff;
 `;
 
-const MobileSuggestionList = ({ findList, clickSuggestion }) => {
+const MobileSuggestionList = ({ suggestions, clickSuggestion }) => {
   return (
     <MobileSuggestionListStyle>
-      {findList.map((suggestion, idx) => (
-        <React.Fragment key={idx}>
-          <MobileSuggestionTitle style={{ color: '#fff' }}>
-            {suggestion?.title}
-          </MobileSuggestionTitle>
-          {suggestion?.list?.length > 0 ? (
-            <>
-              {suggestion.list.map((item, idx) => (
-                <MobileSuggestion
-                  key={`${'suggestion'}${item.UID}${idx}`}
-                  suggestion={item}
-                  type={suggestion?.title}
-                  path={suggestion?.path}
-                  clickSuggestion={clickSuggestion}
-                />
-              ))}
-            </>
-          ) : (
-            <MobileSuggestion notFound />
-          )}
-        </React.Fragment>
-      ))}
+      <MobileSuggestionTitle style={{ color: '#fff' }}>
+        {suggestions?.searchTitle}
+      </MobileSuggestionTitle>
+      {suggestions?.hasItems ? (
+        suggestions.items.map((suggestion, idx) => (
+          <MobileSuggestion
+            key={`${'suggestion'}${suggestion.UID}${idx}`}
+            suggestion={suggestion}
+            clickSuggestion={clickSuggestion}
+            withImages={suggestions.withImages}
+          />
+        ))
+      ) : (
+        <MobileSuggestion notFound />
+      )}
     </MobileSuggestionListStyle>
   );
 };

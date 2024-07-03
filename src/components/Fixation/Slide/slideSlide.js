@@ -73,6 +73,7 @@ export const SlideFixationDeveloper = styled.div`
 export const SlideFixationJKImage = styled.img`
   border-radius: 5px;
   width: 35%;
+  min-width: 35%;
   object-fit: cover;
   height: 60px;
   max-width: 100px;

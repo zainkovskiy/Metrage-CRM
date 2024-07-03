@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useNumberTriad } from 'hooks/StringHook';
+import imgErrorUrl from 'images/img-error.svg';
+import { Box } from 'ui/Box';
 
 const MobileSuggestionStyle = styled(Link)`
   padding: 0.5rem;
@@ -15,77 +16,53 @@ const MobileSuggestionStyle = styled(Link)`
 const MobileSuggestionText = styled.span`
   ${({ $notFound }) => $notFound && 'font-style: italic;'};
   ${({ $nowrap }) => $nowrap && 'white-space: nowrap;'};
+  font-size: ${({ $size }) => ($size ? `${$size}px ` : '12px')};
   font-family: ${({ theme }) => theme.font.family};
-
-  font-size: 12px;
   color: #fff;
 `;
-
+const MobileImage = styled.img`
+  min-width: 40px;
+  max-width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50px;
+`;
 const MobileSuggestion = ({
   suggestion,
   notFound,
-  type,
-  path,
   clickSuggestion,
+  withImages,
 }) => {
-  const getChildText = () => {
-    if (notFound) {
-      return (
+  if (notFound) {
+    return (
+      <MobileSuggestionStyle>
         <MobileSuggestionText $notFound={notFound}>
           Не найдено...
         </MobileSuggestionText>
-      );
-    }
-    if (type === 'Объекты') {
-      return (
-        <>
-          <MobileSuggestionText>
-            {suggestion?.Category || ''} {suggestion?.addrString || ''}
-          </MobileSuggestionText>
-          <MobileSuggestionText $nowrap>
-            {useNumberTriad(suggestion?.Price || 0)} руб.
-          </MobileSuggestionText>
-        </>
-      );
-    }
-    if (type === 'ЖК') {
-      return (
-        <>
-          <MobileSuggestionText>
-            {suggestion?.name || ''}{' '}
-            {suggestion?.addrStr ? `(${suggestion?.addrStr})` : ''}
-          </MobileSuggestionText>
-        </>
-      );
-    }
-    return (
-      <>
-        <MobileSuggestionText>
-          {suggestion?.lastName || ''} {suggestion?.firstName || ''}{' '}
-          {suggestion?.secondName || ''}
-        </MobileSuggestionText>
-        <MobileSuggestionText> {suggestion?.phone || ''}</MobileSuggestionText>
-      </>
+      </MobileSuggestionStyle>
     );
-  };
-  const getPath = () => {
-    if (type === 'Объекты') {
-      return `${path}/${suggestion?.type}/${suggestion?.UID}`;
-    }
-    if (type === 'Контакты') {
-      return `${path}/${suggestion?.UID}`;
-    }
-    if (type === 'Пользователи') {
-      return `${path}/${suggestion?.UID}`;
-    }
-    if (type === 'ЖК') {
-      return `${path}/${suggestion?.UID}`;
-    }
-    return '';
-  };
+  }
   return (
-    <MobileSuggestionStyle to={getPath()} onClick={clickSuggestion}>
-      {getChildText()}
+    <MobileSuggestionStyle
+      to={`${suggestion.routingType}/${suggestion.UID}`}
+      onClick={clickSuggestion}
+    >
+      <Box ai='flex-start'>
+        {withImages && <MobileImage src={suggestion?.picture || imgErrorUrl} />}
+        <Box column ai='flex-start' gap='0'>
+          <MobileSuggestionText>{suggestion.firstLine}</MobileSuggestionText>
+          {suggestion?.secondLine && (
+            <MobileSuggestionText $size={10}>
+              {suggestion.secondLine}
+            </MobileSuggestionText>
+          )}
+        </Box>
+      </Box>
+      {suggestion?.secondColumn && (
+        <MobileSuggestionText $nowrap>
+          {suggestion.secondColumn}
+        </MobileSuggestionText>
+      )}
     </MobileSuggestionStyle>
   );
 };

@@ -12,6 +12,7 @@ import {
 import MobileSuggestionList from './MobileSuggestionList';
 import MenuListButton from './MenuListButton';
 import { useSelector } from 'react-redux';
+import { universalFinder } from '../../api/search';
 const variants = {
   open: {},
   closed: {},
@@ -86,7 +87,7 @@ const InputSearch = styled(motion.input)`
 const MenuList = ({ onClose }) => {
   const inputRef = useRef(null);
   const sendReponse = useRef(false);
-  const [findList, setFindList] = useState([]);
+  const [findList, setFindList] = useState(null);
   const [openSearch, setOpenSearch] = useState(false);
   const { ddsRights } = useSelector((state) => state.user);
 
@@ -103,58 +104,24 @@ const MenuList = ({ onClose }) => {
       return;
     }
     const value = e.target.value.trimStart();
-    if (value?.length < 3) {
-      setFindList([]);
+    if (value?.length < 2) {
+      setFindList(null);
       return;
     }
     findSuggestion(value);
   };
   const findSuggestion = (value) => {
     sendReponse.current = true;
-    Promise.allSettled([
-      getСontactList(value),
-      getUserList(value),
-      getObjectList(value),
-      getResidentialList(value),
-    ])
-      .then((res) => {
-        setFindList([
-          {
-            title: 'Контакты',
-            path: '/client',
-            list: res[0].status === 'fulfilled' ? res[0].value : [],
-          },
-          {
-            title: 'Пользователи',
-            path: '/users',
-            list: res[1].status === 'fulfilled' ? res[1].value : [],
-          },
-          {
-            title: 'Объекты',
-            path: '/objects',
-            list: res[2].status === 'fulfilled' ? res[2].value : [],
-          },
-          {
-            title: 'ЖК',
-            path: '/residential',
-            list: res[3].status === 'fulfilled' ? res[3].value : [],
-          },
-        ]);
+    universalFinder(value, window.location.href)
+      .then((data) => {
+        setFindList(data);
       })
       .finally(() => {
         sendReponse.current = false;
       });
   };
-  const isShowSuggestions = () => {
-    for (let item of findList) {
-      if (item?.list?.length > 0) {
-        return true;
-      }
-    }
-    return false;
-  };
   const clearSuggestions = () => {
-    setFindList([]);
+    setFindList(null);
   };
   const clickSuggestion = () => {
     clearSuggestions();
@@ -180,9 +147,9 @@ const MenuList = ({ onClose }) => {
           <Search />
         </ButtonSearch>
       </SerachContainer>
-      {isShowSuggestions() ? (
+      {findList ? (
         <MobileSuggestionList
-          findList={findList}
+          suggestions={findList}
           clickSuggestion={clickSuggestion}
         />
       ) : (

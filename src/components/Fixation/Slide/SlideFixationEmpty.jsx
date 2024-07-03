@@ -9,7 +9,14 @@ import { LabelStyle } from '../../../ui/InputUI/InputUIStyled';
 import { useAsyncValue } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-const SlideFixationEmpty = ({ title, label, keyName, onClick, showButton }) => {
+const SlideFixationEmpty = ({
+  title,
+  label,
+  keyName,
+  onClick,
+  showButton,
+  buttonTitle,
+}) => {
   const fixation = useAsyncValue();
   const { UID } = useSelector((state) => state.user);
   const isNotAdmin = UID !== fixation?.broker?.UID;
@@ -22,7 +29,7 @@ const SlideFixationEmpty = ({ title, label, keyName, onClick, showButton }) => {
         </TextSpanStyle>
         {showButton && (
           <ButtonLink size={12} color='rgb(133, 0, 158)' onClick={onClick}>
-            Сменить
+            {buttonTitle || 'Сменить'}
           </ButtonLink>
         )}
       </Box>

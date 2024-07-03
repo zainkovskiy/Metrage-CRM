@@ -28,6 +28,14 @@ const getInputPadding = (props) => {
   return $small ? '0.2rem 0.5rem' : '0.5rem';
   // (props) => (props.type === 'password' || props.icon) ? '0.5rem 28px 0.5rem 0.5rem' : '0.5rem'
 };
+const styleApperance = css`
+  &::-webkit-search-decoration,
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-results-button,
+  &::-webkit-search-results-decoration {
+    -webkit-appearance: none;
+  }
+`;
 export const InputStyle = styled.input`
   font-size: 14px;
   font-family: CeraCY, sans-serif;
@@ -40,7 +48,7 @@ export const InputStyle = styled.input`
   box-sizing: border-box;
   letter-spacing: ${(props) => (props.type === 'password' ? '1.25px' : '')};
   position: relative;
-  // -webkit-appearance: none;
+  ${({ $cleareApperance }) => $cleareApperance && styleApperance}
   &:disabled {
     background-color: #eee;
     opacity: 0.8;

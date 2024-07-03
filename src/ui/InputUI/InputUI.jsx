@@ -10,7 +10,7 @@ import {
   ContainerInput,
   iconStyle,
 } from './InputUIStyled';
-import sendUrl, { ReactComponent as Send } from 'images/send.svg';
+import { ReactComponent as Send } from 'images/send.svg';
 
 const VisibilityIconStyle = styled(VisibilityIcon)`
   ${iconStyle};
@@ -18,7 +18,6 @@ const VisibilityIconStyle = styled(VisibilityIcon)`
 const VisibilityOffIconStyle = styled(VisibilityOffIcon)`
   ${iconStyle};
 `;
-
 export const InputUI = forwardRef((props, ref) => {
   const {
     type,
@@ -44,6 +43,8 @@ export const InputUI = forwardRef((props, ref) => {
     AutoComplete,
     fg,
     onClick,
+    customIcon,
+    cleareApperance = false,
   } = props;
   const InputComponent = getInputComponent(type);
   return (
@@ -74,6 +75,7 @@ export const InputUI = forwardRef((props, ref) => {
           id={id}
           autoComplete={AutoComplete}
           onClick={onClick}
+          cleareApperance={cleareApperance}
         />
         {helperText && (
           <TextSpanStyle color='#7a7a7a' size={12}>
@@ -83,6 +85,7 @@ export const InputUI = forwardRef((props, ref) => {
         <TextSpanStyle color='red' size={12}>
           {error?.message && error.message}
         </TextSpanStyle>
+        {customIcon && customIcon}
       </ContainerInput>
     </LabelStyle>
   );
@@ -144,6 +147,7 @@ const InputCustom = forwardRef((props, ref) => {
     small,
     AutoComplete,
     onClick,
+    cleareApperance,
   } = props;
   return (
     <ContainerIcon error={error}>
@@ -165,6 +169,7 @@ const InputCustom = forwardRef((props, ref) => {
         id={id}
         autoComplete={AutoComplete && 'off'}
         onClick={onClick}
+        $cleareApperance={cleareApperance}
       />
       {icon && iconVariant[icon]}
     </ContainerIcon>

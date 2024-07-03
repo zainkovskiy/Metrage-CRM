@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import DialogWindow from 'components/Main/DialogWindow';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -7,10 +9,9 @@ import moment from 'moment';
 import 'moment/locale/ru';
 import { TextSpanStyle } from 'styles/styles';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
 import DialogEvent from './DialogEvent';
 import { messages } from './core/messages';
-import { useNavigate } from 'react-router-dom';
+import { getEventList } from '../../store/slices/calendarSlice';
 
 const localizer = momentLocalizer(moment);
 
@@ -47,6 +48,7 @@ const MyEvent = (props) => {
 };
 
 const CalendarComponent = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [curEvent, setCurEvent] = useState(null);
   const [view, setView] = useState(Views.WEEK);
@@ -55,6 +57,14 @@ const CalendarComponent = () => {
   if (loadingList) {
     return <Loader />;
   }
+  const getEvents = (date) => {
+    dispatch(
+      getEventList({
+        dateFrom: moment(date).format('YYYY-MM-DD'),
+        period: view,
+      })
+    );
+  };
   const setNewView = (newView) => {
     setView(newView);
   };
@@ -93,9 +103,7 @@ const CalendarComponent = () => {
           return moment(event.end).toDate();
         }}
         //TODO: вот это то что надо для Вани
-        onNavigate={(e) => {
-          console.log(e);
-        }}
+        onNavigate={getEvents}
         onView={setNewView}
         style={{
           height: '100%',

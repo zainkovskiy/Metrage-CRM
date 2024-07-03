@@ -11,7 +11,10 @@ import { TextSpanStyle } from 'styles/styles';
 import { Box } from 'ui/Box';
 
 const MapPlacemark = forwardRef(
-  ({ onChange, error, cords, clearErrors, disable, height }, ref) => {
+  (
+    { onChange, error, cords, clearErrors, disable, height, isErrorTextBold },
+    ref
+  ) => {
     const office = useSelector((state) => state.user.office);
     const [center, setCenter] = React.useState(
       cords || office === '2' ? [55.75222, 37.61556] : [55.030204, 82.92043]
@@ -75,7 +78,7 @@ const MapPlacemark = forwardRef(
         </Map>
         {error?.message && (
           <Box jc='flex-start'>
-            <TextSpanStyle color='red' size={12}>
+            <TextSpanStyle color='red' size={12} bold={isErrorTextBold}>
               {error?.message && error.message}
             </TextSpanStyle>
             <input

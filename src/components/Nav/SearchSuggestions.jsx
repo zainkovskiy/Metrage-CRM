@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ReactComponent as Close } from 'images/close.svg';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Box } from 'ui/Box';
@@ -21,6 +20,7 @@ const SearchSuggestionsStyle = styled(motion.div)`
   background-color: #fff;
   z-index: 9999;
   transform: translate(0, calc(100% + 0.5rem));
+  border-radius: 0 40px 0 40px;
 `;
 const SearchSuggestionsTitle = styled.div`
   border-bottom: 1px solid #786464;
@@ -32,29 +32,7 @@ const SearchSuggestionsTitle = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
-const CloseButton = styled.span`
-  cursor: pointer;
-  width: 14px;
-  height: 14px;
-  transition: transform 0.3s;
-  &:hover {
-    transform: scale(1.1);
-  }
-  &:active {
-    transform: scale(0.9);
-  }
-  & > svg {
-    pointer-events: none;
-    width: 14px;
-    height: 14px;
-    fill: #df7f7f;
-  }
-`;
 const SearchSuggestions = ({ suggestions, clearSuggestions }) => {
-  console.log(suggestions);
-  const handleClose = () => {
-    clearSuggestions();
-  };
   return (
     <SearchSuggestionsStyle
       initial={{ opacity: 0 }}
@@ -63,9 +41,6 @@ const SearchSuggestions = ({ suggestions, clearSuggestions }) => {
     >
       <SearchSuggestionsTitle color='#786464'>
         {suggestions?.searchTitle}
-        <CloseButton onClick={handleClose}>
-          <Close />
-        </CloseButton>
       </SearchSuggestionsTitle>
       {suggestions?.hasItems ? (
         suggestions.items.map((suggestion, idx) => (
@@ -104,10 +79,11 @@ const SearchSuggestionsItemText = styled.span`
   white-space: ${({ $nowrap }) => $nowrap && 'nowrap'};
 `;
 const SearchSuggestionsItemImage = styled.img`
-  min-width: 80px;
-  max-width: 80px;
-  height: 50px;
+  min-width: 40px;
+  max-width: 40px;
+  height: 40px;
   object-fit: cover;
+  border-radius: 50px;
 `;
 const SearchSuggestionsItem = ({
   suggestion,
