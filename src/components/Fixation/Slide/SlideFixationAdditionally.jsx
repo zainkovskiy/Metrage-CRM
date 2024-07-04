@@ -15,7 +15,7 @@ const SlideFixationAdditionally = () => {
   const { control } = useFormState();
   return (
     <S.FixationBlock>
-      <SliderTitle>Дополнительно</SliderTitle>
+      <SliderTitle>Информация</SliderTitle>
       <InputUI
         small
         label='Отправлено'

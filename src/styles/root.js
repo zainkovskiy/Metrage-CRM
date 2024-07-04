@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { device } from './device';
 import CeraCY_TTF from '../public/fonts/CeraCYRegular.ttf';
 import CeraCY_WOFF from '../public/fonts/CeraCYRegular.woff';
 import CeraCY_WOFF2 from '../public/fonts/CeraCYRegular.woff2';
@@ -50,6 +51,11 @@ export const GlobalStyle = createGlobalStyle`
   }
   .react-dadata__input:focus{
     box-shadow: none !important;
+  }
+  .rbc-toolbar{
+    @media ${device.mobileL}{
+      flex-direction: column;
+    }
   }
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {

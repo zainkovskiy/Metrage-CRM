@@ -63,6 +63,15 @@ const SlideFixationOptionally = () => {
     );
     setChange(!change);
   };
+  const _isShowButtonAdd = () => {
+    if (fixation?.optionally?.length === 4) {
+      return false;
+    }
+    if (fixation.stageId !== 0 && isAgent) {
+      return false;
+    }
+    return isAdmin;
+  };
   const _isDisabled = () => {
     if (isAdmin) {
       return false;
@@ -70,13 +79,13 @@ const SlideFixationOptionally = () => {
     if (isAgent && fixation.stageId === 0) {
       return false;
     }
-    return true;
+    return isAdmin;
   };
   return (
     <S.FixationBlock>
       <SliderTitle>
         Дополнительно*
-        {fixation.stageId !== 0 && fixation?.optionally?.length < 4 && (
+        {_isShowButtonAdd() && (
           <ButtonLink size={12} color='rgb(133, 0, 158)' onClick={openWindow}>
             Добавить
           </ButtonLink>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
@@ -25,6 +25,7 @@ const TextEllipsis = styled(TextSpanStyle)`
   overflow: hidden;
   text-overflow: ellipsis;
 `;
+//TODO: косяк с кастомным компонентом, открытие закрытие new и не точное время
 const MyEvent = (props) => {
   const getClick = () => {
     if (props?.onSelect) {
@@ -52,12 +53,29 @@ const CalendarComponent = () => {
   const navigate = useNavigate();
   const [curEvent, setCurEvent] = useState(null);
   const [view, setView] = useState(Views.WEEK);
+  const [date, setDate] = useState(new Date());
+  const firstMountDate = useRef(true);
+  const firstMountView = useRef(true);
   const events = useSelector((state) => state.calendar.events);
   const loadingList = useSelector((state) => state.calendar.loadingList);
+  useEffect(() => {
+    if (firstMountDate.current) {
+      firstMountDate.current = false;
+      return;
+    }
+    getEvents();
+  }, [date]);
+  useEffect(() => {
+    if (firstMountView.current) {
+      firstMountView.current = false;
+      return;
+    }
+    getEvents();
+  }, [view]);
   if (loadingList) {
     return <Loader />;
   }
-  const getEvents = (date) => {
+  const getEvents = () => {
     dispatch(
       getEventList({
         dateFrom: moment(date).format('YYYY-MM-DD'),
@@ -67,6 +85,9 @@ const CalendarComponent = () => {
   };
   const setNewView = (newView) => {
     setView(newView);
+  };
+  const setNewDate = (newDate) => {
+    setDate(newDate);
   };
   const handleSelectEvent = (event) => {
     setCurEvent(event);
@@ -79,7 +100,6 @@ const CalendarComponent = () => {
   const cleareCurEvent = () => {
     setCurEvent(null);
   };
-
   return (
     <>
       <Calendar
@@ -87,7 +107,7 @@ const CalendarComponent = () => {
           eventWrapper: MyEvent,
         }}
         localizer={localizer}
-        defaultDate={new Date()}
+        date={date}
         view={view}
         events={events?.data || []}
         culture='ru'
@@ -102,8 +122,7 @@ const CalendarComponent = () => {
         endAccessor={(event) => {
           return moment(event.end).toDate();
         }}
-        //TODO: вот это то что надо для Вани
-        onNavigate={getEvents}
+        onNavigate={setNewDate}
         onView={setNewView}
         style={{
           height: '100%',

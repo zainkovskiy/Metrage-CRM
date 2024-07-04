@@ -157,6 +157,12 @@ const MenuList = ({ onClose }) => {
           <MenuListButton title='На главную' path='/' onClick={onClose} />
           <MenuListTop>
             <MenuListButton
+              title='Календарь'
+              icon='calendar'
+              path='calendar'
+              onClick={onClose}
+            />
+            <MenuListButton
               title='Заявки'
               icon='application'
               path='application'

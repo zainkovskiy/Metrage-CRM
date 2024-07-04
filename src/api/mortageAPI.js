@@ -85,3 +85,27 @@ export const setConsultation = async (value, UID) => {
   }
   return 'No OK';
 };
+export const addNotify = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.mortgage.addNotify',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return res?.data?.result || null;
+  }
+  return null;
+};
+export const deleteNotify = async (UID) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.mortgage.deleteNotify',
+    fields: {
+      UID: UID,
+    },
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No OK';
+};
