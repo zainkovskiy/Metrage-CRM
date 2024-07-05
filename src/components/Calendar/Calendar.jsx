@@ -25,7 +25,6 @@ const TextEllipsis = styled(TextSpanStyle)`
   overflow: hidden;
   text-overflow: ellipsis;
 `;
-//TODO: косяк с кастомным компонентом, открытие закрытие new и не точное время
 const MyEvent = (props) => {
   const getClick = () => {
     if (props?.onSelect) {
@@ -38,14 +37,22 @@ const MyEvent = (props) => {
   };
   return (
     <CustomEvent
-      style={{ backgroundColor: ` ${props?.event?.color || 'grey'}` }}
+      style={{
+        backgroundColor: ` ${props?.event?.color || 'grey'}`,
+      }}
       onClick={getClick}
     >
       <TextEllipsis nowrap color='#fff'>
-        {props.event.title}
+        {props.title}
       </TextEllipsis>
     </CustomEvent>
   );
+};
+const MyEventWrapper = (event) => {
+  const newChildren = event.children;
+  newChildren.props.style.backgroundColor = event?.event?.color || 'grey';
+  newChildren.props.style.borderColor = event?.event?.color || 'grey';
+  return newChildren;
 };
 
 const CalendarComponent = () => {
@@ -104,7 +111,8 @@ const CalendarComponent = () => {
     <>
       <Calendar
         components={{
-          eventWrapper: MyEvent,
+          event: MyEvent,
+          eventWrapper: MyEventWrapper,
         }}
         localizer={localizer}
         date={date}
