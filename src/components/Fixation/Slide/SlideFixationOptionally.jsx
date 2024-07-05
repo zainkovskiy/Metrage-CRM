@@ -70,16 +70,16 @@ const SlideFixationOptionally = () => {
     if (fixation.stageId !== 0 && isAgent) {
       return false;
     }
+    if (fixation.stageId === 0) {
+      return true;
+    }
     return isAdmin;
   };
   const _isDisabled = () => {
-    if (isAdmin) {
-      return false;
-    }
     if (isAgent && fixation.stageId === 0) {
       return false;
     }
-    return isAdmin;
+    return !isAdmin;
   };
   return (
     <S.FixationBlock>
@@ -107,7 +107,7 @@ const SlideFixationOptionally = () => {
                   onClick={() => {
                     removeOptional(optional);
                   }}
-                  showButton={!_isDisabled}
+                  showButton={!_isDisabled()}
                   buttonTitle='Удалить'
                 />
                 {idx < fixation.optionally.length - 1 && <S.Line />}
@@ -122,7 +122,7 @@ const SlideFixationOptionally = () => {
                 onClick={() => {
                   removeOptional(optional);
                 }}
-                showButton={!_isDisabled}
+                showButton={!_isDisabled()}
                 buttonTitle='Удалить'
               />
               {fixation?.typeObject === 'newbuilding' && (
