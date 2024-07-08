@@ -31,6 +31,8 @@ const SlideFixationAgency = () => {
         clickChange={() => setTarget('realtor')}
         title='Агент:'
         showButton={!isNotAdmin}
+        isPhone={true}
+        isEmail={true}
       />
       <SlideFixationAgent
         agent={fixation.broker}

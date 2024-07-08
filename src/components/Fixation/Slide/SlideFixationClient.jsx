@@ -1,7 +1,8 @@
 import React from 'react';
-import { useFormState, Controller } from 'react-hook-form';
+import { useFormState, Controller, useFormContext } from 'react-hook-form';
 import { SliderTitle } from '../../../styles/slider';
 import { InputUI } from 'ui/InputUI';
+import { TextSpanStyle } from '../../../styles/styles';
 import * as S from './slideSlide';
 import { useSelector } from 'react-redux';
 import { useAsyncValue } from 'react-router-dom';
@@ -11,9 +12,17 @@ const SlideFixationClient = () => {
   const fixation = useAsyncValue();
   const isNotAdmin = UID !== fixation?.broker?.UID;
   const { control } = useFormState();
+  const { watch, getValues } = useFormContext();
+  watch('contact.lastName');
+  watch('contact.firstName');
+  watch('contact.secondName');
   return (
     <S.FixationBlock>
       <SliderTitle>Клиент</SliderTitle>
+      <TextSpanStyle size={12}>
+        {getValues('contact.lastName')} {getValues('contact.firstName')}{' '}
+        {getValues('contact.secondName')}
+      </TextSpanStyle>
       <Controller
         control={control}
         name='contact.lastName'

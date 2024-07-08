@@ -4,7 +4,14 @@ import * as S from './slideSlide';
 import { TextSpanStyle } from '../../../styles/styles';
 import { ButtonLink } from '../../../ui/ButtonLink/ButtonLink';
 
-const SlideFixationAgent = ({ agent, title, clickChange, showButton }) => {
+const SlideFixationAgent = ({
+  agent,
+  title,
+  clickChange,
+  showButton,
+  isPhone,
+  isEmail,
+}) => {
   return (
     <Box fullWidth column gap='0'>
       <Box jc='space-between' fullWidth>
@@ -20,6 +27,8 @@ const SlideFixationAgent = ({ agent, title, clickChange, showButton }) => {
         <Box column ai='flex-start' gap='0'>
           <TextSpanStyle size={12}>{agent?.fullName}</TextSpanStyle>
           <TextSpanStyle size={10}>{agent?.office}</TextSpanStyle>
+          {isEmail && <TextSpanStyle size={10}>{agent?.email}</TextSpanStyle>}
+          {isPhone && <TextSpanStyle size={10}>{agent?.phone}</TextSpanStyle>}
         </Box>
       </S.SliderAgent>
     </Box>

@@ -193,6 +193,23 @@ const DealFilterForm = ({ onClose }) => {
             </SelectUI>
           )}
         />
+        <Controller
+          name='lawyersCalculated'
+          control={control}
+          render={({ field }) => (
+            <SelectUI
+              onChange={(newValue) => {
+                field.onChange(newValue);
+              }}
+              select={field.value || 'all'}
+              label='Юрист расчитан полностью'
+            >
+              <SelectItemUI value='all'>Все</SelectItemUI>
+              <SelectItemUI value='yes'>Да</SelectItemUI>
+              <SelectItemUI value='no'>Нет</SelectItemUI>
+            </SelectUI>
+          )}
+        />
         <Box wrap>
           <Controller
             control={control}
