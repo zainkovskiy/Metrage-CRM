@@ -49,7 +49,7 @@ const SlideDeal = () => {
     alwaysBrand: deal?.alwaysBrand || false,
     isRent: deal?.isRent || false,
     isSuburban: deal?.isSuburban || false,
-    devName: deal?.newbParams || '',
+    developer: deal?.newbParams?.developer || '',
   });
   const methods = useForm({
     defaultValues: {
@@ -82,7 +82,7 @@ const SlideDeal = () => {
       alwaysBrand: deal?.alwaysBrand || false,
       isSuburban: deal?.isSuburban || false,
       isRent: deal?.isRent || false,
-      devName: deal?.newbParams || '',
+      developer: deal?.newbParams?.developer || '',
     },
   });
   const onSubmit = (data) => {

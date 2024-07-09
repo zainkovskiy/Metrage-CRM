@@ -97,23 +97,23 @@ const SlideFixationOptionally = () => {
       </TextSpanStyle>
       {fixation?.optionally?.length > 0 &&
         fixation.optionally.map((optional, idx) => {
-          if (optional.jk.UID === '0') {
-            return (
-              <React.Fragment key={optional.UID}>
-                <SlideFixationEmpty
-                  title='ЖК/КП'
-                  label='Комплекс отсутствует в БД'
-                  keyName={`optionally[${idx}].corpus`}
-                  onClick={() => {
-                    removeOptional(optional);
-                  }}
-                  showButton={!_isDisabled()}
-                  buttonTitle='Удалить'
-                />
-                {idx < fixation.optionally.length - 1 && <S.Line />}
-              </React.Fragment>
-            );
-          }
+          // if (optional.jk.UID === '0') {
+          //   return (
+          //     <React.Fragment key={optional.UID}>
+          //       <SlideFixationEmpty
+          //         title='ЖК/КП'
+          //         label='Комплекс отсутствует в БД'
+          //         keyName={`optionally[${idx}].corpus`}
+          //         onClick={() => {
+          //           removeOptional(optional);
+          //         }}
+          //         showButton={!_isDisabled()}
+          //         buttonTitle='Удалить'
+          //       />
+          //       {idx < fixation.optionally.length - 1 && <S.Line />}
+          //     </React.Fragment>
+          //   );
+          // }
           return (
             <React.Fragment key={optional.UID}>
               <SlideFixationJK

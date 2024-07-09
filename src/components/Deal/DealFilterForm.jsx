@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserList } from 'api/search';
+import { getUserList, getLocalOfficeList } from 'api/search';
 import { Box } from 'ui/Box';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import { InputUI } from 'ui/InputUI';
@@ -19,7 +19,6 @@ import {
   getDealList,
   resetFilter,
 } from '../../store/dealSlice';
-import { getLocalOfficeList } from '../../api/search';
 
 const DealFilterForm = ({ onClose }) => {
   const dispatch = useDispatch();

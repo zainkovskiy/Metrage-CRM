@@ -35,7 +35,6 @@ export const getFixationOne = createAsyncThunk(
       },
     });
     if (res?.statusText === 'OK') {
-      console.log(res.data);
       return res?.data?.result || {};
     }
     return {};

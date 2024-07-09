@@ -178,7 +178,7 @@ const SlideDDSInfo = () => {
             color='rgb(133, 0, 158)'
             onClick={openChangeWindow}
           >
-            Получатель (для выплат ЗП)
+            Получатель (Для выплат ЗП и Юр. услуг)
           </ButtonLink>
         )}
         <InputUI

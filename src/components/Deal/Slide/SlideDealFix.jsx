@@ -177,7 +177,7 @@ const SlideDealFix = () => {
               name='depositStatus'
               value={field.value}
               onChange={field.onChange}
-              gao='0.5rem'
+              gap='0.5rem'
               wrap
             >
               <RadioButton label='Принят' id='depositAccepted' />

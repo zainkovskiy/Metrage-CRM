@@ -11,7 +11,12 @@ import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
-import { getBankList, getLegalList } from '../../api/search';
+import {
+  getBankList,
+  getLegalList,
+  getLocalOfficeList,
+  getUserList,
+} from '../../api/search';
 import {
   defaultDDSFilter,
   resetDDSFilter,
@@ -24,10 +29,14 @@ const DDSFilterForm = ({ onClose }) => {
   const { handleSubmit, control, reset } = useForm({
     defaultValues: filter,
   });
-  const [legalList, setLegalList] = useState([]);
   const legalRequest = useRef(false);
-  const [bankList, setBankList] = useState([]);
   const bankRequest = useRef(false);
+  const officeRequest = useRef(false);
+  const userRequest = useRef(false);
+  const [legalList, setLegalList] = useState([]);
+  const [bankList, setBankList] = useState([]);
+  const [officeList, setOfficeList] = useState([]);
+  const [users, setUsers] = useState([]);
   const onSubmit = (data) => {
     dispatch(getDDSData(data));
     localStorage.setItem('filterDDS', JSON.stringify(data));
@@ -55,7 +64,6 @@ const DDSFilterForm = ({ onClose }) => {
         legalRequest.current = false;
       });
   };
-
   const reqBankList = (value) => {
     if (value.length < 2) {
       setBankList([]);
@@ -71,6 +79,40 @@ const DDSFilterForm = ({ onClose }) => {
       })
       .finally(() => {
         bankRequest.current = false;
+      });
+  };
+  const reqOfficeList = (value) => {
+    if (value.length < 2) {
+      setOfficeList([]);
+      return;
+    }
+    if (officeRequest.current) {
+      return;
+    }
+    officeRequest.current = true;
+    getLocalOfficeList(value)
+      .then((data) => {
+        setOfficeList(data);
+      })
+      .finally(() => {
+        officeRequest.current = false;
+      });
+  };
+  const getUsers = (value) => {
+    if (value.length < 2) {
+      setUsers([]);
+      return;
+    }
+    if (userRequest.current) {
+      return;
+    }
+    userRequest.current = true;
+    getUserList(value)
+      .then((data) => {
+        setUsers(data);
+      })
+      .finally(() => {
+        userRequest.current = false;
       });
   };
   return (
@@ -108,6 +150,38 @@ const DDSFilterForm = ({ onClose }) => {
               onChange={field.onChange}
               fullWidth
               label='Период, до'
+            />
+          )}
+        />
+        <Controller
+          name='office'
+          control={control}
+          render={({ field }) => (
+            <SelectAutoсompleteUI
+              label='Офис'
+              options={officeList}
+              getOptionsLabel={(options) => options.name}
+              onChange={(option) => field.onChange(option)}
+              value={field.value}
+              inputChange={reqOfficeList}
+            />
+          )}
+        />
+        <Controller
+          name='resipient'
+          control={control}
+          render={({ field }) => (
+            <SelectAutoсompleteUI
+              label='Получатель'
+              options={users}
+              getOptionsLabel={(options) =>
+                `${options.lastName || ''} ${options.firstName || ''} ${
+                  options.secondName || ''
+                }`
+              }
+              onChange={(option) => field.onChange(option)}
+              value={field.value}
+              inputChange={getUsers}
             />
           )}
         />

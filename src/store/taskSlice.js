@@ -55,8 +55,6 @@ export const addNewTaskCard = createAsyncThunk(
     });
 
     if (res?.statusText === 'OK') {
-      console.log(UID);
-      console.log(res);
       return res?.data?.result || {};
     }
     return {};

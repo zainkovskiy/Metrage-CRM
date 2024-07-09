@@ -159,7 +159,7 @@ const SlideDealDeveloper = () => {
           />
           {deal?.isSuburban ? (
             <Controller
-              name='devName'
+              name='newbParams.developer'
               control={control}
               render={({ field }) => (
                 <SelectAutoсompleteUI
