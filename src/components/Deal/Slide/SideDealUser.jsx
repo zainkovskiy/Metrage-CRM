@@ -13,6 +13,7 @@ import SlideDialogCalculation from './SlideDialogCalculation';
 import { setNewComission } from '../../../api/dealAPI';
 import { useAsyncValue } from 'react-router-dom';
 import { useGetAvatar } from 'hooks/MakeAvatar';
+import SlideDialogRealtor from './SlideDialogRealtor';
 
 const SlideParticipantsText = styled(TextSpanStyle)`
   text-overflow: ellipsis;
@@ -152,6 +153,9 @@ const UserRealtor = ({
           </IconButton>
         </Box>
       </UserStyle>
+      <DialogWindow open={calculationWindow} onClose={toggleCalculation}>
+        <SlideDialogRealtor onClose={toggleCalculation} user={user} />
+      </DialogWindow>
       <DialogWindow open={isEditComission} onClose={toggleEditComission}>
         <SlideDialogComission
           onClose={toggleEditComission}
@@ -159,13 +163,6 @@ const UserRealtor = ({
           onChange={changeNewComission}
           side={user.side}
           agentVal={user.agentVal}
-          user={user}
-          type={type}
-        />
-      </DialogWindow>
-      <DialogWindow open={calculationWindow} onClose={toggleCalculation}>
-        <SlideDialogCalculation
-          onClose={toggleCalculation}
           user={user}
           type={type}
         />

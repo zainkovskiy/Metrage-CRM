@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useFormState, Controller, useFormContext } from 'react-hook-form';
 import * as S from './slideSlide';
 import { InputUI } from 'ui/InputUI';
+import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { SliderTitle } from '../../../styles/slider';
 import { TextSpanStyle } from '../../../styles/styles';
 import SlideFixationJK from './SlideFixationJK';
@@ -119,6 +120,55 @@ const SlideFixationBuilder = () => {
           />
         )}
       />
+      {fixation.fixationType === '1' && (
+        <>
+          <Controller
+            control={control}
+            name='roomsCount'
+            render={({ field }) => (
+              <InputUI
+                small
+                value={field.value || ''}
+                onChange={field.onChange}
+                label='Кол-во комнат'
+                disabled={isNotAdmin}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name='totalArea'
+            render={({ field }) => (
+              <InputUI
+                small
+                value={field.value || ''}
+                onChange={field.onChange}
+                label='Общая площадь'
+                disabled={isNotAdmin}
+              />
+            )}
+          />
+          <Controller
+            name='typeCalculation'
+            control={control}
+            render={({ field }) => (
+              <SelectUI
+                small
+                onChange={(newValue) => {
+                  field.onChange(newValue);
+                }}
+                select={field.value || 'all'}
+                label='Тип расчета'
+                disabled={isNotAdmin}
+              >
+                <SelectItemUI value='Наличные'>Наличные</SelectItemUI>
+                <SelectItemUI value='Ипотека'>Ипотека</SelectItemUI>
+                <SelectItemUI value='Рассрочка'>Рассрочка</SelectItemUI>
+              </SelectUI>
+            )}
+          />
+        </>
+      )}
       <DialogWindow open={open} onClose={closeChangeWindow}>
         <div onClick={(e) => e.stopPropagation()}>
           <BuildFinder

@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useFormState, Controller, useFormContext } from 'react-hook-form';
 import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
+import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 
 import * as S from './styleNew';
 import { InputUI } from 'ui/InputUI';
@@ -30,6 +31,7 @@ const NewBuildingFields = () => {
       });
   };
   watch('jk');
+  watch('fixationType');
   return (
     <S.FormGrid>
       <Controller
@@ -92,6 +94,52 @@ const NewBuildingFields = () => {
           />
         )}
       />
+      {getValues('fixationType') === '1' && (
+        <>
+          <Controller
+            control={control}
+            name='roomsCount'
+            render={({ field }) => (
+              <InputUI
+                small
+                value={field.value || ''}
+                onChange={field.onChange}
+                label='Кол-во комнат'
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name='totalArea'
+            render={({ field }) => (
+              <InputUI
+                small
+                value={field.value || ''}
+                onChange={field.onChange}
+                label='Общая площадь'
+              />
+            )}
+          />
+          <Controller
+            name='typeCalculation'
+            control={control}
+            render={({ field }) => (
+              <SelectUI
+                small
+                onChange={(newValue) => {
+                  field.onChange(newValue);
+                }}
+                select={field.value || 'all'}
+                label='Тип расчета'
+              >
+                <SelectItemUI value='Наличные'>Наличные</SelectItemUI>
+                <SelectItemUI value='Ипотека'>Ипотека</SelectItemUI>
+                <SelectItemUI value='Рассрочка'>Рассрочка</SelectItemUI>
+              </SelectUI>
+            )}
+          />
+        </>
+      )}
       <Controller
         control={control}
         name='price'
