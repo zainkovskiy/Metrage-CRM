@@ -9,6 +9,7 @@ import { useAsyncValue } from 'react-router-dom';
 import { getBankList, getLegalList } from '../../../api/search';
 import DialogWindow from 'components/Main/DialogWindow';
 import DealFinder from 'components/Main/DealFinder';
+import { dealOperational } from '../../../api/ddsApi';
 
 const FieldsLine = styled.div`
   display: grid;
@@ -17,7 +18,7 @@ const FieldsLine = styled.div`
   margin-top: 0.5rem;
   ${({ $notGapRow }) => $notGapRow && 'row-gap: 0;'};
 `;
-const SlideDDSMain = () => {
+const SlideDDSMain = ({ toggleChange }) => {
   const dds = useAsyncValue();
   const { control, setValue } = useFormContext();
   const [legalList, setLegalList] = useState([]);
@@ -73,6 +74,10 @@ const SlideDDSMain = () => {
       shouldDirty: true,
     });
     closeChangeWindow();
+    dealOperational(dds?.UID).then((data) => {
+      dds.operation = data;
+      toggleChange();
+    });
   };
   return (
     <SliderBlock>

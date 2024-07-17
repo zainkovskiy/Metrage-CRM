@@ -50,3 +50,16 @@ export const getSubCategory = async (category) => {
   }
   return [];
 };
+export const dealOperational = async (UID) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.dds.dealOperational',
+    fields: {
+      UID: UID,
+    },
+  });
+  if (res?.statusText === 'OK') {
+    return res?.data?.result || null;
+  }
+  return null;
+};

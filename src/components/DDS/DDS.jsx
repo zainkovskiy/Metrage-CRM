@@ -1,12 +1,12 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Loader from 'components/Main/Loader';
 import DDSInfo from './DDSInfo';
-import DDSDinamyc from './DDSDinamyc';
 import { TextSpanStyle } from 'styles/styles';
 import { useDateFormat } from 'hooks/DateFormat';
 import DDSTable from './DDSTable';
+import { clearDDS, getDDSData } from '../../store/slices/ddsSlice';
 
 const DDSContainer = styled.div`
   overflow: auto;
@@ -18,7 +18,18 @@ const DDSContainer = styled.div`
   gap: 1rem;
 `;
 const DDS = () => {
+  const dispatch = useDispatch();
   const { loadingList, ddsData } = useSelector((state) => state.dds);
+  useEffect(() => {
+    getDDS();
+    return () => {
+      dispatch(clearDDS());
+    };
+  }, []);
+
+  const getDDS = () => {
+    dispatch(getDDSData());
+  };
   if (loadingList) {
     return <Loader />;
   }
@@ -30,7 +41,6 @@ const DDS = () => {
       </TextSpanStyle>
       <DDSInfo />
       <DDSTable />
-      {/* <DDSDinamyc /> */}
     </DDSContainer>
   );
 };

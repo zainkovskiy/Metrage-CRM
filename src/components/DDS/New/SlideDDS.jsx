@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SliderContext, SliderStyle } from '../../../styles/slider';
 import SlideDDSMeta from './SlideDDSMeta';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import SlideDDSInfo from './SlideDDSInfo';
 import { useDispatch } from 'react-redux';
 import { actionDds } from '../../../store/slices/ddsSlice';
+import SlideDDSOperation from './SlideDDSOperation';
 
 const SliderForm = styled.form`
   display: flex;
@@ -20,6 +21,7 @@ const SliderForm = styled.form`
 
 const SlideDDS = ({ onClose }) => {
   const dds = useAsyncValue();
+  const [change, setChange] = useState(false);
   const dispatch = useDispatch();
   const method = useForm({
     defaultValues: dds,
@@ -31,14 +33,18 @@ const SlideDDS = ({ onClose }) => {
         onClose();
       });
   };
+  const toggleChange = () => {
+    setChange(!change);
+  };
   return (
     <SliderStyle>
       <SliderContext>
         <SlideDDSMeta />
         <FormProvider {...method}>
           <SliderForm onSubmit={method.handleSubmit(onSubmit)}>
-            <SlideDDSMain />
+            <SlideDDSMain toggleChange={toggleChange} />
             <SlideDDSInfo />
+            {dds?.operation?.needRisovat && <SlideDDSOperation />}
             {method.formState.isDirty && (
               <SliderFormButtonGroup>
                 <TextSpanStyle>Сохранить изменения?</TextSpanStyle>

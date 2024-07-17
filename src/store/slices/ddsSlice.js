@@ -22,18 +22,53 @@ export const getDDSData = createAsyncThunk(
     return null;
   }
 );
-export const actionDds = createAsyncThunk('dds/actionDds', async (dds) => {
-  const res = await axios.post(API, {
-    metrage_id: metrage_id || null,
-    method: 'crm.dds.set',
-    fields: dds,
-  });
-
-  if (res?.statusText === 'OK') {
-    return res?.data?.result || null;
+export const getBillData = createAsyncThunk(
+  'dds/getBillData',
+  async (_, { dispatch }) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.dds.getBankRemains',
+    });
+    if (res?.statusText === 'OK') {
+      const data = res?.data?.result || null;
+      if (data?.length > 0) {
+        dispatch(getChartsForBank(data[0].UID));
+      }
+      return data;
+    }
+    return null;
   }
-  return null;
-});
+);
+export const getChartsForBank = createAsyncThunk(
+  'dds/getChartsForBank',
+  async (UID) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.dds.getChartsForBank',
+      fields: {
+        bankId: UID,
+      },
+    });
+    if (res?.statusText === 'OK') {
+      return res?.data?.result || null;
+    }
+    return null;
+  }
+);
+export const actionDds = createAsyncThunk(
+  'dds/actionDds',
+  async (dds, { dispatch }) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.dds.set',
+      fields: dds,
+    });
+
+    if (res?.statusText === 'OK') {
+      dispatch(getDDSData());
+    }
+  }
+);
 
 export const defaultDDSFilter = {
   periodFrom: '',
@@ -50,7 +85,10 @@ const getFilter = () => {
   return defaultDDSFilter;
 };
 const initialState = {
+  mode: 'dds',
   ddsData: null,
+  billData: null,
+  bankCharts: null,
   loadingList: true,
   filter: getFilter(),
 };
@@ -65,8 +103,14 @@ const ddsSlice = createSlice({
     setNewFilter(state, action) {
       state.filter = action.payload;
     },
+    setNewMode(state, action) {
+      state.mode = action.payload;
+      state.loadingList = true;
+    },
     clearDDS(state) {
       state.ddsData = null;
+      state.billData = null;
+      state.bankCharts = null;
       state.loadingList = true;
     },
   },
@@ -75,29 +119,16 @@ const ddsSlice = createSlice({
       state.ddsData = action.payload;
       state.loadingList = false;
     });
-    builder.addCase(actionDds.fulfilled, (state, action) => {
-      const newDds = action.payload;
-      if (!newDds) {
-        return;
-      }
-      const findDds = state.ddsData.records.find(
-        (item) => item.UID === newDds.UID
-      );
-      if (!findDds) {
-        state.ddsData.records = [...state.ddsData.records, newDds];
-        return;
-      }
-      if (JSON.stringify(newDds) === JSON.stringify(findDds)) {
-        return;
-      }
-      state.ddsData.records.splice(
-        state.ddsData.records.indexOf(findDds),
-        1,
-        newDds
-      );
+    builder.addCase(getBillData.fulfilled, (state, action) => {
+      state.billData = action.payload;
+      state.loadingList = false;
+    });
+    builder.addCase(getChartsForBank.fulfilled, (state, action) => {
+      state.bankCharts = action.payload;
     });
   },
 });
 
-export const { setNewFilter, resetDDSFilter, clearDDS } = ddsSlice.actions;
+export const { setNewFilter, resetDDSFilter, clearDDS, setNewMode } =
+  ddsSlice.actions;
 export default ddsSlice.reducer;

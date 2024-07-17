@@ -7,6 +7,8 @@ import { ButtonUI } from 'ui/ButtonUI';
 import DDSFilterForm from './DDSFilterForm';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { Box } from 'ui/Box';
+import { useDispatch, useSelector } from 'react-redux';
+import { setNewMode } from '../../store/slices/ddsSlice';
 
 const DDSFilterStyle = styled.div`
   display: flex;
@@ -20,6 +22,8 @@ const DDSFilterStyle = styled.div`
   }
 `;
 const DDSFilter = () => {
+  const dispatch = useDispatch();
+  const { mode } = useSelector((state) => state.dds);
   const [open, setOpen] = useState(false);
   const windowSize = useWindowSize();
 
@@ -32,16 +36,21 @@ const DDSFilter = () => {
     }
     return '30%';
   };
+  const setMode = (newMode) => {
+    if (newMode === mode) {
+      return;
+    }
+    dispatch(setNewMode(newMode));
+  };
   return (
     <DDSFilterStyle>
       <Box>
         <ButtonUI size='small' onClick={toggleFilter}>
           Фильтр
         </ButtonUI>
-        <SelectUI small onChange={() => {}} select={'dds'}>
+        <SelectUI small onChange={setMode} select={mode}>
           <SelectItemUI value='dds'>ДДС</SelectItemUI>
-          <SelectItemUI value='projects'>Проекты</SelectItemUI>
-          <SelectItemUI value='company'>Организации</SelectItemUI>
+          <SelectItemUI value='bill'>Счета</SelectItemUI>
         </SelectUI>
       </Box>
       <Link to='new'>

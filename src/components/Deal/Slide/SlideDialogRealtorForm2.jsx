@@ -20,7 +20,7 @@ const SlideDialogRealtorForm2 = ({ getValues, onSubmit, setManualForm }) => {
         <Box gap='0.2rem' jc='flex-start' fullWidth>
           <TextSpanStyle size={10}>Сумма проведённая по ДДС</TextSpanStyle>
           <TextSpanStyle size={10} bold>
-            {getValues('comissionSize')} руб.
+            {getValues('ddsExpense')} руб.
           </TextSpanStyle>
         </Box>
       </Box>

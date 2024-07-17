@@ -128,6 +128,7 @@ const SlideFixationBuilder = () => {
             render={({ field }) => (
               <InputUI
                 small
+                type='number'
                 value={field.value || ''}
                 onChange={field.onChange}
                 label='Кол-во комнат'
@@ -141,6 +142,7 @@ const SlideFixationBuilder = () => {
             render={({ field }) => (
               <InputUI
                 small
+                type='number'
                 value={field.value || ''}
                 onChange={field.onChange}
                 label='Общая площадь'

@@ -5,6 +5,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 import SliderAvatar from './SliderAvatar';
 import { useAsyncValue } from 'react-router-dom';
+import { useNumberTriad } from 'hooks/StringHook';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import { ButtonToggleGroup, ButtonToggleItem } from 'ui/ButtonToggle';
 import DialogWindow from 'components/Main/DialogWindow';
@@ -37,7 +38,7 @@ const TextAreaStyle = styled.textarea`
 
 const SlideDDSInfo = () => {
   const dds = useAsyncValue();
-  const { control, setValue } = useFormContext();
+  const { control, setValue, getValues, watch } = useFormContext();
   const [open, setOpen] = useState(false);
   const [subCategory, setSubCategory] = useState(dds?.subCatList || []);
   const openChangeWindow = () => {
@@ -61,6 +62,9 @@ const SlideDDSInfo = () => {
     });
     setValue('subCategory', null);
   };
+  const regExp = new RegExp('New', 'i');
+  watch('coming');
+  watch('expense');
   return (
     <SliderBlock>
       <FieldsLine>
@@ -69,22 +73,25 @@ const SlideDDSInfo = () => {
           name='ddsType'
           rules={{ required: true }}
           render={({ field }) => (
-            <ButtonToggleGroup fullWidth>
-              <ButtonToggleItem
-                onClick={(e) => field.onChange(e.target.id)}
-                id='0'
-                active={field.value}
-              >
-                Нал
-              </ButtonToggleItem>
-              <ButtonToggleItem
-                onClick={(e) => field.onChange(e.target.id)}
-                id='1'
-                active={field.value}
-              >
-                Безнал
-              </ButtonToggleItem>
-            </ButtonToggleGroup>
+            <LabelStyle>
+              Укажите тип расчета по ДДС
+              <ButtonToggleGroup fullWidth>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='0'
+                  active={field.value}
+                >
+                  Нал
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e) => field.onChange(e.target.id)}
+                  id='1'
+                  active={field.value}
+                >
+                  Безнал
+                </ButtonToggleItem>
+              </ButtonToggleGroup>
+            </LabelStyle>
           )}
         />
       </FieldsLine>
@@ -93,14 +100,37 @@ const SlideDDSInfo = () => {
           name='coming'
           control={control}
           render={({ field }) => (
-            <InputUI {...field} label='Приход' fullWidth small type='number' />
+            <InputUI
+              label={`Приход ${
+                Boolean(getValues('expense')) ? '(Поле заблокировано)' : ''
+              }`}
+              fullWidth
+              small
+              disabled={Boolean(getValues('expense'))}
+              value={field.value ? useNumberTriad(field.value || 0) : ''}
+              onChange={(e) =>
+                field.onChange(parseInt(e.target.value.split(' ').join('')))
+              }
+            />
           )}
         />
+
         <Controller
           name='expense'
           control={control}
           render={({ field }) => (
-            <InputUI {...field} label='Расход' fullWidth small type='number' />
+            <InputUI
+              label={`Расход ${
+                Boolean(getValues('coming')) ? '(Поле заблокировано)' : ''
+              }`}
+              fullWidth
+              small
+              disabled={Boolean(getValues('coming'))}
+              value={field.value ? useNumberTriad(field.value || 0) : ''}
+              onChange={(e) =>
+                field.onChange(parseInt(e.target.value.split(' ').join('')))
+              }
+            />
           )}
         />
       </FieldsLine>
@@ -181,13 +211,15 @@ const SlideDDSInfo = () => {
             Получатель (Для выплат ЗП и Юр. услуг)
           </ButtonLink>
         )}
-        <InputUI
-          value={dds.onCash}
-          label='В кассе, руб'
-          fullWidth
-          small
-          readOnly
-        />
+        {regExp.test(dds.UID) && (
+          <InputUI
+            value={dds.onCash}
+            label='В кассе, руб'
+            fullWidth
+            small
+            readOnly
+          />
+        )}
       </FieldsLine>
       <DialogWindow open={open} onClose={closeChangeWindow}>
         <div onClick={(e) => e.stopPropagation()}>

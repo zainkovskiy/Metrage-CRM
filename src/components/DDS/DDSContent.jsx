@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 import { device } from 'styles/device';
 import styled from 'styled-components';
 import DDSFilter from './DDSFilter';
-import { clearDDS, getDDSData } from '../../store/slices/ddsSlice';
 import DDS from './DDS';
+import Bill from './Bill';
 const DealContentStyle = styled.div`
   flex-grow: 1;
   display: flex;
@@ -20,22 +20,12 @@ const DealContentStyle = styled.div`
 `;
 
 const DealContent = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    getDDS();
-    return () => {
-      dispatch(clearDDS());
-    };
-  }, []);
-
-  const getDDS = () => {
-    dispatch(getDDSData());
-  };
+  const { mode } = useSelector((state) => state.dds);
   return (
     <DealContentStyle>
       <DDSFilter />
-      <DDS />
+      {mode === 'dds' && <DDS />}
+      {mode === 'bill' && <Bill />}
       <Outlet />
     </DealContentStyle>
   );
