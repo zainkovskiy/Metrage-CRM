@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { SliderBlock } from '../../../styles/slider';
 import { InputUI } from 'ui/InputUI';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext, useFormState } from 'react-hook-form';
 import styled from 'styled-components';
 import SliderAvatar from './SliderAvatar';
 import { useAsyncValue } from 'react-router-dom';
@@ -36,9 +36,10 @@ const TextAreaStyle = styled.textarea`
   }
 `;
 
-const SlideDDSInfo = () => {
+const SlideDDSInfo = ({ info, idx }) => {
   const dds = useAsyncValue();
   const { control, setValue, getValues, watch } = useFormContext();
+  const { errors } = useFormState();
   const [open, setOpen] = useState(false);
   const [subCategory, setSubCategory] = useState(dds?.subCatList || []);
   const openChangeWindow = () => {
@@ -48,8 +49,8 @@ const SlideDDSInfo = () => {
     setOpen(false);
   };
   const changeTargetUser = (user) => {
-    dds.salaryResipient = user;
-    setValue('salaryResipient', user, {
+    dds.addiction[idx].salaryResipient = user;
+    setValue(`addiction[idx].salaryResipient`, user, {
       shouldDirty: true,
     });
     closeChangeWindow();
@@ -62,51 +63,50 @@ const SlideDDSInfo = () => {
     });
     setValue('subCategory', null);
   };
-  const regExp = new RegExp('New', 'i');
-  watch('coming');
-  watch('expense');
+  watch(`addiction[${idx}].coming`);
+  watch(`addiction[${idx}].expense`);
+  watch(`addiction[${idx}].category`);
   return (
     <SliderBlock>
+      <Controller
+        control={control}
+        name={`addiction[${idx}].ddsType`}
+        render={({ field }) => (
+          <LabelStyle>
+            Укажите тип расчета по ДДС
+            <ButtonToggleGroup fullWidth>
+              <ButtonToggleItem
+                onClick={(e) => field.onChange(e.target.id)}
+                id='0'
+                active={field.value}
+              >
+                Нал
+              </ButtonToggleItem>
+              <ButtonToggleItem
+                onClick={(e) => field.onChange(e.target.id)}
+                id='1'
+                active={field.value}
+              >
+                Безнал
+              </ButtonToggleItem>
+            </ButtonToggleGroup>
+          </LabelStyle>
+        )}
+      />
       <FieldsLine>
         <Controller
-          control={control}
-          name='ddsType'
-          rules={{ required: true }}
-          render={({ field }) => (
-            <LabelStyle>
-              Укажите тип расчета по ДДС
-              <ButtonToggleGroup fullWidth>
-                <ButtonToggleItem
-                  onClick={(e) => field.onChange(e.target.id)}
-                  id='0'
-                  active={field.value}
-                >
-                  Нал
-                </ButtonToggleItem>
-                <ButtonToggleItem
-                  onClick={(e) => field.onChange(e.target.id)}
-                  id='1'
-                  active={field.value}
-                >
-                  Безнал
-                </ButtonToggleItem>
-              </ButtonToggleGroup>
-            </LabelStyle>
-          )}
-        />
-      </FieldsLine>
-      <FieldsLine>
-        <Controller
-          name='coming'
+          name={`addiction[${idx}].coming`}
           control={control}
           render={({ field }) => (
             <InputUI
               label={`Приход ${
-                Boolean(getValues('expense')) ? '(Поле заблокировано)' : ''
+                Boolean(getValues(`addiction[${idx}].expense`))
+                  ? '(Поле заблокировано)'
+                  : ''
               }`}
               fullWidth
               small
-              disabled={Boolean(getValues('expense'))}
+              disabled={Boolean(getValues(`addiction[${idx}].expense`))}
               value={field.value ? useNumberTriad(field.value || 0) : ''}
               onChange={(e) =>
                 field.onChange(parseInt(e.target.value.split(' ').join('')))
@@ -116,16 +116,18 @@ const SlideDDSInfo = () => {
         />
 
         <Controller
-          name='expense'
+          name={`addiction[${idx}].expense`}
           control={control}
           render={({ field }) => (
             <InputUI
               label={`Расход ${
-                Boolean(getValues('coming')) ? '(Поле заблокировано)' : ''
+                Boolean(getValues(`addiction[${idx}].coming`))
+                  ? '(Поле заблокировано)'
+                  : ''
               }`}
               fullWidth
               small
-              disabled={Boolean(getValues('coming'))}
+              disabled={Boolean(getValues(`addiction[${idx}].coming`))}
               value={field.value ? useNumberTriad(field.value || 0) : ''}
               onChange={(e) =>
                 field.onChange(parseInt(e.target.value.split(' ').join('')))
@@ -136,8 +138,9 @@ const SlideDDSInfo = () => {
       </FieldsLine>
       <FieldsLine>
         <Controller
-          name='category'
+          name={`addiction[${idx}].category`}
           control={control}
+          rules={{ required: { value: true, message: 'Поле обязательно' } }}
           render={({ field }) => (
             <SelectUI
               onChange={(newValue) => {
@@ -147,6 +150,7 @@ const SlideDDSInfo = () => {
               select={field.value || 'all'}
               label='Категория'
               small
+              error={errors?.addiction?.[idx]?.category}
             >
               {dds.categoryList.map((item) => (
                 <SelectItemUI key={item} value={item}>
@@ -157,7 +161,7 @@ const SlideDDSInfo = () => {
           )}
         />
         <Controller
-          name='subCategory'
+          name={`addiction[${idx}].subCategory`}
           control={control}
           render={({ field }) => (
             <SelectUI
@@ -181,7 +185,7 @@ const SlideDDSInfo = () => {
       <div style={{ marginTop: '0.5rem' }}>
         <Controller
           control={control}
-          name='comment'
+          name={`addiction[${idx}].comment`}
           render={({ field }) => (
             <LabelStyle>
               Описание
@@ -195,10 +199,10 @@ const SlideDDSInfo = () => {
         />
       </div>
       <FieldsLine $notGapRow>
-        {dds?.salaryResipient ? (
+        {info?.salaryResipient ? (
           <SliderAvatar
             role='Получатель (для выплат ЗП):'
-            avatarData={dds.salaryResipient}
+            avatarData={info.salaryResipient}
             keySubtitle='office'
             isChangeButton={openChangeWindow}
           />
@@ -211,15 +215,7 @@ const SlideDDSInfo = () => {
             Получатель (Для выплат ЗП и Юр. услуг)
           </ButtonLink>
         )}
-        {regExp.test(dds.UID) && (
-          <InputUI
-            value={dds.onCash}
-            label='В кассе, руб'
-            fullWidth
-            small
-            readOnly
-          />
-        )}
+        <div></div>
       </FieldsLine>
       <DialogWindow open={open} onClose={closeChangeWindow}>
         <div onClick={(e) => e.stopPropagation()}>

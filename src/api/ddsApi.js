@@ -11,6 +11,16 @@ export const getDefaultDDS = async () => {
   }
   return {};
 };
+export const getDefaultDDS2 = async () => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.dds.getDefault2',
+  });
+  if (res?.statusText === 'OK') {
+    return res?.data?.result || {};
+  }
+  return {};
+};
 export const getSlidetDDS = async (id) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,

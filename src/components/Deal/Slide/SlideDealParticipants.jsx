@@ -63,7 +63,6 @@ const SlideDealParticipants = () => {
           ...user,
           comissionSize: 0,
         });
-        // setChange(!change);
         setAddSideWindow(null);
       }
     });

@@ -3,7 +3,11 @@ import Loader from 'components/Main/Loader';
 import SlideWindow from 'components/Main/SlideWindow';
 import { Await, useLoaderData, useNavigate } from 'react-router-dom';
 import { useWindowSize } from 'hooks/windowSize';
-import { getDefaultDDS, getSlidetDDS } from '../../../api/ddsApi';
+import {
+  getDefaultDDS,
+  getSlidetDDS,
+  getDefaultDDS2,
+} from '../../../api/ddsApi';
 import SlideDDS from './SlideDDS';
 
 const SuspenseNewDDS = () => {
@@ -35,6 +39,6 @@ const SuspenseNewDDS = () => {
 };
 export const loaderDDSSlide = async ({ request, params }) => {
   const { id } = params;
-  return { dds: id ? getSlidetDDS(id) : getDefaultDDS() };
+  return { dds: id ? getSlidetDDS(id) : getDefaultDDS2() };
 };
 export default SuspenseNewDDS;

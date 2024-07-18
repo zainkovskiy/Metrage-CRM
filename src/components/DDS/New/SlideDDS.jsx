@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { SliderContext, SliderStyle } from '../../../styles/slider';
 import SlideDDSMeta from './SlideDDSMeta';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -21,30 +21,54 @@ const SliderForm = styled.form`
 
 const SlideDDS = ({ onClose }) => {
   const dds = useAsyncValue();
-  const [change, setChange] = useState(false);
   const dispatch = useDispatch();
   const method = useForm({
     defaultValues: dds,
   });
   const onSubmit = (data) => {
-    dispatch(actionDds(data))
-      .unwrap()
-      .finally(() => {
-        onClose();
-      });
+    console.log(data);
+    // dispatch(actionDds(data))
+    //   .unwrap()
+    //   .finally(() => {
+    //     onClose();
+    //   });
   };
-  const toggleChange = () => {
-    setChange(!change);
+  const _addInfo = () => {
+    dds.addiction = [...dds.addiction, emptyObjectInfo];
+    method.setValue(
+      'addiction',
+      [...method.getValues('addiction'), emptyObjectInfo],
+      { shouldDirty: true }
+    );
   };
+  const isButtonMore = () => {
+    const regExp = new RegExp('New', 'i');
+    if (regExp.test(dds?.UID)) {
+      if (method.getValues('addiction').at(-1).category) {
+        return true;
+      }
+      return false;
+    }
+    return false;
+  };
+  method.watch('operation');
+  method.watch('addiction');
   return (
     <SliderStyle>
       <SliderContext>
         <SlideDDSMeta />
         <FormProvider {...method}>
           <SliderForm onSubmit={method.handleSubmit(onSubmit)}>
-            <SlideDDSMain toggleChange={toggleChange} />
-            <SlideDDSInfo />
+            <SlideDDSMain />
+            {dds?.addiction.map((info, idx) => (
+              <SlideDDSInfo info={info} key={idx} idx={idx} />
+            ))}
             {dds?.operation?.needRisovat && <SlideDDSOperation />}
+            {isButtonMore() && (
+              <ButtonUI variant='outline' size='small' onClick={_addInfo}>
+                Еще запись...
+              </ButtonUI>
+            )}
             {method.formState.isDirty && (
               <SliderFormButtonGroup>
                 <TextSpanStyle>Сохранить изменения?</TextSpanStyle>
@@ -58,6 +82,16 @@ const SlideDDS = ({ onClose }) => {
       </SliderContext>
     </SliderStyle>
   );
+};
+
+const emptyObjectInfo = {
+  ddsType: '0',
+  salaryResipient: null,
+  coming: 0,
+  expense: 0,
+  category: '',
+  subCategory: null,
+  comment: null,
 };
 
 export default SlideDDS;

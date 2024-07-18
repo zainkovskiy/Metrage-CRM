@@ -214,3 +214,14 @@ export const setCalculationManual = async (raw) => {
   }
   return 'No Ok';
 };
+export const attachToDDS = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.deal.attachToDDS',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No Ok';
+};

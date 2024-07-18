@@ -18,6 +18,11 @@ const TableTd = styled.td`
     css`
       color: ${$color};
     `}
+  ${({ $nowrap }) =>
+    $nowrap &&
+    css`
+      white-space: nowrap;
+    `}
   ${({ $fullWidth }) =>
     $fullWidth &&
     css`
@@ -29,31 +34,33 @@ const SlideDDSOperation = () => {
   return (
     <DDSOperation>
       <SliderTitle>Операции по сделке</SliderTitle>
-      <S.TableStyle>
-        <S.TableHader>
-          <S.TableHead>
-            <th>Когда</th>
-            <th>Что случилось</th>
-            <th>Тип</th>
-            <th>Сумма</th>
-          </S.TableHead>
-        </S.TableHader>
-        <tbody>
-          {dds?.operation?.items?.length > 0 &&
-            dds?.operation?.items.map((line, idx) => (
-              <S.TableLine key={`${line.UID}${idx}`} idx={idx}>
-                <TableTd>
-                  {useDateFormat(line.reportDate, 'DD.MM.YYYY')}
-                </TableTd>
-                <TableTd $fullWidth>{line.reportResaon}</TableTd>
-                <TableTd></TableTd>
-                <TableTd $color={line?.amountColour}>
-                  {useNumberTriad(line.amount || 0)} руб.
-                </TableTd>
-              </S.TableLine>
-            ))}
-        </tbody>
-      </S.TableStyle>
+      <div style={{ height: 150, overflow: 'auto' }}>
+        <S.TableStyle>
+          <S.TableHader>
+            <S.TableHead>
+              <th>Когда</th>
+              <th>Что случилось</th>
+              <th>Тип</th>
+              <th>Сумма</th>
+            </S.TableHead>
+          </S.TableHader>
+          <tbody>
+            {dds?.operation?.items?.length > 0 &&
+              dds?.operation?.items.map((line, idx) => (
+                <S.TableLine key={`${line.UID}${idx}`} idx={idx}>
+                  <TableTd>
+                    {useDateFormat(line.reportDate, 'DD.MM.YYYY')}
+                  </TableTd>
+                  <TableTd $fullWidth>{line.reportResaon}</TableTd>
+                  <TableTd></TableTd>
+                  <TableTd $color={line?.amountColour} $nowrap>
+                    {useNumberTriad(line.amount || 0)} руб.
+                  </TableTd>
+                </S.TableLine>
+              ))}
+          </tbody>
+        </S.TableStyle>
+      </div>
       <S.Line />
       <TextSpanStyle
         align='end'

@@ -9,11 +9,10 @@ import { ReactComponent as Coins } from 'images/coins.svg';
 import { useNumberTriad } from 'hooks/StringHook';
 import DialogWindow from 'components/Main/DialogWindow';
 import SlideDialogComission from './SlideDialogComission';
-import SlideDialogCalculation from './SlideDialogCalculation';
-import { setNewComission } from '../../../api/dealAPI';
-import { useAsyncValue } from 'react-router-dom';
+import { attachToDDS, setNewComission } from '../../../api/dealAPI';
+import { useAsyncValue, useNavigate } from 'react-router-dom';
 import { useGetAvatar } from 'hooks/MakeAvatar';
-import SlideDialogRealtor from './SlideDialogRealtor';
+import { useSelector } from 'react-redux';
 
 const SlideParticipantsText = styled(TextSpanStyle)`
   text-overflow: ellipsis;
@@ -57,14 +56,12 @@ const UserRealtor = ({
   dealUID,
   changeUserComission,
 }) => {
+  const navigate = useNavigate();
   const deal = useAsyncValue();
+  const globalUser = useSelector((state) => state.user);
   const [isEditComission, setIsEditComission] = useState(false);
-  const [calculationWindow, setCalculationWindow] = useState(null);
   const toggleEditComission = () => {
     setIsEditComission(!isEditComission);
-  };
-  const toggleCalculation = () => {
-    setCalculationWindow(!calculationWindow);
   };
   const changeNewComission = (data) => {
     console.log(data);
@@ -113,6 +110,11 @@ const UserRealtor = ({
       <TextSpanStyle size={10}>{getPersent()}% от общ. комиссии</TextSpanStyle>
     );
   };
+  const moveToDDS = () => {
+    attachToDDS(user).finally(() => {
+      navigate('/dds/new');
+    });
+  };
   return (
     <>
       <UserStyle>
@@ -138,13 +140,11 @@ const UserRealtor = ({
           {getPersentText()}
         </Box>
         <Box jc='flex-start'>
-          <IconButton
-            onClick={toggleCalculation}
-            color='gold'
-            disabled={user?.comissionSize === 0 || getPersent() === '100.00'}
-          >
-            <Coins />
-          </IconButton>
+          {globalUser?.ddsRights && user?.comissionSize > 0 && (
+            <IconButton onClick={moveToDDS} color='gold'>
+              <Coins />
+            </IconButton>
+          )}
           <IconButton onClick={toggleEditComission} color='info'>
             <Edit />
           </IconButton>
@@ -153,9 +153,6 @@ const UserRealtor = ({
           </IconButton>
         </Box>
       </UserStyle>
-      <DialogWindow open={calculationWindow} onClose={toggleCalculation}>
-        <SlideDialogRealtor onClose={toggleCalculation} user={user} />
-      </DialogWindow>
       <DialogWindow open={isEditComission} onClose={toggleEditComission}>
         <SlideDialogComission
           onClose={toggleEditComission}
@@ -177,14 +174,12 @@ const UserLawyer = ({
   dealUID,
   changeUserComission,
 }) => {
+  const navigate = useNavigate();
   const deal = useAsyncValue();
+  const globalUser = useSelector((state) => state.user);
   const [isEditComission, setIsEditComission] = useState(false);
-  const [calculationWindow, setCalculationWindow] = useState(null);
   const toggleEditComission = () => {
     setIsEditComission(!isEditComission);
-  };
-  const toggleCalculation = () => {
-    setCalculationWindow(!calculationWindow);
   };
   const changeNewComission = (data) => {
     setNewComission({
@@ -212,18 +207,10 @@ const UserLawyer = ({
       'lawyers'
     );
   };
-  const getPersentText = () => {
-    if (!user?.comissionSize || user?.comissionSize <= 0) {
-      return <TextSpanStyle size={10}>0% от общ. комиссии</TextSpanStyle>;
-    }
-    if (!deal?.agencyComission || deal?.agencyComission <= 0) {
-      return <TextSpanStyle size={10}>0% от общ. комиссии</TextSpanStyle>;
-    }
-    const percent = (
-      (parseInt(user?.comissionSize) * 100) /
-      parseInt(deal.agencyComission)
-    ).toFixed(2);
-    return <TextSpanStyle size={10}>{percent}% от общ. комиссии</TextSpanStyle>;
+  const moveToDDS = () => {
+    attachToDDS(user).finally(() => {
+      navigate('/dds/new');
+    });
   };
   return (
     <>
@@ -244,12 +231,16 @@ const UserLawyer = ({
           <TextSpanStyle size={10}>
             Зарплата юриста: {useNumberTriad(user?.comissionSize || '0')} руб.
           </TextSpanStyle>
-          {getPersentText()}
+          <TextSpanStyle size={10}>
+            Выплачено: {useNumberTriad(user?.expense || '0')} руб.
+          </TextSpanStyle>
         </Box>
         <Box jc='flex-start'>
-          <IconButton onClick={toggleCalculation} color='gold'>
-            <Coins />
-          </IconButton>
+          {globalUser?.ddsRights && user?.comissionSize > 0 && (
+            <IconButton onClick={moveToDDS} color='gold'>
+              <Coins />
+            </IconButton>
+          )}
           <IconButton onClick={toggleEditComission} color='info'>
             <Edit />
           </IconButton>
@@ -264,13 +255,6 @@ const UserLawyer = ({
           comission={user.comissionSize}
           onChange={changeNewComission}
           side={user.side}
-          user={user}
-          type={type}
-        />
-      </DialogWindow>
-      <DialogWindow open={calculationWindow} onClose={toggleCalculation}>
-        <SlideDialogCalculation
-          onClose={toggleCalculation}
           user={user}
           type={type}
         />

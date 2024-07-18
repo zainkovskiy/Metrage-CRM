@@ -6,10 +6,9 @@ import { Controller, useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 import SliderAvatar from './SliderAvatar';
 import { useAsyncValue } from 'react-router-dom';
-import { getBankList, getLegalList } from '../../../api/search';
-import DialogWindow from 'components/Main/DialogWindow';
-import DealFinder from 'components/Main/DealFinder';
-import { dealOperational } from '../../../api/ddsApi';
+import { getBankList } from '../../../api/search';
+import SlideDDSDeal from './SlideDDSDeal';
+import { TextSpanStyle } from 'styles/styles';
 
 const FieldsLine = styled.div`
   display: grid;
@@ -18,32 +17,11 @@ const FieldsLine = styled.div`
   margin-top: 0.5rem;
   ${({ $notGapRow }) => $notGapRow && 'row-gap: 0;'};
 `;
-const SlideDDSMain = ({ toggleChange }) => {
+const SlideDDSMain = () => {
   const dds = useAsyncValue();
-  const { control, setValue } = useFormContext();
-  const [legalList, setLegalList] = useState([]);
-  const legalRequest = useRef(false);
+  const { control } = useFormContext();
   const [bankList, setBankList] = useState([]);
   const bankRequest = useRef(false);
-  const [open, setOpen] = useState(false);
-
-  const reqLegalList = (value) => {
-    if (value.length < 2) {
-      setLegalList([]);
-      return;
-    }
-    if (legalRequest.current) {
-      return;
-    }
-    legalRequest.current = true;
-    getLegalList(value)
-      .then((data) => {
-        setLegalList(data);
-      })
-      .finally(() => {
-        legalRequest.current = false;
-      });
-  };
 
   const reqBankList = (value) => {
     if (value.length < 2) {
@@ -62,26 +40,17 @@ const SlideDDSMain = ({ toggleChange }) => {
         bankRequest.current = false;
       });
   };
-  const openChangeWindow = () => {
-    setOpen(true);
-  };
-  const closeChangeWindow = () => {
-    setOpen(false);
-  };
-  const changeTargetUser = (deal) => {
-    dds.deal = deal;
-    setValue('deal', deal, {
-      shouldDirty: true,
-    });
-    closeChangeWindow();
-    dealOperational(dds?.UID).then((data) => {
-      dds.operation = data;
-      toggleChange();
-    });
-  };
+  const regExp = new RegExp('New', 'i');
   return (
     <SliderBlock>
-      <SliderTitle>Общее</SliderTitle>
+      <SliderTitle>
+        Общее
+        {regExp.test(dds.UID) && (
+          <TextSpanStyle size={12}>
+            В кассе: {dds.onCash || 0} руб
+          </TextSpanStyle>
+        )}
+      </SliderTitle>
       <FieldsLine>
         <Controller
           name='reportDate'
@@ -92,33 +61,6 @@ const SlideDDSMain = ({ toggleChange }) => {
               label='Дата записи'
               type='date'
               fullWidth
-              small
-            />
-          )}
-        />
-
-        <InputUI
-          value={dds.deal.title || ''}
-          placeholder='Выбрать'
-          label='Сделка'
-          fullWidth
-          small
-          readOnly
-          onClick={openChangeWindow}
-        />
-      </FieldsLine>
-      <FieldsLine>
-        <Controller
-          name='legal'
-          control={control}
-          render={({ field }) => (
-            <SelectAutoсompleteUI
-              label='Юр.лицо'
-              options={legalList}
-              getOptionsLabel={(options) => options.name}
-              onChange={(option) => field.onChange(option)}
-              value={field.value}
-              inputChange={reqLegalList}
               small
             />
           )}
@@ -139,19 +81,7 @@ const SlideDDSMain = ({ toggleChange }) => {
           )}
         />
       </FieldsLine>
-      <FieldsLine $notGapRow>
-        <SliderAvatar
-          role='Автор'
-          avatarData={dds.reportingUser}
-          keySubtitle='office'
-        />
-        <div></div>
-      </FieldsLine>
-      <DialogWindow open={open} onClose={closeChangeWindow}>
-        <div onClick={(e) => e.stopPropagation()}>
-          <DealFinder onClose={closeChangeWindow} onChange={changeTargetUser} />
-        </div>
-      </DialogWindow>
+      <SlideDDSDeal />
     </SliderBlock>
   );
 };
