@@ -6,7 +6,7 @@ const API = process.env.MAIN_API;
 export const getFixationList = createAsyncThunk(
   'fixation/getFixationList',
   async (filterForm, { getState, dispatch }) => {
-    const curFilter = filterForm ? filterForm : getState().mortage.filter;
+    const curFilter = filterForm ? filterForm : getState().fixation.filter;
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
       method: 'crm.clientfixation.filter',
@@ -75,7 +75,7 @@ export const updateFixation = createAsyncThunk(
   }
 );
 export const changeFixationStage = createAsyncThunk(
-  'mortage/changeFixationStage',
+  'fixation/changeFixationStage',
   async (raw, { dispatch }) => {
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,

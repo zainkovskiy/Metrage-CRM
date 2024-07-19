@@ -40,7 +40,6 @@ const SlideDDSOperation = () => {
             <S.TableHead>
               <th>Когда</th>
               <th>Что случилось</th>
-              <th>Тип</th>
               <th>Сумма</th>
             </S.TableHead>
           </S.TableHader>
@@ -52,7 +51,6 @@ const SlideDDSOperation = () => {
                     {useDateFormat(line.reportDate, 'DD.MM.YYYY')}
                   </TableTd>
                   <TableTd $fullWidth>{line.reportResaon}</TableTd>
-                  <TableTd></TableTd>
                   <TableTd $color={line?.amountColour} $nowrap>
                     {useNumberTriad(line.amount || 0)} руб.
                   </TableTd>
@@ -67,7 +65,7 @@ const SlideDDSOperation = () => {
         size={12}
         color={dds?.operation?.totalAmountColour}
       >
-        {dds?.operation?.totalAmount}
+        Баланс: {useNumberTriad(dds?.operation?.totalAmount || 0)} руб.
       </TextSpanStyle>
     </DDSOperation>
   );

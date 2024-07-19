@@ -41,7 +41,7 @@ const SlideDDSInfo = ({ info, idx }) => {
   const { control, setValue, getValues, watch } = useFormContext();
   const { errors } = useFormState();
   const [open, setOpen] = useState(false);
-  const [subCategory, setSubCategory] = useState(dds?.subCatList || []);
+  const [subCategory, setSubCategory] = useState(info?.subCatList || []);
   const openChangeWindow = () => {
     setOpen(true);
   };
@@ -50,7 +50,7 @@ const SlideDDSInfo = ({ info, idx }) => {
   };
   const changeTargetUser = (user) => {
     dds.addiction[idx].salaryResipient = user;
-    setValue(`addiction[idx].salaryResipient`, user, {
+    setValue(`addiction[${idx}].salaryResipient`, user, {
       shouldDirty: true,
     });
     closeChangeWindow();
@@ -182,7 +182,7 @@ const SlideDDSInfo = ({ info, idx }) => {
           )}
         />
       </FieldsLine>
-      <div style={{ marginTop: '0.5rem' }}>
+      <FieldsLine>
         <Controller
           control={control}
           name={`addiction[${idx}].comment`}
@@ -192,30 +192,27 @@ const SlideDDSInfo = ({ info, idx }) => {
               <TextAreaStyle
                 value={field.value || ''}
                 onChange={field.onChange}
-                rows={6}
+                rows={4}
               />
             </LabelStyle>
           )}
         />
-      </div>
-      <FieldsLine $notGapRow>
         {info?.salaryResipient ? (
           <SliderAvatar
-            role='Получатель (для выплат ЗП):'
+            role='Получатель:'
             avatarData={info.salaryResipient}
             keySubtitle='office'
             isChangeButton={openChangeWindow}
           />
         ) : (
           <ButtonLink
-            size={12}
+            size={14}
             color='rgb(133, 0, 158)'
             onClick={openChangeWindow}
           >
-            Получатель (Для выплат ЗП и Юр. услуг)
+            Получатель
           </ButtonLink>
         )}
-        <div></div>
       </FieldsLine>
       <DialogWindow open={open} onClose={closeChangeWindow}>
         <div onClick={(e) => e.stopPropagation()}>

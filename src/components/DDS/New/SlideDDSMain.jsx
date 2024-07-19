@@ -4,7 +4,6 @@ import { InputUI } from 'ui/InputUI';
 import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
 import { Controller, useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
-import SliderAvatar from './SliderAvatar';
 import { useAsyncValue } from 'react-router-dom';
 import { getBankList } from '../../../api/search';
 import SlideDDSDeal from './SlideDDSDeal';

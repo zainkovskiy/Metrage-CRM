@@ -26,12 +26,11 @@ const SlideDDS = ({ onClose }) => {
     defaultValues: dds,
   });
   const onSubmit = (data) => {
-    console.log(data);
-    // dispatch(actionDds(data))
-    //   .unwrap()
-    //   .finally(() => {
-    //     onClose();
-    //   });
+    dispatch(actionDds(data))
+      .unwrap()
+      .finally(() => {
+        onClose();
+      });
   };
   const _addInfo = () => {
     dds.addiction = [...dds.addiction, emptyObjectInfo];

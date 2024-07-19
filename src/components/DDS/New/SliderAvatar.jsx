@@ -4,6 +4,11 @@ import { TextSpanStyle } from 'styles/styles';
 import { Box } from 'ui/Box';
 import { ButtonLink } from 'ui/ButtonLink';
 
+const Avatar = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+`;
 const AvatarImage = styled.img`
   height: 48px;
   width: 48px;
@@ -20,11 +25,12 @@ const AvatarWrapper = styled.div`
   padding: 0.5rem;
   border-radius: 5px;
   box-sizing: border-box;
+  flex-grow: 1;
 `;
 
 const SliderAvatar = ({ role, avatarData, keySubtitle, isChangeButton }) => {
   return (
-    <div>
+    <Avatar>
       <Box jc='space-between'>
         <TextSpanStyle>{role}</TextSpanStyle>
         {isChangeButton && (
@@ -46,7 +52,7 @@ const SliderAvatar = ({ role, avatarData, keySubtitle, isChangeButton }) => {
           </TextSpanStyle>
         </div>
       </AvatarWrapper>
-    </div>
+    </Avatar>
   );
 };
 
