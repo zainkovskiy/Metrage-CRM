@@ -1,53 +1,22 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useDateFormat } from 'hooks/DateFormat';
 import { useNumberTriad } from 'hooks/StringHook';
+import * as S from './style';
 
 const TableContainer = styled.div`
   width: 100%;
   overflow: auto;
   flex-grow: 1;
 `;
-const TableStyle = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  font-family: ${({ theme }) => theme.font.family};
-  font-size: 12px;
-`;
-const TableHader = styled.thead`
-  position: sticky;
-  top: 0;
-`;
-const TableHead = styled.tr`
-  background-color: #ccc;
-  & > th {
-    font-family: ${({ theme }) => theme.font.familyBold};
-    padding: 0.3rem;
-  }
-`;
-const TableLine = styled.tr`
-  background-color: ${({ idx }) => idx % 2 === 1 && '#e6e6e6'};
-  cursor: pointer;
-  transition: background-color 0.3s;
-  @media (hover: hover) {
-    &:hover {
-      background-color: rgb(240, 219, 245);
-    }
-    &:active {
-      background-color: rgb(255, 255, 255);
-    }
-  }
-  @media (hover: none) {
-    &:active {
-      background-color: rgb(240, 219, 245);
-    }
-  }
-
-  & > td {
-    padding: 0.3rem;
-  }
+const TableTD = styled.td`
+  ${({ $nowrap }) =>
+    $nowrap &&
+    css`
+      white-space: nowrap;
+    `}
 `;
 const DDSTable = () => {
   const { ddsData } = useSelector((state) => state.dds);
@@ -55,34 +24,45 @@ const DDSTable = () => {
   const handleClick = (line) => {
     navigate(`${line.UID}`);
   };
+  const getTableValue = (format, value) => {
+    if (format === 'date') {
+      return useDateFormat(value, 'DD.MM.YYYY');
+    }
+    if (format === 'money') {
+      return `${useNumberTriad(value || 0)} руб.`;
+    }
+    return value;
+  };
   return (
     <TableContainer>
-      <TableStyle>
-        <TableHader>
-          <TableHead>
+      <S.TableStyle>
+        <S.TableHader>
+          <S.TableHead>
             {ddsData.recordsTitle.map((headerTitle, idx) => (
-              <th key={headerTitle}>{headerTitle || ''}</th>
+              <th key={headerTitle?.rusTitle}>{headerTitle?.rusTitle || ''}</th>
             ))}
-          </TableHead>
-        </TableHader>
+          </S.TableHead>
+        </S.TableHader>
         <tbody>
           {ddsData?.records?.length > 0 &&
             ddsData?.records.map((line, idx) => (
-              <TableLine
+              <S.TableLine
                 key={`${line.UID}${idx}`}
                 idx={idx}
                 onClick={() => handleClick(line)}
               >
-                <td>{line.UID}</td>
-                <td>{useDateFormat(line.reportDate, 'DD.MM.YYYY')}</td>
-                <td>{line.bank}</td>
-                <td>{line.category}</td>
-                <td>{useNumberTriad(line.coming || 0)} руб.</td>
-                <td>{useNumberTriad(line.expens || 0)} руб.</td>
-              </TableLine>
+                {ddsData.recordsTitle.map((header, idx) => (
+                  <TableTD
+                    key={`${line.UID}cell${idx}`}
+                    $nowrap={header.format === 'money'}
+                  >
+                    {getTableValue(header.format, line[header.key])}
+                  </TableTD>
+                ))}
+              </S.TableLine>
             ))}
         </tbody>
-      </TableStyle>
+      </S.TableStyle>
     </TableContainer>
   );
 };

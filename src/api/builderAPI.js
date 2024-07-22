@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API = 'https://crm.metragegroup.com/API/REST.php';
+const API = process.env.MAIN_API;
 
 export const getOneBuilder = async (id) => {
   const res = await axios.post(API, {

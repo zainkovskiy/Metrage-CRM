@@ -2,12 +2,13 @@ import React, { useState, useRef } from 'react';
 import { SliderBlock, SliderTitle } from '../../../styles/slider';
 import { InputUI } from 'ui/InputUI';
 import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext, useFormState } from 'react-hook-form';
 import styled from 'styled-components';
 import { useAsyncValue } from 'react-router-dom';
 import { getBankList } from '../../../api/search';
 import SlideDDSDeal from './SlideDDSDeal';
 import { TextSpanStyle } from 'styles/styles';
+import moment from 'moment';
 
 const FieldsLine = styled.div`
   display: grid;
@@ -19,6 +20,7 @@ const FieldsLine = styled.div`
 const SlideDDSMain = () => {
   const dds = useAsyncValue();
   const { control } = useFormContext();
+  const { errors } = useFormState();
   const [bankList, setBankList] = useState([]);
   const bankRequest = useRef(false);
 
@@ -54,6 +56,14 @@ const SlideDDSMain = () => {
         <Controller
           name='reportDate'
           control={control}
+          rules={
+            regExp.test(dds.UID) && {
+              validate: {
+                isAfter: (v) =>
+                  moment().isSameOrBefore(v, 'day') || 'Дата не корректна',
+              },
+            }
+          }
           render={({ field }) => (
             <InputUI
               {...field}
@@ -61,6 +71,7 @@ const SlideDDSMain = () => {
               type='date'
               fullWidth
               small
+              error={errors?.reportDate}
             />
           )}
         />

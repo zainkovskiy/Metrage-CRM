@@ -68,7 +68,7 @@ const SlideDDS = ({ onClose }) => {
                 Еще запись...
               </ButtonUI>
             )}
-            {method.formState.isDirty && (
+            {(dds?.fromDeal || method.formState.isDirty) && (
               <SliderFormButtonGroup>
                 <TextSpanStyle>Сохранить изменения?</TextSpanStyle>
                 <ButtonUI type='submit' size='small'>

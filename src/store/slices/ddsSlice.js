@@ -8,7 +8,7 @@ export const getDDSData = createAsyncThunk(
     const curFilter = filterForm ? filterForm : getState().dds.filter;
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
-      method: 'crm.dds.filter',
+      method: 'crm.dds.filter2',
       fields: {
         ...curFilter,
       },
