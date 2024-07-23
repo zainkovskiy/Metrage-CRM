@@ -91,10 +91,15 @@ const initialState = {
   bankCharts: null,
   loadingList: true,
   filter: getFilter(),
+  reportFilter: {
+    period: 'thisMonth',
+    from: '',
+    to: '',
+  },
 };
 
 const ddsSlice = createSlice({
-  name: 'mortage',
+  name: 'dds',
   initialState,
   reducers: {
     resetDDSFilter(state) {
@@ -106,6 +111,11 @@ const ddsSlice = createSlice({
     setNewMode(state, action) {
       state.mode = action.payload;
       state.loadingList = true;
+    },
+    setReportFilter(state, action) {
+      const key = action.payload.key;
+      const value = action.payload.value;
+      state.reportFilter[key] = value;
     },
     clearDDS(state) {
       state.ddsData = null;
@@ -129,6 +139,11 @@ const ddsSlice = createSlice({
   },
 });
 
-export const { setNewFilter, resetDDSFilter, clearDDS, setNewMode } =
-  ddsSlice.actions;
+export const {
+  setNewFilter,
+  resetDDSFilter,
+  clearDDS,
+  setNewMode,
+  setReportFilter,
+} = ddsSlice.actions;
 export default ddsSlice.reducer;

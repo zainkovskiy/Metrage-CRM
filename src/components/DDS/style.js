@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const BillBlock = styled.div`
   padding: 1rem;
@@ -12,8 +12,12 @@ export const BillBlock = styled.div`
 export const BillBlockContainer = styled.div`
   min-height: 300px;
   max-height: 300px;
-  overflow: auto;
   flex-grow: 1;
+  ${({ $isOverflow }) =>
+    $isOverflow &&
+    css`
+      overflow: auto;
+    `}
 `;
 export const Line = styled.div`
   width: 100%;

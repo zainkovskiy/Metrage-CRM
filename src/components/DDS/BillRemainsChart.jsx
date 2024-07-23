@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { TextSpanStyle } from 'styles/styles';
 import { useNumberTriad } from 'hooks/StringHook';
 import {
-  AreaChart,
   Area,
   XAxis,
   YAxis,

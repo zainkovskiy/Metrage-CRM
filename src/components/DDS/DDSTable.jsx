@@ -17,6 +17,16 @@ const TableTD = styled.td`
     css`
       white-space: nowrap;
     `}
+  ${({ $color }) =>
+    $color &&
+    css`
+      color: ${$color};
+    `}
+  ${({ $bold }) =>
+    $bold &&
+    css`
+      font-family: ${({ theme }) => theme.font.familyBold};
+    `}
 `;
 const DDSTable = () => {
   const { ddsData } = useSelector((state) => state.dds);
@@ -32,6 +42,15 @@ const DDSTable = () => {
       return `${useNumberTriad(value || 0)} руб.`;
     }
     return value;
+  };
+  const getColor = (value) => {
+    if (value > 0) {
+      return '#47c520';
+    }
+    if (value < 0) {
+      return '#eb5e26  ';
+    }
+    return;
   };
   return (
     <TableContainer>
@@ -55,6 +74,10 @@ const DDSTable = () => {
                   <TableTD
                     key={`${line.UID}cell${idx}`}
                     $nowrap={header.format === 'money'}
+                    $bold={header.format === 'money'}
+                    $color={
+                      header.format === 'money' && getColor(line[header.key])
+                    }
                   >
                     {getTableValue(header.format, line[header.key])}
                   </TableTD>

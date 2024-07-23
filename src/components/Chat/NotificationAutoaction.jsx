@@ -9,6 +9,7 @@ import { LinkUI } from '../../ui/LinkUI/LinkUI';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 import Loader from 'components/Main/Loader';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const Autoaction = styled(motion.div)`
   background-color: #fff;
@@ -117,9 +118,7 @@ const NotificationAutoaction = ({ onClose, UID }) => {
           )}
           {data?.hasRouting && (
             <Box jc='flex-end'>
-              <LinkUI
-                to={`${data?.routing?.entityType}/${data?.routing?.entityId}`}
-              >
+              <LinkUI href={data?.routing?.entityType} target='_blank'>
                 {data?.routingTitle}
               </LinkUI>
             </Box>

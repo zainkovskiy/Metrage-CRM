@@ -11,12 +11,7 @@ import { InputUI } from 'ui/InputUI';
 import { ButtonUI } from 'ui/ButtonUI';
 import { CheckboxUI } from 'ui/CheckboxUI';
 import { SelectAutoсompleteUI } from 'ui/SelectAutoсompleteUI';
-import {
-  getBankList,
-  getLegalList,
-  getLocalOfficeList,
-  getUserList,
-} from '../../api/search';
+import { getBankList, getLegalList, getUserList } from '../../api/search';
 import {
   defaultDDSFilter,
   resetDDSFilter,
@@ -31,11 +26,9 @@ const DDSFilterForm = ({ onClose }) => {
   });
   const legalRequest = useRef(false);
   const bankRequest = useRef(false);
-  const officeRequest = useRef(false);
   const userRequest = useRef(false);
   const [legalList, setLegalList] = useState([]);
   const [bankList, setBankList] = useState([]);
-  const [officeList, setOfficeList] = useState([]);
   const [users, setUsers] = useState([]);
   const onSubmit = (data) => {
     dispatch(getDDSData(data));
@@ -79,23 +72,6 @@ const DDSFilterForm = ({ onClose }) => {
       })
       .finally(() => {
         bankRequest.current = false;
-      });
-  };
-  const reqOfficeList = (value) => {
-    if (value.length < 2) {
-      setOfficeList([]);
-      return;
-    }
-    if (officeRequest.current) {
-      return;
-    }
-    officeRequest.current = true;
-    getLocalOfficeList(value)
-      .then((data) => {
-        setOfficeList(data);
-      })
-      .finally(() => {
-        officeRequest.current = false;
       });
   };
   const getUsers = (value) => {
@@ -150,20 +126,6 @@ const DDSFilterForm = ({ onClose }) => {
               onChange={field.onChange}
               fullWidth
               label='Период, до'
-            />
-          )}
-        />
-        <Controller
-          name='office'
-          control={control}
-          render={({ field }) => (
-            <SelectAutoсompleteUI
-              label='Офис'
-              options={officeList}
-              getOptionsLabel={(options) => options.name}
-              onChange={(option) => field.onChange(option)}
-              value={field.value}
-              inputChange={reqOfficeList}
             />
           )}
         />
