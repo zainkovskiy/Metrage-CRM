@@ -1,43 +1,33 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import styled from 'styled-components';
-import { device } from 'styles/device';
-import NewsCard from './NewsCard';
-import Loader from 'components/Main/Loader';
-const NewsContainer = styled.div`
-  padding: 0.5rem;
-  flex-grow: 1;
-  box-sizing: border-box;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-`;
-const NewsStyle = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  grid-auto-rows: min-content;
-  width: 100%;
-  gap: 1rem;
-  @media ${device.tablet} {
-    gap: 0.5rem;
-  }
-`;
-const News = () => {
-  const news = useSelector((state) => state.news.news);
-  const loading = useSelector((state) => state.news.loadingList);
+import React, { useState } from 'react';
+import DialogWindow from 'components/Main/DialogWindow';
+import { useDispatch, useSelector } from 'react-redux';
+import { closeNews } from '../../store/slices/newsSlice';
+import * as S from './style';
+import { AnimatePresence } from 'framer-motion';
+import NewsItem from './NewsItem';
 
-  if (loading) {
-    return <Loader />;
-  }
+const News = () => {
+  const dispatch = useDispatch();
+  const { newsList, isShowNews } = useSelector((state) => state.news);
+  const [index, setIndex] = useState(0);
+  const _close = () => {
+    dispatch(closeNews());
+  };
+  const _next = () => {
+    if (index === newsList.length - 1) {
+      _close();
+      return;
+    }
+    setIndex((prevState) => prevState + 1);
+  };
   return (
-    <NewsContainer>
-      <NewsStyle>
-        {news.map((broadcast, idx) => (
-          <NewsCard key={idx} broadcast={broadcast} />
-        ))}
-      </NewsStyle>
-    </NewsContainer>
+    <DialogWindow open={isShowNews} disabledClose>
+      <S.News>
+        <AnimatePresence mode='wait'>
+          <NewsItem news={newsList[index]} key={index} _next={_next} />
+        </AnimatePresence>
+      </S.News>
+    </DialogWindow>
   );
 };
 

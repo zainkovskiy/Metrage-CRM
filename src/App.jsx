@@ -13,30 +13,20 @@ const NoticePopover = React.lazy(() =>
 const PanelControl = React.lazy(() =>
   import('components/PanelControl/PanelControl')
 );
-// import PanelControlDrag from 'components/PanelControl/PanelControlDrag';
-// import PanelControlDrag2 from 'components/PanelControl/PanelControlDrag2';
-// import DragExample from 'components/PanelControl/PanelControlDrag3';
-// import ReorderTest from 'components/PanelControl/ReorderTest';
+const News = React.lazy(() => import('components/News/News'));
 import { useWindowSize } from './hooks/windowSize';
 import { setWindowDevice } from './store/userSlice';
-import axios from 'axios';
 
 const App = () => {
   const isExternal = (globalUser && JSON.parse(globalUser).isExternal) || 1;
   const showChat = useSelector((state) => state.chat.show);
+  const { newsList } = useSelector((state) => state.news);
   const windowSize = useWindowSize();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   useEffect(() => {
-    // sendRequest();
     if (globalReferer && globalRefererId) {
       navigate(`${globalReferer}/${globalRefererId}`);
-      // if (globalReferer === 'bid') {
-      //   navigate(`application/${globalRefererId}`);
-      // } else {
-      //   navigate(`${globalReferer}/${globalRefererId}`);
-      // }
     }
     dispatch({ type: 'socket/connect' });
     return () => {
@@ -46,15 +36,6 @@ const App = () => {
   useEffect(() => {
     dispatch(setWindowDevice(windowSize));
   }, [windowSize]);
-  const sendRequest = async () => {
-    const res = await axios.post(
-      'https://crm.metragegroup.com/react_back/server.js',
-      {
-        city: 'moscow',
-      }
-    );
-    console.log(res.data);
-  };
   return (
     <>
       {windowSize > 768 ? (
@@ -72,10 +53,6 @@ const App = () => {
             <PanelControl />
           </Suspense>
         )}
-        {/* <PanelControlDrag /> */}
-        {/* <PanelControlDrag2 /> */}
-        {/* <DragExample /> */}
-        {/* <ReorderTest /> */}
         <Outlet />
       </MainContainer>
       <AnimatePresence>
@@ -94,6 +71,7 @@ const App = () => {
         )}
       </AnimatePresence>
       {windowSize > 768 && <NoticePopover />}
+      {newsList?.length > 0 && <News />}
     </>
   );
 };

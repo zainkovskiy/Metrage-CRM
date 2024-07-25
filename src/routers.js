@@ -40,12 +40,6 @@ import SuspenseSlideUser from 'components/User/Slide/SuspenseSlideUser';
 import SuspenseNewUser from './components/User/New/SuspenseNewUser';
 import { loaderUserSlide } from 'components/User/Slide/SuspenseSlideUser';
 
-import SuspenseNews from 'components/News/SuspenseNews';
-import SuspenseSlideNews from 'components/News/Slide/SuspenseSlideNews';
-import { loaderNewsSlide } from 'components/News/Slide/SuspenseSlideNews';
-import SuspenseNewNews from './components/News/New/SuspenseNewNews';
-import { loaderEditNewsSlide } from './components/News/New/SuspenseNewNews';
-
 import SuspenseResidential from 'components/Residential/SuspenseResidential';
 import SuspenseSlideResidential from './components/Residential/Slide/SuspenseSlideResidential';
 import { loaderResidentialSlide } from './components/Residential/Slide/SuspenseSlideResidential';
@@ -216,26 +210,6 @@ export const routers = createBrowserRouter([
             path: 'edit/:id',
             element: <SuspenseNewTask />,
             loader: loaderEditTask,
-          },
-        ],
-      },
-      {
-        path: 'news',
-        element: <SuspenseNews />,
-        children: [
-          {
-            path: 'new',
-            element: <SuspenseNewNews />,
-          },
-          {
-            path: ':id',
-            element: <SuspenseSlideNews />,
-            loader: loaderNewsSlide,
-          },
-          {
-            path: 'edit/:id',
-            element: <SuspenseNewNews />,
-            loader: loaderEditNewsSlide,
           },
         ],
       },

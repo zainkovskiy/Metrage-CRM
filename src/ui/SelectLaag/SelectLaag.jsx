@@ -4,6 +4,7 @@ import { useLayer } from 'react-laag';
 import styled from 'styled-components';
 import { LabelStyle } from 'ui/InputUI/InputUIStyled';
 import { ReactComponent as ArrowDown } from 'images/arrow-down.svg';
+import { TextSpanStyle } from 'styles/styles';
 
 //TODO: довести до ума, перебор children только те что внутри
 //TODO: поменять все селеккты на этот компонент
@@ -52,7 +53,7 @@ const SelectItemsContainer = styled(motion.div)`
   padding: 0.5rem 0;
   box-sizing: border-box;
   ${({ $width }) => $width && `width: ${$width}px`};
-  z-index: 999;
+  z-index: 9999;
 `;
 const variants = {
   vissible: {
@@ -70,7 +71,7 @@ export const SelectLaag = ({
   children,
   label,
   fullWidth,
-  // error,
+  error,
   disabled,
   small,
   placeholder,
@@ -117,7 +118,7 @@ export const SelectLaag = ({
             onClick={() => setOpen(!open)}
             placeholder={placeholder || 'Выбрать'}
             disabled={disabled}
-            // error={error}
+            error={error}
             $small={small}
           />
           {!disabled && <ArrowStyle open={open} />}
@@ -143,7 +144,6 @@ export const SelectLaag = ({
                       select: select,
                       onChange: onChange,
                       closeMenu: closeMenu,
-                      // id: idRef,
                     });
                   }
                 )}
@@ -151,6 +151,9 @@ export const SelectLaag = ({
             )}
           </AnimatePresence>
         )}
+        <TextSpanStyle color='red' size={12}>
+          {error?.message && error.message}
+        </TextSpanStyle>
       </SelectContainer>
     </LabelStyle>
   );
