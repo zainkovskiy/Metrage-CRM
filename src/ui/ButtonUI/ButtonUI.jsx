@@ -45,7 +45,7 @@ const getButtonVariant = (variant) => {
 
 const buttonStyle = css`
   border-radius: 5px;
-  padding: ${({ size }) => (size === 'small' ? '0.2rem 0.5rem' : '0.5rem')};
+  padding: ${({ size }) => (size === 'small' ? '3px 8px' : '0.5rem')};
   font-family: CeraCY, sans-serif;
   font-size: 14px;
   cursor: pointer;

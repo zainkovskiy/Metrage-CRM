@@ -61,8 +61,10 @@ const deafaultFilter = {
   expirationAdv: '',
   advStructCalls: 'Не важно',
   newbId: null,
+  onlyNew: false,
 };
 const resetFilter = {
+  onlyNew: false,
   typeRealty: 'live',
   typeObject: [],
   users: user?.isAdmin === '1' ? [] : [user],
@@ -896,6 +898,19 @@ const ObjectsFilterForm = ({ onClose }) => {
             />
           </>
         )}
+        <Controller
+          name='onlyNew'
+          control={control}
+          render={({ field }) => (
+            <CheckboxUI
+              label='Только новые'
+              id='onlyNew'
+              size='small'
+              checked={field.value || false}
+              onChange={(e) => field.onChange(e.target.checked)}
+            />
+          )}
+        />
         {getValues('ExternalFindType') === 'our' && (
           <Accordeon title='Дополнительно'>
             <Box column ai='normal'>
