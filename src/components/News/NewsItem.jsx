@@ -46,6 +46,13 @@ const NewsItem = ({ news, _next }) => {
           {news?.newsImg && <S.NewsImage src={news.newsImg} />}
           <TextSpanStyle size={12}>{news.newsText}</TextSpanStyle>
         </div>
+      </S.NewsContent>
+      <S.InputsContainer
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        exit={{ scale: 0 }}
+        transition={{ duration: 0.3 }}
+      >
         {news?.newsType === 'select' && (
           <Controller
             control={control}
@@ -95,7 +102,7 @@ const NewsItem = ({ news, _next }) => {
             )}
           />
         )}
-      </S.NewsContent>
+      </S.InputsContainer>
       <Box jc='flex-end'>
         <ButtonUI size='small' type='submit' disabled={isSubmitting}>
           Далее

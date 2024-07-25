@@ -45,3 +45,5 @@ export const NewsTitle = styled(motion.div)`
   justify-content: space-between;
   width: 100%;
 `;
+
+export const InputsContainer = styled(motion.div)``;
