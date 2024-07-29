@@ -66,6 +66,8 @@ const MenuListIcon = ({ icon }) => {
         return IconSvg.DDS;
       case 'calendar':
         return IconSvg.Calendar;
+      case 'builder':
+        return IconSvg.Builder;
       default:
         return Stub;
     }

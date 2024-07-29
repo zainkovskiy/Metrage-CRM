@@ -7,6 +7,8 @@ import DealFilter from './DealFilter';
 import Deals from './Deals';
 import DealTable from './DealTable';
 import { getDealList, clearDeals } from 'store/dealSlice';
+import DealIndex from './DealIndex';
+import { useWindowSize } from 'hooks/windowSize';
 const DealContentStyle = styled.div`
   flex-grow: 1;
   display: flex;
@@ -23,7 +25,8 @@ const DefaultError = styled.div``;
 
 const DealContent = () => {
   const dispatch = useDispatch();
-  const viewCard = useSelector((state) => state.deal.viewCard);
+  const { viewCard, index } = useSelector((state) => state.deal);
+  const windowSize = useWindowSize();
   const location = useLocation();
 
   useEffect(() => {
@@ -50,6 +53,7 @@ const DealContent = () => {
   return (
     <DealContentStyle>
       <DealFilter />
+      {windowSize >= 1024 && index?.comission && <DealIndex />}
       <DealComponent />
       <Outlet />
     </DealContentStyle>

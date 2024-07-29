@@ -24,6 +24,7 @@ import { ReactComponent as Residential } from 'images/panel/residential.svg';
 import { ReactComponent as Plan } from 'images/panel/plan.svg';
 import { ReactComponent as DDS } from 'images/panel/dds.svg';
 import { ReactComponent as Fixation } from 'images/panel/fixation.svg';
+import { ReactComponent as Builder } from 'images/panel/builder.svg';
 
 import { ReactComponent as Mail } from 'images/panel/mail.svg';
 
@@ -174,6 +175,9 @@ const FixationStyle = styled(Fixation)`
 const CloseStyle = styled(Close)`
   ${iconStyle};
 `;
+const BuilderStyle = styled(Builder)`
+  ${iconStyle};
+`;
 const iconVariant = {
   application: ApplicationStyle,
   deal: DealStyle,
@@ -183,6 +187,7 @@ const iconVariant = {
   users: UsersStyle,
   task: TaskStyle,
   residential: ResidentialStyle,
+  builder: BuilderStyle,
   planning: PlanStyle,
   dds: DDSStyle,
   fixation: FixationStyle,

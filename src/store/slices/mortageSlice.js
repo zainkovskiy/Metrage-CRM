@@ -23,6 +23,23 @@ export const getMortageList = createAsyncThunk(
     return [];
   }
 );
+export const getMortageListMore = createAsyncThunk(
+  'mortage/getMortageListMore',
+  async (_, { getState }) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.mortgage.filter',
+      fields: {
+        ...getState().mortage.filter,
+        offset: getState().mortage.offset + 1,
+      },
+    });
+    if (res?.statusText === 'OK') {
+      return res?.data?.result || null;
+    }
+    return null;
+  }
+);
 export const checkOneMortage = createAsyncThunk(
   'mortage/checkOneMortage',
   async (UID) => {
@@ -128,12 +145,27 @@ const mortageSlice = createSlice({
       state.stageList = action.payload.stages;
       state.hopper = action.payload.hopper;
       state.loadingList = false;
-      // if (action.payload.length < 100) {
-      //   state.buttonMore = false;
-      //   return;
-      // }
-      // state.buttonMore = true;
+      if (action.payload.data.length < 50) {
+        state.buttonMore = false;
+        return;
+      }
+      state.buttonMore = true;
     }),
+      builder.addCase(getMortageListMore.pending, (state, action) => {
+        state.loadingMore = true;
+      }),
+      builder.addCase(getMortageListMore.fulfilled, (state, action) => {
+        state.loadingMore = false;
+        state.mortageList = [...state.mortageList, ...action.payload.data];
+        state.stageList = action.payload.stages;
+        state.hopper = action.payload.hopper;
+        state.offset = state.offset + 1;
+        if (action.payload.data.length < 50) {
+          state.buttonMore = false;
+          return;
+        }
+        state.buttonMore = true;
+      }),
       builder.addCase(checkOneMortage.fulfilled, (state, action) => {
         const curMortage = action.payload;
         const findMortage = state.mortageList.find(

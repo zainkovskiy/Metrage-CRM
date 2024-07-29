@@ -10,7 +10,7 @@ export const getDealList = createAsyncThunk(
     const curFilter = filterForm ? filterForm : getState().deal.filter;
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
-      method: 'crm.deal.filter',
+      method: 'crm.deal.filter2',
       fields: {
         ...curFilter,
         offset: 0,
@@ -20,9 +20,9 @@ export const getDealList = createAsyncThunk(
       dispatch(setNewFilter(filterForm));
     }
     if (res?.statusText === 'OK') {
-      return res?.data?.result || [];
+      return res?.data?.result || null;
     }
-    return [];
+    return null;
   }
 );
 export const getDealListMore = createAsyncThunk(
@@ -30,45 +30,45 @@ export const getDealListMore = createAsyncThunk(
   async (_, { getState, dispatch }) => {
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
-      method: 'crm.deal.filter',
+      method: 'crm.deal.filter2',
       fields: {
         ...getState().deal.filter,
         offset: getState().deal.offset + 1,
       },
     });
     if (res?.statusText === 'OK') {
-      return res?.data?.result || [];
+      return res?.data?.result || null;
     }
-    return [];
+    return null;
   }
 );
 export const addNewDeal = createAsyncThunk('deal/addNewDeal', async (UID) => {
   const res = await axios.post(API, {
     metrage_id: metrage_id || null,
-    method: 'crm.deal.filter',
+    method: 'crm.deal.filter2',
     fields: {
       UID: UID,
     },
   });
   if (res?.statusText === 'OK') {
-    return res?.data?.result || {};
+    return res?.data?.result || null;
   }
-  return {};
+  return null;
 });
 export const getSliceMiniCard = createAsyncThunk(
   'deal/getSliceMiniCard',
   async (UID) => {
     const res = await axios.post(API, {
       metrage_id: metrage_id || null,
-      method: 'crm.deal.filter',
+      method: 'crm.deal.filter2',
       fields: {
         UID: UID,
       },
     });
     if (res?.statusText === 'OK') {
-      return res?.data?.result || {};
+      return res?.data?.result || null;
     }
-    return {};
+    return null;
   }
 );
 export const defaultDealFilter = {
@@ -98,6 +98,7 @@ const initialState = {
   loadingList: true,
   loadingMore: false,
   deals: [],
+  index: null,
   filter: getFilter(),
   offset: 0,
   buttonMore: false,
@@ -138,8 +139,9 @@ const dealSlice = createSlice({
       })
       .addCase(getDealList.fulfilled, (state, action) => {
         state.loadingList = false;
-        state.deals = action.payload;
-        if (action.payload.length >= 54) {
+        state.deals = action.payload.items;
+        state.index = action.payload.full;
+        if (action.payload.items.length >= 54) {
           state.buttonMore = true;
           return;
         }
@@ -153,9 +155,10 @@ const dealSlice = createSlice({
       })
       .addCase(getDealListMore.fulfilled, (state, action) => {
         state.loadingMore = false;
-        state.deals = [...state.deals, ...action.payload];
+        state.deals = [...state.deals, ...action.payload.items];
+        state.index = action.payload.index;
         state.offset = state.offset + 1;
-        if (action.payload.length >= 54) {
+        if (action.payload.items.length >= 54) {
           state.buttonMore = true;
           return;
         }

@@ -1,9 +1,11 @@
 import React from 'react';
 import Loader from 'components/Main/Loader';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import MortageCard from './MortageCard';
 import styled from 'styled-components';
 import { device } from 'styles/device';
+import ButtonLoader from 'ui/ButtonLoader/ButtonLoader';
+import { getMortageListMore } from '../../store/slices/mortageSlice';
 
 const MortageCardsContainer = styled.div`
   padding: 0.5rem;
@@ -27,10 +29,16 @@ const MortageCardsStyle = styled.div`
 `;
 
 const MortageCards = () => {
-  const { loadingList, mortageList } = useSelector((state) => state.mortage);
+  const dispatch = useDispatch();
+  const { loadingList, mortageList, buttonMore, loadingMore } = useSelector(
+    (state) => state.mortage
+  );
   if (loadingList) {
     return <Loader />;
   }
+  const _more = () => {
+    dispatch(getMortageListMore());
+  };
   return (
     <MortageCardsContainer>
       <MortageCardsStyle>
@@ -38,6 +46,11 @@ const MortageCards = () => {
           <MortageCard key={card.UID} mortage={card} />
         ))}
       </MortageCardsStyle>
+      {buttonMore && (
+        <ButtonLoader onClick={_more} loading={loadingMore} fullWidth>
+          Загрузить еще
+        </ButtonLoader>
+      )}
     </MortageCardsContainer>
   );
 };

@@ -212,7 +212,7 @@ const MenuList = ({ onClose }) => {
             />
             <MenuListButton
               title='Застройщики'
-              icon='residential'
+              icon='builder'
               path='builder'
               onClick={onClose}
             />

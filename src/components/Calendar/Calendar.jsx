@@ -1,9 +1,11 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import DialogWindow from 'components/Main/DialogWindow';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
+import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
 import Loader from 'components/Main/Loader';
 import moment from 'moment';
 import 'moment/locale/ru';
@@ -11,7 +13,7 @@ import { TextSpanStyle } from 'styles/styles';
 import styled from 'styled-components';
 import DialogEvent from './DialogEvent';
 import { messages } from './core/messages';
-import { getEventList } from '../../store/slices/calendarSlice';
+import { getEventList, updateEventDND } from '../../store/slices/calendarSlice';
 
 const localizer = momentLocalizer(moment);
 
@@ -50,10 +52,14 @@ const MyEvent = (props) => {
 };
 const MyEventWrapper = (event) => {
   const newChildren = event.children;
-  newChildren.props.style.backgroundColor = event?.event?.color || 'grey';
-  newChildren.props.style.borderColor = event?.event?.color || 'grey';
+  newChildren.props.children.props.style.backgroundColor =
+    newChildren.props.event.color || 'grey';
+  newChildren.props.children.props.style.borderColor =
+    newChildren.props.event.color || 'grey';
   return newChildren;
 };
+
+const CalendarWithDragAndGrops = withDragAndDrop(Calendar);
 
 const CalendarComponent = () => {
   const dispatch = useDispatch();
@@ -107,9 +113,21 @@ const CalendarComponent = () => {
   const cleareCurEvent = () => {
     setCurEvent(null);
   };
+  const moveEvent = (props) => {
+    dispatch(
+      updateEventDND({
+        ...props.event,
+        dueDate: moment(props.start).format('YYYY-MM-DDTHH:mm'),
+        notify: props.event.title,
+        start: moment(props.start).format('YYYY-MM-DD HH:mm'),
+        end: moment(props.end).format('YYYY-MM-DD HH:mm'),
+      })
+    );
+  };
+
   return (
     <>
-      <Calendar
+      <CalendarWithDragAndGrops
         components={{
           event: MyEvent,
           eventWrapper: MyEventWrapper,
@@ -122,6 +140,7 @@ const CalendarComponent = () => {
         onSelectEvent={handleSelectEvent}
         onSelectSlot={handleSelectSlot}
         selectable
+        onEventDrop={moveEvent}
         popup
         messages={messages}
         startAccessor={(event) => {

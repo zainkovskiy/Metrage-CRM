@@ -44,6 +44,21 @@ export const updateEvent = createAsyncThunk(
     return {};
   }
 );
+export const updateEventDND = createAsyncThunk(
+  'calendar/updateEventDND',
+  async (event, { dispatch }) => {
+    dispatch(moveEventToList(event));
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.calendar.updNotify',
+      fields: event,
+    });
+    if (res?.statusText === 'OK') {
+      return 'OK';
+    }
+    return 'No OK';
+  }
+);
 export const removeEvent = createAsyncThunk(
   'calendar/removeEvent',
   async (UID) => {
@@ -84,9 +99,11 @@ const calendarSlice = createSlice({
   name: 'calendar',
   initialState,
   reducers: {
-    // addNewResidential(state, action) {
-    //   state.residentials = [action.payload, ...state.residentials];
-    // },
+    moveEventToList(state, action) {
+      const newEvent = action.payload;
+      const find = state.events.data.find((item) => item.UID === newEvent.UID);
+      state.events.data.splice(state.events.data.indexOf(find), 1, newEvent);
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getEventList.fulfilled, (state, action) => {
@@ -116,5 +133,5 @@ const calendarSlice = createSlice({
   },
 });
 
-export const {} = calendarSlice.actions;
+export const { moveEventToList } = calendarSlice.actions;
 export default calendarSlice.reducer;

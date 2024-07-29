@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { act } from 'react';
 const API = process.env.MAIN_API;
 
 export const getFixationList = createAsyncThunk(
@@ -22,6 +21,23 @@ export const getFixationList = createAsyncThunk(
       return res?.data?.result || [];
     }
     return [];
+  }
+);
+export const getFixationListMore = createAsyncThunk(
+  'fixation/getFixationListMore',
+  async (_, { getState }) => {
+    const res = await axios.post(API, {
+      metrage_id: metrage_id || null,
+      method: 'crm.clientfixation.filter',
+      fields: {
+        ...getState().fixation.filter,
+        offset: getState().fixation.offset + 1,
+      },
+    });
+    if (res?.statusText === 'OK') {
+      return res?.data?.result || null;
+    }
+    return null;
   }
 );
 export const getFixationOne = createAsyncThunk(
@@ -137,12 +153,26 @@ const fixationSlice = createSlice({
       state.fixationList = action.payload.bids;
       // state.stageList = action.payload.stages;
       state.loadingList = false;
-      // if (action.payload.length < 100) {
-      //   state.buttonMore = false;
-      //   return;
-      // }
-      // state.buttonMore = true;
+      if (action.payload.bids.length < 50) {
+        state.buttonMore = false;
+        return;
+      }
+      state.buttonMore = true;
     }),
+      builder.addCase(getFixationListMore.pending, (state, action) => {
+        state.loadingMore = true;
+      }),
+      builder.addCase(getFixationListMore.fulfilled, (state, action) => {
+        state.loadingMore = false;
+        state.hopper = action.payload.hopper;
+        state.fixationList = [...state.fixationList, ...action.payload.bids];
+        state.offset = state.offset + 1;
+        if (action.payload.bids.length < 50) {
+          state.buttonMore = false;
+          return;
+        }
+        state.buttonMore = true;
+      }),
       builder.addCase(getFixationOne.fulfilled, (state, action) => {
         const curFixation = action.payload;
         const findFixation = state.fixationList.find(
