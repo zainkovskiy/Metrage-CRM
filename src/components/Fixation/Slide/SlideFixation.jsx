@@ -58,6 +58,7 @@ const SlideFixation = () => {
             )}
           </S.SliderFixationForm>
         </FormProvider>
+        {windowSize <= 768 && <SlideFixationStory fullWidth height={500} />}
       </SliderContext>
       {windowSize > 768 && <SlideFixationStory />}
     </SliderStyle>

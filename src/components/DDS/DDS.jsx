@@ -7,6 +7,8 @@ import { TextSpanStyle } from 'styles/styles';
 import { useDateFormat } from 'hooks/DateFormat';
 import DDSTable from './DDSTable';
 import { clearDDS, getDDSData } from '../../store/slices/ddsSlice';
+import { useWindowSize } from 'hooks/windowSize';
+import DDSCards from './DDSCards';
 
 const DDSContainer = styled.div`
   overflow: auto;
@@ -20,6 +22,7 @@ const DDSContainer = styled.div`
 const DDS = () => {
   const dispatch = useDispatch();
   const { loadingList, ddsData } = useSelector((state) => state.dds);
+  const windowSize = useWindowSize();
   useEffect(() => {
     getDDS();
     return () => {
@@ -40,7 +43,7 @@ const DDS = () => {
         {useDateFormat(ddsData.periodTo, 'DD.MM.YYYY')}
       </TextSpanStyle>
       <DDSInfo />
-      <DDSTable />
+      {windowSize > 768 ? <DDSTable /> : <DDSCards />}
     </DDSContainer>
   );
 };
