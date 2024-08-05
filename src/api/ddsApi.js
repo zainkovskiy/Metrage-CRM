@@ -73,3 +73,15 @@ export const dealOperational = async (UID) => {
   }
   return null;
 };
+
+export const setDDSSelectFlag = async (raw) => {
+  const res = await axios.post(API, {
+    metrage_id: metrage_id || null,
+    method: 'crm.dds.setFlag',
+    fields: raw,
+  });
+  if (res?.statusText === 'OK') {
+    return 'OK';
+  }
+  return 'No OK';
+};

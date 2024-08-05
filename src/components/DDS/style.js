@@ -42,7 +42,7 @@ export const TableHead = styled.tr`
   }
 `;
 export const TableLine = styled.tr`
-  background-color: ${({ idx }) => idx % 2 === 1 && '#e6e6e6'};
+  background-color: ${({ $back }) => $back && $back};
   cursor: pointer;
   transition: background-color 0.3s;
   @media (hover: hover) {

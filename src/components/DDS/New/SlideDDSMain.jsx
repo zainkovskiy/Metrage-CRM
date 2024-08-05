@@ -56,14 +56,14 @@ const SlideDDSMain = () => {
         <Controller
           name='reportDate'
           control={control}
-          rules={
-            regExp.test(dds.UID) && {
-              validate: {
-                isAfter: (v) =>
-                  moment().isSameOrBefore(v, 'day') || 'Дата не корректна',
-              },
-            }
-          }
+          // rules={
+          //   regExp.test(dds.UID) && {
+          //     validate: {
+          //       isAfter: (v) =>
+          //         moment().isSameOrBefore(v, 'day') || 'Дата не корректна',
+          //     },
+          //   }
+          // }
           render={({ field }) => (
             <InputUI
               {...field}

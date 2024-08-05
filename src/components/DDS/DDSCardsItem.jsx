@@ -21,13 +21,13 @@ const CardsItem = styled(motion.div)`
   @media (hover: hover) {
     &:hover {
       transform: scale(1.03);
-      box-shadow: 7px 8px 14px -6px rgba(0, 0, 0, 0.75);
+      /* box-shadow: 7px 8px 14px -6px rgba(0, 0, 0, 0.75); */
     }
   }
   @media (hover: none) {
     &:active {
       transform: scale(1.03);
-      box-shadow: 7px 8px 14px -6px rgba(0, 0, 0, 0.75);
+      /* box-shadow: 7px 8px 14px -6px rgba(0, 0, 0, 0.75); */
     }
   }
 `;
@@ -37,7 +37,7 @@ const CardsItemHeader = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  background-color: rgb(173 127 201);
+  background-color: ${({ $back }) => ($back ? $back : 'rgb(173 127 201)')};
   width: 100%;
   box-sizing: border-box;
 `;
@@ -66,7 +66,6 @@ const variants = {
 };
 
 const DDSCardsItem = ({ dds }) => {
-  console.log(dds);
   const getColor = (value) => {
     if (value > 0) {
       return '#47c520';
@@ -79,7 +78,7 @@ const DDSCardsItem = ({ dds }) => {
   return (
     <LinkStyle to={`${dds.UID}`}>
       <CardsItem variants={variants} initial='hidden' animate='visible'>
-        <CardsItemHeader>
+        <CardsItemHeader $back={dds.flag}>
           <TextSpanStyle color='#fff' size={12}>
             ID: {dds.UID}
           </TextSpanStyle>

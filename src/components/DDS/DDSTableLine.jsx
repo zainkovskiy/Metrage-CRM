@@ -15,6 +15,11 @@ const TableTD = styled.td`
     css`
       color: ${$color};
     `}
+  ${({ $size }) =>
+    $size &&
+    css`
+      font-size: 14px;
+    `}
   ${({ $bold }) =>
     $bold &&
     css`
@@ -54,13 +59,14 @@ const DDSTableLine = ({ line, navigateTo, recordsTitle, isLast }) => {
     return;
   };
   return (
-    <S.TableLine onClick={handleClick} ref={lineRef}>
+    <S.TableLine onClick={handleClick} ref={lineRef} $back={line.flag}>
       {recordsTitle.map((header, idx) => (
         <TableTD
           key={`${line.UID}cell${idx}`}
           $nowrap={header.format === 'money'}
           $bold={header.format === 'money'}
           $color={header.format === 'money' && getColor(line[header.key])}
+          $size={header.key === 'category'}
         >
           {getTableValue(header.format, line[header.key])}
         </TableTD>
