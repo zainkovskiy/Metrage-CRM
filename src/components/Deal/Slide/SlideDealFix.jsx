@@ -44,7 +44,7 @@ const SlideDealFix = () => {
             <Controller
               name='hasMorgage'
               control={control}
-              rules={{ required: 'Поле обязательнок' }}
+              rules={{ required: 'Поле обязательное' }}
               render={({ field }) => (
                 <SelectUI
                   onChange={(newValue) => {

@@ -88,18 +88,16 @@ const SlideDeal = () => {
     },
   });
   const onSubmit = (data) => {
-    console.log(data);
-
-    // updateDeal({
-    //   ...data,
-    //   UID: deal.UID,
-    // }).then((answer) => {
-    //   if (answer === 'OK') {
-    //     methods.reset(data);
-    //     resetValues.current = data;
-    //     deal.isSuburban = data.isSuburban;
-    //   }
-    // });
+    updateDeal({
+      ...data,
+      UID: deal.UID,
+    }).then((answer) => {
+      if (answer === 'OK') {
+        methods.reset(data);
+        resetValues.current = data;
+        deal.isSuburban = data.isSuburban;
+      }
+    });
   };
   const clearChangeForm = () => {
     methods.reset(resetValues.current);
