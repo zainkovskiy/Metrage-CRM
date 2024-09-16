@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { SlideBlockStyle } from '../DealStyle';
 import { Box } from 'ui/Box';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext, useFormState } from 'react-hook-form';
 import { InputUI } from 'ui/InputUI';
 import RadioButtonGroup from '../../../ui/RadioButtonGroup/RadioButtonGroup';
 import RadioButton from '../../../ui/RadioButton/RadioButton';
@@ -33,16 +33,18 @@ const Line = styled.div`
 const SlideDealFix = () => {
   const deal = useAsyncValue();
   const { control } = useFormContext();
+  const { errors } = useFormState();
 
   return (
     <SlideBlockStyle>
       <Box column fullWidth>
         <Title>Финансирование по сделке</Title>
         <InputsField>
-          {deal?.dealStatus === 'finally' && (
+          {deal?.dealStatusId >= 3 && (
             <Controller
               name='hasMorgage'
               control={control}
+              rules={{ required: 'Поле обязательнок' }}
               render={({ field }) => (
                 <SelectUI
                   onChange={(newValue) => {
@@ -52,6 +54,7 @@ const SlideDealFix = () => {
                   label='Привлечение ипотечных средств *'
                   small
                   labelSize={12}
+                  error={errors?.hasMorgage && errors.hasMorgage}
                 >
                   <SelectItemUI value='yes'>Да</SelectItemUI>
                   <SelectItemUI value='no'>Нет</SelectItemUI>

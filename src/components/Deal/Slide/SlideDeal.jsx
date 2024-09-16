@@ -84,20 +84,22 @@ const SlideDeal = () => {
       isRent: deal?.isRent || false,
       developer: deal?.newbParams?.developer || '',
       paymentType: deal?.paymentType || 'nal',
-      hasMorgage: deal?.paymentType || 'no',
+      hasMorgage: deal?.hasMorgage || null,
     },
   });
   const onSubmit = (data) => {
-    updateDeal({
-      ...data,
-      UID: deal.UID,
-    }).then((answer) => {
-      if (answer === 'OK') {
-        methods.reset(data);
-        resetValues.current = data;
-        deal.isSuburban = data.isSuburban;
-      }
-    });
+    console.log(data);
+
+    // updateDeal({
+    //   ...data,
+    //   UID: deal.UID,
+    // }).then((answer) => {
+    //   if (answer === 'OK') {
+    //     methods.reset(data);
+    //     resetValues.current = data;
+    //     deal.isSuburban = data.isSuburban;
+    //   }
+    // });
   };
   const clearChangeForm = () => {
     methods.reset(resetValues.current);
