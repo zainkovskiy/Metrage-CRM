@@ -2,12 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { SlideBlockStyle } from '../DealStyle';
 import { Box } from 'ui/Box';
-import { CheckboxUI } from 'ui/CheckboxUI';
 import { Controller, useFormContext } from 'react-hook-form';
 import { InputUI } from 'ui/InputUI';
 import RadioButtonGroup from '../../../ui/RadioButtonGroup/RadioButtonGroup';
 import RadioButton from '../../../ui/RadioButton/RadioButton';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
+import { useAsyncValue } from 'react-router-dom';
 
 const Title = styled.div`
   border-bottom: 1px solid #786464;
@@ -21,7 +21,7 @@ const Title = styled.div`
 const InputsField = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 0.5rem;
 `;
 const Line = styled.div`
@@ -31,11 +31,36 @@ const Line = styled.div`
 `;
 
 const SlideDealFix = () => {
+  const deal = useAsyncValue();
   const { control } = useFormContext();
+
   return (
     <SlideBlockStyle>
       <Box column fullWidth>
         <Title>Финансирование по сделке</Title>
+        <InputsField>
+          {deal?.dealStatus === 'finally' && (
+            <Controller
+              name='hasMorgage'
+              control={control}
+              render={({ field }) => (
+                <SelectUI
+                  onChange={(newValue) => {
+                    field.onChange(newValue);
+                  }}
+                  select={field.value}
+                  label='Привлечение ипотечных средств *'
+                  small
+                  labelSize={12}
+                >
+                  <SelectItemUI value='yes'>Да</SelectItemUI>
+                  <SelectItemUI value='no'>Нет</SelectItemUI>
+                </SelectUI>
+              )}
+            />
+          )}
+          <div></div>
+        </InputsField>
         <InputsField>
           <Controller
             name='ownFunds'
@@ -67,38 +92,8 @@ const SlideDealFix = () => {
               />
             )}
           />
-          <Controller
-            name='bank'
-            control={control}
-            render={({ field }) => (
-              <InputUI
-                fullWidth
-                label='Банк кредитор'
-                value={field.value}
-                small
-                labelSize={12}
-                onChange={(e) => {
-                  field.onChange(e.target.value);
-                }}
-              />
-            )}
-          />
-          <Controller
-            name='needInsurance'
-            control={control}
-            render={({ field }) => (
-              <CheckboxUI
-                label='Нужна консультация Брокера'
-                onChange={(e) => {
-                  field.onChange(e.target.checked);
-                }}
-                checked={field.value || false}
-                id='needInsurance'
-                size='small'
-                labelSize={12}
-              />
-            )}
-          />
+        </InputsField>
+        <InputsField>
           <Controller
             name='hasInsurance'
             control={control}
@@ -118,18 +113,18 @@ const SlideDealFix = () => {
             )}
           />
           <Controller
-            name='needMortgage'
+            name='bank'
             control={control}
             render={({ field }) => (
-              <CheckboxUI
-                label='Нужна консультация Брокера'
-                onChange={(e) => {
-                  field.onChange(e.target.checked);
-                }}
-                checked={field.value || false}
-                id='needMortgage'
-                size='small'
+              <InputUI
+                fullWidth
+                label='Банк кредитор'
+                value={field.value}
+                small
                 labelSize={12}
+                onChange={(e) => {
+                  field.onChange(e.target.value);
+                }}
               />
             )}
           />

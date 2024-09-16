@@ -72,8 +72,8 @@ const SlideDeal = () => {
       mortgageFunds: deal?.mortgageFunds || '',
       bank: deal?.bank || '',
       hasInsurance: deal?.hasInsurance || false,
-      needInsurance: deal?.needInsurance || false,
-      needMortgage: deal?.needMortgage || false,
+      // needInsurance: deal?.needInsurance || false,
+      // needMortgage: deal?.needMortgage || false,
       depositAmount: deal?.depositAmount || '',
       depositDate: deal?.depositDate || '',
       dealTitle: deal?.dealTitle || '',
@@ -83,6 +83,8 @@ const SlideDeal = () => {
       isSuburban: deal?.isSuburban || false,
       isRent: deal?.isRent || false,
       developer: deal?.newbParams?.developer || '',
+      paymentType: deal?.paymentType || 'nal',
+      hasMorgage: deal?.paymentType || 'no',
     },
   });
   const onSubmit = (data) => {

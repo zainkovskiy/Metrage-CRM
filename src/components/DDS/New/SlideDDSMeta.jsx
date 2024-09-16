@@ -35,6 +35,8 @@ const IconFlag = styled(Flag)`
 
 const SlideDDSMeta = () => {
   const dds = useAsyncValue();
+  console.log(dds);
+
   const [windowFlag, setWindowFlag] = useState(false);
   const copyID = () => {
     navigator.clipboard.writeText(`http://crm.metragegroup.com?dds=${dds.UID}`);
@@ -65,6 +67,11 @@ const SlideDDSMeta = () => {
           </Box>
           {!regExp.test(dds.UID) && (
             <IconFlag $flagColour={dds?.flag} onClick={openWindowFLag} />
+          )}
+          {dds?.isAccepted && (
+            <TextSpanStyle color='green' size={12}>
+              Подтверждено получателем
+            </TextSpanStyle>
           )}
         </Box>
         <CheckboxUI

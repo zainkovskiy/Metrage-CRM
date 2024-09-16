@@ -16,6 +16,7 @@ import { ButtonLink } from 'ui/ButtonLink';
 import DialogWindow from 'components/Main/DialogWindow';
 import SlideDialogDDS from './SlideDialogDDS';
 import { CheckboxUI } from 'ui/CheckboxUI';
+import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
 
 const FeatureTitle = styled.div`
   border-bottom: 1px solid #786464;
@@ -95,40 +96,64 @@ const SlideDealInfo = () => {
           </Box>
         </Box>
       </div>
-      <Controller
-        name='isSuburban'
-        control={control}
-        render={({ field }) => (
-          <CheckboxUI
-            label='Коттеджный поселок'
-            onChange={(e) => {
-              field.onChange(e.target.checked);
-            }}
-            // defaultChecked={field.value}
-            checked={field.value}
-            id='isSuburban'
-            size='small'
-            labelSize={12}
-          />
-        )}
-      />
-      <Controller
-        name='isRent'
-        control={control}
-        render={({ field }) => (
-          <CheckboxUI
-            label='Аренда'
-            onChange={(e) => {
-              field.onChange(e.target.checked);
-            }}
-            checked={field.value}
-            id='isRent'
-            size='small'
-            labelSize={12}
-          />
-        )}
-      />
       <SlideDealInfoContent>
+        <SlideDealInfoSide>
+          <Box ai='flex-start' jc='flex-start' gap='0.5rem' column>
+            <Controller
+              name='isSuburban'
+              control={control}
+              render={({ field }) => (
+                <CheckboxUI
+                  label='Коттеджный поселок'
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
+                  checked={field.value}
+                  id='isSuburban'
+                  size='small'
+                  labelSize={12}
+                />
+              )}
+            />
+            <Controller
+              name='isRent'
+              control={control}
+              render={({ field }) => (
+                <CheckboxUI
+                  label='Аренда'
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
+                  checked={field.value}
+                  id='isRent'
+                  size='small'
+                  labelSize={12}
+                />
+              )}
+            />
+          </Box>
+          <Controller
+            name='paymentType'
+            control={control}
+            render={({ field }) => (
+              <SelectUI
+                onChange={(newValue) => {
+                  field.onChange(newValue);
+                }}
+                select={field.value}
+                label='Форма оплаты услуг'
+                small
+                labelSize={12}
+              >
+                <SelectItemUI value='nal'>Наличка</SelectItemUI>
+                <SelectItemUI value='beznal'>Безнал</SelectItemUI>
+                <SelectItemUI value='beznalReceipt'>
+                  Безнал с чеком
+                </SelectItemUI>
+              </SelectUI>
+            )}
+          />
+        </SlideDealInfoSide>
         <SlideDealInfoSide>
           <Controller
             name='plannedDate'

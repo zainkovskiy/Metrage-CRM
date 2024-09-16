@@ -55,7 +55,7 @@ const MenuProfile = ({ id, toggleDialog }) => {
     dispatch(logOutAPI());
   };
   const clickReview = () => {
-    window.open(`http://crm.metragegroup.com/reviews/?userId=${user.UID}`);
+    window.open(`https://metragegroup.com/rieltors/${user.UID}`);
     // navigator.clipboard.writeText(
     //   `http://crm.metragegroup.com/reviews/?userId=${user.UID}`
     // );
@@ -91,7 +91,7 @@ const MenuProfile = ({ id, toggleDialog }) => {
           </div>
         </ProfileMenuButtonStyle>
         <ProfileMenuButtonStyle onClick={clickReview}>
-          <TextSpanStyle>Ссылка на отзывы</TextSpanStyle>
+          <TextSpanStyle>Моя страница на сайте</TextSpanStyle>
         </ProfileMenuButtonStyle>
         <ProfileMenuButtonStyle onClick={clickOffer}>
           <TextSpanStyle>Статусы в соц.сетях</TextSpanStyle>
