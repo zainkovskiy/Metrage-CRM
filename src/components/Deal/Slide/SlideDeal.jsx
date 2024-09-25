@@ -85,6 +85,8 @@ const SlideDeal = () => {
       developer: deal?.newbParams?.developer || '',
       paymentType: deal?.paymentType || 'nal',
       hasMorgage: deal?.hasMorgage || null,
+      isInstallment: deal?.isInstallment || false,
+      InstallmentDate: deal?.InstallmentDate || '',
     },
   });
   const onSubmit = (data) => {

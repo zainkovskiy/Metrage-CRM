@@ -4,6 +4,7 @@ import { SlideBlockStyle } from '../DealStyle';
 import { Box } from 'ui/Box';
 import { Controller, useFormContext, useFormState } from 'react-hook-form';
 import { InputUI } from 'ui/InputUI';
+import { CheckboxUI } from 'ui/CheckboxUI';
 import RadioButtonGroup from '../../../ui/RadioButtonGroup/RadioButtonGroup';
 import RadioButton from '../../../ui/RadioButton/RadioButton';
 import { SelectUI, SelectItemUI } from 'ui/SelectUI/SelectUI';
@@ -32,14 +33,52 @@ const Line = styled.div`
 
 const SlideDealFix = () => {
   const deal = useAsyncValue();
-  const { control } = useFormContext();
+  const { control, getValues } = useFormContext();
   const { errors } = useFormState();
 
   return (
     <SlideBlockStyle>
       <Box column fullWidth>
         <Title>Финансирование по сделке</Title>
+        {deal.dealType === 'developer' && (
+          <Box jc='flex-start' fullWidth>
+            <Controller
+              name='isInstallment'
+              control={control}
+              render={({ field }) => (
+                <CheckboxUI
+                  label='Рассрочка'
+                  onChange={(e) => {
+                    field.onChange(e.target.checked);
+                  }}
+                  checked={field.value}
+                  id='isInstallment'
+                  size='small'
+                  labelSize={12}
+                />
+              )}
+            />
+          </Box>
+        )}
         <InputsField>
+          {deal.dealType === 'developer' && (
+            <Controller
+              name='InstallmentDate'
+              control={control}
+              render={({ field }) => (
+                <InputUI
+                  fullWidth
+                  label='Рассрочка, до'
+                  value={field.value}
+                  type='date'
+                  small
+                  labelSize={12}
+                  onChange={field.onChange}
+                  disabled={!getValues('isInstallment')}
+                />
+              )}
+            />
+          )}
           {deal?.dealStatusId >= 3 && (
             <Controller
               name='hasMorgage'
@@ -62,7 +101,9 @@ const SlideDealFix = () => {
               )}
             />
           )}
-          <div></div>
+          {(deal.dealType !== 'developer' || deal?.dealStatusId < 3) && (
+            <div></div>
+          )}
         </InputsField>
         <InputsField>
           <Controller

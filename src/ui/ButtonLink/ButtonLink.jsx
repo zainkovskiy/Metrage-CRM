@@ -3,7 +3,8 @@ import styled, { css } from 'styled-components';
 
 const ButtonLinkStyle = styled.span`
   color: ${({ $color }) => ($color ? $color : '#F32222')};
-  font-family: ${({ theme }) => theme.font.family};
+  font-family: ${({ theme, $bold }) =>
+    $bold ? theme.font.familyBold : theme.font.family};
   font-size: ${({ $size }) => ($size ? $size + 'px' : '14px')};
   cursor: pointer;
   white-space: nowrap;
@@ -25,12 +26,14 @@ export const ButtonLink = ({
   id,
   borderNone,
   disabled,
+  bold,
 }) => {
   return (
     <ButtonLinkStyle
       $size={size}
       onClick={onClick}
       $color={color}
+      $bold={bold}
       id={id}
       $borderNone={borderNone}
       $disabled={disabled}

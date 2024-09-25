@@ -161,6 +161,9 @@ const MainInfoUser = ({ user, view, rights, notify, rank }) => {
     dispatch(changeDashboardMode(id));
     setOpen(false);
   };
+  const toReporting = () => {
+    window.open('https://crm.metragegroup.com/reporting/');
+  };
   return (
     <MainInfoUserStyle>
       <ButtonContainer>
@@ -255,6 +258,11 @@ const MainInfoUser = ({ user, view, rights, notify, rank }) => {
       {rights?.companyView && (
         <ButtonLink size={12} color='#727272' onClick={setAllCompany}>
           Вся компания
+        </ButtonLink>
+      )}
+      {rights?.officeViewAll && (
+        <ButtonLink size={12} bold color='#727272' onClick={toReporting}>
+          Отчеты
         </ButtonLink>
       )}
       {notify?.errors && notify?.errors?.length > 0 && (
