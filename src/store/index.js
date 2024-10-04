@@ -25,6 +25,7 @@ import calendarSlice from './slices/calendarSlice';
 import mortageSlice from './slices/mortageSlice';
 import ddsSlice from './slices/ddsSlice';
 import fixationSlice from './slices/fixationSlice';
+import dashboardSlice2 from './dashboardSlice2';
 
 const reducers = combineReducers({
   user: userSlice,
@@ -37,6 +38,7 @@ const reducers = combineReducers({
   compilation: compilationSlice,
   clients: clientsSlice,
   dashboard: dashboardSlice,
+  dashboard2: dashboardSlice2,
   users: usersSlice,
   task: taskSlice,
   news: newsSlice,

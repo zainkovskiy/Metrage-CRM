@@ -74,6 +74,7 @@ import SuspenseNewDDS from 'components/DDS/New/SuspenseNewDDS';
 import { loaderDDSSlide } from 'components/DDS/New/SuspenseNewDDS';
 
 import SuspenceDashboard from 'components/Dashboard/SuspenceDashboard';
+import SuspenseDashboard2 from 'components/Dashboard2';
 // import SuspenseNewEvent from 'components/User/Slide/SuspenseSlideUser';
 
 export const routers = createBrowserRouter([
@@ -83,7 +84,7 @@ export const routers = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <SuspenceDashboard />,
+        element: <SuspenseDashboard2 />,
         children: [
           // {
           //   path: 'new',

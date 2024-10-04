@@ -10,9 +10,9 @@ export const ButtonUI = ({
   type = 'button',
   onClick,
   size,
-  id,
-  as,
-  to,
+  id = '',
+  as = '',
+  to = '',
 }) => {
   const ButtonComponent = getButtonVariant(variant);
   return (

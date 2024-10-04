@@ -7,11 +7,11 @@ module.exports = {
   entry: path.resolve(__dirname, 'src', 'index.js'),
   output: {
     filename: 'js/[name].[contenthash].js',
-    path: path.resolve(__dirname, 'dist', 'dist-betta-v1.22.10'),
+    path: path.resolve(__dirname, 'dist', 'dist-betta-v1.22.11'),
     chunkFilename: 'js/[name].[contenthash].js',
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
       components: path.resolve(__dirname, 'src', 'components'),
       mobile: path.resolve(__dirname, 'src', 'compomnentsMobile'),
@@ -42,6 +42,11 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
+      },
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        loader: 'ts-loader',
       },
       {
         test: /\.s?css$/,

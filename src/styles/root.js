@@ -66,6 +66,7 @@ export const GlobalStyle = createGlobalStyle`
 export const rootTheme = {
   color: {
     primary: '#85009e',
+    grey: '#8D8D93',
     // secondary: '#ebebeb',
     secondary: 'rgb(249 245 245)',
     white: '#ffffff',
@@ -79,6 +80,7 @@ export const darkTheme = {
   color: {
     primary: '#fff',
     // secondary: '#ebebeb',
+    grey: '#ccc',
     secondary: 'rgb(73 73 73)',
     white: '#ffffff',
   },

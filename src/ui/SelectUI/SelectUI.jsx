@@ -73,16 +73,15 @@ export const SelectUI = ({
   select,
   onChange,
   children,
-  label,
-  fullWidth,
-  width,
-  inputRef,
-  error,
-  disabled,
-  small,
-  name,
-  placeholder,
-  labelSize,
+  label = '',
+  fullWidth = false,
+  width = '',
+  inputRef = undefined,
+  error = '',
+  disabled = false,
+  small = false,
+  placeholder = '',
+  labelSize = '',
 }) => {
   const [open, setOpen] = useState(false);
   const idRef = useRef(uuidv4().split('-')[0]).current;
@@ -196,7 +195,13 @@ const SelectItemStyle = styled(motion.div)`
       $select ? 'rgb(132 1 158 / 43%)' : 'rgb(249 245 245)'};
   }
 `;
-export const SelectItemUI = ({ children, value, select, onChange, id }) => {
+export const SelectItemUI = ({
+  children,
+  value = '',
+  select = '',
+  onChange = () => {},
+  id = '',
+}) => {
   const handleChange = () => {
     onChange(value);
   };
