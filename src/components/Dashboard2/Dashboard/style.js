@@ -7,6 +7,7 @@ export const Dashboard = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  overflow: auto;
 `;
 export const DashboardCharts = styled.div`
   display: grid;
