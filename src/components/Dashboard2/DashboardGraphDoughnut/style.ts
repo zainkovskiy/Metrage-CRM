@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import logoUrl from '../../../public/images/logo_opacity.svg';
 
-export const DashboardCounter = styled.div`
+export const DashboardGraph = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -13,10 +13,8 @@ export const DashboardCounter = styled.div`
   box-shadow: 0px 0px 6px 4px rgba(145, 36, 197, 0.2);
   background-image: url(${logoUrl});
   background-repeat: no-repeat;
-  background-position: 105% -20%;
+  background-position: -5% -20%;
 `;
-export const DashboardCounterIndicators = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+export const DashboardGraphContainer = styled.div`
+  flex-grow: 1;
 `;

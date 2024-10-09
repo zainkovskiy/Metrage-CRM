@@ -4,6 +4,7 @@ import { ReactComponent as Indicator } from '../../../public/images/dashbord_ind
 export const DashboardIndicatorData = styled.div`
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
   white-space: nowrap;
 `;
 

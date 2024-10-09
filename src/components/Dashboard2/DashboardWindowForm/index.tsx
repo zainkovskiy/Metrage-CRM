@@ -81,83 +81,85 @@ const DashboardWindowForm = ({
           ))}
         </S.DashboardWindowMods>
       </S.DashboardWindowFormFileds>
-      <S.DashboardWindowFormFileds>
-        <TextUI>Просмотр от:</TextUI>
-        <Controller
-          control={control}
-          name='currentViewedType'
-          render={({ field }) => (
-            <ButtonToggleGroup fullWidth disabled={false}>
-              <ButtonToggleItem
-                onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
-                  field.onChange(e.currentTarget.id)
-                }
-                id='office'
-                active={field.value}
+      {getValues('isViewerChanger') && (
+        <S.DashboardWindowFormFileds>
+          <TextUI>Просмотр от:</TextUI>
+          <Controller
+            control={control}
+            name='currentViewedType'
+            render={({ field }) => (
+              <ButtonToggleGroup fullWidth disabled={false}>
+                <ButtonToggleItem
+                  onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
+                    field.onChange(e.currentTarget.id)
+                  }
+                  id='office'
+                  active={field.value}
+                >
+                  Офис
+                </ButtonToggleItem>
+                <ButtonToggleItem
+                  onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
+                    field.onChange(e.currentTarget.id)
+                  }
+                  id='user'
+                  active={field.value}
+                >
+                  Пользователь
+                </ButtonToggleItem>
+              </ButtonToggleGroup>
+            )}
+          />
+          <AnimatePresence>
+            {getValues('currentViewedType') === 'user' && (
+              <motion.div
+                exit={{ scale: 0 }}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 0.3 }}
               >
-                Офис
-              </ButtonToggleItem>
-              <ButtonToggleItem
-                onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
-                  field.onChange(e.currentTarget.id)
-                }
-                id='user'
-                active={field.value}
-              >
-                Пользователь
-              </ButtonToggleItem>
-            </ButtonToggleGroup>
-          )}
-        />
-        <AnimatePresence>
-          {getValues('currentViewedType') === 'user' && (
-            <motion.div
-              exit={{ scale: 0 }}
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Input onChange={handleUserChange} />
-            </motion.div>
-          )}
-        </AnimatePresence>
-        <S.DashboardWindowList>
-          {getValues('currentViewedType') === 'office' &&
-            getValues('offices').map((office) => (
-              <Controller
-                name='currentViewedId'
-                control={control}
-                key={office.UID}
-                render={({ field }) => (
-                  <DashboardWindowViewType
-                    object={office}
-                    onChange={(value) => {
-                      field.onChange(value);
-                    }}
-                    isChecked={field.value === office.UID}
-                  />
-                )}
-              />
-            ))}
-          {getValues('currentViewedType') === 'user' &&
-            users.map((user) => (
-              <Controller
-                name='currentViewedId'
-                control={control}
-                key={user.UID}
-                render={({ field }) => (
-                  <DashboardWindowViewType
-                    object={user}
-                    onChange={(value) => {
-                      field.onChange(value);
-                    }}
-                    isChecked={field.value === user.UID}
-                  />
-                )}
-              />
-            ))}
-        </S.DashboardWindowList>
-      </S.DashboardWindowFormFileds>
+                <Input onChange={handleUserChange} />
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <S.DashboardWindowList>
+            {getValues('currentViewedType') === 'office' &&
+              getValues('offices').map((office) => (
+                <Controller
+                  name='currentViewedId'
+                  control={control}
+                  key={office.UID}
+                  render={({ field }) => (
+                    <DashboardWindowViewType
+                      object={office}
+                      onChange={(value) => {
+                        field.onChange(value);
+                      }}
+                      isChecked={field.value === office.UID}
+                    />
+                  )}
+                />
+              ))}
+            {getValues('currentViewedType') === 'user' &&
+              users.map((user) => (
+                <Controller
+                  name='currentViewedId'
+                  control={control}
+                  key={user.UID}
+                  render={({ field }) => (
+                    <DashboardWindowViewType
+                      object={user}
+                      onChange={(value) => {
+                        field.onChange(value);
+                      }}
+                      isChecked={field.value === user.UID}
+                    />
+                  )}
+                />
+              ))}
+          </S.DashboardWindowList>
+        </S.DashboardWindowFormFileds>
+      )}
       <S.DashboardWindowFormButtons>
         <ButtonUI
           type='button'

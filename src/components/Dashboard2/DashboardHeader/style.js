@@ -16,12 +16,20 @@ export const DashboardHeader = styled.div`
       'switch user'
       'notice notice';
   }
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-areas:
+      'switch'
+      'user'
+      'notice';
+  }
 `;
 export const DashboardNotes = styled.div`
   grid-area: notice;
   display: grid;
   gap: 1rem;
   grid-template-columns: 1fr 1fr;
+  overflow: hidden;
   @media (max-width: 1240px) {
     grid-template-columns: 1fr;
   }

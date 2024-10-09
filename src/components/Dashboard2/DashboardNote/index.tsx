@@ -17,35 +17,29 @@ const DashboardNote = (props: INote) => {
   const getLinkComponent = (note: INoteItem) => {
     if (note.action === 'href') {
       return (
-        <ButtonLink
-          size={12}
-          label={note.title}
-          key={note.UID}
-          href={note.target}
-          target='_blank'
-        />
+        <ButtonLink size={12} key={note.UID} href={note.target} target='_blank'>
+          <S.DashboardNoteText>{note.title}</S.DashboardNoteText>
+        </ButtonLink>
       );
     }
     if (note.action === 'filter') {
       return (
         <ButtonLink
           size={12}
-          label={note.title}
           key={note.UID}
           as={Link}
           to='/objects'
           state={{ ...note.filter }}
-        />
+        >
+          <S.DashboardNoteText>{note.title}</S.DashboardNoteText>
+        </ButtonLink>
       );
     }
     if (note.action === 'setReaded') {
       return (
-        <ButtonLink
-          size={12}
-          label={note.title}
-          key={note.UID}
-          onClick={openChat}
-        />
+        <ButtonLink size={12} key={note.UID} onClick={openChat}>
+          <S.DashboardNoteText>{note.title}</S.DashboardNoteText>
+        </ButtonLink>
       );
     }
     return;

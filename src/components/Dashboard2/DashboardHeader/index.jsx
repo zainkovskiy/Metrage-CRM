@@ -18,8 +18,12 @@ const DashboardHeader = () => {
     <S.DashboardHeader>
       <DashboardSwitch {...data.mode} sentNewModeForm={sentNewModeForm} />
       <S.DashboardNotes>
-        <DashboardNote {...data.warnings} title='Важное' icon='bell' />
-        <DashboardNote {...data.notice} title='Cобытия' icon='mark' />
+        {data.warnings && (
+          <DashboardNote {...data.warnings} title='Важное' icon='bell' />
+        )}
+        {data.notice && (
+          <DashboardNote {...data.notice} title='Cобытия' icon='mark' />
+        )}
       </S.DashboardNotes>
       <DashboardUser {...data.viewer} />
     </S.DashboardHeader>

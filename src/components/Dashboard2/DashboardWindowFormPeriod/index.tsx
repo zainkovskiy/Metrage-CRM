@@ -54,9 +54,7 @@ const DashboardWindowFormPeriod = ({
               select={field.value}
             >
               <SelectItemUI value='currentMonth'>текущий месяц</SelectItemUI>
-              <SelectItemUI value='previousMonth'>
-                предидущий месяц
-              </SelectItemUI>
+              <SelectItemUI value='previousMonth'>Прошлый месяц</SelectItemUI>
               <SelectItemUI value='custom'>диапазон дат</SelectItemUI>
             </SelectUI>
           )}

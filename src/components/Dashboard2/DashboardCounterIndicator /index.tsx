@@ -1,9 +1,9 @@
 import React from 'react';
 import * as S from './style';
-import { IDashboardComponentIndicators } from '../type';
+import { ICounterIndicators } from '../type';
 import TextUI from '../../../uiTs/TextUI';
 
-const DashboardCounterIndicator = (props: IDashboardComponentIndicators) => {
+const DashboardCounterIndicator = (props: ICounterIndicators) => {
   const { bigIndex, littleIndex, comment, image } = props;
 
   return (

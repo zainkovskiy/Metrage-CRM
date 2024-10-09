@@ -8,7 +8,7 @@ const ButtonLink = <E extends ElementType = typeof defaultTag>(
 ) => {
   const {
     icon,
-    label,
+    children,
     as = 'a',
     uppercase = false,
     underline = false,
@@ -44,7 +44,7 @@ const ButtonLink = <E extends ElementType = typeof defaultTag>(
     >
       {arrow === 'left' && <S.ArrowIconLeft $color={color} />}
       {icon && icon}
-      {label}
+      {children}
       {arrow === 'right' && <S.ArrowIconRight $color={color} />}
     </S.ButtonLink>
   );

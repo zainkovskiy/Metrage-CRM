@@ -1,11 +1,11 @@
 import React from 'react';
 import * as S from './style';
-import { IDashboardComponentIndicators } from '../type';
+import { ITrandIndicators } from '../type';
 import TextUI from '../../../uiTs/TextUI';
 import { ReactComponent as Up } from '../../../public/images/trand_up.svg';
 import { ReactComponent as Down } from '../../../public/images/trand_down.svg';
 
-const DashboardTrandIndicator = (props: IDashboardComponentIndicators) => {
+const DashboardTrandIndicator = (props: ITrandIndicators) => {
   const { name, bigIndex, littleIndex, comment, trandLine } = props;
 
   return (

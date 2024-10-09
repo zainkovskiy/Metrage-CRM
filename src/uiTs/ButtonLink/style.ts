@@ -24,12 +24,12 @@ export const ButtonLink = styled.a<IButtonLinkStyleProps>`
     css`
       text-decoration: underline;
     `}
-  ${({ $uppercase }) =>
+    ${({ $uppercase }) =>
     $uppercase &&
     css`
       text-transform: uppercase;
     `}
-  @media (hover: hover) {
+    @media (hover: hover) {
     &:hover {
       color: ${({ theme }) => theme.color.primary} !important;
     }

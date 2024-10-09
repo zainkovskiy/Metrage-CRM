@@ -1,11 +1,10 @@
 import React from 'react';
 import * as S from './style';
-import { IDashboardComponent } from '../type';
+import { IDashboardCounter } from '../type';
 import TextUI from '../../../uiTs/TextUI';
-import DashboardTrandIndicator from '../DashboardTrandIndicator';
 import DashboardCounterIndicator from '../DashboardCounterIndicator ';
 
-const DashboardCounter = (props: IDashboardComponent) => {
+const DashboardCounter = (props: IDashboardCounter) => {
   const { titleComponent, indicators } = props;
 
   return (
@@ -14,7 +13,8 @@ const DashboardCounter = (props: IDashboardComponent) => {
         {titleComponent}
       </TextUI>
       <S.DashboardCounterIndicators>
-        {indicators.length > 0 &&
+        {indicators &&
+          indicators.length > 0 &&
           indicators.map((indicator, idx) => (
             <DashboardCounterIndicator {...indicator} key={idx} />
           ))}

@@ -79,23 +79,68 @@ export interface IDashboardInstructions {
   hasInstructions: boolean;
   comment: string;
 }
+
 export interface IDashboardComponent {
   titleComponent: string;
   typeComponent: string;
-  indicators: IDashboardComponentIndicators[];
 }
-export interface IDashboardComponentIndicators {
+interface IIndicators {
   comment: string;
   name: string;
-  bigIndex: IDashboardComponentBigIndex;
-  littleIndex: IDashboardComponentLitleIndex;
-  image?: string;
-  trandLine?: string;
+  bigIndex: IDashboardComponentIndex;
+  littleIndex: IDashboardComponentIndex;
 }
-export interface IDashboardComponentBigIndex {
+export type ITrandIndicators = IIndicators & {
+  trandLine?: string;
+};
+export type ICounterIndicators = IIndicators & {
+  image?: string;
+};
+export interface IDashboardComponentIndex {
   color: string;
   isPercent: boolean;
   value: number;
 }
-export interface IDashboardComponentLitleIndex
-  extends IDashboardComponentBigIndex {}
+
+export type IDashboardTrand = IDashboardComponent & {
+  indicators?: ITrandIndicators[];
+};
+export type IDashboardCounter = IDashboardComponent & {
+  indicators?: ICounterIndicators[];
+};
+export type IDashboardTable = IDashboardComponent & {
+  excelURI?: string;
+  head?: IDashboardTableHead[];
+  table?: IDashboardTableTable[];
+};
+export type IDashboardGraph<G extends IGraphDefault> = IDashboardComponent & {
+  excelURI?: string;
+  graphs?: IGraph<G>;
+};
+export interface IGraph<G> {
+  labels?: string[];
+  typeChart?: string;
+  dataset?: G;
+}
+export type IGraphDefault = {
+  label?: string;
+  data?: number[];
+};
+export type IGraphDoughnut = IGraphDefault & {
+  backgroundColor?: string;
+};
+export type IGraphBar = IGraphDoughnut & {
+  borderColor?: string;
+};
+export interface IDashboardTableHead {
+  key: string;
+  title: string;
+}
+export interface IDashboardTableTable {
+  [key: string]: string;
+}
+export type IDashboardComponentProps =
+  | IDashboardTrand
+  | IDashboardCounter
+  | IDashboardTable
+  | IDashboardGraph<IGraphDefault>;
