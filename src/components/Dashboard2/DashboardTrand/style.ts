@@ -15,3 +15,9 @@ export const DashboardTrand = styled.div`
   background-repeat: no-repeat;
   background-position: -5% 120%;
 `;
+export const DashboardTrandIndicators = styled.div`
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) min-content minmax(0, 1fr);
+  gap: 1rem;
+  flex-grow: 1;
+`;

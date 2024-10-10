@@ -9,25 +9,37 @@ const DashboardTrandIndicator = (props: ITrandIndicators) => {
   const { name, bigIndex, littleIndex, comment, trandLine } = props;
 
   return (
-    <S.DashboardTrandIndicator>
-      <div>
-        <TextUI size={14}>{name}</TextUI>
-        <TextUI bold size={16} customColor={bigIndex.color}>
-          {bigIndex.value}%
-        </TextUI>
-      </div>
+    <>
+      <S.IndicatorText>
+        <S.IndicatorTextDots>
+          <TextUI size={14}>{name}</TextUI>
+        </S.IndicatorTextDots>
+        <S.Indicator>
+          <TextUI bold size={16} customColor={bigIndex.color}>
+            {bigIndex.value}
+            {bigIndex.isPercent && '%'}
+          </TextUI>
+        </S.Indicator>
+      </S.IndicatorText>
       {trandLine === 'up' && <Up />}
       {trandLine === 'down' && <Down />}
       {trandLine === 'equal' && <div />}
-      <div>
-        <TextUI bold customColor={littleIndex.color} size={16}>
-          {littleIndex.value}%
-        </TextUI>
-        <TextUI size={12} color='grey'>
-          {comment}
-        </TextUI>
-      </div>
-    </S.DashboardTrandIndicator>
+      <S.IndicatorText>
+        <S.Indicator>
+          <TextUI bold customColor={littleIndex.color} size={16}>
+            {littleIndex.value}
+            {littleIndex.isPercent && '%'}
+          </TextUI>
+        </S.Indicator>
+        <S.IndicatorText>
+          <S.IndicatorTextDotsTwoLine>
+            <TextUI size={12} color='grey'>
+              {comment}
+            </TextUI>
+          </S.IndicatorTextDotsTwoLine>
+        </S.IndicatorText>
+      </S.IndicatorText>
+    </>
   );
 };
 

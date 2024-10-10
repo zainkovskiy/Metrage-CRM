@@ -12,11 +12,13 @@ const DashboardTrand = (props: IDashboardTrand) => {
       <TextUI size={16} bold>
         {titleComponent}
       </TextUI>
-      {indicators &&
-        indicators.length > 0 &&
-        indicators.map((indicator, idx) => (
-          <DashboardTrandIndicator {...indicator} key={idx} />
-        ))}
+      <S.DashboardTrandIndicators>
+        {indicators &&
+          indicators.length > 0 &&
+          indicators.map((indicator, idx) => (
+            <DashboardTrandIndicator {...indicator} key={idx} />
+          ))}
+      </S.DashboardTrandIndicators>
     </S.DashboardTrand>
   );
 };

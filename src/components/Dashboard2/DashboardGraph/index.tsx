@@ -8,7 +8,6 @@ import DashboardGraphDoughnut from '../DashboardGraphDoughnut';
 
 const DashboardGraph = (props: IDashboardGraph<IGraphDefault>) => {
   const { titleComponent, excelURI, graphs } = props;
-  console.log(props);
 
   const getChartComponent = () => {
     if (graphs?.typeChart === 'bar') return DashboardGraphBar;
